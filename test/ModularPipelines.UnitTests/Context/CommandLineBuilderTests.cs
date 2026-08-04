@@ -450,6 +450,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Trailing_Values_With_Attached_Grouped_Option()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "--arguments=one", "two"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments=one two -- tail");
+    }
+
+    [Test]
     public async Task Build_Grouped_Option_Preserves_Terminal_Option_For_Validation()
     {
         var builder = await GetService<ICommandLineBuilder>();

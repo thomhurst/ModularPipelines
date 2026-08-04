@@ -357,28 +357,26 @@ internal sealed class CommandLineBuilder(
 
         if (TryGetAttachedManualOption(argument, optionsByName, out var attachedOption))
         {
-            return new ManualOptionMatch(
-                ArgumentCount: 1,
-                attachedOption.IsGlobalOption,
-                IsTerminal: attachedOption.Phase == CommandLinePhase.Terminal);
-        }
-
-        if (optionsByName.TryGetValue(argument, out var option))
-        {
-            var operandCount = GetManualOperandCount(
-                option,
+            return TryCreateManualOptionMatch(
                 manualArgs,
                 index,
                 flagsByName,
                 optionsByName,
-                options);
-            return operandCount is { } count
-                   && manualArgs.Count - index - 1 >= count
-                ? new ManualOptionMatch(
-                    count + 1,
-                    option.IsGlobalOption,
-                    IsTerminal: option.Phase == CommandLinePhase.Terminal)
-                : null;
+                options,
+                attachedOption,
+                suppliedOperandCount: 1);
+        }
+
+        if (optionsByName.TryGetValue(argument, out var option))
+        {
+            return TryCreateManualOptionMatch(
+                manualArgs,
+                index,
+                flagsByName,
+                optionsByName,
+                options,
+                option,
+                suppliedOperandCount: 0);
         }
 
         if (TryGetCombinedShortOptionOperandCount(
@@ -401,6 +399,32 @@ internal sealed class CommandLineBuilder(
         }
 
         return null;
+    }
+
+    private static ManualOptionMatch? TryCreateManualOptionMatch(
+        IReadOnlyList<string> manualArgs,
+        int index,
+        IReadOnlyDictionary<string, FlagPart> flagsByName,
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options,
+        OptionPart option,
+        int suppliedOperandCount)
+    {
+        var followingOperandCount = GetManualOperandCount(
+            option,
+            manualArgs,
+            index,
+            flagsByName,
+            optionsByName,
+            options,
+            suppliedOperandCount);
+        return followingOperandCount is { } count
+               && manualArgs.Count - index - 1 >= count
+            ? new ManualOptionMatch(
+                count + 1,
+                option.IsGlobalOption,
+                IsTerminal: option.Phase == CommandLinePhase.Terminal)
+            : null;
     }
 
     private static void AddRecognizedManualOptions(
@@ -495,22 +519,21 @@ internal sealed class CommandLineBuilder(
                 option.IsGlobalOption);
             isGlobalOption = option.IsGlobalOption;
             isTerminal |= option.Phase == CommandLinePhase.Terminal;
+            var hasAttachedOperand = index < argument.Length - 1;
             var operandCount = GetManualOperandCount(
                 option,
                 manualArgs,
                 manualIndex,
                 flagsByName,
                 optionsByName,
-                options);
+                options,
+                suppliedOperandCount: hasAttachedOperand ? 1 : 0);
             if (operandCount is null)
             {
                 return false;
             }
 
-            var hasAttachedOperand = index < argument.Length - 1;
-            followingOperandCount = hasAttachedOperand
-                ? Math.Max(0, operandCount.Value - 1)
-                : operandCount.Value;
+            followingOperandCount = operandCount.Value;
             return true;
         }
 
@@ -539,9 +562,11 @@ internal sealed class CommandLineBuilder(
         int optionIndex,
         IReadOnlyDictionary<string, FlagPart> flagsByName,
         IReadOnlyDictionary<string, OptionPart> optionsByName,
-        CommandLineToolOptions options)
+        CommandLineToolOptions options,
+        int suppliedOperandCount)
     {
         var operandCount = GetConfiguredManualOperandCount(option, options);
+        var remainingOperandCount = Math.Max(0, operandCount - suppliedOperandCount);
         if (option.Attribute.GroupValues)
         {
             var groupedOperandCount = 0;
@@ -561,16 +586,16 @@ internal sealed class CommandLineBuilder(
 
             var minimumOperandCount = option.Attribute.ValueArity == CliOptionValueArity.Optional
                 ? 0
-                : operandCount;
+                : remainingOperandCount;
             return groupedOperandCount >= minimumOperandCount
                 ? groupedOperandCount
                 : null;
         }
 
         if (option.Attribute.ValueArity != CliOptionValueArity.Optional
-            || operandCount == 0)
+            || remainingOperandCount == 0)
         {
-            return operandCount;
+            return remainingOperandCount;
         }
 
         if (optionIndex + 1 >= manualArgs.Count)
@@ -585,7 +610,7 @@ internal sealed class CommandLineBuilder(
             optionsByName,
             options.ArgumentsContainOptionTerminator)
             ? 0
-            : operandCount;
+            : remainingOperandCount;
     }
 
     [System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage(
