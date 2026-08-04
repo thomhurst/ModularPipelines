@@ -503,7 +503,7 @@ Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "redis-host:6379,password=secret";
-    o.RunIdentifier = null;          // auto-detect
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
     o.KeyPrefix = "modpipe";
     o.KeyExpirationSeconds = 3600;
 });
@@ -512,24 +512,23 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline run. Used to isolate Redis keys so concurrent runs don't collide. If `null`, auto-detected (see below). |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `RUN_IDENTIFIER` is read; otherwise configuration fails. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
 
 ## Run Identifier Resolution
 
-When `RunIdentifier` is not set explicitly, it is resolved automatically in this order:
+Distributed coordination requires an invocation-scoped identifier. It is resolved in this order:
 
 | Priority | Source | Environment |
 |----------|--------|-------------|
 | 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
-| 2 | `GITHUB_SHA` env var | GitHub Actions |
-| 3 | `BUILD_SOURCEVERSION` env var | Azure DevOps |
-| 4 | `CI_COMMIT_SHA` env var | GitLab CI |
-| 5 | `git rev-parse HEAD` | Any git repository |
-| 6 | `Guid.NewGuid()` | Fallback |
+| 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
 
-This means in most CI environments, the run identifier is the commit SHA, which naturally isolates concurrent runs on the same Redis instance.
+Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
+Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER` value before
+starting the master and workers. CI workflows must likewise generate or derive one invocation-specific
+value and export it as `RUN_IDENTIFIER` for every master and worker.
 
 ## Redis Key Schema
 
@@ -537,18 +536,18 @@ All keys follow the pattern `{KeyPrefix}:{RunIdentifier}:{purpose}`. With the de
 
 | Key | Redis Type | Purpose |
 |-----|-----------|---------|
-| `modpipe:{sha}:work:queue` | List | FIFO work queue for module assignments |
-| `modpipe:{sha}:results` | Hash | Completed module results (field = module type name) |
-| `modpipe:{sha}:workers` | Hash | Registered worker information (field = worker index) |
-| `modpipe:{sha}:heartbeats` | Hash | Worker heartbeat timestamps (field = worker index) |
-| `modpipe:{sha}:cancellation` | String | Cancellation signal (set when cancellation is broadcast) |
+| `modpipe:{run}:work:queue` | List | FIFO work queue for module assignments |
+| `modpipe:{run}:results` | Hash | Completed module results (field = module type name) |
+| `modpipe:{run}:workers` | Hash | Registered worker information (field = worker index) |
+| `modpipe:{run}:heartbeats` | Hash | Worker heartbeat timestamps (field = worker index) |
+| `modpipe:{run}:cancellation` | String | Cancellation signal (set when cancellation is broadcast) |
 
 Pub/Sub channels (no TTL, ephemeral):
 
 | Channel | Purpose |
 |---------|---------|
-| `modpipe:{sha}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
-| `modpipe:{sha}:cancellation:signal` | Notifies all instances of a cancellation request |
+| `modpipe:{run}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
+| `modpipe:{run}:cancellation:signal` | Notifies all instances of a cancellation request |
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
 
@@ -646,14 +645,20 @@ That's it. When `InstanceIndex` is `0`, the process runs as the master. All othe
 
 Test with two terminal windows:
 
+Generate one identifier for this invocation and copy the value:
+
+```bash
+uuidgen
+```
+
 **Terminal 1 (Master):**
 ```bash
-INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 **Terminal 2 (Worker):**
 ```bash
-INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
@@ -664,21 +669,20 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 
 ## How Run Isolation Works
 
-Every Redis key is prefixed with a run identifier so concurrent pipeline runs on the same Redis instance don't collide. By default, the run identifier is auto-detected from CI environment variables:
+Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
-1. `GITHUB_SHA` (GitHub Actions)
-2. `BUILD_SOURCEVERSION` (Azure DevOps)
-3. `CI_COMMIT_SHA` (GitLab CI)
-4. `git rev-parse HEAD` (local git)
-5. A random GUID as fallback
+1. Explicit `RedisDistributedOptions.RunIdentifier` configuration
+2. The `RUN_IDENTIFIER` environment variable
 
-You can override this with an explicit value:
+Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
+For local or CI multi-process runs, export one invocation-specific `RUN_IDENTIFIER` value before
+starting every process:
 
 ```csharp
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "your-redis-url";
-    o.RunIdentifier = "my-custom-run-id";
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 });
 ```
 
@@ -1010,9 +1014,13 @@ public class AggregateResultsModule : Module<string>
 
 ## Azure DevOps
 
-The same pattern works in Azure DevOps with a matrix strategy. The run identifier auto-detects from `BUILD_SOURCEVERSION`:
+The same pattern works in Azure DevOps with a matrix strategy. Export one shared identifier explicitly;
+combining the build and stage attempt keeps full stage retries isolated:
 
 ```yaml
+variables:
+  RUN_IDENTIFIER: "$(Build.BuildId)-$(System.StageAttempt)"
+
 strategy:
   matrix:
     master:
@@ -1028,7 +1036,8 @@ strategy:
 
 ## GitLab CI
 
-For GitLab CI, the run identifier auto-detects from `CI_COMMIT_SHA`. Use parallel jobs or a matrix to spawn instances:
+For GitLab CI, export `CI_PIPELINE_ID` explicitly as the shared identifier. Start a new pipeline rather
+than retrying only part of the matrix when coordination state must be discarded:
 
 ```yaml
 pipeline:
@@ -1040,6 +1049,7 @@ pipeline:
   variables:
     TOTAL_INSTANCES: 3
     REDIS_URL: $REDIS_URL
+    RUN_IDENTIFIER: $CI_PIPELINE_ID
 ```
 
 ---
@@ -4127,6 +4137,82 @@ environment-variable check. The `ModularPipelines.Git` package also provides
 base classes.
 
 One-off conditions can use `Configure().WithSkipWhen(...)`.
+
+---
+
+## Run reports and history
+
+ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
+pipeline and module statuses, timings, skip reasons, exception details, command counts, execution
+metrics, and duration changes from the previous retained run.
+
+## Write a report
+
+Configure an explicit output path on the pipeline builder:
+
+```csharp
+using ModularPipelines.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+builder.WriteRunReport("artifacts/run-report.json");
+```
+
+Known CI systems automatically write `artifacts/run-report.json` when no explicit path is set. To
+disable that behavior while keeping an explicitly configured path available, set `AutoWriteInCi`:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunReport = options.RunReport with
+    {
+        AutoWriteInCi = false,
+    },
+});
+```
+
+The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed
+report is also exposed through `PipelineSummary.RunReport`.
+
+## Local history and deltas
+
+When report writing is enabled, the default `IRunHistoryStore` saves reports under
+`.modularpipelines/run-history`. It retains the latest 20 reports and uses the newest compatible
+report to calculate module and total-duration deltas. When a previous duration exists, the final
+results table includes a `Δ previous` column.
+
+Configure or disable retention with `RunReportOptions`:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunReport = options.RunReport with
+    {
+        HistoryDirectory = "artifacts/run-history",
+        HistoryRetention = 10, // Use 0 to disable history.
+        PipelineIdentity = "release-pipeline",
+    },
+});
+```
+
+History is partitioned by pipeline identity and pruning only removes files owned by the built-in
+history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
+path and registered module types. History is bounded: after each save, the default store deletes
+owned files beyond the configured limit for that pipeline.
+Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+
+## Custom history stores
+
+Implement `IRunHistoryStore` to keep reports in a database, object store, or another backend, then
+register it on the builder:
+
+```csharp
+builder.AddRunHistoryStore<MyRunHistoryStore>();
+```
+
+The store returns the latest report for comparison and saves the completed current report. Custom
+stores own their retention behavior. Override the identity-aware `GetLatestAsync` overload when the
+backend can search past a newer report belonging to another pipeline; its default implementation
+only validates the store's latest report.
 
 ---
 
@@ -21442,9 +21528,16 @@ using var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddRedisDistributed(
-    redis => redis.ConnectionString = "localhost:6379",
+    redis =>
+    {
+        redis.ConnectionString = "localhost:6379";
+        redis.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER")
+            ?? throw new InvalidOperationException("RUN_IDENTIFIER must identify this pipeline run.");
+    },
     artifacts => artifacts.TimeToLiveSeconds = 7200);
 ```
+
+Set `RUN_IDENTIFIER` to the same unique value on every worker participating in one pipeline run.
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
 

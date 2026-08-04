@@ -45,6 +45,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Requirements](https://thomhurst.github.io/ModularPipelines/docs/how-to/requirements): If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected.
 - [Retry Policies](https://thomhurst.github.io/ModularPipelines/docs/how-to/retry-policy): When creating modules, you can configure retries per module using the `Configure()` method.
 - [Run conditions](https://thomhurst.github.io/ModularPipelines/docs/how-to/run-conditions): Reusable run conditions implement `IRunCondition`:
+- [Run reports and history](https://thomhurst.github.io/ModularPipelines/docs/next/how-to/run-reports): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](https://thomhurst.github.io/ModularPipelines/docs/how-to/secrets): Your options classes should be registered as IOptions.
 - [Sharing data across modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sharing-data): Modules have been designed with data and sharing at its core.
 - [Skipping Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/skipping): The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
