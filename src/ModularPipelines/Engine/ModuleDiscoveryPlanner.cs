@@ -856,7 +856,7 @@ internal sealed class ModuleDiscoveryPlanner(
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Missing or trimmed method bodies conservatively produce no detected field writes.")]
+        Justification = "Missing or trimmed method bodies are conservatively treated as mutable.")]
     [UnconditionalSuppressMessage(
         "ReflectionAnalysis",
         "IL2070",
@@ -870,7 +870,7 @@ internal sealed class ModuleDiscoveryPlanner(
         var il = method.GetMethodBody()?.GetILAsByteArray();
         if (il is null)
         {
-            return false;
+            return true;
         }
 
         foreach (var field in GetInstanceFields(targetType))
@@ -906,16 +906,21 @@ internal sealed class ModuleDiscoveryPlanner(
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Missing or trimmed Configure bodies conservatively produce no detected static access.")]
+        Justification = "Missing or trimmed Configure bodies are conservatively treated as stateful.")]
     private static bool MethodTouchesStaticState(
         MethodBase method,
         ISet<MethodBase> visited,
         bool inspectConstructors = true)
     {
-        var il = method.GetMethodBody()?.GetILAsByteArray();
-        if (il is null || !visited.Add(method))
+        if (!visited.Add(method))
         {
             return false;
+        }
+
+        var il = method.GetMethodBody()?.GetILAsByteArray();
+        if (il is null)
+        {
+            return true;
         }
 
         var offset = 0;
@@ -924,14 +929,14 @@ internal sealed class ModuleDiscoveryPlanner(
             var opCode = ReadOpCode(il, ref offset);
             if (opCode.Size == 0)
             {
-                return false;
+                return true;
             }
 
             var operandOffset = offset;
             var operandSize = GetOperandSize(opCode, il, operandOffset);
             if (operandOffset + operandSize > il.Length)
             {
-                return false;
+                return true;
             }
 
             if (operandSize == sizeof(int)
@@ -955,7 +960,7 @@ internal sealed class ModuleDiscoveryPlanner(
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Missing or trimmed Configure metadata conservatively produces no detected static access.")]
+        Justification = "Missing or trimmed Configure metadata is conservatively treated as stateful.")]
     private static bool InstructionTouchesStaticState(
         MethodBase method,
         OpCode opCode,
@@ -1010,7 +1015,7 @@ internal sealed class ModuleDiscoveryPlanner(
         }
         catch (ArgumentException)
         {
-            return false;
+            return true;
         }
     }
 

@@ -548,6 +548,11 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private abstract class BodylessPlanningProbe
+    {
+        public abstract void Invoke();
+    }
+
     private sealed class StaticRuntimeBoundPlanningConditionModule : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
@@ -3190,6 +3195,42 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(registrationsAfterActivation).IsEqualTo(1);
             await Assert.That(PluginRegistry.Plugins).Count().IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Planning_State_Scanners_Fail_Closed_Without_Metadata()
+    {
+        var bodylessMethod = typeof(BodylessPlanningProbe).GetMethod(
+            nameof(BodylessPlanningProbe.Invoke))!;
+        var mutatesDelegateTarget = typeof(ModuleDiscoveryPlanner).GetMethod(
+            "MutatesDelegateTargetField",
+            BindingFlags.NonPublic | BindingFlags.Static)!;
+        var touchesStaticState = typeof(ModuleDiscoveryPlanner).GetMethod(
+            "MethodTouchesStaticState",
+            BindingFlags.NonPublic | BindingFlags.Static)!;
+        var instructionTouchesStaticState = typeof(ModuleDiscoveryPlanner).GetMethod(
+            "InstructionTouchesStaticState",
+            BindingFlags.NonPublic | BindingFlags.Static)!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That((bool) mutatesDelegateTarget.Invoke(
+                null,
+                [bodylessMethod, typeof(BodylessPlanningProbe)])!).IsTrue();
+            await Assert.That((bool) touchesStaticState.Invoke(
+                null,
+                [bodylessMethod, new HashSet<MethodBase>(), true])!).IsTrue();
+            await Assert.That((bool) instructionTouchesStaticState.Invoke(
+                null,
+                [
+                    bodylessMethod,
+                    OpCodes.Call,
+                    BitConverter.GetBytes(int.MaxValue),
+                    0,
+                    new HashSet<MethodBase>(),
+                    true,
+                ])!).IsTrue();
         }
     }
 
