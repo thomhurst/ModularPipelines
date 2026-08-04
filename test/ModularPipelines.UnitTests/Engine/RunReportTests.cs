@@ -2207,11 +2207,26 @@ public class RunReportTests
     {
         var result = new OptionsValidator().ValidateOptions(new PipelineOptions
         {
-            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 0 },
+            RunReport = new RunReportOptions
+            {
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = 0,
+            },
         });
 
         await Assert.That(result.Errors.Select(error => error.Message))
             .Contains(message => message.Contains("MaxOutputBytesPerModule", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportOptionsIgnoreOutputLimitWhenOutputIsDisabled()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 0 },
+        });
+
+        await Assert.That(result.Errors).IsEmpty();
     }
 
     [Test]

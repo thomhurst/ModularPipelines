@@ -77,7 +77,8 @@ internal class OptionsValidator : IOptionsValidator
                 $"{options.RunReport.HistoryRetention}"));
         }
 
-        if (options.RunReport.MaxOutputBytesPerModule <= 0)
+        if (options.RunReport.IncludeModuleOutput
+            && options.RunReport.MaxOutputBytesPerModule <= 0)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
