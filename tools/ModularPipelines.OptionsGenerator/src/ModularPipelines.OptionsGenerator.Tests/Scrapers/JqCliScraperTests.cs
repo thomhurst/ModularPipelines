@@ -29,7 +29,7 @@ public class JqCliScraperTests
     {
         var command = await new TestJqCliScraper().Parse(HelpText);
 
-        await Assert.That(command.Options).Count().IsEqualTo(10);
+        await Assert.That(command.Options).Count().IsEqualTo(9);
 
         var nullInput = command.Options.Single(x => x.PropertyName == "NullInput");
         await Assert.That(nullInput.ShortForm).IsEqualTo("-n");
@@ -63,10 +63,7 @@ public class JqCliScraperTests
         await Assert.That(runTests.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         await Assert.That(runTests.Phase).IsEqualTo(CommandLinePhase.Terminal);
 
-        var endOfOptions = command.Options.Single(x => x.PropertyName == "EndOfOptions");
-        await Assert.That(endOfOptions.SwitchName).IsEqualTo("--");
-        await Assert.That(endOfOptions.IsFlag).IsTrue();
-        await Assert.That(endOfOptions.Phase).IsEqualTo(CommandLinePhase.EndOfOptions);
+        await Assert.That(command.Options.Any(x => x.SwitchName == "--")).IsFalse();
     }
 
     [Test]
@@ -77,8 +74,12 @@ public class JqCliScraperTests
         await Assert.That(command.PositionalArguments).Count().IsEqualTo(2);
         await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Filter");
         await Assert.That(command.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(command.PositionalArguments[0].PrependOptionTerminator).IsFalse();
+        await Assert.That(command.PositionalArguments[0].PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
         await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("InputFiles");
         await Assert.That(command.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(command.PositionalArguments[1].PrependOptionTerminator).IsFalse();
+        await Assert.That(command.PositionalArguments[1].PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
     }
 
     [Test]

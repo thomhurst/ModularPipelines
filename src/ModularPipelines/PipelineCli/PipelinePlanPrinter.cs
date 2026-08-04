@@ -28,7 +28,9 @@ internal sealed class PipelinePlanPrinter(IConsoleWriter consoleWriter)
                     ? "[yellow]Unknown: requires module results[/]"
                     : module.ShouldSkip
                         ? $"[yellow]Skip: {Markup.Escape(module.SkipDecision.Reason ?? "No reason provided")}[/]"
-                        : "[green]Run[/]";
+                        : module.IsCacheCandidate
+                            ? "[green]Run[/] [dim](cache candidate)[/]"
+                            : "[green]Run[/]";
                 table.AddRow(
                     wave.Number.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     Markup.Escape(wave.EstimatedDuration.ToDisplayString()),
@@ -39,8 +41,11 @@ internal sealed class PipelinePlanPrinter(IConsoleWriter consoleWriter)
             }
         }
 
+        var cacheNote = plan.Waves.SelectMany(wave => wave.Modules).Any(module => module.IsCacheCandidate)
+            ? " [dim](cache hits may reduce actual duration)[/]"
+            : string.Empty;
         table.Caption = new TableTitle(
-            $"[bold]Estimated pipeline duration: {Markup.Escape(plan.EstimatedDuration.ToDisplayString())}[/]");
+            $"[bold]Estimated pipeline duration: {Markup.Escape(plan.EstimatedDuration.ToDisplayString())}[/]{cacheNote}");
         consoleWriter.Write(table);
     }
 }

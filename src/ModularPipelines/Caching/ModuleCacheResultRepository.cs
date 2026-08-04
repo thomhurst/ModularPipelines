@@ -435,7 +435,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         fingerprint.Append("dependency", dependencyType.AssemblyQualifiedName!);
         fingerprint.Append(
             "dependency-status",
-            dependencyResult.ModuleStatus == Status.UsedHistory
+            dependencyResult.ModuleStatus is Status.UsedHistory or Status.CachedResult
                 ? Status.Successful.ToString()
                 : dependencyResult.ModuleStatus.ToString());
 
