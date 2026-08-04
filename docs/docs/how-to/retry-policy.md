@@ -99,7 +99,9 @@ public class ResilientModule : Module<CommandResult>
 
 `WithTimeout` applies to each execution attempt, not to the whole retry chain. Backoff delays run
 outside that timeout. A timed-out attempt is passed to the retry policy as a
-`ModuleTimeoutException`, so exception filters still decide whether it should be retried.
+`ModuleTimeoutException`, so exception filters still decide whether it should be retried. If the
+attempt remains active after the cancellation grace period, the engine bypasses retries to avoid
+running the same module instance concurrently with its abandoned attempt.
 
 ## Default Retry Policy
 

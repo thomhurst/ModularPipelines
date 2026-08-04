@@ -69,5 +69,7 @@ When a timeout occurs:
 
 - The `CancellationToken` passed to `ExecuteAsync` will be cancelled
 - The module will fail with a `ModuleTimeoutException`
-- If retry policies are configured, the module may be retried
+- If retry policies are configured and the attempt stops within the cancellation grace period,
+  the module may be retried. An attempt that remains active after the grace period is never retried,
+  preventing concurrent executions of the same module instance.
 - If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout
