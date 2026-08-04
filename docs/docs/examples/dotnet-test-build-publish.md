@@ -16,6 +16,7 @@ dotnet add package ModularPipelines.Git
 Set `NUGET_API_KEY` in the pipeline environment, then use this complete pipeline:
 
 ```csharp
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -59,19 +60,15 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 ".UnitTests.csproj",
                 StringComparison.OrdinalIgnoreCase))
             .ToList();
-        var results = new List<CommandResult>();
-
-        foreach (var testProject in testProjects)
-        {
-            results.Add(await context.Tools.DotNet.TestAsync(
+        return await testProjects
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(testProject => context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
                     Project = testProject.Path,
                 },
-                cancellationToken: cancellationToken));
-        }
-
-        return results.ToArray();
+                cancellationToken: cancellationToken))
+            .ProcessInParallel();
     }
 }
 
@@ -95,11 +92,9 @@ public class PackProjectsModule : Module<CommandResult[]>
         var packageDirectory = repository.Root
             .GetFolder("artifacts")
             .GetFolder("packages");
-        var results = new List<CommandResult>();
-
-        foreach (var project in projects)
-        {
-            results.Add(await context.Tools.DotNet.PackAsync(
+        return await projects
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(project => context.Tools.DotNet.PackAsync(
                 new DotNetPackOptions
                 {
                     ProjectSolution = project.Path,
@@ -111,10 +106,8 @@ public class PackProjectsModule : Module<CommandResult[]>
                         new KeyValue("Version", packageVersion.Value),
                     ],
                 },
-                cancellationToken: cancellationToken));
-        }
-
-        return results.ToArray();
+                cancellationToken: cancellationToken))
+            .ProcessInParallel();
     }
 }
 
@@ -138,21 +131,17 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
                                   ".symbols.nupkg",
                                   StringComparison.OrdinalIgnoreCase))
             .ToList();
-        var results = new List<CommandResult>();
-
-        foreach (var package in packages)
-        {
-            results.Add(await context.Tools.DotNet.NuGet.PushAsync(
+        return await packages
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(package => context.Tools.DotNet.NuGet.PushAsync(
                 new DotNetNuGetPushOptions
                 {
                     Path = package.Path,
                     Source = "https://api.nuget.org/v3/index.json",
                     ApiKey = apiKey,
                 },
-                cancellationToken: cancellationToken));
-        }
-
-        return results.ToArray();
+                cancellationToken: cancellationToken))
+            .ProcessOneAtATime();
     }
 }
 ```

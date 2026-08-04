@@ -1,3 +1,4 @@
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
@@ -175,19 +176,15 @@ public static class CurrentApiSnippets
                     ".UnitTests.csproj",
                     StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            var results = new List<CommandResult>();
-
-            foreach (var testProject in testProjects)
-            {
-                results.Add(await context.Tools.DotNet.TestAsync(
+            return await testProjects
+                .ToAsyncProcessorBuilder()
+                .SelectAsync(testProject => context.Tools.DotNet.TestAsync(
                     new DotNetTestOptions
                     {
                         Project = testProject.Path,
                     },
-                    cancellationToken: cancellationToken));
-            }
-
-            return results.ToArray();
+                    cancellationToken: cancellationToken))
+                .ProcessInParallel();
         }
     }
 
@@ -212,11 +209,9 @@ public static class CurrentApiSnippets
             var packageDirectory = repository.Root
                 .GetFolder("artifacts")
                 .GetFolder("packages");
-            var results = new List<CommandResult>();
-
-            foreach (var project in projects)
-            {
-                results.Add(await context.Tools.DotNet.PackAsync(
+            return await projects
+                .ToAsyncProcessorBuilder()
+                .SelectAsync(project => context.Tools.DotNet.PackAsync(
                     new DotNetPackOptions
                     {
                         ProjectSolution = project.Path,
@@ -228,10 +223,8 @@ public static class CurrentApiSnippets
                             new KeyValue("Version", packageVersion.Value),
                         ],
                     },
-                    cancellationToken: cancellationToken));
-            }
-
-            return results.ToArray();
+                    cancellationToken: cancellationToken))
+                .ProcessInParallel();
         }
     }
 
@@ -256,21 +249,17 @@ public static class CurrentApiSnippets
                                       ".symbols.nupkg",
                                       StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            var results = new List<CommandResult>();
-
-            foreach (var package in packages)
-            {
-                results.Add(await context.Tools.DotNet.NuGet.PushAsync(
+            return await packages
+                .ToAsyncProcessorBuilder()
+                .SelectAsync(package => context.Tools.DotNet.NuGet.PushAsync(
                     new DotNetNuGetPushOptions
                     {
                         Path = package.Path,
                         Source = "https://api.nuget.org/v3/index.json",
                         ApiKey = apiKey,
                     },
-                    cancellationToken: cancellationToken));
-            }
-
-            return results.ToArray();
+                    cancellationToken: cancellationToken))
+                .ProcessOneAtATime();
         }
     }
 
