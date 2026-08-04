@@ -494,9 +494,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             new TypeMetadata(
                 typeName,
                 GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
                 CanRegisterCommandMetadata: false,
                 CanRegisterSecretCoverage: canRegisterSecretCoverage,
-                UseTypeForEmptySecretCoverage: isExternal,
+                UseTypeForEmptySecretCoverage: false,
+                UseExternalTypeNameForEmptySecretCoverage: isExternal,
                 IsExternal: isExternal,
                 IsCommandOptions: false,
                 PropertyCollection.Empty,
@@ -520,9 +522,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             : new TypeMetadata(
                 typeName,
                 GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
                 CanRegisterCommandMetadata: !hasPartialDeclaration,
                 CanRegisterSecretCoverage: !hasPartialDeclaration,
                 UseTypeForEmptySecretCoverage: isExternal,
+                UseExternalTypeNameForEmptySecretCoverage: false,
                 IsExternal: isExternal,
                 isCommandOptions,
                 commandMetadata,
@@ -829,6 +833,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterCoveredExternalAssemblyIdentities",
             coveredExternalAssemblyIdentities);
+        AppendCoveredExternalTypeNameRegistrations(
+            sb,
+            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage));
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
@@ -840,7 +847,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             uniqueItems.Where(item => item.CanRegisterSecretCoverage
                                       && item.SecretMetadata.IsComplete
                                       && item.SecretMetadata.Properties.Count == 0
-                                      && !item.UseTypeForEmptySecretCoverage));
+                                      && !item.UseTypeForEmptySecretCoverage
+                                      && !item.UseExternalTypeNameForEmptySecretCoverage));
         AppendTypeNameRegistration(
             sb,
             "RegisterIncompleteTypeNames",
@@ -885,6 +893,27 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             methodName,
             items.Select(item => item.MetadataName),
             registryType);
+    }
+
+    private static void AppendCoveredExternalTypeNameRegistrations(
+        StringBuilder sb,
+        IEnumerable<TypeMetadata> items)
+    {
+        foreach (var assemblyGroup in items.GroupBy(static item => item.AssemblyIdentity, StringComparer.Ordinal))
+        {
+            sb.AppendLine(
+                "        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(");
+            sb.AppendLine("            assembly,");
+            sb.AppendLine($"            {Literal(assemblyGroup.Key)},");
+            sb.AppendLine("            new string[]");
+            sb.AppendLine("            {");
+            foreach (var item in assemblyGroup)
+            {
+                sb.AppendLine($"                {Literal(item.MetadataName)},");
+            }
+
+            sb.AppendLine("            });");
+        }
     }
 
     private static void AppendStringRegistration(
@@ -1212,12 +1241,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
-        var canCoverPlainOptions = type.TypeKind == TypeKind.Class
-                                   && IsTypeAccessible(type, compilation.Assembly)
-                                   && !HasGenericTypeInHierarchy(type)
-                                   && !HasObsoleteErrorInHierarchy(type);
+        var canCoverPlainOptions = type.TypeKind == TypeKind.Class;
         if ((!isCommandOptions && !hasSecretAttributes && !canCoverPlainOptions)
-            || (type.IsAbstract && type.IsGenericType))
+            || (type.IsAbstract && type.IsGenericType && (isCommandOptions || hasSecretAttributes)))
         {
             return null;
         }
@@ -1509,9 +1535,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private sealed record TypeMetadata(
         string TypeName,
         string MetadataName,
+        string AssemblyIdentity,
         bool CanRegisterCommandMetadata,
         bool CanRegisterSecretCoverage,
         bool UseTypeForEmptySecretCoverage,
+        bool UseExternalTypeNameForEmptySecretCoverage,
         bool IsExternal,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,

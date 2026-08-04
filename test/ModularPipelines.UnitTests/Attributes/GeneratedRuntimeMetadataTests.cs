@@ -397,6 +397,55 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task CoveredExternalTypeName_RegistersEmptySecretMetadata()
+    {
+        var type = CreateDynamicType("CoveredExternalType");
+        GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(
+            typeof(GeneratedRuntimeMetadataTests).Assembly,
+            type.Assembly.FullName!,
+            [type.FullName!]);
+
+        var found = GeneratedSecretMetadata.TryGetAccessors(type, out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task CoveredExternalTypeName_DoesNotCrossLoadContexts()
+    {
+        var assemblyPath = typeof(VisualBasicSecretOptions).Assembly.Location;
+        var firstContext = new AssemblyLoadContext("CoveredTypeName", isCollectible: true);
+        var secondContext = new AssemblyLoadContext("UncoveredTypeName", isCollectible: true);
+        try
+        {
+            var firstAssembly = firstContext.LoadFromAssemblyPath(assemblyPath);
+            var secondAssembly = secondContext.LoadFromAssemblyPath(assemblyPath);
+            var typeName = typeof(VisualBasicSecretOptions).FullName!;
+            var firstType = firstAssembly.GetType(typeName)!;
+            var secondType = secondAssembly.GetType(typeName)!;
+            GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(
+                firstAssembly,
+                firstAssembly.FullName!,
+                [typeName]);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(GeneratedSecretMetadata.TryGetAccessors(firstType, out _)).IsTrue();
+                await Assert.That(GeneratedSecretMetadata.TryGetAccessors(secondType, out _)).IsFalse();
+            }
+        }
+        finally
+        {
+            firstContext.Unload();
+            secondContext.Unload();
+        }
+    }
+
+    [Test]
     public async Task CoveredExternalAssemblyIdentity_DoesNotCrossLoadContexts()
     {
         var assemblyPath = typeof(VisualBasicSecretOptions).Assembly.Location;

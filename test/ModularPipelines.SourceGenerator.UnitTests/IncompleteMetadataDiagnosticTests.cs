@@ -1439,6 +1439,51 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Covers_Opaque_Internal_External_Plain_Options()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace External;
+
+            internal sealed class PlainOptions;
+
+            public static class Registration
+            {
+                public static void Add(
+                    Microsoft.Extensions.DependencyInjection.IServiceCollection services) =>
+                    Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions
+                        .AddOptions<PlainOptions>(services);
+            }
+
+            public sealed class RuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            """
+            public static class Consumer
+            {
+                public static void Add(
+                    Microsoft.Extensions.DependencyInjection.IServiceCollection services) =>
+                    External.Registration.Add(services);
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("RegisterCoveredExternalTypeNames(");
+            await Assert.That(generatedSource).Contains("External.PlainOptions");
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::External.PlainOptions)");
+        }
+    }
+
+    [Test]
     public async Task Single_Declaration_Partial_Command_Options_Report_Error()
     {
         var result = GeneratorTestRunner.Run(

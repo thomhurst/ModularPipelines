@@ -162,6 +162,27 @@ public static class GeneratedSecretMetadata
     }
 
     /// <summary>
+    /// Registers empty secret metadata for external types that generated code cannot reference directly.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterCoveredExternalTypeNames(
+        Assembly consumerAssembly,
+        string assemblyIdentity,
+        IReadOnlyList<string> metadataNames)
+    {
+        var registrations = ExternalAccessors.GetValue(
+            consumerAssembly,
+            static _ => new ExternalSecretMetadata());
+        var coveredTypeNames = registrations.CoveredTypeNamesByAssemblyIdentity.GetOrAdd(
+            assemblyIdentity,
+            static _ => new ConcurrentDictionary<string, byte>(StringComparer.Ordinal));
+        foreach (var metadataName in metadataNames)
+        {
+            coveredTypeNames.TryAdd(metadataName, 0);
+        }
+    }
+
+    /// <summary>
     /// Registers partial source types whose final runtime shape requires reflection.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -204,7 +225,7 @@ public static class GeneratedSecretMetadata
             }
         }
 
-        if (IsCoveredExternalAssembly(type))
+        if (IsCoveredExternalType(type) || IsCoveredExternalAssembly(type))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
             return true;
@@ -240,6 +261,28 @@ public static class GeneratedSecretMetadata
         return ExternalAccessors.Any(registrations =>
             ReferenceEquals(AssemblyLoadContext.GetLoadContext(registrations.Key), loadContext)
             && registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity));
+    }
+
+    private static bool IsCoveredExternalType(Type type)
+    {
+        if (type.Assembly.FullName is not { } assemblyIdentity)
+        {
+            return false;
+        }
+
+        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
+        if (metadataType.FullName is not { } metadataName)
+        {
+            return false;
+        }
+
+        var loadContext = AssemblyLoadContext.GetLoadContext(type.Assembly);
+        return ExternalAccessors.Any(registrations =>
+            ReferenceEquals(AssemblyLoadContext.GetLoadContext(registrations.Key), loadContext)
+            && registrations.Value.CoveredTypeNamesByAssemblyIdentity.TryGetValue(
+                assemblyIdentity,
+                out var coveredTypeNames)
+            && coveredTypeNames.ContainsKey(metadataName));
     }
 
     internal static bool IsIncomplete(Type type)
@@ -292,6 +335,9 @@ public static class GeneratedSecretMetadata
         public ConcurrentDictionary<Type, SecretMetadata> Accessors { get; } = [];
 
         public ConcurrentDictionary<string, byte> CoveredAssemblyIdentities { get; } = new(StringComparer.Ordinal);
+
+        public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
+            CoveredTypeNamesByAssemblyIdentity { get; } = new(StringComparer.Ordinal);
     }
 
     private sealed class AssemblyCoverage
