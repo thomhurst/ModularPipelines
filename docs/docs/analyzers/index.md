@@ -34,4 +34,3 @@ sidebar_position: 1
 | [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |
 | [`MPCLI004`](./MPCLI004.md) | Usage | Error | Public analyzer package | Duplicate CLI switch in an options hierarchy. |
 | [`MPCLI006`](./MPCLI006.md) | Usage | Error | Public analyzer package | CLI attributes used outside CommandLineToolOptions. |
-| [`MPDEP002`](./MPDEP002.md) | Usage | Error | Public analyzer package | Circular dependency detected between modules (renamed from ConflictingDependsOnAttribute). |

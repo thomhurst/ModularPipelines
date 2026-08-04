@@ -2784,7 +2784,8 @@ internal static class ModuleAuthoringAnalysis
 
         if (invocation.Type is not INamedTypeSymbol moduleType
             || moduleType.TypeKind != TypeKind.Class
-            || moduleType.IsAbstract)
+            || moduleType.IsAbstract
+            || !moduleType.IsModule(compilation))
         {
             return false;
         }
