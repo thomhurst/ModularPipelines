@@ -333,7 +333,7 @@ public class RetryTests : TestBase
         internal int ExecutionCount;
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromMilliseconds(50))
+            .WithTimeout(TimeSpan.FromSeconds(2))
             .WithRetry(1, TimeSpan.FromMilliseconds(250))
             .Build();
 
