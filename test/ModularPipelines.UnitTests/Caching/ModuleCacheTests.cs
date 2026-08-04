@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Context;
@@ -18,6 +19,24 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class ModuleCacheTests
 {
+    private sealed class RecordingLogger<T> : ILogger<T>
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Debug;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            Messages.Add(formatter(state, exception));
+    }
+
     private sealed class TrackingProgressDisplay : IProgressDisplay
     {
         public bool? LastCompletionWasSuccessful { get; private set; }
@@ -120,6 +139,23 @@ public class ModuleCacheTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult<string>(Value);
+    }
+
+    [CacheInputs("unused.txt")]
+    private sealed class StableAssemblyVersionKeyModule : Module<string>
+    {
+        public const string AssemblyVersionKey = "stable-build-module-v3";
+        public const string KeyPart = "configuration-value";
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart(KeyPart)
+                .WithCacheAssemblyVersionKey(AssemblyVersionKey)
+                .Build();
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("stable");
     }
 
     private sealed class RuntimeTypedDependencyModule : Module<object>
@@ -1092,6 +1128,7 @@ public class ModuleCacheTests
         var configuration = ModularPipelines.Configuration.ModuleConfiguration.Create()
             .WithCacheKeyPart("configuration=v1")
             .WithCacheEnvironmentVariable("CI")
+            .WithCacheAssemblyVersionKey("build-module-v3")
             .Build();
 
         using (Assert.Multiple())
@@ -1099,6 +1136,55 @@ public class ModuleCacheTests
             await Assert.That(configuration.CacheEnabled).IsTrue();
             await Assert.That(configuration.CacheKeyParts).IsEquivalentTo(new[] { "configuration=v1" });
             await Assert.That(configuration.CacheEnvironmentVariables).IsEquivalentTo(new[] { "CI" });
+            await Assert.That(configuration.CacheAssemblyVersionKey).IsEqualTo("build-module-v3");
+        }
+    }
+
+    [Test]
+    public async Task CacheAssemblyVersionKeyRejectsWhitespace()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheAssemblyVersionKey(" "));
+
+        await Assert.That(exception.ParamName).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task CacheMissLogsProtectedFingerprintComponents()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-diagnostics-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        var logger = new RecordingLogger<ModuleCacheResultRepository>();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = temporaryDirectory;
+                options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+            });
+            builder.Services.AddSingleton<ILogger<ModuleCacheResultRepository>>(logger);
+            builder.AddModule<StableAssemblyVersionKeyModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            var miss = logger.Messages.Single(message => message.Contains("Module cache miss"));
+            using (Assert.Multiple())
+            {
+                await Assert.That(miss).Contains("module-version-override=");
+                await Assert.That(miss).Contains("key-part=");
+                await Assert.That(miss).Contains("sha256:");
+                await Assert.That(miss).DoesNotContain(StableAssemblyVersionKeyModule.AssemblyVersionKey);
+                await Assert.That(miss).DoesNotContain(StableAssemblyVersionKeyModule.KeyPart);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
         }
     }
 
