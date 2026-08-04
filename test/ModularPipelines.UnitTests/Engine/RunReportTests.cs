@@ -939,6 +939,94 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStorePrunesAbandonedPipelineIdentitiesToGlobalRetention()
+    {
+        var directory = CreateTemporaryDirectory();
+        var options = OptionsFactory.Create(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                HistoryDirectory = directory,
+                HistoryRetention = 2,
+                GlobalHistoryRetention = 3,
+            },
+        });
+        var store = new FileSystemRunHistoryStore(
+            options,
+            NullLogger<FileSystemRunHistoryStore>.Instance);
+
+        try
+        {
+            var unrelatedPath = Path.Combine(directory, "unrelated-report.json");
+            await File.WriteAllTextAsync(unrelatedPath, "{}");
+            for (var index = 0; index < 4; index++)
+            {
+                await store.SaveAsync(new PipelineRunReport
+                {
+                    PipelineIdentity = $"pipeline-{index}",
+                    End = new DateTimeOffset(2026, 8, 2, 12, 0, index, TimeSpan.Zero),
+                });
+            }
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await store.GetLatestAsync("pipeline-0")).IsNull();
+                await Assert.That(await store.GetLatestAsync("pipeline-1")).IsNotNull();
+                await Assert.That(await store.GetLatestAsync("pipeline-3")).IsNotNull();
+                await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
+                    .Count().IsEqualTo(3);
+                await Assert.That(File.Exists(unrelatedPath)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task FileSystemHistoryStoreReadsTimestampWithoutAssumingIdentityLength()
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = directory,
+                    HistoryRetention = 1,
+                    GlobalHistoryRetention = 1,
+                },
+            }),
+            NullLogger<FileSystemRunHistoryStore>.Instance);
+        var legacyFile = Path.Combine(
+            directory,
+            "modularpipelines-run-legacy-202608021300000000000-00000000000000000000000000000000.json");
+
+        try
+        {
+            Directory.CreateDirectory(directory);
+            await File.WriteAllTextAsync(legacyFile, "{}");
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero),
+            });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(legacyFile)).IsTrue();
+                await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
+                    .Count().IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task AtomicFileWriterKeepsExistingFileWhenWriteFails()
     {
         var directory = CreateTemporaryDirectory();
@@ -2327,6 +2415,35 @@ public class RunReportTests
 
         await Assert.That(result.Errors.Select(error => error.Message))
             .Contains(message => message.Contains("HistoryRetention", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportOptionsRejectNegativeGlobalRetention()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { GlobalHistoryRetention = -1 },
+        });
+
+        await Assert.That(result.Errors.Select(error => error.Message))
+            .Contains(message => message.Contains("GlobalHistoryRetention", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportOptionsRejectGlobalRetentionBelowPerIdentityRetention()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                HistoryRetention = 5,
+                GlobalHistoryRetention = 4,
+            },
+        });
+
+        await Assert.That(result.Errors.Select(error => error.Message))
+            .Contains(message => message.Contains("GlobalHistoryRetention", StringComparison.Ordinal)
+                                 && message.Contains("HistoryRetention", StringComparison.Ordinal));
     }
 
     private static async Task<PipelineSummary> RunPipelineAsync(
