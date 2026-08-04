@@ -41,6 +41,16 @@ internal static class PipelineCommandLineParser
         NoCacheOption,
     ];
 
+    private static readonly IReadOnlyDictionary<string, PipelineCommand> CommandOptions =
+        new Dictionary<string, PipelineCommand>(StringComparer.OrdinalIgnoreCase)
+        {
+            [HelpOption] = PipelineCommand.Help,
+            [ShortHelpOption] = PipelineCommand.Help,
+            [ListModulesOption] = PipelineCommand.ListModules,
+            [ValidateOption] = PipelineCommand.Validate,
+            [DryRunOption] = PipelineCommand.DryRun,
+        };
+
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
     {
         if (arguments is null || arguments.Count == 0)
@@ -97,53 +107,19 @@ internal static class PipelineCommandLineParser
         ParsingState state)
     {
         var argument = arguments[index];
-        if (argument.Equals(HelpOption, StringComparison.OrdinalIgnoreCase)
-            || argument.Equals(ShortHelpOption, StringComparison.OrdinalIgnoreCase))
+        if (TrySetCommand(argument, state))
         {
-            state.Command = SetCommand(state.Command, PipelineCommand.Help, argument);
             return;
         }
 
-        if (argument.Equals(ListModulesOption, StringComparison.OrdinalIgnoreCase))
+        if (TryParseGraph(arguments, ref index, state))
         {
-            state.Command = SetCommand(state.Command, PipelineCommand.ListModules, argument);
-            return;
-        }
-
-        if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
-        {
-            state.Command = SetCommand(state.Command, PipelineCommand.Validate, argument);
-            return;
-        }
-
-        if (TryReadGraph(arguments, ref index, out var parsedGraphFormat, out var parsedGraphPath))
-        {
-            if (state.GraphFormat is not null)
-            {
-                throw new ArgumentException(
-                    $"Command-line option '{GraphOption}' cannot be specified more than once.",
-                    nameof(arguments));
-            }
-
-            state.Command = SetCommand(state.Command, PipelineCommand.ExportGraph, argument);
-            state.GraphFormat = parsedGraphFormat;
-            if (parsedGraphPath is not null)
-            {
-                state.GraphPath = SetGraphPath(state.GraphPath, parsedGraphPath);
-            }
-
             return;
         }
 
         if (TryReadGraphPath(arguments, ref index, out var parsedExplicitGraphPath))
         {
             state.GraphPath = SetGraphPath(state.GraphPath, parsedExplicitGraphPath);
-            return;
-        }
-
-        if (argument.Equals(DryRunOption, StringComparison.OrdinalIgnoreCase))
-        {
-            state.Command = SetCommand(state.Command, PipelineCommand.DryRun, argument);
             return;
         }
 
@@ -163,6 +139,45 @@ internal static class PipelineCommandLineParser
 
         ThrowForLikelyPipelineOptionTypo(argument);
         state.HostArguments.Add(argument);
+    }
+
+    private static bool TrySetCommand(string argument, ParsingState state)
+    {
+        if (!CommandOptions.TryGetValue(argument, out var command))
+        {
+            return false;
+        }
+
+        state.Command = SetCommand(state.Command, command, argument);
+        return true;
+    }
+
+    private static bool TryParseGraph(
+        IReadOnlyList<string> arguments,
+        ref int index,
+        ParsingState state)
+    {
+        var argument = arguments[index];
+        if (!TryReadGraph(arguments, ref index, out var graphFormat, out var graphPath))
+        {
+            return false;
+        }
+
+        if (state.GraphFormat is not null)
+        {
+            throw new ArgumentException(
+                $"Command-line option '{GraphOption}' cannot be specified more than once.",
+                nameof(arguments));
+        }
+
+        state.Command = SetCommand(state.Command, PipelineCommand.ExportGraph, argument);
+        state.GraphFormat = graphFormat;
+        if (graphPath is not null)
+        {
+            state.GraphPath = SetGraphPath(state.GraphPath, graphPath);
+        }
+
+        return true;
     }
 
     private static bool TryReadGraph(

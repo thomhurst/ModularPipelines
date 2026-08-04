@@ -983,57 +983,101 @@ internal sealed class ModuleDiscoveryPlanner(
         {
             if (opCode.OperandType == OperandType.InlineField)
             {
-                var field = method.Module.ResolveField(
+                return FieldInstructionTouchesStaticState(
+                    method,
+                    token,
+                    methodGenericArguments);
+            }
+
+            if (opCode.OperandType != OperandType.InlineMethod)
+            {
+                return false;
+            }
+
+            var calledMethod = method.Module.ResolveMethod(
                     token,
                     method.DeclaringType?.GetGenericArguments(),
                     methodGenericArguments);
-                return field?.IsStatic == true
-                       && !IsKnownPlanningSafeConfigurationField(field);
-            }
-
-            if (opCode.OperandType != OperandType.InlineMethod
-                || method.Module.ResolveMethod(
-                    token,
-                    method.DeclaringType?.GetGenericArguments(),
-                    methodGenericArguments) is not { } calledMethod)
+            if (calledMethod is null)
             {
                 return false;
             }
 
-            if (calledMethod is ConstructorInfo
-                && calledMethod.DeclaringType?.IsDefined(
-                    typeof(CompilerGeneratedAttribute),
-                    inherit: false) == true)
-            {
-                return false;
-            }
-
-            if (calledMethod.Module.Assembly == method.Module.Assembly)
-            {
-                if (opCode == OpCodes.Callvirt
-                    && calledMethod is MethodInfo { IsVirtual: true, IsFinal: false } virtualMethod
-                    && (runtimeType is null
-                        || virtualMethod.DeclaringType is null
-                        || !virtualMethod.DeclaringType.IsAssignableFrom(runtimeType)))
-                {
-                    return true;
-                }
-
-                var targetMethod = opCode == OpCodes.Callvirt
-                    && calledMethod is MethodInfo calledMethodInfo
-                    && runtimeType is not null
-                        ? ResolveVirtualTarget(calledMethodInfo, runtimeType)
-                        : calledMethod;
-                return MethodTouchesStaticStateCore(targetMethod, visited, runtimeType);
-            }
-
-            return calledMethod is ConstructorInfo
-                   || !IsKnownPlanningSafeConfigurationMethod(calledMethod);
+            return CalledMethodTouchesStaticState(
+                method,
+                calledMethod,
+                opCode,
+                visited,
+                runtimeType);
         }
         catch (ArgumentException)
         {
             return true;
         }
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure metadata is conservatively treated as stateful.")]
+    private static bool FieldInstructionTouchesStaticState(
+        MethodBase method,
+        int token,
+        Type[]? methodGenericArguments)
+    {
+        var field = method.Module.ResolveField(
+            token,
+            method.DeclaringType?.GetGenericArguments(),
+            methodGenericArguments);
+        return field?.IsStatic == true
+               && !IsKnownPlanningSafeConfigurationField(field);
+    }
+
+    private static bool CalledMethodTouchesStaticState(
+        MethodBase sourceMethod,
+        MethodBase calledMethod,
+        OpCode opCode,
+        ISet<MethodBase> visited,
+        Type? runtimeType)
+    {
+        if (calledMethod is ConstructorInfo
+            && calledMethod.DeclaringType?.IsDefined(
+                typeof(CompilerGeneratedAttribute),
+                inherit: false) == true)
+        {
+            return false;
+        }
+
+        if (calledMethod.Module.Assembly == sourceMethod.Module.Assembly)
+        {
+            return AssemblyMethodTouchesStaticState(calledMethod, opCode, visited, runtimeType);
+        }
+
+        return calledMethod is ConstructorInfo
+               || !IsKnownPlanningSafeConfigurationMethod(calledMethod);
+    }
+
+    private static bool AssemblyMethodTouchesStaticState(
+        MethodBase calledMethod,
+        OpCode opCode,
+        ISet<MethodBase> visited,
+        Type? runtimeType)
+    {
+        if (opCode == OpCodes.Callvirt
+            && calledMethod is MethodInfo { IsVirtual: true, IsFinal: false } virtualMethod
+            && (runtimeType is null
+                || virtualMethod.DeclaringType is null
+                || !virtualMethod.DeclaringType.IsAssignableFrom(runtimeType)))
+        {
+            return true;
+        }
+
+        var targetMethod = opCode == OpCodes.Callvirt
+            && calledMethod is MethodInfo calledMethodInfo
+            && runtimeType is not null
+                ? ResolveVirtualTarget(calledMethodInfo, runtimeType)
+                : calledMethod;
+        return MethodTouchesStaticStateCore(targetMethod, visited, runtimeType);
     }
 
     [UnconditionalSuppressMessage(
