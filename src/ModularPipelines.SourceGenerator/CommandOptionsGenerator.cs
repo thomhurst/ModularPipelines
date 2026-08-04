@@ -332,24 +332,48 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         for (var index = 0; index < invocation.ArgumentList.Arguments.Count; index++)
         {
             var argument = invocation.ArgumentList.Arguments[index];
-            var parameter = argument.NameColon is { Name.Identifier.ValueText: { } parameterName }
-                ? method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
-                : index < method.Parameters.Length
-                    ? method.Parameters[index]
-                    : null;
-            if (parameter?.Name != "serviceType"
-                || argument.Expression is not TypeOfExpressionSyntax typeOfExpression
-                || context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type
-                    is not INamedTypeSymbol serviceType
-                || !IsOptionsTypeUsage(serviceType))
+            if (ResolveArgumentParameter(method, argument, index)?.Name != "serviceType")
             {
                 continue;
             }
 
-            return serviceType.TypeArguments[0];
+            var optionsType = GetTypeOfOptionsArgument(context, argument);
+            if (optionsType is not null)
+            {
+                return optionsType;
+            }
         }
 
         return null;
+    }
+
+    private static IParameterSymbol? ResolveArgumentParameter(
+        IMethodSymbol method,
+        ArgumentSyntax argument,
+        int index)
+    {
+        if (argument.NameColon is { Name.Identifier.ValueText: { } parameterName })
+        {
+            return method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName);
+        }
+
+        return index < method.Parameters.Length ? method.Parameters[index] : null;
+    }
+
+    private static ITypeSymbol? GetTypeOfOptionsArgument(
+        GeneratorSyntaxContext context,
+        ArgumentSyntax argument)
+    {
+        if (argument.Expression is not TypeOfExpressionSyntax typeOfExpression
+            || typeOfExpression.Type.DescendantNodesAndSelf().Any(IsOptionsTypeUsageCandidate)
+            || context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type
+                is not INamedTypeSymbol serviceType
+            || !IsOptionsTypeUsage(serviceType))
+        {
+            return null;
+        }
+
+        return serviceType.TypeArguments[0];
     }
 
     private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>
