@@ -193,6 +193,24 @@ public class JqOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Rejects_Option_Operand_Declared_As_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new JqExecuteOptions
+        {
+            Arguments = ["--arg", "name", "--"],
+            ArgumentsContainToolOptions = true,
+            ArgumentsContainOptionTerminator = true,
+            RunSettings = ["--foo"],
+        });
+
+        await Assert.That(Build)
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("unconsumed '--'");
+    }
+
+    [Test]
     public async Task Places_Attached_Manual_Option_Before_OptionTerminated_Filter()
     {
         var builder = await GetService<ICommandLineBuilder>();

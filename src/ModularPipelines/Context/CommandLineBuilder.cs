@@ -77,15 +77,6 @@ internal sealed class CommandLineBuilder(
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex).ToList();
         var manualArgs = options.Arguments?.ToList() ?? [];
-        if (options.ArgumentsContainOptionTerminator
-            && !manualArgs.Contains("--", StringComparer.Ordinal))
-        {
-            throw new ArgumentException(
-                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
-                + $"{nameof(CommandLineToolOptions.Arguments)} to contain '--'.",
-                nameof(options));
-        }
-
         ValidateManualOptionsAfterGlobalTerminator(
             options,
             manualArgs,
@@ -114,6 +105,15 @@ internal sealed class CommandLineBuilder(
                 globalCommandModel,
                 commandSpecificModel)
             : ExtractedManualOptions.Empty;
+        if (options.ArgumentsContainOptionTerminator
+            && !manualArgs.Contains("--", StringComparer.Ordinal))
+        {
+            throw new ArgumentException(
+                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
+                + $"{nameof(CommandLineToolOptions.Arguments)} to contain an unconsumed '--'.",
+                nameof(options));
+        }
+
         var leadingManualGlobalOptions = extractedManualOptions.Global;
         var leadingManualCommandOptions = extractedManualOptions.Command;
         globalArgs.InsertRange(
