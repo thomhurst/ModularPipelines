@@ -11,6 +11,36 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
+    public async Task OutputExcerptSurvivesConsoleFlush()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            outputExcerptMaximumBytes: 1024);
+        buffer.WriteLine("retained output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(buffer.GetOutputExcerpt()!.StdoutTail).Contains("retained output");
+    }
+
+    [Test]
+    public async Task OutputExcerptIsDisabledByDefault()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.WriteLine("ordinary output");
+
+        await Assert.That(buffer.GetOutputExcerpt()).IsNull();
+    }
+
+    [Test]
     public async Task Flush_Writes_Group_Commands_Without_Markup_Rendering()
     {
         var writer = new StringWriter();

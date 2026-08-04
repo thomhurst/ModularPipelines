@@ -43,6 +43,27 @@ build system, and the previous run's finish time when it supplies a duration-del
 Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL.
 Correlation strings pass through secret obfuscation before persistence.
 
+## Include module output excerpts
+
+Module output is excluded by default. Opt in when reports need enough output to diagnose recent
+failures without opening the full CI log:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunReport = options.RunReport with
+    {
+        IncludeModuleOutput = true,
+        MaxOutputBytesPerModule = 8 * 1024,
+    },
+});
+```
+
+Each module gets one shared UTF-8 byte budget across its `stdoutTail` and `stderrTail`; the newest
+output wins when the limit is reached. Console error and command-error output is retained in
+`stderrTail`, while console output and other module logs are retained in `stdoutTail`. Excerpts are
+taken only from secret-masked module buffers and are masked again when the report is created.
+
 When report writing is enabled, add application-specific metadata through a bounded
 `IRunReportEnricher`:
 

@@ -1,3 +1,4 @@
+using ModularPipelines.Console;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -6,7 +7,8 @@ namespace ModularPipelines.Engine;
 
 internal sealed class PipelineRunReportFactory(
     ICommandExecutionCounter commandExecutionCounter,
-    ISecretObfuscator secretObfuscator)
+    ISecretObfuscator secretObfuscator,
+    IModuleOutputExcerptProvider? outputExcerptProvider = null)
 {
     public PipelineRunReport Create(
         PipelineSummary summary,
@@ -156,6 +158,7 @@ internal sealed class PipelineRunReportFactory(
             End = current.End,
             SkipReason = GetSkipReason(result),
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
+            Output = CreateOutputExcerpt(moduleType),
             CommandCount = commandExecutionCounter.GetCount(moduleType),
             PreviousDuration = previousDuration,
             DurationDelta = previousDuration.HasValue
@@ -215,6 +218,21 @@ internal sealed class PipelineRunReportFactory(
         result?.SkipDecisionOrDefault?.Reason is { } skipReason
             ? secretObfuscator.Obfuscate(skipReason, null)
             : null;
+
+    private ModuleOutputExcerpt? CreateOutputExcerpt(Type moduleType)
+    {
+        var excerpt = outputExcerptProvider?.GetModuleOutputExcerpt(moduleType);
+        return excerpt is null
+            ? null
+            : excerpt with
+            {
+                StdoutTail = ObfuscateOptional(excerpt.StdoutTail),
+                StderrTail = ObfuscateOptional(excerpt.StderrTail),
+            };
+    }
+
+    private string? ObfuscateOptional(string? value) =>
+        value is null ? null : secretObfuscator.Obfuscate(value, null);
 
     private static string? GetResultTypeName(IModuleResult result) =>
         result is ModuleResult { ModuleType: { } moduleType }
