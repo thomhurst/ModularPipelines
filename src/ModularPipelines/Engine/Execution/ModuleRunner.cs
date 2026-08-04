@@ -294,6 +294,19 @@ internal class ModuleRunner : IModuleRunner
             return false;
         }
 
+        if (moduleState.Dependencies.TryGetValue(producerType, out var producerIsOptional)
+            && !producerIsOptional
+            && scheduler.GetModuleState(producerType) is { State: not ModuleExecutionState.Completed } producerState)
+        {
+            var producerSkipDecision = producerState.SkipResult.ShouldSkip
+                ? producerState.SkipResult
+                : await EvaluatePlanningSkipAsync(producerState, cancellationToken).ConfigureAwait(false);
+            if (producerSkipDecision?.ShouldSkip != true)
+            {
+                return true;
+            }
+        }
+
         if (await HasSkippedRequiredDependencyAsync(
                 moduleState,
                 scheduler,

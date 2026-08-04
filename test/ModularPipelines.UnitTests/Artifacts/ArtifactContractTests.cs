@@ -225,12 +225,15 @@ public class ArtifactContractTests
     [ProducesArtifact("local-output", ProducedFile)]
     private sealed class LocalProducerModule : Module<string>
     {
+        public static bool IsReady { get; set; }
+
         protected internal override async Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(ProducedFile)!);
             await File.WriteAllTextAsync(ProducedFile, "local artifact content", cancellationToken);
+            IsReady = true;
             return "produced";
         }
     }
@@ -310,6 +313,27 @@ public class ArtifactContractTests
 
             var result = await context.Module.ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
             ObservedStatus = result.ModuleStatus;
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
+    private sealed class ProducerStateConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => LocalProducerModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("producer is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
         }
     }
 
@@ -1159,6 +1183,42 @@ public class ArtifactContractTests
             await builder.ExecutePipelineAsync();
 
             await Assert.That(LocalConsumerModule.ConsumedContent).IsEqualTo("local artifact content");
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactDemandWaitsForProducerBeforeCachingConsumerSkip()
+    {
+        DeleteLocalArtifacts();
+        LocalProducerModule.IsReady = false;
+        ProducerStateConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<ProducerStateConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<LocalProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<ProducerStateConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(LocalProducerModule.IsReady).IsTrue();
+                await Assert.That(ProducerStateConsumerModule.Executed).IsTrue();
+                await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
+            }
         }
         finally
         {
