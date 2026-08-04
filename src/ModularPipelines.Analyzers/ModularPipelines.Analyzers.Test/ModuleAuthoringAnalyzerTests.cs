@@ -7175,6 +7175,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Void_Event_Handler_When_Only_Unsubscribed()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                public event EventHandler? Completed;
+
+                public BuildModule() => Completed -= OnCompleted;
+
+                private async void {|#0:OnCompleted|}(object? sender, EventArgs eventArgs)
+                {
+                    await Task.Yield();
+                }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.AsyncVoidId)
+            .WithLocation(0)
+            .WithArguments("OnCompleted");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Composite_CancellationToken_Returned_By_Source_Helper()
     {
         var source = ModuleSource("""

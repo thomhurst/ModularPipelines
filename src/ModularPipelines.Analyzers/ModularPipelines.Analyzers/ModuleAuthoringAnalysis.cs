@@ -212,7 +212,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<IMethodSymbol> eventHandlerMethods)
     {
         var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        if (GetDirectDelegateTarget(eventAssignment.HandlerValue) is { } method)
+        if (eventAssignment.Adds
+            && GetDirectDelegateTarget(eventAssignment.HandlerValue) is { } method)
         {
             eventHandlerMethods.Add(method);
         }
