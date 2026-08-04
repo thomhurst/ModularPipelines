@@ -21,6 +21,6 @@ internal static class ModuleCompletionSourceApplicator
     /// <returns>True if the result was successfully applied.</returns>
     public static bool TryApply(IModule module, IModuleResult result)
     {
-        return ((IInternalModule) module).TrySetDistributedResult(result);
+        return module.AsInternal().TrySetDistributedResult(result);
     }
 }

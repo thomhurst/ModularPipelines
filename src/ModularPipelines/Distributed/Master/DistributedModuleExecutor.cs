@@ -355,7 +355,7 @@ internal class DistributedModuleExecutor(
             _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
-        var result = await ((IInternalModule) module).ResultTask;
+        var result = await module.AsInternal().ResultTask;
         var artifactReferences = await TryUploadArtifactsAsync(module, assignment.ModuleTypeName, cancellationToken);
         if (result is null)
         {

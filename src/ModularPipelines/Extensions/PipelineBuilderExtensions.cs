@@ -439,5 +439,7 @@ public static class PipelineBuilderExtensions
                 $"Type '{moduleType.FullName}' must be a concrete, closed module type.",
                 nameof(moduleType));
         }
+
+        ModuleExecutionContract.Validate(moduleType);
     }
 }

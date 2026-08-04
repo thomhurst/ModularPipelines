@@ -290,7 +290,7 @@ public class ModuleTestBuilder<TModule>
                 ModuleType = typeof(TDependency),
             };
 
-            ((IInternalModule) module).TrySetDistributedResult(result);
+            module.AsInternal().TrySetDistributedResult(result);
             services.GetRequiredService<IModuleResultRegistry>()
                 .RegisterResult(typeof(TDependency), result);
         }
