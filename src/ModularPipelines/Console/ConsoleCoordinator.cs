@@ -153,7 +153,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     _originalConsoleError,
                     () => _isProgressActive,
                     _secretObfuscator,
-                    _secretProvider);
+                    _secretProvider,
+                    isError: true);
 
                 System.Console.SetOut(_coordinatedOut);
                 System.Console.SetError(_coordinatedError);
@@ -301,8 +302,17 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 RequestThresholdFlush,
                 isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                     OutputLoggerCategories.ForModule(t),
-                    logLevel)));
+                    logLevel),
+                outputExcerptMaximumBytes: _options.Value.RunReport.IncludeModuleOutput
+                    ? _options.Value.RunReport.MaxOutputBytesPerModule
+                    : 0));
     }
+
+    /// <inheritdoc />
+    public ModuleOutputExcerpt? GetModuleOutputExcerpt(Type moduleType) =>
+        _moduleBuffers.TryGetValue(moduleType, out var buffer)
+            ? buffer.GetOutputExcerpt()
+            : null;
 
     /// <inheritdoc />
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;

@@ -53,6 +53,11 @@ public sealed record ModuleRunReport
     public RunReportExceptionDetails? Exception { get; init; }
 
     /// <summary>
+    /// Gets the optional size-capped, secret-masked module output excerpt.
+    /// </summary>
+    public ModuleOutputExcerpt? Output { get; init; }
+
+    /// <summary>
     /// Gets the number of commands attempted by the module.
     /// </summary>
     public int CommandCount { get; init; }

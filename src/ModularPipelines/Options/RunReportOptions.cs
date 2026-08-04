@@ -6,6 +6,18 @@ namespace ModularPipelines.Options;
 public sealed record RunReportOptions
 {
     /// <summary>
+    /// Gets a value indicating whether module output excerpts are included in reports and history.
+    /// Output is secret-masked and retained from the tail within
+    /// <see cref="MaxOutputBytesPerModule"/>.
+    /// </summary>
+    public bool IncludeModuleOutput { get; init; }
+
+    /// <summary>
+    /// Gets the shared UTF-8 byte limit for each module's standard-output and standard-error tails.
+    /// </summary>
+    public int MaxOutputBytesPerModule { get; init; } = 8 * 1024;
+
+    /// <summary>
     /// Gets an optional stable identity used to partition retained history.
     /// When omitted, an identity is derived from the report path and module types.
     /// </summary>

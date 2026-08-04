@@ -33,6 +33,27 @@ builder.ConfigurePipelineOptions(options => options with
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed
 report is also exposed through `PipelineSummary.RunReport`.
 
+## Include module output excerpts
+
+Module output is excluded by default. Opt in when reports need enough output to diagnose recent
+failures without opening the full CI log:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunReport = options.RunReport with
+    {
+        IncludeModuleOutput = true,
+        MaxOutputBytesPerModule = 8 * 1024,
+    },
+});
+```
+
+Each module gets one shared UTF-8 byte budget across its `stdoutTail` and `stderrTail`; the newest
+output wins when the limit is reached. Console error and command-error output is retained in
+`stderrTail`, while console output and other module logs are retained in `stdoutTail`. Excerpts are
+taken only from secret-masked module buffers and are masked again when the report is created.
+
 ## Local history and deltas
 
 By default, the `IRunHistoryStore` saves reports under `.modularpipelines/run-history` on local and

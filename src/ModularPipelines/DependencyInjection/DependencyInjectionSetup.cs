@@ -202,6 +202,7 @@ internal static class DependencyInjectionSetup
             // Console coordinator - single point of control for all console output
             .AddSingleton<Console.ConsoleCoordinator>()
             .AddSingleton<Console.IConsoleCoordinator>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
+            .AddSingleton<Console.IModuleOutputExcerptProvider>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
             .AddSingleton<IProgressDisplay>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
 
             // Output coordinator - manages immediate output during live display
