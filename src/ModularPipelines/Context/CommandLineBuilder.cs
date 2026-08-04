@@ -107,7 +107,9 @@ internal sealed class CommandLineBuilder(
             ? ExtractRecognizedManualOptionsByScope(
                 manualArgs,
                 globalCommandModel,
-                commandSpecificModel)
+                [.. commandSpecificModel, .. terminalCommandModel],
+                options,
+                preserveTerminalOptions: true)
             : ExtractedManualOptions.Empty;
         if (options.ArgumentsContainOptionTerminator
             && !manualArgs.Contains("--", StringComparer.Ordinal))
@@ -133,7 +135,7 @@ internal sealed class CommandLineBuilder(
         }
         if (options.ArgumentsContainToolOptions
             && hasOptionTerminator
-            && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
+            && ContainsRecognizedManualOption(manualArgs, terminalCommandModel, options))
         {
             throw new InvalidOperationException(
                 "Manual terminal options cannot be combined with an end-of-options marker. "
@@ -188,7 +190,7 @@ internal sealed class CommandLineBuilder(
     {
         if (!options.ArgumentsContainToolOptions
             || !terminatorEmittedBeforeProperties
-            || !ContainsRecognizedManualOption(manualArgs, commandModel))
+            || !ContainsRecognizedManualOption(manualArgs, commandModel, options))
         {
             return;
         }
@@ -200,19 +202,24 @@ internal sealed class CommandLineBuilder(
 
     private static IReadOnlyList<string> ExtractRecognizedManualOptions(
         List<string> manualArgs,
-        IReadOnlyList<PropertyCommandLinePart> commandModel)
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        CommandLineToolOptions options)
     {
         var extracted = ExtractRecognizedManualOptionsByScope(
             manualArgs,
             commandModel.Where(static part => part.IsGlobalOption).ToList(),
-            commandModel.Where(static part => !part.IsGlobalOption).ToList());
+            commandModel.Where(static part => !part.IsGlobalOption).ToList(),
+            options,
+            preserveTerminalOptions: false);
         return [.. extracted.Global, .. extracted.Command];
     }
 
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(
         List<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> globalCommandModel,
-        IReadOnlyList<PropertyCommandLinePart> commandSpecificModel)
+        IReadOnlyList<PropertyCommandLinePart> commandSpecificModel,
+        CommandLineToolOptions options,
+        bool preserveTerminalOptions)
     {
         var commandModel = globalCommandModel.Concat(commandSpecificModel).ToList();
         var flagsByName = commandModel
@@ -244,7 +251,8 @@ internal sealed class CommandLineBuilder(
                 manualArgs,
                 index,
                 flagsByName,
-                optionsByName);
+                optionsByName,
+                options);
             if (match is null)
             {
                 remainingArguments.Add(manualArgs[index]);
@@ -252,11 +260,19 @@ internal sealed class CommandLineBuilder(
                 continue;
             }
 
-            AddRecognizedManualOptions(
-                match.Value.IsGlobalOption,
-                manualArgs.GetRange(index, match.Value.ArgumentCount),
-                globalOptions,
-                commandOptions);
+            var matchedArguments = manualArgs.GetRange(index, match.Value.ArgumentCount);
+            if (preserveTerminalOptions && match.Value.IsTerminal)
+            {
+                remainingArguments.AddRange(matchedArguments);
+            }
+            else
+            {
+                AddRecognizedManualOptions(
+                    match.Value.IsGlobalOption,
+                    matchedArguments,
+                    globalOptions,
+                    commandOptions);
+            }
             index += match.Value.ArgumentCount;
         }
 
@@ -274,17 +290,24 @@ internal sealed class CommandLineBuilder(
         IReadOnlyList<string> manualArgs,
         int index,
         IReadOnlyDictionary<string, FlagPart> flagsByName,
-        IReadOnlyDictionary<string, OptionPart> optionsByName)
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options)
     {
         var argument = manualArgs[index];
         if (flagsByName.TryGetValue(argument, out var flag))
         {
-            return new ManualOptionMatch(ArgumentCount: 1, flag.IsGlobalOption);
+            return new ManualOptionMatch(
+                ArgumentCount: 1,
+                flag.IsGlobalOption,
+                IsTerminal: flag.Phase == CommandLinePhase.Terminal);
         }
 
         if (TryGetAttachedEqualsManualOption(argument, optionsByName, out var attachedOption))
         {
-            return new ManualOptionMatch(ArgumentCount: 1, attachedOption.IsGlobalOption);
+            return new ManualOptionMatch(
+                ArgumentCount: 1,
+                attachedOption.IsGlobalOption,
+                IsTerminal: attachedOption.Phase == CommandLinePhase.Terminal);
         }
 
         if (TryGetCombinedShortOptionOperandCount(
@@ -293,11 +316,16 @@ internal sealed class CommandLineBuilder(
                 index,
                 flagsByName,
                 optionsByName,
+                options,
                 out var combinedOperandCount,
-                out var combinedIsGlobalOption))
+                out var combinedIsGlobalOption,
+                out var combinedIsTerminal))
         {
             return manualArgs.Count - index - 1 >= combinedOperandCount
-                ? new ManualOptionMatch(combinedOperandCount + 1, combinedIsGlobalOption)
+                ? new ManualOptionMatch(
+                    combinedOperandCount + 1,
+                    combinedIsGlobalOption,
+                    combinedIsTerminal)
                 : null;
         }
 
@@ -311,10 +339,14 @@ internal sealed class CommandLineBuilder(
             manualArgs,
             index,
             flagsByName,
-            optionsByName);
+            optionsByName,
+            options);
         return operandCount is { } count
                && manualArgs.Count - index - 1 >= count
-            ? new ManualOptionMatch(count + 1, option.IsGlobalOption)
+            ? new ManualOptionMatch(
+                count + 1,
+                option.IsGlobalOption,
+                IsTerminal: option.Phase == CommandLinePhase.Terminal)
             : null;
     }
 
@@ -353,8 +385,9 @@ internal sealed class CommandLineBuilder(
 
     private static bool ContainsRecognizedManualOption(
         IReadOnlyCollection<string> manualArgs,
-        IReadOnlyList<PropertyCommandLinePart> commandModel) =>
-        ExtractRecognizedManualOptions(manualArgs.ToList(), commandModel).Count > 0;
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        CommandLineToolOptions options) =>
+        ExtractRecognizedManualOptions(manualArgs.ToList(), commandModel, options).Count > 0;
 
     private static bool TryGetCombinedShortOptionOperandCount(
         string argument,
@@ -362,11 +395,14 @@ internal sealed class CommandLineBuilder(
         int manualIndex,
         IReadOnlyDictionary<string, FlagPart> flagsByName,
         IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options,
         out int followingOperandCount,
-        out bool isGlobalOption)
+        out bool isGlobalOption,
+        out bool isTerminal)
     {
         followingOperandCount = 0;
         isGlobalOption = true;
+        isTerminal = false;
         if (argument.Length <= 2 || argument[0] != '-' || argument[1] == '-')
         {
             return false;
@@ -378,6 +414,7 @@ internal sealed class CommandLineBuilder(
             if (flagsByName.TryGetValue(shortName, out var flag))
             {
                 isGlobalOption &= flag.IsGlobalOption;
+                isTerminal |= flag.Phase == CommandLinePhase.Terminal;
                 continue;
             }
 
@@ -387,12 +424,14 @@ internal sealed class CommandLineBuilder(
             }
 
             isGlobalOption &= option.IsGlobalOption;
+            isTerminal |= option.Phase == CommandLinePhase.Terminal;
             var operandCount = GetManualOperandCount(
                 option,
                 manualArgs,
                 manualIndex,
                 flagsByName,
-                optionsByName);
+                optionsByName,
+                options);
             if (operandCount is null)
             {
                 return false;
@@ -413,12 +452,10 @@ internal sealed class CommandLineBuilder(
         IReadOnlyList<string> manualArgs,
         int optionIndex,
         IReadOnlyDictionary<string, FlagPart> flagsByName,
-        IReadOnlyDictionary<string, OptionPart> optionsByName)
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        CommandLineToolOptions options)
     {
-        var operandCount = option.ManualOperandCount >= 0
-            ? option.ManualOperandCount
-            : throw new InvalidOperationException(
-                $"Manual value count cannot be negative for {option.PropertyName}.");
+        var operandCount = GetConfiguredManualOperandCount(option, options);
         if (option.Attribute.GroupValues)
         {
             var groupedOperandCount = 0;
@@ -451,6 +488,30 @@ internal sealed class CommandLineBuilder(
         return IsRecognizedManualOptionToken(possibleOperand, flagsByName, optionsByName)
             ? 0
             : operandCount;
+    }
+
+    [System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Reflection is used only for compatibility with legacy generated command metadata.")]
+    private static int GetConfiguredManualOperandCount(
+        OptionPart option,
+        CommandLineToolOptions options)
+    {
+        if (option.ManualOperandCount >= 0)
+        {
+            return option.ManualOperandCount;
+        }
+
+        if (option.ManualOperandCount != -1)
+        {
+            throw new InvalidOperationException(
+                $"Manual value count cannot be less than -1 for {option.PropertyName}.");
+        }
+
+        return CommandModelProvider.GetManualOperandCount(
+            options.GetType(),
+            option.PropertyName);
     }
 
     private static bool IsRecognizedManualOptionToken(
@@ -497,5 +558,6 @@ internal sealed class CommandLineBuilder(
 
     private readonly record struct ManualOptionMatch(
         int ArgumentCount,
-        bool IsGlobalOption);
+        bool IsGlobalOption,
+        bool IsTerminal);
 }

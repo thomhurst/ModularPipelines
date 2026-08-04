@@ -370,6 +370,58 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Grouped_Option_Preserves_Terminal_Option_For_Validation()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--arguments", "one", "--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Derives_Legacy_Generated_Option_Operand_Count()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var optionsType = typeof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>.Pairs),
+                    static _ => null,
+                    new CliOptionAttribute("--arg")),
+            ]);
+        var options = new LegacyGeneratedMetadataOptions<LegacyMetadataMarker>
+        {
+            Arguments = ["--arg", "name", "value", "--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        };
+
+        var result = builder.Build(options);
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name value -- tail");
+    }
+
+    [Test]
+    public async Task Reflection_Metadata_Counts_Derived_Value_Pairs()
+    {
+        var model = new CommandModelProvider()
+            .GetCommandModel(typeof(ReflectionDerivedPairOptions<DerivedCliValuePair>));
+
+        await Assert.That(model.OfType<OptionPart>().Single().ManualOperandCount)
+            .IsEqualTo(2);
+    }
+
+    [Test]
     public async Task Build_Preserves_Command_Option_Operand_That_Matches_Global_Flag()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -707,6 +759,24 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
         public string? TerminalArgument { get; set; }
+    }
+
+    private sealed class LegacyMetadataMarker;
+
+    [CliTool("jq")]
+    private sealed record LegacyGeneratedMetadataOptions<T> : CommandLineToolOptions
+    {
+        public IReadOnlyList<CliValuePair>? Pairs { get; init; }
+    }
+
+    private sealed record DerivedCliValuePair(string First, string Second)
+        : CliValuePair(First, Second);
+
+    [CliTool("jq")]
+    private sealed record ReflectionDerivedPairOptions<T> : CommandLineToolOptions
+    {
+        [CliOption("--arg")]
+        public T? Pair { get; init; }
     }
 
     [CliTool("jq")]

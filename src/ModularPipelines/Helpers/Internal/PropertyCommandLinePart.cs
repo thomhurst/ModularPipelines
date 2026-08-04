@@ -53,7 +53,7 @@ public sealed record OptionPart(
     /// <summary>
     /// Gets the number of separate operands consumed by one manual occurrence of this option.
     /// </summary>
-    public int ManualOperandCount { get; init; } = 1;
+    public int ManualOperandCount { get; init; } = -1;
 
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
