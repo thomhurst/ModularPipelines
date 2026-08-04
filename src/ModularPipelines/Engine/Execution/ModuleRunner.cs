@@ -10,6 +10,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -577,8 +578,6 @@ internal class ModuleRunner : IModuleRunner
         ModuleLifecycleContext lifecycleContext,
         CancellationToken cancellationToken)
     {
-        var moduleType = moduleState.ModuleType;
-
         // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
         await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
 
@@ -591,47 +590,25 @@ internal class ModuleRunner : IModuleRunner
                 scheduler,
                 executionContext,
                 moduleContext,
+                (moduleResult, token) => FinalizeModuleAsync(
+                    moduleState,
+                    scheduler,
+                    executionContext,
+                    lifecycleContext,
+                    moduleResult,
+                    token),
                 cancellationToken)
             .ConfigureAwait(false);
 
-        moduleState.Result = result;
-        _resultRegistry.RegisterResult(moduleType, result);
+        PublishModuleResult(moduleState, executionContext, result);
 
         if (executionContext.Status == Enums.Status.Skipped)
         {
-            // Invoke OnModuleSkipped lifecycle event
-            await _lifecycleEventInvoker.InvokeSkippedEventAsync(lifecycleContext, Enums.Status.Skipped, executionContext.SkipResult!).ConfigureAwait(false);
-
-            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
             await _mediator.Publish(
                     new ModuleSkippedNotification(moduleState, executionContext.SkipResult),
                     CancellationToken.None)
                 .ConfigureAwait(false);
             return;
-        }
-
-        if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
-        {
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
-        }
-
-        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
-
-        // Invoke OnModuleEnd lifecycle event
-        await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
-
-        if (_manageArtifactsLocally
-            && executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory)
-        {
-            try
-            {
-                await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception exception) when (exception is not ModuleFailedException)
-            {
-                throw new ModuleFailedException(moduleType, exception);
-            }
         }
 
         var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
@@ -647,16 +624,14 @@ internal class ModuleRunner : IModuleRunner
         ModuleLifecycleContext lifecycleContext,
         Exception exception)
     {
-        // Even when an exception is thrown, we need to register the result if one was set
-        if (executionContext.ExecutionTask.IsCompleted
-            && !executionContext.ExecutionTask.IsFaulted
-            && !executionContext.ExecutionTask.IsCanceled)
+        executionContext.Exception = exception;
+        if (executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.NotYetStarted or Enums.Status.Processing)
         {
-            // Use GetAwaiter().GetResult() instead of .Result to avoid wrapping in AggregateException
-            var result = executionContext.ExecutionTask.GetAwaiter().GetResult();
-            moduleState.Result = result;
-            _resultRegistry.RegisterResult(moduleState.ModuleType, result);
+            executionContext.Status = Enums.Status.Failed;
         }
+
+        var result = CreateFailureResult(moduleState.Module, moduleState.ModuleType, executionContext, exception);
+        PublishModuleResult(moduleState, executionContext, result);
 
         try
         {
@@ -669,6 +644,84 @@ internal class ModuleRunner : IModuleRunner
         {
             await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
         }
+    }
+
+    private async Task FinalizeModuleAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        ModuleExecutionContext executionContext,
+        ModuleLifecycleContext lifecycleContext,
+        IModuleResult result,
+        CancellationToken cancellationToken)
+    {
+        moduleState.Result = result;
+
+        if (executionContext.Status == Enums.Status.Skipped)
+        {
+            await _lifecycleEventInvoker.InvokeSkippedEventAsync(
+                    lifecycleContext,
+                    Enums.Status.Skipped,
+                    executionContext.SkipResult!)
+                .ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
+            return;
+        }
+
+        if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
+        {
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(
+                    moduleState.ModuleType,
+                    executionContext.Duration)
+                .ConfigureAwait(false);
+        }
+
+        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
+        await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
+
+        if (!_manageArtifactsLocally
+            || executionContext.Status is not (Enums.Status.Successful or Enums.Status.UsedHistory))
+        {
+            return;
+        }
+
+        try
+        {
+            await UploadProducedArtifactsAsync(moduleState.ModuleType, scheduler, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not ModuleFailedException)
+        {
+            throw new ModuleFailedException(moduleState.ModuleType, exception);
+        }
+    }
+
+    private void PublishModuleResult(
+        ModuleState moduleState,
+        ModuleExecutionContext executionContext,
+        IModuleResult result)
+    {
+        moduleState.Result = result;
+        executionContext.SetResult(result);
+        _resultRegistry.RegisterResult(moduleState.ModuleType, result);
+
+        if (GeneratedModuleMetadata.TryGetRuntime(moduleState.ModuleType, out var runtime))
+        {
+            runtime.SetCompletionSource(moduleState.Module, result);
+            return;
+        }
+
+        CompletionSourceSetterCache.GetOrCreate(moduleState.Module.ResultType)(moduleState.Module, result);
+    }
+
+    private static IModuleResult CreateFailureResult(
+        IModule module,
+        Type moduleType,
+        ModuleExecutionContext executionContext,
+        Exception exception)
+    {
+        return GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime)
+            ? runtime.CreateFailure(exception, executionContext)
+            : ModuleResultFactory.CreateException(module.ResultType, exception, executionContext);
     }
 
     private ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
@@ -712,6 +765,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler scheduler,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
+        Func<IModuleResult, CancellationToken, Task> finalizeExecutionAsync,
         CancellationToken cancellationToken)
     {
         Func<CancellationToken, Task>? prepareExecutionAsync = _manageArtifactsLocally
@@ -728,7 +782,9 @@ internal class ModuleRunner : IModuleRunner
                     executionContext,
                     moduleContext,
                     prepareExecutionAsync,
-                    cancellationToken)
+                    finalizeExecutionAsync,
+                    completeModule: false,
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -740,7 +796,9 @@ internal class ModuleRunner : IModuleRunner
                 executionContext,
                 moduleContext,
                 prepareExecutionAsync,
-                cancellationToken)
+                finalizeExecutionAsync,
+                completeModule: false,
+                cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
 

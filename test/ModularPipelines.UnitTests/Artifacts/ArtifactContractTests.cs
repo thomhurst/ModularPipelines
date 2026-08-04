@@ -754,6 +754,27 @@ public class ArtifactContractTests
             Task.CompletedTask;
     }
 
+    private sealed class RecordingResultRepository : IModuleResultRepository
+    {
+        public static int SaveCount { get; set; }
+
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext)
+        {
+            SaveCount++;
+            return Task.CompletedTask;
+        }
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext) =>
+            Task.FromResult<ModuleResult<T>?>(null);
+    }
+
     private sealed class ProducerAndConsumerArtifactHistoryRepository : IModuleResultRepository
     {
         public bool IsEnabled => true;
@@ -1075,6 +1096,7 @@ public class ArtifactContractTests
     {
         DeleteLocalArtifacts();
         LocalConsumerModule.ConsumedContent = null;
+        RecordingResultRepository.SaveCount = 0;
 
         try
         {
@@ -1337,15 +1359,29 @@ public class ArtifactContractTests
         {
             using var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
+            builder.AddResultsRepository<RecordingResultRepository>();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
+            await using var pipeline = await builder.BuildAsync();
 
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-                () => builder.ExecutePipelineAsync());
+                () => pipeline.RunAsync());
+            var producer = pipeline.Services
+                .GetServices<IModule>()
+                .OfType<LocalProducerModule>()
+                .Single();
+            var producerResult = pipeline.Services
+                .GetRequiredService<IModuleResultRegistry>()
+                .GetResult(typeof(LocalProducerModule));
+            var awaitedProducerResult = await producer;
 
             using (Assert.Multiple())
             {
                 await Assert.That(exception!.ToString()).Contains("simulated artifact upload failure");
+                await Assert.That(producerResult).IsNotNull();
+                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
+                await Assert.That(awaitedProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Failed);
+                await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }
         }

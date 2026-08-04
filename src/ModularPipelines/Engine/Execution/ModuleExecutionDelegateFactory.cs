@@ -26,6 +26,8 @@ internal static class ModuleExecutionDelegateFactory
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
+        Func<IModuleResult, CancellationToken, Task>? finalizeExecutionAsync,
+        bool completeModule,
         CancellationToken cancellationToken);
 
     private static readonly ConcurrentDictionary<Type, ExecuteModuleDelegate> ExecutorCache = new();
@@ -62,6 +64,10 @@ internal static class ModuleExecutionDelegateFactory
         var prepareExecutionParam = Expression.Parameter(
             typeof(Func<CancellationToken, Task>),
             "prepareExecutionAsync");
+        var finalizeExecutionParam = Expression.Parameter(
+            typeof(Func<IModuleResult, CancellationToken, Task>),
+            "finalizeExecutionAsync");
+        var completeModuleParam = Expression.Parameter(typeof(bool), "completeModule");
         var cancellationTokenParam = Expression.Parameter(typeof(CancellationToken), "cancellationToken");
 
         // Get the generic types
@@ -87,6 +93,8 @@ internal static class ModuleExecutionDelegateFactory
             castContext,
             moduleContextParam,
             prepareExecutionParam,
+            finalizeExecutionParam,
+            completeModuleParam,
             cancellationTokenParam);
 
         // Create and compile the lambda
@@ -97,6 +105,8 @@ internal static class ModuleExecutionDelegateFactory
             contextParam,
             moduleContextParam,
             prepareExecutionParam,
+            finalizeExecutionParam,
+            completeModuleParam,
             cancellationTokenParam);
 
         return lambda.Compile();
@@ -121,6 +131,8 @@ internal static class ModuleExecutionDelegateFactory
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
+        Func<IModuleResult, CancellationToken, Task>? finalizeExecutionAsync,
+        bool completeModule,
         CancellationToken cancellationToken)
     {
         var result = await pipeline.ExecuteAsync(
@@ -128,7 +140,9 @@ internal static class ModuleExecutionDelegateFactory
                 executionContext,
                 moduleContext,
                 cancellationToken,
-                prepareExecutionAsync)
+                prepareExecutionAsync,
+                finalizeExecutionAsync,
+                completeModule)
             .ConfigureAwait(false);
         return result;
     }

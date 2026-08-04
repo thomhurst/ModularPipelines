@@ -60,17 +60,42 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken,
-        Func<CancellationToken, Task>? prepareExecutionAsync = null)
+        Func<CancellationToken, Task>? prepareExecutionAsync = null,
+        Func<ModuleResult<T>, CancellationToken, Task>? finalizeExecutionAsync = null,
+        bool completeModule = true)
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
         var afterHookInvoked = false;
+        var finalizationInvoked = false;
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
 
         // Get configuration once at the start
         var config = ((IModule) module).Configuration;
+
+        async Task FinalizeAsync(ModuleResult<T> result)
+        {
+            if (finalizeExecutionAsync is null)
+            {
+                return;
+            }
+
+            finalizationInvoked = true;
+            await finalizeExecutionAsync(
+                    result,
+                    executionContext.ModuleCancellationTokenSource.Token)
+                .ConfigureAwait(false);
+        }
+
+        void CompleteModule(ModuleResult<T> result)
+        {
+            if (completeModule)
+            {
+                module.CompletionSource.TrySetResult(result);
+            }
+        }
 
         try
         {
@@ -95,7 +120,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         skipDecision,
                         logger)
                     .ConfigureAwait(false);
-                module.CompletionSource.TrySetResult(skippedResult);
+                await FinalizeAsync(skippedResult).ConfigureAwait(false);
+                CompleteModule(skippedResult);
+
                 return skippedResult;
             }
 
@@ -116,7 +143,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
             if (cachedResult is not null)
             {
-                module.CompletionSource.TrySetResult(cachedResult);
+                await FinalizeAsync(cachedResult).ConfigureAwait(false);
+                CompleteModule(cachedResult);
+
                 return cachedResult;
             }
 
@@ -153,8 +182,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
 
+            await FinalizeAsync(moduleResult).ConfigureAwait(false);
+
             executionContext.SetTypedResult(moduleResult);
-            module.CompletionSource.TrySetResult(moduleResult);
+            CompleteModule(moduleResult);
 
             // Save to history if applicable
             await SaveResults(
@@ -166,7 +197,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             return moduleResult;
         }
-        catch (Exception exception)
+        catch (Exception exception) when (!finalizationInvoked)
         {
             executionContext.RecordEndTime();
 
@@ -179,9 +210,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     executionContext,
                     moduleContext,
                     exception,
-                    logger)
+                    logger,
+                    completeModule)
                 .ConfigureAwait(false);
-            module.CompletionSource.TrySetResult(moduleResult);
+            await FinalizeAsync(moduleResult).ConfigureAwait(false);
+            CompleteModule(moduleResult);
+
             return moduleResult;
         }
         finally
@@ -613,7 +647,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Exception exception,
-        IModuleLogger logger)
+        IModuleLogger logger,
+        bool completeModule = true)
     {
         logger.LogError(exception, "Module failed after {Duration}", executionContext.Duration.ToDisplayString());
 
@@ -677,7 +712,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // Create a failed result before cancelling and throwing
         ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
         executionContext.SetTypedResult(failedResult);
-        module.CompletionSource.TrySetResult(failedResult);
+        if (completeModule)
+        {
+            module.CompletionSource.TrySetResult(failedResult);
+        }
 
         // Cancel the pipeline and propagate
         CancelPipelineAndThrow(executionContext, moduleContext, exception, logger);
