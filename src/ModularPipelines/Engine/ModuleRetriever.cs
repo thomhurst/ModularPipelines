@@ -63,6 +63,14 @@ internal class ModuleRetriever
         return (await DiscoverModules(cancellationToken, cascadeSkippedDependencies: true).ConfigureAwait(false)).RunnableModules;
     }
 
+    internal async Task<(IReadOnlyList<IModule> RunnableModules, IReadOnlyList<IgnoredModule> IgnoredModules)>
+        GetUncascadedModulesForValidation(CancellationToken cancellationToken = default)
+    {
+        var modules = await DiscoverModules(cancellationToken, cascadeSkippedDependencies: false)
+            .ConfigureAwait(false);
+        return (modules.RunnableModules, modules.IgnoredModules);
+    }
+
     internal async Task ValidateSelectionAsync()
     {
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
