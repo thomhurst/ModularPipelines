@@ -20,7 +20,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var account = await GetAccount(azureResourceIdentifier, cancellationToken);
+        var account = await GetAccountAsync(azureResourceIdentifier, cancellationToken);
 
         return await account.Value.GetCosmosDBSqlDatabases().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
@@ -33,7 +33,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var account = await GetAccount(azureResourceIdentifier, cancellationToken);
+        var account = await GetAccountAsync(azureResourceIdentifier, cancellationToken);
 
         return await account.Value.GetCosmosDBSqlRoleAssignments().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
@@ -46,7 +46,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var account = await GetAccount(azureResourceIdentifier, cancellationToken);
+        var account = await GetAccountAsync(azureResourceIdentifier, cancellationToken);
 
         return await account.Value.GetCosmosDBSqlRoleDefinitions().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
@@ -60,7 +60,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var database = await GetDatabase(azureResourceIdentifier, databaseName, cancellationToken);
+        var database = await GetDatabaseAsync(azureResourceIdentifier, databaseName, cancellationToken);
 
         return await database.Value.GetCosmosDBSqlContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties, cancellationToken);
     }
@@ -75,7 +75,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var container = await GetContainer(azureResourceIdentifier, databaseName, containerName, cancellationToken);
+        var container = await GetContainerAsync(azureResourceIdentifier, databaseName, containerName, cancellationToken);
 
         return await container.Value.GetCosmosDBSqlTriggers().CreateOrUpdateAsync(WaitUntil.Completed, triggerName, properties, cancellationToken);
     }
@@ -90,7 +90,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var container = await GetContainer(azureResourceIdentifier, databaseName, containerName, cancellationToken);
+        var container = await GetContainerAsync(azureResourceIdentifier, databaseName, containerName, cancellationToken);
 
         return await container.Value.GetCosmosDBSqlStoredProcedures().CreateOrUpdateAsync(WaitUntil.Completed, storedProcedureName, properties, cancellationToken);
     }
@@ -105,7 +105,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var container = await GetContainer(azureResourceIdentifier, databaseName, containerName, cancellationToken);
+        var container = await GetContainerAsync(azureResourceIdentifier, databaseName, containerName, cancellationToken);
 
         return await container.Value.GetCosmosDBSqlUserDefinedFunctions().CreateOrUpdateAsync(WaitUntil.Completed, functionName, properties, cancellationToken);
     }
@@ -118,7 +118,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var database = await GetDatabase(azureResourceIdentifier, databaseName, cancellationToken);
+        var database = await GetDatabaseAsync(azureResourceIdentifier, databaseName, cancellationToken);
 
         return await database.Value.GetCosmosDBSqlDatabaseThroughputSetting().CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
@@ -132,7 +132,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var container = await GetContainer(azureResourceIdentifier, databaseName, containerName, cancellationToken);
+        var container = await GetContainerAsync(azureResourceIdentifier, databaseName, containerName, cancellationToken);
 
         return await container.Value.GetCosmosDBSqlContainerThroughputSetting().CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
@@ -146,7 +146,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var database = await GetDatabase(azureResourceIdentifier, databaseName, cancellationToken);
+        var database = await GetDatabaseAsync(azureResourceIdentifier, databaseName, cancellationToken);
 
         return await database.Value.GetCosmosDBSqlClientEncryptionKeys().CreateOrUpdateAsync(WaitUntil.Completed, encryptionKeyName, properties, cancellationToken);
     }
@@ -159,7 +159,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var account = await GetAccount(azureResourceIdentifier, cancellationToken);
+        var account = await GetAccountAsync(azureResourceIdentifier, cancellationToken);
 
         return await account.Value.GetCosmosDBTables().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
@@ -171,7 +171,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(containerName);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var database = await GetDatabase(azureResourceIdentifier, databaseName, cancellationToken);
+        var database = await GetDatabaseAsync(azureResourceIdentifier, databaseName, cancellationToken);
 
         return await database.Value.GetCosmosDBSqlContainerAsync(containerName, cancellationToken);
     }
@@ -182,7 +182,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(databaseName);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var account = await GetAccount(azureResourceIdentifier, cancellationToken);
+        var account = await GetAccountAsync(azureResourceIdentifier, cancellationToken);
 
         return await account.Value.GetCosmosDBSqlDatabaseAsync(databaseName, cancellationToken);
     }
