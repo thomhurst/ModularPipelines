@@ -73,6 +73,27 @@ internal sealed class GeneratedKeyedSecretOptions
     ];
 }
 
+internal sealed class GeneratedPairSecretOptions
+{
+    [SecretValue]
+    public CliValuePair Pair { get; init; } = new("pair-name", "pair-secret");
+
+    [SecretValue]
+    public IReadOnlyList<CliValuePair> Pairs { get; init; } =
+    [
+        new("collection-name", "collection-secret"),
+    ];
+
+    [SecretValue]
+    public KeyValue KeyValue { get; init; } = new("key-value-name", "key-value-secret");
+}
+
+internal sealed class GeneratedSingleKeyedSecretOptions
+{
+    [SecretValue("token")]
+    public KeyValue Value { get; init; } = new("auth.token", "single-keyed-secret");
+}
+
 public class SecretValueNormalizationTests
 {
     private sealed class PrivateNoSecretsOptions;
@@ -442,6 +463,33 @@ public class SecretValueNormalizationTests
             "snake-secret",
             "kebab-secret",
         ]);
+    }
+
+    [Test]
+    public async Task GeneratedMetadata_NormalizesCliValuePairsAndKeyValues()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new GeneratedPairSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(
+        [
+            "pair-name",
+            "pair-secret",
+            "collection-name",
+            "collection-secret",
+            "key-value-secret",
+        ]);
+    }
+
+    [Test]
+    public async Task KeyedSecrets_AcceptSingleKeyValue()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new GeneratedSingleKeyedSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["single-keyed-secret"]);
     }
 
     private static SecretProvider CreateProvider(out Mock<IBuildSystemSecretMasker> nativeMasker)
