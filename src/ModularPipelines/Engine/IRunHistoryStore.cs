@@ -8,27 +8,14 @@ namespace ModularPipelines.Engine;
 public interface IRunHistoryStore
 {
     /// <summary>
-    /// Gets the latest retained run report, or <see langword="null"/> when none exists.
-    /// </summary>
-    /// <param name="cancellationToken">A token that cancels the operation.</param>
-    /// <returns>The latest report, or <see langword="null"/>.</returns>
-    Task<PipelineRunReport?> GetLatestAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Gets the latest retained report for a pipeline identity.
     /// </summary>
     /// <param name="pipelineIdentity">The stable pipeline identity.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>The latest matching report, or <see langword="null"/>.</returns>
-    async Task<PipelineRunReport?> GetLatestAsync(
+    Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
-        CancellationToken cancellationToken = default)
-    {
-        var report = await GetLatestAsync(cancellationToken).ConfigureAwait(false);
-        return string.Equals(report?.PipelineIdentity, pipelineIdentity, StringComparison.Ordinal)
-            ? report
-            : null;
-    }
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Saves a run report and applies the store's configured retention policy.
