@@ -12,19 +12,26 @@ namespace ModularPipelines.Engine;
 internal class EngineCancellationToken : IDisposable
 {
     private readonly CancellationTokenSource _cts = new();
+    private readonly CancellationToken _token;
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
+    private readonly object _lifetimeLock = new();
+
+    private int _activeCancellationOperations;
+    private int _cancelKeyPressReceived;
+    private bool _disposeCancellationTokenSource;
+    private bool _ctsDisposed;
 
     public string? Reason { get; private set; }
 
     /// <summary>
     /// Gets the cancellation token from the underlying CancellationTokenSource.
     /// </summary>
-    public CancellationToken Token => _cts.Token;
+    public CancellationToken Token => _token;
 
     /// <summary>
     /// Gets a value indicating whether cancellation has been requested on the underlying token source.
     /// </summary>
-    public bool IsCancellationRequested => _cts.IsCancellationRequested;
+    public bool IsCancellationRequested => _token.IsCancellationRequested;
 
     /// <summary>
     /// Gets the original exception that caused the pipeline to fail.
@@ -49,6 +56,7 @@ internal class EngineCancellationToken : IDisposable
     public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
     {
         _primaryExceptionContainer = primaryExceptionContainer;
+        _token = _cts.Token;
 
         System.Console.CancelKeyPress += OnCancelKeyPress;
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
@@ -80,9 +88,18 @@ internal class EngineCancellationToken : IDisposable
     /// </summary>
     public void Cancel()
     {
-        if (!_disposed)
+        if (!TryBeginCancellation())
+        {
+            return;
+        }
+
+        try
         {
             _cts.Cancel();
+        }
+        finally
+        {
+            EndCancellation();
         }
     }
 
@@ -94,35 +111,101 @@ internal class EngineCancellationToken : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (_disposed)
-        {
-            return;
-        }
+        CancellationTokenSource? cancellationTokenSourceToDispose = null;
 
-        _disposed = true;
+        lock (_lifetimeLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            _disposeCancellationTokenSource = disposing;
+
+            if (disposing && _activeCancellationOperations == 0)
+            {
+                _ctsDisposed = true;
+                cancellationTokenSourceToDispose = _cts;
+            }
+        }
 
         if (disposing)
         {
             System.Console.CancelKeyPress -= OnCancelKeyPress;
             AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
-            _cts.Dispose();
+            cancellationTokenSourceToDispose?.Dispose();
         }
     }
 
     private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs args)
     {
-        args.Cancel = true;
-        TryCancel();
+        args.Cancel = HandleCancelKeyPress();
     }
 
     private void OnProcessExit(object? sender, EventArgs args) => TryCancel();
 
-    private void TryCancel()
+    internal bool HandleCancelKeyPress()
     {
-        if (!_disposed && Token.CanBeCanceled)
+        if (Interlocked.CompareExchange(ref _cancelKeyPressReceived, 1, 0) != 0)
+        {
+            return false;
+        }
+
+        return TryCancel();
+    }
+
+    private bool TryCancel()
+    {
+        if (!TryBeginCancellation())
+        {
+            return false;
+        }
+
+        try
         {
             _isCancelled = true;
-            Cancel();
+            _cts.Cancel();
+            return true;
         }
+        finally
+        {
+            EndCancellation();
+        }
+    }
+
+    private bool TryBeginCancellation()
+    {
+        lock (_lifetimeLock)
+        {
+            if (_disposed)
+            {
+                return false;
+            }
+
+            _activeCancellationOperations++;
+            return true;
+        }
+    }
+
+    private void EndCancellation()
+    {
+        CancellationTokenSource? cancellationTokenSourceToDispose = null;
+
+        lock (_lifetimeLock)
+        {
+            _activeCancellationOperations--;
+
+            if (_disposed
+                && _disposeCancellationTokenSource
+                && !_ctsDisposed
+                && _activeCancellationOperations == 0)
+            {
+                _ctsDisposed = true;
+                cancellationTokenSourceToDispose = _cts;
+            }
+        }
+
+        cancellationTokenSourceToDispose?.Dispose();
     }
 }

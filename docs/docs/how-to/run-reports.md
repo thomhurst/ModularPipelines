@@ -65,6 +65,8 @@ history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one
 path and registered module types. History is bounded: after each save, the default store deletes
 owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+Report and history files are published atomically, so cancellation or a failed write cannot replace
+a complete report with partial JSON.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the
 pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and
