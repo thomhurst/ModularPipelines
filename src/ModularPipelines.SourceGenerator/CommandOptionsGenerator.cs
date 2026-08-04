@@ -411,32 +411,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
-                {
-                    continue;
-                }
-
-                var attribute = FindAttribute(property, IsCommandAttribute);
-                if (attribute is null)
+                if (!TryGetCommandProperty(
+                        property,
+                        currentAssembly,
+                        seenPropertyNames,
+                        out var propertyMetadata,
+                        out var isIncomplete))
                 {
                     continue;
                 }
 
                 hasAttributes = true;
-                if (!IsPropertyAccessible(property, currentAssembly)
-                    || HasObsoleteError(property))
-                {
-                    isComplete = false;
-                    incompleteProperties.Add(property.Name);
-                    continue;
-                }
-
-                var propertyMetadata = CreatePropertyMetadata(property, attribute);
-                if (propertyMetadata is
-                    {
-                        Kind: PropertyKind.Flag or PropertyKind.Option,
-                        PrimaryValue: null,
-                    })
+                if (isIncomplete)
                 {
                     isComplete = false;
                     incompleteProperties.Add(property.Name);
@@ -452,6 +438,41 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             incompleteProperties.ToImmutable(),
             isComplete,
             hasAttributes);
+    }
+
+    private static bool TryGetCommandProperty(
+        IPropertySymbol property,
+        IAssemblySymbol currentAssembly,
+        ISet<string> seenPropertyNames,
+        out PropertyMetadata propertyMetadata,
+        out bool isIncomplete)
+    {
+        propertyMetadata = null!;
+        isIncomplete = false;
+        if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+        {
+            return false;
+        }
+
+        var attribute = FindAttribute(property, IsCommandAttribute);
+        if (attribute is null)
+        {
+            return false;
+        }
+
+        if (!IsPropertyAccessible(property, currentAssembly) || HasObsoleteError(property))
+        {
+            isIncomplete = true;
+            return true;
+        }
+
+        propertyMetadata = CreatePropertyMetadata(property, attribute);
+        isIncomplete = propertyMetadata is
+        {
+            Kind: PropertyKind.Flag or PropertyKind.Option,
+            PrimaryValue: null,
+        };
+        return true;
     }
 
     private static PropertyCollection GetSecretProperties(
@@ -884,43 +905,64 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         var includeAllRuntimeMetadata = IsTrimOrAotEnabled(optionsProvider);
         var usedOptionsTypes = new HashSet<string>(optionsTypeMetadataNames, StringComparer.Ordinal);
-        var candidates = ImmutableArray.CreateBuilder<TypeMetadataCandidate>();
-        foreach (var assembly in compilation.SourceModule.ReferencedAssemblySymbols)
+        return compilation.SourceModule.ReferencedAssemblySymbols
+            .SelectMany(assembly => GetExternalTypeCandidates(
+                assembly,
+                runtimeAssembly,
+                compilation,
+                includeAllRuntimeMetadata,
+                usedOptionsTypes))
+            .ToImmutableArray();
+    }
+
+    private static IEnumerable<TypeMetadataCandidate> GetExternalTypeCandidates(
+        IAssemblySymbol assembly,
+        IAssemblySymbol runtimeAssembly,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        HashSet<string> usedOptionsTypes)
+    {
+        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
         {
-            if (!RequiresExternalMetadata(assembly, runtimeAssembly))
-            {
-                continue;
-            }
-
-            var incompleteTypeNames = GetIncompleteTypeNames(assembly);
-            if (!includeAllRuntimeMetadata
-                && !incompleteTypeNames.Overlaps(usedOptionsTypes))
-            {
-                continue;
-            }
-
-            foreach (var type in GetTypes(assembly.GlobalNamespace))
-            {
-                var metadataName = GetMetadataName(type);
-                var isUsedOptionsType = usedOptionsTypes.Contains(metadataName)
-                                        && (includeAllRuntimeMetadata
-                                            || incompleteTypeNames.Contains(metadataName));
-                var candidate = isUsedOptionsType
-                    ? GetExternalOptionsUsageCandidate(
-                        type,
-                        compilation,
-                        incompleteTypeNames.Contains(metadataName))
-                    : includeAllRuntimeMetadata
-                        ? GetExternalTypeCandidate(type, compilation)
-                        : null;
-                if (candidate is not null)
-                {
-                    candidates.Add(candidate);
-                }
-            }
+            return [];
         }
 
-        return candidates.ToImmutable();
+        var incompleteTypeNames = GetIncompleteTypeNames(assembly);
+        if (!includeAllRuntimeMetadata && !incompleteTypeNames.Overlaps(usedOptionsTypes))
+        {
+            return [];
+        }
+
+        return GetTypes(assembly.GlobalNamespace)
+            .Select(type => GetExternalTypeCandidate(
+                type,
+                compilation,
+                includeAllRuntimeMetadata,
+                usedOptionsTypes,
+                incompleteTypeNames))
+            .OfType<TypeMetadataCandidate>();
+    }
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        ISet<string> usedOptionsTypes,
+        ISet<string> incompleteTypeNames)
+    {
+        var metadataName = GetMetadataName(type);
+        if (usedOptionsTypes.Contains(metadataName)
+            && (includeAllRuntimeMetadata || incompleteTypeNames.Contains(metadataName)))
+        {
+            return GetExternalOptionsUsageCandidate(
+                type,
+                compilation,
+                incompleteTypeNames.Contains(metadataName));
+        }
+
+        return includeAllRuntimeMetadata
+            ? GetExternalTypeCandidate(type, compilation)
+            : null;
     }
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
