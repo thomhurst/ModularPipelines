@@ -1390,36 +1390,54 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return null;
         }
 
-        TypeMetadataCandidate? candidate;
-        if (isObservedOptionsType)
-        {
-            candidate = GetExternalOptionsUsageCandidate(
-                type,
-                compilation,
-                incompleteTypeNames.Contains(metadataName));
-        }
-        else
-        {
-            candidate = includeAllRuntimeMetadata
-                ? GetExternalTypeCandidate(type, compilation)
-                : null;
-        }
+        var candidate = GetExternalTypeCandidate(
+            type,
+            compilation,
+            includeAllRuntimeMetadata,
+            isObservedOptionsType,
+            incompleteTypeNames.Contains(metadataName));
 
         if (!requiresRescan && !CanRegenerateExternalRuntimeMetadata(candidate))
         {
             return null;
         }
 
-        return requiresSecretReflectionFallback
-               && candidate?.Metadata is { } metadata
-               && (metadata.IsCommandOptions
-                   || metadata.SecretMetadata.HasAttributes
-                   || isObservedOptionsType)
-            ? candidate with
-            {
-                Metadata = metadata with { RequiresSecretReflectionFallback = true },
-            }
-            : candidate;
+        return AddSecretReflectionFallback(
+            candidate,
+            requiresSecretReflectionFallback,
+            isObservedOptionsType);
+    }
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        bool isObservedOptionsType,
+        bool hasIncompleteMetadata) =>
+        isObservedOptionsType
+            ? GetExternalOptionsUsageCandidate(type, compilation, hasIncompleteMetadata)
+            : includeAllRuntimeMetadata
+                ? GetExternalTypeCandidate(type, compilation)
+                : null;
+
+    private static TypeMetadataCandidate? AddSecretReflectionFallback(
+        TypeMetadataCandidate? candidate,
+        bool requiresSecretReflectionFallback,
+        bool isObservedOptionsType)
+    {
+        if (!requiresSecretReflectionFallback
+            || candidate?.Metadata is not { } metadata
+            || (!metadata.IsCommandOptions
+                && !metadata.SecretMetadata.HasAttributes
+                && !isObservedOptionsType))
+        {
+            return candidate;
+        }
+
+        return candidate with
+        {
+            Metadata = metadata with { RequiresSecretReflectionFallback = true },
+        };
     }
 
     private static bool IsObservedOptionsType(
