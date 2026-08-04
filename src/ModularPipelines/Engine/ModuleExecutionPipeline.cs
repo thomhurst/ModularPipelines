@@ -761,8 +761,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         ((IInternalModuleLogger) logger).SetException(exception);
 
-        var moduleFailedException = exception as ModuleFailedException
-                                    ?? new ModuleFailedException(executionContext.ModuleType, exception);
+        var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
 
         if (moduleContext.Services.Options.ExecutionMode == ExecutionMode.StopOnFirstException)
         {

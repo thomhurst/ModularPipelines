@@ -578,21 +578,6 @@ public class ArtifactContractTests
             Task.FromResult<string?>("produced");
     }
 
-    private sealed class LateArtifactFailureReceiver : IModuleEventReceiver
-    {
-        public static int ProducerFailureCount;
-
-        public Task OnModuleFailureAsync(IModuleHookContext context)
-        {
-            if (context.ModuleType == typeof(MissingRuntimeProducerModule))
-            {
-                Interlocked.Increment(ref ProducerFailureCount);
-            }
-
-            return Task.CompletedTask;
-        }
-    }
-
     [ProducesArtifact("pending-skip-runtime", MissingRuntimeFile)]
     private sealed class PendingSkipArtifactProducerModule : Module<string>
     {
@@ -658,10 +643,15 @@ public class ArtifactContractTests
     [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
     private sealed class MissingRuntimeIntermediateModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        public static TaskCompletionSource Release { get; set; } = CreateSignal();
+
+        protected internal override async Task<string?> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("intermediate completed");
+            CancellationToken cancellationToken)
+        {
+            await Release.Task.WaitAsync(cancellationToken);
+            return "intermediate completed";
+        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MissingRuntimeIntermediateModule>]
@@ -1863,11 +1853,11 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task TransitiveConsumerRechecksPendingMissingArtifactAndFailsProducer()
+    public async Task TransitiveConsumerFailsWithoutRewritingCompletedProducer()
     {
         DeleteLocalArtifacts();
         TransitiveMissingRuntimeConsumerModule.Executed = false;
-        LateArtifactFailureReceiver.ProducerFailureCount = 0;
+        MissingRuntimeIntermediateModule.Release = CreateSignal();
 
         try
         {
@@ -1875,28 +1865,30 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<MissingRuntimeIntermediateModule>();
             builder.AddModule<TransitiveMissingRuntimeConsumerModule>();
-            builder.AddModuleEventReceiver<LateArtifactFailureReceiver>();
             await using var pipeline = await builder.BuildAsync();
 
-            var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
-            var producerResult = pipeline.Services
-                .GetRequiredService<IModuleResultRegistry>()
-                .GetResult(typeof(MissingRuntimeProducerModule));
+            var resultRegistry = pipeline.Services.GetRequiredService<IModuleResultRegistry>();
+            var execution = pipeline.RunAsync();
+            var producerResult = await WaitForResultAsync(
+                    resultRegistry,
+                    typeof(MissingRuntimeProducerModule))
+                .WaitAsync(TimeSpan.FromSeconds(10));
+            MissingRuntimeIntermediateModule.Release.TrySetResult();
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => execution);
 
             using (Assert.Multiple())
             {
-                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(MissingRuntimeProducerModule));
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(TransitiveMissingRuntimeConsumerModule));
                 await Assert.That(exception.ToString()).Contains("missing-runtime");
-                await Assert.That(exception.ToString()).Contains(MissingRuntimeFile);
                 await Assert.That(exception.ToString()).Contains(nameof(TransitiveMissingRuntimeConsumerModule));
-                await Assert.That(exception.ToString()).Contains("matched no files");
-                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
-                await Assert.That(LateArtifactFailureReceiver.ProducerFailureCount).IsEqualTo(1);
+                await Assert.That(exception.ToString()).Contains("not found");
+                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Successful);
                 await Assert.That(TransitiveMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }
         finally
         {
+            MissingRuntimeIntermediateModule.Release.TrySetResult();
             DeleteLocalArtifacts();
         }
     }
@@ -2907,6 +2899,21 @@ public class ArtifactContractTests
 
     private static TaskCompletionSource CreateSignal() =>
         new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    private static async Task<IModuleResult> WaitForResultAsync(
+        IModuleResultRegistry resultRegistry,
+        Type moduleType)
+    {
+        while (true)
+        {
+            if (resultRegistry.GetResult(moduleType) is { } result)
+            {
+                return result;
+            }
+
+            await Task.Delay(10);
+        }
+    }
 
     private static async Task<Enums.Status> RunCacheKeyArtifactPipelineAsync(
         string workingDirectory,
