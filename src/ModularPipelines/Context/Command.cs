@@ -32,6 +32,7 @@ internal sealed class Command : ICommandContext
     private readonly ISecretProvider _secretProvider;
     private readonly ISecretRegistry _secretRegistry;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ICommandExecutionCounter _commandExecutionCounter;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public Command(
@@ -41,6 +42,7 @@ internal sealed class Command : ICommandContext
         ISecretProvider secretProvider,
         ISecretRegistry secretRegistry,
         ISecretObfuscator secretObfuscator,
+        ICommandExecutionCounter commandExecutionCounter,
         IOptions<PipelineOptions> pipelineOptions)
     {
         _commandLogger = commandLogger;
@@ -49,6 +51,7 @@ internal sealed class Command : ICommandContext
         _secretProvider = secretProvider;
         _secretRegistry = secretRegistry;
         _secretObfuscator = secretObfuscator;
+        _commandExecutionCounter = commandExecutionCounter;
         _pipelineOptions = pipelineOptions;
     }
 
@@ -57,6 +60,7 @@ internal sealed class Command : ICommandContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
+        _commandExecutionCounter.Record(AmbientModuleContext.CurrentModuleType);
         var execOpts = executionOptions ?? new CommandExecutionOptions();
         RegisterSecrets(options, execOpts);
         var (command, commandInput, tool, parsedArgs) = CreateCommand(options, execOpts);

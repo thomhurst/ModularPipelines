@@ -79,6 +79,11 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
     /// <summary>
+    /// Gets or sets a value indicating whether a skipped module may use a stored result.
+    /// </summary>
+    public bool AllowHistoricalResultWhenSkipped { get; set; } = true;
+
+    /// <summary>
     /// Gets the stopwatch tracking execution time.
     /// </summary>
     public Stopwatch Stopwatch { get; }

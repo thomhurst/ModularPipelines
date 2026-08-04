@@ -1,3 +1,4 @@
+using Mediator;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
@@ -51,7 +52,12 @@ public class IgnoredModuleResultRegistrarTests
                 Mock.Of<IModuleMetadataRegistry>(),
                 options,
                 new RoleDetector(options),
-                NullLogger<IgnoredModuleResultRegistrar>.Instance);
+                NullLogger<IgnoredModuleResultRegistrar>.Instance,
+                new ModulePlanningSkipEvaluator(
+                    Mock.Of<IServiceProvider>(),
+                    Mock.Of<IModuleConditionHandler>(),
+                    Mock.Of<IMediator>(),
+                    Mock.Of<ISafeModuleEstimatedTimeProvider>()));
 
             var result = await registrar.RegisterIgnoredModuleResultsAsync(organizedModules);
 

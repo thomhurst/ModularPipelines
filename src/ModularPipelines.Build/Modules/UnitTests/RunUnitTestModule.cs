@@ -23,7 +23,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 /// <summary>
 /// Runs a unit test project and renders its skipped tests as structured output.
 /// </summary>
-[DependsOn<BuildSolutionsModule>(Optional = true)]
+[DependsOn<BuildSolutionsModule>]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
 [RunIfAll<ModularPipelines.Conditions.OnLinux>]
 [RequiresCapability("linux")]

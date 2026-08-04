@@ -6,4 +6,10 @@ public record SerializedModuleResult(
     int WorkerIndex,
     string SerializedJson,
     DateTimeOffset CompletedAt,
-    IReadOnlyList<ArtifactReference>? Artifacts = null);
+    IReadOnlyList<ArtifactReference>? Artifacts = null)
+{
+    /// <summary>
+    /// Gets the number of commands attributed to the module on its worker.
+    /// </summary>
+    public int CommandCount { get; init; }
+}

@@ -2,9 +2,11 @@ using Moq;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using OptionsFactory = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
@@ -89,5 +91,91 @@ public class DistributedResultCollectorTests
         }
 
         await Assert.That(threw).IsTrue();
+    }
+
+    [Test]
+    public async Task WaitForRemoteResult_AggregatesCommandCount()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(TestModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var result = new ModuleResult<TestResult>.Success(new TestResult())
+        {
+            ModuleName = nameof(TestModule),
+            ModuleTypeName = typeof(TestModule).FullName,
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+        var serialized = serializer.Serialize(
+            result,
+            typeof(TestModule).FullName!,
+            typeof(TestResult).FullName!,
+            workerIndex: 1) with
+        {
+            CommandCount = 4,
+        };
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serialized);
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var collector = new DistributedResultCollector(
+            coordinator.Object,
+            serializer,
+            commandExecutionCounter,
+            OptionsFactory.Create(new DistributedOptions { InstanceIndex = 0 }));
+
+        var collected = await collector.WaitForResultAsync(
+            typeof(TestModule).FullName!,
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandExecutionCounter.TotalCount).IsEqualTo(4);
+            await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
+            await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
+                .IsEqualTo(4);
+            await Assert.That(collected!.ModuleTypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
+        }
+    }
+
+    [Test]
+    public async Task WaitForLocalResult_DoesNotDoubleCountCommands()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(TestModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var result = new ModuleResult<TestResult>.Success(new TestResult())
+        {
+            ModuleName = nameof(TestModule),
+            ModuleTypeName = typeof(TestModule).FullName,
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+        var serialized = serializer.Serialize(
+            result,
+            typeof(TestModule).FullName!,
+            typeof(TestResult).FullName!,
+            workerIndex: 0) with
+        {
+            CommandCount = 2,
+        };
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serialized);
+        var commandExecutionCounter = new CommandExecutionCounter();
+        commandExecutionCounter.Add(typeof(TestModule), 2);
+        var collector = new DistributedResultCollector(
+            coordinator.Object,
+            serializer,
+            commandExecutionCounter,
+            OptionsFactory.Create(new DistributedOptions { InstanceIndex = 0 }));
+
+        await collector.WaitForResultAsync(typeof(TestModule).FullName!, CancellationToken.None);
+
+        await Assert.That(commandExecutionCounter.TotalCount).IsEqualTo(2);
     }
 }

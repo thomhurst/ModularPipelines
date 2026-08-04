@@ -115,7 +115,10 @@ internal class WorkerModuleExecutor(
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,
             Capabilities: capabilities,
-            RegisteredAt: DateTimeOffset.UtcNow);
+            RegisteredAt: DateTimeOffset.UtcNow)
+        {
+            ExecutionIdentifier = _options.Value.ExecutionIdentifier,
+        };
         await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
             instanceIndex, string.Join(", ", capabilities));

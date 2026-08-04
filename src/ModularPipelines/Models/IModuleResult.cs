@@ -13,6 +13,11 @@ public interface IModuleResult
     string ModuleName { get; }
 
     /// <summary>
+    /// Gets the fully qualified module type name, when available.
+    /// </summary>
+    string? ModuleTypeName => null;
+
+    /// <summary>
     /// Gets how long the module ran for.
     /// </summary>
     TimeSpan ModuleDuration { get; }

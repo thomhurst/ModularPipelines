@@ -40,6 +40,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<ExecutionOrchestrator> _logger;
+    private readonly IRunReportService _runReportService;
 
     private readonly object _lock = new();
 
@@ -57,7 +58,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IThreadPoolConfigurator threadPoolConfigurator,
         IExceptionRethrowService exceptionRethrowService,
         IOptions<PipelineOptions> options,
-        ILogger<ExecutionOrchestrator> logger)
+        ILogger<ExecutionOrchestrator> logger,
+        IRunReportService runReportService)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -71,6 +73,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _exceptionRethrowService = exceptionRethrowService;
         _options = options;
         _logger = logger;
+        _runReportService = runReportService;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
@@ -109,30 +112,32 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             () => _engineCancellationToken.CancelWithReason(
                 "The user's cancellation token passed into the pipeline was cancelled."));
 
-        _threadPoolConfigurator.Configure();
-
-        var organizedModules = await _pipelineInitializer.Initialize(cancellationToken).ConfigureAwait(false);
-
-        // Resolve ignored modules against history before cascading required dependencies.
-        organizedModules = await _ignoredModuleResultRegistrar
-            .RegisterIgnoredModuleResultsAsync(organizedModules)
-            .ConfigureAwait(false);
-
-        var runnableModules = organizedModules.RunnableModules
-            .Select(x => (IModule) x.Module)
-            .Concat(organizedModules.IgnoredModules
-                .Select(ignoredModule => ignoredModule.Module)
-                .Where(module => _resultRegistry.GetResult(module.GetType())?.ModuleStatus == Status.UsedHistory))
-            .ToList();
-
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
-
-        // Step 1: Execute pipeline, capture any exception (don't rethrow yet)
+        IReadOnlyList<IModule> allModules = [];
         PipelineSummary? summary = null;
         Exception? caughtException = null;
         try
         {
+            allModules = _pipelineInitializer.RegisteredModules ?? [];
+            _threadPoolConfigurator.Configure();
+
+            var organizedModules = await _pipelineInitializer.Initialize(cancellationToken).ConfigureAwait(false);
+            allModules = organizedModules.AllModules;
+
+            // Resolve ignored modules against history before cascading required dependencies.
+            organizedModules = await _ignoredModuleResultRegistrar
+                .RegisterIgnoredModuleResultsAsync(organizedModules)
+                .ConfigureAwait(false);
+            allModules = organizedModules.AllModules;
+
+            var runnableModules = organizedModules.RunnableModules
+                .Select(x => (IModule) x.Module)
+                .Concat(organizedModules.IgnoredModules
+                    .Select(ignoredModule => ignoredModule.Module)
+                    .Where(module => _resultRegistry.GetResult(module.GetType())?.ModuleStatus == Status.UsedHistory))
+                .ToList();
+
             summary = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -141,7 +146,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         // Step 2: Always print summary (exactly once)
-        summary = await PrintSummary(organizedModules, stopWatch, start, summary).ConfigureAwait(false);
+        summary = await PrintSummary(allModules, stopWatch, start, summary, caughtException).ConfigureAwait(false);
 
         // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
         if (caughtException != null)
@@ -166,13 +171,36 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     /// Prints the pipeline summary and flushes output. Does not throw exceptions.
     /// </summary>
     private async Task<PipelineSummary> PrintSummary(
-        OrganizedModules organizedModules,
+        IReadOnlyList<IModule> modules,
         Stopwatch stopWatch,
         DateTimeOffset start,
-        PipelineSummary? existingSummary)
+        PipelineSummary? existingSummary,
+        Exception? pipelineException)
     {
         var end = DateTimeOffset.UtcNow;
-        var summary = existingSummary ?? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+        var totalDuration = stopWatch.Elapsed;
+        var summary = existingSummary is null
+            ? _pipelineSummaryFactory.Create(modules, totalDuration, start, end)
+            : new PipelineSummary(
+                existingSummary.Modules,
+                existingSummary.Results,
+                totalDuration,
+                start,
+                end,
+                RecomputeDurationMetrics(existingSummary.Metrics, totalDuration),
+                existingSummary.ModuleTimelines)
+            {
+                StatusOverride = existingSummary.StatusOverride,
+            };
+
+        summary = summary with
+        {
+            RunReport = await _runReportService.CompleteAsync(
+                    summary,
+                    GetPipelineReportException(summary, pipelineException))
+                .ConfigureAwait(false),
+            StatusOverride = pipelineException is null ? summary.StatusOverride : Status.Failed,
+        };
 
         _outputCoordinator.PrintResults(summary);
 
@@ -194,6 +222,86 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         return summary;
+    }
+
+    private static Exception? GetPipelineReportException(
+        PipelineSummary summary,
+        Exception? pipelineException)
+    {
+        if (pipelineException is null)
+        {
+            return null;
+        }
+
+        var moduleExceptions = summary.Results
+            .Select(result => result.ExceptionOrDefault)
+            .OfType<Exception>()
+            .ToArray();
+        return RemoveModuleExceptionBranches(pipelineException, moduleExceptions);
+    }
+
+    private static Exception? RemoveModuleExceptionBranches(
+        Exception exception,
+        IReadOnlyCollection<Exception> moduleExceptions)
+    {
+        if (moduleExceptions.Any(moduleException => ReferenceEquals(exception, moduleException)))
+        {
+            return null;
+        }
+
+        if (exception is AggregateException aggregateException)
+        {
+            var remainingExceptions = aggregateException.InnerExceptions
+                .Select(innerException => RemoveModuleExceptionBranches(innerException, moduleExceptions))
+                .OfType<Exception>()
+                .ToArray();
+            if (remainingExceptions.Length == aggregateException.InnerExceptions.Count)
+            {
+                return exception;
+            }
+
+            return remainingExceptions.Length == 0
+                ? null
+                : new FilteredRunReportAggregateException(
+                    aggregateException,
+                    remainingExceptions);
+        }
+
+        if (exception.InnerException is not { } innerException)
+        {
+            return exception;
+        }
+
+        var remainingInnerException = RemoveModuleExceptionBranches(innerException, moduleExceptions);
+        if (remainingInnerException is null)
+        {
+            return exception is ModuleFailedException
+                ? null
+                : new FilteredRunReportException(exception, innerException: null);
+        }
+
+        return ReferenceEquals(remainingInnerException, innerException)
+            ? exception
+            : new FilteredRunReportException(exception, remainingInnerException);
+    }
+
+    private static PipelineMetrics? RecomputeDurationMetrics(
+        PipelineMetrics? metrics,
+        TimeSpan wallClockDuration)
+    {
+        if (metrics is null)
+        {
+            return null;
+        }
+
+        var parallelismFactor = wallClockDuration.TotalMilliseconds > 0
+            ? metrics.TotalModuleExecutionTime.TotalMilliseconds / wallClockDuration.TotalMilliseconds
+            : 1.0;
+        return metrics with
+        {
+            WallClockDuration = wallClockDuration,
+            ParallelismFactor = Math.Round(parallelismFactor, 2),
+        };
     }
 
     private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
