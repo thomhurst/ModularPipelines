@@ -57,6 +57,13 @@ and `dependency-graph.json`. Graph nodes include the module category, estimated 
 and skip status. Conditions that require runtime results or asynchronous work are shown as
 unresolved. Edges point from each dependency to the module that depends on it.
 
+Paths containing a directory separator can include `=` directly. For an ambiguous filename
+containing `=`, use the explicit path option so it is not treated as host configuration:
+
+```bash
+dotnet run -- --graph json --graph-path branch=main.json
+```
+
 You can also export programmatically:
 
 ```csharp

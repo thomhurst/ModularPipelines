@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Attributes;
@@ -98,10 +99,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         foreach (var module in modules)
         {
             var moduleType = module.GetType();
-            var receivers = _attributeEventService.GetRegistrationReceivers(moduleType)
-                .Where(receiver => !_planningSafeOnly
-                                   || receiver is IPlanningSafeModuleRegistrationEventReceiver)
-                .ToArray();
+            var receivers = GetRegistrationReceivers(moduleType);
 
             if (receivers.Length == 0)
             {
@@ -119,5 +117,29 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
             await _attributeEventInvoker.InvokeRegistrationReceiversAsync(receivers, context).ConfigureAwait(false);
         }
+    }
+
+    private IModuleRegistrationEventReceiver[] GetRegistrationReceivers(Type moduleType)
+    {
+        var receivers = _attributeEventService.GetRegistrationReceivers(moduleType);
+        if (!_planningSafeOnly)
+        {
+            return [.. receivers];
+        }
+
+        var deferredReceivers = receivers
+            .Where(static receiver => receiver is not IPlanningSafeModuleRegistrationEventReceiver)
+            .ToArray();
+        if (deferredReceivers.Length > 0)
+        {
+            throw new PipelineException(
+                $"Cannot export a resolved dependency graph because {moduleType.FullName} has "
+                + "registration receivers that are not planning-safe: "
+                + string.Join(", ", deferredReceivers.Select(receiver => receiver.GetType().FullName))
+                + $". Implement {nameof(IPlanningSafeModuleRegistrationEventReceiver)} only when "
+                + "the receiver is deterministic, idempotent, and free of external side effects.");
+        }
+
+        return [.. receivers];
     }
 }

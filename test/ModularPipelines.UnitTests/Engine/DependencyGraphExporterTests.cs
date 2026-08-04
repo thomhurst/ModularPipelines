@@ -30,6 +30,7 @@ public class DependencyGraphExporterTests
     private static int _planningDisposals;
     private static int _planningRegistrationEvents;
     private static int _directModuleActivations;
+    private static CancellationTokenSource? _planningCancellation;
     private static readonly object DependencySentinel = new();
     private static bool _externalConfigurationIncludesDependency;
     private static int _customPlanningAttributeEvaluations;
@@ -817,7 +818,8 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CountPlanningRegistrationAttribute
-        : Attribute, IModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationEventReceiver,
+            IPlanningSafeModuleRegistrationEventReceiver
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -887,6 +889,45 @@ public class DependencyGraphExporterTests
         {
             Interlocked.Increment(ref _executions);
             return Task.FromResult<string?>(factoryValue);
+        }
+    }
+
+    [CountUnsafeRegistration]
+    private sealed class UnsafeRegistrationModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("unsafe-registration");
+    }
+
+    private sealed class CountUnsafeRegistrationAttribute
+        : Attribute, IModuleRegistrationEventReceiver
+    {
+        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        {
+            Interlocked.Increment(ref _planningRegistrationEvents);
+            return Task.CompletedTask;
+        }
+    }
+
+    [CancelPlanningRegistration]
+    private sealed class CancelPlanningModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("cancel-planning");
+    }
+
+    private sealed class CancelPlanningRegistrationAttribute
+        : Attribute, IModuleRegistrationEventReceiver,
+            IPlanningSafeModuleRegistrationEventReceiver
+    {
+        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        {
+            _planningCancellation!.Cancel();
+            return Task.CompletedTask;
         }
     }
 
@@ -1387,7 +1428,11 @@ public class DependencyGraphExporterTests
         Type moduleType,
         CancellationTokenSource cancellationTokenSource) : IModuleResultRepository
     {
+        private int _readCount;
+
         public bool IsEnabled => true;
+
+        public int ReadCount => Volatile.Read(ref _readCount);
 
         public Task SaveResultAsync<T>(
             Module<T> module,
@@ -1399,6 +1444,7 @@ public class DependencyGraphExporterTests
             Module<T> module,
             IPipelineContext pipelineContext)
         {
+            Interlocked.Increment(ref _readCount);
             if (module.GetType() != moduleType)
             {
                 return Task.FromResult<ModuleResult<T>?>(null);
@@ -1720,6 +1766,36 @@ public class DependencyGraphExporterTests
             () => exporter.RenderAsync(
                 DependencyGraphFormat.Json,
                 cancellationTokenSource.Token));
+    }
+
+    [Test]
+    public async Task Initial_History_Lookup_Stops_After_Cancellation()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var repository = new CancelingModuleTypeHistoryRepository(
+            typeof(HistoricalDependencyModule),
+            cancellationTokenSource);
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<IModuleResultRepository>(repository);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules =
+            [
+                nameof(HistoricalDependencyModule),
+                nameof(DependencyModule),
+            ],
+        });
+        builder.AddModule<HistoricalDependencyModule>();
+        builder.AddModule<DependencyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => exporter.RenderAsync(
+                DependencyGraphFormat.Json,
+                cancellationTokenSource.Token));
+
+        await Assert.That(repository.ReadCount).IsEqualTo(1);
     }
 
     [Test]
@@ -2073,7 +2149,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Cache_Registration_Before_Startup_Hooks()
+    public async Task Rejected_Render_Does_Not_Cache_Registration_Before_Startup_Hooks()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
@@ -2083,7 +2159,8 @@ public class DependencyGraphExporterTests
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         var dependencyRegistry = pipeline.Services.GetRequiredService<IModuleDependencyRegistry>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
         var dependenciesBeforeRun = dependencyRegistry
             .GetDynamicDependencies(typeof(StartupDynamicDependencyModule))
             .ToArray();
@@ -2206,20 +2283,23 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Then_Run_Invokes_Registration_Receivers_Once()
+    public async Task Rejected_Render_Then_Run_Invokes_Registration_Receivers_Once()
     {
         using var builder = Pipeline.CreateBuilder();
-        builder.AddModule<DisposablePlanningModule>();
+        builder.AddModule<UnsafeRegistrationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         _planningRegistrationEvents = 0;
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
         var eventsAfterRender = _planningRegistrationEvents;
         _ = await pipeline.RunAsync();
 
         using (Assert.Multiple())
         {
+            await Assert.That(exception!.Message)
+                .Contains(nameof(IPlanningSafeModuleRegistrationEventReceiver));
             await Assert.That(eventsAfterRender).IsEqualTo(0);
             await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
         }
@@ -3035,6 +3115,35 @@ public class DependencyGraphExporterTests
             await Assert.That(exception!.InnerExceptions).HasSingleItem();
             await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Planning disposal failed.");
         }
+    }
+
+    [Test]
+    public async Task Render_Preserves_Discovery_And_Cleanup_Failures()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ThrowingDisposablePlanningModule>();
+        builder.AddModule<CancelPlanningModule>();
+        var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        _planningCancellation = cancellationTokenSource;
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(
+            () => exporter.RenderAsync(
+                DependencyGraphFormat.Json,
+                cancellationTokenSource.Token));
+        var failures = exception!.Flatten().InnerExceptions;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(failures.OfType<OperationCanceledException>()).HasSingleItem();
+            await Assert.That(failures.Any(failure =>
+                    failure.Message == "Planning disposal failed."))
+                .IsTrue();
+        }
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => pipeline.DisposeAsync().AsTask());
     }
 
     [Test]

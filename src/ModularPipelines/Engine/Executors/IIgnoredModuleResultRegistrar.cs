@@ -24,14 +24,16 @@ internal interface IIgnoredModuleResultRegistrar
         OrganizedModules organizedModules,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
-        IReadOnlyDictionary<IModule, IModule> historyModules);
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Resolves which newly ignored planning modules have historical results.
     /// </summary>
     Task<IReadOnlySet<Type>> ResolveHistoryModuleTypesAsync(
         IEnumerable<IModule> ignoredModules,
-        IReadOnlyDictionary<IModule, IModule> historyModules);
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken);
 }
 
 internal sealed record IgnoredModuleResolution(

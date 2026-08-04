@@ -142,15 +142,34 @@ internal sealed class ModuleDiscoveryPlanner(
                 ownedPlanningModules,
                 planningScope);
         }
-        catch
+        catch (Exception discoveryException)
         {
+            Exception? moduleCleanupException = null;
+            Exception? scopeCleanupException = null;
             try
             {
                 await DisposePlanningModulesAsync(ownedPlanningModules).ConfigureAwait(false);
             }
-            finally
+            catch (Exception exception)
+            {
+                moduleCleanupException = exception;
+            }
+
+            try
             {
                 await planningScope.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                scopeCleanupException = exception;
+            }
+
+            if (moduleCleanupException is not null || scopeCleanupException is not null)
+            {
+                throw new AggregateException(
+                    "Module discovery and planning cleanup both failed.",
+                    new[] { discoveryException, moduleCleanupException, scopeCleanupException }
+                        .OfType<Exception>());
             }
 
             throw;

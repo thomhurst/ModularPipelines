@@ -1069,6 +1069,41 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandAcceptsPathContainingEqualsSign()
+    {
+        var options = PipelineCommandLineParser.Parse(
+            ["--graph", "json", "artifacts/branch=main.json"]);
+
+        await Assert.That(options.GraphPath)
+            .IsEqualTo("artifacts/branch=main.json");
+    }
+
+    [Test]
+    public async Task GraphCommandAcceptsExplicitAmbiguousPath()
+    {
+        var options = PipelineCommandLineParser.Parse(
+            ["--graph", "json", "--graph-path", "branch=main.json"]);
+
+        await Assert.That(options.GraphPath).IsEqualTo("branch=main.json");
+    }
+
+    [Test]
+    public async Task GraphPathOptionRequiresGraphCommand()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph-path", "branch=main.json"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task GraphCommandRejectsDuplicatePaths()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph", "json", "graph.json", "--graph-path", "other.json"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
     [Arguments("0")]
     [Arguments("1")]
     [Arguments("2")]

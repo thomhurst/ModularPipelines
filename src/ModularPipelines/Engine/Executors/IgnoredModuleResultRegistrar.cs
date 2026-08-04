@@ -47,7 +47,8 @@ internal class IgnoredModuleResultRegistrar(
                 _dependencyRegistry,
                 _metadataRegistry,
                 registerResults: true,
-                historyModules: null)
+                historyModules: null,
+                CancellationToken.None)
             .ConfigureAwait(false);
         return resolution.OrganizedModules;
     }
@@ -57,18 +58,21 @@ internal class IgnoredModuleResultRegistrar(
         OrganizedModules organizedModules,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
-        IReadOnlyDictionary<IModule, IModule> historyModules) =>
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken) =>
         ResolveIgnoredModuleResultsCoreAsync(
             organizedModules,
             dependencyRegistry,
             metadataRegistry,
             registerResults: false,
-            historyModules);
+            historyModules,
+            cancellationToken);
 
     /// <inheritdoc />
     public async Task<IReadOnlySet<Type>> ResolveHistoryModuleTypesAsync(
         IEnumerable<IModule> ignoredModules,
-        IReadOnlyDictionary<IModule, IModule> historyModules)
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken)
     {
         var usedHistoryModuleTypes = new HashSet<Type>();
         if (IsDistributedWorker())
@@ -79,9 +83,11 @@ internal class IgnoredModuleResultRegistrar(
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         foreach (var module in ignoredModules.Distinct<IModule>(ReferenceEqualityComparer.Instance))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var historicalResult = await _resultHistoryProvider
                 .TryGetAsync(historyModules[module], pipelineContext)
                 .ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             if (historicalResult is not null)
             {
                 usedHistoryModuleTypes.Add(module.GetType());
@@ -96,7 +102,8 @@ internal class IgnoredModuleResultRegistrar(
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         bool registerResults,
-        IReadOnlyDictionary<IModule, IModule>? historyModules)
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken)
     {
         if (IsDistributedWorker())
         {
@@ -118,6 +125,7 @@ internal class IgnoredModuleResultRegistrar(
             {
                 foreach (var ignoredModule in pendingIgnoredModules)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     var historyModule = historyModules is null
                         ? ignoredModule.Module
                         : historyModules[ignoredModule.Module];
@@ -126,6 +134,7 @@ internal class IgnoredModuleResultRegistrar(
                             historyModule,
                             pipelineContext)
                         .ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
                     var moduleType = ignoredModule.Module.GetType();
                     if (result.ModuleStatus == Status.UsedHistory)
                     {
@@ -143,7 +152,8 @@ internal class IgnoredModuleResultRegistrar(
                     }
                 }
             },
-            skippedModuleTypes.Contains)
+            skippedModuleTypes.Contains,
+            cancellationToken)
             .ConfigureAwait(false);
         var remainingModules = cascadeResult.RunnableModules.ToHashSet<IModule>(
             ReferenceEqualityComparer.Instance);

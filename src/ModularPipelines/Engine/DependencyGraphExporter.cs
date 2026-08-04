@@ -96,7 +96,8 @@ internal sealed class DependencyGraphExporter(
                 organizedModules,
                 planningDiscovery.DependencyRegistry,
                 planningDiscovery.MetadataRegistry,
-                planningDiscovery.OriginalModules)
+                planningDiscovery.OriginalModules,
+                cancellationToken)
             .ConfigureAwait(false);
         organizedModules = ignoredModuleResolution.OrganizedModules;
         ValidateRunnableModules(
@@ -117,7 +118,8 @@ internal sealed class DependencyGraphExporter(
                 conditionResolution.OrganizedModules.IgnoredModules
                     .Select(ignored => ignored.Module)
                     .Where(module => !ignoredBeforeRunConditions.Contains(module)),
-                planningDiscovery.OriginalModules)
+                planningDiscovery.OriginalModules,
+                cancellationToken)
             .ConfigureAwait(false);
         var usedHistoryModuleTypes = ignoredModuleResolution.UsedHistoryModuleTypes
             .Concat(runConditionHistoryTypes)
@@ -269,7 +271,10 @@ internal sealed class DependencyGraphExporter(
                     if (unresolvedModules.Length > 0)
                     {
                         var resolvedHistoryModuleTypes = await ignoredModuleResultRegistrar
-                            .ResolveHistoryModuleTypesAsync(unresolvedModules, originalModules)
+                            .ResolveHistoryModuleTypesAsync(
+                                unresolvedModules,
+                                originalModules,
+                                cancellationToken)
                             .ConfigureAwait(false);
                         cancellationToken.ThrowIfCancellationRequested();
                         usedHistoryModuleTypes.UnionWith(resolvedHistoryModuleTypes);

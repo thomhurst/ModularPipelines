@@ -12,6 +12,7 @@ internal static class PipelineCommandLineParser
     private const string CategoriesOption = "--categories";
     private const string IgnoreCategoriesOption = "--ignore-categories";
     private const string GraphOption = "--graph";
+    private const string GraphPathOption = "--graph-path";
 
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
     {
@@ -48,7 +49,17 @@ internal static class PipelineCommandLineParser
             {
                 command = SetCommand(command, PipelineCommand.ExportGraph, argument);
                 graphFormat = parsedGraphFormat;
-                graphPath = parsedGraphPath ?? GetDefaultGraphPath(parsedGraphFormat);
+                if (parsedGraphPath is not null)
+                {
+                    graphPath = SetGraphPath(graphPath, parsedGraphPath);
+                }
+
+                continue;
+            }
+
+            if (TryReadGraphPath(arguments, ref index, out var parsedExplicitGraphPath))
+            {
+                graphPath = SetGraphPath(graphPath, parsedExplicitGraphPath);
                 continue;
             }
 
@@ -67,6 +78,18 @@ internal static class PipelineCommandLineParser
             }
 
             hostArguments.Add(argument);
+        }
+
+        if (graphPath is not null && graphFormat is null)
+        {
+            throw new ArgumentException(
+                $"Command-line option '{GraphPathOption}' requires '{GraphOption}'.",
+                nameof(arguments));
+        }
+
+        if (graphFormat is { } resolvedGraphFormat)
+        {
+            graphPath ??= GetDefaultGraphPath(resolvedGraphFormat);
         }
 
         return new PipelineCommandLineOptions(
@@ -138,7 +161,55 @@ internal static class PipelineCommandLineParser
 
     private static bool IsGraphPath(string argument) =>
         !argument.StartsWith("--", StringComparison.Ordinal)
-        && !argument.Contains('=');
+        && (!argument.Contains('=')
+            || argument.Contains(Path.DirectorySeparatorChar)
+            || argument.Contains(Path.AltDirectorySeparatorChar));
+
+    private static bool TryReadGraphPath(
+        IReadOnlyList<string> arguments,
+        ref int index,
+        out string path)
+    {
+        var argument = arguments[index];
+        if (argument.Equals(GraphPathOption, StringComparison.OrdinalIgnoreCase))
+        {
+            if (++index >= arguments.Count || arguments[index].StartsWith("--", StringComparison.Ordinal))
+            {
+                throw new ArgumentException(
+                    $"Command-line option '{GraphPathOption}' requires a path.",
+                    nameof(arguments));
+            }
+
+            path = arguments[index];
+            return true;
+        }
+
+        if (argument.StartsWith($"{GraphPathOption}=", StringComparison.OrdinalIgnoreCase))
+        {
+            path = argument[(GraphPathOption.Length + 1)..];
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException(
+                    $"Command-line option '{GraphPathOption}' requires a path.",
+                    nameof(arguments));
+            }
+
+            return true;
+        }
+
+        path = string.Empty;
+        return false;
+    }
+
+    private static string SetGraphPath(string? current, string requested)
+    {
+        if (current is not null)
+        {
+            throw new ArgumentException("A dependency graph path can only be specified once.");
+        }
+
+        return requested;
+    }
 
     private static string GetDefaultGraphPath(DependencyGraphFormat format) =>
         format switch
