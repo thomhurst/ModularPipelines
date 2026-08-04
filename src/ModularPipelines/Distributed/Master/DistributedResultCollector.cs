@@ -23,7 +23,10 @@ internal class DistributedResultCollector(
         if (result is ModuleResult { ModuleType: { } moduleType }
             && serialized.WorkerIndex != _distributedOptions?.Value.InstanceIndex)
         {
-            _commandExecutionCounter?.AddRemote(moduleType, serialized.CommandCount);
+            _commandExecutionCounter?.AddRemote(
+                moduleType,
+                serialized.WorkerIndex,
+                serialized.CommandCount);
         }
 
         return result;

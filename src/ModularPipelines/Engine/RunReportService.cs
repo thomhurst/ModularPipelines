@@ -338,8 +338,17 @@ internal sealed class RunReportService(
         }
 
         var remoteCounts = commandExecutionCounter.GetRemoteModuleCounts();
+        var finalModuleIdentifiersByWorker = completedWorkers
+            .Where(static worker => worker.ModuleCommandCounts is not null)
+            .ToDictionary(
+                static worker => worker.WorkerIndex,
+                static worker => worker.ModuleCommandCounts!.Keys.ToHashSet(StringComparer.Ordinal));
         var unmatchedRecordedRemoteCount = remoteCounts
-            .Where(count => !finalCounts.ContainsKey(ModuleTypeIdentifier.Get(count.Key)))
+            .Where(count => finalModuleIdentifiersByWorker.TryGetValue(
+                                count.Key.WorkerIndex,
+                                out var finalModuleIdentifiers)
+                            && !finalModuleIdentifiers.Contains(
+                                ModuleTypeIdentifier.Get(count.Key.ModuleType)))
             .Sum(static count => count.Value);
         commandExecutionCounter.Add(
             null,

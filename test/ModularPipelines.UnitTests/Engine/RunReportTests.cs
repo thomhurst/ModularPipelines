@@ -1590,10 +1590,13 @@ public class RunReportTests
     }
 
     [Test]
-    [Arguments(3, 0)]
-    [Arguments(1, 2)]
+    [Arguments(3, 1, 3, 0)]
+    [Arguments(1, 1, 3, 2)]
+    [Arguments(3, 2, 6, 3)]
     public async Task DistributedMasterAddsOnlyMissingUnmatchedWorkerMetrics(
         int collectedRemoteCount,
+        int collectedRemoteWorkerIndex,
+        int expectedCommandCount,
         int expectedUnattributedCount)
     {
         var runStartedAt = DateTimeOffset.UtcNow;
@@ -1602,11 +1605,12 @@ public class RunReportTests
         {
             Enabled = true,
             InstanceIndex = 0,
-            TotalInstances = 2,
+            TotalInstances = 3,
         });
         var coordinator = new Mock<IDistributedCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync([
+            .ReturnsAsync(() =>
+            [
                 new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
                 {
                     UnattributedCommandCount = 0,
@@ -1615,9 +1619,15 @@ public class RunReportTests
                         ["worker-load-context-identifier"] = 3,
                     },
                 },
+                .. collectedRemoteWorkerIndex == 1
+                    ? Array.Empty<WorkerRegistration>()
+                    : [new WorkerRegistration(2, new HashSet<string>(), runStartedAt)],
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
-        commandExecutionCounter.AddRemote(typeof(SuccessfulModule), collectedRemoteCount);
+        commandExecutionCounter.AddRemote(
+            typeof(SuccessfulModule),
+            collectedRemoteWorkerIndex,
+            collectedRemoteCount);
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
 
@@ -1634,7 +1644,8 @@ public class RunReportTests
                 new RoleDetector(distributedOptions),
                 coordinator.Object,
                 commandExecutionCounter,
-                NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -1646,7 +1657,7 @@ public class RunReportTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(report.CommandCount).IsEqualTo(3);
+                await Assert.That(report.CommandCount).IsEqualTo(expectedCommandCount);
                 await Assert.That(report.UnattributedCommandCount).IsEqualTo(expectedUnattributedCount);
                 await Assert.That(report.Modules.Single().CommandCount).IsEqualTo(collectedRemoteCount);
             }
