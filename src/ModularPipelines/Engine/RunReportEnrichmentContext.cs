@@ -17,7 +17,7 @@ public sealed class RunReportEnrichmentContext
     public RunReportEnrichmentContext(
         string runId,
         string pipelineIdentity,
-        string hostname,
+        string? hostname,
         BuildSystem buildSystem)
     {
         RunId = runId;
@@ -62,11 +62,10 @@ public sealed class RunReportEnrichmentContext
     public BuildSystem BuildSystem { get; set; }
 
     internal RunReportEnrichmentContext Copy() =>
-        new(RunId, PipelineIdentity, Hostname ?? string.Empty, BuildSystem)
+        new(RunId, PipelineIdentity, Hostname, BuildSystem)
         {
             GitSha = GitSha,
             GitBranch = GitBranch,
-            Hostname = Hostname,
             CiRunUrl = CiRunUrl,
         };
 }
