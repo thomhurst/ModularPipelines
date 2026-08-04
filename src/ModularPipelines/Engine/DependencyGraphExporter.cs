@@ -213,10 +213,21 @@ internal sealed class DependencyGraphExporter(
             .GetOrganizedModules(cancellationToken)
             .ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
-        dependencyChainProvider.Initialize(organizedModules.AllModules);
+        if (!dependencyChainProvider.IsInitialized)
+        {
+            dependencyChainProvider.Initialize(organizedModules.AllModules);
+        }
+
         var models = dependencyChainProvider.ModuleDependencyModels
             .OrderBy(model => GetModuleFullName(model.Module), StringComparer.Ordinal)
             .ToArray();
+        var uniqueModelTypeNames = models
+            .Select(model => model.Module.GetType())
+            .Where(static type => type.FullName is not null)
+            .GroupBy(static type => type.FullName!, StringComparer.Ordinal)
+            .Where(static group => group.Count() == 1)
+            .Select(static group => group.Key)
+            .ToHashSet(StringComparer.Ordinal);
         var resultsByType = pipelineSummary.Results
             .OfType<ModuleResult>()
             .Where(static result => result.ModuleType is not null)
@@ -239,7 +250,8 @@ internal sealed class DependencyGraphExporter(
                 var moduleType = model.Module.GetType();
                 resultsByType.TryGetValue(moduleType, out var result);
                 if (result is null
-                    && moduleType.FullName is { } moduleTypeName)
+                    && moduleType.FullName is { } moduleTypeName
+                    && uniqueModelTypeNames.Contains(moduleTypeName))
                 {
                     deserializedResultsByTypeName.TryGetValue(moduleTypeName, out result);
                 }

@@ -4339,6 +4339,68 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task RenderSummary_Does_Not_Match_Ambiguous_Destination_Type_Names()
+    {
+        const string typeName = "Duplicate.DeserializedSummaryModule";
+        var firstType = CreateDynamicSummaryModuleType("DeserializedSummaryAssemblyOne", typeName);
+        var secondType = CreateDynamicSummaryModuleType("DeserializedSummaryAssemblyTwo", typeName);
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModules(firstType, secondType);
+        await using var pipeline = await builder.BuildAsync();
+        _ = await pipeline.RunAsync();
+        var modules = pipeline.Services.GetServices<IModule>().ToArray();
+        var now = DateTimeOffset.UtcNow;
+        var result = new ModuleResult.Skipped(SkipDecision.Skip("ambiguous skip"))
+        {
+            ModuleName = "DeserializedSummaryModule",
+            ModuleTypeName = typeName,
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = now,
+            ModuleEnd = now,
+            ModuleStatus = Status.Skipped,
+        };
+        var summary = new PipelineSummary(
+            modules,
+            [result],
+            TimeSpan.Zero,
+            now,
+            now);
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderSummaryAsync(DependencyGraphFormat.Json, summary));
+        var nodes = document.RootElement.GetProperty("nodes").EnumerateArray().ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(nodes).Count().IsEqualTo(2);
+            await Assert.That(nodes.All(node => !node.GetProperty("skipped").GetBoolean())).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task RenderSummary_Reuses_Initialized_Dependency_Models()
+    {
+        _customDependencyPredicateEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<RuntimePredicateConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync();
+        var evaluationsAfterRun = _customDependencyPredicateEvaluations;
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderSummaryAsync(DependencyGraphFormat.Json, summary));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_customDependencyPredicateEvaluations).IsEqualTo(evaluationsAfterRun);
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task RenderSummary_Matches_Deserialized_Result_By_Type_Name()
     {
         using var builder = Pipeline.CreateBuilder();

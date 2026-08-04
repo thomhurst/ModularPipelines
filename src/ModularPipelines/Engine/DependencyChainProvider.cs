@@ -10,6 +10,8 @@ internal class DependencyChainProvider : IDependencyChainProvider
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly bool _planningSafeOnly;
 
+    public bool IsInitialized { get; private set; }
+
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
     public DependencyChainProvider(
@@ -33,6 +35,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
         }
 
         ModuleDependencyModels = Detect(modules.Select(x => new ModuleDependencyModel(x)).ToArray());
+        IsInitialized = true;
     }
 
     private ModuleDependencyModel[] Detect(ModuleDependencyModel[] allModules)
