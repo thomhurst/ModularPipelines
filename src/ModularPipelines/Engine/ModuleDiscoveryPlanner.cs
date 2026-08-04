@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -555,7 +556,7 @@ internal sealed class ModuleDiscoveryPlanner(
         IPlanningModuleCopyProvider copyProvider)
     {
         if (!copyProvider.IsConfigurationInitialized
-            || module.Configuration.PlanningSkipCondition is not { } planningCondition
+            || module.Configuration.SynchronousPlanningSkipCondition is not { } planningCondition
             || !ReferencesObject(planningCondition, module, new HashSet<object>(ReferenceEqualityComparer.Instance)))
         {
             return;
@@ -604,7 +605,14 @@ internal sealed class ModuleDiscoveryPlanner(
 
         if (value is Array array)
         {
-            return array.Cast<object?>().Any(item => ReferencesObject(item, target, visited));
+            return array.Cast<object?>().Any(item =>
+                ReferencesObject(item, target, visited, inspectFields: true));
+        }
+
+        var inspectCollectionFields = value is IEnumerable;
+        if (inspectCollectionFields)
+        {
+            inspectFields = true;
         }
 
         if (!inspectFields
@@ -620,7 +628,11 @@ internal sealed class ModuleDiscoveryPlanner(
                     | BindingFlags.Public
                     | BindingFlags.NonPublic
                     | BindingFlags.DeclaredOnly)
-                .Any(field => ReferencesObject(field.GetValue(value), target, visited)))
+                .Any(field => ReferencesObject(
+                    field.GetValue(value),
+                    target,
+                    visited,
+                    inspectCollectionFields)))
             {
                 return true;
             }

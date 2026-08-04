@@ -298,22 +298,15 @@ internal sealed class DependencyGraphExporter(
         var unresolvedSkipDecisionTypes = new HashSet<Type>();
         foreach (var runnableModule in organizedModules.RunnableModules)
         {
-            var canEvaluateAttributeConditions = ModuleConditionHandler
-                .CanEvaluateConditionAttributesForPlanning(runnableModule.Module.GetType());
-            var (shouldIgnore, skipDecision) = canEvaluateAttributeConditions
-                ? await moduleConditionHandler
-                    .ShouldIgnoreForPlanning(
-                        runnableModule.Module,
-                        graphMetadataRegistry,
-                        cancellationToken)
-                    .ConfigureAwait(false)
-                : await moduleConditionHandler
-                    .ShouldIgnoreByCategory(
-                        runnableModule.Module,
-                        graphMetadataRegistry,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            if (!shouldIgnore && !canEvaluateAttributeConditions)
+            var conditionResult = await moduleConditionHandler
+                .ShouldIgnoreForGraphPlanning(
+                    runnableModule.Module,
+                    graphMetadataRegistry,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            var shouldIgnore = conditionResult.ShouldIgnore;
+            var skipDecision = conditionResult.SkipDecision;
+            if (!shouldIgnore && !conditionResult.IsResolved)
             {
                 unresolvedSkipDecisionTypes.Add(runnableModule.Module.GetType());
             }

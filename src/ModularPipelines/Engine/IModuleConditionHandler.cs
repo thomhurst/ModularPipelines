@@ -25,4 +25,14 @@ internal interface IModuleConditionHandler
         IModule module,
         IModuleMetadataRegistry metadataRegistry,
         CancellationToken cancellationToken = default);
+
+    Task<PlanningConditionResult> ShouldIgnoreForGraphPlanning(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default);
 }
+
+internal sealed record PlanningConditionResult(
+    bool ShouldIgnore,
+    SkipDecision? SkipDecision,
+    bool IsResolved);

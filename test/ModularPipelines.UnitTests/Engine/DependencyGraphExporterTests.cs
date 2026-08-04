@@ -174,6 +174,11 @@ public class DependencyGraphExporterTests
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
+    private sealed class AlwaysSkipCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
     private sealed class StartupStateCondition : IPlanningRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) =>
@@ -856,6 +861,58 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private sealed class RuntimeBoundCollectionFactorySkipModule(bool shouldSkip) : Module<string>
+    {
+        public int PlanningEvaluations { get; private set; }
+
+        protected override ModuleConfiguration Configure()
+        {
+            var target = new RuntimeBoundCollectionSkipTarget([this], shouldSkip);
+            return ModuleConfiguration.Create()
+                .WithSkipWhen(target.ShouldSkip)
+                .Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("runtime-bound-collection-factory-skip");
+
+        private sealed class RuntimeBoundCollectionSkipTarget(
+            IReadOnlyList<IModule> modules,
+            bool shouldSkip)
+        {
+            public SkipDecision ShouldSkip(IModuleContext _)
+            {
+                ((RuntimeBoundCollectionFactorySkipModule) modules[0]).PlanningEvaluations++;
+                return shouldSkip
+                    ? SkipDecision.Skip("factory requested a skip")
+                    : SkipDecision.DoNotSkip;
+            }
+        }
+    }
+
+    private sealed class RuntimeBoundAsyncFactorySkipModule(bool shouldSkip) : Module<string>
+    {
+        public int PlanningEvaluations { get; private set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (_, _) =>
+            {
+                PlanningEvaluations++;
+                await Task.Yield();
+                return shouldSkip
+                    ? SkipDecision.Skip("factory requested a skip")
+                    : SkipDecision.DoNotSkip;
+            })
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("runtime-bound-async-factory-skip");
+    }
+
     private sealed class ConfigurationThrowingDisposableFactoryModule : Module<string>, IDisposable
     {
         public static int Disposals;
@@ -909,6 +966,16 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("async-attribute-condition");
+    }
+
+    [AsyncPlanningCondition]
+    [SkipIf<AlwaysSkipCondition>]
+    private sealed class SafeSkipWithAsyncAttributeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("safe-skip-with-async-attribute");
     }
 
     [SingleUseCondition]
@@ -1625,6 +1692,25 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(node.GetProperty("skipped").ValueKind)
                 .IsEqualTo(JsonValueKind.Null);
+            await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Safe_Attribute_Skip_Remains_Definitive_With_Async_Attribute()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SafeSkipWithAsyncAttributeModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
             await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
         }
     }
@@ -2392,6 +2478,48 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(runtimeModule!.PlanningEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Runtime_Bound_Collection_Skip_Condition()
+    {
+        RuntimeBoundCollectionFactorySkipModule? runtimeModule = null;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ =>
+            runtimeModule = new RuntimeBoundCollectionFactorySkipModule(shouldSkip: true));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(runtimeModule!.PlanningEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Validate_Unused_Async_Factory_Skip_Condition()
+    {
+        RuntimeBoundAsyncFactorySkipModule? runtimeModule = null;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ =>
+            runtimeModule = new RuntimeBoundAsyncFactorySkipModule(shouldSkip: true));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").ValueKind)
+                .IsEqualTo(JsonValueKind.Null);
             await Assert.That(runtimeModule!.PlanningEvaluations).IsEqualTo(0);
         }
     }
