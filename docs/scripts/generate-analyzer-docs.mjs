@@ -10,8 +10,6 @@ const checkOnly = process.argv.includes('--check');
 const releaseFiles = [
   'src/ModularPipelines.Analyzers/ModularPipelines.Analyzers/AnalyzerReleases.Shipped.md',
   'src/ModularPipelines.Analyzers/ModularPipelines.Analyzers/AnalyzerReleases.Unshipped.md',
-  'src/ModularPipelines.Development.Analyzers/AnalyzerReleases.Shipped.md',
-  'src/ModularPipelines.Development.Analyzers/AnalyzerReleases.Unshipped.md',
 ];
 
 const rules = new Map();

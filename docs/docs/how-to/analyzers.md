@@ -46,8 +46,6 @@ The legacy prose IDs were renamed so `.editorconfig` settings can use one predic
 | `MPDEP001` | `MP0009` |
 | `MPDEP002` | `MP0005` |
 | `MPDEP003` | `MP0010` |
-| `MPD0001` | `MP0011` |
-| `MPD0002` | `MP0012` |
 | `MPREG001` | `MP0013` |
 | `MPASYNC001` | `MP0014` |
 | `MPASYNC002` | `MP0015` |

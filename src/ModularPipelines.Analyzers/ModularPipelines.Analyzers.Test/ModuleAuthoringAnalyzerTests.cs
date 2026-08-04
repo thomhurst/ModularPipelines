@@ -706,7 +706,7 @@ public class ModuleAuthoringAnalyzerTests
             {{Header}}
             using Microsoft.Extensions.DependencyInjection;
 
-            internal class BuildModule : Module<List<string>>
+            public class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -1137,7 +1137,7 @@ public class ModuleAuthoringAnalyzerTests
             {{Header}}
             using Microsoft.Extensions.DependencyInjection;
 
-            internal class BuildModule : Module<List<string>>
+            public class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -1466,6 +1466,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Modules_Registered_In_Fluent_Chain()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class FirstModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class SecondModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder()
+                    .AddModule<FirstModule>()
+                    .AddModule<SecondModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Require_Registration_In_Reusable_Library()
     {
         var source = $$"""
@@ -1549,12 +1578,12 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_When_Params_Type_Array_Property_Cannot_Be_Resolved()
+    public async Task Reports_NonPublic_Module_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
             {{Header}}
 
-            internal class BuildModule : Module<List<string>>
+            internal class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -1571,7 +1600,10 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var expected = VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.NonPublicModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -5990,7 +6022,7 @@ public class ModuleAuthoringAnalyzerTests
             {{Header}}
             using Microsoft.Extensions.DependencyInjection;
 
-            internal class BuildModule : Module<List<string>>
+            public class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -6098,7 +6130,7 @@ public class ModuleAuthoringAnalyzerTests
             {{Header}}
             using Microsoft.Extensions.DependencyInjection;
 
-            internal class BuildModule : Module<List<string>>
+            public class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -6251,7 +6283,7 @@ public class ModuleAuthoringAnalyzerTests
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
 
-            internal class UnknownModule : Module<List<string>>
+            public class UnknownModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }

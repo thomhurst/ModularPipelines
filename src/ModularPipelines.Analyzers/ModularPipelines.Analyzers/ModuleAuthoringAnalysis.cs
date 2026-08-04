@@ -1042,10 +1042,16 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsModuleRegistrationMethod(IMethodSymbol method)
     {
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        var containingType = definition.ContainingType;
+        var isRegistrationType = containingType.ToDisplayString() is
+                                     "ModularPipelines.Extensions.PipelineBuilderExtensions"
+                                     or "ModularPipelines.Extensions.ServiceCollectionExtensions"
+                                 || (containingType.Name == "ModuleRegistration"
+                                     && containingType.Arity == 1
+                                     && containingType.ContainingNamespace.ToDisplayString()
+                                     == "ModularPipelines");
         return definition.ContainingAssembly.Name == "ModularPipelines"
-               && definition.ContainingType.ToDisplayString() is
-                   "ModularPipelines.Extensions.PipelineBuilderExtensions"
-                   or "ModularPipelines.Extensions.ServiceCollectionExtensions"
+               && isRegistrationType
                && definition.Name is
                    "AddModule"
                    or "AddModules"
@@ -3502,12 +3508,6 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
-        // A runtime-computed Type[] can register any module in this compilation.
-        if (!unresolvedModuleRegistrations.IsEmpty)
-        {
-            return;
-        }
-
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
             .ToImmutableArray();
@@ -3524,6 +3524,13 @@ internal static class ModuleAuthoringAnalysis
                 context,
                 module,
                 ModuleRegistrationAnalyzer.NonPublicModuleRule);
+        }
+
+        // A runtime-computed Type[] can register any module in this compilation,
+        // but it cannot change whether a module declaration is public.
+        if (!unresolvedModuleRegistrations.IsEmpty)
+        {
+            return;
         }
 
         if (!IsApplication(context.Compilation.Options.OutputKind))

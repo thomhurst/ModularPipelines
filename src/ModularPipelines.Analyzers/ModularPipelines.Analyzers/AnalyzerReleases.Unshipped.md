@@ -19,11 +19,7 @@ MP0016 | Usage | Warning | ExecuteAsync cancellation token is not flowed
 MP0017 | Usage | Warning | Thread.Sleep in ExecuteAsync
 MP0018 | Usage | Warning | Module class is not public
 MP0019 | Usage | Warning | Duplicate DependsOn declaration
-AwaitThis | Usage | Error | Prohibit await this in modules
-StatefulModule | Design | Warning | Detects mutable instance fields in modules that could leak state between executions
-MPDEP001 | Usage | Error | DependsOn type does not implement IModule
 MPDEP002 | Usage | Error | Circular dependency detected between modules (renamed from ConflictingDependsOnAttribute)
-MPDEP003 | Usage | Error | Module depends on itself
 MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
 MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
@@ -40,3 +36,7 @@ LoggerInConstructor | Usage | Error | Renamed to MP0003
 ConsoleUse | Usage | Error | Renamed to MP0004
 ConflictingDependsOnAttribute | Usage | Error | Renamed to MP0005
 AsyncModule | Usage | Error | Renamed to MP0006
+AwaitThis | Usage | Error | Renamed to MP0007
+StatefulModule | Design | Warning | Renamed to MP0008
+MPDEP001 | Usage | Error | Renamed to MP0009
+MPDEP003 | Usage | Error | Renamed to MP0010

@@ -20,8 +20,6 @@ sidebar_position: 1
 | [`MP0008`](./MP0008.md) | Design | Warning | Declares mutable instance state that can leak between module executions. |
 | [`MP0009`](./MP0009.md) | Usage | Error | References a dependency type that does not implement IModule. |
 | [`MP0010`](./MP0010.md) | Usage | Error | Declares a module dependency on itself. |
-| [`MP0011`](./MP0011.md) | Usage | Warning | Requires generated CLI option properties to be virtual. |
-| [`MP0012`](./MP0012.md) | Usage | Warning | Requires generated CLI command methods to be virtual. |
 | [`MP0013`](./MP0013.md) | Usage | Warning | Module is not registered with the pipeline. |
 | [`MP0014`](./MP0014.md) | Usage | Warning | Async void method in a module. |
 | [`MP0015`](./MP0015.md) | Usage | Warning | Blocking call in ExecuteAsync. |
