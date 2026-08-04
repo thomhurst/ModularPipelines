@@ -94,7 +94,17 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (scheduler != null)
             {
-                await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                try
+                {
+                    await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                }
+                catch (Exception alwaysRunException)
+                {
+                    throw new AggregateException(
+                        "Pipeline execution and AlwaysRun teardown both failed.",
+                        outerEx,
+                        alwaysRunException);
+                }
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
