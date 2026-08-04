@@ -119,7 +119,7 @@ public static class GeneratedOptionsSmokeTestHarness
                      .Where(argument => argument.Attribute.Required))
         {
             var property = GetProperty(optionsType, argument.PropertyName);
-            SetValue(options, property, CreateSample(property.PropertyType));
+            SetValueIfAssignable(options, property, CreateSample(property.PropertyType));
         }
     }
 
@@ -365,7 +365,7 @@ public static class GeneratedOptionsSmokeTestHarness
             return;
         }
 
-        var backingField = (property.DeclaringType?.GetField(
+        var backingField = property.DeclaringType?.GetField(
             $"<{property.Name}>k__BackingField",
             BindingFlags.Instance | BindingFlags.NonPublic);
 

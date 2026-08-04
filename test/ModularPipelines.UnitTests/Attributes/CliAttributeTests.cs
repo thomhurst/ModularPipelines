@@ -591,19 +591,20 @@ public class CliAttributeTests
         public bool? Debug { get; set; }
     }
 
-    private record TestCliOptionsWithRequiredArgument
+    internal record TestCliOptionsWithRequiredArgument : CommandLineToolOptions
     {
         [CliArgument(0, Required = true)]
         public string? Chart { get; set; }
     }
 
-    private record TestCliOptionsWithRequiredArgumentCollection
+    internal record TestCliOptionsWithRequiredArgumentCollection : CommandLineToolOptions
     {
         [CliArgument(0, Required = true)]
         public IEnumerable<string>? Files { get; set; }
     }
 
-    private sealed class TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
+    internal sealed record TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
+        : CommandLineToolOptions
     {
         public int GetterCount { get; private set; }
 
