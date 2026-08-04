@@ -29,7 +29,14 @@ public sealed record RunReportOptions
 
     /// <summary>
     /// Gets the maximum number of reports retained by the default history store.
-    /// History is retained independently of JSON report writing. Set to zero to disable it.
+    /// The limit applies independently to each pipeline identity. History is retained independently
+    /// of JSON report writing. Set to zero to disable it.
     /// </summary>
     public int HistoryRetention { get; init; } = 20;
+
+    /// <summary>
+    /// Gets the maximum total number of reports retained by the default history store across all
+    /// pipeline identities. Set to zero to disable the global limit.
+    /// </summary>
+    public int GlobalHistoryRetention { get; init; } = 200;
 }

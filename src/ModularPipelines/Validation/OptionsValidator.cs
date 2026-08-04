@@ -77,6 +77,14 @@ internal class OptionsValidator : IOptionsValidator
                 $"{options.RunReport.HistoryRetention}"));
         }
 
+        if (options.RunReport.GlobalHistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention cannot be negative. Current value: " +
+                $"{options.RunReport.GlobalHistoryRetention}"));
+        }
+
         if (options.RunReport.HistoryRetention > 0
             && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
         {

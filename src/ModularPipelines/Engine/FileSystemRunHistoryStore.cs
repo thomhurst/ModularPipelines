@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -13,6 +14,8 @@ internal sealed class FileSystemRunHistoryStore(
     ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
+    private const string FileTimestampFormat = "yyyyMMddHHmmssfffffff";
+    private const int IdentityHashLength = 64;
     private const int MinimumCompatibleSchemaVersion = 1;
 
     public Task<PipelineRunReport?> GetLatestAsync(
@@ -145,9 +148,29 @@ internal sealed class FileSystemRunHistoryStore(
                 cancellationToken)
             .ConfigureAwait(false);
 
+        PruneFiles(directory, $"{filePrefix}*.json", retention, cancellationToken);
+        PruneFiles(
+            directory,
+            $"{OwnedFilePrefix}*.json",
+            pipelineOptions.Value.RunReport.GlobalHistoryRetention,
+            cancellationToken);
+    }
+
+    private void PruneFiles(
+        string directory,
+        string searchPattern,
+        int retention,
+        CancellationToken cancellationToken)
+    {
+        if (retention <= 0)
+        {
+            return;
+        }
+
         var staleFiles = Directory
-            .EnumerateFiles(directory, $"{filePrefix}*.json", SearchOption.TopDirectoryOnly)
-            .OrderByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
+            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+            .OrderByDescending(GetHistoryTimestamp)
+            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
             .Skip(retention)
             .ToArray();
         foreach (var staleFile in staleFiles)
@@ -162,6 +185,24 @@ internal sealed class FileSystemRunHistoryStore(
                 logger.LogWarning(exception, "Could not prune pipeline run history file {HistoryFile}", staleFile);
             }
         }
+    }
+
+    private static DateTime GetHistoryTimestamp(string path)
+    {
+        var fileName = Path.GetFileName(path);
+        var timestampStart = OwnedFilePrefix.Length + IdentityHashLength + 1;
+        if (fileName.Length < timestampStart + FileTimestampFormat.Length
+            || !DateTime.TryParseExact(
+                fileName.AsSpan(timestampStart, FileTimestampFormat.Length),
+                FileTimestampFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var timestamp))
+        {
+            return DateTime.MinValue;
+        }
+
+        return timestamp;
     }
 
     private string GetHistoryDirectory() =>
