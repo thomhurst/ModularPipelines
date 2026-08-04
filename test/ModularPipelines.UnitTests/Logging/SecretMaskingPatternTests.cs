@@ -161,6 +161,95 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public void CompletedOutput_OnlyObfuscatesActualSecretMatches()
+    {
+        var provider = new Mock<ISecretProvider>();
+        provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns("**********");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider.Object);
+
+        writer.WriteLine("ordinary output");
+        writer.WriteLine("split-secret");
+
+        obfuscator.Verify(x => x.Obfuscate("split-secret", null), Times.Once);
+        obfuscator.Verify(x => x.Obfuscate("ordinary output", null), Times.Never);
+    }
+
+    [Test]
+    public async Task DifferentModuleBuffers_ProcessConcurrently()
+    {
+        var provider = new Mock<ISecretProvider>();
+        provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
+        using var firstObfuscationStarted = new ManualResetEventSlim();
+        using var releaseFirstObfuscation = new ManualResetEventSlim();
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                firstObfuscationStarted.Set();
+                if (!releaseFirstObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the first module write.");
+                }
+
+                return "**********";
+            });
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        var secondBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            obfuscator.Object,
+            provider.Object);
+
+        var firstWrite = Task.Run(() => WriteForModule(typeof(FirstModule), "split-secret"));
+        try
+        {
+            await Assert.That(firstObfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+
+            var secondWrite = Task.Run(() => WriteForModule(typeof(SecondModule), "ordinary output"));
+            await secondWrite.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseFirstObfuscation.Set();
+            await firstWrite;
+        }
+
+        secondBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
+
+        void WriteForModule(Type moduleType, string value)
+        {
+            var previousModule = ModuleLogger.CurrentModuleType.Value;
+            try
+            {
+                ModuleLogger.CurrentModuleType.Value = moduleType;
+                writer.WriteLine(value);
+            }
+            finally
+            {
+                ModuleLogger.CurrentModuleType.Value = previousModule;
+            }
+        }
+    }
+
+    [Test]
     public void BufferedConsoleWrites_RefreshPatternsAfterSecretRegistration()
     {
         var provider = CreateProvider(out _);
