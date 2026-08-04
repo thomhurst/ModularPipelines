@@ -28,6 +28,15 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                     System.Action<TOptions> configureOptions) => services;
             }
         }
+
+        namespace ModularPipelines.Metadata
+        {
+            public static class RuntimeMetadataRegistry
+            {
+                public static void RegisterCommandOptions(System.Type type, object model) { }
+                public static void RegisterSecrets(System.Type type, object accessors) { }
+            }
+        }
         """;
 
     [Test]
@@ -69,6 +78,97 @@ public class GeneratedOptionsRegistrationAnalyzerTests
         await Assert.That(diagnostics).IsEmpty();
     }
 
+    [Test]
+    public async Task Trimmed_Host_Recognizes_Generated_Tree_Without_Name_Convention()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "PeerOptions.cs",
+                """
+                using Microsoft.Extensions.DependencyInjection;
+
+                public sealed class ConventionFreePeerOptions;
+
+                public static class PeerRegistration
+                {
+                    public static void Add(IServiceCollection services) =>
+                        services.Configure<ConventionFreePeerOptions>(static _ => { });
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        await Assert.That(diagnostic.GetMessage()).Contains("ConventionFreePeerOptions");
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Accepts_Cooperating_Peer_Metadata()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "PeerCommandOptions.cs",
+                """
+                using ModularPipelines.Metadata;
+                using ModularPipelines.Options;
+
+                public sealed class PeerCommandOptions : CommandLineToolOptions;
+
+                public static class PeerRegistration
+                {
+                    public static void Add()
+                    {
+                        RuntimeMetadataRegistry.RegisterCommandOptions(
+                            typeof(PeerCommandOptions),
+                            new object());
+                        RuntimeMetadataRegistry.RegisterSecrets(
+                            typeof(PeerCommandOptions),
+                            new object());
+                    }
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await Assert.That(diagnostics).IsEmpty();
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Direct_Peer_Generated_Command_Options()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "DirectCommandOptions.cs",
+                """
+                using ModularPipelines.Options;
+
+                public sealed class DirectPeerCommandOptions : CommandLineToolOptions;
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        await Assert.That(diagnostic.GetMessage()).Contains("DirectPeerCommandOptions");
+    }
+
     private sealed class PeerOptionsGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -89,6 +189,18 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                     }
                     """,
                     System.Text.Encoding.UTF8)));
+        }
+    }
+
+    private sealed class PeerSourceGenerator(string hintName, string source) : IIncrementalGenerator
+    {
+        public void Initialize(IncrementalGeneratorInitializationContext context)
+        {
+            context.RegisterSourceOutput(
+                context.CompilationProvider,
+                (output, _) => output.AddSource(
+                    hintName,
+                    SourceText.From(source, System.Text.Encoding.UTF8)));
         }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Text;
 
 namespace ModularPipelines.SourceGenerator;
 
@@ -14,6 +13,20 @@ namespace ModularPipelines.SourceGenerator;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
 {
+    private const string RuntimeMetadataRegistryFullName =
+        "ModularPipelines.Metadata.RuntimeMetadataRegistry";
+
+    [Flags]
+    private enum MetadataCoverage
+    {
+        None = 0,
+        CommandOptions = 1,
+        Secrets = 2,
+        All = CommandOptions | Secrets,
+    }
+
+    private readonly record struct Registration(Location Location, MetadataCoverage RequiredCoverage);
+
     /// <inheritdoc />
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         [GeneratorDiagnostics.PeerGeneratedRuntimeMetadata];
@@ -31,10 +44,18 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            var coveredTypes = new ConcurrentDictionary<ITypeSymbol, byte>(
+            var coveredTypes = new ConcurrentDictionary<ITypeSymbol, MetadataCoverage>(
                 SymbolEqualityComparer.Default);
-            var registeredTypes = new ConcurrentDictionary<ITypeSymbol, Location>(
+            var registeredTypes = new ConcurrentDictionary<ITypeSymbol, Registration>(
                 SymbolEqualityComparer.Default);
+            var generatedTypes = new ConcurrentDictionary<ITypeSymbol, byte>(
+                SymbolEqualityComparer.Default);
+            var generatedTreeRuntimeType = startContext.Compilation
+                .GetTypeByMetadataName(CommandOptionsGenerator.RuntimeMetadataRegistrationFullName)
+                ?.DeclaringSyntaxReferences
+                .FirstOrDefault()
+                ?.SyntaxTree
+                .GetType();
             startContext.RegisterSyntaxNodeAction(
                 syntaxContext => CollectCoveredType(syntaxContext, coveredTypes),
                 SyntaxKind.TypeOfExpression);
@@ -45,16 +66,28 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
                 syntaxContext => CollectObjectCreationRegistration(syntaxContext, registeredTypes),
                 SyntaxKind.ObjectCreationExpression,
                 SyntaxKind.ImplicitObjectCreationExpression);
+            startContext.RegisterSyntaxNodeAction(
+                syntaxContext => CollectGeneratedType(
+                    syntaxContext,
+                    generatedTreeRuntimeType,
+                    generatedTypes,
+                    registeredTypes),
+                SyntaxKind.ClassDeclaration,
+                SyntaxKind.RecordDeclaration,
+                SyntaxKind.StructDeclaration,
+                SyntaxKind.RecordStructDeclaration);
             startContext.RegisterCompilationEndAction(endContext =>
             {
                 foreach (var registration in registeredTypes)
                 {
-                    if (!coveredTypes.ContainsKey(registration.Key)
-                        && IsGeneratedSourceType(registration.Key, endContext.CancellationToken))
+                    coveredTypes.TryGetValue(registration.Key, out var coverage);
+                    if (generatedTypes.ContainsKey(registration.Key)
+                        && (coverage & registration.Value.RequiredCoverage)
+                            != registration.Value.RequiredCoverage)
                     {
                         endContext.ReportDiagnostic(Diagnostic.Create(
                             GeneratorDiagnostics.PeerGeneratedRuntimeMetadata,
-                            registration.Value,
+                            registration.Value.Location,
                             registration.Key.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
                     }
                 }
@@ -64,24 +97,26 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
 
     private static void CollectCoveredType(
         SyntaxNodeAnalysisContext context,
-        ConcurrentDictionary<ITypeSymbol, byte> coveredTypes)
+        ConcurrentDictionary<ITypeSymbol, MetadataCoverage> coveredTypes)
     {
         var typeOfExpression = (TypeOfExpressionSyntax) context.Node;
-        var containingType = context.SemanticModel.GetEnclosingSymbol(typeOfExpression.SpanStart)
-            ?.ContainingType;
-        if (containingType?.ToDisplayString() != CommandOptionsGenerator.RuntimeMetadataRegistrationFullName
+        var coverage = GetMetadataCoverage(context, typeOfExpression);
+        if (coverage == MetadataCoverage.None
             || context.SemanticModel.GetTypeInfo(typeOfExpression.Type, context.CancellationToken).Type
-                is not ITypeSymbol type)
+            is not ITypeSymbol type)
         {
             return;
         }
 
-        coveredTypes.TryAdd(Normalize(type), 0);
+        coveredTypes.AddOrUpdate(
+            Normalize(type),
+            coverage,
+            (_, existing) => existing | coverage);
     }
 
     private static void CollectInvocationRegistration(
         SyntaxNodeAnalysisContext context,
-        ConcurrentDictionary<ITypeSymbol, Location> registeredTypes)
+        ConcurrentDictionary<ITypeSymbol, Registration> registeredTypes)
     {
         var invocation = (InvocationExpressionSyntax) context.Node;
         if (context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol
@@ -92,13 +127,13 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
                 context.SemanticModel,
                 context.CancellationToken) is { } optionsType)
         {
-            registeredTypes.TryAdd(optionsType, invocation.GetLocation());
+            AddRegistration(registeredTypes, optionsType, invocation.GetLocation());
         }
     }
 
     private static void CollectObjectCreationRegistration(
         SyntaxNodeAnalysisContext context,
-        ConcurrentDictionary<ITypeSymbol, Location> registeredTypes)
+        ConcurrentDictionary<ITypeSymbol, Registration> registeredTypes)
     {
         var creation = (BaseObjectCreationExpressionSyntax) context.Node;
         if (context.SemanticModel.GetSymbolInfo(creation, context.CancellationToken).Symbol
@@ -109,8 +144,50 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
                 context.SemanticModel,
                 context.CancellationToken) is { } optionsType)
         {
-            registeredTypes.TryAdd(optionsType, creation.GetLocation());
+            AddRegistration(registeredTypes, optionsType, creation.GetLocation());
         }
+    }
+
+    private static void CollectGeneratedType(
+        SyntaxNodeAnalysisContext context,
+        Type? generatedTreeRuntimeType,
+        ConcurrentDictionary<ITypeSymbol, byte> generatedTypes,
+        ConcurrentDictionary<ITypeSymbol, Registration> registeredTypes)
+    {
+        // Roslyn parses every AddSource output through the same source-generator-specific
+        // syntax-tree implementation. Anchor to this generator's known output so peer
+        // output does not depend on hint-name or generated-comment conventions.
+        if (!(context.IsGeneratedCode
+              || context.Node.SyntaxTree.GetType() == generatedTreeRuntimeType)
+            || context.Node is not BaseTypeDeclarationSyntax declaration
+            || context.SemanticModel.GetDeclaredSymbol(declaration, context.CancellationToken)
+                is not INamedTypeSymbol type)
+        {
+            return;
+        }
+
+        var normalizedType = Normalize(type);
+        generatedTypes.TryAdd(normalizedType, 0);
+        if (RequiresCommandMetadata(normalizedType))
+        {
+            AddRegistration(registeredTypes, normalizedType, declaration.Identifier.GetLocation());
+        }
+    }
+
+    private static void AddRegistration(
+        ConcurrentDictionary<ITypeSymbol, Registration> registeredTypes,
+        ITypeSymbol optionsType,
+        Location location)
+    {
+        var normalizedType = Normalize(optionsType);
+        var registration = new Registration(location, GetRequiredCoverage(normalizedType));
+        registeredTypes.AddOrUpdate(
+            normalizedType,
+            registration,
+            (_, existing) => existing with
+            {
+                RequiredCoverage = existing.RequiredCoverage | registration.RequiredCoverage,
+            });
     }
 
     private static ITypeSymbol? GetRegisteredOptionsType(
@@ -165,25 +242,53 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
             ? namedType.OriginalDefinition
             : type;
 
-    private static bool IsGeneratedSourceType(ITypeSymbol type, CancellationToken cancellationToken) =>
-        type.Locations.Any(location =>
-            location.SourceTree is { } tree
-            && IsGeneratedTree(tree, cancellationToken));
-
-    private static bool IsGeneratedTree(SyntaxTree tree, CancellationToken cancellationToken)
+    private static MetadataCoverage GetMetadataCoverage(
+        SyntaxNodeAnalysisContext context,
+        TypeOfExpressionSyntax typeOfExpression)
     {
-        var path = tree.FilePath;
-        if (path.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)
-            || path.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)
-            || path.EndsWith(".designer.cs", StringComparison.OrdinalIgnoreCase))
+        var containingType = context.SemanticModel.GetEnclosingSymbol(typeOfExpression.SpanStart)
+            ?.ContainingType;
+        if (containingType?.ToDisplayString()
+            == CommandOptionsGenerator.RuntimeMetadataRegistrationFullName)
         {
-            return true;
+            return MetadataCoverage.All;
         }
 
-        var text = tree.GetText(cancellationToken);
-        var prefixLength = Math.Min(text.Length, 256);
-        return text.ToString(TextSpan.FromBounds(0, prefixLength))
-            .IndexOf("<auto-generated", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (typeOfExpression.FirstAncestorOrSelf<ArgumentSyntax>() is not { } argument
+            || argument.Parent is not ArgumentListSyntax { Parent: InvocationExpressionSyntax invocation }
+                argumentList
+            || argumentList.Arguments.IndexOf(argument) != 0
+            || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol
+                is not IMethodSymbol method
+            || method.ContainingType.ToDisplayString() != RuntimeMetadataRegistryFullName)
+        {
+            return MetadataCoverage.None;
+        }
+
+        return method.Name switch
+        {
+            "RegisterCommandOptions" => MetadataCoverage.CommandOptions,
+            "RegisterSecrets" => MetadataCoverage.Secrets,
+            _ => MetadataCoverage.None,
+        };
+    }
+
+    private static MetadataCoverage GetRequiredCoverage(ITypeSymbol type) =>
+        RequiresCommandMetadata(type)
+            ? MetadataCoverage.All
+            : MetadataCoverage.Secrets;
+
+    private static bool RequiresCommandMetadata(ITypeSymbol type)
+    {
+        for (var current = type as INamedTypeSymbol; current is not null; current = current.BaseType)
+        {
+            if (current.ToDisplayString() == CommandOptionsGenerator.CommandLineToolOptionsFullName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool IsTrimOrAotEnabled(AnalyzerConfigOptionsProvider optionsProvider) =>
