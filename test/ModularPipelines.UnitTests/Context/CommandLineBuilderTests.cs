@@ -547,6 +547,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Manual_Short_Cluster_With_Mixed_Scopes()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["-vf"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("cannot mix global and command-specific options");
+    }
+
+    [Test]
     public async Task Build_Preserves_Manual_Option_Override_Order_When_Hoisted()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -906,7 +923,7 @@ public class CommandLineBuilderTests : TestBase
     [CliGlobalOptions]
     private abstract record TestGlobalOptions : CommandLineToolOptions
     {
-        [CliFlag("--verbose")]
+        [CliFlag("--verbose", ShortForm = "-v")]
         public bool? Verbose { get; set; }
 
         [CliOption("--search-path", Format = OptionFormat.EqualsSeparated)]
@@ -916,6 +933,9 @@ public class CommandLineBuilderTests : TestBase
     [CliSubCommand("update")]
     private sealed record TestGlobalCommandOptions : TestGlobalOptions
     {
+        [CliFlag("--force", ShortForm = "-f")]
+        public bool? Force { get; set; }
+
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
 

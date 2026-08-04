@@ -468,7 +468,12 @@ internal sealed class CommandLineBuilder(
             var shortName = $"-{argument[index]}";
             if (flagsByName.TryGetValue(shortName, out var flag))
             {
-                isGlobalOption &= flag.IsGlobalOption;
+                ValidateCombinedOptionScope(
+                    argument,
+                    index,
+                    isGlobalOption,
+                    flag.IsGlobalOption);
+                isGlobalOption = flag.IsGlobalOption;
                 isTerminal |= flag.Phase == CommandLinePhase.Terminal;
                 continue;
             }
@@ -478,7 +483,12 @@ internal sealed class CommandLineBuilder(
                 return false;
             }
 
-            isGlobalOption &= option.IsGlobalOption;
+            ValidateCombinedOptionScope(
+                argument,
+                index,
+                isGlobalOption,
+                option.IsGlobalOption);
+            isGlobalOption = option.IsGlobalOption;
             isTerminal |= option.Phase == CommandLinePhase.Terminal;
             var operandCount = GetManualOperandCount(
                 option,
@@ -500,6 +510,22 @@ internal sealed class CommandLineBuilder(
         }
 
         return true;
+    }
+
+    private static void ValidateCombinedOptionScope(
+        string argument,
+        int shortOptionIndex,
+        bool previousIsGlobalOption,
+        bool currentIsGlobalOption)
+    {
+        if (shortOptionIndex == 1 || previousIsGlobalOption == currentIsGlobalOption)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Combined short-option cluster '{argument}' cannot mix global and "
+            + "command-specific options. Split the cluster into separate arguments.");
     }
 
     private static int? GetManualOperandCount(
