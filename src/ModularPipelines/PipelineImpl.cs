@@ -113,7 +113,10 @@ internal sealed class PipelineImpl : IPipeline
                 var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
                 Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
                 var now = DateTimeOffset.UtcNow;
-                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
+                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
+                {
+                    StatusOverride = Status.Successful,
+                };
             }
             else
             {
