@@ -24,6 +24,14 @@ internal static class PipelineCommandLineParser
         IgnoreCategoriesOption,
     ];
 
+    private static readonly string[] FlagOptions =
+    [
+        HelpOption,
+        ListModulesOption,
+        ValidateOption,
+        DryRunOption,
+    ];
+
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
     {
         if (arguments is null || arguments.Count == 0)
@@ -173,7 +181,16 @@ internal static class PipelineCommandLineParser
             return;
         }
 
-        var option = argument.Split('=', 2)[0];
+        var equalsIndex = argument.IndexOf('=', StringComparison.Ordinal);
+        var option = equalsIndex < 0 ? argument : argument[..equalsIndex];
+        var flagOption = FlagOptions.FirstOrDefault(
+            knownOption => option.Equals(knownOption, StringComparison.OrdinalIgnoreCase));
+        if (equalsIndex >= 0 && flagOption is not null)
+        {
+            throw CreateParseException(
+                $"Command-line option '{flagOption}' does not accept a value.");
+        }
+
         var maximumDistance = option.Length switch
         {
             <= 7 => 1,

@@ -41,13 +41,18 @@ internal sealed class PipelineImpl : IPipeline
         _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
     }
 
-    internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
+    internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder, bool initializePipeline)
     {
         var pipeline = new PipelineImpl(hostBuilder.Build());
         var services = pipeline._host.Services;
 
         try
         {
+            if (!initializePipeline)
+            {
+                return pipeline;
+            }
+
             try
             {
                 ValidateModuleDependencies(services, services.GetServices<IModule>());

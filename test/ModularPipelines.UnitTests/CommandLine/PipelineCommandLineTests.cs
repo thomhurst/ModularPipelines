@@ -751,6 +751,25 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    [Arguments("--help=value", "--help")]
+    [Arguments("--list-modules=value", "--list-modules")]
+    [Arguments("--validate=value", "--validate")]
+    [Arguments("--dry-run=value", "--dry-run")]
+    public async Task FlagOptionValueFailsWithClearError(string argument, string option)
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder([argument]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message)
+                .Contains($"Command-line option '{option}' does not accept a value.");
+            await Assert.That(exception.Message).DoesNotContain("Did you mean");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
     public async Task RepeatedCommaSeparatedAndEqualsValuesAreParsed()
     {
         using var builder = Pipeline.CreateBuilder(
@@ -866,6 +885,23 @@ public class PipelineCommandLineTests
             .Contains("ModularPipelines command-line options:")
             .And.Contains("--skip-module")
             .And.Contains("--");
+    }
+
+    [Test]
+    public async Task HelpDoesNotRequireAValidPipeline()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
+        }
     }
 
     [Test]
