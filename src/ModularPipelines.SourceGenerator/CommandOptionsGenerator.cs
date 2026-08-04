@@ -225,11 +225,27 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .ToDisplayString();
         return enclosingNamespace != OptionsNamespace
                && optionsTypeSymbol is ITypeParameterSymbol typeParameter
+               && IsGenericOptionsRegistrationUsage(context)
             ? new OptionsTypeUsage(
                 MetadataName: null,
                 typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 context.Node.GetLocation())
             : null;
+    }
+
+    private static bool IsGenericOptionsRegistrationUsage(GeneratorSyntaxContext context)
+    {
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        return symbol switch
+        {
+            INamedTypeSymbol type => type.OriginalDefinition is
+            {
+                MetadataName: "OptionsBuilder`1",
+                ContainingNamespace: { } containingNamespace,
+            } && containingNamespace.ToDisplayString() == OptionsNamespace,
+            IMethodSymbol method => GetRegisteredOptionsType(method) is ITypeParameterSymbol,
+            _ => false,
+        };
     }
 
     private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
@@ -1196,7 +1212,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
-        if ((!isCommandOptions && !hasSecretAttributes)
+        var canCoverPlainOptions = type.TypeKind == TypeKind.Class
+                                   && IsTypeAccessible(type, compilation.Assembly)
+                                   && !HasGenericTypeInHierarchy(type)
+                                   && !HasObsoleteErrorInHierarchy(type);
+        if ((!isCommandOptions && !hasSecretAttributes && !canCoverPlainOptions)
             || (type.IsAbstract && type.IsGenericType))
         {
             return null;

@@ -1375,6 +1375,70 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Allows_Generic_IOptions_Reader()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            public static class OptionsReader
+            {
+                public static T Read<T>(Microsoft.Extensions.Options.IOptions<T> options) => default!;
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Covers_Opaque_External_Plain_Options()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace External;
+
+            public sealed class PlainOptions;
+
+            public static class Registration
+            {
+                public static void Add(
+                    Microsoft.Extensions.DependencyInjection.IServiceCollection services) =>
+                    Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions
+                        .AddOptions<PlainOptions>(services);
+            }
+
+            public sealed class RuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            """
+            public static class Consumer
+            {
+                public static void Add(
+                    Microsoft.Extensions.DependencyInjection.IServiceCollection services) =>
+                    External.Registration.Add(services);
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainOptions));");
+        }
+    }
+
+    [Test]
     public async Task Single_Declaration_Partial_Command_Options_Report_Error()
     {
         var result = GeneratorTestRunner.Run(
