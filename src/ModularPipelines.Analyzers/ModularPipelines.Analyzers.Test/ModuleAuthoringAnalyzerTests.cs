@@ -5972,6 +5972,52 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Unresolved_Second_Helper_Return_Suppresses_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class KnownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class UnknownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag) =>
+                    Pipeline.CreateBuilder().Services.Add(Choose(flag));
+
+                private static ServiceDescriptor Choose(bool flag)
+                {
+                    ServiceDescriptor result;
+                    if (flag)
+                    {
+                        result = ServiceDescriptor.Singleton<IModule, KnownModule>();
+                        return result;
+                    }
+
+                    result = ServiceDescriptor.Singleton(
+                        typeof(IModule),
+                        ChooseImplementationType());
+                    return result;
+                }
+
+                private static Type ChooseImplementationType() => typeof(UnknownModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Switch_Passed_Through_ServiceDescriptor()
     {
         var source = $$"""

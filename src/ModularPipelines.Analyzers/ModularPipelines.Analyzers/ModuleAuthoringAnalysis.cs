@@ -1308,8 +1308,8 @@ internal static class ModuleAuthoringAnalysis
             .Any(returnValue => IsUnresolvedModuleServiceDescriptorInvocationReturn(
                 returnValue,
                 invocation,
-                visitedLocals,
-                visitedMethods));
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorInvocationReturn(
