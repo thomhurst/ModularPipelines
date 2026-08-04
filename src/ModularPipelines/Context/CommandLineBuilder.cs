@@ -80,6 +80,14 @@ internal sealed class CommandLineBuilder(
         var leadingManualOptions = !terminatorEmittedBeforeProperties && emittedOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
             : [];
+        if (emittedOptionTerminator
+            && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
+        {
+            throw new InvalidOperationException(
+                "Manual terminal options cannot follow an end-of-options marker emitted by a "
+                + "structured argument. Remove either the terminal option or the '--' source.");
+        }
+
         if (options.ArgumentsContainOptionTerminator
             && !manualArgs.Contains("--", StringComparer.Ordinal))
         {
@@ -215,6 +223,11 @@ internal sealed class CommandLineBuilder(
         manualArgs.AddRange(remainingArguments);
         return recognizedOptions;
     }
+
+    private static bool ContainsRecognizedManualOption(
+        IReadOnlyCollection<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> commandModel) =>
+        ExtractRecognizedManualOptions(manualArgs.ToList(), commandModel).Count > 0;
 
     private static bool TryGetCombinedShortOptionOperandCount(
         string argument,

@@ -106,6 +106,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Command_Options_After_Global_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+            Force = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("earlier property group");
+    }
+
+    [Test]
     public async Task Build_Accepts_Terminal_Option_When_Option_Value_Is_DoubleDash()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -507,6 +523,21 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
+    }
+
+    [CliTool("mytool")]
+    [CliGlobalOptions]
+    private abstract record TestGlobalTerminatorOptions : CommandLineToolOptions
+    {
+        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? GlobalOperand { get; set; }
+    }
+
+    [CliSubCommand("run")]
+    private sealed record TestGlobalTerminatorCommandOptions : TestGlobalTerminatorOptions
+    {
+        [CliFlag("--force")]
+        public bool Force { get; set; }
     }
 
     [CliTool("docker")]

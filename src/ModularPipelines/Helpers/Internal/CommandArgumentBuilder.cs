@@ -37,7 +37,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var renderedOptionValues = flagsAndOptions.ToDictionary(
             static part => part,
             part => RenderOption(part, propertyValues[part], optionsObject.GetType()));
-        ValidateOptionTerminatorOrdering(arguments, renderedOptionValues, argumentValues);
+        ValidateOptionTerminatorOrdering(
+            arguments,
+            renderedOptionValues,
+            argumentValues,
+            emittedOptionTerminator);
         var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
         foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
@@ -164,12 +168,20 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void ValidateOptionTerminatorOrdering(
         IEnumerable<ArgumentPart> arguments,
         IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
-        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues)
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        bool optionTerminatorAlreadyEmitted)
     {
         var renderedOptions = renderedOptionValues
             .Where(static pair => pair.Value.Count > 0)
             .Select(static pair => pair.Key)
             .ToArray();
+        if (optionTerminatorAlreadyEmitted && renderedOptions.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "CLI flags or options cannot be rendered after an end-of-options marker "
+                + "emitted by an earlier property group.");
+        }
+
         foreach (var argument in arguments)
         {
             var values = argumentValues[argument];
