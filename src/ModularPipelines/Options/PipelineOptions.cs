@@ -66,6 +66,11 @@ public record PipelineOptions
     public bool DryRun { get; init; }
 
     /// <summary>
+    /// Gets a value indicating whether module cache reads and writes are disabled for this run.
+    /// </summary>
+    public bool DisableModuleCache { get; init; }
+
+    /// <summary>
     /// Gets the execution mode that determines how the pipeline handles failures.
     /// </summary>
     public ExecutionMode ExecutionMode { get; init; } = ExecutionMode.StopOnFirstException;

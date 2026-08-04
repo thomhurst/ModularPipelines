@@ -44,6 +44,8 @@ The fingerprint contains:
 
 A hit has `Status.UsedHistory`. Cache lookup or storage failures are logged and the module executes normally.
 
+Use `--no-cache` to bypass all module cache reads and writes for one command-line run. For programmatic control, set `PipelineOptions.DisableModuleCache` to `true`.
+
 ## Include configuration
 
 File contents do not represent every input. Add configuration or tool versions explicitly:

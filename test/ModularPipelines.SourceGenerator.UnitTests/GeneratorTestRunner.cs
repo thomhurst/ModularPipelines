@@ -18,10 +18,13 @@ internal static class GeneratorTestRunner
     public static GeneratorDriverRunResult RunIncrementalUpdate(
         IIncrementalGenerator generator,
         string[] initialSources,
-        string[] updatedSources)
+        string[] updatedSources,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
         var initialCompilation = CreateCompilation(initialSources);
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            optionsProvider: new GeneratorTestHarness.TestAnalyzerConfigOptionsProvider(globalOptions));
         driver = driver.RunGeneratorsAndUpdateCompilation(initialCompilation, out _, out _);
 
         var updatedCompilation = CreateCompilation(updatedSources);
@@ -36,7 +39,8 @@ internal static class GeneratorTestRunner
             .Select(static path => MetadataReference.CreateFromFile(path));
         var compilation = CSharpCompilation.Create(
             "GeneratorTests",
-            sources.Select(static source => CSharpSyntaxTree.ParseText(source)),
+            sources.Select(static (source, index) =>
+                CSharpSyntaxTree.ParseText(source, path: $"Source{index}.cs")),
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         var compilationErrors = compilation.GetDiagnostics()
