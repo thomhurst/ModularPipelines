@@ -512,6 +512,66 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rescans_Directly_Used_Peer_Generated_Types()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 1;
+                }
+            }
+
+            namespace External
+            {
+                public sealed class PeerGeneratedCommand
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.CliOption("--token")]
+                    public string Token { get; } = "";
+                }
+
+                public sealed class PeerGeneratedSecret
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    public string Password { get; } = "";
+                }
+            }
+            """,
+            """
+            public sealed class Consumer
+            {
+                public External.PeerGeneratedCommand Command { get; } = new();
+                public External.PeerGeneratedSecret Secret { get; } = new();
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedCommandMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).Contains(
+                "typeof(global::External.PeerGeneratedCommand)");
+            await Assert.That(generatedSource).Contains(
+                "((global::External.PeerGeneratedCommand)instance).@Token");
+            await Assert.That(generatedSource).Contains(
+                "typeof(global::External.PeerGeneratedSecret)");
+            await Assert.That(generatedSource).Contains(
+                "((global::External.PeerGeneratedSecret)instance).@Password");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Generates_Metadata_For_Indirectly_Derived_Options()
     {
         var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(

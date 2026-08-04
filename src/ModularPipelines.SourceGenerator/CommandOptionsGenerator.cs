@@ -1265,7 +1265,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return GetTypes(assembly.GlobalNamespace)
             .Where(type => !hasCurrentRuntimeMetadata
                            || incompleteTypeNames.Contains(GetMetadataName(type))
-                           || IsObservedOptionsType(type, usedOptionsTypes))
+                           || IsObservedOptionsType(type, usedOptionsTypes)
+                           || CanRegenerateExternalRuntimeMetadata(type, compilation))
             .Select(type => GetExternalTypeCandidate(
                 type,
                 compilation,
@@ -1319,6 +1320,26 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         usedOptionsTypes.Contains(new OptionsTypeIdentity(
             GetMetadataName(type),
             type.ContainingAssembly.Identity.ToString()));
+
+    private static bool CanRegenerateExternalRuntimeMetadata(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        if (GetExternalTypeCandidate(type, compilation)?.Metadata is not { } metadata)
+        {
+            return false;
+        }
+
+        var needsCommandMetadata = metadata.IsCommandOptions;
+        var needsSecretMetadata = metadata.SecretMetadata.HasAttributes;
+        return (needsCommandMetadata || needsSecretMetadata)
+               && (!needsCommandMetadata
+                   || (metadata.CanRegisterCommandMetadata
+                       && metadata.CommandMetadata.IsComplete))
+               && (!needsSecretMetadata
+                   || (metadata.CanRegisterSecretCoverage
+                       && metadata.SecretMetadata.IsComplete));
+    }
 
     private static bool RequiresDirectTypeReference(TypeMetadataCandidate candidate)
     {
