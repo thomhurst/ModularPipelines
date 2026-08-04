@@ -186,17 +186,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             return null;
         }
 
-        var fingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
+        var computedFingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
             .ConfigureAwait(false);
+        var fingerprint = computedFingerprint.Value;
         _fingerprints[module] = fingerprint;
         await using var cachedStream = await _store.OpenReadAsync(fingerprint, cancellationToken)
             .ConfigureAwait(false);
         if (cachedStream is null)
         {
             _logger.LogDebug(
-                "Module cache miss {Fingerprint} for {Module}",
+                "Module cache miss {Fingerprint} for {Module}. Fingerprint components: {FingerprintComponents}",
                 fingerprint,
-                module.GetType().Name);
+                module.GetType().Name,
+                computedFingerprint.Diagnostics);
             return null;
         }
 
@@ -293,7 +295,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dependency result fingerprints require runtime result type metadata.")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Dependency result fingerprints require runtime result type metadata.")]
-    private async Task<string> ComputeFingerprintAsync<T>(
+    private async Task<ComputedFingerprint> ComputeFingerprintAsync<T>(
         Module<T> module,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
@@ -311,61 +313,77 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 cancellationToken)
             .ConfigureAwait(false);
 
-        using var incrementalHash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        using var fingerprint = new FingerprintBuilder(_logger.IsEnabled(LogLevel.Debug));
         AppendModuleFingerprintData(
-            incrementalHash,
+            fingerprint,
             module,
             configuration,
             inputFiles,
             hashes);
         var dependencyTypes = GetDependencyTypes(module);
         await AppendDependencyFingerprintsAsync(
-                incrementalHash,
+                fingerprint,
                 dependencyTypes,
                 pipelineContext,
                 cancellationToken)
             .ConfigureAwait(false);
 
-        return Convert.ToHexString(incrementalHash.GetHashAndReset());
+        return fingerprint.Complete();
     }
 
     private void AppendModuleFingerprintData<T>(
-        IncrementalHash incrementalHash,
+        FingerprintBuilder fingerprint,
         Module<T> module,
         ModuleConfiguration configuration,
         IReadOnlyList<string> inputFiles,
         IReadOnlyDictionary<string, string> hashes)
     {
-        Append(incrementalHash, "format", "2");
-        Append(incrementalHash, "module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
-        Append(incrementalHash, "module-version", module.GetType().Assembly.ManifestModule.ModuleVersionId.ToString("N"));
+        fingerprint.Append("format", "2");
+        fingerprint.Append("module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
+        if (configuration.CacheAssemblyVersionKey is { } assemblyVersionKey)
+        {
+            fingerprint.Append(
+                "module-version",
+                assemblyVersionKey,
+                protectDiagnosticValue: true,
+                diagnosticName: "module-version-override");
+        }
+        else
+        {
+            fingerprint.Append(
+                "module-version",
+                module.GetType().Assembly.ManifestModule.ModuleVersionId.ToString("N"),
+                diagnosticName: "module-version-mvid");
+        }
 
         foreach (var pattern in configuration.CacheInputPatterns)
         {
-            Append(incrementalHash, "input-pattern", pattern);
+            fingerprint.Append("input-pattern", pattern);
         }
 
         foreach (var path in inputFiles)
         {
-            Append(incrementalHash, "input-path", ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, path));
-            Append(incrementalHash, "input-hash", hashes[path]);
+            fingerprint.Append("input-path", ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, path));
+            fingerprint.Append("input-hash", hashes[path]);
         }
 
         foreach (var keyPart in configuration.CacheKeyParts)
         {
-            Append(incrementalHash, "key-part", keyPart);
+            fingerprint.Append("key-part", keyPart, protectDiagnosticValue: true);
         }
 
         foreach (var variableName in configuration.CacheEnvironmentVariables.Order(StringComparer.Ordinal))
         {
             var value = Environment.GetEnvironmentVariable(variableName);
-            Append(
-                incrementalHash,
+            fingerprint.Append(
                 $"environment:{variableName}:presence",
                 value is null ? "unset" : "set");
             if (value is not null)
             {
-                Append(incrementalHash, $"environment:{variableName}:value", value);
+                fingerprint.Append(
+                    $"environment:{variableName}:value",
+                    value,
+                    protectDiagnosticValue: true);
             }
         }
     }
@@ -385,7 +403,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     }
 
     private static async Task AppendDependencyFingerprintsAsync(
-        IncrementalHash incrementalHash,
+        FingerprintBuilder fingerprint,
         IEnumerable<Type> dependencyTypes,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
@@ -396,27 +414,26 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var dependencyModule = internalContext.GetModule(dependencyType);
             if (dependencyModule is null)
             {
-                Append(incrementalHash, "dependency-missing", dependencyType.AssemblyQualifiedName!);
+                fingerprint.Append("dependency-missing", dependencyType.AssemblyQualifiedName!);
                 continue;
             }
 
             var dependencyResult = await dependencyModule.ResultTask
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
-            AppendDependencyFingerprint(incrementalHash, dependencyType, dependencyResult);
+            AppendDependencyFingerprint(fingerprint, dependencyType, dependencyResult);
         }
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dependency result fingerprints require runtime result type metadata.")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Dependency result fingerprints require runtime result type metadata.")]
     private static void AppendDependencyFingerprint(
-        IncrementalHash incrementalHash,
+        FingerprintBuilder fingerprint,
         Type dependencyType,
         IModuleResult dependencyResult)
     {
-        Append(incrementalHash, "dependency", dependencyType.AssemblyQualifiedName!);
-        Append(
-            incrementalHash,
+        fingerprint.Append("dependency", dependencyType.AssemblyQualifiedName!);
+        fingerprint.Append(
             "dependency-status",
             dependencyResult.ModuleStatus == Status.UsedHistory
                 ? Status.Successful.ToString()
@@ -424,28 +441,33 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         if (dependencyResult.ValueOrDefault is { } value)
         {
-            Append(
-                incrementalHash,
+            fingerprint.Append(
                 "dependency-value-type",
                 value.GetType().AssemblyQualifiedName ?? value.GetType().FullName!);
             var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value, value.GetType());
-            Append(incrementalHash, "dependency-value", Convert.ToHexString(SHA256.HashData(valueBytes)));
+            fingerprint.Append("dependency-value", Convert.ToHexString(SHA256.HashData(valueBytes)));
         }
         else
         {
-            Append(incrementalHash, "dependency-value-type", "<null>");
-            Append(incrementalHash, "dependency-value", "<null>");
+            fingerprint.Append("dependency-value-type", "<null>");
+            fingerprint.Append("dependency-value", "<null>");
         }
 
         if (dependencyResult.ExceptionOrDefault is { } exception)
         {
-            Append(incrementalHash, "dependency-exception-type", exception.GetType().FullName!);
-            Append(incrementalHash, "dependency-exception-message", exception.Message);
+            fingerprint.Append("dependency-exception-type", exception.GetType().FullName!);
+            fingerprint.Append(
+                "dependency-exception-message",
+                exception.Message,
+                protectDiagnosticValue: true);
         }
 
         if (dependencyResult.SkipDecisionOrDefault is { } skipDecision)
         {
-            Append(incrementalHash, "dependency-skip", skipDecision.Reason ?? string.Empty);
+            fingerprint.Append(
+                "dependency-skip",
+                skipDecision.Reason ?? string.Empty,
+                protectDiagnosticValue: true);
         }
     }
 
@@ -1206,18 +1228,69 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         return (unixAttributes & UnixFileTypeMask) == UnixFileTypeSymbolicLink;
     }
 
-    private static void Append(IncrementalHash hash, string name, string value)
-    {
-        AppendLengthPrefixed(hash, Encoding.UTF8.GetBytes(name));
-        AppendLengthPrefixed(hash, Encoding.UTF8.GetBytes(value));
-    }
-
     private static void AppendLengthPrefixed(IncrementalHash hash, byte[] value)
     {
         Span<byte> length = stackalloc byte[sizeof(int)];
         BinaryPrimitives.WriteInt32LittleEndian(length, value.Length);
         hash.AppendData(length);
         hash.AppendData(value);
+    }
+
+    private sealed record ComputedFingerprint(string Value, string Diagnostics);
+
+    private sealed class FingerprintBuilder(bool captureDiagnostics) : IDisposable
+    {
+        private const int MaximumLoggedComponents = 128;
+        private readonly IncrementalHash _hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        private readonly List<string>? _components = captureDiagnostics ? [] : null;
+
+        public void Append(
+            string name,
+            string value,
+            bool protectDiagnosticValue = false,
+            string? diagnosticName = null)
+        {
+            AppendLengthPrefixed(_hash, Encoding.UTF8.GetBytes(name));
+            AppendLengthPrefixed(_hash, Encoding.UTF8.GetBytes(value));
+
+            if (_components is null)
+            {
+                return;
+            }
+
+            var diagnosticValue = protectDiagnosticValue
+                ? $"sha256:{Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value)))}"
+                : value;
+            _components.Add($"{diagnosticName ?? name}=\"{JsonEncodedText.Encode(diagnosticValue)}\"");
+        }
+
+        public ComputedFingerprint Complete()
+        {
+            var value = Convert.ToHexString(_hash.GetHashAndReset());
+            return new ComputedFingerprint(value, BuildDiagnostics());
+        }
+
+        public void Dispose() => _hash.Dispose();
+
+        private string BuildDiagnostics()
+        {
+            if (_components is null)
+            {
+                return string.Empty;
+            }
+
+            if (_components.Count <= MaximumLoggedComponents)
+            {
+                return string.Join(", ", _components);
+            }
+
+            var omittedComponents = string.Join(", ", _components.Skip(MaximumLoggedComponents));
+            var omittedDigest = Convert.ToHexString(
+                SHA256.HashData(Encoding.UTF8.GetBytes(omittedComponents)));
+            return string.Join(", ", _components.Take(MaximumLoggedComponents))
+                   + $", ... {_components.Count - MaximumLoggedComponents} component(s) omitted"
+                   + $" (sha256:{omittedDigest})";
+        }
     }
 
     private sealed class ArtifactByteBudget
