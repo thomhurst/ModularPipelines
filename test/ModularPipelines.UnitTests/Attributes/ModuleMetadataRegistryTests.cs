@@ -25,10 +25,6 @@ public class ModuleMetadataRegistryTests
             .WithTags("direct-tag")
             .WithCategory("direct-category")
             .Build();
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [ModuleTag("attribute-tag")]
@@ -38,10 +34,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -55,10 +47,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [Cached]
@@ -68,10 +56,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     private sealed class ConfigurationCountingModule : IModule
@@ -88,10 +72,6 @@ public class ModuleMetadataRegistryTests
                 return ModuleConfiguration.Default;
             }
         }
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     private static ModuleMetadataRegistry CreateRegistry()

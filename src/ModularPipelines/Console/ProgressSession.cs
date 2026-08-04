@@ -587,7 +587,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                 if (!task.IsFinished)
                 {
                     // Don't stop AlwaysRun module tasks - they may still need to run
-                    if (module.ModuleRunType != ModuleRunType.AlwaysRun)
+                    if (!module.Configuration.AlwaysRun)
                     {
                         task.StopTask();
                     }
