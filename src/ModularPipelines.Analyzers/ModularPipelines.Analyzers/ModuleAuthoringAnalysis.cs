@@ -166,6 +166,11 @@ internal static class ModuleAuthoringAnalysis
             symbolContext => CollectAsyncVoidMethod(symbolContext, asyncVoidMethods),
             SymbolKind.Method);
         context.RegisterOperationAction(
+            operationContext => CollectAsyncVoidAnonymousFunction(
+                operationContext,
+                asyncVoidMethods),
+            OperationKind.AnonymousFunction);
+        context.RegisterOperationAction(
             operationContext => CollectEventHandlerMethod(
                 operationContext,
                 eventHandlerMethods),
@@ -190,16 +195,35 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static void CollectAsyncVoidAnonymousFunction(
+        OperationAnalysisContext context,
+        ConcurrentBag<IMethodSymbol> asyncVoidMethods)
+    {
+        var method = ((IAnonymousFunctionOperation) context.Operation).Symbol;
+        if (method.IsAsync
+            && method.ReturnsVoid
+            && method.ContainingType.IsModule(context.Compilation))
+        {
+            asyncVoidMethods.Add(method);
+        }
+    }
+
     private static void CollectEventHandlerMethod(
         OperationAnalysisContext context,
         ConcurrentBag<IMethodSymbol> eventHandlerMethods)
     {
         var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        foreach (var methodReference in eventAssignment.HandlerValue
+        foreach (var method in eventAssignment.HandlerValue
                      .DescendantsAndSelf()
-                     .OfType<IMethodReferenceOperation>())
+                     .Select(static operation => operation switch
+                     {
+                         IMethodReferenceOperation methodReference => methodReference.Method,
+                         IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
+                         _ => null,
+                     })
+                     .OfType<IMethodSymbol>())
         {
-            eventHandlerMethods.Add(methodReference.Method);
+            eventHandlerMethods.Add(method);
         }
     }
 
@@ -222,7 +246,9 @@ internal static class ModuleAuthoringAnalysis
             context.ReportDiagnostic(Diagnostic.Create(
                 ModuleAsyncSafetyAnalyzer.AsyncVoidRule,
                 location,
-                method.Name));
+                method.MethodKind == MethodKind.AnonymousFunction
+                    ? "anonymous function"
+                    : method.Name));
         }
     }
 
@@ -285,14 +311,13 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
-        if (!IsInReachableBranch(propertyReference)
-            || !IsInsideReachableNestedCallable(propertyReference))
+        if (!IsInReachableBranch(propertyReference))
         {
             return;
         }
 
         foreach (var containingMethod in
-                 GetContainingExecutionMethods(context.ContainingSymbol)
+                 GetContainingExecutionMethods(propertyReference, context.ContainingSymbol)
                      .OfType<IMethodSymbol>())
         {
             var caller = NormalizeMethod(containingMethod);
@@ -2880,6 +2905,15 @@ internal static class ModuleAuthoringAnalysis
                     spread.Operand,
                     registeredModules,
                     visitedLocals);
+            case IConditionalOperation or ISwitchExpressionOperation:
+                var reachableValues = GetReachableValueLeaves(operation)
+                    .Where(static value => !AlwaysThrows(value))
+                    .ToArray();
+                return reachableValues.Length > 0
+                       && reachableValues.All(value => TryTrackModuleTypes(
+                           value,
+                           registeredModules,
+                           CloneVisitedLocals(visitedLocals)));
             case IInvocationOperation invocation
                 when invocation.TargetMethod.Name == "Empty"
                      && invocation.TargetMethod.ContainingType.OriginalDefinition

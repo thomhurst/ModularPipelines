@@ -1607,6 +1607,45 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("flag ? typeof(FirstModule) : typeof(SecondModule)")]
+    [DataRow("flag switch { true => typeof(FirstModule), false => typeof(SecondModule) }")]
+    public async Task Tracks_Bounded_Conditional_Params_Types(string moduleType)
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class FirstModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class SecondModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:UnregisteredModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag) =>
+                    Pipeline.CreateBuilder().AddModules({{moduleType}});
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("UnregisteredModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_NonPublic_Module_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
@@ -2218,6 +2257,36 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Run");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Void_Anonymous_Function_In_Module()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                private readonly Action _work = {|#0:async () => await Task.Yield()|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.AsyncVoidId)
+            .WithLocation(0)
+            .WithArguments("anonymous function");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Void_Anonymous_Event_Handler()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                public event Action? Completed;
+
+                public BuildModule() =>
+                    Completed += async () => await Task.Yield();
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -6779,6 +6848,39 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("BuildModule");
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Invoked_Field_Property_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action Callback = () => _ = IsRegistered;
+
+                public static void Register() => Callback();
+
+                private static bool IsRegistered
+                {
+                    get
+                    {
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                        return true;
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
     }
 
     [TestMethod]
