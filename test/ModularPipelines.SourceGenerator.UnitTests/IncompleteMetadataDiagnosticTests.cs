@@ -1415,7 +1415,8 @@ public class IncompleteMetadataDiagnosticTests
                 [publishProperty] = "true",
             });
 
-        var diagnostic = result.Diagnostics.Single();
+        var diagnostic = result.Diagnostics.Single(
+            static item => item.GetMessage().Contains("global::External.LegacyOptions"));
         using (Assert.Multiple())
         {
             await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
@@ -1423,6 +1424,46 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(diagnostic.GetMessage()).Contains("global::External.LegacyOptions");
             await Assert.That(result.GeneratedTrees).HasSingleItem();
         }
+    }
+
+    [Test]
+    public async Task Publish_Host_Rejects_Opaque_Legacy_Options_From_Transitive_Assembly()
+    {
+        var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration;
+            }
+
+            namespace External
+            {
+                public sealed class LegacyPayloadOptions
+                    : ModularPipelines.Options.CommandLineToolOptions;
+            }
+            """,
+            """
+            namespace External;
+
+            public static class OpaqueRegistrationHelper
+            {
+                public static LegacyPayloadOptions Create() => new();
+            }
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var hasPayloadDiagnostic = result.Diagnostics.Any(
+            static diagnostic => diagnostic.Id == "MPG0006"
+                                 && diagnostic.GetMessage().Contains(
+                                     "global::External.LegacyPayloadOptions"));
+
+        await Assert.That(hasPayloadDiagnostic).IsTrue();
     }
 
     [Test]

@@ -994,11 +994,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
-            if ((!item.CanRegisterSecretCoverage
-                 || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback))
-                && optionsTypes.Contains(new OptionsTypeIdentity(
-                    item.MetadataName,
-                    candidate.AssemblyIdentity)))
+            var isObservedOptionsType = optionsTypes.Contains(new OptionsTypeIdentity(
+                item.MetadataName,
+                candidate.AssemblyIdentity));
+            if ((!item.CanRegisterSecretCoverage && isObservedOptionsType)
+                || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
