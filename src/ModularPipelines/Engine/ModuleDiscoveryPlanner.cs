@@ -977,18 +977,39 @@ internal sealed class ModuleDiscoveryPlanner(
                     method.GetGenericArguments())?.IsStatic == true;
             }
 
-            return opCode.OperandType == OperandType.InlineMethod
-                   && method.Module.ResolveMethod(
-                       token,
-                       method.DeclaringType?.GetGenericArguments(),
-                       method.GetGenericArguments()) is MethodInfo calledMethod
-                   && calledMethod.Module.Assembly == method.Module.Assembly
-                   && MethodTouchesStaticState(calledMethod, visited);
+            if (opCode.OperandType != OperandType.InlineMethod
+                || method.Module.ResolveMethod(
+                    token,
+                    method.DeclaringType?.GetGenericArguments(),
+                    method.GetGenericArguments()) is not MethodInfo calledMethod)
+            {
+                return false;
+            }
+
+            if (calledMethod.Module.Assembly == method.Module.Assembly)
+            {
+                return MethodTouchesStaticState(calledMethod, visited);
+            }
+
+            return !IsKnownPlanningSafeAssembly(calledMethod.Module.Assembly);
         }
         catch (ArgumentException)
         {
             return false;
         }
+    }
+
+    private static bool IsKnownPlanningSafeAssembly(Assembly assembly)
+    {
+        if (assembly == typeof(ModuleConfiguration).Assembly
+            || assembly == typeof(object).Assembly)
+        {
+            return true;
+        }
+
+        var assemblyName = assembly.GetName().Name;
+        return assemblyName is "mscorlib" or "netstandard" or "System"
+               || assemblyName?.StartsWith("System.", StringComparison.Ordinal) == true;
     }
 
     private static OpCode ReadOpCode(byte[] il, ref int offset)

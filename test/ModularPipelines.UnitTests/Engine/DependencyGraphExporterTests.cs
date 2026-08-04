@@ -17,6 +17,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Engine;
 
@@ -1822,6 +1823,25 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private sealed class ExternalHelperConfigurationModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (ExternalConfigurationState.ShouldIncludeDependency())
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("external-helper-configuration");
+    }
+
     [Test]
     public async Task Historical_Artifact_Producer_Remains_Skipped_When_Artifact_Is_Demanded()
     {
@@ -2891,6 +2911,23 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         _externalConfigurationIncludesDependency = false;
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Render_Preserves_Configuration_That_Calls_External_Helper()
+    {
+        ExternalConfigurationState.IncludeDependency = true;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<ExternalHelperConfigurationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        ExternalConfigurationState.IncludeDependency = false;
 
         using var document = JsonDocument.Parse(
             await exporter.RenderAsync(DependencyGraphFormat.Json));
