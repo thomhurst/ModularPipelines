@@ -275,6 +275,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Manual_Global_Option_Before_Command()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["--verbose"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("liquibase --verbose update -- -input");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Terminator_After_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -551,6 +567,9 @@ public class CommandLineBuilderTests : TestBase
     [CliGlobalOptions]
     private abstract record TestGlobalOptions : CommandLineToolOptions
     {
+        [CliFlag("--verbose")]
+        public bool? Verbose { get; set; }
+
         [CliOption("--search-path", Format = OptionFormat.EqualsSeparated)]
         public string? SearchPath { get; set; }
     }
@@ -560,6 +579,9 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
+
+        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Input { get; set; }
     }
 
     [CliTool("mytool")]

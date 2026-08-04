@@ -78,12 +78,16 @@ internal sealed class CommandLineBuilder(
         ValidateManualOptionsAfterGlobalTerminator(
             options,
             manualArgs,
-            nonTerminalCommandModel,
+            commandSpecificModel,
             terminatorEmittedBeforeProperties);
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument;
         // leave manual positional operands in place after that structured argument.
-        var leadingManualOptions = options.ArgumentsContainToolOptions
+        var leadingManualGlobalOptions = options.ArgumentsContainToolOptions
+            && emittedOptionTerminator
+            ? ExtractRecognizedManualOptions(manualArgs, globalCommandModel)
+            : [];
+        var leadingManualCommandOptions = options.ArgumentsContainToolOptions
             && !terminatorEmittedBeforeProperties
             && emittedOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
@@ -129,9 +133,10 @@ internal sealed class CommandLineBuilder(
 
         // 4. Combine: global args + command parts (subcommands) + property args
         // with any hoisted manual options before an emitted option terminator.
-        var allArgs = new List<string>(globalArgs);
+        var allArgs = new List<string>(leadingManualGlobalOptions);
+        allArgs.AddRange(globalArgs);
         allArgs.AddRange(commandParts);
-        allArgs.AddRange(leadingManualOptions);
+        allArgs.AddRange(leadingManualCommandOptions);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
