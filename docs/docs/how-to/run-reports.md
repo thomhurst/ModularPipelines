@@ -74,7 +74,7 @@ save the updated history under a run-specific key:
 - uses: actions/cache@v4
   with:
     path: .modularpipelines/run-history
-    key: ${{ runner.os }}-modularpipelines-history-${{ github.ref_name }}-${{ github.run_id }}
+    key: ${{ runner.os }}-modularpipelines-history-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
     restore-keys: |
       ${{ runner.os }}-modularpipelines-history-${{ github.ref_name }}-
 ```
