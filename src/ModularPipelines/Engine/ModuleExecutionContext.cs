@@ -69,6 +69,11 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public TimeSpan Duration { get; set; }
 
     /// <summary>
+    /// Gets or sets the activity for this module execution.
+    /// </summary>
+    public Activity? ModuleActivity { get; set; }
+
+    /// <summary>
     /// Gets or sets any exception that occurred during execution.
     /// </summary>
     public Exception? Exception { get; set; }
