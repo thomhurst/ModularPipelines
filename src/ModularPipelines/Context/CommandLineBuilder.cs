@@ -227,7 +227,7 @@ internal sealed class CommandLineBuilder(
                 continue;
             }
 
-            if (IsEqualsSeparatedManualOption(argument, optionsByName))
+            if (IsAttachedEqualsManualOption(argument, optionsByName))
             {
                 recognizedOptions.Add(argument);
                 index++;
@@ -281,12 +281,11 @@ internal sealed class CommandLineBuilder(
         return recognizedOptions;
     }
 
-    private static bool IsEqualsSeparatedManualOption(
+    private static bool IsAttachedEqualsManualOption(
         string argument,
         IReadOnlyDictionary<string, OptionPart> optionsByName) =>
         optionsByName.Any(item =>
-            item.Value.Attribute.Format == OptionFormat.EqualsSeparated
-            && argument.Length > item.Key.Length
+            argument.Length > item.Key.Length
             && argument.StartsWith(item.Key, StringComparison.Ordinal)
             && argument[item.Key.Length] == '=');
 
