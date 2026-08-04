@@ -299,7 +299,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         IModuleLogger logger)
     {
-        if (!config.CacheEnabled || _cacheResultRepository is null)
+        if (_pipelineOptions.Value.DisableModuleCache
+            || !config.CacheEnabled
+            || _cacheResultRepository is null)
         {
             ModuleActivityTracing.RecordCacheDisabled(executionContext.ModuleActivity);
             return null;
@@ -612,7 +614,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        if (!((IModule) module).Configuration.CacheEnabled || _cacheResultRepository is null)
+        if (_pipelineOptions.Value.DisableModuleCache
+            || !((IModule) module).Configuration.CacheEnabled
+            || _cacheResultRepository is null)
         {
             return;
         }
