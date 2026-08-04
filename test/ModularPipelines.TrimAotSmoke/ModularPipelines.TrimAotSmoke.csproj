@@ -12,6 +12,8 @@
     <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2046;IL2060;IL2070;IL2071;IL2075;IL2091;IL3050</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <CompilerVisibleProperty Include="PublishAot" />
+    <CompilerVisibleProperty Include="PublishTrimmed" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference
       Include="..\..\src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj"

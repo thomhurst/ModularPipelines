@@ -80,22 +80,22 @@ public class ToolResolverTests
 
     // Test fixtures
     [CliTool("mytool")]
-    private record DirectToolOptions : CommandLineToolOptions;
+    internal record DirectToolOptions : CommandLineToolOptions;
 
     [CliTool("git")]
-    private abstract record GitOptionsBase : CommandLineToolOptions;
+    internal abstract record GitOptionsBase : CommandLineToolOptions;
 
-    private record InheritedToolOptions : GitOptionsBase;
+    internal record InheritedToolOptions : GitOptionsBase;
 
     [CliTool("npx")]
     private record OverriddenToolOptions : GitOptionsBase;
 
     [CliTool("docker")]
-    private abstract record DockerOptionsBase : CommandLineToolOptions;
+    internal abstract record DockerOptionsBase : CommandLineToolOptions;
 
-    private abstract record DockerContainerOptions : DockerOptionsBase;
+    internal abstract record DockerContainerOptions : DockerOptionsBase;
 
-    private record DeeplyInheritedOptions : DockerContainerOptions;
+    internal record DeeplyInheritedOptions : DockerContainerOptions;
 
-    private record NoToolOptions : CommandLineToolOptions;
+    internal record NoToolOptions : CommandLineToolOptions;
 }
