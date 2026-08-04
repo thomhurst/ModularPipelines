@@ -1746,7 +1746,7 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionFailsWhenConsumedArtifactWasNotUploaded()
+    public async Task StandaloneExecutionFailsProducerWhenDemandedArtifactMatchesNoFiles()
     {
         DeleteLocalArtifacts();
         MissingRuntimeConsumerModule.Executed = false;
@@ -1760,9 +1760,15 @@ public class ArtifactContractTests
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(
                 () => builder.ExecutePipelineAsync());
 
-            await Assert.That(exception!.ToString()).Contains("missing-runtime");
-            await Assert.That(exception.ToString()).Contains("not found");
-            await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(MissingRuntimeProducerModule));
+                await Assert.That(exception.ToString()).Contains("missing-runtime");
+                await Assert.That(exception.ToString()).Contains(MissingRuntimeFile);
+                await Assert.That(exception.ToString()).Contains(nameof(MissingRuntimeConsumerModule));
+                await Assert.That(exception.ToString()).Contains("matched no files");
+                await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
+            }
         }
         finally
         {
@@ -1771,7 +1777,7 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionCanIgnoreMissingConsumedArtifact()
+    public async Task IgnoredConsumerDoesNotHideMissingProducerArtifact()
     {
         DeleteLocalArtifacts();
         IgnoredMissingRuntimeConsumerModule.Executed = false;
@@ -1782,16 +1788,13 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<IgnoredMissingRuntimeConsumerModule>();
 
-            var summary = await builder.ExecutePipelineAsync();
-            var consumerResult = await summary.Modules
-                .OfType<IgnoredMissingRuntimeConsumerModule>()
-                .Single();
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => builder.ExecutePipelineAsync());
 
             using (Assert.Multiple())
             {
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.IgnoredFailure);
-                await Assert.That(consumerResult.ExceptionOrDefault).IsNotNull();
-                await Assert.That(consumerResult.ExceptionOrDefault!.Message).Contains("missing-runtime");
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(MissingRuntimeProducerModule));
+                await Assert.That(exception.ToString()).Contains(nameof(IgnoredMissingRuntimeConsumerModule));
                 await Assert.That(IgnoredMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }

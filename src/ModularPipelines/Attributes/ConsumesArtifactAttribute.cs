@@ -26,6 +26,9 @@ public sealed class ConsumesArtifactAttribute : Attribute
 
     public ConsumesArtifactAttribute(Type producerModule, string artifactName)
     {
+        ArgumentNullException.ThrowIfNull(producerModule);
+        ArgumentException.ThrowIfNullOrWhiteSpace(artifactName);
+
         ProducerModule = producerModule;
         ArtifactName = artifactName;
     }

@@ -206,7 +206,7 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
-        var artifactNames = new HashSet<string>(StringComparer.Ordinal);
+        var runnableConsumersByArtifact = new Dictionary<string, List<Type>>(StringComparer.Ordinal);
         foreach (var (artifactName, consumerTypes) in consumersByArtifact)
         {
             foreach (var consumerType in consumerTypes)
@@ -215,23 +215,70 @@ internal class ModuleRunner : IModuleRunner
                         consumerType,
                         scheduler,
                         cancellationToken,
-                        requiredProducerTypes)
+                        requiredProducerTypes,
+                        moduleType)
                     .ConfigureAwait(false))
                 {
-                    artifactNames.Add(artifactName);
-                    break;
+                    if (!runnableConsumersByArtifact.TryGetValue(artifactName, out var runnableConsumers))
+                    {
+                        runnableConsumers = [];
+                        runnableConsumersByArtifact.Add(artifactName, runnableConsumers);
+                    }
+
+                    runnableConsumers.Add(consumerType);
                 }
             }
         }
 
-        if (artifactNames.Count == 0)
+        if (runnableConsumersByArtifact.Count == 0)
         {
             return;
         }
 
-        await _artifactLifecycleManager
+        var artifactNames = runnableConsumersByArtifact.Keys.ToHashSet(StringComparer.Ordinal);
+        var uploadedArtifacts = await _artifactLifecycleManager
             .UploadProducedArtifactsAsync(moduleType, artifactNames, cancellationToken)
             .ConfigureAwait(false);
+
+        ThrowIfRequiredArtifactsWereNotProduced(
+            moduleType,
+            uploadedArtifacts,
+            runnableConsumersByArtifact);
+    }
+
+    private static void ThrowIfRequiredArtifactsWereNotProduced(
+        Type moduleType,
+        IReadOnlyList<ArtifactReference> uploadedArtifacts,
+        Dictionary<string, List<Type>> runnableConsumersByArtifact)
+    {
+        var uploadedArtifactNames = uploadedArtifacts
+            .Select(artifact => artifact.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        var missingArtifacts = moduleType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Where(attribute => runnableConsumersByArtifact.ContainsKey(attribute.Name)
+                                && !uploadedArtifactNames.Contains(attribute.Name))
+            .OrderBy(attribute => attribute.Name, StringComparer.Ordinal)
+            .ToList();
+
+        if (missingArtifacts.Count == 0)
+        {
+            return;
+        }
+
+        var details = missingArtifacts.Select(attribute =>
+        {
+            var consumers = runnableConsumersByArtifact[attribute.Name]
+                .Select(type => type.Name)
+                .OrderBy(name => name, StringComparer.Ordinal);
+            return $"Artifact '{attribute.Name}' matched no files for pattern '{attribute.PathPattern}'. "
+                   + $"Runnable consumers: {string.Join(", ", consumers)}.";
+        });
+
+        throw new InvalidOperationException(
+            $"Module '{moduleType.Name}' did not produce required artifacts:{Environment.NewLine}"
+            + string.Join(Environment.NewLine, details));
     }
 
     private async Task<bool> HasRunnableArtifactConsumerAsync(
@@ -283,12 +330,29 @@ internal class ModuleRunner : IModuleRunner
         Type consumerType,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
-        IReadOnlySet<Type> requiredProducerTypes)
+        IReadOnlySet<Type> requiredProducerTypes,
+        Type? producerTypeBeingFinalized = null)
     {
         if (scheduler.GetModuleState(consumerType) is not { State: not ModuleExecutionState.Completed } moduleState
             || moduleState.SkipResult.ShouldSkip)
         {
             return false;
+        }
+
+        // A direct consumer cannot finish planning until this producer finalizes. Probe its skip
+        // condition now, but defer consumers whose other dependencies may affect that decision.
+        if (producerTypeBeingFinalized is not null
+            && moduleState.Dependencies.All(
+                dependency => dependency.Value || dependency.Key == producerTypeBeingFinalized))
+        {
+            var directConsumerSkip = await _modulePlanningSkipEvaluator
+                .EvaluateAsync(moduleState.Module, cancellationToken)
+                .ConfigureAwait(false);
+            if (directConsumerSkip?.ShouldSkip == true)
+            {
+                moduleState.SkipResult = directConsumerSkip;
+                return false;
+            }
         }
 
         var dependencyDemand = await GetRequiredDependencyDemandAsync(

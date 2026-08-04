@@ -20,6 +20,9 @@ public sealed class ProducesArtifactAttribute : Attribute
 
     public ProducesArtifactAttribute(string name, string pathPattern)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(pathPattern);
+
         Name = name;
         PathPattern = pathPattern;
     }
