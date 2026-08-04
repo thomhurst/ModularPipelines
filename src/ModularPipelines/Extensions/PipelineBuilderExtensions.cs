@@ -4,12 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Caching;
 using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines;
 
 /// <summary>
 /// Convenience extension methods for PipelineBuilder that delegate to Services.

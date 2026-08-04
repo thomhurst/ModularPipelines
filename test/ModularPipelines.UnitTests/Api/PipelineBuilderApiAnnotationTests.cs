@@ -1,11 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using ModularPipelines.Extensions;
-
 namespace ModularPipelines.UnitTests.Api;
 
 public class PipelineBuilderApiAnnotationTests
 {
+    [Test]
+    public async Task Builder_Extensions_Are_In_Root_Namespace()
+    {
+        await Assert.That(typeof(PipelineBuilderExtensions).Namespace)
+            .IsEqualTo("ModularPipelines");
+    }
+
     [Test]
     public async Task Runtime_Type_Registration_Warns_Trim_And_Aot_Callers()
     {
