@@ -13,20 +13,13 @@ internal sealed class FileSystemRunHistoryStore(
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
 
-    public Task<PipelineRunReport?> GetLatestAsync(CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore($"{OwnedFilePrefix}*.json", pipelineIdentity: null, cancellationToken);
-
     public Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
         CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore(
-            $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
-            pipelineIdentity,
-            cancellationToken);
+        GetLatestAsyncCore(pipelineIdentity, cancellationToken);
 
     private async Task<PipelineRunReport?> GetLatestAsyncCore(
-        string searchPattern,
-        string? pipelineIdentity,
+        string pipelineIdentity,
         CancellationToken cancellationToken)
     {
         var directory = GetHistoryDirectory();
@@ -38,7 +31,7 @@ internal sealed class FileSystemRunHistoryStore(
         PipelineRunReport? latestReport = null;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
-                     searchPattern,
+                     $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
                      SearchOption.TopDirectoryOnly))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -47,11 +40,10 @@ internal sealed class FileSystemRunHistoryStore(
                 var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
                 if (RunReportJsonSerializer.Deserialize(json) is
                     { SchemaVersion: PipelineRunReport.CurrentSchemaVersion } report
-                    && (pipelineIdentity is null
-                        || string.Equals(
-                            report.PipelineIdentity,
-                            pipelineIdentity,
-                            StringComparison.Ordinal)))
+                    && string.Equals(
+                        report.PipelineIdentity,
+                        pipelineIdentity,
+                        StringComparison.Ordinal))
                 {
                     if (latestReport is null || report.End > latestReport.End)
                     {
