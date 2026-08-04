@@ -161,7 +161,7 @@ public class CommandParserTests : TestBase
 
     [CliTool("mysupersecrettool")]
     [CliSubCommand("do", "this", "then", "that")]
-    private record MySuperSecretToolOptions : CommandLineToolOptions
+    internal record MySuperSecretToolOptions : CommandLineToolOptions
     {
         [CliOption("--build-arg")]
         public IReadOnlyList<KeyValue>? BuildArgs { get; set; }
@@ -190,7 +190,7 @@ public class CommandParserTests : TestBase
 
     [CliTool("dotnet")]
     [CliSubCommand("add")]
-    private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions
+    internal record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string Project { get; set; } = Project;
@@ -207,7 +207,7 @@ public class CommandParserTests : TestBase
 
     [CliTool("dotnet")]
     [CliSubCommand("add")]
-    private record PlaceholderToolOptions3 : CommandLineToolOptions
+    internal record PlaceholderToolOptions3 : CommandLineToolOptions
     {
         [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
         public string? Project { get; set; }

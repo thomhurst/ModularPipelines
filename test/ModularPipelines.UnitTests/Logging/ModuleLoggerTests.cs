@@ -293,7 +293,7 @@ public class ModuleLoggerTests
         }
     }
 
-    private class MySecrets
+    internal class MySecrets
     {
         [SecretValue] public string? Value1 { get; init; } = "Secret Value!!!";
     }

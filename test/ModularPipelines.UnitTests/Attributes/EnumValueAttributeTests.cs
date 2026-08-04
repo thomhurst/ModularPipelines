@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -32,7 +33,7 @@ public class EnumValueAttributeTests
         Three,
     }
 
-    private record NumberWrapper
+    internal record NumberWrapper : CommandLineToolOptions
     {
         [CliOption("--number")]
         public Number Number { get; set; }

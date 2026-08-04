@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -32,7 +34,8 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
-    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> ReflectionAccessorsCache = new();
+    private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
+    private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
@@ -147,7 +150,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Generated secret accessors handle statically known option types; GetSecretProperties is the documented reflection fallback for dynamic options.")]
+        Justification = "Processed C# assemblies require exact generated metadata. Unprocessed assemblies use a reflection fallback and are not trim-safe.")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -158,7 +161,30 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         var type = value.GetType();
         if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
         {
-            secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
+            var reflectionFallbackIsUnsafe = GeneratedSecretMetadata.IsGeneratedMetadataRequired(type.Assembly)
+                                             || !RuntimeFeature.IsDynamicCodeSupported;
+            if (GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly))
+            {
+                if (reflectionFallbackIsUnsafe)
+                {
+                    throw new MissingSecretMetadataException(type);
+                }
+
+                secretProperties = GetReflectionAccessors(type);
+            }
+            else if (CanTypeHierarchyReferenceSecretValueAttribute(type))
+            {
+                if (reflectionFallbackIsUnsafe)
+                {
+                    throw new MissingSecretMetadataException(type);
+                }
+
+                secretProperties = GetReflectionAccessors(type);
+            }
+            else
+            {
+                yield break;
+            }
         }
 
         foreach (var property in secretProperties)
@@ -232,6 +258,75 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             }
         }
     }
+
+    private static bool CanReferenceSecretValueAttribute(Assembly assembly) =>
+        CanReferenceSecretValueAttribute(assembly, RuntimeFeature.IsDynamicCodeSupported);
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated assemblies register themselves. Reference inspection only excludes third-party assemblies that cannot declare SecretValue properties.")]
+    internal static bool CanReferenceSecretValueAttribute(
+        Assembly assembly,
+        bool isDynamicCodeSupported)
+    {
+        if (!isDynamicCodeSupported)
+        {
+            // Native AOT cannot inspect references or reflect over unprocessed types. Treat
+            // their secret metadata as unknown so the caller fails loudly instead of assuming
+            // that values are safe to log.
+            return true;
+        }
+
+        return SecretAttributeReferenceCache.GetValue(assembly, static candidate =>
+        {
+            var attributeAssembly = typeof(SecretValueAttribute).Assembly;
+            if (candidate == attributeAssembly)
+            {
+                return new SecretAttributeReference(true);
+            }
+
+            var attributeAssemblyName = attributeAssembly.GetName().Name;
+            var referencesAttribute = candidate.GetReferencedAssemblies().Any(
+                reference => string.Equals(
+                    reference.Name,
+                    attributeAssemblyName,
+                    StringComparison.Ordinal));
+            return new SecretAttributeReference(referencesAttribute);
+        }).Value;
+    }
+
+    private static bool CanTypeHierarchyReferenceSecretValueAttribute(Type type)
+    {
+        for (var currentType = type; currentType is not null; currentType = currentType.BaseType)
+        {
+            if (CanReferenceSecretValueAttribute(currentType.Assembly))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [RequiresUnreferencedCode("Assemblies without generated secret metadata require reflection and are not trim-safe.")]
+    private static IReadOnlyList<SecretPropertyAccessor> GetSecretProperties(Type type)
+    {
+        return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
+            .Where(property => property.GetCustomAttribute<SecretValueAttribute>() is not null)
+            .Select(property => new SecretPropertyAccessor(
+                property.Name,
+                property.GetValue,
+                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
+            .ToArray();
+    }
+
+    [RequiresUnreferencedCode("Partial and non-C# types require reflection metadata.")]
+    private static IReadOnlyList<SecretPropertyAccessor> GetReflectionAccessors(Type type) =>
+        ReflectionAccessorsCache.GetValue(
+            type,
+            static candidate => new ReflectionAccessors(GetSecretProperties(candidate))).Value;
 
     private static bool IsMatchingSecretKey(string key, string secretKey)
     {
@@ -341,19 +436,6 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         };
     }
 
-    [RequiresUnreferencedCode("Reflection fallback requires SecretValue-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe secret access.")]
-    private static IReadOnlyList<SecretPropertyAccessor> GetSecretProperties(Type type)
-    {
-        return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
-            .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null)
-            .Select(property => new SecretPropertyAccessor(
-                property.Name,
-                property.GetValue,
-                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
-            .ToArray();
-    }
-
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
         foreach (var option in options)
@@ -404,4 +486,8 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             _buildSystemSecretMasker.MaskSecrets(newPatterns);
         }
     }
+
+    private sealed record SecretAttributeReference(bool Value);
+
+    private sealed record ReflectionAccessors(IReadOnlyList<SecretPropertyAccessor> Value);
 }

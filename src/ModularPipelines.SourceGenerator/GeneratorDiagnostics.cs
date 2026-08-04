@@ -25,16 +25,16 @@ internal static class GeneratorDiagnostics
     public static DiagnosticDescriptor IncompleteCommandMetadata { get; } = Create(
         "MPG0003",
         "Incomplete command metadata",
-        "Command metadata for '{0}' is incomplete because one or more attributed properties "
-        + "are inaccessible or have invalid attribute arguments; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        "Command metadata for '{0}' is incomplete because these attributed properties are "
+        + "inaccessible or have invalid attribute arguments: {1}; make every attributed property accessible",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor IncompleteSecretMetadata { get; } = Create(
         "MPG0004",
         "Incomplete secret metadata",
-        "Secret metadata for '{0}' is incomplete because one or more [SecretValue] properties "
-        + "are inaccessible; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        "Secret metadata for '{0}' is incomplete because these [SecretValue] properties are "
+        + "inaccessible: {1}; make every [SecretValue] property accessible",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor IncompleteModuleEventMetadata { get; } = Create(
         "MPG0005",
@@ -46,11 +46,12 @@ internal static class GeneratorDiagnostics
     public static DiagnosticDescriptor SkippedRuntimeMetadata { get; } = Create(
         "MPG0006",
         "Runtime metadata generation skipped",
-        "Runtime metadata generation for '{0}' was skipped because the type is generic or "
-        + "inaccessible; runtime reflection will be used and required members may be removed "
-        + "when trimming; make the type accessible and non-generic before publishing with "
-        + "Native AOT",
-        DiagnosticSeverity.Warning);
+        "Runtime metadata generation for '{0}' was skipped because the type is generic, "
+        + "inaccessible, file-local, split across partial declarations, or has an ambiguous "
+        + "metadata name across assemblies; make the type and its containing types accessible, "
+        + "non-generic, and non-file-local, avoid split partial declarations in its hierarchy, "
+        + "and use unique metadata names",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor SkippedModuleEventMetadata { get; } = Create(
         "MPG0007",
@@ -127,6 +128,14 @@ internal static class GeneratorDiagnostics
         + "be removed by trimming; use built-in explicit DependsOn<T> dependencies before "
         + "publishing with Native AOT",
         DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor PeerGeneratedRuntimeMetadata { get; } = Create(
+        "MPG0017",
+        "Peer-generated type lacks runtime metadata",
+        "Runtime metadata for '{0}' cannot be generated because the type was emitted by another "
+        + "source generator in this compilation; declare the type in user source or a referenced "
+        + "assembly so it is visible to the metadata generator",
+        DiagnosticSeverity.Error);
 
     private static DiagnosticDescriptor Create(
         string id,
