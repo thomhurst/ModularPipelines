@@ -803,6 +803,47 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task DisabledModuleCacheNeitherReadsNorWritesEntries()
+    {
+        var temporaryDirectory = Path.Combine(Path.GetTempPath(), $"ModularPipelines-cache-disabled-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        CachedModule.WorkingDirectory = temporaryDirectory;
+        CachedModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(Path.Combine(temporaryDirectory, "input.txt"), "value");
+
+            var firstStatus = await RunPipelineAsync(temporaryDirectory, cacheDirectory);
+            var disabledStatus = await RunPipelineAsync(
+                temporaryDirectory,
+                cacheDirectory,
+                disableModuleCache: true);
+
+            Directory.Delete(cacheDirectory, recursive: true);
+            var disabledWithoutEntryStatus = await RunPipelineAsync(
+                temporaryDirectory,
+                cacheDirectory,
+                disableModuleCache: true);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(disabledStatus).IsEqualTo(Status.Successful);
+                await Assert.That(disabledWithoutEntryStatus).IsEqualTo(Status.Successful);
+                await Assert.That(CachedModule.ExecutionCount).IsEqualTo(3);
+                await Assert.That(Directory.Exists(cacheDirectory)).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task FluentSkipConditionTakesPrecedenceOverCacheHit()
     {
         var temporaryDirectory = Path.Combine(
@@ -3288,16 +3329,24 @@ public class ModuleCacheTests
         }
     }
 
-    private static async Task<Status> RunPipelineAsync(string workingDirectory, string cacheDirectory)
+    private static async Task<Status> RunPipelineAsync(
+        string workingDirectory,
+        string cacheDirectory,
+        bool disableModuleCache = false)
     {
-        await using var host = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModuleCache<FileSystemModuleCache>(options =>
             {
                 options.WorkingDirectory = workingDirectory;
                 options.CacheDirectory = cacheDirectory;
             })
-            .AddModule<CachedModule>()
-            .BuildAsync();
+            .AddModule<CachedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            DisableModuleCache = disableModuleCache,
+        });
+
+        await using var host = await builder.BuildAsync();
 
         await host.RunAsync();
         return host.Services

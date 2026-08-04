@@ -70,18 +70,23 @@ internal sealed class PipelineRunReportFactory(
                 uniqueModuleTypeNames,
                 previousByType))
             .ToArray();
+        var status = pipelineException is null ? summary.Status : Status.Failed;
+        TimeSpan? previousTotalDuration = status == Status.Successful
+                                          && previousReport?.Status == Status.Successful
+            ? previousReport.TotalDuration
+            : null;
 
         return new PipelineRunReport
         {
             PipelineIdentity = pipelineIdentity,
-            Status = pipelineException is null ? summary.Status : Status.Failed,
+            Status = status,
             Start = summary.Start,
             End = summary.End,
             TotalDuration = summary.TotalDuration,
-            PreviousTotalDuration = previousReport?.TotalDuration,
-            TotalDurationDelta = previousReport is null
+            PreviousTotalDuration = previousTotalDuration,
+            TotalDurationDelta = previousTotalDuration is null
                 ? null
-                : summary.TotalDuration - previousReport.TotalDuration,
+                : summary.TotalDuration - previousTotalDuration.Value,
             Metrics = summary.Metrics,
             Exception = CreateExceptionDetails(pipelineException),
             Modules = modules,
@@ -116,7 +121,7 @@ internal sealed class PipelineRunReportFactory(
             ? previousByType.GetValueOrDefault(typeName)
             : null;
         var current = CreateCurrentReportValues(result, timeline);
-        var previousDuration = GetPreviousDuration(current.DurationMeasured, previous);
+        var previousDuration = GetPreviousDuration(current.Status, current.DurationMeasured, previous);
         return new ModuleRunReport
         {
             ModuleName = moduleType.Name,
@@ -175,9 +180,12 @@ internal sealed class PipelineRunReportFactory(
     }
 
     private static TimeSpan? GetPreviousDuration(
+        Status status,
         bool durationMeasured,
         ModuleRunReport? previous) =>
-        durationMeasured && previous is { DurationMeasured: true }
+        status == Status.Successful
+        && durationMeasured
+        && previous is { Status: Status.Successful, DurationMeasured: true }
             ? previous.Duration
             : null;
 
