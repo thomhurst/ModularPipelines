@@ -502,7 +502,7 @@ public class IncompleteMetadataDiagnosticTests
     [Test]
     public async Task Trimmed_Host_Allows_Unrelated_Internal_External_Type_Name_Collisions()
     {
-        var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
+        var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(
             new CommandOptionsGenerator(),
             OptionsRegistrationInfrastructure,
             """
@@ -533,8 +533,8 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("ExternalBase");
-            await Assert.That(generatedSource).Contains("ExternalLeaf");
+            await Assert.That(generatedSource).Contains("ExternalOne");
+            await Assert.That(generatedSource).Contains("ExternalTwo");
             await Assert.That(generatedSource).Contains("Shared.State");
         }
     }

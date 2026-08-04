@@ -88,6 +88,41 @@ internal static class GeneratorTestHarness
         return Run(generator, compilation, globalOptions);
     }
 
+    public static GeneratorDriverRunResult RunWithPeerExternalAssemblies(
+        IIncrementalGenerator generator,
+        string infrastructure,
+        string firstExternalSource,
+        string secondExternalSource,
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var firstExternalReference = CreateMetadataReference(
+            "ExternalOne",
+            [firstExternalSource],
+            [.. References, infrastructureReference]);
+        var secondExternalReference = CreateMetadataReference(
+            "ExternalTwo",
+            [secondExternalSource],
+            [.. References, infrastructureReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText(source)],
+            [
+                .. References,
+                infrastructureReference,
+                firstExternalReference,
+                secondExternalReference,
+            ],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return Run(generator, compilation, globalOptions);
+    }
+
     private static GeneratorDriverRunResult Run(
         IIncrementalGenerator generator,
         CSharpCompilation compilation,
