@@ -1004,12 +1004,8 @@ internal sealed class ModuleDiscoveryPlanner(
                 return MethodTouchesStaticState(calledMethod, visited, inspectConstructors);
             }
 
-            if (calledMethod is ConstructorInfo)
-            {
-                return false;
-            }
-
-            return !IsKnownPlanningSafeAssembly(calledMethod.Module.Assembly);
+            return calledMethod is ConstructorInfo
+                   || !IsKnownPlanningSafeAssembly(calledMethod.Module.Assembly);
         }
         catch (ArgumentException)
         {

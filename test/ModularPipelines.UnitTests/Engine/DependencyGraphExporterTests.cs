@@ -455,6 +455,20 @@ public class DependencyGraphExporterTests
             Task.FromResult(_constructorConfigurationMutations);
     }
 
+    private sealed class ExternalConstructorConfigurationMutationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            _ = new ExternalConfigurationMutationProbe();
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(ExternalConfigurationMutationProbe.ConstructorCalls);
+    }
+
     private sealed class ConfigurationMutationProbe
     {
         public ConfigurationMutationProbe() =>
@@ -3014,6 +3028,25 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(mutationsAfterActivation).IsEqualTo(1);
             await Assert.That(_constructorConfigurationMutations).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_External_Constructor_State()
+    {
+        ExternalConfigurationMutationProbe.Reset();
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ExternalConstructorConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var mutationsAfterActivation = ExternalConfigurationMutationProbe.ConstructorCalls;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mutationsAfterActivation).IsEqualTo(1);
+            await Assert.That(ExternalConfigurationMutationProbe.ConstructorCalls).IsEqualTo(1);
         }
     }
 
