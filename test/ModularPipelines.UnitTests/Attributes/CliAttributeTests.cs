@@ -307,6 +307,34 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Early_Operand_Terminator_Before_Normal_Flag()
+    {
+        var options = new TestCliOptionsWithEarlyTerminator
+        {
+            Operand = "-operand",
+            Normal = true,
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Conditional_Early_Terminator_Before_Normal_Flag()
+    {
+        var options = new TestCliOptionsWithConditionalEarlyTerminator
+        {
+            Operand = "-operand",
+            Normal = true,
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Duplicate_Switches()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))
@@ -544,6 +572,27 @@ public class CliAttributeTests
 
         [CliOption("--duplicate")]
         public string? Second { get; set; }
+    }
+
+    private record TestCliOptionsWithEarlyTerminator
+    {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, PrependOptionTerminator = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
+    }
+
+    private record TestCliOptionsWithConditionalEarlyTerminator
+    {
+        [CliArgument(
+            0,
+            Phase = CommandLinePhase.EarlyOperand,
+            PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
     }
 
     private record TestCliOptionsWithArgumentAfterOptions

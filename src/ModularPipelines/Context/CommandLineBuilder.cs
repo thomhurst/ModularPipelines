@@ -75,10 +75,10 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator);
         var manualArgs = options.Arguments?.ToList() ?? [];
-        // Keep recognized leading options ahead of a marker emitted by a structured argument;
+        // Keep recognized manual options ahead of a marker emitted by a structured argument;
         // leave manual positional operands in place after that structured argument.
         var leadingManualOptions = !terminatorEmittedBeforeProperties && emittedOptionTerminator
-            ? TakeLeadingManualOptions(manualArgs, commandSpecificModel)
+            ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
             : [];
         if (options.ArgumentsContainOptionTerminator
             && !manualArgs.Contains("--", StringComparer.Ordinal))
@@ -138,7 +138,7 @@ internal sealed class CommandLineBuilder(
         return new CommandLine(tool, allArgs);
     }
 
-    private static IReadOnlyList<string> TakeLeadingManualOptions(
+    private static IReadOnlyList<string> ExtractRecognizedManualOptions(
         List<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> commandModel)
     {
@@ -157,37 +157,44 @@ internal sealed class CommandLineBuilder(
             .Where(static item => item.Name is not null)
             .GroupBy(static item => item.Name!, StringComparer.Ordinal)
             .ToDictionary(static group => group.Key, static group => group.First().Part, StringComparer.Ordinal);
-        var count = 0;
-        while (count < manualArgs.Count)
+        var recognizedOptions = new List<string>();
+        var remainingArguments = new List<string>();
+        for (var index = 0; index < manualArgs.Count;)
         {
-            if (flagNames.Contains(manualArgs[count]))
+            if (flagNames.Contains(manualArgs[index]))
             {
-                count++;
+                recognizedOptions.Add(manualArgs[index]);
+                index++;
                 continue;
             }
 
-            if (!optionsByName.TryGetValue(manualArgs[count], out var option))
+            if (!optionsByName.TryGetValue(manualArgs[index], out var option))
             {
-                break;
+                remainingArguments.Add(manualArgs[index]);
+                index++;
+                continue;
             }
 
             var operandCount = GetManualOperandCount(option);
-            if (manualArgs.Count - count - 1 < operandCount)
+            if (manualArgs.Count - index - 1 < operandCount)
             {
-                break;
+                remainingArguments.Add(manualArgs[index]);
+                index++;
+                continue;
             }
 
-            count += operandCount + 1;
+            recognizedOptions.AddRange(manualArgs.GetRange(index, operandCount + 1));
+            index += operandCount + 1;
         }
 
-        if (count == 0)
+        if (recognizedOptions.Count == 0)
         {
             return [];
         }
 
-        var options = manualArgs.GetRange(0, count);
-        manualArgs.RemoveRange(0, count);
-        return options;
+        manualArgs.Clear();
+        manualArgs.AddRange(remainingArguments);
+        return recognizedOptions;
     }
 
     private static int GetManualOperandCount(OptionPart option)

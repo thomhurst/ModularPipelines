@@ -27,6 +27,16 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
+        var propertyValues = commandModel.ToDictionary(
+            static part => part,
+            part => part.Getter(optionsObject));
+        var argumentValues = arguments.ToDictionary(
+            static argument => argument,
+            argument => (IReadOnlyList<string>) GetValues(propertyValues[argument]));
+        var renderedOptionValues = flagsAndOptions.ToDictionary(
+            static part => part,
+            part => RenderOption(part, propertyValues[part]));
+        ValidateOptionTerminatorOrdering(arguments, renderedOptionValues, argumentValues);
         var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
         foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
@@ -36,7 +46,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                     phase,
                     flagsAndOptions,
                     arguments,
-                    optionsObject,
+                    renderedOptionValues,
+                    argumentValues,
+                    optionsObject.GetType(),
                     ref emittedOptionTerminator));
         }
 
@@ -61,7 +73,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
-        object optionsObject,
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        Type optionsType,
         ref bool emittedOptionTerminator)
     {
         var rendered = new List<string>();
@@ -72,13 +86,23 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         if (phase == CommandLinePhase.Terminal)
         {
-            AddArguments(rendered, phaseArguments, optionsObject, ref emittedOptionTerminator);
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+            AddArguments(
+                rendered,
+                phaseArguments,
+                argumentValues,
+                optionsType,
+                ref emittedOptionTerminator);
+            AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
         }
         else
         {
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-            AddArguments(rendered, phaseArguments, optionsObject, ref emittedOptionTerminator);
+            AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
+            AddArguments(
+                rendered,
+                phaseArguments,
+                argumentValues,
+                optionsType,
+                ref emittedOptionTerminator);
         }
 
         return rendered;
@@ -87,7 +111,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddArguments(
         List<string> args,
         IEnumerable<ArgumentPart>? argumentParts,
-        object optionsObject,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        Type optionsType,
         ref bool emittedOptionTerminator)
     {
         if (argumentParts is null)
@@ -97,25 +122,20 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var argumentPart in argumentParts)
         {
-            var rawValue = argumentPart.Getter(optionsObject);
-            var values = GetValues(rawValue);
+            var values = argumentValues[argumentPart];
             if (argumentPart.Attribute.Required && IsEmpty(values))
             {
                 throw new ArgumentException(
-                    $"Required CLI argument '{optionsObject.GetType().Name}.{argumentPart.PropertyName}' cannot be null or empty.",
+                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null or empty.",
                     argumentPart.PropertyName);
             }
 
-            if (rawValue is null)
+            if (values.Count == 0)
             {
                 continue;
             }
 
-            var requiresOptionTerminator = argumentPart.Attribute.PrependOptionTerminator
-                || (argumentPart.Attribute.PrependOptionTerminatorIfValueStartsWithDash
-                    && values.Any(static value => value.StartsWith('-')));
-            if (requiresOptionTerminator
-                && values.Count > 0
+            if (RequiresOptionTerminator(argumentPart, values)
                 && !emittedOptionTerminator)
             {
                 args.Add("--");
@@ -132,27 +152,81 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddFlagsAndOptions(
         List<string> args,
         IEnumerable<PropertyCommandLinePart> parts,
-        object optionsObject)
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues)
     {
         foreach (var part in parts)
         {
-            var rawValue = part.Getter(optionsObject);
-            if (rawValue is null)
+            args.AddRange(renderedOptionValues[part]);
+        }
+    }
+
+    private static void ValidateOptionTerminatorOrdering(
+        IEnumerable<ArgumentPart> arguments,
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues)
+    {
+        var renderedOptions = renderedOptionValues
+            .Where(static pair => pair.Value.Count > 0)
+            .Select(static pair => pair.Key)
+            .ToArray();
+        foreach (var argument in arguments)
+        {
+            var values = argumentValues[argument];
+            if (values.Count == 0 || !RequiresOptionTerminator(argument, values))
             {
                 continue;
             }
 
-            switch (part)
+            if (renderedOptions.Any(option => IsRenderedAfter(option, argument)))
             {
-                case FlagPart flagPart:
-                    AddFlag(args, flagPart, rawValue);
-                    break;
-                case OptionPart optionPart:
-                    AddOption(args, optionPart, rawValue);
-                    break;
+                throw new InvalidOperationException(
+                    $"CLI argument '{argument.PropertyName}' emits an end-of-options marker before " +
+                    "a later flag or option. Move the argument to a later phase or remove its " +
+                    "option-terminator setting.");
             }
         }
     }
+
+    private static IReadOnlyList<string> RenderOption(
+        PropertyCommandLinePart part,
+        object? rawValue)
+    {
+        if (rawValue is null)
+        {
+            return [];
+        }
+
+        var rendered = new List<string>();
+        switch (part)
+        {
+            case FlagPart flag:
+                AddFlag(rendered, flag, rawValue);
+                break;
+            case OptionPart option:
+                AddOption(rendered, option, rawValue);
+                break;
+        }
+
+        return rendered;
+    }
+
+    private static bool IsRenderedAfter(
+        PropertyCommandLinePart option,
+        ArgumentPart argument)
+    {
+        var optionOrder = GetRenderOrder(option.Phase);
+        var argumentOrder = GetRenderOrder(argument.Phase);
+        return optionOrder > argumentOrder
+               || (optionOrder == argumentOrder
+                   && argument.Phase == CommandLinePhase.Terminal);
+    }
+
+    private static bool RequiresOptionTerminator(
+        ArgumentPart argument,
+        IReadOnlyCollection<string> values) =>
+        argument.Attribute.PrependOptionTerminator
+        || (argument.Attribute.PrependOptionTerminatorIfValueStartsWithDash
+            && values.Any(static value => value.StartsWith('-')));
 
     private static void AddFlag(List<string> args, FlagPart flagPart, object rawValue)
     {
