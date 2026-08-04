@@ -4,7 +4,6 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
-using ModularPipelines.Exceptions;
 using ModularPipelines.FSharp.TestFixtures;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -252,7 +251,7 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task CompilerGeneratedTypeDoesNotBypassMissingMetadata()
+    public async Task IncompleteProcessedTypeUsesReflectionFallback()
     {
         var assembly = AssemblyBuilder.DefineDynamicAssembly(
             new AssemblyName($"CompilerGeneratedOptions_{Guid.NewGuid():N}"),
@@ -282,13 +281,12 @@ public class SecretValueNormalizationTests
         var value = Activator.CreateInstance(objectType)!;
 
         var metadataFound = GeneratedSecretMetadata.TryGetAccessors(objectType, out _);
-        var exception = await Assert.That(() => provider.GetSecretsInObject(value).ToList())
-            .Throws<MissingSecretMetadataException>();
+        var secrets = provider.GetSecretsInObject(value).ToList();
 
         using (Assert.Multiple())
         {
             await Assert.That(metadataFound).IsFalse();
-            await Assert.That(exception!.ObjectType).IsEqualTo(objectType);
+            await Assert.That(secrets).IsEquivalentTo(["generated-secret"]);
         }
     }
 
@@ -354,7 +352,7 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task MissingExactMetadata_ThrowsActionableException()
+    public async Task IncompleteProcessedTypeWithoutSecretsUsesReflectionFallback()
     {
         var provider = CreateProvider(out _);
         var assembly = AssemblyBuilder.DefineDynamicAssembly(
@@ -371,21 +369,19 @@ public class SecretValueNormalizationTests
         GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
         GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
 
-        var exception = await Assert.That(() => provider.GetSecretsInObject(value).ToList())
-            .Throws<MissingSecretMetadataException>();
+        var secrets = provider.GetSecretsInObject(value).ToList();
 
-        await Assert.That(exception!.ObjectType).IsEqualTo(objectType);
-        await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
-        await Assert.That(exception.Message).Contains("RuntimeMetadataRegistry");
+        await Assert.That(secrets).IsEmpty();
     }
 
     [Test]
-    public async Task PartialOptionsWithoutExactMetadataAreRejected()
+    public async Task PartialOptionsWithoutExactMetadataUseReflectionFallback()
     {
         var provider = CreateProvider(out _);
 
-        await Assert.That(() => provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList())
-            .Throws<MissingSecretMetadataException>();
+        var secrets = provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList();
+
+        await Assert.That(secrets).IsEmpty();
     }
 
     [Test]

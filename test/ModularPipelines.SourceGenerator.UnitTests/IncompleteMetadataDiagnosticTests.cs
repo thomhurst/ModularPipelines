@@ -46,9 +46,22 @@ public class IncompleteMetadataDiagnosticTests
 
         namespace Microsoft.Extensions.DependencyInjection
         {
-            public interface IServiceCollection;
+            public interface IServiceCollection
+            {
+                void Add(ServiceDescriptor descriptor);
+            }
 
-            public sealed class ServiceCollection : IServiceCollection;
+            public sealed class ServiceCollection : IServiceCollection
+            {
+                public void Add(ServiceDescriptor descriptor)
+                {
+                }
+            }
+
+            public sealed class ServiceDescriptor
+            {
+                public static ServiceDescriptor Singleton<TService>(TService implementation) => new();
+            }
 
             public static class OptionsServiceCollectionExtensions
             {
@@ -1007,6 +1020,33 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void Add(IServiceCollection services) =>
                     services.TryAddSingleton(Options.Create(new PartialOptions()));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Inferred_ServiceDescriptor_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Add(ServiceDescriptor.Singleton(
+                        Options.Create(new PartialOptions())));
             }
             """);
 

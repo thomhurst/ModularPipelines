@@ -201,7 +201,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         or "AddTransient"
         or "TryAddSingleton"
         or "TryAddScoped"
-        or "TryAddTransient";
+        or "TryAddTransient"
+        or "Singleton"
+        or "Scoped"
+        or "Transient";
 
     private static string? GetInvokedMethodName(InvocationExpressionSyntax invocation) =>
         invocation.Expression switch
@@ -271,7 +274,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             containingNamespace == DependencyInjectionExtensionsNamespace
             && definition.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
             && definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient";
-        if (!isServiceCollectionRegistration && !isTryAddRegistration)
+        var isServiceDescriptorRegistration =
+            containingNamespace == DependencyInjectionNamespace
+            && definition.ContainingType.MetadataName == "ServiceDescriptor"
+            && definition.Name is "Singleton" or "Scoped" or "Transient";
+        if (!isServiceCollectionRegistration
+            && !isTryAddRegistration
+            && !isServiceDescriptorRegistration)
         {
             return null;
         }
@@ -681,17 +690,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine(" // Generated metadata must register obsolete and experimental types.");
         sb.AppendLine();
         sb.AppendLine("namespace ModularPipelines.Generated;");
-        sb.AppendLine();
-        sb.AppendLine("[global::System.AttributeUsage(global::System.AttributeTargets.Assembly, AllowMultiple = true)]");
-        sb.AppendLine("internal sealed class IncompleteRuntimeMetadataAttribute : global::System.Attribute");
-        sb.AppendLine("{");
-        sb.AppendLine("    internal IncompleteRuntimeMetadataAttribute(string metadataName)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        MetadataName = metadataName;");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    internal string MetadataName { get; }");
-        sb.AppendLine("}");
         sb.AppendLine();
         sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
