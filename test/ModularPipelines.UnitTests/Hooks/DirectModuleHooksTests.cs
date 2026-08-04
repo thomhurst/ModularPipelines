@@ -137,6 +137,7 @@ public class DirectModuleHooksTests : TestBase
         public List<string> HooksCalled { get; } = [];
         public Exception? ReceivedFailureException { get; private set; }
         public ModuleResult<string>? ReceivedAfterResult { get; private set; }
+        public bool AfterHookCancellationRequested { get; private set; }
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithIgnoreFailures()
@@ -167,6 +168,7 @@ public class DirectModuleHooksTests : TestBase
             // OnAfterExecuteAsync is called for both success and failure (after OnFailedAsync for failures)
             HooksCalled.Add("OnAfterExecuteAsync");
             ReceivedAfterResult = result;
+            AfterHookCancellationRequested = cancellationToken.IsCancellationRequested;
             return Task.FromResult<ModuleResult<string>?>(null);
         }
     }
@@ -359,6 +361,7 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.ReceivedAfterResult!.ModuleStatus).IsEqualTo(Status.Failed);
         await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault)
             .IsTypeOf<InvalidOperationException>();
+        await Assert.That(module.AfterHookCancellationRequested).IsFalse();
     }
 
     [Test]

@@ -241,7 +241,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 module,
                 moduleContext,
                 moduleResult,
-                executionContext.ModuleCancellationTokenSource.Token)
+                CancellationToken.None)
             .ConfigureAwait(false);
         executionContext.SetTypedResult(moduleResult);
         return moduleResult;
