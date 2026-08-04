@@ -1077,7 +1077,8 @@ internal static class ModuleAuthoringAnalysis
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
         var containingType = definition.ContainingType;
         var isRegistrationType = containingType.ToDisplayString() is
-                                     "ModularPipelines.Extensions.PipelineBuilderExtensions"
+                                     "ModularPipelines.PipelineBuilderExtensions"
+                                     or "ModularPipelines.Extensions.PipelineBuilderExtensions"
                                      or "ModularPipelines.Extensions.ServiceCollectionExtensions"
                                  || (containingType.Name == "ModuleRegistration"
                                      && containingType.Arity == 1
@@ -1140,6 +1141,7 @@ internal static class ModuleAuthoringAnalysis
         return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
                 && containingType is
                     "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                    or "ModularPipelines.PipelineBuilderExtensions"
                     or "ModularPipelines.Extensions.PipelineBuilderExtensions")
                || (definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient"
                    && containingType
@@ -4436,7 +4438,8 @@ internal static class ModuleAuthoringAnalysis
             "System.Threading.Tasks.Task" =>
                 method.Name is "Run" or "ContinueWith",
             "System.Threading.Tasks.Task<TResult>" => method.Name == "ContinueWith",
-            "ModularPipelines.Extensions.PipelineBuilderExtensions" =>
+            "ModularPipelines.PipelineBuilderExtensions"
+                or "ModularPipelines.Extensions.PipelineBuilderExtensions" =>
                 method.Name == "ConfigureServices",
             "System.Threading.Tasks.TaskFactory"
                 or "System.Threading.Tasks.TaskFactory<TResult>" =>
