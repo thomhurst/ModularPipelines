@@ -69,6 +69,22 @@ internal class OptionsValidator : IOptionsValidator
                 $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
         }
 
+        if (options.RunReport.HistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.HistoryRetention cannot be negative. Current value: " +
+                $"{options.RunReport.HistoryRetention}"));
+        }
+
+        if (options.RunReport.HistoryRetention > 0
+            && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
+        }
+
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
         {

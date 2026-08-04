@@ -59,7 +59,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
-        CancellationToken engineCancellationToken)
+        CancellationToken engineCancellationToken,
+        Func<CancellationToken, Task>? prepareExecutionAsync = null,
+        Func<ModuleResult<T>, CancellationToken, Task>? finalizeExecutionAsync = null,
+        bool completeModule = true)
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
@@ -67,6 +70,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var beforeHooksExecuted = false;
         var afterHookInvoked = false;
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
+        var finalizer = new ModuleExecutionFinalizer<T>(
+            module,
+            executionContext,
+            finalizeExecutionAsync,
+            completeModule);
 
         // Get configuration once at the start
         var config = ((IModule) module).Configuration;
@@ -87,7 +95,26 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 // Call direct skip hook first
                 await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipDecision, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-                return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
+                var skippedResult = await HandleSkipped(
+                        module,
+                        executionContext,
+                        moduleContext,
+                        skipDecision,
+                        logger)
+                    .ConfigureAwait(false);
+                await finalizer.FinalizeAsync(skippedResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(skippedResult);
+                finalizer.Complete(skippedResult);
+
+                return skippedResult;
+            }
+
+            // Check for cancellation after skip check
+            executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            if (prepareExecutionAsync is not null)
+            {
+                await prepareExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
             }
 
             var cachedResult = await TryUseCachedResultAsync(
@@ -99,11 +126,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
             if (cachedResult is not null)
             {
+                await finalizer.FinalizeAsync(cachedResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(cachedResult);
+                finalizer.Complete(cachedResult);
+
                 return cachedResult;
             }
-
-            // Check for cancellation after skip check
-            executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
@@ -138,8 +166,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
 
+            await finalizer.FinalizeAsync(moduleResult).ConfigureAwait(false);
+
             executionContext.SetTypedResult(moduleResult);
-            module.CompletionSource.TrySetResult(moduleResult);
+            finalizer.Complete(moduleResult);
 
             // Save to history if applicable
             await SaveResults(
@@ -151,52 +181,84 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             return moduleResult;
         }
-        catch (Exception exception)
+        catch (Exception exception) when (!finalizer.WasInvoked)
         {
             executionContext.RecordEndTime();
 
             // Call direct failed hook (before OnAfterExecuteAsync in finally)
             await _directHookInvoker.InvokeFailedAsync(module, moduleContext, exception, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Create the failed result for OnAfterExecuteAsync to receive
-            moduleResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            moduleResult = await HandleException(
+                    module,
+                    config,
+                    executionContext,
+                    moduleContext,
+                    exception,
+                    logger,
+                    result => moduleResult = result,
+                    completeModule)
+                .ConfigureAwait(false);
+            await finalizer.FinalizeAsync(moduleResult).ConfigureAwait(false);
+            finalizer.Complete(moduleResult);
 
-            module.CompletionSource.TrySetResult(moduleResult!);
-
-            return await HandleException(module, config, executionContext, moduleContext, exception, logger).ConfigureAwait(false);
+            return moduleResult;
         }
         finally
         {
             try
             {
-                // Call direct OnAfterExecuteAsync hook - runs on both success and failure
-                // Only run if before hooks were executed (module actually started)
-                if (beforeHooksExecuted && moduleResult != null && !afterHookInvoked)
-                {
-                    afterHookInvoked = true;
-                    moduleResult = await InvokeAfterExecuteAsync(
-                            module,
-                            moduleContext,
-                            moduleResult,
-                            executionContext.ModuleCancellationTokenSource.Token)
-                        .ConfigureAwait(false);
-                    executionContext.SetTypedResult(moduleResult);
-                }
+                moduleResult = await InvokePendingAfterHookAsync(
+                        module,
+                        moduleContext,
+                        executionContext,
+                        moduleResult,
+                        beforeHooksExecuted,
+                        afterHookInvoked)
+                    .ConfigureAwait(false);
 
                 LogModuleStatus(executionContext, logger);
             }
             finally
             {
                 _cacheResultRepository?.DiscardFingerprint(module);
-
-                var activeCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
-                activeCancellationTokenSource.Dispose();
-
-                if (!ReferenceEquals(activeCancellationTokenSource, originalCancellationTokenSource))
-                {
-                    originalCancellationTokenSource.Dispose();
-                }
+                DisposeCancellationTokenSources(executionContext, originalCancellationTokenSource);
             }
+        }
+    }
+
+    private async Task<ModuleResult<T>?> InvokePendingAfterHookAsync<T>(
+        Module<T> module,
+        IModuleContext moduleContext,
+        ModuleExecutionContext<T> executionContext,
+        ModuleResult<T>? moduleResult,
+        bool beforeHooksExecuted,
+        bool afterHookInvoked)
+    {
+        if (!beforeHooksExecuted || moduleResult is null || afterHookInvoked)
+        {
+            return moduleResult;
+        }
+
+        moduleResult = await InvokeAfterExecuteAsync(
+                module,
+                moduleContext,
+                moduleResult,
+                CancellationToken.None)
+            .ConfigureAwait(false);
+        executionContext.SetTypedResult(moduleResult);
+        return moduleResult;
+    }
+
+    private static void DisposeCancellationTokenSources(
+        ModuleExecutionContext executionContext,
+        CancellationTokenSource originalCancellationTokenSource)
+    {
+        var activeCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
+        activeCancellationTokenSource.Dispose();
+
+        if (!ReferenceEquals(activeCancellationTokenSource, originalCancellationTokenSource))
+        {
+            originalCancellationTokenSource.Dispose();
         }
     }
 
@@ -262,7 +324,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 cancellationToken)
             .ConfigureAwait(false);
         return UseHistoricalResult(
-            module,
             executionContext,
             cachedResult,
             cacheHit,
@@ -307,13 +368,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Check if we should use historical data BEFORE setting completion source
         // For skipped modules with a history repository configured, check for cached results
-        if (_resultRepository.IsEnabled)
+        if (_resultRepository.IsEnabled
+            && executionContext.AllowHistoricalResultWhenSkipped)
         {
             var historicalResult = await TryGetHistoricalResult(module, moduleContext, logger).ConfigureAwait(false);
             if (historicalResult != null)
             {
                 return UseHistoricalResult(
-                    module,
                     executionContext,
                     historicalResult,
                     skipDecision,
@@ -323,8 +384,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
-        executionContext.SetTypedResult(skippedResult);
-        module.CompletionSource.TrySetResult(skippedResult!);
 
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,
@@ -379,7 +438,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private static ModuleResult<T> UseHistoricalResult<T>(
-        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         ModuleResult<T> historicalResult,
         SkipDecision skipDecision,
@@ -389,8 +447,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         executionContext.Status = Status.UsedHistory;
         executionContext.SkipResult = skipDecision;
         var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
-        executionContext.SetTypedResult(usedHistoryResult);
-        module.CompletionSource.TrySetResult(usedHistoryResult);
         logger.LogDebug(message);
         return usedHistoryResult;
     }
@@ -598,7 +654,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Exception exception,
-        IModuleLogger logger)
+        IModuleLogger logger,
+        Action<ModuleResult<T>> preserveResult,
+        bool completeModule = true)
     {
         logger.LogError(exception, "Module failed after {Duration}", executionContext.Duration.ToDisplayString());
 
@@ -630,6 +688,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogInformation("Pipeline has been canceled");
 
             var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            preserveResult(cancelledResult);
             executionContext.SetTypedResult(cancelledResult);
             return cancelledResult;
         }
@@ -647,6 +706,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 executionContext.Status = Status.IgnoredFailure;
 
                 var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+                preserveResult(ignoredResult);
                 executionContext.SetTypedResult(ignoredResult);
 
                 await SaveResults(
@@ -661,7 +721,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Create a failed result before cancelling and throwing
         ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+        preserveResult(failedResult);
         executionContext.SetTypedResult(failedResult);
+        if (completeModule)
+        {
+            module.CompletionSource.TrySetResult(failedResult);
+        }
 
         // Cancel the pipeline and propagate
         CancelPipelineAndThrow(executionContext, moduleContext, exception, logger);
@@ -711,6 +776,45 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.SetException(moduleFailedException);
         throw moduleFailedException;
+    }
+
+    private sealed class ModuleExecutionFinalizer<T>(
+        Module<T> module,
+        ModuleExecutionContext executionContext,
+        Func<ModuleResult<T>, CancellationToken, Task>? finalizeExecutionAsync,
+        bool completeModule)
+    {
+        public bool WasInvoked { get; private set; }
+
+        public async Task FinalizeAsync(ModuleResult<T> result)
+        {
+            if (finalizeExecutionAsync is null)
+            {
+                return;
+            }
+
+            WasInvoked = true;
+            var previousProvisionalResult = module.SetProvisionalResult(result);
+            try
+            {
+                await finalizeExecutionAsync(
+                        result,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                module.RestoreProvisionalResult(previousProvisionalResult);
+            }
+        }
+
+        public void Complete(ModuleResult<T> result)
+        {
+            if (completeModule)
+            {
+                module.CompletionSource.TrySetResult(result);
+            }
+        }
     }
 
     private static void LogModuleStatus(ModuleExecutionContext executionContext, IModuleLogger logger)

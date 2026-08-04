@@ -106,6 +106,25 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("History should satisfy this module.");
     }
 
+    [ProducesArtifact("graph-output", "graph-output.txt")]
+    private sealed class HistoricalArtifactProducerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Graph export must not execute modules.");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
+    private sealed class HistoricalArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Graph export must not execute modules.");
+    }
+
     [ModularPipelines.Attributes.DependsOn<HistoricalDependencyModule>]
     private sealed class HistoricalDependentModule : Module<string>
     {
@@ -1718,6 +1737,38 @@ public class DependencyGraphExporterTests
                 .IsEqualTo(JsonValueKind.Null);
             await Assert.That(targetNode.GetProperty("skipped").GetBoolean()).IsFalse();
             await Assert.That(_executions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Historical_Artifact_Producer_Remains_Skipped_When_Artifact_Is_Demanded()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<IModuleResultRepository>(
+            new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(HistoricalArtifactProducerModule)],
+        });
+        builder.AddModule<HistoricalArtifactProducerModule>();
+        builder.AddModule<HistoricalArtifactConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var nodes = document.RootElement.GetProperty("nodes").EnumerateArray().ToArray();
+        var producerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(HistoricalArtifactProducerModule));
+        var consumerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(HistoricalArtifactConsumerModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(producerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(consumerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(consumerNode.GetProperty("skipReason").GetString())
+                .Contains(nameof(HistoricalArtifactProducerModule));
         }
     }
 

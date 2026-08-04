@@ -217,6 +217,7 @@ public class RedisModuleCacheTests
             {
                 options.ConnectionString = "distributed:6379";
                 options.KeyPrefix = "distributed";
+                options.RunIdentifier = "distributed-run";
             },
             options => options.ChunkSizeBytes = 123);
         builder.AddRedisModuleCache(

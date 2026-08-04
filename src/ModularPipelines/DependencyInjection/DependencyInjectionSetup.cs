@@ -255,6 +255,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<ModuleRetriever>()
             .AddSingleton<PipelinePlanner>()
+            .AddSingleton<ModulePlanningSkipEvaluator>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
@@ -264,6 +265,9 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineOutputCoordinator, PipelineOutputCoordinator>()
             .AddSingleton<IIgnoredModuleResultRegistrar, IgnoredModuleResultRegistrar>()
             .AddSingleton<IPipelineSummaryFactory, PipelineSummaryFactory>()
+            .AddSingleton<ICommandExecutionCounter, CommandExecutionCounter>()
+            .AddSingleton<PipelineRunReportFactory>()
+            .AddSingleton<IRunReportService, RunReportService>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
@@ -297,6 +301,8 @@ internal static class DependencyInjectionSetup
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
+
+        services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
     }
 
     /// <summary>
@@ -367,12 +373,13 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineValidationService, PipelineValidationService>()
             .AddSingleton<IPipelineValidator, OptionsValidator>()
             .AddSingleton<IPipelineValidator, DependencyValidator>()
+            .AddSingleton<IPipelineValidator, ArtifactContractValidator>()
             .AddSingleton<IPipelineValidator, ModuleSelectionValidator>()
             .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
     }
 
     /// <summary>
-    /// Registers distributed execution infrastructure with in-memory defaults.
+    /// Registers distributed execution infrastructure with local defaults.
     /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
     /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when TotalInstances > 1.
     /// </summary>
@@ -382,11 +389,13 @@ internal static class DependencyInjectionSetup
         services.Configure<DistributedOptions>(_ => { });
         services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
-        services.TryAddSingleton<IDistributedArtifactStore, InMemoryDistributedArtifactStore>();
+        services.TryAddSingleton<IDistributedArtifactStore, FileSystemDistributedArtifactStore>();
 
         // Serialization (always available)
         services.TryAddSingleton<ModuleTypeRegistry>();
-        services.TryAddSingleton(sp => new ModuleResultSerializer(sp.GetRequiredService<ModuleTypeRegistry>()));
+        services.TryAddSingleton(sp => new ModuleResultSerializer(
+            sp.GetRequiredService<ModuleTypeRegistry>(),
+            sp.GetRequiredService<ICommandExecutionCounter>()));
 
         // Artifact lifecycle manager (handles [ProducesArtifact]/[ConsumesArtifact])
         services.TryAddSingleton<ArtifactLifecycleManager>();

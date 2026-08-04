@@ -1,0 +1,66 @@
+using Mediator;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
+using ModularPipelines.Engine.Execution;
+using ModularPipelines.Exceptions;
+using ModularPipelines.Logging;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Engine;
+
+internal sealed class ModulePlanningSkipEvaluator(
+    IServiceProvider serviceProvider,
+    IModuleConditionHandler moduleConditionHandler,
+    IMediator mediator,
+    ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
+{
+    public async Task<SkipDecision?> EvaluateAsync(
+        IModule module,
+        CancellationToken cancellationToken)
+    {
+        var (shouldIgnore, attributeDecision) = await moduleConditionHandler
+            .ShouldIgnoreForPlanning(module, cancellationToken)
+            .ConfigureAwait(false);
+        if (shouldIgnore)
+        {
+            return attributeDecision ?? SkipDecision.Skip("Module was ignored");
+        }
+
+        var planningSkipCondition = module.Configuration.PlanningSkipCondition;
+        if (planningSkipCondition is null)
+        {
+            return null;
+        }
+
+        await using var scope = serviceProvider.CreateAsyncScope();
+        var scopedServices = scope.ServiceProvider;
+        var executionContext = ExecutionContextFactory.Create(module, module.GetType());
+        try
+        {
+            var moduleContext = new ModuleContext(
+                scopedServices.GetRequiredService<IPipelineContext>(),
+                module,
+                executionContext,
+                scopedServices.GetRequiredService<IInternalModuleLoggerProvider>()
+                    .GetLogger(module.GetType()),
+                mediator,
+                estimatedTimeProvider,
+                moduleResultAccessAllowed: false);
+            try
+            {
+                using var planningResultAccess = PlanningModuleResultAccess.Enter();
+                return await planningSkipCondition(moduleContext, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (PlanningModuleResultUnavailableException)
+            {
+                return null;
+            }
+        }
+        finally
+        {
+            executionContext.ModuleCancellationTokenSource.Dispose();
+        }
+    }
+}

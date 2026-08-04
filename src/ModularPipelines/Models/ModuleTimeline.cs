@@ -10,6 +10,9 @@ namespace ModularPipelines.Models;
 [ExcludeFromCodeCoverage]
 public record ModuleTimeline
 {
+    [JsonIgnore]
+    internal string RuntimeModuleTypeName { get; init; } = string.Empty;
+
     /// <summary>
     /// Gets the name of the module.
     /// </summary>
@@ -17,7 +20,7 @@ public record ModuleTimeline
     public string ModuleName { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets the full type name of the module.
+    /// Gets the stable assembly-qualified type identifier of the module.
     /// </summary>
     [JsonInclude]
     public string ModuleTypeName { get; init; } = string.Empty;

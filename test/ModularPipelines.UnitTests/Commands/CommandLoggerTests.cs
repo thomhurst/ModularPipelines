@@ -375,7 +375,17 @@ public class CommandLoggerTests : TestBase
             $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
 
-        var logFile = await File.ReadAllTextAsync(file);
+        var logFile = string.Empty;
+        var logCompleted = await WaitUntilAsync(
+            () =>
+            {
+                logFile = File.ReadAllText(file);
+                return logFile.Contains($"↳ {marker}", StringComparison.Ordinal)
+                       && logFile.Contains("✓ [", StringComparison.Ordinal);
+            },
+            TestHostSettings.DefaultTestTimeout);
+        await Assert.That(logCompleted).IsTrue();
+
         var headerIndex = logFile.IndexOf(
             $"{Environment.CurrentDirectory}> pwsh",
             StringComparison.Ordinal);

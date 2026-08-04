@@ -29,4 +29,9 @@ public enum ValidationErrorCategory
     /// Error related to pipeline requirements.
     /// </summary>
     Requirement,
+
+    /// <summary>
+    /// Error related to a produced or consumed artifact contract.
+    /// </summary>
+    Artifact,
 }

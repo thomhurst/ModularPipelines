@@ -8,6 +8,12 @@ public class DistributedOptions
 
     public int TotalInstances { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets an identifier shared by every process in this pipeline execution.
+    /// Coordinators should populate this from their execution-scoping identifier.
+    /// </summary>
+    public string? ExecutionIdentifier { get; set; }
+
     public IReadOnlyList<string> Capabilities { get; set; } = [];
 
     public int CapabilityTimeoutSeconds { get; set; } = 300;
