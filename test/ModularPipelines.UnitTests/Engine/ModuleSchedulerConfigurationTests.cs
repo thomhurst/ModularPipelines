@@ -24,9 +24,6 @@ public class ModuleSchedulerConfigurationTests
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
 
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [Test]

@@ -23,9 +23,6 @@ public class ModuleDependencyResolverTests
             .DependsOnOptional<DependencyModule>()
             .Build();
 
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [Test]

@@ -57,7 +57,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
         {
             // AlwaysRun modules may still execute after scheduler cancellation.
             // Their final execution path must own both registry and typed-task completion.
-            if (module.ModuleRunType == ModuleRunType.AlwaysRun)
+            if (module.Configuration.AlwaysRun)
             {
                 continue;
             }

@@ -37,7 +37,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 {
                     await dependencyTask.ConfigureAwait(false);
                 }
-                catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
+                catch (Exception e) when (moduleState.Module.Configuration.AlwaysRun)
                 {
                     var depLogger = GeneratedModuleMetadata.TryGetRuntime(
                         moduleState.ModuleType,

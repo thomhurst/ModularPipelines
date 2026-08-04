@@ -190,7 +190,7 @@ internal class WorkerModuleExecutor(
             _metadataRegistry);
         await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 
-        var result = await module.ResultTask;
+        var result = await ((IInternalModule) module).ResultTask;
         var artifactReferences = await TryUploadArtifactsAsync(module, assignment.ModuleTypeName, cancellationToken);
         if (result is null)
         {

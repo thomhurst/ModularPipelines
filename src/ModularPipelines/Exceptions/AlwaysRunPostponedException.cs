@@ -6,7 +6,7 @@
 /// <remarks>
 /// <para>
 /// This exception is used internally by the pipeline engine when a module with
-/// <c>ModuleRunType.AlwaysRun</c> has a dependency that throws an exception.
+/// <see cref="Configuration.ModuleConfiguration.AlwaysRun"/> is enabled and a dependency throws an exception.
 /// Instead of immediately failing the AlwaysRun module, the exception is captured
 /// and the module is allowed to execute. The captured exceptions are reported
 /// after pipeline completion.

@@ -4,8 +4,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Distributed;
 
 /// <summary>
-/// Applies a deserialized <see cref="IModuleResult"/> to a module's <c>CompletionSource</c>
-/// via the <see cref="IModule.TrySetDistributedResult"/> interface method.
+/// Applies a deserialized <see cref="IModuleResult"/> to a module's <c>CompletionSource</c>.
 /// </summary>
 /// <remarks>
 /// Used by both the master (collecting results from workers) and workers (applying dependency
@@ -22,6 +21,6 @@ internal static class ModuleCompletionSourceApplicator
     /// <returns>True if the result was successfully applied.</returns>
     public static bool TryApply(IModule module, IModuleResult result)
     {
-        return module.TrySetDistributedResult(result);
+        return ((IInternalModule) module).TrySetDistributedResult(result);
     }
 }
