@@ -264,6 +264,26 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("mutable-state");
     }
 
+    private sealed class ConfigurationMutationCounter
+    {
+        public int Count { get; set; }
+    }
+
+    private sealed class InjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
+        : Module<int>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            counter.Count++;
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(counter.Count);
+    }
+
     private sealed class ConfiguredFallbackFactoryModule(string factoryValue) : Module<string>
     {
         private int _configurationCallCount;
@@ -815,6 +835,38 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("throwing-disposable-planning");
+    }
+
+    private sealed class ThrowingPlanningScopeService : IDisposable
+    {
+        public void Dispose() =>
+            throw new InvalidOperationException("Planning scope disposal failed.");
+    }
+
+    private sealed class DualCleanupFailureModule : Module<string>, IDisposable
+    {
+        private static readonly HashSet<DualCleanupFailureModule> PlanningCopies = [];
+
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider)
+        {
+            _ = serviceProvider.GetRequiredService<ThrowingPlanningScopeService>();
+            var copy = new DualCleanupFailureModule();
+            PlanningCopies.Add(copy);
+            return copy;
+        }
+
+        public void Dispose()
+        {
+            if (PlanningCopies.Remove(this))
+            {
+                throw new InvalidOperationException("Planner-owned disposal failed.");
+            }
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("dual-cleanup-failure");
     }
 
     private sealed class CountPlanningRegistrationAttribute
@@ -2332,6 +2384,30 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Against_Injected_State()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<ConfigurationMutationCounter>();
+        builder.AddModule<InjectedConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var counter = pipeline.Services.GetRequiredService<ConfigurationMutationCounter>();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        _ = await pipeline.RunAsync();
+        var module = pipeline.Services.GetServices<IModule>()
+            .OfType<InjectedConfigurationMutationModule>()
+            .Single();
+        var result = await module;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(counter.Count).IsEqualTo(1);
+            await Assert.That(result.ValueOrDefault).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Render_Preserves_Configured_Fallback_Copy()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -3114,6 +3190,30 @@ public class DependencyGraphExporterTests
             await Assert.That(_planningDisposals).IsEqualTo(1);
             await Assert.That(exception!.InnerExceptions).HasSingleItem();
             await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Planning disposal failed.");
+        }
+    }
+
+    [Test]
+    public async Task Render_Aggregates_Planner_And_Scope_Cleanup_Failures()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddScoped<ThrowingPlanningScopeService>();
+        builder.AddModule<DualCleanupFailureModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var failures = exception!.Flatten().InnerExceptions;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(failures.Any(failure =>
+                    failure.Message == "Planner-owned disposal failed."))
+                .IsTrue();
+            await Assert.That(failures.Any(failure =>
+                    failure.Message == "Planning scope disposal failed."))
+                .IsTrue();
         }
     }
 

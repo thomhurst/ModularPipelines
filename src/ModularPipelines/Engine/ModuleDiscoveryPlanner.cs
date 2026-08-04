@@ -144,32 +144,15 @@ internal sealed class ModuleDiscoveryPlanner(
         }
         catch (Exception discoveryException)
         {
-            Exception? moduleCleanupException = null;
-            Exception? scopeCleanupException = null;
-            try
-            {
-                await DisposePlanningModulesAsync(ownedPlanningModules).ConfigureAwait(false);
-            }
-            catch (Exception exception)
-            {
-                moduleCleanupException = exception;
-            }
-
-            try
-            {
-                await planningScope.DisposeAsync().ConfigureAwait(false);
-            }
-            catch (Exception exception)
-            {
-                scopeCleanupException = exception;
-            }
-
-            if (moduleCleanupException is not null || scopeCleanupException is not null)
+            var cleanupExceptions = await CollectPlanningCleanupExceptionsAsync(
+                    ownedPlanningModules,
+                    planningScope)
+                .ConfigureAwait(false);
+            if (cleanupExceptions.Count > 0)
             {
                 throw new AggregateException(
                     "Module discovery and planning cleanup both failed.",
-                    new[] { discoveryException, moduleCleanupException, scopeCleanupException }
-                        .OfType<Exception>());
+                    new[] { discoveryException }.Concat(cleanupExceptions));
             }
 
             throw;
@@ -196,6 +179,7 @@ internal sealed class ModuleDiscoveryPlanner(
             if (HasCustomPlanningCopy(module))
             {
                 return CreateIsolatedPlanningModule(CreatePlanningCopy(
+                    module,
                     copyProvider,
                     ownedPlanningModules,
                     planningServiceProvider));
@@ -204,6 +188,7 @@ internal sealed class ModuleDiscoveryPlanner(
             try
             {
                 var activatedCopy = CreatePlanningCopy(
+                    module,
                     copyProvider,
                     ownedPlanningModules,
                     planningServiceProvider);
@@ -247,6 +232,7 @@ internal sealed class ModuleDiscoveryPlanner(
         if (module is IPlanningModuleCopyProvider copyProvider)
         {
             return CreateIsolatedPlanningModule(CreatePlanningCopy(
+                module,
                 copyProvider,
                 ownedPlanningModules,
                 planningServiceProvider));
@@ -602,6 +588,7 @@ internal sealed class ModuleDiscoveryPlanner(
     }
 
     private static PlanningModuleCreation CreatePlanningCopy(
+        IModule runtimeModule,
         IPlanningModuleCopyProvider copyProvider,
         ICollection<IModule> ownedPlanningModules,
         IServiceProvider planningServiceProvider)
@@ -611,10 +598,19 @@ internal sealed class ModuleDiscoveryPlanner(
         var isPlannerOwned = !trackingServiceProvider.IsServiceProviderOwned(module);
         try
         {
-            if (copyProvider.IsConfigurationInitialized
-                && module is IPlanningModuleCopyProvider planningCopyProvider)
+            if (module is IPlanningModuleCopyProvider planningCopyProvider)
             {
-                planningCopyProvider.InitializeConfiguration();
+                if (!HasCustomPlanningCopy(runtimeModule)
+                    && HasServiceProviderOwnedState(
+                        module,
+                        trackingServiceProvider.IsServiceProviderOwned))
+                {
+                    planningCopyProvider.InitializeConfiguration(runtimeModule.Configuration);
+                }
+                else if (copyProvider.IsConfigurationInitialized)
+                {
+                    planningCopyProvider.InitializeConfiguration();
+                }
             }
         }
         catch
@@ -631,6 +627,34 @@ internal sealed class ModuleDiscoveryPlanner(
             module,
             trackingServiceProvider.IsServiceProviderOwned,
             IsPlannerOwned: isPlannerOwned);
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Planning module fields are inspected only to detect resolved service references.")]
+    private static bool HasServiceProviderOwnedState(
+        IModule module,
+        Func<object, bool> isServiceProviderOwned)
+    {
+        for (var type = module.GetType();
+             type is not null && (!type.IsGenericType
+                                  || type.GetGenericTypeDefinition() != typeof(Module<>));
+             type = type.BaseType)
+        {
+            if (type.GetFields(
+                    BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.DeclaredOnly)
+                .Select(field => field.GetValue(module))
+                .Any(value => value is not null && isServiceProviderOwned(value)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void RejectRuntimeBoundPlanningCondition(
@@ -866,6 +890,32 @@ internal sealed class ModuleDiscoveryPlanner(
         }
     }
 
+    internal static async Task<IReadOnlyList<Exception>> CollectPlanningCleanupExceptionsAsync(
+        IEnumerable<IModule> planningModules,
+        AsyncServiceScope planningScope)
+    {
+        var exceptions = new List<Exception>();
+        try
+        {
+            await DisposePlanningModulesAsync(planningModules).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            exceptions.Add(exception);
+        }
+
+        try
+        {
+            await planningScope.DisposeAsync().ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            exceptions.Add(exception);
+        }
+
+        return exceptions;
+    }
+
     private sealed class StateComparisonContext(Func<object, bool> isServiceProviderOwned)
     {
         private readonly Dictionary<object, object> _firstToSecond =
@@ -1072,15 +1122,12 @@ internal sealed record PlannedModuleDiscovery(
 {
     public async ValueTask DisposeAsync()
     {
-        try
+        var exceptions = await ModuleDiscoveryPlanner
+            .CollectPlanningCleanupExceptionsAsync(OwnedPlanningModules, PlanningScope)
+            .ConfigureAwait(false);
+        if (exceptions.Count > 0)
         {
-            await ModuleDiscoveryPlanner
-                .DisposePlanningModulesAsync(OwnedPlanningModules)
-                .ConfigureAwait(false);
-        }
-        finally
-        {
-            await PlanningScope.DisposeAsync().ConfigureAwait(false);
+            throw new AggregateException("Dependency graph planning cleanup failed.", exceptions);
         }
     }
 }

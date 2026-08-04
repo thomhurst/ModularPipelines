@@ -126,6 +126,9 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 
     void IPlanningModuleCopyProvider.InitializeConfiguration() => _ = _configuration.Value;
 
+    void IPlanningModuleCopyProvider.InitializeConfiguration(ModuleConfiguration configuration) =>
+        _configuration = CreateInitializedConfigurationLazy(configuration);
+
     IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance()
     {
         var copy = (Module<T>) MemberwiseClone();
@@ -340,6 +343,8 @@ internal interface IPlanningModuleCopyProvider
     IModule CreatePlanningCopyFromRegisteredInstance();
 
     void InitializeConfiguration();
+
+    void InitializeConfiguration(ModuleConfiguration configuration);
 }
 
 #pragma warning restore SA1202
