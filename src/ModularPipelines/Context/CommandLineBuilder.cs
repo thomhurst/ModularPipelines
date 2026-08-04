@@ -47,10 +47,7 @@ internal sealed class CommandLineBuilder(
     public CommandLine Build(CommandLineToolOptions options)
     {
         // 1. Resolve tool name using _toolResolver
-        var tool = _toolResolver.ResolveTool(options)
-            ?? throw new InvalidOperationException(
-                $"Could not resolve tool name for {options.GetType().Name}. " +
-                "Specify tool via [CliTool] attribute or constructor parameter.");
+        var tool = ResolveTool(options);
 
         // 2. Get static or runtime-computed command parts.
         var commandParts = _commandPartsProvider.GetRawCommandParts(options);
@@ -58,21 +55,10 @@ internal sealed class CommandLineBuilder(
         // 3. Build arguments from properties using the command model. Properties declared
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
-        var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
-        var terminalCommandModel = commandModel
-            .Where(part => part.Phase == CommandLinePhase.Terminal)
-            .ToList();
-        var nonTerminalCommandModel = commandModel
-            .Where(part => part.Phase != CommandLinePhase.Terminal)
-            .ToList();
-        var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
-        var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
-        var passthroughCommandModel = commandSpecificModel
-            .Where(IsPassthrough)
-            .ToList();
-        var regularCommandModel = commandSpecificModel
-            .Where(part => !IsPassthrough(part))
-            .ToList();
+        var commandModels = GetCommandModels(options.GetType());
+        var terminalCommandModel = commandModels.Terminal;
+        var globalCommandModel = commandModels.Global;
+        var commandSpecificModel = commandModels.CommandSpecific;
         var emittedOptionTerminator = false;
         var globalArgs = _commandArgumentBuilder.BuildArguments(
             globalCommandModel,
@@ -81,7 +67,7 @@ internal sealed class CommandLineBuilder(
             out var globalOptionTerminatorIndex).ToList();
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = _commandArgumentBuilder.BuildArguments(
-            regularCommandModel,
+            commandModels.Regular,
             options,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex).ToList();
@@ -93,7 +79,7 @@ internal sealed class CommandLineBuilder(
             terminatorEmittedBeforeProperties);
 
         var passthroughArgs = _commandArgumentBuilder.BuildArguments(
-            passthroughCommandModel,
+            commandModels.Passthrough,
             options,
             ref emittedOptionTerminator,
             out var passthroughOptionTerminatorIndex).ToList();
@@ -115,15 +101,12 @@ internal sealed class CommandLineBuilder(
         ValidateRunSettingsTerminator(modelEmittedOptionTerminator, runSettingsArgs);
 
         var hasOptionTerminator = pendingTerminatorState;
-        var extractedManualOptions = options.ArgumentsContainToolOptions
-                                     && hasOptionTerminator
-            ? ExtractRecognizedManualOptionsByScope(
-                manualArgs,
-                globalCommandModel,
-                [.. commandSpecificModel, .. terminalCommandModel],
-                options,
-                preserveTerminalOptions: true)
-            : ExtractedManualOptions.Empty;
+        var extractedManualOptions = ExtractManualOptions(
+            options,
+            manualArgs,
+            globalCommandModel,
+            [.. commandSpecificModel, .. terminalCommandModel],
+            hasOptionTerminator);
         ValidateTerminatorState(
             options,
             commandParts,
@@ -136,12 +119,11 @@ internal sealed class CommandLineBuilder(
             propertyArgs,
             commandSpecificModel,
             options);
-        var laterCommandOptionTerminatorIndex = passthroughOptionTerminatorIndex
-                                                ?? terminalArgumentOptionTerminatorIndex;
-        var manualOptionInsertionIndex = commandOptionTerminatorIndex
-                                         ?? (laterCommandOptionTerminatorIndex is not null
-                                             ? propertyArgs.Count
-                                             : null);
+        var manualOptionInsertionIndex = GetManualOptionInsertionIndex(
+            commandOptionTerminatorIndex,
+            passthroughOptionTerminatorIndex,
+            terminalArgumentOptionTerminatorIndex,
+            propertyArgs.Count);
         InsertManualOptions(
             globalArgs,
             propertyArgs,
@@ -173,12 +155,7 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(runSettingsArgs);
 
         // 7. A terminal option must not follow any rendered or manually supplied option terminator.
-        if (terminalOptionArgs.Count > 0 && emittedOptionTerminator)
-        {
-            throw new InvalidOperationException(
-                "Terminal options cannot be combined with arguments that emit or supply an "
-                + "end-of-options marker. Remove either the terminal option or the '--' source.");
-        }
+        ValidateTerminalOptions(terminalOptionArgs, emittedOptionTerminator);
 
         // Terminal options must follow every positional argument source.
         allArgs.AddRange(terminalArgumentArgs);
@@ -186,6 +163,88 @@ internal sealed class CommandLineBuilder(
 
         return new CommandLine(tool, allArgs);
     }
+
+    private string ResolveTool(CommandLineToolOptions options) =>
+        _toolResolver.ResolveTool(options)
+        ?? throw new InvalidOperationException(
+            $"Could not resolve tool name for {options.GetType().Name}. "
+            + "Specify tool via [CliTool] attribute or constructor parameter.");
+
+    private CommandModels GetCommandModels(Type optionsType)
+    {
+        var commandModel = _commandModelProvider.GetCommandModel(optionsType);
+        var terminal = commandModel
+            .Where(part => part.Phase == CommandLinePhase.Terminal)
+            .ToList();
+        var nonTerminal = commandModel
+            .Where(part => part.Phase != CommandLinePhase.Terminal)
+            .ToList();
+        var global = nonTerminal.Where(part => part.IsGlobalOption).ToList();
+        var commandSpecific = nonTerminal.Where(part => !part.IsGlobalOption).ToList();
+
+        return new CommandModels(
+            terminal,
+            global,
+            commandSpecific,
+            commandSpecific.Where(IsPassthrough).ToList(),
+            commandSpecific.Where(part => !IsPassthrough(part)).ToList());
+    }
+
+    private static ExtractedManualOptions ExtractManualOptions(
+        CommandLineToolOptions options,
+        List<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> globalCommandModel,
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        bool hasOptionTerminator)
+    {
+        if (!options.ArgumentsContainToolOptions || !hasOptionTerminator)
+        {
+            return ExtractedManualOptions.Empty;
+        }
+
+        return ExtractRecognizedManualOptionsByScope(
+            manualArgs,
+            globalCommandModel,
+            commandModel,
+            options,
+            preserveTerminalOptions: true);
+    }
+
+    private static int? GetManualOptionInsertionIndex(
+        int? commandOptionTerminatorIndex,
+        int? passthroughOptionTerminatorIndex,
+        int? terminalArgumentOptionTerminatorIndex,
+        int propertyArgumentCount)
+    {
+        if (commandOptionTerminatorIndex is not null)
+        {
+            return commandOptionTerminatorIndex;
+        }
+
+        return passthroughOptionTerminatorIndex is not null
+               || terminalArgumentOptionTerminatorIndex is not null
+            ? propertyArgumentCount
+            : null;
+    }
+
+    private static void ValidateTerminalOptions(
+        IReadOnlyCollection<string> terminalOptionArgs,
+        bool emittedOptionTerminator)
+    {
+        if (terminalOptionArgs.Count > 0 && emittedOptionTerminator)
+        {
+            throw new InvalidOperationException(
+                "Terminal options cannot be combined with arguments that emit or supply an "
+                + "end-of-options marker. Remove either the terminal option or the '--' source.");
+        }
+    }
+
+    private sealed record CommandModels(
+        IReadOnlyList<PropertyCommandLinePart> Terminal,
+        IReadOnlyList<PropertyCommandLinePart> Global,
+        IReadOnlyList<PropertyCommandLinePart> CommandSpecific,
+        IReadOnlyList<PropertyCommandLinePart> Passthrough,
+        IReadOnlyList<PropertyCommandLinePart> Regular);
 
     private static bool IsPassthrough(PropertyCommandLinePart part) =>
         part.Phase is CommandLinePhase.Passthrough || part.Phase == LegacyEndOfOptionsPhase;
