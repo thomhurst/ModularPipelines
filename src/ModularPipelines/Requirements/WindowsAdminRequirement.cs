@@ -19,7 +19,7 @@ namespace ModularPipelines.Requirements;
 /// </para>
 /// <para><b>Example:</b></para>
 /// <code>
-/// using var builder = Pipeline.CreateBuilder();
+/// var builder = Pipeline.CreateBuilder();
 /// builder.Services.AddRequirement&lt;WindowsAdminRequirement&gt;();
 /// builder.AddModule&lt;InstallServiceModule&gt;();
 ///

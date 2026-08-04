@@ -155,7 +155,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                 $$$"""${\textsf{\color{lightgreen}{{{status}}}}}$""",
             Status.NotYetStarted or Status.IgnoredFailure or Status.Processing or Status.Skipped =>
                 $$$"""${\textsf{\color{orange}{{{status}}}}}$""",
-            Status.PipelineTerminated or Status.TimedOut or Status.Failed or Status.Unknown =>
+            Status.PipelineTerminated or Status.TimedOut or Status.Failed or Status.DependencyFailed or Status.Unknown =>
                 $$$"""${\textsf{\color{red}{{{status}}}}}$""",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };

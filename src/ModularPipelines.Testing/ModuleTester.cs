@@ -127,7 +127,7 @@ public class ModuleTestBuilder<TModule>
             recorder.SetHandler(_commandHandler);
         }
 
-        using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+        var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
         {
             EnableCommandLineOptions = false,
         });

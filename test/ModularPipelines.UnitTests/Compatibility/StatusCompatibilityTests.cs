@@ -16,6 +16,7 @@ public class StatusCompatibilityTests
     [Arguments(Status.Skipped, 8)]
     [Arguments(Status.Unknown, 10)]
     [Arguments(Status.CachedResult, 11)]
+    [Arguments(Status.DependencyFailed, 12)]
     public async Task NumericValuesRemainStable(Status status, int expectedValue)
     {
         await Assert.That((int)status).IsEqualTo(expectedValue);

@@ -76,9 +76,11 @@ var shouldBuild = await context.Tools.Git.Changes.HasChangesAsync(
 ```
 
 Each base revision is resolved with `git merge-base`, and its `git diff --name-only` result is
-computed once per pipeline run. The comparison includes committed, staged, and unstaged tracked
-changes. If the base revision is unavailable (for example, in a shallow checkout without
-`origin/main`), the condition conservatively runs the module.
+combined with untracked, non-ignored files once per pipeline run. The comparison therefore includes
+committed, staged, unstaged, and new files. A pattern without `*` or `?` matches both that exact path
+and paths beneath it, so `src/MyService` can be used instead of `src/MyService/**`. If the base
+revision is unavailable (for example, in a shallow checkout without `origin/main`), the condition
+logs a warning and conservatively runs the module.
 
 ### Custom command runners
 
