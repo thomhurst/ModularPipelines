@@ -297,6 +297,22 @@ public class ArtifactContractTests
                 : Task.CompletedTask;
     }
 
+    private sealed class AwaitingEndHookReceiver : IModuleEventReceiver
+    {
+        public static Enums.Status? ObservedStatus { get; set; }
+
+        public async Task OnModuleEndAsync(IModuleHookContext context)
+        {
+            if (context.ModuleType != typeof(LocalProducerModule))
+            {
+                return;
+            }
+
+            var result = await context.Module.ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
+            ObservedStatus = result.ModuleStatus;
+        }
+    }
+
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
@@ -1096,6 +1112,7 @@ public class ArtifactContractTests
     {
         DeleteLocalArtifacts();
         LocalConsumerModule.ConsumedContent = null;
+        AwaitingEndHookReceiver.ObservedStatus = null;
         RecordingResultRepository.SaveCount = 0;
 
         try
@@ -1360,6 +1377,7 @@ public class ArtifactContractTests
             using var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
             builder.AddResultsRepository<RecordingResultRepository>();
+            builder.AddModuleEventReceiver<AwaitingEndHookReceiver>();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
             await using var pipeline = await builder.BuildAsync();
@@ -1382,6 +1400,8 @@ public class ArtifactContractTests
                 await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
                 await Assert.That(awaitedProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Failed);
                 await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
+                await Assert.That(AwaitingEndHookReceiver.ObservedStatus)
+                    .IsEqualTo(Enums.Status.Successful);
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }
         }

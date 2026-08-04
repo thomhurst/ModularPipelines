@@ -83,10 +83,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
 
             finalizationInvoked = true;
-            await finalizeExecutionAsync(
-                    result,
-                    executionContext.ModuleCancellationTokenSource.Token)
-                .ConfigureAwait(false);
+            var previousProvisionalResult = module.SetProvisionalResult(result);
+            try
+            {
+                await finalizeExecutionAsync(
+                        result,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                module.RestoreProvisionalResult(previousProvisionalResult);
+            }
         }
 
         void CompleteModule(ModuleResult<T> result)
