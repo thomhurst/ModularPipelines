@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -15,26 +16,25 @@ internal sealed class FileSystemRunHistoryStore(
     private const string OwnedFilePrefix = "modularpipelines-run-";
     private const int MinimumCompatibleSchemaVersion = 1;
 
-    public Task<PipelineRunReport?> GetLatestAsync(
-        string pipelineIdentity,
-        CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore(pipelineIdentity, cancellationToken);
-
-    private async Task<PipelineRunReport?> GetLatestAsyncCore(
-        string pipelineIdentity,
-        CancellationToken cancellationToken)
+    public async IAsyncEnumerable<PipelineRunReport> GetRunsAsync(
+        RunHistoryQuery query,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(query);
+        ArgumentException.ThrowIfNullOrWhiteSpace(query.PipelineIdentity);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(query.MaxRuns);
+
         var directory = GetHistoryDirectory();
         if (!Directory.Exists(directory))
         {
-            return null;
+            yield break;
         }
 
-        PipelineRunReport? latestReport = null;
+        var reports = new List<PipelineRunReport>();
         var incompatibleSchemaLogged = false;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
-                     $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
+                     $"{GetPipelineFilePrefix(query.PipelineIdentity)}*.json",
                      SearchOption.TopDirectoryOnly))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -48,11 +48,12 @@ internal sealed class FileSystemRunHistoryStore(
 
                 if (string.Equals(
                         report.PipelineIdentity,
-                        pipelineIdentity,
+                        query.PipelineIdentity,
                         StringComparison.Ordinal)
-                    && (latestReport is null || report.End > latestReport.End))
+                    && (!query.Since.HasValue || report.End >= query.Since.Value)
+                    && (!query.Status.HasValue || report.Status == query.Status.Value))
                 {
-                    latestReport = report;
+                    reports.Add(report);
                 }
             }
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
@@ -61,7 +62,13 @@ internal sealed class FileSystemRunHistoryStore(
             }
         }
 
-        return latestReport;
+        foreach (var report in reports
+                     .OrderByDescending(static report => report.End)
+                     .Take(query.MaxRuns))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            yield return report;
+        }
     }
 
     private bool TryDeserializeCompatibleReport(
