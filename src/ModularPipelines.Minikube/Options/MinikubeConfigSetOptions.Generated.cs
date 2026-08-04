@@ -19,8 +19,8 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
 public record MinikubeConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PropertyName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string PropertyValue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyValue
 ) : MinikubeOptions
 {
 }

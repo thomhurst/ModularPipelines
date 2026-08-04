@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "changes", "describe")]
 public record GcloudDnsRecordSetsChangesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ChangeId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ChangeId
 ) : GcloudOptions
 {
 }

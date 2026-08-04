@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "update")]
 public record GcloudAiPlatformModelsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Model
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Model
 ) : GcloudOptions
 {
     /// <summary>

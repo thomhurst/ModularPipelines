@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssh")]
 public record VaultSshOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string UsernameIp
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string UsernameIp
 ) : VaultOptions
 {
     /// <summary>

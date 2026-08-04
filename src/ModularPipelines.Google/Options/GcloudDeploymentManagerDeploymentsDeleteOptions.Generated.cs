@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "delete")]
 public record GcloudDeploymentManagerDeploymentsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> DeploymentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> DeploymentName
 ) : GcloudOptions
 {
     /// <summary>

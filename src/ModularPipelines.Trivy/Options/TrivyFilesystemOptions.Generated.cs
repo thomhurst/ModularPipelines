@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filesystem")]
 public record TrivyFilesystemOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : TrivyOptions
 {
     /// <summary>

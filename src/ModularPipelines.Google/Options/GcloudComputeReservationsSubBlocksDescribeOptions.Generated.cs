@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "describe")]
 public record GcloudComputeReservationsSubBlocksDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Reservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
 }

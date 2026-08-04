@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "sign-jwt")]
 public record GcloudIamServiceAccountsSignJwtOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Input
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Input
 ) : GcloudOptions
 {
 }

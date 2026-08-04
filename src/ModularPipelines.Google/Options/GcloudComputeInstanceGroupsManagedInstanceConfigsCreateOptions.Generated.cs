@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "instance-configs", "create")]
 public record GcloudComputeInstanceGroupsManagedInstanceConfigsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
 }

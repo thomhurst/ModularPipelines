@@ -20,8 +20,8 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("copy")]
 public record SkopeoCopyOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SourceImage,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string DestinationImage
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceImage,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationImage
 ) : SkopeoOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "attach")]
 public record PodmanComposeAttachOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
 ) : PodmanOptions
 {
     /// <summary>

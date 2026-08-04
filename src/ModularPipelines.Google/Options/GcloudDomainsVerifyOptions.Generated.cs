@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "verify")]
 public record GcloudDomainsVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Domain
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
 ) : GcloudOptions
 {
 }

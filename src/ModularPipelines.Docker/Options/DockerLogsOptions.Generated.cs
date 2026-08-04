@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
 public record DockerLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
 ) : DockerOptions
 {
     /// <summary>

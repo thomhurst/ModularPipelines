@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "policycontroller", "deployment", "set")]
 public record GcloudContainerHubPolicycontrollerDeploymentSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Deployment
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Deployment
 ) : GcloudOptions
 {
     /// <summary>

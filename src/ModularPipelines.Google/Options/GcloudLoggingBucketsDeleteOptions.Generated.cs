@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "buckets", "delete")]
 public record GcloudLoggingBucketsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BucketId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BucketId
 ) : GcloudOptions
 {
 }

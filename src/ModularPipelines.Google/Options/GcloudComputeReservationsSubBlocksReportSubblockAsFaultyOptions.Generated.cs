@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "report-subblock-as-faulty")]
 public record GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Reservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
 }

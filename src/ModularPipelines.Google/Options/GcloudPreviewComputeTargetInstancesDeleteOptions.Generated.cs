@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-instances", "delete")]
 public record GcloudPreviewComputeTargetInstancesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
 ) : GcloudOptions
 {
     /// <summary>

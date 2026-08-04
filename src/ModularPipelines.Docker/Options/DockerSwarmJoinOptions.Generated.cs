@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swarm", "join")]
 public record DockerSwarmJoinOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string HostPort
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string HostPort
 ) : DockerOptions
 {
     /// <summary>

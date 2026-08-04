@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "proj", "generate-allow-list")]
 public record ArgoCdAdminProjGenerateAllowListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ClusterrolePath,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ProjName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClusterrolePath,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjName
 ) : ArgoCdOptions
 {
     /// <summary>

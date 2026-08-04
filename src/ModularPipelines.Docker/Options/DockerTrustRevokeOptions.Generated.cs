@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "revoke")]
 public record DockerTrustRevokeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ImageTag
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ImageTag
 ) : DockerOptions
 {
     /// <summary>

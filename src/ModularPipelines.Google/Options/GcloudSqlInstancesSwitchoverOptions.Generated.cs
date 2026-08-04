@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "switchover")]
 public record GcloudSqlInstancesSwitchoverOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Replica
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Replica
 ) : GcloudOptions
 {
     /// <summary>

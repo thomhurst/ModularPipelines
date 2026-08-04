@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "set-iam-policy")]
 public record GcloudStorageBucketsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Urls
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Urls
 ) : GcloudOptions
 {
     [CliFlag("--continue-on-error")]

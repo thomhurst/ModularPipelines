@@ -56,6 +56,25 @@ public class JqOptionsTests
     }
 
     [Test]
+    public async Task Renders_Empty_And_Whitespace_String_Pair_Values()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            Arg =
+            [
+                new CliValuePair("empty", ""),
+                new CliValuePair("whitespace", "  "),
+            ],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--arg", "empty", "",
+            "--arg", "whitespace", "  ",
+        ]);
+    }
+
+    [Test]
     public async Task Renders_RunTests_After_Positionals()
     {
         var arguments = BuildArguments(new JqExecuteOptions
@@ -93,7 +112,7 @@ public class JqOptionsTests
     [Test]
     public async Task Renders_Bare_RunTests_For_Standard_Input()
     {
-        var arguments = BuildArguments(new JqExecuteOptions { RunTests = string.Empty });
+        var arguments = BuildArguments(new JqExecuteOptions { RunTests = CliOptionValue.Bare });
 
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }

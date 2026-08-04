@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "list-intermediates")]
 public record VaultPkiListIntermediatesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Parent
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
 ) : VaultOptions
 {
     /// <summary>

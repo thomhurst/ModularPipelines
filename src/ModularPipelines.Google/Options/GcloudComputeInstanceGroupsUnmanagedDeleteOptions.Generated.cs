@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "unmanaged", "delete")]
 public record GcloudComputeInstanceGroupsUnmanagedDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
 ) : GcloudOptions
 {
     /// <summary>

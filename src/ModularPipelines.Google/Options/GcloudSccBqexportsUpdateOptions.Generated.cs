@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "bqexports", "update")]
 public record GcloudSccBqexportsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BigQueryExport
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BigQueryExport
 ) : GcloudOptions
 {
     /// <summary>

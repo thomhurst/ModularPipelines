@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "add-source-namespace")]
 public record ArgoCdProjAddSourceNamespaceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Namespace
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
 ) : ArgoCdOptions
 {
     /// <summary>

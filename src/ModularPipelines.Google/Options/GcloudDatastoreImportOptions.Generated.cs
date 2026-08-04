@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "import")]
 public record GcloudDatastoreImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputUrl
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputUrl
 ) : GcloudOptions
 {
     /// <summary>

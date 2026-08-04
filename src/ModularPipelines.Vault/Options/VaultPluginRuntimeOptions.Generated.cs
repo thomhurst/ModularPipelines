@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime")]
 public record VaultPluginRuntimeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subcommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
 ) : VaultOptions
 {
     /// <summary>

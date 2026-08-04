@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "add-signed-url-key")]
 public record GcloudPreviewComputeBackendBucketsAddSignedUrlKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucketName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
 ) : GcloudOptions
 {
 }

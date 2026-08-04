@@ -20,7 +20,7 @@ namespace ModularPipelines.Rust.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("remove")]
 public record CargoRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> DepId
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> DepId
 ) : CargoOptions
 {
     /// <summary>

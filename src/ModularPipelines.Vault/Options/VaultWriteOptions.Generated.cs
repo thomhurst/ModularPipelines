@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("write")]
 public record VaultWriteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : VaultOptions
 {
     /// <summary>

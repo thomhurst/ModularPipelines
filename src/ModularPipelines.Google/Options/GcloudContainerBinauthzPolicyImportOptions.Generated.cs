@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "policy", "import")]
 public record GcloudContainerBinauthzPolicyImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
 ) : GcloudOptions
 {
     /// <summary>

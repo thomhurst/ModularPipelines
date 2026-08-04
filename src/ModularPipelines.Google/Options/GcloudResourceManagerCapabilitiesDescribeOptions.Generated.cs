@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "capabilities", "describe")]
 public record GcloudResourceManagerCapabilitiesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CapabilityId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CapabilityId
 ) : GcloudOptions
 {
 }

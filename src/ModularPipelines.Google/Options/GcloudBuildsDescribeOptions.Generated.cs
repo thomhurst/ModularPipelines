@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "describe")]
 public record GcloudBuildsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Build
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Build
 ) : GcloudOptions
 {
     /// <summary>

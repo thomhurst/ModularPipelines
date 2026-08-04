@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "exists")]
 public record PodmanImageExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : PodmanOptions
 {
 }

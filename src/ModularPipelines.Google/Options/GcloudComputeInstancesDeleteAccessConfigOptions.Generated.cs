@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "delete-access-config")]
 public record GcloudComputeInstancesDeleteAccessConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
     [CliOption("--access-config-name", Format = OptionFormat.EqualsSeparated)]

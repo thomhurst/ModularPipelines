@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "remove-resource-policies")]
 public record GcloudComputeInstancesRemoveResourcePoliciesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
 }

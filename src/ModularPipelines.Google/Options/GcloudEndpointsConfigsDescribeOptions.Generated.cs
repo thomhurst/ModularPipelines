@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "configs", "describe")]
 public record GcloudEndpointsConfigsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ConfigId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigId
 ) : GcloudOptions
 {
     /// <summary>

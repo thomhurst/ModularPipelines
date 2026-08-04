@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "commitments", "create-license")]
 public record GcloudPreviewComputeCommitmentsCreateLicenseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Commitment
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
 ) : GcloudOptions
 {
 }

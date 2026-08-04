@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cert", "rm")]
 public record ArgoCdCertRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RepositoryServer
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryServer
 ) : ArgoCdOptions
 {
     /// <summary>

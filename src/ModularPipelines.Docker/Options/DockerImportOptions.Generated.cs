@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
 public record DockerImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string File
 ) : DockerOptions
 {
     /// <summary>

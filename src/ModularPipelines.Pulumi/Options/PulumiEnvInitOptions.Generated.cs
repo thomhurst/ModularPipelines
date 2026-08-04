@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "init")]
 public record PulumiEnvInitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
 ) : PulumiOptions
 {
     /// <summary>

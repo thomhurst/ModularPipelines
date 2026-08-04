@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "versions", "delete")]
 public record GcloudAiPlatformVersionsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
 }

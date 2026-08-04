@@ -43,6 +43,11 @@ public sealed class CliArgumentAttribute : Attribute
     public bool PrependOptionTerminator { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this argument must have a non-empty value.
+    /// </summary>
+    public bool Required { get; set; }
+
+    /// <summary>
     /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class with default position 0.
     /// </summary>

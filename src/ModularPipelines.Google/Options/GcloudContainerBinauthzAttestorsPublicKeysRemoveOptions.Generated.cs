@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "public-keys", "remove")]
 public record GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PublicKeyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyId
 ) : GcloudOptions
 {
 }

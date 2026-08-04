@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "inspect")]
 public record DockerTrustInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> ImageTag
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ImageTag
 ) : DockerOptions
 {
     /// <summary>

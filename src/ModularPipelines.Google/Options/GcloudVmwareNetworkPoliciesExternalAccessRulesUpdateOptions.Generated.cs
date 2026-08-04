@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "external-access-rules", "update")]
 public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Vm
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
 ) : GcloudOptions
 {
     /// <summary>

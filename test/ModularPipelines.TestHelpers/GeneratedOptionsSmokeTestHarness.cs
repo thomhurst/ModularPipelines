@@ -111,12 +111,11 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         try
         {
-            var property = optionsType
-                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .First(candidate => candidate.Name == part.PropertyName);
+            var property = GetProperty(optionsType, part.PropertyName);
             var sample = CreateSample(property.PropertyType);
             var options = RuntimeHelpers.GetUninitializedObject(optionsType);
 
+            InitializeRequiredArguments(optionsType, model, options);
             SetValue(options, property, sample);
 
             var actual = builder.BuildArguments(model, options);
@@ -138,7 +137,26 @@ public static class GeneratedOptionsSmokeTestHarness
         }
     }
 
-    private static List<string> GetExpectedArguments(
+    private static void InitializeRequiredArguments(
+        Type optionsType,
+        IEnumerable<PropertyCommandLinePart> model,
+        object options)
+    {
+        foreach (var argument in model
+                     .OfType<ArgumentPart>()
+                     .Where(argument => argument.Attribute.Required))
+        {
+            var property = GetProperty(optionsType, argument.PropertyName);
+            SetValue(options, property, CreateSample(property.PropertyType));
+        }
+    }
+
+    private static PropertyInfo GetProperty(Type optionsType, string propertyName) =>
+        optionsType
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .First(candidate => candidate.Name == propertyName);
+
+    private static IReadOnlyList<string> GetExpectedArguments(
         IReadOnlyList<PropertyCommandLinePart> model,
         object options)
     {
@@ -226,6 +244,32 @@ public static class GeneratedOptionsSmokeTestHarness
         }
 
         var separator = GetSeparator(option.Attribute);
+
+        if (value is CliOptionValue optionValue)
+        {
+            return RenderOptionalValue(optionName, separator, optionValue).ToList();
+        }
+
+        if (option.Attribute.ValueArity == CliOptionValueArity.Optional
+            && value is IEnumerable<CliOptionValue> optionValues)
+        {
+            var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
+            if (option.Attribute.GroupValues && optionalValues.Count > 0)
+            {
+                return
+                [
+                    optionName,
+                    .. optionalValues
+                        .Where(static item => !item.IsBare)
+                        .Select(static item => item.Value!),
+                ];
+            }
+
+            return optionalValues
+                .SelectMany(item => RenderOptionalValue(optionName, separator, item))
+                .ToList();
+        }
+
         var values = GetValues(value);
         if (option.Attribute.GroupValues && values.Count > 0)
         {
@@ -234,10 +278,9 @@ public static class GeneratedOptionsSmokeTestHarness
                 : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
         }
 
-        return [.. values
-            .SelectMany(renderedValue => separator == " "
-                ? new[] { optionName, renderedValue }
-                : [$"{optionName}{separator}{renderedValue}"])];
+        return values
+            .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
+            .ToList();
     }
 
     private static string GetEffectiveName(CliFlagAttribute attribute) =>
@@ -261,6 +304,22 @@ public static class GeneratedOptionsSmokeTestHarness
             _ => " ",
         };
     }
+
+    private static IReadOnlyList<string> RenderOptionalValue(
+        string optionName,
+        string separator,
+        CliOptionValue optionValue) =>
+        optionValue.IsBare
+            ? [optionName]
+            : RenderOptionValue(optionName, separator, optionValue.Value!);
+
+    private static IReadOnlyList<string> RenderOptionValue(
+        string optionName,
+        string separator,
+        string value) =>
+        separator == " "
+            ? [optionName, value]
+            : [$"{optionName}{separator}{value}"];
 
     private static object CreateSample(Type propertyType)
     {
@@ -293,6 +352,7 @@ public static class GeneratedOptionsSmokeTestHarness
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
         : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliOptionValue) ? (CliOptionValue) "smoke-value"
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")
         : null;
@@ -433,7 +493,6 @@ public sealed class GeneratedOptionsSmokeTestException(
     string propertyName,
     Exception innerException) : Exception($"{optionsType.FullName}.{propertyName} failed generated-options smoke testing.", innerException)
 {
-
     /// <summary>
     /// Gets the options type under test.
     /// </summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clean")]
 public record CosignCleanOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : CosignOptions
 {
     /// <summary>

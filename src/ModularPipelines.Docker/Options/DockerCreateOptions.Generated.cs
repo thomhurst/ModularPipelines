@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
 public record DockerCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : DockerOptions
 {
     /// <summary>

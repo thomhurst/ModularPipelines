@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "all")]
 public record HelmGetAllOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ReleaseName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
 ) : HelmOptions
 {
     /// <summary>

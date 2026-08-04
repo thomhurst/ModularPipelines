@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dependency", "update")]
 public record HelmDependencyUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Chart
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Chart
 ) : HelmOptions
 {
     /// <summary>
