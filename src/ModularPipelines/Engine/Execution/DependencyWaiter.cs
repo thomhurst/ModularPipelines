@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -13,6 +15,13 @@ namespace ModularPipelines.Engine.Execution;
 /// </summary>
 internal class DependencyWaiter : IDependencyWaiter
 {
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
+
+    public DependencyWaiter(IOptions<PipelineOptions> pipelineOptions)
+    {
+        _pipelineOptions = pipelineOptions;
+    }
+
     /// <inheritdoc />
     [UnconditionalSuppressMessage(
         "AOT",
@@ -39,6 +48,18 @@ internal class DependencyWaiter : IDependencyWaiter
                             : (IModuleLogger) scopedServiceProvider.GetRequiredService(
                                 typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
                     depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                }
+                catch (Exception e) when (
+                    e is not OperationCanceledException
+                    && _pipelineOptions.Value.ExecutionMode == ExecutionMode.WaitForAllModules)
+                {
+                    var dependency = scheduler.GetModuleState(dependencyType)?.Module;
+                    if (dependency is null)
+                    {
+                        throw;
+                    }
+
+                    throw new DependencyFailedException(e, dependency);
                 }
             }
             else if (!optional)

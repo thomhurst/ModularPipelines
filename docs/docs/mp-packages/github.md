@@ -62,7 +62,7 @@ Modular Pipelines' `GitHub()` automatically authenticates OctoKit client when:
 Configuring OctoKit auth using `GitHubOptions` is straightforward as it follows standard .NET practices for working with `IConfiguration` and `IOptions<T>`. When configuring your pipeline, use the usual practices for working with configuration to configure OctoKit auth:
 
 ```cs
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json")

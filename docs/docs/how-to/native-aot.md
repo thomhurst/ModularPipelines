@@ -16,7 +16,7 @@ JIT-compiled, or move their module declarations and registrations into a C# proj
 Use generic registration for every module:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()

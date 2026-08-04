@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -13,7 +14,9 @@ internal sealed class FileSystemRunHistoryStore(
     ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
+    private const string FileTimestampFormat = "yyyyMMddHHmmssfffffff";
     private const int MinimumCompatibleSchemaVersion = 1;
+    private static readonly TimeSpan StaleTemporaryFileAge = TimeSpan.FromDays(1);
 
     public Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
@@ -137,7 +140,10 @@ internal sealed class FileSystemRunHistoryStore(
         var directory = GetHistoryDirectory();
         Directory.CreateDirectory(directory);
         var filePrefix = GetPipelineFilePrefix(report.PipelineIdentity);
-        var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{Guid.NewGuid():N}.json";
+        var runId = Guid.TryParse(report.RunId, out var parsedRunId)
+            ? parsedRunId.ToString("N")
+            : Guid.NewGuid().ToString("N");
+        var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{runId}.json";
         var path = Path.Combine(directory, fileName);
         await AtomicFileWriter.WriteAllTextAsync(
                 path,
@@ -145,9 +151,29 @@ internal sealed class FileSystemRunHistoryStore(
                 cancellationToken)
             .ConfigureAwait(false);
 
+        PruneStaleTemporaryFiles(directory, cancellationToken);
+        PruneFiles(directory, $"{filePrefix}*.json", retention, cancellationToken);
+        PruneFiles(
+            directory,
+            $"{OwnedFilePrefix}*.json",
+            pipelineOptions.Value.RunReport.GlobalHistoryRetention,
+            cancellationToken);
+    }
+
+    private void PruneFiles(
+        string directory,
+        string searchPattern,
+        int retention,
+        CancellationToken cancellationToken)
+    {
+        if (retention <= 0)
+        {
+            return;
+        }
         var staleFiles = Directory
-            .EnumerateFiles(directory, $"{filePrefix}*.json", SearchOption.TopDirectoryOnly)
-            .OrderByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
+            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+            .OrderByDescending(GetHistoryTimestamp)
+            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
             .Skip(retention)
             .ToArray();
         foreach (var staleFile in staleFiles)
@@ -160,6 +186,52 @@ internal sealed class FileSystemRunHistoryStore(
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
             {
                 logger.LogWarning(exception, "Could not prune pipeline run history file {HistoryFile}", staleFile);
+            }
+        }
+    }
+
+    private static DateTime GetHistoryTimestamp(string path)
+    {
+        var fileName = Path.GetFileName(path);
+        var uniqueIdSeparator = fileName.LastIndexOf('-');
+        var timestampSeparator = uniqueIdSeparator > 0
+            ? fileName.LastIndexOf('-', uniqueIdSeparator - 1)
+            : -1;
+        var timestampStart = timestampSeparator + 1;
+        var timestampLength = uniqueIdSeparator - timestampStart;
+        if (timestampLength != FileTimestampFormat.Length
+            || !DateTime.TryParseExact(
+                fileName.AsSpan(timestampStart, timestampLength),
+                FileTimestampFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var timestamp))
+        {
+            return DateTime.MinValue;
+        }
+
+        return timestamp;
+    }
+
+    private void PruneStaleTemporaryFiles(string directory, CancellationToken cancellationToken)
+    {
+        var staleBefore = DateTime.UtcNow - StaleTemporaryFileAge;
+        foreach (var temporaryFile in Directory.EnumerateFiles(
+                     directory,
+                     AtomicFileWriter.TemporaryFilePattern,
+                     SearchOption.TopDirectoryOnly))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            try
+            {
+                if (File.GetLastWriteTimeUtc(temporaryFile) <= staleBefore)
+                {
+                    File.Delete(temporaryFile);
+                }
+            }
+            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+            {
+                logger.LogWarning(exception, "Could not prune temporary run history file {HistoryFile}", temporaryFile);
             }
         }
     }
