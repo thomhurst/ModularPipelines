@@ -38,6 +38,7 @@ public class DependencyGraphExporterTests
     private static bool _externalConfigurationIncludesDependency;
     private static int _customPlanningAttributeEvaluations;
     private static int _globalConfigurationMutations;
+    private static int _constructorConfigurationMutations;
     private static int _deferredConditionAttributeConstructions;
     private static int _deferredConditionLogicReads;
     private static int _planningCompanionAttributeConstructions;
@@ -438,6 +439,26 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(_globalConfigurationMutations);
+    }
+
+    private sealed class ConstructorConfigurationMutationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            _ = new ConfigurationMutationProbe();
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_constructorConfigurationMutations);
+    }
+
+    private sealed class ConfigurationMutationProbe
+    {
+        public ConfigurationMutationProbe() =>
+            Interlocked.Increment(ref _constructorConfigurationMutations);
     }
 
     private sealed class FrameworkConfigurationMutationModule : Module<string>
@@ -1449,6 +1470,31 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private sealed class ByRefMutableClosureFactorySkipModule(string factoryValue) : Module<string>
+    {
+        private readonly ModuleConfiguration _configuration = CreateConfiguration();
+
+        protected override ModuleConfiguration Configure() => _configuration;
+
+        private static ModuleConfiguration CreateConfiguration()
+        {
+            var evaluations = 0;
+            return ModuleConfiguration.Create()
+                .WithSkipWhen(_ => NextDecision(ref evaluations))
+                .Build();
+        }
+
+        private static SkipDecision NextDecision(ref int evaluations) =>
+            ++evaluations == 1
+                ? SkipDecision.Skip("first evaluation")
+                : SkipDecision.Skip("later evaluation");
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>(factoryValue);
+    }
+
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class DeferredStatefulConditionAttribute : Attribute, IConditionAttribute
     {
@@ -1469,6 +1515,13 @@ public class DependencyGraphExporterTests
         public string ConditionNames => nameof(DeferredStatefulConditionAttribute);
 
         public Task<bool> EvaluateAsync(IPipelineContext context) =>
+            throw new InvalidOperationException("Deferred condition must not run during planning.");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class DeferredAnyConditionAttribute : RunIfAnyAttribute
+    {
+        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
             throw new InvalidOperationException("Deferred condition must not run during planning.");
     }
 
@@ -1540,6 +1593,16 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("deferred-stateful-condition");
+    }
+
+    [RunIfAny<NeverRunCondition>]
+    [DeferredAnyCondition]
+    private sealed class SafeFalseAnyWithDeferredAnyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("safe-false-any-with-deferred-any");
     }
 
     [AddStartupDependency(typeof(DependencyModule))]
@@ -2504,6 +2567,21 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Safe_False_Any_Remains_Definitive_With_Deferred_Any()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SafeFalseAnyWithDeferredAnyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+    }
+
+    [Test]
     public async Task Synchronous_Skip_Short_Circuits_Before_Async_Condition()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -2722,7 +2800,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Freeze_Direct_Module_Configuration()
+    public async Task Rejected_Render_Does_Not_Freeze_Direct_Module_Configuration()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule(new StartupConfiguredModule());
@@ -2730,22 +2808,20 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        using var document = JsonDocument.Parse(
-            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
         var summary = await pipeline.RunAsync();
 
         using (Assert.Multiple())
         {
-            await Assert.That(document.RootElement.GetProperty("nodes")[0]
-                    .GetProperty("skipped").GetBoolean())
-                .IsTrue();
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
             await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
             await Assert.That(_executions).IsEqualTo(1);
         }
     }
 
     [Test]
-    public async Task Render_Does_Not_Freeze_Factory_Module_Configuration()
+    public async Task Rejected_Render_Does_Not_Freeze_Factory_Module_Configuration()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new StartupConfiguredModule());
@@ -2753,15 +2829,13 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        using var document = JsonDocument.Parse(
-            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
         var summary = await pipeline.RunAsync();
 
         using (Assert.Multiple())
         {
-            await Assert.That(document.RootElement.GetProperty("nodes")[0]
-                    .GetProperty("skipped").GetBoolean())
-                .IsTrue();
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
             await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
             await Assert.That(_executions).IsEqualTo(1);
         }
@@ -2921,6 +2995,25 @@ public class DependencyGraphExporterTests
             await Assert.That(mutationsAfterActivation).IsEqualTo(1);
             await Assert.That(_globalConfigurationMutations).IsEqualTo(1);
             await Assert.That(result.ValueOrDefault).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_Constructor_State()
+    {
+        _constructorConfigurationMutations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ConstructorConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var mutationsAfterActivation = _constructorConfigurationMutations;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mutationsAfterActivation).IsEqualTo(1);
+            await Assert.That(_constructorConfigurationMutations).IsEqualTo(1);
         }
     }
 
@@ -3525,6 +3618,20 @@ public class DependencyGraphExporterTests
             await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
             await Assert.That(_executions).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task Render_Rejects_ByRef_Mutable_Factory_Closure_Without_Evaluating_It()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new ByRefMutableClosureFactorySkipModule("factory-only"));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(exception!.Message).Contains("mutable runtime state");
     }
 
     [Test]

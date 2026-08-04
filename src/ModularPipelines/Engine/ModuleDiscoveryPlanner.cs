@@ -29,6 +29,7 @@ internal sealed class ModuleDiscoveryPlanner(
     IServiceProvider serviceProvider,
     IEnumerable<ModulePlanningFactory> planningFactories)
 {
+    private const byte LoadInstanceFieldAddressOpCode = 0x7C;
     private const byte StoreInstanceFieldOpCode = 0x7D;
 
     private static readonly OpCode[] OneByteOpCodes = CreateOpCodeLookup(twoByte: false);
@@ -830,10 +831,20 @@ internal sealed class ModuleDiscoveryPlanner(
 
     private static bool DelegateTargetMutatesState(Delegate @delegate, ISet<object> visited) =>
         @delegate.GetInvocationList().Any(invocation =>
-            MethodTouchesStaticState(invocation.Method, new HashSet<MethodInfo>())
+            (!IsKnownPlanningSafeDelegateWrapper(invocation.Method)
+             && MethodTouchesStaticState(
+                 invocation.Method,
+                 new HashSet<MethodBase>(),
+                 inspectConstructors: false))
             || (invocation.Target is { } target
-                && (WritesDelegateTargetField(invocation.Method, target.GetType())
+                && (MutatesDelegateTargetField(invocation.Method, target.GetType())
                     || MutatesDelegateTargetState(target, visited))));
+
+    private static bool IsKnownPlanningSafeDelegateWrapper(MethodInfo method) =>
+        method.Module.Assembly == typeof(ModuleConfiguration).Assembly
+        && method.DeclaringType?.IsDefined(
+            typeof(CompilerGeneratedAttribute),
+            inherit: false) == true;
 
     private static bool IsTerminalPlanningValue(object value, Type type) =>
         value is string or MemberInfo or SkipDecision
@@ -853,7 +864,7 @@ internal sealed class ModuleDiscoveryPlanner(
         "ReflectionAnalysis",
         "IL2075",
         Justification = "Delegate target base fields are inspected only to reject mutable captured state.")]
-    private static bool WritesDelegateTargetField(MethodInfo method, Type targetType)
+    private static bool MutatesDelegateTargetField(MethodInfo method, Type targetType)
     {
         var il = method.GetMethodBody()?.GetILAsByteArray();
         if (il is null)
@@ -866,7 +877,8 @@ internal sealed class ModuleDiscoveryPlanner(
             var token = BitConverter.GetBytes(field.MetadataToken);
             for (var index = 0; index <= il.Length - token.Length - 1; index++)
             {
-                if (il[index] == StoreInstanceFieldOpCode
+                if ((il[index] == StoreInstanceFieldOpCode
+                     || il[index] == LoadInstanceFieldAddressOpCode)
                     && il.AsSpan(index + 1, token.Length).SequenceEqual(token))
                 {
                     return true;
@@ -887,7 +899,7 @@ internal sealed class ModuleDiscoveryPlanner(
             "Configure",
             BindingFlags.Instance | BindingFlags.NonPublic);
         return method is not null
-               && MethodTouchesStaticState(method, new HashSet<MethodInfo>());
+               && MethodTouchesStaticState(method, new HashSet<MethodBase>());
     }
 
     [UnconditionalSuppressMessage(
@@ -895,8 +907,9 @@ internal sealed class ModuleDiscoveryPlanner(
         "IL2026",
         Justification = "Missing or trimmed Configure bodies conservatively produce no detected static access.")]
     private static bool MethodTouchesStaticState(
-        MethodInfo method,
-        ISet<MethodInfo> visited)
+        MethodBase method,
+        ISet<MethodBase> visited,
+        bool inspectConstructors = true)
     {
         var il = method.GetMethodBody()?.GetILAsByteArray();
         if (il is null || !visited.Add(method))
@@ -921,7 +934,13 @@ internal sealed class ModuleDiscoveryPlanner(
             }
 
             if (operandSize == sizeof(int)
-                && InstructionTouchesStaticState(method, opCode, il, operandOffset, visited))
+                && InstructionTouchesStaticState(
+                    method,
+                    opCode,
+                    il,
+                    operandOffset,
+                    visited,
+                    inspectConstructors))
             {
                 return true;
             }
@@ -937,13 +956,17 @@ internal sealed class ModuleDiscoveryPlanner(
         "IL2026",
         Justification = "Missing or trimmed Configure metadata conservatively produces no detected static access.")]
     private static bool InstructionTouchesStaticState(
-        MethodInfo method,
+        MethodBase method,
         OpCode opCode,
         byte[] il,
         int operandOffset,
-        ISet<MethodInfo> visited)
+        ISet<MethodBase> visited,
+        bool inspectConstructors)
     {
         var token = BitConverter.ToInt32(il, operandOffset);
+        var methodGenericArguments = method is MethodInfo methodInfo
+            ? methodInfo.GetGenericArguments()
+            : null;
         try
         {
             if (opCode.OperandType == OperandType.InlineField)
@@ -951,21 +974,39 @@ internal sealed class ModuleDiscoveryPlanner(
                 return method.Module.ResolveField(
                     token,
                     method.DeclaringType?.GetGenericArguments(),
-                    method.GetGenericArguments())?.IsStatic == true;
+                    methodGenericArguments)?.IsStatic == true;
             }
 
             if (opCode.OperandType != OperandType.InlineMethod
                 || method.Module.ResolveMethod(
                     token,
                     method.DeclaringType?.GetGenericArguments(),
-                    method.GetGenericArguments()) is not MethodInfo calledMethod)
+                    methodGenericArguments) is not { } calledMethod)
+            {
+                return false;
+            }
+
+            if (!inspectConstructors && calledMethod is ConstructorInfo)
+            {
+                return false;
+            }
+
+            if (calledMethod is ConstructorInfo
+                && calledMethod.DeclaringType?.IsDefined(
+                    typeof(CompilerGeneratedAttribute),
+                    inherit: false) == true)
             {
                 return false;
             }
 
             if (calledMethod.Module.Assembly == method.Module.Assembly)
             {
-                return MethodTouchesStaticState(calledMethod, visited);
+                return MethodTouchesStaticState(calledMethod, visited, inspectConstructors);
+            }
+
+            if (calledMethod is ConstructorInfo)
+            {
+                return false;
             }
 
             return !IsKnownPlanningSafeAssembly(calledMethod.Module.Assembly);

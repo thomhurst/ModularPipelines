@@ -442,6 +442,20 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         bool hasDeferredConditions,
         CancellationToken cancellationToken)
     {
+        foreach (var attribute in attributes.Where(static attribute =>
+                     attribute is not IGroupedConditionAttribute))
+        {
+            var evaluation = await EvaluateSingleAnyPlanningCondition(
+                    attribute,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (evaluation.Result is not null)
+            {
+                return evaluation;
+            }
+        }
+
         if (hasDeferredConditions)
         {
             return new PlanningConditionEvaluation(null, IsResolved: false);
@@ -449,32 +463,19 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         var isResolved = true;
         var evaluatedGroups = new HashSet<Type>();
-        foreach (var attribute in attributes)
+        foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
         {
-            PlanningConditionEvaluation evaluation;
-            if (attribute is IGroupedConditionAttribute groupedAttribute)
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
             {
-                if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
-                {
-                    continue;
-                }
-
-                evaluation = await EvaluateGroupedPlanningConditions(
-                        attributes,
-                        groupedAttribute.ConditionGroupType,
-                        pipelineContext,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                evaluation = await EvaluateSingleAnyPlanningCondition(
-                        attribute,
-                        pipelineContext,
-                        cancellationToken)
-                    .ConfigureAwait(false);
+                continue;
             }
 
+            var evaluation = await EvaluateGroupedPlanningConditions(
+                    attributes,
+                    groupedAttribute.ConditionGroupType,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
             if (evaluation.Result is not null)
             {
                 return evaluation;
