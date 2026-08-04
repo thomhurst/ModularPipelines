@@ -238,6 +238,23 @@ public class ArtifactContractTests
         }
     }
 
+    [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
+    private sealed class DynamicSkippedInvalidArtifactConsumerModule : Module<string>
+    {
+        public static bool ShouldSkip { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ShouldSkip
+                ? SkipDecision.Skip("mutable condition requested a skip")
+                : SkipDecision.DoNotSkip)
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Invalid consumer must fail validation");
+    }
+
     [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class LocalConsumerModule : Module<string>
@@ -1147,27 +1164,46 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task BuildAsyncIgnoresInvalidContractOnAttributeSkippedConsumer()
+    public async Task BuildAsyncRejectsInvalidContractOnAttributeSkippedConsumer()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<AttributeSkippedInvalidArtifactConsumerModule>();
 
-        await using var pipeline = await builder.BuildAsync();
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
 
-        await Assert.That(pipeline).IsNotNull();
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(AttributeSkippedInvalidArtifactConsumerModule));
     }
 
     [Test]
-    public async Task BuildAsyncIgnoresInvalidContractOnConfiguredSkippedConsumer()
+    public async Task BuildAsyncRejectsInvalidContractOnConfiguredSkippedConsumer()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<ConfiguredSkippedInvalidArtifactConsumerModule>();
 
-        await using var pipeline = await builder.BuildAsync();
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
 
-        await Assert.That(pipeline).IsNotNull();
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(ConfiguredSkippedInvalidArtifactConsumerModule));
+    }
+
+    [Test]
+    public async Task BuildAsyncRejectsInvalidContractOnDynamicallySkippedConsumer()
+    {
+        DynamicSkippedInvalidArtifactConsumerModule.ShouldSkip = true;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<DynamicSkippedInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DynamicSkippedInvalidArtifactConsumerModule));
     }
 
     [Test]
@@ -1188,16 +1224,18 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task BuildAsyncIgnoresInvalidContractOnDependencySkippedConsumer()
+    public async Task BuildAsyncRejectsInvalidContractOnDependencySkippedConsumer()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<SkippedArtifactValidationDependencyModule>();
         builder.AddModule<DependencySkippedInvalidArtifactConsumerModule>();
 
-        await using var pipeline = await builder.BuildAsync();
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
 
-        await Assert.That(pipeline).IsNotNull();
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DependencySkippedInvalidArtifactConsumerModule));
     }
 
     [Test]

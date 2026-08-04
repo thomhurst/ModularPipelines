@@ -60,34 +60,9 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
         var modulesByType = modules
             .GroupBy(module => module.GetType())
             .ToDictionary(group => group.Key, group => group.First());
-        var availableModuleTypes = modulesByType.Keys.ToArray();
         var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var skipEvaluator = services.GetRequiredService<ModulePlanningSkipEvaluator>();
-        var planningSkipDecisions = new Dictionary<Type, SkipDecision?>();
-        foreach (var module in runnableModules)
-        {
-            planningSkipDecisions[module.GetType()] = await skipEvaluator
-                .EvaluateAsync(module, CancellationToken.None)
-                .ConfigureAwait(false);
-        }
-
-        foreach (var module in runnableModules.ToArray())
-        {
-            if (planningSkipDecisions[module.GetType()]?.ShouldSkip == true
-                && (module.Configuration.PlanningSkipCondition is null
-                    || !HasPendingRunnableRequiredDependency(
-                        module,
-                        modulesByType,
-                        availableModuleTypes,
-                        planningSkipDecisions,
-                        dependencyRegistry,
-                        metadataRegistry)))
-            {
-                runnableModules.Remove(module);
-                ignoredModules.Add(new IgnoredModule(module, planningSkipDecisions[module.GetType()]!));
-            }
-        }
 
         var ignoredModuleTypes = ignoredModules
             .Select(ignoredModule => ignoredModule.Module.GetType())
@@ -135,47 +110,6 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             cascadeResult.RunnableModules
                 .Select(module => module.GetType())
                 .ToHashSet());
-    }
-
-    private static bool HasPendingRunnableRequiredDependency(
-        IModule module,
-        IReadOnlyDictionary<Type, IModule> modulesByType,
-        IReadOnlyCollection<Type> availableModuleTypes,
-        IReadOnlyDictionary<Type, SkipDecision?> planningSkipDecisions,
-        IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry)
-    {
-        var pending = new Stack<IModule>();
-        var visitedTypes = new HashSet<Type> { module.GetType() };
-        pending.Push(module);
-        while (pending.TryPop(out var currentModule))
-        {
-            var requiredDependencyTypes = ModuleDependencyResolver.GetAllDependencies(
-                    currentModule,
-                    availableModuleTypes,
-                    dependencyRegistry,
-                    metadataRegistry)
-                .Where(static dependency => !dependency.Optional)
-                .Select(static dependency => dependency.DependencyType);
-            foreach (var dependencyType in requiredDependencyTypes)
-            {
-                if (!visitedTypes.Add(dependencyType)
-                    || !planningSkipDecisions.TryGetValue(dependencyType, out var skipDecision)
-                    || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
-                {
-                    continue;
-                }
-
-                if (skipDecision?.ShouldSkip != true)
-                {
-                    return true;
-                }
-
-                pending.Push(dependencyModule);
-            }
-        }
-
-        return false;
     }
 
     private static async Task<HashSet<Type>> GetConsumedArtifactProducerTypesAsync(
