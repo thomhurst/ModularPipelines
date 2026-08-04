@@ -980,10 +980,12 @@ internal sealed class ModuleDiscoveryPlanner(
         {
             if (opCode.OperandType == OperandType.InlineField)
             {
-                return method.Module.ResolveField(
+                var field = method.Module.ResolveField(
                     token,
                     method.DeclaringType?.GetGenericArguments(),
-                    methodGenericArguments)?.IsStatic == true;
+                    methodGenericArguments);
+                return field?.IsStatic == true
+                       && !IsKnownPlanningSafeConfigurationField(field);
             }
 
             if (opCode.OperandType != OperandType.InlineMethod
@@ -1020,7 +1022,11 @@ internal sealed class ModuleDiscoveryPlanner(
     private static bool IsKnownPlanningSafeConfigurationMethod(MethodBase method) =>
         method.DeclaringType == typeof(ModuleConfiguration)
         || method.DeclaringType == typeof(ModuleConfigurationBuilder)
-        || method.DeclaringType == typeof(AdvancedModuleConfigurationBuilder);
+        || method.DeclaringType == typeof(AdvancedModuleConfigurationBuilder)
+        || method.DeclaringType == typeof(SkipDecision);
+
+    private static bool IsKnownPlanningSafeConfigurationField(FieldInfo field) =>
+        field.DeclaringType == typeof(SkipDecision) && field.IsInitOnly;
 
     private static OpCode ReadOpCode(byte[] il, ref int offset)
     {
