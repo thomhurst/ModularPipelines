@@ -7681,6 +7681,92 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyDependencyCS.VerifyAnalyzerAsync(source);
     }
 
+    [TestMethod]
+    public async Task Does_Not_Report_Unresolved_ServiceDescriptor_Factory()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(Func<IModule> factory) =>
+                    Pipeline.CreateBuilder().Services.Add(
+                        ServiceDescriptor.Singleton<IModule>(_ => factory()));
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Fluent_AddSingleton_Registration()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class FirstModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class SecondModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder()
+                    .AddModule<FirstModule>()
+                    .AddSingleton<IModule, SecondModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Fluent_ConfigureServices_Registration()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class FirstModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class SecondModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder()
+                    .AddModule<FirstModule>()
+                    .ConfigureServices(services =>
+                        services.AddSingleton<IModule, SecondModule>());
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
     private static string ModuleSource(
         string body,
         string registration = "Pipeline.CreateBuilder().AddModule<BuildModule>();")

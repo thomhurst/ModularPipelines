@@ -1080,10 +1080,7 @@ internal static class ModuleAuthoringAnalysis
                                      "ModularPipelines.PipelineBuilderExtensions"
                                      or "ModularPipelines.Extensions.PipelineBuilderExtensions"
                                      or "ModularPipelines.Extensions.ServiceCollectionExtensions"
-                                 || (containingType.Name == "ModuleRegistration"
-                                     && containingType.Arity == 1
-                                     && containingType.ContainingNamespace.ToDisplayString()
-                                     == "ModularPipelines");
+                                 || IsModuleRegistrationType(containingType);
         return definition.ContainingAssembly.Name == "ModularPipelines"
                && isRegistrationType
                && definition.Name is
@@ -1092,6 +1089,12 @@ internal static class ModuleAuthoringAnalysis
                    or "AddModulesFromAssembly"
                    or "AddModulesFromAssemblyContainingType";
     }
+
+    private static bool IsModuleRegistrationType(INamedTypeSymbol type) =>
+        type.Name == "ModuleRegistration"
+        && type.Arity == 1
+        && type.ContainingNamespace.ToDisplayString() == "ModularPipelines"
+        && type.ContainingAssembly.Name == "ModularPipelines";
 
     private static bool TryTrackDirectModuleServiceRegistration(
         IInvocationOperation invocation,
@@ -1108,7 +1111,8 @@ internal static class ModuleAuthoringAnalysis
                 invocation,
                 compilation,
                 instanceRegisteredModules,
-                unresolvedModuleRegistrations);
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations);
         }
 
         if (!IsDirectServiceRegistrationMethod(definition)
@@ -1139,10 +1143,11 @@ internal static class ModuleAuthoringAnalysis
     {
         var containingType = definition.ContainingType.ToDisplayString();
         return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
-                && containingType is
-                    "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                    or "ModularPipelines.PipelineBuilderExtensions"
-                    or "ModularPipelines.Extensions.PipelineBuilderExtensions")
+                && (containingType is
+                        "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                        or "ModularPipelines.PipelineBuilderExtensions"
+                        or "ModularPipelines.Extensions.PipelineBuilderExtensions"
+                    || IsModuleRegistrationType(definition.ContainingType)))
                || (definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient"
                    && containingType
                    == "Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions");
@@ -1217,7 +1222,8 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var descriptorArguments = invocation.Arguments
             .Where(argument => argument.Parameter is not null
@@ -1238,6 +1244,11 @@ internal static class ModuleAuthoringAnalysis
             if (IsUnresolvedModuleServiceDescriptor(argument.Value))
             {
                 unresolvedModuleRegistrations.Add(0);
+                if (ContainsUnresolvedModuleServiceDescriptorFactory(argument.Value))
+                {
+                    unresolvedFactoryRegistrations.Add(0);
+                }
+
                 return true;
             }
         }
@@ -1477,13 +1488,23 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsUnresolvedModuleServiceDescriptorFactory(IInvocationOperation invocation)
     {
-        var implementationType = invocation.Arguments.FirstOrDefault(
-            static argument => argument.Parameter?.Name == "implementationType");
+        var implementation = invocation.Arguments.FirstOrDefault(
+            static argument => argument.Parameter?.Name is
+                "implementationType" or "implementationFactory");
         return IsServiceDescriptorFactory(invocation.TargetMethod)
                && RegistersModuleService(invocation.Arguments, invocation.TargetMethod.TypeArguments)
-               && implementationType is not null
-               && !TryGetTypeOfNamedTypes(implementationType.Value, out _);
+               && implementation is not null
+               && (implementation.Parameter?.Name == "implementationFactory"
+                   || !TryGetTypeOfNamedTypes(implementation.Value, out _));
     }
+
+    private static bool ContainsUnresolvedModuleServiceDescriptorFactory(IOperation operation) =>
+        operation.DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .Any(invocation =>
+                IsUnresolvedModuleServiceDescriptorFactory(invocation)
+                && invocation.Arguments.Any(static argument =>
+                    argument.Parameter?.Name == "implementationFactory"));
 
     private static bool TryTrackServiceDescriptor(
         IOperation operation,
@@ -4432,6 +4453,12 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsKnownDelegateInvoker(IInvocationOperation invocation)
     {
         var method = invocation.TargetMethod;
+        if (method.Name == "ConfigureServices"
+            && IsModuleRegistrationType(method.ContainingType))
+        {
+            return true;
+        }
+
         var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
         return containingType switch
         {
