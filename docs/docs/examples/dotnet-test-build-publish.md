@@ -1,113 +1,155 @@
 ---
-title: .NET Test, Build & Publish
+title: .NET Test, Pack & Publish
 ---
 
-# .NET Test, Build & Publish
+# .NET Test, Pack & Publish
 
-Here's an example of publishing a NuGet package. Complete with generating sematic versioning, and running tests.
+This example tests every unit-test project, packs the remaining projects with a GitVersion-derived
+version, and pushes the resulting NuGet packages. Install the core, .NET, and Git packages first:
 
-## Generate Version Number
+```powershell
+dotnet add package ModularPipelines
+dotnet add package ModularPipelines.DotNet
+dotnet add package ModularPipelines.Git
+```
+
+Set `NUGET_API_KEY` in the pipeline environment, then use this complete pipeline:
 
 ```csharp
+using ModularPipelines;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
+using var builder = Pipeline.CreateBuilder(args);
+
+builder
+    .AddModule<NugetVersionGeneratorModule>()
+    .AddModule<RunUnitTestsModule>()
+    .AddModule<PackProjectsModule>()
+    .AddModule<UploadPackagesToNugetModule>();
+
+await builder.ExecutePipelineAsync();
+
 public class NugetVersionGeneratorModule : Module<string>
 {
-    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
     {
-        var gitVersionInformation = await context.Tools.Git.Versioning.GetGitVersioningInformation();
-        return gitVersionInformation.FullSemVer;
+        var version = await context.Tools.Git.Versioning.GetGitVersioningInformation();
+        return version.FullSemVer
+            ?? throw new InvalidOperationException("GitVersion did not return a semantic version.");
     }
 }
-```
 
-## Pack Projects
-```csharp
+public class RunUnitTestsModule : Module<CommandResult[]>
+{
+    protected override async Task<CommandResult[]> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var testProjects = repository.Root
+            .GetFiles(file => file.Name.EndsWith(
+                ".UnitTests.csproj",
+                StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var results = new List<CommandResult>();
+
+        foreach (var testProject in testProjects)
+        {
+            results.Add(await context.Tools.DotNet.TestAsync(
+                new DotNetTestOptions
+                {
+                    Project = testProject.Path,
+                },
+                cancellationToken: cancellationToken));
+        }
+
+        return results.ToArray();
+    }
+}
+
 [DependsOn<NugetVersionGeneratorModule>]
+[DependsOn<RunUnitTestsModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
-
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
+        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
-        var projects = repositoryInfo.Root
-            .GetFiles(x =>
-                x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
+        var projects = repository.Root
+            .GetFiles(file => file.Extension == ".csproj"
+                              && !file.Name.Contains(
+                                  "test",
+                                  StringComparison.OrdinalIgnoreCase))
             .ToList();
+        var packageDirectory = repository.Root
+            .GetFolder("artifacts")
+            .GetFolder("packages");
+        var results = new List<CommandResult>();
 
-        return await projects
-            .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await context.Tools.DotNet.PackAsync(new DotNetPackOptions
-            {
-                TargetPath = projectFile.Path,
-                IncludeSource = true,
-                Properties = new List<string>
+        foreach (var project in projects)
+        {
+            results.Add(await context.Tools.DotNet.PackAsync(
+                new DotNetPackOptions
                 {
-                    $"PackageVersion={packageVersion.Value}",
-                    $"Version={packageVersion.Value}",
+                    ProjectSolution = project.Path,
+                    Output = packageDirectory.Path,
+                    IncludeSource = true,
+                    Properties =
+                    [
+                        new KeyValue("PackageVersion", packageVersion.Value),
+                        new KeyValue("Version", packageVersion.Value),
+                    ],
                 },
-            }, cancellationToken))
-            .ProcessOneAtATime();
+                cancellationToken: cancellationToken));
+        }
+
+        return results.ToArray();
     }
 }
 
-```
-
-## Run Unit Tests
-
-```csharp
-[DependsOn<PackProjectsModule>]
-public class RunUnitTestsModule : Module<DotNetTestResult[]>
-{
-    protected override async Task<DotNetTestResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
-        return await repositoryInfo.Root
-            .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
-                              && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
-            .ToAsyncProcessorBuilder()
-            .SelectAsync(async unitTestProjectFile => await context.Tools.DotNet.TestAsync(new DotNetTestOptions
-            {
-                TargetPath = unitTestProjectFile.Path,
-                Collect = "XPlat Code Coverage",
-            }, cancellationToken))
-            .ProcessInParallel();
-    }
-}
-
-```
-
-## Upload Packages
-
-```csharp
-[DependsOn<RunUnitTestsModule>]
 [DependsOn<PackProjectsModule>]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
-    private readonly IOptions<NuGetSettings> _nugetSettings;
-
-    public UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings)
+    protected override async Task<CommandResult[]> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
     {
-        _nugetSettings = nugetSettings;
-    }
+        var apiKey = context.Environment.Variables.GetEnvironmentVariable("NUGET_API_KEY");
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
-    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
-
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
+        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
-        var packages = repositoryInfo.Root
-            .GetFiles(x =>
-                x.Extension == ".nupkg")
+        var packages = repository.Root
+            .GetFolder("artifacts")
+            .GetFolder("packages")
+            .GetFiles(file => file.Extension == ".nupkg")
             .ToList();
+        var results = new List<CommandResult>();
 
-        return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packages.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
-            {
-                ApiKey = _nugetSettings.Value.ApiKey!,
-            });
+        foreach (var package in packages)
+        {
+            results.Add(await context.Tools.DotNet.NuGet.PushAsync(
+                new DotNetNuGetPushOptions
+                {
+                    Path = package.Path,
+                    Source = "https://api.nuget.org/v3/index.json",
+                    ApiKey = apiKey,
+                },
+                cancellationToken: cancellationToken));
+        }
+
+        return results.ToArray();
     }
 }
 ```
