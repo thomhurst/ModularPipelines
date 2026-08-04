@@ -69,11 +69,17 @@ internal sealed class CommandLineBuilder(
             globalCommandModel,
             options,
             ref emittedOptionTerminator);
+        var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = _commandArgumentBuilder.BuildArguments(
             commandSpecificModel,
             options,
             ref emittedOptionTerminator);
         var manualArgs = options.Arguments?.ToList() ?? [];
+        // Keep recognized leading flags ahead of a marker emitted by a structured argument;
+        // leave manual operands in place after that structured argument.
+        var leadingManualFlags = !terminatorEmittedBeforeProperties && emittedOptionTerminator
+            ? TakeLeadingManualFlags(manualArgs, commandSpecificModel)
+            : [];
         if (options.ArgumentsContainOptionTerminator
             && !manualArgs.Contains("--", StringComparer.Ordinal))
         {
@@ -105,8 +111,10 @@ internal sealed class CommandLineBuilder(
             ref emittedOptionTerminator);
 
         // 4. Combine: global args + command parts (subcommands) + property args
+        // with any hoisted manual flags before an emitted option terminator.
         var allArgs = new List<string>(globalArgs);
         allArgs.AddRange(commandParts);
+        allArgs.AddRange(leadingManualFlags);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
@@ -128,5 +136,30 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static IReadOnlyList<string> TakeLeadingManualFlags(
+        List<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> commandModel)
+    {
+        var flagNames = commandModel
+            .OfType<FlagPart>()
+            .SelectMany(static part => new[] { part.Attribute.Name, part.Attribute.ShortForm })
+            .OfType<string>()
+            .ToHashSet(StringComparer.Ordinal);
+        var count = 0;
+        while (count < manualArgs.Count && flagNames.Contains(manualArgs[count]))
+        {
+            count++;
+        }
+
+        if (count == 0)
+        {
+            return [];
+        }
+
+        var flags = manualArgs.GetRange(0, count);
+        manualArgs.RemoveRange(0, count);
+        return flags;
     }
 }
