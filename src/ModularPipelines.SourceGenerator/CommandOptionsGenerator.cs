@@ -1037,14 +1037,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         if (!RequiresExternalMetadata(assembly, runtimeAssembly))
         {
-            return usedOptionsTypes
-                .Select(assembly.GetTypeByMetadataName)
-                .OfType<INamedTypeSymbol>()
-                .Select(type => GetExternalOptionsUsageCandidate(
-                    type,
-                    compilation,
-                    isIncomplete: false))
-                .OfType<TypeMetadataCandidate>();
+            return [];
         }
 
         var incompleteTypeNames = GetIncompleteTypeNames(assembly);

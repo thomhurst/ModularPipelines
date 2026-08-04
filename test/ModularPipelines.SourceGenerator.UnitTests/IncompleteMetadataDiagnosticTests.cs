@@ -1202,7 +1202,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Aot_Host_Registers_Empty_Metadata_For_Framework_Options()
+    public async Task Aot_Host_Covers_Framework_Option_Assemblies()
     {
         var result = GeneratorTestHarness.Run(
             new CommandOptionsGenerator(),
@@ -1224,10 +1224,36 @@ public class IncompleteMetadataDiagnosticTests
                 "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(");
             await Assert.That(generatedSource).Contains(
                 "RegisterAssembly(assembly, requiresGeneratedMetadata: true)");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Uri))");
             await Assert.That(generatedSource).DoesNotContain(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Version))");
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Uri))");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Framework_Generic_Options_Use_Assembly_Coverage()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<System.Collections.Generic.List<string>> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(");
+            await Assert.That(generatedSource).DoesNotContain(
+                "typeof(global::System.Collections.Generic.List<T>)");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.RegisterExternal(");
         }
     }
 
