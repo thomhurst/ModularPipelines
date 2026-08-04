@@ -229,6 +229,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Bare_Manual_Terminal_Option_After_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--run-tests"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
     public async Task Build_Rejects_Terminal_Option_After_Terminal_Argument_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

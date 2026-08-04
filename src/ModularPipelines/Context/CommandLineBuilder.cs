@@ -533,10 +533,14 @@ internal sealed class CommandLineBuilder(
         }
 
         if (option.Attribute.ValueArity != CliOptionValueArity.Optional
-            || operandCount == 0
-            || optionIndex + 1 >= manualArgs.Count)
+            || operandCount == 0)
         {
             return operandCount;
+        }
+
+        if (optionIndex + 1 >= manualArgs.Count)
+        {
+            return 0;
         }
 
         var possibleOperand = manualArgs[optionIndex + 1];
