@@ -872,6 +872,41 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStorePrunesOnlyStaleOwnedTemporaryFiles()
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = CreateHistoryStore(directory, historyRetention: 1);
+        var staleTemporaryFile = Path.Combine(directory, ".modularpipelines-stale.tmp");
+        var recentTemporaryFile = Path.Combine(directory, ".modularpipelines-recent.tmp");
+        var unrelatedTemporaryFile = Path.Combine(directory, "unrelated.tmp");
+
+        try
+        {
+            await File.WriteAllTextAsync(staleTemporaryFile, "stale");
+            File.SetLastWriteTimeUtc(staleTemporaryFile, DateTime.UtcNow.AddDays(-2));
+            await File.WriteAllTextAsync(recentTemporaryFile, "recent");
+            await File.WriteAllTextAsync(unrelatedTemporaryFile, "unrelated");
+
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = DateTimeOffset.UtcNow,
+            });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(staleTemporaryFile)).IsFalse();
+                await Assert.That(File.Exists(recentTemporaryFile)).IsTrue();
+                await Assert.That(File.Exists(unrelatedTemporaryFile)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task FileSystemHistoryStorePartitionsRetentionByPipelineIdentity()
     {
         var directory = CreateTemporaryDirectory();
