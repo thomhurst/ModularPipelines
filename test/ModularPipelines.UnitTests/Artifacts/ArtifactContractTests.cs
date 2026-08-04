@@ -578,6 +578,53 @@ public class ArtifactContractTests
             Task.FromResult<string?>("produced");
     }
 
+    [ProducesArtifact("pending-skip-runtime", MissingRuntimeFile)]
+    private sealed class PendingSkipArtifactProducerModule : Module<string>
+    {
+        public static TaskCompletionSource Executed { get; set; } = CreateSignal();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed.TrySetResult();
+            return Task.FromResult<string?>("produced");
+        }
+    }
+
+    private sealed class PendingSkipDependencyModule : Module<string>
+    {
+        public static TaskCompletionSource Release { get; set; } = CreateSignal();
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await Release.Task.WaitAsync(cancellationToken);
+            return "dependency completed";
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<PendingSkipArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<PendingSkipDependencyModule>]
+    [ConsumesArtifact(typeof(PendingSkipArtifactProducerModule), "pending-skip-runtime")]
+    private sealed class PendingSkippedArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class MissingRuntimeConsumerModule : Module<string>
@@ -2705,6 +2752,48 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task StandaloneExecutionDoesNotFailProducerWhileConsumerSkipIsPending()
+    {
+        DeleteLocalArtifacts();
+        PendingSkipArtifactProducerModule.Executed = CreateSignal();
+        PendingSkipDependencyModule.Release = CreateSignal();
+        PendingSkippedArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<PendingSkipArtifactProducerModule>();
+            builder.AddModule<PendingSkipDependencyModule>();
+            builder.AddModule<PendingSkippedArtifactConsumerModule>();
+
+            var execution = builder.ExecutePipelineAsync();
+            await PendingSkipArtifactProducerModule.Executed.Task;
+            await Task.Delay(100);
+            PendingSkipDependencyModule.Release.TrySetResult();
+
+            var summary = await execution;
+            var producerResult = await summary.Modules
+                .OfType<PendingSkipArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<PendingSkippedArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(PendingSkippedArtifactConsumerModule.Executed).IsFalse();
+            }
+        }
+        finally
+        {
+            PendingSkipDependencyModule.Release.TrySetResult();
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
     public async Task StandaloneArtifactsUseConfiguredCacheWorkingDirectory()
     {
         var workingDirectory = Directory.CreateTempSubdirectory("modular-pipelines-artifact-root-");
@@ -2737,6 +2826,9 @@ public class ArtifactContractTests
             Directory.Delete(LocalArtifactRoot, recursive: true);
         }
     }
+
+    private static TaskCompletionSource CreateSignal() =>
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     private static async Task<Enums.Status> RunCacheKeyArtifactPipelineAsync(
         string workingDirectory,
