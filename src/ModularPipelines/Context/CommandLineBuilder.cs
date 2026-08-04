@@ -310,8 +310,9 @@ internal sealed class CommandLineBuilder(
             index,
             flagsByName,
             optionsByName);
-        return manualArgs.Count - index - 1 >= operandCount
-            ? new ManualOptionMatch(operandCount + 1, option.IsGlobalOption)
+        return operandCount is { } count
+               && manualArgs.Count - index - 1 >= count
+            ? new ManualOptionMatch(count + 1, option.IsGlobalOption)
             : null;
     }
 
@@ -390,17 +391,22 @@ internal sealed class CommandLineBuilder(
                 manualIndex,
                 flagsByName,
                 optionsByName);
+            if (operandCount is null)
+            {
+                return false;
+            }
+
             var hasAttachedOperand = index < argument.Length - 1;
             followingOperandCount = hasAttachedOperand
-                ? Math.Max(0, operandCount - 1)
-                : operandCount;
+                ? Math.Max(0, operandCount.Value - 1)
+                : operandCount.Value;
             return true;
         }
 
         return true;
     }
 
-    private static int GetManualOperandCount(
+    private static int? GetManualOperandCount(
         OptionPart option,
         IReadOnlyList<string> manualArgs,
         int optionIndex,
@@ -411,6 +417,27 @@ internal sealed class CommandLineBuilder(
             ? option.ManualOperandCount
             : throw new InvalidOperationException(
                 $"Manual value count cannot be negative for {option.PropertyName}.");
+        if (option.Attribute.GroupValues)
+        {
+            var groupedOperandCount = 0;
+            for (var index = optionIndex + 1; index < manualArgs.Count; index++)
+            {
+                if (IsRecognizedManualOptionToken(manualArgs[index], flagsByName, optionsByName))
+                {
+                    break;
+                }
+
+                groupedOperandCount++;
+            }
+
+            var minimumOperandCount = option.Attribute.ValueArity == CliOptionValueArity.Optional
+                ? 0
+                : operandCount;
+            return groupedOperandCount >= minimumOperandCount
+                ? groupedOperandCount
+                : null;
+        }
+
         if (option.Attribute.ValueArity != CliOptionValueArity.Optional
             || operandCount == 0
             || optionIndex + 1 >= manualArgs.Count)

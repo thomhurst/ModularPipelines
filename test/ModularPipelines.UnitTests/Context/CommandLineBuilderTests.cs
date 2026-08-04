@@ -323,6 +323,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_All_Grouped_Manual_Option_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "--arguments", "one", "two"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments one two -- tail");
+    }
+
+    [Test]
     public async Task Build_Preserves_Command_Option_Operand_That_Matches_Global_Flag()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -645,6 +661,9 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--dry-run", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? DryRun { get; set; }
+
+        [CliOption("--arguments", GroupValues = true)]
+        public IReadOnlyList<string>? GroupedArguments { get; set; }
 
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; set; }
