@@ -1647,6 +1647,51 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task IgnoredProducerUsesHistoryWhenConsumerDependencyWillSkip()
+    {
+        DeleteLocalArtifacts();
+        IndependentDependencySkippedArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactBlockerModule>();
+            builder.AddModule<IndependentDependencySkippedArtifactConsumerModule>();
+            builder.AddModule<UnrelatedFirstHistoryDependentModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<IndependentDependencySkippedArtifactConsumerModule>()
+                .Single();
+            var unrelatedResult = await summary.Modules
+                .OfType<UnrelatedFirstHistoryDependentModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
+                    .IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
     public async Task ArtifactProducerExecutesWhenConsumerDependencyUsesHistory()
     {
         DeleteLocalArtifacts();

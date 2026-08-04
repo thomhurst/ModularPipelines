@@ -76,6 +76,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .ToDictionary(group => group.Key, group => group.First());
         var historicalResults = new Dictionary<IModule, IModuleResult?>(
             ReferenceEqualityComparer.Instance);
+        var planningSkipDecisions = new Dictionary<IModule, SkipDecision?>(
+            ReferenceEqualityComparer.Instance);
         foreach (var ignoredModule in ignoredModules)
         {
             historicalResults[ignoredModule.Module] = await _resultHistoryProvider
@@ -111,13 +113,17 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 var consumedProducerTypes = consumedArtifacts
                     .Select(attribute => attribute.ProducerModule)
                     .ToHashSet();
-                if (HasUnrecoverableRequiredDependency(
+                if (await HasUnrecoverableRequiredDependencyAsync(
                         runnableModule.Module,
                         modulesByType,
                         availableModuleTypes,
                         ignoredModuleTypes,
                         unrecoverableIgnoredModuleTypes,
-                        consumedProducerTypes))
+                        consumedProducerTypes,
+                        historicalResults,
+                        planningSkipDecisions,
+                        pipelineContext)
+                    .ConfigureAwait(false))
                 {
                     continue;
                 }
@@ -168,13 +174,16 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             cascadeResult.IgnoredModules);
     }
 
-    private bool HasUnrecoverableRequiredDependency(
+    private async Task<bool> HasUnrecoverableRequiredDependencyAsync(
         IModule module,
         IReadOnlyDictionary<Type, IModule> modulesByType,
         IReadOnlyCollection<Type> availableModuleTypes,
         IReadOnlySet<Type> ignoredModuleTypes,
         IReadOnlySet<Type> unrecoverableIgnoredModuleTypes,
-        IReadOnlySet<Type> consumedProducerTypes)
+        IReadOnlySet<Type> consumedProducerTypes,
+        IDictionary<IModule, IModuleResult?> historicalResults,
+        IDictionary<IModule, SkipDecision?> planningSkipDecisions,
+        IPipelineContext pipelineContext)
     {
         var pending = new Stack<IModule>();
         var visitedTypes = new HashSet<Type> { module.GetType() };
@@ -203,11 +212,39 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     continue;
                 }
 
-                if (visitedTypes.Add(dependencyType)
-                    && modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+                if (!visitedTypes.Add(dependencyType)
+                    || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
                 {
-                    pending.Push(dependencyModule);
+                    continue;
                 }
+
+                if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
+                {
+                    skipDecision = await _modulePlanningSkipEvaluator
+                        .EvaluateAsync(dependencyModule, CancellationToken.None)
+                        .ConfigureAwait(false);
+                    planningSkipDecisions[dependencyModule] = skipDecision;
+                }
+
+                if (skipDecision?.ShouldSkip == true)
+                {
+                    if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
+                    {
+                        historicalResult = await _resultHistoryProvider
+                            .TryGetAsync(dependencyModule, pipelineContext)
+                            .ConfigureAwait(false);
+                        historicalResults[dependencyModule] = historicalResult;
+                    }
+
+                    if (historicalResult is null)
+                    {
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                pending.Push(dependencyModule);
             }
         }
 
