@@ -237,6 +237,8 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.Register");
+            await Assert.That(generatedSource).Contains(
+                "RegisterAssembly(assembly, requiresGeneratedMetadata: false)");
         }
     }
 
@@ -274,6 +276,10 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
+            await Assert.That(generatedSource).Contains(
+                "RegisterAssembly(assembly, requiresGeneratedMetadata: true)");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(");
         }
     }
 
@@ -1216,6 +1222,8 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
                 "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(");
+            await Assert.That(generatedSource).Contains(
+                "RegisterAssembly(assembly, requiresGeneratedMetadata: true)");
             await Assert.That(generatedSource).Contains(
                 "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Uri))");
             await Assert.That(generatedSource).DoesNotContain(

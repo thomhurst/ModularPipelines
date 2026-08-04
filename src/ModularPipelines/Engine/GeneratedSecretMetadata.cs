@@ -21,7 +21,22 @@ public static class GeneratedSecretMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterAssembly(Assembly assembly)
     {
-        _ = AssemblyCoverageByAssembly.GetValue(assembly, static _ => new AssemblyCoverage());
+        RegisterAssembly(assembly, requiresGeneratedMetadata: false);
+    }
+
+    /// <summary>
+    /// Registers that an assembly ran the C# metadata generator and whether reflection fallback is unsafe.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterAssembly(Assembly assembly, bool requiresGeneratedMetadata)
+    {
+        var coverage = AssemblyCoverageByAssembly.GetValue(
+            assembly,
+            static _ => new AssemblyCoverage());
+        if (requiresGeneratedMetadata)
+        {
+            coverage.RequiresGeneratedMetadata = true;
+        }
     }
 
     /// <summary>
@@ -229,6 +244,9 @@ public static class GeneratedSecretMetadata
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
         AssemblyCoverageByAssembly.TryGetValue(assembly, out _);
 
+    internal static bool IsGeneratedMetadataRequired =>
+        AssemblyCoverageByAssembly.Any(static registration => registration.Value.RequiresGeneratedMetadata);
+
     private static bool IsKnownCompilerGeneratedInfrastructure(Type type)
     {
         if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
@@ -264,6 +282,8 @@ public static class GeneratedSecretMetadata
 
     private sealed class AssemblyCoverage
     {
+        public bool RequiresGeneratedMetadata { get; set; }
+
         public ConcurrentDictionary<string, byte> CoveredTypeNames { get; } = new(StringComparer.Ordinal);
 
         public ConcurrentDictionary<string, byte> IncompleteTypeNames { get; } = new(StringComparer.Ordinal);

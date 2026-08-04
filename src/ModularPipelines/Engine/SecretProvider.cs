@@ -161,9 +161,11 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         var type = value.GetType();
         if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
         {
+            var reflectionFallbackIsUnsafe = GeneratedSecretMetadata.IsGeneratedMetadataRequired
+                                             || !RuntimeFeature.IsDynamicCodeSupported;
             if (GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly))
             {
-                if (!RuntimeFeature.IsDynamicCodeSupported)
+                if (reflectionFallbackIsUnsafe)
                 {
                     throw new MissingSecretMetadataException(type);
                 }
@@ -172,7 +174,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             }
             else if (CanTypeHierarchyReferenceSecretValueAttribute(type))
             {
-                if (!RuntimeFeature.IsDynamicCodeSupported)
+                if (reflectionFallbackIsUnsafe)
                 {
                     throw new MissingSecretMetadataException(type);
                 }

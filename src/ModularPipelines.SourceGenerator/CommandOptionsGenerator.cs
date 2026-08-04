@@ -76,6 +76,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Select(static (input, _) => GetCoveredExternalAssemblyIdentities(
                 input.Left,
                 input.Right));
+        var runtimeMetadataConfiguration = coveredExternalAssemblyIdentities
+            .Combine(context.AnalyzerConfigOptionsProvider.Select(
+                static (optionsProvider, _) => IsTrimOrAotEnabled(optionsProvider)));
         var hasRuntimeReference = context.CompilationProvider.Select(
             static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
         var sourceCandidates = typeCandidates.Collect()
@@ -87,7 +90,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(hasRuntimeReference);
         var generationInputs = candidates
             .Combine(collectedOptionsTypeUsages)
-            .Combine(coveredExternalAssemblyIdentities);
+            .Combine(runtimeMetadataConfiguration);
         context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
         {
             if (!input.Left.Left.Right)
@@ -141,7 +144,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 optionsTypeMetadataNames);
             sourceContext.AddSource(
                 "ModularPipelines.RuntimeMetadata.g.cs",
-                Generate(items, input.Right));
+                Generate(items, input.Right.Left, input.Right.Right));
         });
     }
 
@@ -697,7 +700,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static string Generate(
         ImmutableArray<TypeMetadata> items,
-        ImmutableArray<string> coveredExternalAssemblyIdentities)
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata)
     {
         var uniqueItems = items
             .GroupBy(item => item.MetadataName, StringComparer.Ordinal)
@@ -737,8 +741,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
         sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
-        sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.RegisterAssembly(assembly);");
-        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
+        var requiresGeneratedMetadataLiteral = requiresGeneratedMetadata ? "true" : "false";
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata",
+            requiresGeneratedMetadataLiteral);
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Engine.GeneratedSecretMetadata",
+            requiresGeneratedMetadataLiteral);
         AppendStringRegistration(
             sb,
             "RegisterCoveredExternalAssemblyIdentities",
@@ -777,6 +788,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    private static void AppendAssemblyRegistration(
+        StringBuilder sb,
+        string registryType,
+        string requiresGeneratedMetadataLiteral)
+    {
+        sb.AppendLine(
+            $"        {registryType}.RegisterAssembly(assembly, requiresGeneratedMetadata: {requiresGeneratedMetadataLiteral});");
     }
 
     private static void AppendTypeNameRegistration(
@@ -988,7 +1008,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Compilation compilation,
         AnalyzerConfigOptionsProvider optionsProvider)
     {
-        if (!IsEnabled(optionsProvider, "build_property.PublishAot")
+        if (!IsTrimOrAotEnabled(optionsProvider)
             || compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
         {
             return [];

@@ -20,7 +20,22 @@ public static class GeneratedCommandMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterAssembly(Assembly assembly)
     {
-        _ = ProcessedAssemblies.GetValue(assembly, static _ => new ProcessedAssembly());
+        RegisterAssembly(assembly, requiresGeneratedMetadata: false);
+    }
+
+    /// <summary>
+    /// Registers that an assembly ran the C# metadata generator and whether reflection fallback is unsafe.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterAssembly(Assembly assembly, bool requiresGeneratedMetadata)
+    {
+        var processedAssembly = ProcessedAssemblies.GetValue(
+            assembly,
+            static _ => new ProcessedAssembly());
+        if (requiresGeneratedMetadata)
+        {
+            processedAssembly.RequiresGeneratedMetadata = true;
+        }
     }
 
     /// <summary>
@@ -131,6 +146,9 @@ public static class GeneratedCommandMetadata
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
         ProcessedAssemblies.TryGetValue(assembly, out _);
 
+    internal static bool IsGeneratedMetadataRequired =>
+        ProcessedAssemblies.Any(static registration => registration.Value.RequiresGeneratedMetadata);
+
     internal static bool IsTypeCovered(Type type)
     {
         var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
@@ -151,6 +169,8 @@ public static class GeneratedCommandMetadata
 
     private sealed class ProcessedAssembly
     {
+        public bool RequiresGeneratedMetadata { get; set; }
+
         public ConcurrentDictionary<string, byte> CoveredTypeNames { get; } = new(StringComparer.Ordinal);
     }
 }

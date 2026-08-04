@@ -23,7 +23,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         {
             if (!GeneratedCommandMetadata.TryGet(type, out var model))
             {
-                if (!RuntimeFeature.IsDynamicCodeSupported
+                if (GeneratedCommandMetadata.IsGeneratedMetadataRequired
+                    || !RuntimeFeature.IsDynamicCodeSupported
                     || (GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly)
                         && GeneratedCommandMetadata.IsTypeCovered(type)))
                 {
