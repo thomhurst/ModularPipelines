@@ -1123,13 +1123,23 @@ public class IncompleteMetadataDiagnosticTests
     [Test]
     public async Task Incremental_Partial_Aot_Diagnostic_Location_Tracks_Source_Edit()
     {
-        const string candidate = "public partial class PartialOptions;";
+        const string candidate = """
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static object Add(
+                    Microsoft.Extensions.DependencyInjection.IServiceCollection services) =>
+                    Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions
+                        .AddOptions<PartialOptions>(services);
+            }
+            """;
         var updatedCandidate = $"{Environment.NewLine}{Environment.NewLine}{candidate}";
 
         var result = GeneratorTestRunner.RunIncrementalUpdate(
             new CommandOptionsGenerator(),
-            [CommandInfrastructure, candidate],
-            [CommandInfrastructure, updatedCandidate],
+            [OptionsRegistrationInfrastructure, candidate],
+            [OptionsRegistrationInfrastructure, updatedCandidate],
             new Dictionary<string, string>
             {
                 ["build_property.PublishAot"] = "true",
