@@ -230,17 +230,54 @@ public static class GeneratedSecretMetadata
         if (type.IsArray || type.IsEnum || typeof(Delegate).IsAssignableFrom(type)
             || IsKnownCompilerGeneratedInfrastructure(type))
         {
-            accessors = Array.Empty<SecretPropertyAccessor>();
-            return true;
+            return ReturnEmptyAccessors(out accessors, result: true);
         }
 
         Accessors.TryGetValue(type, out var directMetadata);
-        if (directMetadata is { IsComplete: true, IsLegacy: false })
+        if (TryGetDirectAccessors(directMetadata, allowLegacy: false, out accessors)
+            || TryGetExternalAccessors(type, out accessors))
         {
-            accessors = directMetadata.Accessors;
             return true;
         }
 
+        if (RequiresExternalReflectionFallback(type))
+        {
+            return ReturnEmptyAccessors(out accessors, result: false);
+        }
+
+        if (IsCoveredExternalType(type) || IsCoveredExternalAssembly(type))
+        {
+            return ReturnEmptyAccessors(out accessors, result: true);
+        }
+
+        if (TryGetDirectAccessors(directMetadata, allowLegacy: true, out accessors))
+        {
+            return true;
+        }
+
+        return ReturnEmptyAccessors(out accessors, IsCoveredGeneratedType(type));
+    }
+
+    private static bool TryGetDirectAccessors(
+        SecretMetadata? metadata,
+        bool allowLegacy,
+        out IReadOnlyList<SecretPropertyAccessor> accessors)
+    {
+        if (metadata is { IsComplete: true }
+            && (allowLegacy || !metadata.IsLegacy))
+        {
+            accessors = metadata.Accessors;
+            return true;
+        }
+
+        accessors = Array.Empty<SecretPropertyAccessor>();
+        return false;
+    }
+
+    private static bool TryGetExternalAccessors(
+        Type type,
+        out IReadOnlyList<SecretPropertyAccessor> accessors)
+    {
         foreach (var registrations in ExternalAccessors)
         {
             if (registrations.Value.Accessors.TryGetValue(type, out var metadata)
@@ -251,35 +288,24 @@ public static class GeneratedSecretMetadata
             }
         }
 
-        if (RequiresExternalReflectionFallback(type))
-        {
-            accessors = Array.Empty<SecretPropertyAccessor>();
-            return false;
-        }
-
-        if (IsCoveredExternalType(type) || IsCoveredExternalAssembly(type))
-        {
-            accessors = Array.Empty<SecretPropertyAccessor>();
-            return true;
-        }
-
-        if (directMetadata is { IsComplete: true })
-        {
-            accessors = directMetadata.Accessors;
-            return true;
-        }
-
-        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
-        if (metadataType.FullName is { } metadataName
-            && AssemblyCoverageByAssembly.TryGetValue(type.Assembly, out var coverage)
-            && coverage.CoveredTypeNames.ContainsKey(metadataName))
-        {
-            accessors = Array.Empty<SecretPropertyAccessor>();
-            return true;
-        }
-
         accessors = Array.Empty<SecretPropertyAccessor>();
         return false;
+    }
+
+    private static bool IsCoveredGeneratedType(Type type)
+    {
+        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
+        return metadataType.FullName is { } metadataName
+               && AssemblyCoverageByAssembly.TryGetValue(type.Assembly, out var coverage)
+               && coverage.CoveredTypeNames.ContainsKey(metadataName);
+    }
+
+    private static bool ReturnEmptyAccessors(
+        out IReadOnlyList<SecretPropertyAccessor> accessors,
+        bool result)
+    {
+        accessors = Array.Empty<SecretPropertyAccessor>();
+        return result;
     }
 
     private static bool IsCoveredExternalAssembly(Type type)
