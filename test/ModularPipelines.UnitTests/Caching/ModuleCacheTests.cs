@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Context;
@@ -18,6 +19,24 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class ModuleCacheTests
 {
+    private sealed class RecordingLogger<T> : ILogger<T>
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Debug;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            Messages.Add(formatter(state, exception));
+    }
+
     private sealed class TrackingProgressDisplay : IProgressDisplay
     {
         public bool? LastCompletionWasSuccessful { get; private set; }
@@ -77,6 +96,12 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
+        public static int SkippedHookCount;
+
+        public static int CachedResultHookCount;
+
+        public static Status? CachedResultHookStatus;
+
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
@@ -85,6 +110,25 @@ public class ModuleCacheTests
             var value = System.IO.File.ReadAllText(Path.Combine(WorkingDirectory, "input.txt"));
             System.IO.File.WriteAllText(Path.Combine(WorkingDirectory, "output.txt"), $"output:{value}");
             return Task.FromResult<string>($"result:{value}");
+        }
+
+        protected override Task OnSkippedAsync(
+            IModuleContext context,
+            SkipDecision skipDecision,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref SkippedHookCount);
+            return Task.CompletedTask;
+        }
+
+        protected override Task OnCachedResultAsync(
+            IModuleContext context,
+            ModuleResult<string> result,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref CachedResultHookCount);
+            CachedResultHookStatus = result.ModuleStatus;
+            return Task.CompletedTask;
         }
     }
 
@@ -95,6 +139,23 @@ public class ModuleCacheTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult<string>(Value);
+    }
+
+    [CacheInputs("unused.txt")]
+    private sealed class StableAssemblyVersionKeyModule : Module<string>
+    {
+        public const string AssemblyVersionKey = "stable-build-module-v3";
+        public const string KeyPart = "configuration-value";
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart(KeyPart)
+                .WithCacheAssemblyVersionKey(AssemblyVersionKey)
+                .Build();
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("stable");
     }
 
     private sealed class RuntimeTypedDependencyModule : Module<object>
@@ -699,6 +760,9 @@ public class ModuleCacheTests
         Directory.CreateDirectory(temporaryDirectory);
         CachedModule.WorkingDirectory = temporaryDirectory;
         CachedModule.ExecutionCount = 0;
+        CachedModule.SkippedHookCount = 0;
+        CachedModule.CachedResultHookCount = 0;
+        CachedModule.CachedResultHookStatus = null;
 
         try
         {
@@ -713,8 +777,11 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(CachedModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(CachedModule.SkippedHookCount).IsEqualTo(0);
+                await Assert.That(CachedModule.CachedResultHookCount).IsEqualTo(1);
+                await Assert.That(CachedModule.CachedResultHookStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath)).IsEqualTo("output:first");
             }
 
@@ -1061,6 +1128,7 @@ public class ModuleCacheTests
         var configuration = ModularPipelines.Configuration.ModuleConfiguration.Create()
             .WithCacheKeyPart("configuration=v1")
             .WithCacheEnvironmentVariable("CI")
+            .WithCacheAssemblyVersionKey("build-module-v3")
             .Build();
 
         using (Assert.Multiple())
@@ -1068,6 +1136,55 @@ public class ModuleCacheTests
             await Assert.That(configuration.CacheEnabled).IsTrue();
             await Assert.That(configuration.CacheKeyParts).IsEquivalentTo(new[] { "configuration=v1" });
             await Assert.That(configuration.CacheEnvironmentVariables).IsEquivalentTo(new[] { "CI" });
+            await Assert.That(configuration.CacheAssemblyVersionKey).IsEqualTo("build-module-v3");
+        }
+    }
+
+    [Test]
+    public async Task CacheAssemblyVersionKeyRejectsWhitespace()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheAssemblyVersionKey(" "));
+
+        await Assert.That(exception.ParamName).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task CacheMissLogsProtectedFingerprintComponents()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-diagnostics-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        var logger = new RecordingLogger<ModuleCacheResultRepository>();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = temporaryDirectory;
+                options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+            });
+            builder.Services.AddSingleton<ILogger<ModuleCacheResultRepository>>(logger);
+            builder.AddModule<StableAssemblyVersionKeyModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            var miss = logger.Messages.Single(message => message.Contains("Module cache miss"));
+            using (Assert.Multiple())
+            {
+                await Assert.That(miss).Contains("module-version-override=");
+                await Assert.That(miss).Contains("key-part=");
+                await Assert.That(miss).Contains("sha256:");
+                await Assert.That(miss).DoesNotContain(StableAssemblyVersionKeyModule.AssemblyVersionKey);
+                await Assert.That(miss).DoesNotContain(StableAssemblyVersionKeyModule.KeyPart);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
         }
     }
 
@@ -1101,7 +1218,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(thirdStatus).IsEqualTo(Status.Successful);
                 await Assert.That(CachedDependentModule.ExecutionCount).IsEqualTo(2);
             }
@@ -1133,7 +1250,7 @@ public class ModuleCacheTests
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
                 await Assert.That(secondStatus).IsEqualTo(Status.Successful);
-                await Assert.That(thirdStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(thirdStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(InputMutatingModule.ExecutionCount).IsEqualTo(2);
             }
         }
@@ -1167,7 +1284,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(AfterHookArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
                     .IsEqualTo("after-hook");
@@ -1197,7 +1314,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(first.ModuleResult.ModuleStatus).IsEqualTo(Status.Successful);
-                await Assert.That(second.ModuleResult.ModuleStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(second.ModuleResult.ModuleStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(first.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
                 await Assert.That(second.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
                 await Assert.That(first.DependentValue).IsEqualTo("transformed");
@@ -1238,7 +1355,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
                 await Assert.That(System.IO.File.Exists(Path.Combine(artifactDirectory, "a.txt")))
                     .IsTrue();
@@ -1281,7 +1398,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(new DirectoryInfo(artifactDirectory).LinkTarget).IsNull();
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
@@ -1325,7 +1442,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(CachedModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(new FileInfo(outputPath).LinkTarget).IsNull();
                 await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
@@ -1360,7 +1477,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(thirdStatus).IsEqualTo(Status.Successful);
                 await Assert.That(RuntimeTypedCachedDependentModule.ExecutionCount).IsEqualTo(2);
             }
@@ -1389,7 +1506,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(first.Status).IsEqualTo(Status.Successful);
-                await Assert.That(second.Status).IsEqualTo(Status.UsedHistory);
+                await Assert.That(second.Status).IsEqualTo(Status.CachedResult);
                 await Assert.That(second.Value).IsTypeOf<int>();
                 await Assert.That(second.Value).IsEqualTo(1);
                 await Assert.That(RuntimeTypedCachedResultModule.ExecutionCount).IsEqualTo(1);
@@ -1428,7 +1545,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(thirdStatus).IsEqualTo(Status.Successful);
                 await Assert.That(EnvironmentCachedModule.ExecutionCount).IsEqualTo(2);
             }
@@ -1538,7 +1655,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(CachedModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
                     .IsEqualTo("output:input");
@@ -1768,7 +1885,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(OptionalArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(Directory.Exists(artifactPath)).IsFalse();
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
@@ -1817,7 +1934,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(NestedOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(System.IO.File.Exists(artifactPath)).IsFalse();
                 await Assert.That(System.IO.File.GetUnixFileMode(artifactParent))
@@ -1864,7 +1981,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(DanglingSymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(new FileInfo(artifactPath).LinkTarget)
                     .IsEqualTo("missing-target");
@@ -1898,7 +2015,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(WorkingDirectoryArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
                         Path.Combine(temporaryDirectory, "root-artifact.txt")))
@@ -1963,7 +2080,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(DanglingDirectorySymbolicLinkArtifactModule.ExecutionCount)
                     .IsEqualTo(1);
                 await Assert.That(new DirectoryInfo(artifactPath).LinkTarget)
@@ -2006,7 +2123,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(GlobOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(Directory.Exists(staleLink)).IsFalse();
                 await Assert.That(await System.IO.File.ReadAllTextAsync(externalSentinel))
@@ -2059,7 +2176,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(GlobOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(System.IO.File.Exists(staleFile)).IsFalse();
                 await Assert.That(System.IO.File.GetUnixFileMode(artifactDirectory))
@@ -2243,7 +2360,7 @@ public class ModuleCacheTests
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(secondStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(MultipleArtifactFilesModule.ExecutionCount).IsEqualTo(1);
             }
         }
@@ -2418,7 +2535,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(ShallowGlobArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(System.IO.File.GetUnixFileMode(staleDirectory))
                     .IsEqualTo(expectedMode);
@@ -2832,7 +2949,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(ExecutableArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(System.IO.File.GetUnixFileMode(artifactPath))
                     .IsEqualTo(expectedMode);
@@ -2869,7 +2986,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(SymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(link.LinkTarget).IsEqualTo("tool-v2");
                 await Assert.That(await System.IO.File.ReadAllTextAsync(link.FullName))
@@ -2920,7 +3037,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(DirectorySymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(directoryLink.LinkTarget).IsEqualTo("version-2");
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
@@ -2982,7 +3099,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(DirectorySymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(directoryLink.LinkTarget).IsEqualTo("version-2");
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
@@ -3042,7 +3159,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(DirectorySymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(System.IO.File.GetUnixFileMode(artifactDirectory))
                     .IsEqualTo(
@@ -3096,7 +3213,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(ReadOnlyFileParentArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
                         Path.Combine(artifactParent, "tool")))
@@ -3144,7 +3261,7 @@ public class ModuleCacheTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(restoredStatus).IsEqualTo(Status.CachedResult);
                 await Assert.That(EmptyDirectoryArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(Directory.Exists(artifactDirectory)).IsTrue();
                 await Assert.That(Directory.Exists(Path.Combine(artifactDirectory, "nested-empty")))

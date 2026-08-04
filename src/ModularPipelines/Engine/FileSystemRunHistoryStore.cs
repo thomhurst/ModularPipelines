@@ -171,7 +171,7 @@ internal sealed class FileSystemRunHistoryStore(
             : Guid.NewGuid().ToString("N");
         var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{runId}.json";
         var path = Path.Combine(directory, fileName);
-        await File.WriteAllTextAsync(
+        await AtomicFileWriter.WriteAllTextAsync(
                 path,
                 RunReportJsonSerializer.Serialize(report),
                 cancellationToken)

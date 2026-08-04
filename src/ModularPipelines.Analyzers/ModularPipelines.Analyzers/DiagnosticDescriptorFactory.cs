@@ -8,6 +8,9 @@ namespace ModularPipelines.Analyzers;
 /// </summary>
 internal static class DiagnosticDescriptorFactory
 {
+    private const string DocumentationBaseUrl =
+        "https://thomhurst.github.io/ModularPipelines/docs/next/analyzers/";
+
     /// <summary>
     /// Creates a <see cref="DiagnosticDescriptor"/> with localizable strings from the Resources file.
     /// </summary>
@@ -37,6 +40,7 @@ internal static class DiagnosticDescriptorFactory
             category,
             severity,
             isEnabledByDefault: true,
-            description: description);
+            description: description,
+            helpLinkUri: DocumentationBaseUrl + id);
     }
 }

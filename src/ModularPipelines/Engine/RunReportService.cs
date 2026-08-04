@@ -237,7 +237,7 @@ internal sealed class RunReportService(
             var fullPath = Path.GetFullPath(reportPath);
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
             using var timeout = new CancellationTokenSource(ReportWriteTimeout);
-            await File.WriteAllTextAsync(
+            await AtomicFileWriter.WriteAllTextAsync(
                     fullPath,
                     RunReportJsonSerializer.Serialize(report),
                     timeout.Token)

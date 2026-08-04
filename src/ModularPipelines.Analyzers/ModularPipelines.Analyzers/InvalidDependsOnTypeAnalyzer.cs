@@ -10,13 +10,13 @@ namespace ModularPipelines.Analyzers;
 
 /// <summary>
 /// Analyzer that detects when DependsOnAttribute references a type that doesn't implement IModule.
-/// Reports diagnostic MPDEP001 when DependsOn references a non-module type.
+/// Reports diagnostic MP0009 when DependsOn references a non-module type.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [ExcludeFromCodeCoverage]
 public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "MPDEP001";
+    public const string DiagnosticId = "MP0009";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

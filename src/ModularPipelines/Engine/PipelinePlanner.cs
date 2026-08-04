@@ -2,6 +2,7 @@ using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
@@ -31,6 +32,7 @@ internal sealed class PipelinePlanner
     private readonly IMediator _mediator;
     private readonly IModuleResultHistoryProvider _resultHistoryProvider;
     private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly bool _moduleCachingEnabled;
 
     public PipelinePlanner(
         IServiceProvider serviceProvider,
@@ -45,7 +47,8 @@ internal sealed class PipelinePlanner
         IOptions<PipelineOptions> options,
         IMediator mediator,
         IModuleResultHistoryProvider resultHistoryProvider,
-        IPipelineContextProvider pipelineContextProvider)
+        IPipelineContextProvider pipelineContextProvider,
+        IModuleCacheResultRepository? moduleCacheResultRepository = null)
     {
         _serviceProvider = serviceProvider;
         _modules = modules.Distinct<IModule>(ReferenceEqualityComparer.Instance).ToArray();
@@ -60,6 +63,7 @@ internal sealed class PipelinePlanner
         _mediator = mediator;
         _resultHistoryProvider = resultHistoryProvider;
         _pipelineContextProvider = pipelineContextProvider;
+        _moduleCachingEnabled = moduleCacheResultRepository is not null;
     }
 
     public async Task<PipelinePlan> CreateAsync(CancellationToken cancellationToken = default)
@@ -383,7 +387,10 @@ internal sealed class PipelinePlanner
             module,
             _metadataRegistry.GetCategory(module.GetType()),
             skipDecision,
-            estimatedDuration);
+            estimatedDuration,
+            _moduleCachingEnabled
+            && module.Configuration.CacheEnabled
+            && skipDecision?.ShouldSkip is not true);
     }
 
     private TimeSpan CalculateEstimatedDuration(IReadOnlyList<PipelinePlanWave> waves)

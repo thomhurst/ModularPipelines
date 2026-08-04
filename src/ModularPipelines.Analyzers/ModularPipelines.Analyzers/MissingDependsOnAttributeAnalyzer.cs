@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "MissingDependsOnAttribute";
+    public const string DiagnosticId = "MP0001";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

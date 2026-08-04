@@ -39,7 +39,7 @@ public class HttpTests : TestBase
         HttpResponseMessage? response = null;
         try
         {
-            response = await sendTask.WaitAsync(TimeSpan.FromSeconds(1));
+            response = await sendTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         }
         finally
         {
@@ -75,7 +75,7 @@ public class HttpTests : TestBase
         try
         {
             await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -116,7 +116,7 @@ public class HttpTests : TestBase
         try
         {
             await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -153,7 +153,7 @@ public class HttpTests : TestBase
         try
         {
             await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -191,7 +191,7 @@ public class HttpTests : TestBase
         try
         {
             await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -231,13 +231,13 @@ public class HttpTests : TestBase
             .ReadAsync(new byte[1], cancellationTokenSource.Token)
             .AsTask();
 
-        await contentStream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(1));
+        await contentStream.ReadStarted.WaitAsync(TestHostSettings.DefaultTestTimeout);
         cancellationTokenSource.Cancel();
 
         try
         {
             var exception = await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
             await Assert.That(exception!.CancellationToken.IsCancellationRequested).IsTrue();
         }
         finally
@@ -307,7 +307,7 @@ public class HttpTests : TestBase
                     LoggingType = HttpLoggingType.Response,
                     Timeout = timeout,
                 })
-                .WaitAsync(TimeSpan.FromSeconds(1)));
+                .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
     [Test]
@@ -336,7 +336,7 @@ public class HttpTests : TestBase
                     LoggingType = HttpLoggingType.Request,
                     Timeout = timeout,
                 })
-                .WaitAsync(TimeSpan.FromSeconds(1)));
+                .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
     [Test]
@@ -381,7 +381,7 @@ public class HttpTests : TestBase
         try
         {
             await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -471,7 +471,7 @@ public class HttpTests : TestBase
                     },
                     Timeout = timeout,
                 })
-                .WaitAsync(TimeSpan.FromSeconds(1)));
+                .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
     [Test]
@@ -495,7 +495,7 @@ public class HttpTests : TestBase
         });
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await response.Content.ReadAsStringAsync().WaitAsync(TimeSpan.FromSeconds(1)));
+            await response.Content.ReadAsStringAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
     [Test]
@@ -539,7 +539,7 @@ public class HttpTests : TestBase
                         Timeout = useConfiguredTimeout ? TimeSpan.FromMilliseconds(100) : null,
                     },
                     useConfiguredTimeout ? CancellationToken.None : cancellationTokenSource.Token)
-                    .WaitAsync(TimeSpan.FromSeconds(1)));
+                    .WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -631,7 +631,7 @@ public class HttpTests : TestBase
                         LoggingType = HttpLoggingType.Response,
                         Timeout = timeout,
                     })
-                    .WaitAsync(TimeSpan.FromSeconds(1)));
+                    .WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {

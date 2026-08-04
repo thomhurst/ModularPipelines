@@ -87,6 +87,8 @@ history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one
 path and registered module types. History is bounded: after each save, the default store deletes
 owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+Report and history files are published atomically, so cancellation or a failed write cannot replace
+a complete report with partial JSON.
 
 Query retained reports newest-first through `IRunHistoryStore`:
 
