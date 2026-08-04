@@ -122,11 +122,11 @@ public abstract class Module1 : Wrapper<IEnumerable<int>, global::System.Collect
     private const string FixedResultWrapperSource = $@"
 {TestSourceConstants.StandardModuleHeader}
 
-#pragma warning disable EnumerableModuleResult
+#pragma warning disable MP0002
 public abstract class FixedWrapper<T> : Module<IEnumerable<T>>
 {{
 }}
-#pragma warning restore EnumerableModuleResult
+#pragma warning restore MP0002
 
 public abstract class Module1 : FixedWrapper<string>
 {{

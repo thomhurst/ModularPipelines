@@ -11,23 +11,13 @@ namespace ModularPipelines.Development.Analyzers;
 [ExcludeFromCodeCoverage]
 public class VirtualSwitchPropertyAnalyzer : DiagnosticAnalyzer
 {
-    private const string Category = "Usage";
+    public const string DiagnosticId = "MP0011";
 
-    public const string DiagnosticId = "MPD0001";
-
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MPD0001Title),
-        Resources.ResourceManager, typeof(Resources));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Resources.MPD0001MessageFormat), Resources.ResourceManager,
-            typeof(Resources));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Resources.MPD0001Description), Resources.ResourceManager,
-            typeof(Resources));
-
-    private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category,
-        DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    private static readonly DiagnosticDescriptor Rule = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.MP0011Title),
+        nameof(Resources.MP0011MessageFormat),
+        nameof(Resources.MP0011Description));
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 

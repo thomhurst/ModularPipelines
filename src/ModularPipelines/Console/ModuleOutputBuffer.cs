@@ -770,6 +770,9 @@ internal sealed class BufferedLogEvent<TState>(
 {
     private readonly Exception? _obfuscatedException =
         ObfuscatedLogException.Create(exception, secretObfuscator);
+    private readonly Lazy<string> _rawFormattedMessage = new(
+        () => formatter(originalState, exception),
+        LazyThreadSafetyMode.ExecutionAndPublication);
 
     public LogLevel Level => level;
 
@@ -805,18 +808,15 @@ internal sealed class BufferedLogEvent<TState>(
             Format);
     }
 
-    public string FormatMessageWithLevel() => $"[{FormatLevel(level)}] {Format(obfuscatedState, exception)}";
+    public string FormatMessageWithLevel() => $"[{FormatLevel(level)}] {Format(null, null)}";
 
     public string? FormatException()
-        => exception is null
+        => _obfuscatedException is null
             ? null
-            : secretObfuscator.Obfuscate(exception.ToString(), null);
+            : secretObfuscator.Obfuscate(_obfuscatedException.ToString(), null);
 
     private string Format(object? state, Exception? logException)
-    {
-        var formatted = formatter(originalState, exception);
-        return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
-    }
+        => secretObfuscator.Obfuscate(_rawFormattedMessage.Value, null) ?? string.Empty;
 
     private string FormatTyped(TState state, Exception? logException)
         => Format(state!, logException);
