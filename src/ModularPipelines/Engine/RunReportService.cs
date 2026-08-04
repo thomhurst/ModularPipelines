@@ -121,7 +121,7 @@ internal sealed class RunReportService(
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)
     {
-        var filteredException = exception as FilteredRunReportException;
+        var filteredException = exception as IFilteredRunReportException;
         return exception is null
             ? null
             : new RunReportExceptionDetails

@@ -190,7 +190,7 @@ internal sealed class PipelineRunReportFactory(
 
     public RunReportExceptionDetails? CreateExceptionDetails(Exception? exception)
     {
-        var filteredException = exception as FilteredRunReportException;
+        var filteredException = exception as IFilteredRunReportException;
         return exception is null
             ? null
             : new RunReportExceptionDetails

@@ -1536,6 +1536,8 @@ public class RunReportTests
                 await Assert.That(report.Exception!.InnerExceptions).HasSingleItem();
                 await Assert.That(report.Exception.InnerExceptions[0].Message)
                     .IsEqualTo("Pipeline end hook failed");
+                await Assert.That(report.Exception.StackTrace)
+                    .Contains(nameof(MixedFailureEndHook.OnPipelineEndAsync));
                 await Assert.That(report.Modules[0].Exception!.Message)
                     .IsEqualTo("report failure **********");
             }

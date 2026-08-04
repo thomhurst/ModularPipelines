@@ -262,7 +262,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             return remainingExceptions.Length == 0
                 ? null
-                : new AggregateException(aggregateException.Message, remainingExceptions);
+                : new FilteredRunReportAggregateException(
+                    aggregateException,
+                    remainingExceptions);
         }
 
         if (exception.InnerException is not { } innerException)
