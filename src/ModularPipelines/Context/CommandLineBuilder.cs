@@ -356,18 +356,6 @@ internal sealed class CommandLineBuilder(
                 IsTerminal: flag.Phase == CommandLinePhase.Terminal);
         }
 
-        if (TryGetAttachedManualOption(argument, optionsByName, out var attachedOption))
-        {
-            return TryCreateManualOptionMatch(
-                manualArgs,
-                index,
-                flagsByName,
-                optionsByName,
-                options,
-                attachedOption,
-                suppliedOperandCount: 1);
-        }
-
         if (optionsByName.TryGetValue(argument, out var option))
         {
             return TryCreateManualOptionMatch(
@@ -378,6 +366,18 @@ internal sealed class CommandLineBuilder(
                 options,
                 option,
                 suppliedOperandCount: 0);
+        }
+
+        if (TryGetAttachedManualOption(argument, optionsByName, out var attachedOption))
+        {
+            return TryCreateManualOptionMatch(
+                manualArgs,
+                index,
+                flagsByName,
+                optionsByName,
+                options,
+                attachedOption,
+                suppliedOperandCount: 1);
         }
 
         if (TryGetCombinedShortOptionOperandCount(

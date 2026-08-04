@@ -418,6 +418,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Prefers_Exact_Manual_Option_Over_NoSeparator_Prefix()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "-Debug", "value"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq -Debug value -- tail");
+    }
+
+    [Test]
     public async Task Build_Hoists_Optional_Manual_Option_With_Explicit_Value()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -919,6 +935,12 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--variable", Format = OptionFormat.NoSeparator)]
         public string? Variable { get; set; }
+
+        [CliOption("-D", Format = OptionFormat.NoSeparator)]
+        public string? ShortDefine { get; set; }
+
+        [CliOption("-Debug")]
+        public string? DebugValue { get; set; }
 
         [CliFlag("--compact", ShortForm = "-c")]
         public bool? Compact { get; set; }
