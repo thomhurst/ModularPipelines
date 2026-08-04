@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
@@ -12,6 +13,7 @@ internal sealed class FileSystemRunHistoryStore(
     ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
+    private const int MinimumCompatibleSchemaVersion = 1;
 
     public Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
@@ -29,6 +31,7 @@ internal sealed class FileSystemRunHistoryStore(
         }
 
         PipelineRunReport? latestReport = null;
+        var incompatibleSchemaLogged = false;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
                      $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
@@ -38,17 +41,18 @@ internal sealed class FileSystemRunHistoryStore(
             try
             {
                 var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
-                if (RunReportJsonSerializer.Deserialize(json) is
-                    { SchemaVersion: PipelineRunReport.CurrentSchemaVersion } report
-                    && string.Equals(
+                if (!TryDeserializeCompatibleReport(json, ref incompatibleSchemaLogged, out var report))
+                {
+                    continue;
+                }
+
+                if (string.Equals(
                         report.PipelineIdentity,
                         pipelineIdentity,
-                        StringComparison.Ordinal))
+                        StringComparison.Ordinal)
+                    && (latestReport is null || report.End > latestReport.End))
                 {
-                    if (latestReport is null || report.End > latestReport.End)
-                    {
-                        latestReport = report;
-                    }
+                    latestReport = report;
                 }
             }
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
@@ -59,6 +63,66 @@ internal sealed class FileSystemRunHistoryStore(
 
         return latestReport;
     }
+
+    private bool TryDeserializeCompatibleReport(
+        string json,
+        ref bool incompatibleSchemaLogged,
+        out PipelineRunReport report)
+    {
+        using var document = JsonDocument.Parse(json);
+        var schemaVersion = ReadSchemaVersion(document.RootElement);
+        if (!IsSchemaVersionCompatible(schemaVersion))
+        {
+            if (!incompatibleSchemaLogged)
+            {
+                logger.LogWarning(
+                    "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
+                    schemaVersion,
+                    MinimumCompatibleSchemaVersion,
+                    PipelineRunReport.CurrentSchemaVersion);
+                incompatibleSchemaLogged = true;
+            }
+
+            report = null!;
+            return false;
+        }
+
+        var deserializedReport = RunReportJsonSerializer.Deserialize(json);
+        if (deserializedReport is null)
+        {
+            report = null!;
+            return false;
+        }
+
+        report = deserializedReport;
+        return true;
+    }
+
+    private static int ReadSchemaVersion(JsonElement root)
+    {
+        if (root.ValueKind != JsonValueKind.Object)
+        {
+            throw new JsonException("Pipeline run history must contain a JSON object.");
+        }
+
+        if (!root.TryGetProperty("schemaVersion", out var schemaVersionElement))
+        {
+            return PipelineRunReport.CurrentSchemaVersion;
+        }
+
+        if (schemaVersionElement.ValueKind != JsonValueKind.Number
+            || !schemaVersionElement.TryGetInt32(out var schemaVersion))
+        {
+            throw new JsonException("Pipeline run history schemaVersion must be a 32-bit integer.");
+        }
+
+        return schemaVersion;
+    }
+
+    internal static bool IsSchemaVersionCompatible(
+        int schemaVersion,
+        int currentSchemaVersion = PipelineRunReport.CurrentSchemaVersion) =>
+        schemaVersion >= MinimumCompatibleSchemaVersion && schemaVersion <= currentSchemaVersion;
 
     public async Task SaveAsync(
         PipelineRunReport report,

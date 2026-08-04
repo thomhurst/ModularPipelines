@@ -29,7 +29,7 @@ public sealed record RunReportOptions
 
     /// <summary>
     /// Gets the maximum number of reports retained by the default history store.
-    /// Set to zero to disable run history.
+    /// History is retained independently of JSON report writing. Set to zero to disable it.
     /// </summary>
     public int HistoryRetention { get; init; } = 20;
 }
