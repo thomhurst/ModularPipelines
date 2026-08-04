@@ -23,6 +23,8 @@ internal class ModuleRetriever
     private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
+    internal IReadOnlyList<IModule> RegisteredModules => _modules;
+
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
         IRegistrationEventExecutor registrationEventExecutor,

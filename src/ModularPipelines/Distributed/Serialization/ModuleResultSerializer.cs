@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Distributed.Serialization;
@@ -8,11 +9,15 @@ namespace ModularPipelines.Distributed.Serialization;
 internal class ModuleResultSerializer
 {
     private readonly ModuleTypeRegistry _typeRegistry;
+    private readonly ICommandExecutionCounter? _commandExecutionCounter;
     private readonly JsonSerializerOptions _options;
 
-    public ModuleResultSerializer(ModuleTypeRegistry typeRegistry)
+    public ModuleResultSerializer(
+        ModuleTypeRegistry typeRegistry,
+        ICommandExecutionCounter? commandExecutionCounter = null)
     {
         _typeRegistry = typeRegistry;
+        _commandExecutionCounter = commandExecutionCounter;
         _options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
@@ -53,8 +58,12 @@ internal class ModuleResultSerializer
             ResultTypeName: resultTypeName,
             WorkerIndex: workerIndex,
             SerializedJson: json,
-            CompletedAt: DateTimeOffset.UtcNow
-        );
+            CompletedAt: DateTimeOffset.UtcNow)
+        {
+            CommandCount = resolved is null
+                ? 0
+                : _commandExecutionCounter?.GetCount(resolved.Value.ModuleType) ?? 0,
+        };
     }
 
     [UnconditionalSuppressMessage(
@@ -70,6 +79,13 @@ internal class ModuleResultSerializer
         var resolved = _typeRegistry.Resolve(serialized.ModuleTypeName) ?? throw new InvalidOperationException(
                 $"Cannot deserialize result for module '{serialized.ModuleTypeName}': type not found in registry.");
         var resultType = typeof(ModuleResult<>).MakeGenericType(resolved.ResultType);
-        return JsonSerializer.Deserialize(serialized.SerializedJson, resultType, _options) as IModuleResult;
+        var result = JsonSerializer.Deserialize(serialized.SerializedJson, resultType, _options) as ModuleResult;
+        return result is null
+            ? null
+            : result with
+            {
+                ModuleType = resolved.ModuleType,
+                ModuleTypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
+            };
     }
 }

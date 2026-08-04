@@ -2,6 +2,7 @@ using ModularPipelines.Distributed.Redis.Configuration;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Configuration;
 
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class RunIdentifierResolverTests
 {
     [Test]
@@ -55,5 +56,35 @@ public class RunIdentifierResolverTests
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result.Length).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task ResolveExecutionIdentifier_DoesNotReuseGitHubWorkflowAttempt()
+    {
+        var names = new[]
+        {
+            "RUN_IDENTIFIER",
+            "GITHUB_RUN_ID",
+            "GITHUB_RUN_ATTEMPT",
+        };
+        var originals = names.ToDictionary(name => name, Environment.GetEnvironmentVariable);
+
+        try
+        {
+            Environment.SetEnvironmentVariable("RUN_IDENTIFIER", null);
+            Environment.SetEnvironmentVariable("GITHUB_RUN_ID", "1234");
+            Environment.SetEnvironmentVariable("GITHUB_RUN_ATTEMPT", "2");
+
+            var result = RunIdentifierResolver.ResolveExecutionIdentifier(null);
+
+            await Assert.That(result).IsNull();
+        }
+        finally
+        {
+            foreach (var (name, value) in originals)
+            {
+                Environment.SetEnvironmentVariable(name, value);
+            }
+        }
     }
 }

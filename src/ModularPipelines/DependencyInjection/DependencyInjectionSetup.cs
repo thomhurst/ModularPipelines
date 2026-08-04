@@ -259,6 +259,9 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineOutputCoordinator, PipelineOutputCoordinator>()
             .AddSingleton<IIgnoredModuleResultRegistrar, IgnoredModuleResultRegistrar>()
             .AddSingleton<IPipelineSummaryFactory, PipelineSummaryFactory>()
+            .AddSingleton<ICommandExecutionCounter, CommandExecutionCounter>()
+            .AddSingleton<PipelineRunReportFactory>()
+            .AddSingleton<IRunReportService, RunReportService>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
@@ -292,6 +295,8 @@ internal static class DependencyInjectionSetup
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
+
+        services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
     }
 
     /// <summary>
@@ -381,7 +386,9 @@ internal static class DependencyInjectionSetup
 
         // Serialization (always available)
         services.TryAddSingleton<ModuleTypeRegistry>();
-        services.TryAddSingleton(sp => new ModuleResultSerializer(sp.GetRequiredService<ModuleTypeRegistry>()));
+        services.TryAddSingleton(sp => new ModuleResultSerializer(
+            sp.GetRequiredService<ModuleTypeRegistry>(),
+            sp.GetRequiredService<ICommandExecutionCounter>()));
 
         // Artifact lifecycle manager (handles [ProducesArtifact]/[ConsumesArtifact])
         services.TryAddSingleton<ArtifactLifecycleManager>();

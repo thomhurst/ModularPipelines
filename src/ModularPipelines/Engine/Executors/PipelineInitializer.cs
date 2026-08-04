@@ -5,6 +5,7 @@ using ModularPipelines.Constants;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
 using Spectre.Console.Rendering;
@@ -121,6 +122,8 @@ internal class PipelineInitializer(
     private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
     private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions = secretMaskingOptions;
     private OrganizedModules? _organizedModules;
+
+    public IReadOnlyList<IModule> RegisteredModules => _moduleRetriever.RegisteredModules;
 
     public async Task<OrganizedModules> Initialize(CancellationToken cancellationToken = default)
     {

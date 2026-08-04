@@ -283,7 +283,7 @@ public class HttpTests : TestBase
         }
 
         await Assert.ThrowsAsync<OperationCanceledException>(
-            async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+            async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
     [Test]

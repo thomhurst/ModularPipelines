@@ -56,6 +56,11 @@ public record PipelineOptions
     private CommandExecutionOptions? _defaultExecutionOptions;
 
     /// <summary>
+    /// Gets machine-readable run report and local history settings.
+    /// </summary>
+    public RunReportOptions RunReport { get; init; } = new();
+
+    /// <summary>
     /// Gets a value indicating whether running the pipeline should print a plan without executing modules.
     /// </summary>
     public bool DryRun { get; init; }
