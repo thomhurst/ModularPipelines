@@ -227,7 +227,10 @@ public class TelemetryIntegrationTests
         var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                DefaultLoggingOptions = CommandLoggingOptions.Silent,
+                Commands = options.Commands with
+                {
+                    Logging = CommandLoggingOptions.Silent,
+                },
             });
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await builder.AddModule<DefaultLoggingCommandModule>().ExecutePipelineAsync();

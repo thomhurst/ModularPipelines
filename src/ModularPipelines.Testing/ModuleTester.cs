@@ -134,10 +134,13 @@ public class ModuleTestBuilder<TModule>
 
         builder.ConfigurePipelineOptions(options => options with
         {
-            ShowProgressInConsole = false,
-            PrintResults = false,
-            PrintLogo = false,
-            PrintDependencyChains = false,
+            Console = options.Console with
+            {
+                ShowProgress = false,
+                PrintResults = false,
+                PrintLogo = false,
+                PrintDependencyChains = false,
+            },
             ThrowOnPipelineFailure = false,
         });
         builder.Services.AddLogging(logging => logging.ClearProviders());

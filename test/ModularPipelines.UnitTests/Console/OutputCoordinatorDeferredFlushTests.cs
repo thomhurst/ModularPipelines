@@ -34,7 +34,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
         var host = await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                ShowProgressInConsole = false,
+                Console = options.Console with { ShowProgress = false },
             })
             .AddModule<Module1>()
             .BuildAsync();
@@ -52,7 +52,7 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
         var host = await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
-                ShowProgressInConsole = false,
+                Console = options.Console with { ShowProgress = false },
             })
             .AddModule<Module1>()
             .AddModule<Module2>()
