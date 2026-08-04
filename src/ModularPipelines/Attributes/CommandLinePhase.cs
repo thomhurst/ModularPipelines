@@ -5,8 +5,7 @@ namespace ModularPipelines.Attributes;
 /// </summary>
 public enum CommandLinePhase
 {
-    // These ordinals are emitted by older generated packages. Value 2 was retired
-    // with EndOfOptions, so existing values must not move and new phases must not reuse it.
+    // These ordinals are emitted by generated packages, so existing values must not move.
 
     /// <summary>
     /// A positional operand rendered after the complete command chain and before regular flags and options.
@@ -17,6 +16,11 @@ public enum CommandLinePhase
     /// Regular flags and options.
     /// </summary>
     Normal = 1,
+
+    /// <summary>
+    /// Compatibility phase for end-of-options flags emitted by older generated packages.
+    /// </summary>
+    EndOfOptions = 2,
 
     /// <summary>
     /// A final option that must follow regular options and positional operands.

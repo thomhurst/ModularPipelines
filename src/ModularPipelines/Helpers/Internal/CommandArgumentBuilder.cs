@@ -85,8 +85,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         CommandLinePhase.EarlyOperand => 0,
         CommandLinePhase.Normal => 1,
-        CommandLinePhase.Passthrough => 2,
-        CommandLinePhase.Terminal => 3,
+        CommandLinePhase.EndOfOptions => 2,
+        CommandLinePhase.Passthrough => 3,
+        CommandLinePhase.Terminal => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
     };
 
@@ -120,6 +121,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         else
         {
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
+            if (phase == CommandLinePhase.EndOfOptions
+                && rendered.IndexOf("--") is var terminatorIndex
+                && terminatorIndex >= 0)
+            {
+                optionTerminatorIndex = terminatorIndex;
+                emittedOptionTerminator = true;
+            }
+
             AddArguments(
                 rendered,
                 phaseArguments,
