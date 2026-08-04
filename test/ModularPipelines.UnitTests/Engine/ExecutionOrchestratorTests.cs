@@ -14,7 +14,10 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
-    public async Task CallerCancellationRegistration_IsDisposedAfterExecution()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CallerCancellationToken_IsPassedToRunReport_AndRegistrationIsDisposed(
+        bool hasRecordedFailure)
     {
         var organizedModules = new OrganizedModules([], []);
         var summary = new PipelineSummary(
@@ -66,6 +69,11 @@ public class ExecutionOrchestratorTests
 
         using var engineCancellationToken =
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        if (hasRecordedFailure)
+        {
+            engineCancellationToken.RecordException(new InvalidOperationException("module failed"));
+        }
+
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
             moduleDisposeExecutor.Object,

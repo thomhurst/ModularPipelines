@@ -152,7 +152,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 start,
                 summary,
                 caughtException,
-                GetRunReportCancellationToken())
+                _engineCancellationToken.NonFailureCancellationToken)
             .ConfigureAwait(false);
 
         // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
@@ -232,11 +232,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         return summary;
     }
-
-    private CancellationToken GetRunReportCancellationToken() =>
-        _engineCancellationToken.OriginalException is null
-            ? _engineCancellationToken.Token
-            : CancellationToken.None;
 
     private static Exception? GetPipelineReportException(
         PipelineSummary summary,

@@ -89,24 +89,12 @@ internal sealed class RunReportService(
             return null;
         }
 
-        try
-        {
-            using var timeout = CreatePhaseCancellationTokenSource(
+        return await RunTimedPhaseWithResultAsync(
+                token => historyStore.GetLatestAsync(pipelineIdentity, token),
                 _historyStoreTimeout,
-                cancellationToken);
-            return await historyStore.GetLatestAsync(pipelineIdentity, timeout.Token)
-                .WaitAsync(timeout.Token)
-                .ConfigureAwait(false);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            return null;
-        }
-        catch (Exception exception)
-        {
-            logger.LogWarning(exception, "Could not load previous pipeline run report");
-            return null;
-        }
+                cancellationToken,
+                exception => logger.LogWarning(exception, "Could not load previous pipeline run report"))
+            .ConfigureAwait(false);
     }
 
     private PipelineRunReport CreateReport(
@@ -170,27 +158,24 @@ internal sealed class RunReportService(
             return;
         }
 
-        try
-        {
-            var fullPath = Path.GetFullPath(reportPath);
-            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-            using var timeout = CreatePhaseCancellationTokenSource(
+        await RunTimedPhaseAsync(
+                async token =>
+                {
+                    var fullPath = Path.GetFullPath(reportPath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                    await AtomicFileWriter.WriteAllTextAsync(
+                            fullPath,
+                            RunReportJsonSerializer.Serialize(report),
+                            token)
+                        .ConfigureAwait(false);
+                },
                 ReportWriteTimeout,
-                cancellationToken);
-            await AtomicFileWriter.WriteAllTextAsync(
-                    fullPath,
-                    RunReportJsonSerializer.Serialize(report),
-                    timeout.Token)
-                .ConfigureAwait(false);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            // User cancellation intentionally skips persistence.
-        }
-        catch (Exception exception)
-        {
-            logger.LogWarning(exception, "Could not write pipeline run report to {RunReportPath}", reportPath);
-        }
+                cancellationToken,
+                exception => logger.LogWarning(
+                    exception,
+                    "Could not write pipeline run report to {RunReportPath}",
+                    reportPath))
+            .ConfigureAwait(false);
     }
 
     private async Task SaveHistoryAsync(
@@ -203,23 +188,12 @@ internal sealed class RunReportService(
             return;
         }
 
-        try
-        {
-            using var timeout = CreatePhaseCancellationTokenSource(
+        await RunTimedPhaseAsync(
+                token => historyStore.SaveAsync(report, token),
                 _historyStoreTimeout,
-                cancellationToken);
-            await historyStore.SaveAsync(report, timeout.Token)
-                .WaitAsync(timeout.Token)
-                .ConfigureAwait(false);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            // User cancellation intentionally skips persistence.
-        }
-        catch (Exception exception)
-        {
-            logger.LogWarning(exception, "Could not save pipeline run history");
-        }
+                cancellationToken,
+                exception => logger.LogWarning(exception, "Could not save pipeline run history"))
+            .ConfigureAwait(false);
     }
 
     internal string? GetReportPath()
@@ -260,39 +234,73 @@ internal sealed class RunReportService(
             capabilities.UnionWith(OsCapabilityDetector.Detect());
         }
 
+        await RunTimedPhaseAsync(
+                async token =>
+                {
+                    await distributedCoordinator.RegisterWorkerAsync(
+                            new WorkerRegistration(
+                                options.InstanceIndex,
+                                capabilities,
+                                DateTimeOffset.UtcNow)
+                            {
+                                ExecutionIdentifier = options.ExecutionIdentifier,
+                                UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
+                                ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
+                                    .GroupBy(
+                                        static count => ModuleTypeIdentifier.Get(count.Key),
+                                        StringComparer.Ordinal)
+                                    .ToDictionary(
+                                        static group => group.Key,
+                                        static group => group.Sum(count => count.Value),
+                                        StringComparer.Ordinal),
+                            },
+                            token)
+                        .ConfigureAwait(false);
+                },
+                _workerMetricsTimeout,
+                cancellationToken,
+                exception => logger.LogWarning(
+                    exception,
+                    "Could not publish distributed worker command metrics"))
+            .ConfigureAwait(false);
+    }
+
+    private Task RunTimedPhaseAsync(
+        Func<CancellationToken, Task> phase,
+        TimeSpan timeout,
+        CancellationToken cancellationToken,
+        Action<Exception> logWarning) =>
+        RunTimedPhaseWithResultAsync<object?>(
+            async token =>
+            {
+                await phase(token).ConfigureAwait(false);
+                return null;
+            },
+            timeout,
+            cancellationToken,
+            logWarning);
+
+    private async Task<T?> RunTimedPhaseWithResultAsync<T>(
+        Func<CancellationToken, Task<T>> phase,
+        TimeSpan timeout,
+        CancellationToken cancellationToken,
+        Action<Exception> logWarning)
+    {
         try
         {
-            using var timeout = CreatePhaseCancellationTokenSource(
-                _workerMetricsTimeout,
-                cancellationToken);
-            await distributedCoordinator.RegisterWorkerAsync(
-                    new WorkerRegistration(
-                        options.InstanceIndex,
-                        capabilities,
-                        DateTimeOffset.UtcNow)
-                    {
-                        ExecutionIdentifier = options.ExecutionIdentifier,
-                        UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
-                        ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
-                            .GroupBy(
-                                static count => ModuleTypeIdentifier.Get(count.Key),
-                                StringComparer.Ordinal)
-                            .ToDictionary(
-                                static group => group.Key,
-                                static group => group.Sum(count => count.Value),
-                                StringComparer.Ordinal),
-                    },
-                    timeout.Token)
-                .WaitAsync(timeout.Token)
+            using var timeoutSource = CreatePhaseCancellationTokenSource(timeout, cancellationToken);
+            return await phase(timeoutSource.Token)
+                .WaitAsync(timeoutSource.Token)
                 .ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            // User cancellation intentionally skips final worker publication.
+            return default;
         }
         catch (Exception exception)
         {
-            logger.LogWarning(exception, "Could not publish distributed worker command metrics");
+            logWarning(exception);
+            return default;
         }
     }
 
