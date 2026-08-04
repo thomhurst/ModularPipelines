@@ -16,6 +16,7 @@ internal sealed class FileSystemRunHistoryStore(
     private const string OwnedFilePrefix = "modularpipelines-run-";
     private const int MinimumCompatibleSchemaVersion = 1;
     private readonly RunReportPathResolver _pathResolver = pathResolver ?? new RunReportPathResolver();
+    private static readonly TimeSpan StaleTemporaryFileAge = TimeSpan.FromDays(1);
 
     public Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
@@ -147,6 +148,8 @@ internal sealed class FileSystemRunHistoryStore(
                 cancellationToken)
             .ConfigureAwait(false);
 
+        PruneStaleTemporaryFiles(directory, cancellationToken);
+
         var staleFiles = Directory
             .EnumerateFiles(directory, $"{filePrefix}*.json", SearchOption.TopDirectoryOnly)
             .OrderByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
@@ -162,6 +165,29 @@ internal sealed class FileSystemRunHistoryStore(
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
             {
                 logger.LogWarning(exception, "Could not prune pipeline run history file {HistoryFile}", staleFile);
+            }
+        }
+    }
+
+    private void PruneStaleTemporaryFiles(string directory, CancellationToken cancellationToken)
+    {
+        var staleBefore = DateTime.UtcNow - StaleTemporaryFileAge;
+        foreach (var temporaryFile in Directory.EnumerateFiles(
+                     directory,
+                     AtomicFileWriter.TemporaryFilePattern,
+                     SearchOption.TopDirectoryOnly))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            try
+            {
+                if (File.GetLastWriteTimeUtc(temporaryFile) <= staleBefore)
+                {
+                    File.Delete(temporaryFile);
+                }
+            }
+            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+            {
+                logger.LogWarning(exception, "Could not prune temporary run history file {HistoryFile}", temporaryFile);
             }
         }
     }
