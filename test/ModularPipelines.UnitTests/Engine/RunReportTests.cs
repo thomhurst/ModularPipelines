@@ -1669,6 +1669,92 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task DistributedMasterReconcilesMatchedMetricsPerWorker()
+    {
+        var firstContext = new DuplicateAssemblyLoadContext();
+        var secondContext = new DuplicateAssemblyLoadContext();
+        try
+        {
+            var assemblyBytes = await File.ReadAllBytesAsync(typeof(RunReportTests).Assembly.Location);
+            var moduleTypeName = typeof(DuplicateModuleBase).FullName!;
+            var firstType = firstContext.LoadFromStream(new MemoryStream(assemblyBytes))
+                .GetType(moduleTypeName, throwOnError: true)!;
+            var secondType = secondContext.LoadFromStream(new MemoryStream(assemblyBytes))
+                .GetType(moduleTypeName, throwOnError: true)!;
+            var firstModule = (IModule) Activator.CreateInstance(firstType)!;
+            var secondModule = (IModule) Activator.CreateInstance(secondType)!;
+            var moduleTypeIdentifier = ModuleTypeIdentifier.Get(firstType);
+            var runStartedAt = DateTimeOffset.UtcNow;
+            var distributedOptions = OptionsFactory.Create(new DistributedOptions
+            {
+                Enabled = true,
+                InstanceIndex = 0,
+                TotalInstances = 3,
+            });
+            var coordinator = new Mock<IDistributedCoordinator>();
+            coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync([
+                    new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                    {
+                        UnattributedCommandCount = 0,
+                        ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+                        {
+                            [moduleTypeIdentifier] = 3,
+                        },
+                    },
+                    new WorkerRegistration(2, new HashSet<string>(), runStartedAt),
+                ]);
+            var commandExecutionCounter = new CommandExecutionCounter();
+            commandExecutionCounter.AddRemote(secondType, workerIndex: 2, count: 5);
+            var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
+
+            try
+            {
+                var service = new RunReportService(
+                    Mock.Of<IRunHistoryStore>(),
+                    new PipelineRunReportFactory(
+                        commandExecutionCounter,
+                        new PassthroughSecretObfuscator()),
+                    Mock.Of<IBuildSystemDetector>(),
+                    OptionsFactory.Create(new PipelineOptions()),
+                    distributedOptions,
+                    new RoleDetector(distributedOptions),
+                    coordinator.Object,
+                    commandExecutionCounter,
+                    NullLogger<RunReportService>.Instance,
+                    workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+
+                var report = await service.CompleteAsync(new PipelineSummary(
+                        [firstModule, secondModule],
+                        [],
+                        TimeSpan.Zero,
+                        runStartedAt,
+                        runStartedAt))
+                    .WaitAsync(TimeSpan.FromSeconds(2));
+
+                using (Assert.Multiple())
+                {
+                    await Assert.That(ModuleTypeIdentifier.Get(secondType))
+                        .IsEqualTo(moduleTypeIdentifier);
+                    await Assert.That(report.CommandCount).IsEqualTo(8);
+                    await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
+                    await Assert.That(report.Modules.Sum(module => module.CommandCount)).IsEqualTo(5);
+                }
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
+            }
+        }
+        finally
+        {
+            firstContext.Unload();
+            secondContext.Unload();
+        }
+    }
+
+    [Test]
     public async Task DistributedMasterWaitsForParticipatingWorkerFinalMetrics()
     {
         var runStartedAt = DateTimeOffset.UtcNow;

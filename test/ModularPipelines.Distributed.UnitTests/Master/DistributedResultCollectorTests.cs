@@ -134,7 +134,7 @@ public class DistributedResultCollectorTests
         {
             await Assert.That(commandExecutionCounter.TotalCount).IsEqualTo(4);
             await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
-            await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[typeof(TestModule)])
+            await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
                 .IsEqualTo(4);
             await Assert.That(collected!.ModuleTypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
         }
