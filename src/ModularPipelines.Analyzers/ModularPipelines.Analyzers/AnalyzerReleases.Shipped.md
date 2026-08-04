@@ -8,5 +8,9 @@ MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer
 EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzer
 LoggerInConstructor | Usage | Error | LoggerInConstructorAnalyzer
 ConsoleUse | Usage | Error | ConsoleUseAnalyzer
-ConflictingDependsOnAttribute | Usage | Error | ConflictingDependsOnAttributeAnalyzer
+MPDEP002 | Usage | Error | ConflictingDependsOnAttributeAnalyzer
 AsyncModule | Usage | Error | AsyncModuleAnalyzer
+AwaitThis | Usage | Error | AwaitThisAnalyzer
+StatefulModule | Design | Warning | StatefulModuleAnalyzer
+MPDEP001 | Usage | Error | InvalidDependsOnTypeAnalyzer
+MPDEP003 | Usage | Error | SelfDependencyAnalyzer
