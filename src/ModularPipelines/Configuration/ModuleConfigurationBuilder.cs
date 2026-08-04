@@ -43,6 +43,7 @@ public sealed class ModuleConfigurationBuilder
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _synchronousPlanningSkipConditions = [];
     private readonly List<string> _cacheKeyParts = [];
     private readonly HashSet<string> _cacheEnvironmentVariables = [with(StringComparer.Ordinal)];
+    private string? _cacheAssemblyVersionKey;
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
     private Func<IModuleContext, IAsyncPolicy>? _advancedRetryPolicyFactory;
@@ -166,6 +167,22 @@ public sealed class ModuleConfigurationBuilder
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
         _cacheEnvironmentVariables.Add(variableName);
+        return this;
+    }
+
+    /// <summary>
+    /// Replaces the module assembly MVID in this module's cache fingerprint with an explicit stable key.
+    /// </summary>
+    /// <param name="value">A stable version key that changes whenever the module implementation changes.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Use this when build tooling changes the assembly MVID without changing module behavior.
+    /// Reusing a key after changing the module implementation can restore stale cached results.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithCacheAssemblyVersionKey(string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        _cacheAssemblyVersionKey = value;
         return this;
     }
 
@@ -433,6 +450,7 @@ public sealed class ModuleConfigurationBuilder
             Category = _category,
             CacheKeyParts = [.. _cacheKeyParts],
             CacheEnvironmentVariables = [.. _cacheEnvironmentVariables],
+            CacheAssemblyVersionKey = _cacheAssemblyVersionKey,
             Dependencies = [.. _dependencies],
         };
     }

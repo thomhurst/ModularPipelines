@@ -52,6 +52,7 @@ internal static class ModuleConfigurationAttributeAdapter
             CacheInputPatterns = cacheInputPatterns,
             CacheKeyParts = configured.CacheKeyParts,
             CacheEnvironmentVariables = configured.CacheEnvironmentVariables,
+            CacheAssemblyVersionKey = configured.CacheAssemblyVersionKey,
             Dependencies = dependencies,
         };
     }

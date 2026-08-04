@@ -727,6 +727,15 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task NoCacheOptionBindsPipelineOption()
+    {
+        using var builder = Pipeline.CreateBuilder(["--no-cache"]);
+
+        await Assert.That(builder.Options.DisableModuleCache).IsTrue();
+        await Assert.That(builder.Configuration["no-cache"]).IsNull();
+    }
+
+    [Test]
     public async Task UnknownArgumentsStillFlowToHostConfiguration()
     {
         using var builder = Pipeline.CreateBuilder(
@@ -1627,6 +1636,20 @@ public class PipelineCommandLineTests
             await Assert.That(output).Contains("Run (cache candidate)");
             await Assert.That(output).Contains("cache hits may reduce actual duration");
         }
+    }
+
+    [Test]
+    public async Task DryRunDoesNotMarkCacheCandidatesWhenCacheIsDisabled()
+    {
+        using var builder = Pipeline.CreateBuilder(["--dry-run", "--no-cache"]);
+        builder.AddModuleCache<FileSystemModuleCache>();
+        builder.AddModule<CacheCandidateModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().IsCacheCandidate)
+            .IsFalse();
     }
 
     [Test]

@@ -9,6 +9,7 @@ internal static class PipelineCommandLineParser
     private const string ListModulesOption = "--list-modules";
     private const string ValidateOption = "--validate";
     private const string DryRunOption = "--dry-run";
+    private const string NoCacheOption = "--no-cache";
     private const string ModuleOption = "--module";
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
@@ -22,6 +23,7 @@ internal static class PipelineCommandLineParser
         ListModulesOption,
         ValidateOption,
         DryRunOption,
+        NoCacheOption,
         ModuleOption,
         SkipModuleOption,
         CategoriesOption,
@@ -36,6 +38,7 @@ internal static class PipelineCommandLineParser
         ListModulesOption,
         ValidateOption,
         DryRunOption,
+        NoCacheOption,
     ];
 
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
@@ -61,6 +64,7 @@ internal static class PipelineCommandLineParser
 
         return new PipelineCommandLineOptions(
             state.Command,
+            state.DisableModuleCache,
             state.HostArguments,
             Distinct(state.TargetModules),
             Distinct(state.SkippedModules),
@@ -140,6 +144,12 @@ internal static class PipelineCommandLineParser
         if (argument.Equals(DryRunOption, StringComparison.OrdinalIgnoreCase))
         {
             state.Command = SetCommand(state.Command, PipelineCommand.DryRun, argument);
+            return;
+        }
+
+        if (argument.Equals(NoCacheOption, StringComparison.OrdinalIgnoreCase))
+        {
+            state.DisableModuleCache = true;
             return;
         }
 
@@ -344,6 +354,8 @@ internal static class PipelineCommandLineParser
     private sealed class ParsingState
     {
         public PipelineCommand Command { get; set; } = PipelineCommand.Run;
+
+        public bool DisableModuleCache { get; set; }
 
         public List<string> HostArguments { get; } = [];
 

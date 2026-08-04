@@ -129,6 +129,14 @@ public sealed class ModuleConfiguration
     public IReadOnlyList<string> CacheEnvironmentVariables { get; init; } = [];
 
     /// <summary>
+    /// Gets an explicit stable replacement for the module assembly MVID in the cache fingerprint.
+    /// </summary>
+    /// <remarks>
+    /// This value must change whenever the module implementation changes. A null value uses the assembly MVID.
+    /// </remarks>
+    public string? CacheAssemblyVersionKey { get; init; }
+
+    /// <summary>
     /// Gets a value indicating whether fingerprint-based caching is enabled for this module.
     /// </summary>
     /// <remarks>
@@ -138,7 +146,8 @@ public sealed class ModuleConfiguration
     public bool CacheEnabled =>
         CacheInputPatterns.Count > 0
         || CacheKeyParts.Count > 0
-        || CacheEnvironmentVariables.Count > 0;
+        || CacheEnvironmentVariables.Count > 0
+        || CacheAssemblyVersionKey is not null;
 
     /// <summary>
     /// Gets dependencies declared through fluent configuration or attributes.
