@@ -63,19 +63,23 @@ public static class GeneratedOptionsSmokeTestHarness
 
         var builder = new CommandArgumentBuilder();
 
+        var propertiesTested = 0;
         foreach (var part in model)
         {
-            ValidatePart(optionsType, model, builder, part);
+            if (ValidatePart(optionsType, model, builder, part))
+            {
+                propertiesTested++;
+            }
         }
 
-        return new GeneratedOptionsSmokeTestResult(1, model.Count);
+        return new GeneratedOptionsSmokeTestResult(1, propertiesTested);
     }
 
     private static bool IsOptionsType(Type type) =>
         !type.ContainsGenericParameters
         && typeof(CommandLineToolOptions).IsAssignableFrom(type);
 
-    private static void ValidatePart(
+    private static bool ValidatePart(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
         CommandArgumentBuilder builder,
@@ -84,6 +88,11 @@ public static class GeneratedOptionsSmokeTestHarness
         try
         {
             var property = GetProperty(optionsType, part.PropertyName);
+            if (!CanAssign(property))
+            {
+                return false;
+            }
+
             var sample = CreateSample(property.PropertyType);
             var options = RuntimeHelpers.GetUninitializedObject(optionsType);
 
@@ -99,6 +108,8 @@ public static class GeneratedOptionsSmokeTestHarness
                     $"Expected [{string.Join(", ", expected)}], " +
                     $"but rendered [{string.Join(", ", actual)}].");
             }
+
+            return true;
         }
         catch (Exception exception) when (exception is not GeneratedOptionsSmokeTestException)
         {
@@ -419,6 +430,12 @@ public static class GeneratedOptionsSmokeTestHarness
 
         backingField.SetValue(target, value);
     }
+
+    private static bool CanAssign(PropertyInfo property) =>
+        property.SetMethod is not null
+        || property.DeclaringType?.GetField(
+            $"<{property.Name}>k__BackingField",
+            BindingFlags.Instance | BindingFlags.NonPublic) is not null;
 
     private static IReadOnlyList<string> GetValues(object value) =>
         value switch

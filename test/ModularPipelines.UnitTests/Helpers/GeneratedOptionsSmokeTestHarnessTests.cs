@@ -50,14 +50,12 @@ public class GeneratedOptionsSmokeTestHarnessTests
     [Test]
     public async Task Computed_Getter_Is_Not_Counted_As_Tested()
     {
-        var exception = await Assert.That(
-                () => GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(ComputedGetterOptions)))
-            .Throws<GeneratedOptionsSmokeTestException>();
+        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(ComputedGetterOptions));
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception!.PropertyName).IsEqualTo(nameof(ComputedGetterOptions.Value));
-            await Assert.That(exception.InnerException!.Message).Contains("cannot be assigned");
+            await Assert.That(result.OptionsTypesTested).IsEqualTo(1);
+            await Assert.That(result.PropertiesTested).IsEqualTo(0);
         }
     }
 
