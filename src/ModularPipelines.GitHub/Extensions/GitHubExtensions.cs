@@ -32,22 +32,6 @@ public static class GitHubExtensions
         return builder;
     }
 
-    /// <summary>
-    /// Generates a distributed GitHub Actions workflow from registered module capability requirements.
-    /// </summary>
-    /// <param name="registration">The current module registration.</param>
-    /// <param name="options">The workflow generation options.</param>
-    /// <typeparam name="TModule">The most recently registered module type.</typeparam>
-    /// <returns>The pipeline builder for chaining.</returns>
-    public static PipelineBuilder WriteDistributedWorkflow<TModule>(
-        this ModuleRegistration<TModule> registration,
-        DistributedWorkflowOptions options)
-        where TModule : class, IModule
-    {
-        ArgumentNullException.ThrowIfNull(registration);
-        return registration.Builder.WriteDistributedWorkflow(options);
-    }
-
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGitHubContext(this IServiceCollection services)
     {

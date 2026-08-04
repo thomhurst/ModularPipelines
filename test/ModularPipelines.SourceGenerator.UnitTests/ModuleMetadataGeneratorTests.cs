@@ -328,28 +328,21 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
-    public async Task Chained_Registration_Handles_Are_Recognized()
+    public async Task Chained_Builder_Registrations_Are_Recognized()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace ModularPipelines
             {
                 public sealed class PipelineBuilder;
-
-                public sealed class ModuleRegistration<TModule>
-                    where TModule : class, Modules.IModule
-                {
-                    public ModuleRegistration<TNextModule> AddModule<TNextModule>()
-                        where TNextModule : class, Modules.IModule => new();
-                }
             }
 
             namespace ModularPipelines.Extensions
             {
                 public static class PipelineBuilderExtensions
                 {
-                    public static ModularPipelines.ModuleRegistration<TModule> AddModule<TModule>(
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => new();
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
                 }
             }
 

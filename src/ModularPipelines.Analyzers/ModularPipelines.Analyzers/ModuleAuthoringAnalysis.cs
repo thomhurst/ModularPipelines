@@ -1079,8 +1079,7 @@ internal static class ModuleAuthoringAnalysis
         var isRegistrationType = containingType.ToDisplayString() is
                                      "ModularPipelines.PipelineBuilderExtensions"
                                      or "ModularPipelines.Extensions.PipelineBuilderExtensions"
-                                     or "ModularPipelines.Extensions.ServiceCollectionExtensions"
-                                 || IsModuleRegistrationType(containingType);
+                                     or "ModularPipelines.Extensions.ServiceCollectionExtensions";
         return definition.ContainingAssembly.Name == "ModularPipelines"
                && isRegistrationType
                && definition.Name is
@@ -1089,12 +1088,6 @@ internal static class ModuleAuthoringAnalysis
                    or "AddModulesFromAssembly"
                    or "AddModulesFromAssemblyContainingType";
     }
-
-    private static bool IsModuleRegistrationType(INamedTypeSymbol type) =>
-        type.Name == "ModuleRegistration"
-        && type.Arity == 1
-        && type.ContainingNamespace.ToDisplayString() == "ModularPipelines"
-        && type.ContainingAssembly.Name == "ModularPipelines";
 
     private static bool TryTrackDirectModuleServiceRegistration(
         IInvocationOperation invocation,
@@ -1143,11 +1136,10 @@ internal static class ModuleAuthoringAnalysis
     {
         var containingType = definition.ContainingType.ToDisplayString();
         return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
-                && (containingType is
-                        "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                        or "ModularPipelines.PipelineBuilderExtensions"
-                        or "ModularPipelines.Extensions.PipelineBuilderExtensions"
-                    || IsModuleRegistrationType(definition.ContainingType)))
+                && containingType is
+                    "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                    or "ModularPipelines.PipelineBuilderExtensions"
+                    or "ModularPipelines.Extensions.PipelineBuilderExtensions")
                || (definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient"
                    && containingType
                    == "Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions");
@@ -4453,12 +4445,6 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsKnownDelegateInvoker(IInvocationOperation invocation)
     {
         var method = invocation.TargetMethod;
-        if (method.Name == "ConfigureServices"
-            && IsModuleRegistrationType(method.ContainingType))
-        {
-            return true;
-        }
-
         var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
         return containingType switch
         {

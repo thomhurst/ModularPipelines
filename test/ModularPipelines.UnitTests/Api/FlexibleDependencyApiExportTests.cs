@@ -161,15 +161,11 @@ public class FlexibleDependencyApiExportTests
     }
 
     [Test]
-    public async Task ModuleRegistration_Does_Not_Expose_Metadata_Methods()
+    public async Task ModuleRegistration_Type_Is_Not_Exported()
     {
-        var methodNames = typeof(ModuleRegistration<>).GetMethods(
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Select(method => method.Name)
-            .ToArray();
+        var assembly = typeof(Module<>).Assembly;
 
-        await Assert.That(methodNames).DoesNotContain("WithTags");
-        await Assert.That(methodNames).DoesNotContain("WithCategory");
+        await Assert.That(assembly.GetType("ModularPipelines.ModuleRegistration`1")).IsNull();
     }
 
     [Test]
