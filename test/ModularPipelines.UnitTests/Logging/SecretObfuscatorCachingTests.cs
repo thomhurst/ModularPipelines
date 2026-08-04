@@ -37,6 +37,37 @@ public class SecretObfuscatorCachingTests
     }
 
     [Test]
+    public async Task UsesLongestSecretWhenPatternsMatchAtSamePosition()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["secret", "secret-value"]));
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+
+        var result = obfuscator.Obfuscate("secret-value and secret", null);
+
+        await Assert.That(result).IsEqualTo("********** and **********");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DoesNotRescanMaskReplacement(bool caseInsensitive)
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, ["secret", "*"]));
+        var obfuscator = CreateObfuscator(
+            secretProvider.Object,
+            caseInsensitive,
+            maskValue: "***");
+
+        var result = obfuscator.Obfuscate(caseInsensitive ? "SECRET" : "secret", null);
+
+        await Assert.That(result).IsEqualTo("***");
+    }
+
+    [Test]
     public async Task RebuildsSecretSnapshotWhenProviderVersionChanges()
     {
         var version = 0L;
@@ -219,13 +250,15 @@ public class SecretObfuscatorCachingTests
 
     private static SecretObfuscator CreateObfuscator(
         ISecretProvider secretProvider,
-        bool caseInsensitive = false)
+        bool caseInsensitive = false,
+        string? maskValue = null)
     {
         return new SecretObfuscator(
             secretProvider,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
             {
                 CaseInsensitive = caseInsensitive,
+                MaskValue = maskValue ?? "**********",
             }));
     }
 }
