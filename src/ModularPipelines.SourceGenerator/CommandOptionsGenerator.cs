@@ -112,12 +112,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                          .Where(candidate => ambiguousMetadataNames.Contains(candidate.MetadataName))
                          .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal))
             {
-                var representative = collision.FirstOrDefault(static candidate => candidate.Location.IsInSource)
-                                     ?? collision.First();
-                sourceContext.ReportDiagnostic(Diagnostic.Create(
-                    SkippedRuntimeMetadata,
-                    representative.Location,
-                    representative.TypeName));
+                foreach (var candidate in collision
+                             .GroupBy(static candidate => candidate.AssemblyIdentity, StringComparer.Ordinal)
+                             .Select(static group => group.First()))
+                {
+                    sourceContext.ReportDiagnostic(Diagnostic.Create(
+                        SkippedRuntimeMetadata,
+                        candidate.Location,
+                        candidate.TypeName));
+                }
             }
 
             var unambiguousCandidates = candidates

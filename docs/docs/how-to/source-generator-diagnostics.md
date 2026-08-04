@@ -63,6 +63,12 @@ accessible declaration, combine partial command/secret declarations into one
 non-partial declaration, and give colliding types unique metadata names. The build
 fails because exact generated metadata cannot be guaranteed for these shapes.
 
+The generator reports this diagnostic when it recognizes a command or secret type,
+or when it observes the type in an Options or dependency-injection usage such as
+`IOptions<T>`, `Configure<T>`, `AddOptions<T>`, or a service registration. An unrelated
+type with one of these declaration shapes does not require runtime metadata and does
+not trigger MPG0006.
+
 **Severity:** Error
 
 ## MPG0007

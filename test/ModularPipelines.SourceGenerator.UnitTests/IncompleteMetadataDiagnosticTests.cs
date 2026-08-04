@@ -483,12 +483,18 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var diagnostic = result.Diagnostics.Single();
+        var diagnostics = result.Diagnostics;
         var generatedSource = result.GeneratedTrees.Single().ToString();
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
-            await Assert.That(diagnostic.GetMessage()).Contains("global::External.CollidingOptions");
+            await Assert.That(diagnostics.Count).IsEqualTo(2);
+            foreach (var diagnostic in diagnostics)
+            {
+                await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+                await Assert.That(diagnostic.GetMessage()).Contains("global::External.CollidingOptions");
+            }
+
+            await Assert.That(diagnostics.Count(diagnostic => diagnostic.Location.IsInSource)).IsEqualTo(1);
             await Assert.That(generatedSource).DoesNotContain("global::External.CollidingOptions");
         }
     }
@@ -911,6 +917,39 @@ public class IncompleteMetadataDiagnosticTests
             globalOptions: new Dictionary<string, string>
             {
                 ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Partial_Options_Through_Using_Alias()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            using AliasedOptions = Microsoft.Extensions.Options.IOptions<PartialOptions>;
+
+            namespace Microsoft.Extensions.Options
+            {
+                public interface IOptions<out TOptions>
+                {
+                    TOptions Value { get; }
+                }
+            }
+
+            public partial class PartialOptions;
+
+            public sealed class Consumer(AliasedOptions options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
             });
 
         await AssertSkippedDiagnostic(
