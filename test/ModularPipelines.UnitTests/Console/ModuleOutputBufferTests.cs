@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
 
@@ -195,6 +196,38 @@ public class ModuleOutputBufferTests
         logEvent.WriteTo(logger);
 
         await Assert.That(logger.StateTypes).HasSingleItem().And.IsEquivalentTo([typeof(string)]);
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_FormatsAndObfuscatesMessageOnce()
+    {
+        var formatterCalls = 0;
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("secret", "***") ?? string.Empty);
+        var logEvent = new BufferedLogEvent<string>(
+            LogLevel.Information,
+            default,
+            "secret",
+            "***",
+            null,
+            (state, _) =>
+            {
+                formatterCalls++;
+                return $"value:{state}";
+            },
+            secretObfuscator.Object);
+
+        logEvent.WriteTo(new RecordingLogger());
+        logEvent.WriteTo(new RecordingLogger());
+        _ = logEvent.FormatMessageWithLevel();
+        _ = logEvent.FormatMessageWithLevel();
+
+        await Assert.That(formatterCalls).IsEqualTo(1);
+        secretObfuscator.Verify(
+            x => x.Obfuscate("value:secret", null),
+            Times.Once);
     }
 
     [Test]
