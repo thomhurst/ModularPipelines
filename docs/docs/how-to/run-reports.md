@@ -65,7 +65,7 @@ builder.ConfigurePipelineOptions(options => options with
 ```
 
 History is partitioned by pipeline identity and pruning only removes files owned by the built-in
-history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
+history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered
 module types; changing only the report path does not fork history. History is bounded: after each
 save, the default store deletes owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
