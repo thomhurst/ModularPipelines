@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "remove")]
 public record PulumiPolicyRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OrgNameOrPolicyPackName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string All
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string All
 ) : PulumiOptions
 {
     /// <summary>

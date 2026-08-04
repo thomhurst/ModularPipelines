@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "storage-pools", "execute")]
 public record GcloudNetappStoragePoolsExecuteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OntapCommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OntapCommand
 ) : GcloudOptions
 {
 }

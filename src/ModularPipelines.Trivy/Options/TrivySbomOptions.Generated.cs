@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
 public record TrivySbomOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string SbomPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string SbomPath
 ) : TrivyOptions
 {
     /// <summary>

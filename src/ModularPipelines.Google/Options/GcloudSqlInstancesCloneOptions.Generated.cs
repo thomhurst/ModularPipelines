@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "clone")]
 public record GcloudSqlInstancesCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
 ) : GcloudOptions
 {
     /// <summary>

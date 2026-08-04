@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
 public record DockerSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Term
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Term
 ) : DockerOptions
 {
     /// <summary>

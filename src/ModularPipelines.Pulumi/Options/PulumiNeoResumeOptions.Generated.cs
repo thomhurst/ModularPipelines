@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neo", "resume")]
 public record PulumiNeoResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TaskId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TaskId
 ) : PulumiOptions
 {
     /// <summary>

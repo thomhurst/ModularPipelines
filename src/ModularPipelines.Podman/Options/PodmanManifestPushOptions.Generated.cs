@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
 public record PodmanManifestPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
 ) : PodmanOptions
 {
     /// <summary>

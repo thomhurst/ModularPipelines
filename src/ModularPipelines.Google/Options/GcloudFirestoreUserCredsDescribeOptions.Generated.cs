@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "user-creds", "describe")]
 public record GcloudFirestoreUserCredsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UserCreds
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UserCreds
 ) : GcloudOptions
 {
 }

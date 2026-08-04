@@ -21,7 +21,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "dap", "build")]
 public record DockerBuildxDapBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : DockerOptions
 {
     /// <summary>

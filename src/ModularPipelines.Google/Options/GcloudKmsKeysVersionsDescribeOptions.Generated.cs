@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "describe")]
 public record GcloudKmsKeysVersionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
     /// <summary>

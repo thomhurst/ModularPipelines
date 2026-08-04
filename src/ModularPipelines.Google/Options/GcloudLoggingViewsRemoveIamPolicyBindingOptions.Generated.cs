@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "views", "remove-iam-policy-binding")]
 public record GcloudLoggingViewsRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ViewId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ViewId
 ) : GcloudOptions
 {
 }

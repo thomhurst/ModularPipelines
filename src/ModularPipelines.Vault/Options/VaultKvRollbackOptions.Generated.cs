@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "rollback")]
 public record VaultKvRollbackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
 ) : VaultOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "use")]
 public record DockerBuildxUseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : DockerOptions
 {
     /// <summary>

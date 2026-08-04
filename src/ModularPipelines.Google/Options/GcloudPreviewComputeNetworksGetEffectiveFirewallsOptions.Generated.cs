@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "get-effective-firewalls")]
 public record GcloudPreviewComputeNetworksGetEffectiveFirewallsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]

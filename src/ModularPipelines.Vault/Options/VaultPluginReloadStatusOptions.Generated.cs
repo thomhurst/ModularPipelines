@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "reload-status")]
 public record VaultPluginReloadStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ReloadId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReloadId
 ) : VaultOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "operations", "describe")]
 public record GcloudDeploymentManagerOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OperationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationName
 ) : GcloudOptions
 {
 }

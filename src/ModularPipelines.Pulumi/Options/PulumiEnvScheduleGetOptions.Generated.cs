@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "get")]
 public record PulumiEnvScheduleGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ScheduleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScheduleId
 ) : PulumiOptions
 {
     /// <summary>

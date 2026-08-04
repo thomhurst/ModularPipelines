@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "add")]
 public record PodmanManifestAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
 ) : PodmanOptions
 {
     /// <summary>

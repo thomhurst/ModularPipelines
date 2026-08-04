@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "delete-token")]
 public record ArgoCdAccountDeleteTokenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : ArgoCdOptions
 {
     /// <summary>

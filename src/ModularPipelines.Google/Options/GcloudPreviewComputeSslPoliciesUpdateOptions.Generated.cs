@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "ssl-policies", "update")]
 public record GcloudPreviewComputeSslPoliciesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SslPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SslPolicy
 ) : GcloudOptions
 {
     /// <summary>

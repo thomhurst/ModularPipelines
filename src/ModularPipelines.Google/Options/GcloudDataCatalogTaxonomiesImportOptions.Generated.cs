@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "taxonomies", "import")]
 public record GcloudDataCatalogTaxonomiesImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Taxonomies
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Taxonomies
 ) : GcloudOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "scp")]
 public record PodmanImageScpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : PodmanOptions
 {
     /// <summary>

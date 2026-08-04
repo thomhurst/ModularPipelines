@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "info")]
 public record PulumiPackageInfoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Provider
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Provider
 ) : PulumiOptions
 {
     /// <summary>

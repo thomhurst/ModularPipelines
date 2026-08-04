@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "video", "detect-shot-changes")]
 public record GcloudMlVideoDetectShotChangesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputPath
 ) : GcloudOptions
 {
     /// <summary>

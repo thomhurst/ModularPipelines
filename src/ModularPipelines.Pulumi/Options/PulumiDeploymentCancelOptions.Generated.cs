@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "cancel")]
 public record PulumiDeploymentCancelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentId
 ) : PulumiOptions
 {
     /// <summary>

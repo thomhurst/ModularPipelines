@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "metadata", "put")]
 public record VaultKvMetadataPutOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
 ) : VaultOptions
 {
 }

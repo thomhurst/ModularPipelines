@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
 public record DockerManifestCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ManifestList,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Manifest
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ManifestList,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Manifest
 ) : DockerOptions
 {
     /// <summary>

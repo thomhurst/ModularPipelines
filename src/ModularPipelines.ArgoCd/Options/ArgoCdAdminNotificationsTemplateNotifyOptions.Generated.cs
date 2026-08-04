@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "notifications", "template", "notify")]
 public record ArgoCdAdminNotificationsTemplateNotifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ResourceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "can-i")]
 public record ArgoCdAccountCanIOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Action,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Resource,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Subresource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subresource
 ) : ArgoCdOptions
 {
     /// <summary>

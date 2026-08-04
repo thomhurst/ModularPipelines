@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repository")]
 public record TrivyRepositoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string RepoPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string RepoPath
 ) : TrivyOptions
 {
     /// <summary>

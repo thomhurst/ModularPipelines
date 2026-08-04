@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "runlabel")]
 public record PodmanContainerRunlabelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Label,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Label,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : PodmanOptions
 {
     /// <summary>

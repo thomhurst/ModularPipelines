@@ -20,7 +20,9 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
-public record HelmInstallOptions : HelmOptions
+public record HelmInstallOptions(
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Chart
+) : HelmOptions
 {
     /// <summary>
     /// if set, the installation process deletes the installation on failure. The --wait flag will be set automatically if --atomic is used
@@ -396,11 +398,5 @@ public record HelmInstallOptions : HelmOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
-
-    /// <summary>
-    /// The CHART operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Chart { get; set; }
 
 }

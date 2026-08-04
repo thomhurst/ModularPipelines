@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "exists")]
 public record PodmanManifestExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Manifest
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest
 ) : PodmanOptions
 {
 }

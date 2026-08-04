@@ -98,6 +98,7 @@ public class CliAttributeTests
         var attribute = new CliArgumentAttribute(0);
 
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(attribute.Required).IsFalse();
     }
 
     [Test]
@@ -361,6 +362,48 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Null_Required_CliArgument()
+    {
+        var options = new TestCliOptionsWithRequiredArgument { Chart = null };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgument.Chart");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Blank_Required_CliArgument()
+    {
+        var options = new TestCliOptionsWithRequiredArgument { Chart = "   " };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("cannot be null or empty");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Empty_Required_CliArgument_Collection()
+    {
+        var options = new TestCliOptionsWithRequiredArgumentCollection { Files = [] };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<ArgumentException>()
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgumentCollection.Files");
+    }
+
+    [Test]
+    public async Task Required_Argument_Is_Materialized_Once()
+    {
+        var values = new SinglePassEnumerable(["chart"]);
+        var options = new TestCliOptionsWithRequiredSinglePassArgument(values);
+
+        var arguments = BuildArguments(options);
+
+        await Assert.That(arguments).IsEquivalentTo(["chart"]);
+        await Assert.That(options.GetterCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Parser_Orders_Multiple_Arguments_By_Position()
     {
         var options = new TestCliOptionsWithMultipleArguments
@@ -545,6 +588,51 @@ public class CliAttributeTests
 
         [CliFlag("--debug")]
         public bool? Debug { get; set; }
+    }
+
+    private record TestCliOptionsWithRequiredArgument
+    {
+        [CliArgument(0, Required = true)]
+        public string? Chart { get; set; }
+    }
+
+    private record TestCliOptionsWithRequiredArgumentCollection
+    {
+        [CliArgument(0, Required = true)]
+        public IEnumerable<string>? Files { get; set; }
+    }
+
+    private sealed class TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
+    {
+        public int GetterCount { get; private set; }
+
+        [CliArgument(0, Required = true)]
+        public IEnumerable<string> Values
+        {
+            get
+            {
+                GetterCount++;
+                return values;
+            }
+        }
+    }
+
+    private sealed class SinglePassEnumerable(IEnumerable<string> values) : IEnumerable<string>
+    {
+        private bool _enumerated;
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            if (_enumerated)
+            {
+                throw new InvalidOperationException("The sequence can only be enumerated once.");
+            }
+
+            _enumerated = true;
+            return values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     private record TestCliOptionsWithMultipleArguments

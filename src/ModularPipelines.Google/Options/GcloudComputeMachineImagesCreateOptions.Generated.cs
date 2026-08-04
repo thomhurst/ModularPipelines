@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "machine-images", "create")]
 public record GcloudComputeMachineImagesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : GcloudOptions
 {
 }
