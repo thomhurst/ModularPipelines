@@ -307,6 +307,38 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Optional_Manual_Option_With_Explicit_Value()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--dry-run", "client"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --dry-run client -- -1");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Command_Option_Operand_That_Matches_Global_Flag()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["--set", "--verbose"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("liquibase update --set --verbose -- -input");
+    }
+
+    [Test]
     public async Task Build_Hoists_Manual_Option_Before_Manual_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -611,6 +643,9 @@ public class CommandLineBuilderTests : TestBase
         [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
         public string? Color { get; set; }
 
+        [CliOption("--dry-run", ValueArity = CliOptionValueArity.Optional)]
+        public CliOptionValue? DryRun { get; set; }
+
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; set; }
 
@@ -655,6 +690,9 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
+
+        [CliOption("--set")]
+        public string? Set { get; set; }
 
         [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
         public string? Input { get; set; }
