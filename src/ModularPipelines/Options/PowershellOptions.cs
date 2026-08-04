@@ -6,4 +6,4 @@ namespace ModularPipelines.Options;
 /// Options for executing PowerShell commands using the pwsh executable.
 /// </summary>
 [CliTool("pwsh")]
-public partial record PowershellOptions : CommandLineToolOptions;
+public record PowershellOptions : CommandLineToolOptions;

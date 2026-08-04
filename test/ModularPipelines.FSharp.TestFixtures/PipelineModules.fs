@@ -49,6 +49,10 @@ type ConfiguredDependentModule() =
             return $"{dependency.ValueOrDefault}-configured"
         }
 
+type FSharpSecretOptions() =
+    [<SecretValue>]
+    member val Token = "fsharp-secret" with get, set
+
 type PipelineRunner =
     static member RunAsync() =
         Pipeline
