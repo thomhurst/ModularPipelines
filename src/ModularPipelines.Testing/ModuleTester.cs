@@ -145,6 +145,7 @@ public class ModuleTestBuilder<TModule>
         builder.Services.AddSingleton(recorder);
         builder.Services.AddSingleton<ICommandInterceptor>(recorder);
         builder.Services.AddSingleton<IConsoleCoordinator>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IModuleOutputExcerptProvider>(NoOpConsoleServices.Instance);
         builder.Services.AddSingleton<IOutputCoordinator>(NoOpConsoleServices.Instance);
         builder.Services.AddSingleton<IProgressDisplay>(NoOpConsoleServices.Instance);
         builder.AddModule<TModule>();

@@ -29,6 +29,8 @@ internal sealed class NoOpConsoleServices :
 
     public IModuleOutputBuffer GetModuleBuffer(Type moduleType) => Buffer;
 
+    public ModuleOutputExcerpt? GetModuleOutputExcerpt(Type moduleType) => null;
+
     public IModuleOutputBuffer GetUnattributedBuffer() => Buffer;
 
     public Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync() =>
