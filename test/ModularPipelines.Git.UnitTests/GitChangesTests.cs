@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Options;
@@ -26,11 +28,15 @@ public class GitChangesTests
 
         await Assert.That(sourceChanged).IsTrue();
         await Assert.That(testsChanged).IsFalse();
-        await Assert.That(runner.Commands).Count().IsEqualTo(2);
+        await Assert.That(runner.Commands).Count().IsEqualTo(3);
         await Assert.That(runner.Commands[0].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/main", "HEAD"]);
         await Assert.That(runner.Commands[1].OfType<string>()).IsEquivalentTo(
             ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "--"]);
+        await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
+            [
+                "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
+            ]);
     }
 
     [Test]
@@ -39,6 +45,7 @@ public class GitChangesTests
         var runner = new RecordingGitCommandRunner(
             "main-base",
             "src/main.cs\0",
+            "",
             "release-base",
             "src/release.cs\0");
         var changes = CreateChanges(runner);
@@ -46,9 +53,10 @@ public class GitChangesTests
         await changes.HasChangesAsync(["src/**"]);
         await changes.HasChangesAsync(["src/**"], "origin/release");
 
-        await Assert.That(runner.Commands).Count().IsEqualTo(4);
-        await Assert.That(runner.Commands[2].OfType<string>())
+        await Assert.That(runner.Commands).Count().IsEqualTo(5);
+        await Assert.That(runner.Commands[3].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/release", "HEAD"]);
+        await Assert.That(runner.Commands.Count(command => command[0] is "ls-files")).IsEqualTo(1);
     }
 
     [Test]
@@ -62,6 +70,50 @@ public class GitChangesTests
         var hasChanges = await changes.HasChangesAsync([@"src\MyService\**"]);
 
         await Assert.That(hasChanges).IsTrue();
+    }
+
+    [Test]
+    public async Task Matches_Untracked_Files_Using_Repository_Root_Paths()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "",
+            "src/MyService/NewFile.cs\0");
+        var changes = CreateChanges(runner);
+
+        var hasChanges = await changes.HasChangesAsync(["src/MyService/**"]);
+
+        await Assert.That(hasChanges).IsTrue();
+        await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
+            [
+                "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
+            ]);
+    }
+
+    [Test]
+    public async Task Literal_Directory_Pattern_Matches_Descendants()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/MyService/Program.cs\0");
+        var changes = CreateChanges(runner);
+
+        var hasChanges = await changes.HasChangesAsync(["src/MyService"]);
+
+        await Assert.That(hasChanges).IsTrue();
+    }
+
+    [Test]
+    public async Task Literal_Directory_Pattern_Requires_Path_Boundary()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/MyService.Tests/Program.cs\0");
+        var changes = CreateChanges(runner);
+
+        var hasChanges = await changes.HasChangesAsync(["src/MyService"]);
+
+        await Assert.That(hasChanges).IsFalse();
     }
 
     [Test]
@@ -102,7 +154,7 @@ public class GitChangesTests
         var hasChanges = await changes.HasChangesAsync([" leading-directory/file.txt "]);
 
         await Assert.That(hasChanges).IsTrue();
-        await Assert.That(runner.RawCommands).Count().IsEqualTo(1);
+        await Assert.That(runner.RawCommands).Count().IsEqualTo(2);
         await Assert.That(runner.Commands[0].OfType<string>()).Contains("merge-base");
     }
 
@@ -117,6 +169,7 @@ public class GitChangesTests
         await changes.HasChangesAsync(["src/**"]);
 
         await Assert.That(runner.ExecutionOptions[1]?.MaxCapturedOutputLength).IsEqualTo(0);
+        await Assert.That(runner.ExecutionOptions[2]?.MaxCapturedOutputLength).IsEqualTo(0);
     }
 
     [Test]
@@ -156,7 +209,8 @@ public class GitChangesTests
     public async Task Unavailable_Base_Conservatively_Reports_Changes_And_Is_Cached()
     {
         var runner = new RecordingGitCommandRunner { FailCommandsOrNull = true };
-        var changes = CreateChanges(runner);
+        var logger = new RecordingLogger<GitChanges>();
+        var changes = CreateChanges(runner, logger);
 
         var firstCheck = await changes.HasChangesAsync(["src/**"]);
         var secondCheck = await changes.HasChangesAsync(["docs/**"]);
@@ -166,6 +220,8 @@ public class GitChangesTests
             await Assert.That(firstCheck).IsTrue();
             await Assert.That(secondCheck).IsTrue();
             await Assert.That(runner.Commands).Count().IsEqualTo(1);
+            await Assert.That(logger.Messages).Count().IsEqualTo(1);
+            await Assert.That(logger.Messages[0]).Contains("origin/main");
         }
     }
 
@@ -192,7 +248,7 @@ public class GitChangesTests
                 .HasChangesAsync(["docs/**"]);
         }
 
-        await Assert.That(runner.Commands).Count().IsEqualTo(2);
+        await Assert.That(runner.Commands).Count().IsEqualTo(3);
     }
 
     [Test]
@@ -219,10 +275,13 @@ public class GitChangesTests
             .IsEqualTo("RunIfChangedAttribute(src/**, test/**; Base=origin/release)");
     }
 
-    private static IGitChanges CreateChanges(IGitCommandRunner runner)
+    private static IGitChanges CreateChanges(
+        IGitCommandRunner runner,
+        ILogger<GitChanges>? logger = null)
     {
         var services = new ServiceCollection();
         services.AddSingleton(runner);
+        services.AddSingleton(logger ?? NullLogger<GitChanges>.Instance);
         services.RegisterGitContext();
         return services.BuildServiceProvider().CreateScope().ServiceProvider.GetRequiredService<IGitChanges>();
     }
@@ -244,7 +303,7 @@ public class GitChangesTests
         {
             Commands.Add(commands);
             ExecutionOptions.Add(commandEnvironmentOptions);
-            return Task.FromResult(_outputs.Dequeue().Trim());
+            return Task.FromResult(NextOutput().Trim());
         }
 
         Task<string> IRawGitCommandRunner.RunCommandsUntrimmed(
@@ -256,7 +315,7 @@ public class GitChangesTests
             Commands.Add(commands);
             RawCommands.Add(commands);
             ExecutionOptions.Add(commandEnvironmentOptions);
-            return Task.FromResult(_outputs.Dequeue());
+            return Task.FromResult(NextOutput());
         }
 
         public Task<string?> RunCommandsOrNull(
@@ -265,7 +324,32 @@ public class GitChangesTests
         {
             Commands.Add(commands);
             ExecutionOptions.Add(commandEnvironmentOptions);
-            return Task.FromResult<string?>(FailCommandsOrNull ? null : _outputs.Dequeue().Trim());
+            return Task.FromResult<string?>(FailCommandsOrNull ? null : NextOutput().Trim());
+        }
+
+        private string NextOutput() => _outputs.TryDequeue(out var output) ? output : string.Empty;
+    }
+
+    private sealed class RecordingLogger<T> : ILogger<T>
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (logLevel == LogLevel.Warning)
+            {
+                Messages.Add(formatter(state, exception));
+            }
         }
     }
 }

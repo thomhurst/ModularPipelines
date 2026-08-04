@@ -69,21 +69,7 @@ internal class OptionsValidator : IOptionsValidator
                 $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
         }
 
-        if (options.RunReport.HistoryRetention < 0)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"RunReport.HistoryRetention cannot be negative. Current value: " +
-                $"{options.RunReport.HistoryRetention}"));
-        }
-
-        if (options.RunReport.HistoryRetention > 0
-            && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
-        }
+        ValidateRunReportOptions(options.RunReport, result);
 
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
@@ -116,6 +102,43 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         return result;
+    }
+
+    private static void ValidateRunReportOptions(
+        RunReportOptions options,
+        ValidationResult result)
+    {
+        if (options.HistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.HistoryRetention cannot be negative. Current value: {options.HistoryRetention}"));
+        }
+
+        if (options.GlobalHistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention cannot be negative. Current value: {options.GlobalHistoryRetention}"));
+        }
+
+        if (options.HistoryRetention > 0
+            && options.GlobalHistoryRetention > 0
+            && options.GlobalHistoryRetention < options.HistoryRetention)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention ({options.GlobalHistoryRetention}) cannot be lower than " +
+                $"RunReport.HistoryRetention ({options.HistoryRetention})."));
+        }
+
+        if (options.HistoryRetention > 0
+            && string.IsNullOrWhiteSpace(options.HistoryDirectory))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
+        }
     }
 
     /// <inheritdoc />

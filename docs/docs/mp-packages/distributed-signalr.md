@@ -20,7 +20,7 @@ Register the coordinator after enabling distributed mode:
 using ModularPipelines.Distributed.SignalR.Extensions;
 using ModularPipelines.Distributed.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddSignalRDistributedCoordinator(options =>

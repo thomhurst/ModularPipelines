@@ -10,7 +10,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
 
     /// <summary>
     /// Gets the schema version used by this report.
@@ -18,9 +18,19 @@ public sealed record PipelineRunReport
     public int SchemaVersion { get; init; } = CurrentSchemaVersion;
 
     /// <summary>
+    /// Gets the unique identifier assigned to this pipeline run.
+    /// </summary>
+    public string RunId { get; init; } = string.Empty;
+
+    /// <summary>
     /// Gets the stable identity used to partition this pipeline's retained history.
     /// </summary>
     public string? PipelineIdentity { get; init; }
+
+    /// <summary>
+    /// Gets source-control, machine, and CI correlation metadata.
+    /// </summary>
+    public RunCorrelation? Correlation { get; init; }
 
     /// <summary>
     /// Gets the pipeline's final status.

@@ -52,7 +52,7 @@ public class DependencyFailedException : PipelineException
     /// <param name="module">The module that failed.</param>
     public DependencyFailedException(Exception exception, IModule module) : base($"The dependency {GetInnerMostFailingModule(module, exception)} has failed.", exception)
     {
-        FailingModuleName = module.GetType().Name;
+        FailingModuleName = GetInnerMostFailingModule(module, exception);
     }
 
     private static string GetInnerMostFailingModule(IModule rootModule, Exception rootException)
