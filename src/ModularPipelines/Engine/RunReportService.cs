@@ -33,42 +33,56 @@ internal sealed class RunReportService(
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
-        Exception? pipelineException = null)
+        Exception? pipelineException = null,
+        CancellationToken cancellationToken = default)
     {
         var isDistributedWorker = IsDistributedWorker();
-        await SynchronizeDistributedMetricsAsync(isDistributedWorker, summary)
+        await SynchronizeDistributedMetricsAsync(isDistributedWorker, summary, cancellationToken)
             .ConfigureAwait(false);
 
         var reportPath = isDistributedWorker ? null : GetReportPath();
         var pipelineIdentity = GetPipelineIdentity(summary, reportPath);
         var historyEnabled = !isDistributedWorker
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
-        var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
+        var previousReport = await LoadPreviousReportAsync(
+                historyEnabled,
+                pipelineIdentity,
+                cancellationToken)
             .ConfigureAwait(false);
         var report = CreateReport(summary, previousReport, pipelineIdentity, pipelineException);
 
-        await WriteReportAsync(reportPath, report).ConfigureAwait(false);
-        await SaveHistoryAsync(historyEnabled, report).ConfigureAwait(false);
+        if (!cancellationToken.IsCancellationRequested)
+        {
+            await WriteReportAsync(reportPath, report, cancellationToken).ConfigureAwait(false);
+        }
+
+        if (!cancellationToken.IsCancellationRequested)
+        {
+            await SaveHistoryAsync(historyEnabled, report, cancellationToken).ConfigureAwait(false);
+        }
+
         return report;
     }
 
     private async Task SynchronizeDistributedMetricsAsync(
         bool isDistributedWorker,
-        PipelineSummary summary)
+        PipelineSummary summary,
+        CancellationToken cancellationToken)
     {
         if (isDistributedWorker)
         {
-            await PublishWorkerMetricsAsync().ConfigureAwait(false);
+            await PublishWorkerMetricsAsync(cancellationToken).ConfigureAwait(false);
         }
         else if (IsDistributedMaster())
         {
-            await AggregateWorkerMetricsAsync(summary).ConfigureAwait(false);
+            await AggregateWorkerMetricsAsync(summary, cancellationToken).ConfigureAwait(false);
         }
     }
 
     private async Task<PipelineRunReport?> LoadPreviousReportAsync(
         bool historyEnabled,
-        string pipelineIdentity)
+        string pipelineIdentity,
+        CancellationToken cancellationToken)
     {
         if (!historyEnabled)
         {
@@ -77,10 +91,16 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(_historyStoreTimeout);
+            using var timeout = CreatePhaseCancellationTokenSource(
+                _historyStoreTimeout,
+                cancellationToken);
             return await historyStore.GetLatestAsync(pipelineIdentity, timeout.Token)
                 .WaitAsync(timeout.Token)
                 .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return null;
         }
         catch (Exception exception)
         {
@@ -140,7 +160,10 @@ internal sealed class RunReportService(
             };
     }
 
-    private async Task WriteReportAsync(string? reportPath, PipelineRunReport report)
+    private async Task WriteReportAsync(
+        string? reportPath,
+        PipelineRunReport report,
+        CancellationToken cancellationToken)
     {
         if (reportPath is null)
         {
@@ -151,12 +174,18 @@ internal sealed class RunReportService(
         {
             var fullPath = Path.GetFullPath(reportPath);
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-            using var timeout = new CancellationTokenSource(ReportWriteTimeout);
+            using var timeout = CreatePhaseCancellationTokenSource(
+                ReportWriteTimeout,
+                cancellationToken);
             await File.WriteAllTextAsync(
                     fullPath,
                     RunReportJsonSerializer.Serialize(report),
                     timeout.Token)
                 .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // User cancellation intentionally skips persistence.
         }
         catch (Exception exception)
         {
@@ -164,7 +193,10 @@ internal sealed class RunReportService(
         }
     }
 
-    private async Task SaveHistoryAsync(bool historyEnabled, PipelineRunReport report)
+    private async Task SaveHistoryAsync(
+        bool historyEnabled,
+        PipelineRunReport report,
+        CancellationToken cancellationToken)
     {
         if (!historyEnabled)
         {
@@ -173,10 +205,16 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(_historyStoreTimeout);
+            using var timeout = CreatePhaseCancellationTokenSource(
+                _historyStoreTimeout,
+                cancellationToken);
             await historyStore.SaveAsync(report, timeout.Token)
                 .WaitAsync(timeout.Token)
                 .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // User cancellation intentionally skips persistence.
         }
         catch (Exception exception)
         {
@@ -213,7 +251,7 @@ internal sealed class RunReportService(
                && roleDetector.DetectRole() == DistributedRole.Master;
     }
 
-    private async Task PublishWorkerMetricsAsync()
+    private async Task PublishWorkerMetricsAsync(CancellationToken cancellationToken)
     {
         var options = distributedOptions.Value;
         var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
@@ -224,7 +262,9 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(_workerMetricsTimeout);
+            using var timeout = CreatePhaseCancellationTokenSource(
+                _workerMetricsTimeout,
+                cancellationToken);
             await distributedCoordinator.RegisterWorkerAsync(
                     new WorkerRegistration(
                         options.InstanceIndex,
@@ -246,15 +286,23 @@ internal sealed class RunReportService(
                 .WaitAsync(timeout.Token)
                 .ConfigureAwait(false);
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // User cancellation intentionally skips final worker publication.
+        }
         catch (Exception exception)
         {
             logger.LogWarning(exception, "Could not publish distributed worker command metrics");
         }
     }
 
-    private async Task AggregateWorkerMetricsAsync(PipelineSummary summary)
+    private async Task AggregateWorkerMetricsAsync(
+        PipelineSummary summary,
+        CancellationToken cancellationToken)
     {
-        using var timeout = new CancellationTokenSource(_workerMetricsTimeout);
+        using var timeout = CreatePhaseCancellationTokenSource(
+            _workerMetricsTimeout,
+            cancellationToken);
         try
         {
             var options = distributedOptions.Value;
@@ -263,6 +311,11 @@ internal sealed class RunReportService(
                     options.ExecutionIdentifier,
                     timeout.Token)
                 .ConfigureAwait(false);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
             if (!waitResult.Completed)
             {
                 logger.LogWarning("Timed out waiting for distributed worker command metrics");
@@ -468,6 +521,15 @@ internal sealed class RunReportService(
             worker.ExecutionIdentifier,
             executionIdentifier,
             StringComparison.Ordinal);
+
+    private static CancellationTokenSource CreatePhaseCancellationTokenSource(
+        TimeSpan timeout,
+        CancellationToken cancellationToken)
+    {
+        var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        cancellationTokenSource.CancelAfter(timeout);
+        return cancellationTokenSource;
+    }
 
     private string GetPipelineIdentity(PipelineSummary summary, string? reportPath)
     {

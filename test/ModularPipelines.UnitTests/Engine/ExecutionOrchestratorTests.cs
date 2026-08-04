@@ -54,6 +54,16 @@ public class ExecutionOrchestratorTests
             .Setup(x => x.DisposeAsync())
             .Returns(ValueTask.CompletedTask);
 
+        var runReportCancellationToken = CancellationToken.None;
+        var runReportService = new Mock<IRunReportService>();
+        runReportService.Setup(x => x.CompleteAsync(
+                It.IsAny<PipelineSummary>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<PipelineSummary, Exception?, CancellationToken>((_, _, token) =>
+                runReportCancellationToken = token)
+            .ReturnsAsync(new PipelineRunReport());
+
         using var engineCancellationToken =
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         var orchestrator = new ExecutionOrchestrator(
@@ -69,13 +79,18 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            CreateRunReportService());
+            runReportService.Object);
         using var callerCancellationTokenSource = new CancellationTokenSource();
 
         await orchestrator.ExecuteAsync(callerCancellationTokenSource.Token);
         callerCancellationTokenSource.Cancel();
 
-        await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
+        using (Assert.Multiple())
+        {
+            await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
+            await Assert.That(runReportCancellationToken.CanBeCanceled).IsTrue();
+            await Assert.That(runReportCancellationToken.IsCancellationRequested).IsFalse();
+        }
     }
 
     [Test]
@@ -217,7 +232,10 @@ public class ExecutionOrchestratorTests
             .Returns(summary);
         var runReportService = new Mock<IRunReportService>();
         runReportService
-            .Setup(x => x.CompleteAsync(summary, initializationException))
+            .Setup(x => x.CompleteAsync(
+                summary,
+                initializationException,
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new PipelineRunReport { Status = Status.Failed });
         var outputCoordinator = new Mock<IPipelineOutputCoordinator>();
         using var engineCancellationToken =
@@ -242,7 +260,10 @@ public class ExecutionOrchestratorTests
 
         await Assert.That(exception).IsSameReferenceAs(initializationException);
         runReportService.Verify(
-            x => x.CompleteAsync(summary, initializationException),
+            x => x.CompleteAsync(
+                summary,
+                initializationException,
+                It.IsAny<CancellationToken>()),
             Times.Once);
         pipelineSummaryFactory.Verify(x => x.Create(
             It.Is<IReadOnlyList<IModule>>(modules => modules.Count == 1 && ReferenceEquals(modules[0], module)),
@@ -258,7 +279,8 @@ public class ExecutionOrchestratorTests
         var service = new Mock<IRunReportService>();
         service.Setup(x => x.CompleteAsync(
                 It.IsAny<PipelineSummary>(),
-                It.IsAny<Exception?>()))
+                It.IsAny<Exception?>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new PipelineRunReport());
         return service.Object;
     }

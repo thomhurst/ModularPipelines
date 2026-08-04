@@ -146,7 +146,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         // Step 2: Always print summary (exactly once)
-        summary = await PrintSummary(allModules, stopWatch, start, summary, caughtException).ConfigureAwait(false);
+        summary = await PrintSummary(
+                allModules,
+                stopWatch,
+                start,
+                summary,
+                caughtException,
+                GetRunReportCancellationToken())
+            .ConfigureAwait(false);
 
         // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
         if (caughtException != null)
@@ -175,7 +182,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         Stopwatch stopWatch,
         DateTimeOffset start,
         PipelineSummary? existingSummary,
-        Exception? pipelineException)
+        Exception? pipelineException,
+        CancellationToken cancellationToken)
     {
         var end = DateTimeOffset.UtcNow;
         var totalDuration = stopWatch.Elapsed;
@@ -197,7 +205,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             RunReport = await _runReportService.CompleteAsync(
                     summary,
-                    GetPipelineReportException(summary, pipelineException))
+                    GetPipelineReportException(summary, pipelineException),
+                    cancellationToken)
                 .ConfigureAwait(false),
             StatusOverride = pipelineException is null ? summary.StatusOverride : Status.Failed,
         };
@@ -223,6 +232,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         return summary;
     }
+
+    private CancellationToken GetRunReportCancellationToken() =>
+        _engineCancellationToken.OriginalException is null
+            ? _engineCancellationToken.Token
+            : CancellationToken.None;
 
     private static Exception? GetPipelineReportException(
         PipelineSummary summary,
