@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,9 +30,9 @@ internal sealed class ModuleDiscoveryPlanner(
     IEnumerable<ModulePlanningFactory> planningFactories)
 {
     private const byte StoreInstanceFieldOpCode = 0x7D;
-    private const byte LoadStaticFieldOpCode = 0x7E;
-    private const byte LoadStaticFieldAddressOpCode = 0x7F;
-    private const byte StoreStaticFieldOpCode = 0x80;
+
+    private static readonly OpCode[] OneByteOpCodes = CreateOpCodeLookup(twoByte: false);
+    private static readonly OpCode[] TwoByteOpCodes = CreateOpCodeLookup(twoByte: true);
 
     private readonly IReadOnlyList<IModule> _modules = modules
         .Distinct<IModule>(ReferenceEqualityComparer.Instance)
@@ -857,39 +858,129 @@ internal sealed class ModuleDiscoveryPlanner(
         var method = module.GetType().GetMethod(
             "Configure",
             BindingFlags.Instance | BindingFlags.NonPublic);
-        var il = method?.GetMethodBody()?.GetILAsByteArray();
-        if (method is null || il is null)
+        return method is not null
+               && MethodTouchesStaticState(method, new HashSet<MethodInfo>());
+    }
+
+    private static bool MethodTouchesStaticState(
+        MethodInfo method,
+        ISet<MethodInfo> visited)
+    {
+        var il = method.GetMethodBody()?.GetILAsByteArray();
+        if (il is null || !visited.Add(method))
         {
             return false;
         }
 
-        for (var index = 0; index <= il.Length - sizeof(int) - 1; index++)
+        var offset = 0;
+        while (offset < il.Length)
         {
-            if (il[index] is not (LoadStaticFieldOpCode
-                or LoadStaticFieldAddressOpCode
-                or StoreStaticFieldOpCode))
+            var opCode = ReadOpCode(il, ref offset);
+            if (opCode.Size == 0)
+            {
+                return false;
+            }
+
+            var operandOffset = offset;
+            var operandSize = GetOperandSize(opCode, il, operandOffset);
+            if (operandOffset + operandSize > il.Length)
+            {
+                return false;
+            }
+
+            if (operandSize == sizeof(int)
+                && InstructionTouchesStaticState(method, opCode, il, operandOffset, visited))
+            {
+                return true;
+            }
+
+            offset += operandSize;
+        }
+
+        return false;
+    }
+
+    private static bool InstructionTouchesStaticState(
+        MethodInfo method,
+        OpCode opCode,
+        byte[] il,
+        int operandOffset,
+        ISet<MethodInfo> visited)
+    {
+        var token = BitConverter.ToInt32(il, operandOffset);
+        try
+        {
+            if (opCode.OperandType == OperandType.InlineField)
+            {
+                return method.Module.ResolveField(
+                    token,
+                    method.DeclaringType?.GetGenericArguments(),
+                    method.GetGenericArguments())?.IsStatic == true;
+            }
+
+            return opCode.OperandType == OperandType.InlineMethod
+                   && method.Module.ResolveMethod(
+                       token,
+                       method.DeclaringType?.GetGenericArguments(),
+                       method.GetGenericArguments()) is MethodInfo calledMethod
+                   && calledMethod.Module.Assembly == method.Module.Assembly
+                   && MethodTouchesStaticState(calledMethod, visited);
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    private static OpCode ReadOpCode(byte[] il, ref int offset)
+    {
+        var firstByte = il[offset++];
+        if (firstByte != 0xFE)
+        {
+            return OneByteOpCodes[firstByte];
+        }
+
+        return offset < il.Length ? TwoByteOpCodes[il[offset++]] : default;
+    }
+
+    private static int GetOperandSize(OpCode opCode, byte[] il, int operandOffset) =>
+        opCode.OperandType switch
+        {
+            OperandType.InlineNone => 0,
+            OperandType.ShortInlineBrTarget or OperandType.ShortInlineI or OperandType.ShortInlineVar => 1,
+            OperandType.InlineVar => 2,
+            OperandType.InlineBrTarget
+                or OperandType.InlineField
+                or OperandType.InlineI
+                or OperandType.InlineMethod
+                or OperandType.InlineSig
+                or OperandType.InlineString
+                or OperandType.InlineTok
+                or OperandType.ShortInlineR => 4,
+            OperandType.InlineI8 or OperandType.InlineR => 8,
+            OperandType.InlineSwitch when operandOffset + sizeof(int) <= il.Length =>
+                sizeof(int) + (BitConverter.ToInt32(il, operandOffset) * sizeof(int)),
+            _ => il.Length - operandOffset,
+        };
+
+    private static OpCode[] CreateOpCodeLookup(bool twoByte)
+    {
+        var lookup = new OpCode[byte.MaxValue + 1];
+        foreach (var field in typeof(OpCodes).GetFields(BindingFlags.Public | BindingFlags.Static))
+        {
+            if (field.GetValue(null) is not OpCode opCode)
             {
                 continue;
             }
 
-            try
+            var value = unchecked((ushort) opCode.Value);
+            if (twoByte == (value > byte.MaxValue))
             {
-                var field = method.Module.ResolveField(
-                    BitConverter.ToInt32(il, index + 1),
-                    method.DeclaringType?.GetGenericArguments(),
-                    method.GetGenericArguments());
-                if (field?.IsStatic == true)
-                {
-                    return true;
-                }
-            }
-            catch (ArgumentException)
-            {
-                // The opcode-shaped byte was part of another instruction's operand.
+                lookup[value & byte.MaxValue] = opCode;
             }
         }
 
-        return false;
+        return lookup;
     }
 
     [UnconditionalSuppressMessage(

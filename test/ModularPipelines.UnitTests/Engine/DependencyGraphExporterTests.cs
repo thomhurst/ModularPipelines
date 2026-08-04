@@ -145,6 +145,21 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("Graph export must not execute modules.");
     }
 
+    [AsyncPlanningCondition]
+    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
+    private sealed class SynchronouslySkippedArtifactConsumerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer is synchronously skipped"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Graph export must not execute modules.");
+    }
+
     [ModularPipelines.Attributes.DependsOn<HistoricalDependencyModule>]
     private sealed class HistoricalDependentModule : Module<string>
     {
@@ -310,7 +325,9 @@ public class DependencyGraphExporterTests
 
     private sealed class GlobalConfigurationMutationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure()
+        protected override ModuleConfiguration Configure() => CreateConfiguration();
+
+        private static ModuleConfiguration CreateConfiguration()
         {
             Interlocked.Increment(ref _globalConfigurationMutations);
             return ModuleConfiguration.Default;
@@ -1833,6 +1850,38 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(producerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(consumerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Definitive_Fluent_Skip_Avoids_Artifact_Demand()
+    {
+        _asyncSkipConditionEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<IModuleResultRepository>(
+            new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(HistoricalArtifactProducerModule)],
+        });
+        builder.AddModule<HistoricalArtifactProducerModule>();
+        builder.AddModule<SynchronouslySkippedArtifactConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var nodes = document.RootElement.GetProperty("nodes").EnumerateArray().ToArray();
+        var producerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(HistoricalArtifactProducerModule));
+        var consumerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(SynchronouslySkippedArtifactConsumerModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(producerNode.GetProperty("skipped").GetBoolean()).IsFalse();
             await Assert.That(consumerNode.GetProperty("skipped").GetBoolean()).IsTrue();
             await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
         }

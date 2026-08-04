@@ -51,14 +51,17 @@ internal sealed class ModulePlanningSkipEvaluator(
             return conditionResult.SkipDecision ?? SkipDecision.Skip("Module was ignored");
         }
 
-        if (!conditionResult.IsResolved
-            || module.Configuration.SynchronousPlanningSkipCondition is not { } planningSkipCondition)
+        var planningSkipCondition = module.Configuration.SynchronousPlanningSkipCondition;
+        if (planningSkipCondition is null)
         {
             return null;
         }
 
-        return await EvaluateConditionAsync(module, planningSkipCondition, cancellationToken)
+        var skipDecision = await EvaluateConditionAsync(module, planningSkipCondition, cancellationToken)
             .ConfigureAwait(false);
+        return conditionResult.IsResolved || skipDecision?.ShouldSkip == true
+            ? skipDecision
+            : null;
     }
 
     private async Task<SkipDecision?> EvaluateConditionAsync(
