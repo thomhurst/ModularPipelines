@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -245,6 +246,7 @@ public static class ExternalToolDefinitionLoader
         RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
         RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
         ValidateFlagType(option, propertyName);
+        ValidateOptionalCollectionShape(option, propertyName);
         ValidateSecretValueKeys(option, propertyName);
 
         if (option.EnumDefinition is not null)
@@ -253,8 +255,44 @@ public static class ExternalToolDefinitionLoader
         }
     }
 
+    private static void ValidateOptionalCollectionShape(
+        CliOptionDefinition option,
+        string propertyName)
+    {
+        if (option.ValueArity != CliOptionValueArity.Optional
+            || option.AcceptsMultipleValues
+            || option.GroupValues)
+        {
+            return;
+        }
+
+        if (CliOptionDefinition.TryGetCollectionShape(option.CSharpType, out var isCollection))
+        {
+            if (option.IsCollection is not null && option.IsCollection != isCollection)
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].isCollection conflicts with the resolved cSharpType.");
+            }
+
+            return;
+        }
+
+        if (option.IsCollection is null)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].isCollection must be true or false when an optional cSharpType "
+                + "is unavailable to the options generator.");
+        }
+    }
+
     private static void ValidateFlagType(CliOptionDefinition option, string propertyName)
     {
+        if (option.IsFlag && option.ValueArity == CliOptionValueArity.Optional)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].valueArity cannot be optional when isFlag is true.");
+        }
+
         if (option.IsFlag && !IsSupportedFlagType(option.CSharpType))
         {
             throw new InvalidDataException(
@@ -275,6 +313,12 @@ public static class ExternalToolDefinitionLoader
         {
             throw new InvalidDataException(
                 $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
+        }
+
+        if (option.ValueArity == CliOptionValueArity.Optional)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].secretValueKeys do not support optional option values.");
         }
 
         if (!option.IsKeyValue || !IsReadOnlyListKeyValueType(option.CSharpType))
@@ -450,11 +494,11 @@ public static class ExternalToolDefinitionLoader
     {
         var writable = command.Options
             .Where(option => !option.IsRequired)
-            .Select(option => (option.PropertyName, option.CSharpType))
+            .Select(option => (option.PropertyName, CSharpType: option.PropertyType))
             .Concat(command.PositionalArguments
                 .Where(argument => !argument.IsRequired)
                 .Select(argument => (argument.PropertyName, argument.CSharpType)))
-            .Concat(globalOptions.Select(option => (option.PropertyName, option.CSharpType)))
+            .Concat(globalOptions.Select(option => (option.PropertyName, CSharpType: option.PropertyType)))
             .ToDictionary(target => target.PropertyName, target => target.CSharpType, StringComparer.Ordinal);
         var all = writable.Keys
             .Concat(command.Options.Select(option => option.PropertyName))

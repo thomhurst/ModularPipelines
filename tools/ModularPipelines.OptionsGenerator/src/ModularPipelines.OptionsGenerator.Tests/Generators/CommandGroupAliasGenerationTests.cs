@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -64,6 +65,16 @@ public class CommandGroupAliasGenerationTests
             .Contains(
                 "set => base.ProgressModes = value?.Select(static value => "
                 + "(DockerBuildxHistoryLogsProgress)(int)value);");
+        await Assert.That(historyLogsOptions.Content)
+            .DoesNotContain("public new DockerBuilderHistoryLogsProgress? OptionalProgress");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains("CliOptionValue RequiredOptionalProgress");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains("using ModularPipelines.Models;");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(": base(RequiredOptionalProgress)");
+        await Assert.That(historyLogsOptions.Content)
+            .DoesNotContain("(int)RequiredOptionalProgress");
         var historyLogsEnum = enumFiles.Single(file =>
             file.RelativePath.EndsWith(
                 "DockerBuilderHistoryLogsProgress.Generated.cs",
@@ -198,6 +209,45 @@ public class CommandGroupAliasGenerationTests
                             PropertyName = "ProgressModes",
                             CSharpType = "IEnumerable<DockerBuildxHistoryLogsProgress>?",
                             AcceptsMultipleValues = true,
+                            EnumDefinition = new CliEnumDefinition
+                            {
+                                EnumName = "DockerBuildxHistoryLogsProgress",
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Plain",
+                                        CliValue = "plain",
+                                    },
+                                ],
+                            },
+                        },
+                        new CliOptionDefinition
+                        {
+                            SwitchName = "--optional-progress",
+                            PropertyName = "OptionalProgress",
+                            CSharpType = "DockerBuildxHistoryLogsProgress?",
+                            ValueArity = CliOptionValueArity.Optional,
+                            EnumDefinition = new CliEnumDefinition
+                            {
+                                EnumName = "DockerBuildxHistoryLogsProgress",
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Plain",
+                                        CliValue = "plain",
+                                    },
+                                ],
+                            },
+                        },
+                        new CliOptionDefinition
+                        {
+                            SwitchName = "--required-optional-progress",
+                            PropertyName = "RequiredOptionalProgress",
+                            CSharpType = "DockerBuildxHistoryLogsProgress?",
+                            IsRequired = true,
+                            ValueArity = CliOptionValueArity.Optional,
                             EnumDefinition = new CliEnumDefinition
                             {
                                 EnumName = "DockerBuildxHistoryLogsProgress",

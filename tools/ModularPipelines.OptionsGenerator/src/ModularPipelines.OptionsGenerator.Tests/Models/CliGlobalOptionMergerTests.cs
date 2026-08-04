@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Models;
@@ -78,6 +79,28 @@ public class CliGlobalOptionMergerTests
                 [scraped with { GroupValues = true }]))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("--arguments");
+    }
+
+    [Test]
+    public async Task Merge_Rejects_Conflicting_Rendering_Shape_For_The_Same_Switch()
+    {
+        var scraped = Option("--arguments", "Arguments");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => CliGlobalOptionMerger.Merge(
+                    [scraped],
+                    [scraped with { IsCollection = true }]))
+                .Throws<InvalidOperationException>();
+            await Assert.That(() => CliGlobalOptionMerger.Merge(
+                    [scraped],
+                    [scraped with { ValueArity = CliOptionValueArity.Optional }]))
+                .Throws<InvalidOperationException>();
+            await Assert.That(() => CliGlobalOptionMerger.Merge(
+                    [scraped],
+                    [scraped with { Phase = CommandLinePhase.Terminal }]))
+                .Throws<InvalidOperationException>();
+        }
     }
 
     [Test]

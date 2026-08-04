@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -98,7 +99,10 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         // Validation attributes
         if (option.ValidationConstraints is not null)
         {
-            GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
+            GeneratorUtils.GenerateValidationAttributes(
+                sb,
+                option.ValidationConstraints,
+                useCliOptionValueAttributes: option.ValueArity == CliOptionValueArity.Optional);
         }
 
         // Secret attribute for sensitive values
@@ -112,7 +116,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public virtual {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static string? GetDescription(CliOptionDefinition option)
