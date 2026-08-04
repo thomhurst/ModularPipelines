@@ -260,28 +260,30 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var typeOfExpression = context.Node.FirstAncestorOrSelf<TypeOfExpressionSyntax>();
         if (typeOfExpression?.Parent is not ArgumentSyntax argument
-            || argument.Parent?.Parent is not ObjectCreationExpressionSyntax objectCreation
-            || context.SemanticModel.GetSymbolInfo(objectCreation).Symbol is not IMethodSymbol
-            {
-                MethodKind: MethodKind.Constructor,
-                ContainingType:
-                {
-                    MetadataName: "ServiceDescriptor",
-                    ContainingNamespace: { } containingNamespace,
-                },
-            } constructor
-            || containingNamespace.ToDisplayString() != DependencyInjectionNamespace)
+            || argument.Parent is not BaseArgumentListSyntax argumentList
+            || argumentList.Parent is not ExpressionSyntax descriptorCreation
+            || context.SemanticModel.GetSymbolInfo(descriptorCreation).Symbol is not IMethodSymbol method
+            || !IsServiceDescriptorServiceTypeCarrier(method))
         {
             return false;
         }
 
-        var argumentIndex = objectCreation.ArgumentList?.Arguments.IndexOf(argument) ?? -1;
+        var argumentIndex = argumentList.Arguments.IndexOf(argument);
         var parameter = argument.NameColon is { Name.Identifier.ValueText: { } parameterName }
-            ? constructor.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
-            : argumentIndex >= 0 && argumentIndex < constructor.Parameters.Length
-                ? constructor.Parameters[argumentIndex]
+            ? method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
+            : argumentIndex >= 0 && argumentIndex < method.Parameters.Length
+                ? method.Parameters[argumentIndex]
                 : null;
         return parameter?.Name == "serviceType";
+    }
+
+    private static bool IsServiceDescriptorServiceTypeCarrier(IMethodSymbol method)
+    {
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        return definition.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+               && definition.ContainingType.MetadataName == "ServiceDescriptor"
+               && (definition.MethodKind == MethodKind.Constructor
+                   || definition.Name is "Describe" or "DescribeKeyed");
     }
 
     private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
