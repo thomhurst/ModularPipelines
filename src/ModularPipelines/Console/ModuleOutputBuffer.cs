@@ -810,7 +810,10 @@ internal sealed class BufferedLogEvent<TState>(
 
     public string FormatMessageWithLevel() => $"[{FormatLevel(level)}] {_formattedMessage.Value}";
 
-    public string? FormatException() => _obfuscatedException?.ToString();
+    public string? FormatException()
+        => _obfuscatedException is null
+            ? null
+            : secretObfuscator.Obfuscate(_obfuscatedException.ToString(), null);
 
     private string Format(object? state, Exception? logException) => _formattedMessage.Value;
 

@@ -231,6 +231,34 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task BufferedLogEvent_ReobfuscatesExceptionWithCurrentSecrets()
+    {
+        const string secret = "late-registered-secret";
+        var redactSecret = false;
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => redactSecret
+                ? value?.Replace(secret, "***", StringComparison.Ordinal) ?? string.Empty
+                : value ?? string.Empty);
+        var logEvent = new BufferedLogEvent<string>(
+            LogLevel.Error,
+            default,
+            "failure",
+            "failure",
+            new InvalidOperationException(secret),
+            static (state, _) => state,
+            secretObfuscator.Object);
+
+        redactSecret = true;
+
+        var formattedException = logEvent.FormatException();
+
+        await Assert.That(formattedException).Contains("***");
+        await Assert.That(formattedException).DoesNotContain(secret);
+    }
+
+    [Test]
     public async Task ConsoleOutputAddedAfterCompletion_IsRetained()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
