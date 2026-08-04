@@ -318,6 +318,23 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
+    /// Adds a run report correlation metadata enricher.
+    /// </summary>
+    /// <typeparam name="TEnricher">The enricher implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddRunReportEnricher<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TEnricher>(
+        this PipelineBuilder builder)
+        where TEnricher : class, IRunReportEnricher
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IRunReportEnricher, TEnricher>());
+        return builder;
+    }
+
+    /// <summary>
     /// Configures pipeline options with builder context.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
