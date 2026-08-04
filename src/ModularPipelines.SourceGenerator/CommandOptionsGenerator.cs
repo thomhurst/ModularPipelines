@@ -180,7 +180,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         ReportIncompleteMetadata(
             sourceContext,
             unambiguousCandidates,
-            optionsTypeMetadataNames);
+            optionsTypeMetadataNames,
+            input.Configuration.RequiresGeneratedMetadata);
         sourceContext.AddSource(
             "ModularPipelines.RuntimeMetadata.g.cs",
             Generate(
@@ -976,7 +977,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
         IReadOnlyCollection<TypeMetadataCandidate> candidates,
-        IReadOnlyCollection<string> optionsTypeMetadataNames)
+        IReadOnlyCollection<string> optionsTypeMetadataNames,
+        bool requiresGeneratedMetadata)
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
@@ -984,7 +986,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
-            if (!item.CanRegisterSecretCoverage
+            if ((!item.CanRegisterSecretCoverage
+                 || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback))
                 && optionsTypeMetadataNames.Contains(item.MetadataName))
             {
                 context.ReportDiagnostic(Diagnostic.Create(

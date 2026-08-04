@@ -1284,6 +1284,48 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    [Arguments("build_property.PublishTrimmed")]
+    [Arguments("build_property.PublishAot")]
+    public async Task Publish_Host_Rejects_Legacy_External_Options_Without_Marker(
+        string publishProperty)
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration;
+            }
+
+            namespace External
+            {
+                public sealed class LegacyOptions;
+
+                public sealed class RuntimeReference
+                    : ModularPipelines.Options.CommandLineToolOptions;
+            }
+            """,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<External.LegacyOptions> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                [publishProperty] = "true",
+            });
+
+        var diagnostic = result.Diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.GetMessage()).Contains("global::External.LegacyOptions");
+            await Assert.That(result.GeneratedTrees).HasSingleItem();
+        }
+    }
+
+    [Test]
     public async Task Aot_Host_Covers_Framework_Option_Assemblies()
     {
         var result = GeneratorTestHarness.Run(
