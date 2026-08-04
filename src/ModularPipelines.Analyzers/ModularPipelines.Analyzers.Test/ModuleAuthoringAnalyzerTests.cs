@@ -5412,6 +5412,68 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Direct_Delegate_Invoke()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Action callback = RegisterModules;
+                    callback();
+                }
+
+                private static void RegisterModules() =>
+                    Pipeline.CreateBuilder().Services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Returned_Startup_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(GetRegistration());
+                }
+
+                private static Action<IServiceCollection> GetRegistration() => RegisterModules;
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Field_Startup_Method_Group()
     {
         var source = $$"""
@@ -5941,6 +6003,117 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Instance_Stored_In_Member()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class DeployModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly IModule Instance = new BuildModule();
+
+                private static IModule Property => new DeployModule();
+
+                public static void Register()
+                {
+                    var services = Pipeline.CreateBuilder().Services;
+                    services.AddSingleton(Instance);
+                    services.AddSingleton(Property);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Descriptor_Stored_In_Member_Suppresses_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly ServiceDescriptor Descriptor =
+                    ServiceDescriptor.Singleton(
+                        typeof(IModule),
+                        ChooseImplementationType());
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().Services.Add(Descriptor);
+
+                private static Type ChooseImplementationType() => typeof(BuildModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_From_Nested_Descriptor_Member_Return()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static ServiceDescriptor Descriptor
+                {
+                    get
+                    {
+                        Func<ServiceDescriptor> unused = () =>
+                            ServiceDescriptor.Singleton<IModule, DeployModule>();
+                        return ServiceDescriptor.Singleton<IModule, BuildModule>();
+                    }
+                }
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().Services.Add(Descriptor);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Unresolved_Descriptor_Passed_Through_Helper_Suppresses_Module()
     {
         var source = $$"""
@@ -5963,6 +6136,48 @@ public class ModuleAuthoringAnalyzerTests
                 private static ServiceDescriptor Pass(ServiceDescriptor descriptor) => descriptor;
 
                 private static Type ChooseImplementationType() => typeof(BuildModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Composite_Helper_Return_Suppresses_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class KnownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class UnknownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag) =>
+                    Pipeline.CreateBuilder().Services.Add(Choose(
+                        flag,
+                        ServiceDescriptor.Singleton<IModule, KnownModule>(),
+                        ServiceDescriptor.Singleton(
+                            typeof(IModule),
+                            ChooseImplementationType())));
+
+                private static ServiceDescriptor Choose(
+                    bool flag,
+                    ServiceDescriptor known,
+                    ServiceDescriptor runtimeComputed) =>
+                    flag ? known : runtimeComputed;
+
+                private static Type ChooseImplementationType() => typeof(UnknownModule);
             }
 
             {{EntryPoint}}
@@ -6439,6 +6654,72 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Statically_NonNull_Coalesced_CancellationToken()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(
+                    1,
+                    (CancellationToken?)cancellationToken ?? CancellationToken.None);
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Through_Null_Conditional_Delegate()
+    {
+        var source = ModuleSource("""
+            private readonly Action? _callback = Work;
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                _callback?.Invoke();
+                return Task.FromResult<List<string>>(null!);
+            }
+
+            private static void Work() => {|#0:Thread.Sleep(1)|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Through_Constructor_Assigned_Delegate()
+    {
+        var source = ModuleSource("""
+            private readonly Action _callback;
+
+            public BuildModule() => _callback = Work;
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                _callback();
+                return Task.FromResult<List<string>>(null!);
+            }
+
+            private static void Work() => {|#0:Thread.Sleep(1)|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
