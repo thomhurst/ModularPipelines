@@ -1010,6 +1010,15 @@ internal sealed class ModuleDiscoveryPlanner(
 
             if (calledMethod.Module.Assembly == method.Module.Assembly)
             {
+                if (opCode == OpCodes.Callvirt
+                    && calledMethod is MethodInfo { IsVirtual: true, IsFinal: false } virtualMethod
+                    && (runtimeType is null
+                        || virtualMethod.DeclaringType is null
+                        || !virtualMethod.DeclaringType.IsAssignableFrom(runtimeType)))
+                {
+                    return true;
+                }
+
                 var targetMethod = opCode == OpCodes.Callvirt
                     && calledMethod is MethodInfo calledMethodInfo
                     && runtimeType is not null

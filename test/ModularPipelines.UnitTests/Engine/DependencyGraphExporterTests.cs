@@ -520,6 +520,35 @@ public class DependencyGraphExporterTests
             Task.FromResult(_globalConfigurationMutations);
     }
 
+    private class VirtualConfigurationHelper
+    {
+        public virtual ModuleConfiguration CreateConfiguration() =>
+            ModuleConfiguration.Default;
+    }
+
+    private sealed class StatefulVirtualConfigurationHelper : VirtualConfigurationHelper
+    {
+        public override ModuleConfiguration CreateConfiguration()
+        {
+            Interlocked.Increment(ref _globalConfigurationMutations);
+            return ModuleConfiguration.Default;
+        }
+    }
+
+    private sealed class HelperVirtualConfigurationMutationModule : Module<int>
+    {
+        private readonly VirtualConfigurationHelper _helper =
+            new StatefulVirtualConfigurationHelper();
+
+        protected override ModuleConfiguration Configure() =>
+            _helper.CreateConfiguration();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_globalConfigurationMutations);
+    }
+
     private sealed class ConfigurationMutationProbe
     {
         public ConfigurationMutationProbe() =>
@@ -3181,6 +3210,25 @@ public class DependencyGraphExporterTests
         _globalConfigurationMutations = 0;
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<VirtualConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var mutationsAfterActivation = _globalConfigurationMutations;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mutationsAfterActivation).IsEqualTo(1);
+            await Assert.That(_globalConfigurationMutations).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_Helper_Virtual_Override()
+    {
+        _globalConfigurationMutations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<HelperVirtualConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         var mutationsAfterActivation = _globalConfigurationMutations;
