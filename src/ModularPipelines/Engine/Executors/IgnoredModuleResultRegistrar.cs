@@ -201,55 +201,83 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 .Select(dependency => dependency.DependencyType);
             foreach (var dependencyType in requiredDependencies)
             {
-                if (ignoredModuleTypes.Contains(dependencyType))
+                var availability = await GetDependencyAvailabilityAsync(
+                        dependencyType,
+                        modulesByType,
+                        ignoredModuleTypes,
+                        unrecoverableIgnoredModuleTypes,
+                        consumedProducerTypes,
+                        visitedTypes,
+                        historicalResults,
+                        planningSkipDecisions,
+                        pipelineContext)
+                    .ConfigureAwait(false);
+                if (availability.IsUnrecoverable)
                 {
-                    if (!consumedProducerTypes.Contains(dependencyType)
-                        && unrecoverableIgnoredModuleTypes.Contains(dependencyType))
-                    {
-                        return true;
-                    }
-
-                    continue;
+                    return true;
                 }
 
-                if (!visitedTypes.Add(dependencyType)
-                    || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+                if (availability.ModuleToTraverse is not null)
                 {
-                    continue;
+                    pending.Push(availability.ModuleToTraverse);
                 }
-
-                if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
-                {
-                    skipDecision = await _modulePlanningSkipEvaluator
-                        .EvaluateAsync(dependencyModule, CancellationToken.None)
-                        .ConfigureAwait(false);
-                    planningSkipDecisions[dependencyModule] = skipDecision;
-                }
-
-                if (skipDecision?.ShouldSkip == true)
-                {
-                    if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
-                    {
-                        historicalResult = await _resultHistoryProvider
-                            .TryGetAsync(dependencyModule, pipelineContext)
-                            .ConfigureAwait(false);
-                        historicalResults[dependencyModule] = historicalResult;
-                    }
-
-                    if (historicalResult is null)
-                    {
-                        return true;
-                    }
-
-                    continue;
-                }
-
-                pending.Push(dependencyModule);
             }
         }
 
         return false;
     }
+
+    private async Task<DependencyAvailability> GetDependencyAvailabilityAsync(
+        Type dependencyType,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> unrecoverableIgnoredModuleTypes,
+        IReadOnlySet<Type> consumedProducerTypes,
+        ISet<Type> visitedTypes,
+        IDictionary<IModule, IModuleResult?> historicalResults,
+        IDictionary<IModule, SkipDecision?> planningSkipDecisions,
+        IPipelineContext pipelineContext)
+    {
+        if (ignoredModuleTypes.Contains(dependencyType))
+        {
+            var isUnrecoverable = !consumedProducerTypes.Contains(dependencyType)
+                                  && unrecoverableIgnoredModuleTypes.Contains(dependencyType);
+            return new DependencyAvailability(null, isUnrecoverable);
+        }
+
+        if (!visitedTypes.Add(dependencyType)
+            || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+        {
+            return default;
+        }
+
+        if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
+        {
+            skipDecision = await _modulePlanningSkipEvaluator
+                .EvaluateAsync(dependencyModule, CancellationToken.None)
+                .ConfigureAwait(false);
+            planningSkipDecisions[dependencyModule] = skipDecision;
+        }
+
+        if (skipDecision?.ShouldSkip != true)
+        {
+            return new DependencyAvailability(dependencyModule, IsUnrecoverable: false);
+        }
+
+        if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
+        {
+            historicalResult = await _resultHistoryProvider
+                .TryGetAsync(dependencyModule, pipelineContext)
+                .ConfigureAwait(false);
+            historicalResults[dependencyModule] = historicalResult;
+        }
+
+        return new DependencyAvailability(null, historicalResult is null);
+    }
+
+    private readonly record struct DependencyAvailability(
+        IModule? ModuleToTraverse,
+        bool IsUnrecoverable);
 
     private bool IsDistributedWorker()
     {
