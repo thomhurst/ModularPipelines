@@ -4250,7 +4250,7 @@ Patterns are relative to `ModuleCacheOptions.WorkingDirectory`. They support `*`
 
 The fingerprint contains:
 
-- the module type and assembly version;
+- the module type and its assembly module version ID (MVID), unless explicitly overridden;
 - the content and relative path of every declared input;
 - explicit key parts and declared environment variable values;
 - normalized results from all direct, selector-based, and dynamic dependencies.
@@ -4271,6 +4271,29 @@ protected override ModuleConfiguration Configure() =>
 ```
 
 Changing any key part or declared environment value invalidates the entry.
+
+## Stabilize the module version key
+
+By default, the fingerprint includes the module assembly's MVID so rebuilding changed module
+code invalidates cached results. Some versioning tools generate different assembly metadata for
+every commit, which can also change the MVID when the module implementation is unchanged. This
+can eliminate cross-commit cache hits, and changing any code in the assembly can invalidate every
+cached module declared by that assembly.
+
+Use an explicit version key only when your build changes the MVID independently of module behavior:
+
+```csharp
+protected override ModuleConfiguration Configure() =>
+    ModuleConfiguration.Create()
+        .WithCacheKeyPart("configuration=v1")
+        .WithCacheAssemblyVersionKey("build-module-v3")
+        .Build();
+```
+
+You must update this key whenever the module implementation changes. Reusing it after a behavior
+change can restore stale results or artifacts. Cache misses log bounded fingerprint-component
+diagnostics at `Debug`; user-controlled key parts, environment values, exception messages, and
+skip reasons appear only as SHA-256 hashes.
 
 ## Configure limits and locations
 
