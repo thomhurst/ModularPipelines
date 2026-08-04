@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "ios", "models", "describe")]
 public record GcloudFirebaseTestIosModelsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ModelId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ModelId
 ) : GcloudOptions
 {
 }

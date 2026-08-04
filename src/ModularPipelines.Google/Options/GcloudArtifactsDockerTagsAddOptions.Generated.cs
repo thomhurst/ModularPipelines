@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "tags", "add")]
 public record GcloudArtifactsDockerTagsAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DockerImage
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerImage
 ) : GcloudOptions
 {
 }

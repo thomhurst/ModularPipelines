@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "revoke")]
 public record VaultLeaseRevokeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Id
 ) : VaultOptions
 {
 }

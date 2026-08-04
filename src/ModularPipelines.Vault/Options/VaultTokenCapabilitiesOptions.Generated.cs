@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("token", "capabilities")]
 public record VaultTokenCapabilitiesOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : VaultOptions
 {
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "future-reservations", "update")]
 public record GcloudPreviewComputeFutureReservationsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string FutureReservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FutureReservation
 ) : GcloudOptions
 {
     /// <summary>

@@ -231,6 +231,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     null,
                     false,
                     false,
+                    false,
                     0,
                     "Normal",
                     0,
@@ -271,6 +272,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 null,
                 GetNamedBool(attribute, "PrependOptionTerminator"),
                 false,
+                GetNamedBool(attribute, "Required"),
                 GetConstructorInt(attribute),
                 GetNamedEnumMemberName(attribute, "Phase", "Passthrough"),
                 0,
@@ -287,6 +289,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedString(attribute, "ShortForm"),
                 GetNamedBool(attribute, "PreferShortForm"),
                 false,
+                false,
                 0,
                 GetNamedEnumMemberName(attribute, "Phase", "Normal"),
                 0,
@@ -301,6 +304,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedString(attribute, "ShortForm"),
             GetNamedBool(attribute, "PreferShortForm"),
             GetNamedBool(attribute, "GroupValues"),
+            false,
             GetNamedInt(attribute, "Format"),
             GetNamedEnumMemberName(attribute, "Phase", "Normal"),
             GetNamedInt(attribute, "ValueArity"),
@@ -407,6 +411,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Flag:
@@ -632,6 +637,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string? ShortForm,
         bool BooleanValue,
         bool GroupValues,
+        bool IsRequired,
         int FirstInt,
         string Phase,
         int ValueArity,

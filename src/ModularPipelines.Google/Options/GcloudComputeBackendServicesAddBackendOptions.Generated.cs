@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "add-backend")]
 public record GcloudComputeBackendServicesAddBackendOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendServiceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {
 }

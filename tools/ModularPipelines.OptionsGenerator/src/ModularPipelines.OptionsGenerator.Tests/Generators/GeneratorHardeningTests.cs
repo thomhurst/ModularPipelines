@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -34,6 +35,60 @@ public class GeneratorHardeningTests
             Enums = enums ?? [],
             CompatibilityMethods = compatibilityMethods ?? [],
         };
+
+    [Test]
+    public async Task OptionsClassGenerator_Uses_CliOptionValue_For_Optional_Value_Arity()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-tests",
+                    PropertyName = "RunTests",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("public CliOptionValue? RunTests { get; set; }");
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Validates_Explicit_Optional_Values()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-tests",
+                    PropertyName = "RunTests",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                    ValidationConstraints = new CliValidationConstraints
+                    {
+                        MinValue = 1,
+                        MaxValue = 3,
+                        Pattern = "^[1-3]$",
+                    },
+                },
+            ]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("[CliOptionValueRange(1, 3)]");
+        await Assert.That(generated).Contains("[CliOptionValueRegularExpression(\"^[1-3]$\")]");
+        await Assert.That(generated).DoesNotContain("[Range(1, 3)]");
+        await Assert.That(generated).DoesNotContain("[RegularExpression(\"^[1-3]$\")]");
+    }
 
     private static CliToolDefinition Tool(params CliCommandDefinition[] commands) =>
         new()
@@ -107,6 +162,26 @@ public class GeneratorHardeningTests
         var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
 
         await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+    }
+
+    [Test]
+    public async Task Options_Class_Emits_Repeatable_Optional_Value_Type()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--attach-debugger",
+            PropertyName = "AttachDebugger",
+            CSharpType = "IEnumerable<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+            AcceptsMultipleValues = true,
+        };
+        var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
+
+        var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(generatedFile.Content)
+            .Contains("public IEnumerable<CliOptionValue>? AttachDebugger { get; set; }");
     }
 
     [Test]
@@ -532,7 +607,7 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Image");
+        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Image");
         await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }

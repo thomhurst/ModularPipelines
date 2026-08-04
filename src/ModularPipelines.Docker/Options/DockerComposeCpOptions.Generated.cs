@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
 public record DockerComposeCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ServiceSrcPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string DestPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ServiceSrcPath,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string DestPath
 ) : DockerOptions
 {
     /// <summary>

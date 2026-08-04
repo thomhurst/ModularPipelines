@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "logs")]
 public record PodmanPodLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Pod
 ) : PodmanOptions
 {
     /// <summary>

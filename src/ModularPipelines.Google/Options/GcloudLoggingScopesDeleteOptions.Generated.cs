@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "scopes", "delete")]
 public record GcloudLoggingScopesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LogScopeId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LogScopeId
 ) : GcloudOptions
 {
 }

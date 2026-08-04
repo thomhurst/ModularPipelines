@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "get")]
 public record GcloudPreviewConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Section
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Section
 ) : GcloudOptions
 {
 }

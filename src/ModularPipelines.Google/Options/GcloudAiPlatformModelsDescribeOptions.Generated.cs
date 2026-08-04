@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "describe")]
 public record GcloudAiPlatformModelsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Model
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Model
 ) : GcloudOptions
 {
     /// <summary>

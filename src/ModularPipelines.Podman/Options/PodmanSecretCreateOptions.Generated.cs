@@ -20,8 +20,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "create")]
 public record PodmanSecretCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string File
 ) : PodmanOptions
 {
     /// <summary>

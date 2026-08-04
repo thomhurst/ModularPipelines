@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "operations", "describe")]
 public record GcloudSpannerOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Operation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
 ) : GcloudOptions
 {
 }

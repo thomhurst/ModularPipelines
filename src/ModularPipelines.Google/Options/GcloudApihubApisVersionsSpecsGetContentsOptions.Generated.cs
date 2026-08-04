@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "specs", "get-contents")]
 public record GcloudApihubApisVersionsSpecsGetContentsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Spec
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Spec
 ) : GcloudOptions
 {
 }

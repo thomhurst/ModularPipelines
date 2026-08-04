@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "revisions", "describe")]
 public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Revision
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Revision
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "flex-template", "build")]
 public record GcloudDataflowFlexTemplateBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TemplateFileGcsPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TemplateFileGcsPath
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-image-properties")]
 public record GcloudMlVisionDetectImagePropertiesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImagePath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "indexes", "create")]
 public record GcloudDatastoreIndexesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string IndexFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IndexFile
 ) : GcloudOptions
 {
     /// <summary>

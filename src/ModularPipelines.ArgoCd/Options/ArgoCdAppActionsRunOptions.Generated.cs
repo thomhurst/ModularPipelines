@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "actions", "run")]
 public record ArgoCdAppActionsRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Action
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
 ) : ArgoCdOptions
 {
     /// <summary>

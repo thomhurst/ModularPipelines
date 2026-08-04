@@ -14,7 +14,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(RepresentativeOptions));
 
         await Assert.That(result.OptionsTypesTested).IsEqualTo(1);
-        await Assert.That(result.PropertiesTested).IsEqualTo(5);
+        await Assert.That(result.PropertiesTested).IsEqualTo(7);
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
     private sealed record RepresentativeOptions : CommandLineToolOptions
     {
-        [CliArgument(0, PrependOptionTerminator = true)]
+        [CliArgument(0, PrependOptionTerminator = true, Required = true)]
         public string? Target { get; init; }
 
         [CliArgument(1)]
@@ -81,6 +81,12 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
         [CliOption("--pair")]
         public CliValuePair? Pair { get; init; }
+
+        [CliOption("--optional", ValueArity = CliOptionValueArity.Optional)]
+        public CliOptionValue? Optional { get; init; }
+
+        [CliOption("--repeatable-optional", ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<CliOptionValue>? RepeatableOptional { get; init; }
     }
 
     private record ShadowedOptionsBase : CommandLineToolOptions

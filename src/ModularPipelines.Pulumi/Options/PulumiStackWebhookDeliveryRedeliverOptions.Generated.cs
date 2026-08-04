@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "delivery", "redeliver")]
 public record PulumiStackWebhookDeliveryRedeliverOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string EventId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EventId
 ) : PulumiOptions
 {
     /// <summary>

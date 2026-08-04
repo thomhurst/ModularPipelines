@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "images", "deprecate")]
 public record GcloudComputeImagesDeprecateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
 ) : GcloudOptions
 {
 }
