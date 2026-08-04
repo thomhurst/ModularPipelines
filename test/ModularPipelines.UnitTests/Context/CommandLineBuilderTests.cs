@@ -198,6 +198,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Manual_Terminal_Option_Before_Terminal_Argument()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
     public async Task Build_Rejects_Terminal_Option_After_Terminal_Argument_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
