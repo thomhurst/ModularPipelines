@@ -1767,6 +1767,11 @@ internal static class ModuleAuthoringAnalysis
         ISymbol member,
         Compilation compilation)
     {
+        if (member is IEventSymbol @event)
+        {
+            return GetEventHandlerValues(memberReference, @event, compilation);
+        }
+
         var memberValues = FindReachingMemberValues(memberReference, member).ToArray();
         if (memberValues.Length > 0)
         {
@@ -1778,6 +1783,56 @@ internal static class ModuleAuthoringAnalysis
             ? memberValues
             : GetDeclaredMemberValues(member, compilation);
     }
+
+    private static IEnumerable<IOperation> GetEventHandlerValues(
+        IOperation eventReference,
+        IEventSymbol @event,
+        Compilation compilation)
+    {
+        var callable = GetEnclosingCallable(eventReference);
+        var reachingHandlers = GetRoot(eventReference)
+            .DescendantsAndSelf()
+            .OfType<IEventAssignmentOperation>()
+            .Where(static assignment => assignment.Adds)
+            .Where(assignment => assignment.Syntax.SpanStart < eventReference.Syntax.SpanStart)
+            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
+            .Where(IsInReachableBranch)
+            .Where(assignment => EventAssignmentTargets(assignment, @event))
+            .Select(static assignment => assignment.HandlerValue);
+        return reachingHandlers.Concat(GetConstructorEventHandlerValues(@event, compilation));
+    }
+
+    private static IEnumerable<IOperation> GetConstructorEventHandlerValues(
+        IEventSymbol @event,
+        Compilation compilation)
+    {
+        var constructors = @event.IsStatic
+            ? @event.ContainingType.StaticConstructors
+            : @event.ContainingType.InstanceConstructors;
+        foreach (var constructor in constructors)
+        {
+            if (GetMethodOperation(constructor, compilation, default) is not { } operation)
+            {
+                continue;
+            }
+
+            foreach (var assignment in operation.DescendantsAndSelf()
+                         .OfType<IEventAssignmentOperation>()
+                         .Where(static assignment => assignment.Adds)
+                         .Where(static assignment => GetEnclosingCallable(assignment) is null)
+                         .Where(IsInReachableBranch)
+                         .Where(assignment => EventAssignmentTargets(assignment, @event)))
+            {
+                yield return assignment.HandlerValue;
+            }
+        }
+    }
+
+    private static bool EventAssignmentTargets(
+        IEventAssignmentOperation assignment,
+        IEventSymbol @event) =>
+        assignment.EventReference is IEventReferenceOperation eventReference
+        && SymbolEqualityComparer.Default.Equals(eventReference.Event, @event);
 
     private static bool TryTrackServiceDescriptorInvocation(
         IInvocationOperation invocation,
@@ -4129,6 +4184,7 @@ internal static class ModuleAuthoringAnalysis
             IFieldReferenceOperation fieldReference => fieldReference.Field,
             IPropertyReferenceOperation propertyReference =>
                 propertyReference.Property,
+            IEventReferenceOperation eventReference => eventReference.Event,
             _ => null,
         };
     }
@@ -5373,7 +5429,9 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var memberReference in candidate.DescendantsAndSelf()
                      .Where(static operation => operation is
-                         IFieldReferenceOperation or IPropertyReferenceOperation))
+                         IFieldReferenceOperation
+                             or IPropertyReferenceOperation
+                             or IEventReferenceOperation))
         {
             var member = GetReferencedMember(memberReference);
             if (member is null || !visitedMembers.Add(member))

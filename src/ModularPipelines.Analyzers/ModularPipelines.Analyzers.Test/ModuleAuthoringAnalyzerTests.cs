@@ -7038,6 +7038,31 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Module_Event_Handler()
+    {
+        var source = ModuleSource("""
+            private event Action? Ready;
+
+            public BuildModule() => Ready += Work;
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Ready?.Invoke();
+                return Task.FromResult<List<string>>(null!);
+            }
+
+            private static void Work() => {|#0:Thread.Sleep(1)|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Token_Assigned_In_Finally_Block()
     {
         var source = ModuleSource("""
