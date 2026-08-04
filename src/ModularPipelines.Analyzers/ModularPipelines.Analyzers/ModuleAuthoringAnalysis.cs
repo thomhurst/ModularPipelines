@@ -1114,6 +1114,7 @@ internal static class ModuleAuthoringAnalysis
         if (!TryTrackDirectImplementationType(
                 invocation,
                 method,
+                compilation,
                 instanceRegisteredModules,
                 unresolvedModuleRegistrations))
         {
@@ -2154,6 +2155,7 @@ internal static class ModuleAuthoringAnalysis
         if (implementationTypeArgument is not null
             && TryGetTypeOfNamedTypes(
                 implementationTypeArgument.Value,
+                compilation,
                 out var implementationTypes))
         {
             foreach (var trackedType in implementationTypes)
@@ -2205,6 +2207,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackDirectImplementationType(
         IInvocationOperation invocation,
         IMethodSymbol method,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
@@ -2223,6 +2226,7 @@ internal static class ModuleAuthoringAnalysis
 
         if (!TryGetTypeOfNamedTypes(
                 implementationTypeArgument.Value,
+                compilation,
                 out var implementationTypes))
         {
             unresolvedModuleRegistrations.Add(0);
@@ -2260,12 +2264,20 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryGetTypeOfNamedTypes(
         IOperation operation,
+        out ImmutableArray<INamedTypeSymbol> namedTypes) =>
+        TryGetTypeOfNamedTypes(operation, compilation: null, out namedTypes);
+
+    private static bool TryGetTypeOfNamedTypes(
+        IOperation operation,
+        Compilation? compilation,
         out ImmutableArray<INamedTypeSymbol> namedTypes)
     {
         var types = ImmutableArray.CreateBuilder<INamedTypeSymbol>();
         if (!TryCollectTypeOfNamedTypes(
                 operation,
+                compilation,
                 types,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]))
         {
             namedTypes = [];
@@ -2278,16 +2290,20 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryCollectTypeOfNamedTypes(
         IOperation operation,
+        Compilation? compilation,
         ImmutableArray<INamedTypeSymbol>.Builder types,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
     {
         switch (operation)
         {
             case IConversionOperation conversion:
                 return TryCollectTypeOfNamedTypes(
                     conversion.Operand,
+                    compilation,
                     types,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
             case ITypeOfOperation { TypeOperand: INamedTypeSymbol typeOperand }:
                 types.Add(typeOperand);
                 return true;
@@ -2300,8 +2316,26 @@ internal static class ModuleAuthoringAnalysis
                 return values.Length > 0
                        && values.All(value => TryCollectTypeOfNamedTypes(
                            value,
+                           compilation,
                            types,
-                           CloneVisitedLocals(visitedLocals)));
+                           CloneVisitedLocals(visitedLocals),
+                           new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
+            case IFieldReferenceOperation fieldReference when compilation is not null:
+                return TryCollectTypeOfNamedTypesMember(
+                    fieldReference,
+                    fieldReference.Field,
+                    compilation,
+                    types,
+                    visitedLocals,
+                    visitedMembers);
+            case IPropertyReferenceOperation propertyReference when compilation is not null:
+                return TryCollectTypeOfNamedTypesMember(
+                    propertyReference,
+                    propertyReference.Property,
+                    compilation,
+                    types,
+                    visitedLocals,
+                    visitedMembers);
             case IConditionalOperation conditional:
                 ImmutableArray<IOperation> branches;
                 if (conditional.Condition.ConstantValue is
@@ -2322,11 +2356,36 @@ internal static class ModuleAuthoringAnalysis
 
                 return branches.All(branch => TryCollectTypeOfNamedTypes(
                     branch,
+                    compilation,
                     types,
-                    CloneVisitedLocals(visitedLocals)));
+                    CloneVisitedLocals(visitedLocals),
+                    new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
             default:
                 return false;
         }
+    }
+
+    private static bool TryCollectTypeOfNamedTypesMember(
+        IOperation memberReference,
+        ISymbol member,
+        Compilation compilation,
+        ImmutableArray<INamedTypeSymbol>.Builder types,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
+    {
+        if (!visitedMembers.Add(member))
+        {
+            return false;
+        }
+
+        var values = GetMemberValues(memberReference, member, compilation).ToArray();
+        return values.Length > 0
+               && values.All(value => TryCollectTypeOfNamedTypes(
+                   value,
+                   compilation,
+                   types,
+                   CloneVisitedLocals(visitedLocals),
+                   new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
     }
 
     private static void TrackGenericModuleRegistrations(

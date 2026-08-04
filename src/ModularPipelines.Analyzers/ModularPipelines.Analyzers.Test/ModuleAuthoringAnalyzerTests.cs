@@ -729,6 +729,37 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("private static readonly Type ImplementationType = typeof(BuildModule);")]
+    [DataRow("private static Type ImplementationType => typeof(BuildModule);")]
+    public async Task Tracks_Member_Backed_DI_Implementation_Type(string declaration)
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                {{declaration}}
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton(typeof(IModule), ImplementationType);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Runtime_Computed_DI_Implementation_Type()
     {
         var source = $$"""
