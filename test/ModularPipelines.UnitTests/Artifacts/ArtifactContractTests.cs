@@ -350,7 +350,7 @@ public class ArtifactContractTests
                 return;
             }
 
-            var result = await context.Module.ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
+            var result = await ((IInternalModule) context.Module).ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
             ObservedStatus = result.ModuleStatus;
         }
     }

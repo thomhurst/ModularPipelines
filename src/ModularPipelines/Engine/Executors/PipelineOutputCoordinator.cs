@@ -57,7 +57,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     /// <inheritdoc />
     public async Task<IPipelineOutputScope> InitializeAsync()
     {
-        var liveFlushInterval = _options.Value.ModuleOutputFlushInterval;
+        var liveFlushInterval = _options.Value.Console.ModuleOutputFlushInterval;
         ValidateLiveFlushInterval(liveFlushInterval);
 
         // Install console coordination before starting progress
@@ -104,13 +104,13 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     private static void ValidateLiveFlushInterval(TimeSpan liveFlushInterval)
     {
         if (liveFlushInterval < TimeSpan.Zero
-            || liveFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+            || liveFlushInterval > PipelineConsoleOptions.MaximumModuleOutputFlushInterval)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(liveFlushInterval),
                 liveFlushInterval,
                 $"The interval must be between {TimeSpan.Zero} and " +
-                $"{PipelineOptions.MaximumModuleOutputFlushInterval}.");
+                $"{PipelineConsoleOptions.MaximumModuleOutputFlushInterval}.");
         }
     }
 
