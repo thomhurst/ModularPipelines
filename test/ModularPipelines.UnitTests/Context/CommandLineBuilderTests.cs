@@ -996,7 +996,7 @@ public class CommandLineBuilderTests : TestBase
 
     [CliTool("mytool")]
     [CliSubCommand("sub", "command")]
-    private record TestAttributeOptions : CommandLineToolOptions
+    internal record TestAttributeOptions : CommandLineToolOptions
     {
         [CliFlag("--force")]
         public bool? Force { get; set; }
@@ -1006,7 +1006,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("mytool")]
-    private sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
+    internal sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
     {
         public TestComputedCommandPartsOptions(string action)
         {
@@ -1018,7 +1018,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("processor")]
-    private record TestPositionalOptions : CommandLineToolOptions
+    internal record TestPositionalOptions : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? FilePath { get; set; }
@@ -1028,7 +1028,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("jq")]
-    private record TestTerminalOptions : CommandLineToolOptions
+    internal record TestTerminalOptions : CommandLineToolOptions
     {
         [CliOption("--arg")]
         public CliValuePair? Argument { get; set; }
@@ -1137,11 +1137,11 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("mytool")]
     [CliSubCommand("long", "command")]
     [CliCommandAlias("short", IsPreferred = true)]
-    private record TestAliasOptions : CommandLineToolOptions;
+    internal record TestAliasOptions : CommandLineToolOptions;
 
     [CliTool("liquibase")]
     [CliGlobalOptions]
-    private abstract record TestGlobalOptions : CommandLineToolOptions
+    internal abstract record TestGlobalOptions : CommandLineToolOptions
     {
         [CliFlag("--verbose", ShortForm = "-v")]
         public bool? Verbose { get; set; }
@@ -1151,7 +1151,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliSubCommand("update")]
-    private sealed record TestGlobalCommandOptions : TestGlobalOptions
+    internal sealed record TestGlobalCommandOptions : TestGlobalOptions
     {
         [CliFlag("--force", ShortForm = "-f")]
         public bool? Force { get; set; }
@@ -1183,14 +1183,14 @@ public class CommandLineBuilderTests : TestBase
 
     [CliTool("docker")]
     [CliGlobalOptions]
-    private abstract record TestMultiLevelGlobalOptions : CommandLineToolOptions
+    internal abstract record TestMultiLevelGlobalOptions : CommandLineToolOptions
     {
         [CliOption("--context")]
         public string? Context { get; set; }
     }
 
     [CliSubCommand("buildx", "history", "logs")]
-    private sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
+    internal sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? Reference { get; set; }

@@ -41,10 +41,10 @@ public class CliToolAttributeTests
     }
 
     [CliTool("git")]
-    private abstract record TestGitOptions : CommandLineToolOptions;
+    internal abstract record TestGitOptions : CommandLineToolOptions;
 
-    private record TestGitCommitOptions : TestGitOptions;
+    internal record TestGitCommitOptions : TestGitOptions;
 
     [CliTool("test")]
-    private record TestOptionsWithAttribute : CommandLineToolOptions;
+    internal record TestOptionsWithAttribute : CommandLineToolOptions;
 }

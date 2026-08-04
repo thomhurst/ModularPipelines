@@ -24,7 +24,7 @@ public class SecretMaskingTests
 {
     #region Test Classes
 
-    private class SecretSettings
+    internal class SecretSettings
     {
         [SecretValue] public string ApiKey { get; set; } = "";
         [SecretValue] public string Password { get; set; } = "";
