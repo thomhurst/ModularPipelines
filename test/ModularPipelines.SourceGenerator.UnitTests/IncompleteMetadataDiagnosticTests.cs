@@ -60,6 +60,14 @@ public class IncompleteMetadataDiagnosticTests
 
             public sealed class ServiceDescriptor
             {
+                public ServiceDescriptor()
+                {
+                }
+
+                public ServiceDescriptor(System.Type serviceType, object instance)
+                {
+                }
+
                 public static ServiceDescriptor Singleton<TService>(TService implementation) => new();
 
                 public static ServiceDescriptor KeyedSingleton<TService>(
@@ -377,7 +385,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Current_Metadata_Marker()
+    public async Task Trimmed_Host_Trusts_Current_Metadata_Marker()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -393,11 +401,16 @@ public class IncompleteMetadataDiagnosticTests
 
             namespace External
             {
-                public class CurrentOptions
+                internal sealed class CurrentOptions
                     : ModularPipelines.Options.CommandLineToolOptions
                 {
                     [ModularPipelines.Attributes.SecretValue]
-                    protected string Token { get; } = "";
+                    internal string Token { get; } = "";
+                }
+
+                public static class RegistrationHelper
+                {
+                    public static object Create() => new CurrentOptions();
                 }
             }
             """,
@@ -407,12 +420,11 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var diagnostic = result.Diagnostics.Single();
+        var generatedSource = result.GeneratedTrees.Single().ToString();
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0004");
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
-            await Assert.That(diagnostic.GetMessage()).Contains("global::External.CurrentOptions");
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("global::External.CurrentOptions");
         }
     }
 
@@ -577,7 +589,10 @@ public class IncompleteMetadataDiagnosticTests
                 internal sealed class LegacyOptions;
 
                 public sealed class RuntimeReference
-                    : ModularPipelines.Options.CommandLineToolOptions;
+                {
+                    public System.Type RuntimeType { get; } =
+                        typeof(ModularPipelines.Options.CommandLineToolOptions);
+                }
             }
             """,
             """
@@ -1587,6 +1602,34 @@ public class IncompleteMetadataDiagnosticTests
             """
             public sealed class Registration<T>(
                 Microsoft.Extensions.Options.OptionsBuilder<T> builder);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "T",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Generic_ServiceDescriptor_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public static class Registration
+            {
+                public static void Add<T>(IServiceCollection services, IOptions<T> instance) =>
+                    services.Add(new ServiceDescriptor(typeof(IOptions<T>), instance));
+            }
             """,
             globalOptions: new Dictionary<string, string>
             {

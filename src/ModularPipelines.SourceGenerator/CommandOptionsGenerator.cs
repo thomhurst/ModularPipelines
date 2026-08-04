@@ -242,14 +242,46 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
         return symbol switch
         {
-            INamedTypeSymbol type => type.OriginalDefinition is
-            {
-                MetadataName: "OptionsBuilder`1",
-                ContainingNamespace: { } containingNamespace,
-            } && containingNamespace.ToDisplayString() == OptionsNamespace,
+            INamedTypeSymbol type => IsOptionsBuilder(type)
+                || IsServiceDescriptorServiceTypeUsage(context),
             IMethodSymbol method => GetRegisteredOptionsType(method) is ITypeParameterSymbol,
             _ => false,
         };
+    }
+
+    private static bool IsOptionsBuilder(INamedTypeSymbol type) =>
+        type.OriginalDefinition is
+        {
+            MetadataName: "OptionsBuilder`1",
+            ContainingNamespace: { } containingNamespace,
+        } && containingNamespace.ToDisplayString() == OptionsNamespace;
+
+    private static bool IsServiceDescriptorServiceTypeUsage(GeneratorSyntaxContext context)
+    {
+        var typeOfExpression = context.Node.FirstAncestorOrSelf<TypeOfExpressionSyntax>();
+        if (typeOfExpression?.Parent is not ArgumentSyntax argument
+            || argument.Parent?.Parent is not ObjectCreationExpressionSyntax objectCreation
+            || context.SemanticModel.GetSymbolInfo(objectCreation).Symbol is not IMethodSymbol
+            {
+                MethodKind: MethodKind.Constructor,
+                ContainingType:
+                {
+                    MetadataName: "ServiceDescriptor",
+                    ContainingNamespace: { } containingNamespace,
+                },
+            } constructor
+            || containingNamespace.ToDisplayString() != DependencyInjectionNamespace)
+        {
+            return false;
+        }
+
+        var argumentIndex = objectCreation.ArgumentList?.Arguments.IndexOf(argument) ?? -1;
+        var parameter = argument.NameColon is { Name.Identifier.ValueText: { } parameterName }
+            ? constructor.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
+            : argumentIndex >= 0 && argumentIndex < constructor.Parameters.Length
+                ? constructor.Parameters[argumentIndex]
+                : null;
+        return parameter?.Name == "serviceType";
     }
 
     private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
@@ -997,8 +1029,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             var isObservedOptionsType = optionsTypes.Contains(new OptionsTypeIdentity(
                 item.MetadataName,
                 candidate.AssemblyIdentity));
-            if ((!item.CanRegisterSecretCoverage && isObservedOptionsType)
-                || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback))
+            if (item.CommandMetadata.IsComplete
+                && item.SecretMetadata.IsComplete
+                && ((!item.CanRegisterSecretCoverage && isObservedOptionsType)
+                    || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback)))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
@@ -1213,8 +1247,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var incompleteTypeNames = GetIncompleteTypeNames(assembly);
-        var requiresSecretReflectionFallback = HasLegacyRuntimeMetadata(assembly);
+        var runtimeMetadataRegistration = assembly.GetTypeByMetadataName(
+            RuntimeMetadataRegistrationFullName);
+        var runtimeMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
+            runtimeMetadataRegistration);
+        var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
+                                               && !Equals(
+                                                   runtimeMetadataSchemaVersion,
+                                                   RuntimeMetadataSchemaVersion);
+        var hasCurrentRuntimeMetadata = Equals(
+            runtimeMetadataSchemaVersion,
+            RuntimeMetadataSchemaVersion);
         return GetTypes(assembly.GlobalNamespace)
+            .Where(type => !hasCurrentRuntimeMetadata
+                           || incompleteTypeNames.Contains(GetMetadataName(type)))
             .Select(type => GetExternalTypeCandidate(
                 type,
                 compilation,
@@ -1234,10 +1280,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool requiresSecretReflectionFallback)
     {
         var metadataName = GetMetadataName(type);
+        var isObservedOptionsType = usedOptionsTypes.Contains(new OptionsTypeIdentity(
+            metadataName,
+            type.ContainingAssembly.Identity.ToString()));
         TypeMetadataCandidate? candidate;
-        if (usedOptionsTypes.Contains(new OptionsTypeIdentity(
-                metadataName,
-                type.ContainingAssembly.Identity.ToString())))
+        if (isObservedOptionsType)
         {
             candidate = GetExternalOptionsUsageCandidate(
                 type,
@@ -1251,7 +1298,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 : null;
         }
 
-        return requiresSecretReflectionFallback && candidate?.Metadata is { } metadata
+        return requiresSecretReflectionFallback
+               && candidate?.Metadata is { } metadata
+               && (metadata.IsCommandOptions
+                   || metadata.SecretMetadata.HasAttributes
+                   || isObservedOptionsType)
             ? candidate with
             {
                 Metadata = metadata with { RequiresSecretReflectionFallback = true },
@@ -1275,17 +1326,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                        || metadata.UseTypeForEmptySecretCoverage));
     }
 
-    private static bool HasLegacyRuntimeMetadata(IAssemblySymbol assembly)
-    {
-        var registration = assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName);
-        var schemaVersion = registration?
+    private static object? GetRuntimeMetadataSchemaVersion(INamedTypeSymbol? registration) =>
+        registration?
             .GetMembers("SchemaVersion")
             .OfType<IFieldSymbol>()
             .FirstOrDefault(static field => field.HasConstantValue)?
             .ConstantValue;
-        return registration is not null
-               && !Equals(schemaVersion, RuntimeMetadataSchemaVersion);
-    }
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
         INamedTypeSymbol type,
