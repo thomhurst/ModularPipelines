@@ -42,6 +42,11 @@ public static class ModuleActivityTracing
     public const string ModuleStatusTag = "modular_pipelines.module.status";
 
     /// <summary>
+    /// Tag key for the module fingerprint-cache outcome.
+    /// </summary>
+    public const string ModuleCacheTag = "modular_pipelines.module.cache";
+
+    /// <summary>
     /// Tag key for exception type when a module fails.
     /// </summary>
     public const string ExceptionTypeTag = "exception.type";
@@ -59,6 +64,8 @@ public static class ModuleActivityTracing
     public const string ModuleDurationMetric = "modular_pipelines.module.duration";
     public const string ModulesFailedMetric = "modular_pipelines.modules.failed";
     public const string ModuleRetriesMetric = "modular_pipelines.module.retries";
+    public const string ModuleCacheHitsMetric = "modular_pipelines.module.cache_hits";
+    public const string ModuleCacheMissesMetric = "modular_pipelines.module.cache_misses";
 
     public static readonly Meter TelemetryMeter = new(MeterName, "1.0.0");
 
@@ -76,6 +83,16 @@ public static class ModuleActivityTracing
         ModuleRetriesMetric,
         unit: "{retry}",
         description: "Number of module retry attempts.");
+
+    private static readonly Counter<long> ModuleCacheHits = TelemetryMeter.CreateCounter<long>(
+        ModuleCacheHitsMetric,
+        unit: "{hit}",
+        description: "Number of module fingerprint-cache hits.");
+
+    private static readonly Counter<long> ModuleCacheMisses = TelemetryMeter.CreateCounter<long>(
+        ModuleCacheMissesMetric,
+        unit: "{miss}",
+        description: "Number of module fingerprint-cache misses.");
 
     public static readonly ActivitySource PipelineSource = new(PipelineSourceName, "1.0.0");
 
@@ -190,6 +207,23 @@ public static class ModuleActivityTracing
             });
     }
 
+    internal static void RecordCacheDisabled()
+    {
+        Activity.Current?.SetTag(ModuleCacheTag, "disabled");
+    }
+
+    internal static void RecordCacheHit(Type moduleType)
+    {
+        Activity.Current?.SetTag(ModuleCacheTag, "hit");
+        ModuleCacheHits.Add(1, CreateModuleIdentityTags(moduleType));
+    }
+
+    internal static void RecordCacheMiss(Type moduleType)
+    {
+        Activity.Current?.SetTag(ModuleCacheTag, "miss");
+        ModuleCacheMisses.Add(1, CreateModuleIdentityTags(moduleType));
+    }
+
     /// <summary>
     /// Starts a new Activity for module execution.
     /// </summary>
@@ -224,6 +258,13 @@ public static class ModuleActivityTracing
     {
         activity?.SetTag(ModuleStatusTag, "UsedHistory");
         activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from history");
+    }
+
+    internal static void RecordCachedResult(Activity? activity)
+    {
+        activity?.SetTag(ModuleStatusTag, "CachedResult");
+        activity?.SetTag(ModuleCacheTag, "hit");
+        activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from fingerprint cache");
     }
 
     internal static void RecordPipelineTerminated(Activity? activity)
@@ -308,5 +349,14 @@ public static class ModuleActivityTracing
         activity?.SetTag(ExceptionTypeTag, exception.GetType().FullName);
         activity?.SetTag(ExceptionMessageTag, obfuscatedMessage);
         activity?.SetStatus(ActivityStatusCode.Error, obfuscatedMessage);
+    }
+
+    private static TagList CreateModuleIdentityTags(Type moduleType)
+    {
+        return new TagList
+        {
+            { ModuleTypeTag, moduleType.Name },
+            { ModuleTypeFullNameTag, moduleType.FullName },
+        };
     }
 }

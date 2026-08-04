@@ -21,6 +21,7 @@ internal static class StatusFormatter
             Status.Unknown => "[yellow]Unknown[/]",
             Status.Retried => "[yellow]Retried[/]",
             Status.UsedHistory => "[green3]Used History[/]",
+            Status.CachedResult => "[green3]Cached Result[/]",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
     }

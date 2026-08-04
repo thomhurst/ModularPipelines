@@ -329,6 +329,58 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
+    public async Task Cache_Outcomes_Record_Metrics_And_Activity_Tags()
+    {
+        var measurements = new ConcurrentBag<(string Name, double Value)>();
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var meterListener = CreateMeterListener(measurements);
+        using var activityListener = CreateActivityListener(stoppedActivities);
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
+        {
+            ModuleActivityTracing.RecordCacheHit(typeof(CommandModule));
+            ModuleActivityTracing.RecordCachedResult(activity);
+        }
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(RetriedModule)))
+        {
+            ModuleActivityTracing.RecordCacheMiss(typeof(RetriedModule));
+            ModuleActivityTracing.RecordSuccess(activity);
+        }
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(TimedOutModule)))
+        {
+            ModuleActivityTracing.RecordCacheDisabled();
+            ModuleActivityTracing.RecordSuccess(activity);
+        }
+
+        var hitActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(CommandModule)}");
+        var missActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(RetriedModule)}");
+        var disabledActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(TimedOutModule)}");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurements.Single(measurement =>
+                    measurement.Name == ModuleActivityTracing.ModuleCacheHitsMetric).Value)
+                .IsEqualTo(1);
+            await Assert.That(measurements.Single(measurement =>
+                    measurement.Name == ModuleActivityTracing.ModuleCacheMissesMetric).Value)
+                .IsEqualTo(1);
+            await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
+                .IsEqualTo("CachedResult");
+            await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("hit");
+            await Assert.That(missActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("miss");
+            await Assert.That(disabledActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("disabled");
+        }
+    }
+
+    [Test]
     public async Task Failure_Activities_Obfuscate_Registered_Secrets()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
