@@ -88,16 +88,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             optionsTypeUsages
                 .Where(static usage => usage.TypeParameterName is not null)
                 .Combine(hasRuntimeReference),
-            static (sourceContext, input) =>
-            {
-                if (input.Right)
-                {
-                    sourceContext.ReportDiagnostic(Diagnostic.Create(
-                        SkippedRuntimeMetadata,
-                        input.Left.Location,
-                        input.Left.TypeParameterName));
-                }
-            });
+            static (sourceContext, input) => ReportGenericOptionsUsage(sourceContext, input));
         var sourceCandidates = typeCandidates.Collect()
             .Combine(secretCandidates.Collect())
             .Select(static (input, _) => input.Left.AddRange(input.Right));
@@ -108,64 +99,92 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var generationInputs = candidates
             .Combine(collectedOptionsTypeUsages)
             .Combine(runtimeMetadataConfiguration);
-        context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
+        context.RegisterSourceOutput(
+            generationInputs,
+            static (sourceContext, input) => GenerateSource(sourceContext, input));
+    }
+
+    private static void ReportGenericOptionsUsage(
+        SourceProductionContext sourceContext,
+        (OptionsTypeUsage Usage, bool HasRuntimeReference) input)
+    {
+        if (!input.HasRuntimeReference)
         {
-            if (!input.Left.Left.Right)
-            {
-                return;
-            }
+            return;
+        }
 
-            var candidates = input.Left.Left.Left;
-            var optionsTypeMetadataNames = new HashSet<string>(input.Left.Right, StringComparer.Ordinal);
-            var ambiguousMetadataNames = new HashSet<string>(candidates
-                .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
-                .Where(static group => group
-                    .Select(static candidate => candidate.AssemblyIdentity)
-                    .Distinct(StringComparer.Ordinal)
-                    .Skip(1)
-                    .Any())
-                .Select(static group => group.Key), StringComparer.Ordinal);
-            foreach (var collision in candidates
-                         .Where(candidate => ambiguousMetadataNames.Contains(candidate.MetadataName))
-                         .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal))
-            {
-                foreach (var candidate in collision
-                             .GroupBy(static candidate => candidate.AssemblyIdentity, StringComparer.Ordinal)
-                             .Select(static group => group.First()))
-                {
-                    sourceContext.ReportDiagnostic(Diagnostic.Create(
-                        SkippedRuntimeMetadata,
-                        candidate.Location,
-                        candidate.TypeName));
-                }
-            }
+        sourceContext.ReportDiagnostic(Diagnostic.Create(
+            SkippedRuntimeMetadata,
+            input.Usage.Location,
+            input.Usage.TypeParameterName));
+    }
 
-            var unambiguousCandidates = candidates
-                .Where(candidate => !ambiguousMetadataNames.Contains(candidate.MetadataName))
-                .ToArray();
-            foreach (var skipped in unambiguousCandidates
-                         .Where(static candidate => candidate.Metadata is null)
-                         .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+    private static void GenerateSource(
+        SourceProductionContext sourceContext,
+        (((ImmutableArray<TypeMetadataCandidate> Candidates, bool HasRuntimeReference) Candidates,
+            ImmutableArray<string> OptionsTypeMetadataNames) Generation,
+            (ImmutableArray<string> CoveredExternalAssemblyIdentities, bool RequiresGeneratedMetadata) Configuration) input)
+    {
+        if (!input.Generation.Candidates.HasRuntimeReference)
+        {
+            return;
+        }
+
+        var candidates = input.Generation.Candidates.Candidates;
+        var optionsTypeMetadataNames = new HashSet<string>(
+            input.Generation.OptionsTypeMetadataNames,
+            StringComparer.Ordinal);
+        var ambiguousMetadataNames = new HashSet<string>(candidates
+            .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
+            .Where(static group => group
+                .Select(static candidate => candidate.AssemblyIdentity)
+                .Distinct(StringComparer.Ordinal)
+                .Skip(1)
+                .Any())
+            .Select(static group => group.Key), StringComparer.Ordinal);
+        foreach (var collision in candidates
+                     .Where(candidate => ambiguousMetadataNames.Contains(candidate.MetadataName))
+                     .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal))
+        {
+            foreach (var candidate in collision
+                         .GroupBy(static candidate => candidate.AssemblyIdentity, StringComparer.Ordinal)
                          .Select(static group => group.First()))
             {
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
-                    skipped.Location,
-                    skipped.TypeName));
+                    candidate.Location,
+                    candidate.TypeName));
             }
+        }
 
-            var items = unambiguousCandidates
-                .Select(static candidate => candidate.Metadata)
-                .OfType<TypeMetadata>()
-                .ToImmutableArray();
-            ReportIncompleteMetadata(
-                sourceContext,
-                unambiguousCandidates,
-                optionsTypeMetadataNames);
-            sourceContext.AddSource(
-                "ModularPipelines.RuntimeMetadata.g.cs",
-                Generate(items, input.Right.Left, input.Right.Right));
-        });
+        var unambiguousCandidates = candidates
+            .Where(candidate => !ambiguousMetadataNames.Contains(candidate.MetadataName))
+            .ToArray();
+        foreach (var skipped in unambiguousCandidates
+                     .Where(static candidate => candidate.Metadata is null)
+                     .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            sourceContext.ReportDiagnostic(Diagnostic.Create(
+                SkippedRuntimeMetadata,
+                skipped.Location,
+                skipped.TypeName));
+        }
+
+        var items = unambiguousCandidates
+            .Select(static candidate => candidate.Metadata)
+            .OfType<TypeMetadata>()
+            .ToImmutableArray();
+        ReportIncompleteMetadata(
+            sourceContext,
+            unambiguousCandidates,
+            optionsTypeMetadataNames);
+        sourceContext.AddSource(
+            "ModularPipelines.RuntimeMetadata.g.cs",
+            Generate(
+                items,
+                input.Configuration.CoveredExternalAssemblyIdentities,
+                input.Configuration.RequiresGeneratedMetadata));
     }
 
     internal static bool IsTypeCandidate(SyntaxNode node)
