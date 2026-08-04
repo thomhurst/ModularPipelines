@@ -48,14 +48,15 @@ public class ModuleOutputExcerptBufferTests
     [Test]
     public async Task RetainsValidUnicodeWhenTailStartsAtSurrogatePair()
     {
-        var buffer = new ModuleOutputExcerptBuffer(6);
+        var expectedTail = "🙂" + Environment.NewLine;
+        var buffer = new ModuleOutputExcerptBuffer(Encoding.UTF8.GetByteCount(expectedTail));
 
         buffer.Append("12345🙂", ModuleOutputStream.StandardOutput);
 
         var excerpt = buffer.CreateExcerpt()!;
         using (Assert.Multiple())
         {
-            await Assert.That(excerpt.StdoutTail).IsEqualTo("🙂" + Environment.NewLine);
+            await Assert.That(excerpt.StdoutTail).IsEqualTo(expectedTail);
             await Assert.That(excerpt.StdoutTail).DoesNotContain("�");
             await Assert.That(excerpt.TruncatedBytes).IsEqualTo(5);
         }
