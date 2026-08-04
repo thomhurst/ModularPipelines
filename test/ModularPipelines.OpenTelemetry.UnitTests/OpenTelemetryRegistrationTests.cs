@@ -1,7 +1,11 @@
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Tracing;
+using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -15,16 +19,45 @@ public class OpenTelemetryRegistrationTests
     }
 
     [Test]
-    public async Task AddOpenTelemetry_Registers_Trace_And_Meter_Providers()
+    public async Task AddOpenTelemetry_Initializes_Trace_And_Meter_Providers()
     {
+        var metricReader = new RecordingMetricReader();
         var builder = TestPipelineBuilder.Create();
 
         builder.AddOpenTelemetry();
+        builder.Services.AddOpenTelemetry().WithMetrics(metrics => metrics.AddReader(metricReader));
         builder.AddModule<TestModule>();
 
         await using var pipeline = await builder.BuildAsync();
+
+        using var activity = ModuleActivityTracing.PipelineSource.StartActivity("test");
+        using var meter = new Meter(ModuleActivityTracing.MeterName);
+        var counter = meter.CreateCounter<long>("test");
+
+        await Assert.That(activity).IsNotNull();
+        await Assert.That(counter.Enabled).IsTrue();
         await Assert.That(pipeline.Services.GetService<TracerProvider>()).IsNotNull();
         await Assert.That(pipeline.Services.GetService<MeterProvider>()).IsNotNull();
+    }
+
+    [Test]
+    public async Task AddOpenTelemetry_ForceFlushes_Providers_Before_Disposal()
+    {
+        var activityProcessor = new RecordingActivityProcessor();
+        var metricReader = new RecordingMetricReader();
+        var builder = TestPipelineBuilder.Create();
+
+        builder.AddOpenTelemetry();
+        builder.Services.AddOpenTelemetry().WithTracing(tracing =>
+            tracing.AddProcessor(activityProcessor));
+        builder.Services.AddOpenTelemetry().WithMetrics(metrics => metrics.AddReader(metricReader));
+        builder.AddModule<TestModule>();
+
+        var pipeline = await builder.BuildAsync();
+        await pipeline.DisposeAsync();
+
+        await Assert.That(activityProcessor.ForceFlushCalled).IsTrue();
+        await Assert.That(metricReader.CollectCalled).IsTrue();
     }
 
     [Test]
@@ -35,5 +68,27 @@ public class OpenTelemetryRegistrationTests
         var result = builder.AddOpenTelemetry();
 
         await Assert.That(result).IsSameReferenceAs(builder);
+    }
+
+    private sealed class RecordingActivityProcessor : BaseProcessor<Activity>
+    {
+        public bool ForceFlushCalled { get; private set; }
+
+        protected override bool OnForceFlush(int timeoutMilliseconds)
+        {
+            ForceFlushCalled = true;
+            return true;
+        }
+    }
+
+    private sealed class RecordingMetricReader : MetricReader
+    {
+        public bool CollectCalled { get; private set; }
+
+        protected override bool OnCollect(int timeoutMilliseconds)
+        {
+            CollectCalled = true;
+            return true;
+        }
     }
 }
