@@ -146,7 +146,7 @@ ${sentence(rule.description)}
 ## Configure severity
 
 \`\`\`ini title=".editorconfig"
-dotnet_diagnostic.${rule.id}.severity = warning
+dotnet_diagnostic.${rule.id}.severity = ${getEditorConfigSeverity(rule.severity)}
 \`\`\`
 
 Use \`none\` to disable the rule, or \`silent\`, \`suggestion\`, \`warning\`, or \`error\` to change its severity.
@@ -168,6 +168,21 @@ function getSidebarPosition(id, index) {
 
 function sentence(value) {
   return /[.!?`]$/.test(value) ? value : `${value}.`;
+}
+
+function getEditorConfigSeverity(severity) {
+  const normalizedSeverity = severity.toLowerCase();
+  switch (normalizedSeverity) {
+    case 'error':
+    case 'warning':
+      return normalizedSeverity;
+    case 'info':
+      return 'suggestion';
+    case 'hidden':
+      return 'silent';
+    default:
+      throw new Error(`Unsupported analyzer severity: ${severity}`);
+  }
 }
 
 function checkGeneratedFiles(expected) {

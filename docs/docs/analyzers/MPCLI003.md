@@ -19,7 +19,7 @@ Multiple CLI attributes applied to one property.
 ## Configure severity
 
 ```ini title=".editorconfig"
-dotnet_diagnostic.MPCLI003.severity = warning
+dotnet_diagnostic.MPCLI003.severity = error
 ```
 
 Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.

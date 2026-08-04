@@ -19,7 +19,7 @@ Value-less bool? CliOption should use CliFlag.
 ## Configure severity
 
 ```ini title=".editorconfig"
-dotnet_diagnostic.MPCLI002.severity = warning
+dotnet_diagnostic.MPCLI002.severity = error
 ```
 
 Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.

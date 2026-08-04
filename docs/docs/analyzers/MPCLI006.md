@@ -19,7 +19,7 @@ CLI attributes used outside CommandLineToolOptions.
 ## Configure severity
 
 ```ini title=".editorconfig"
-dotnet_diagnostic.MPCLI006.severity = warning
+dotnet_diagnostic.MPCLI006.severity = error
 ```
 
 Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.

@@ -19,7 +19,7 @@ Duplicate CLI switch in an options hierarchy.
 ## Configure severity
 
 ```ini title=".editorconfig"
-dotnet_diagnostic.MPCLI004.severity = warning
+dotnet_diagnostic.MPCLI004.severity = error
 ```
 
 Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.

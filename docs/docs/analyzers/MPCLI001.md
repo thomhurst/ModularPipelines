@@ -19,7 +19,7 @@ CliFlag property must be bool? or int?
 ## Configure severity
 
 ```ini title=".editorconfig"
-dotnet_diagnostic.MPCLI001.severity = warning
+dotnet_diagnostic.MPCLI001.severity = error
 ```
 
 Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.
