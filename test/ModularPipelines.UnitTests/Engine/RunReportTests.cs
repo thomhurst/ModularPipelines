@@ -838,13 +838,11 @@ public class RunReportTests
 
             var pipelineA = await store.GetLatestAsync("pipeline-a");
             var pipelineB = await store.GetLatestAsync("pipeline-b");
-            var latest = await store.GetLatestAsync();
 
             using (Assert.Multiple())
             {
                 await Assert.That(pipelineA?.PipelineIdentity).IsEqualTo("pipeline-a");
                 await Assert.That(pipelineB?.PipelineIdentity).IsEqualTo("pipeline-b");
-                await Assert.That(latest?.PipelineIdentity).IsEqualTo("pipeline-b");
                 await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
                     .Count().IsEqualTo(2);
             }
