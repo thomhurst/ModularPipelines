@@ -96,31 +96,35 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
-        Services.GetRequiredService<PipelineExecutionState>().MarkExecutionStarted();
         var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
         using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
         try
         {
             PipelineSummary summary;
-            if (await Services.GetRequiredService<PipelineCommandHandler>()
+            var commandResult = await Services.GetRequiredService<PipelineCommandHandler>()
                     .TryExecuteAsync(cancellationToken)
-                    .ConfigureAwait(false) is { } commandResult)
+                    .ConfigureAwait(false);
+            if (commandResult is not null)
             {
                 summary = commandResult;
             }
-            else if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
-            {
-                var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
-                Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
-                var now = DateTimeOffset.UtcNow;
-                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
-            }
             else
             {
-                summary = await Services.GetRequiredService<IExecutionOrchestrator>()
-                    .ExecuteAsync(cancellationToken)
-                    .ConfigureAwait(false);
+                Services.GetRequiredService<PipelineExecutionState>().MarkExecutionStarted();
+                if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
+                {
+                    var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
+                    Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
+                    var now = DateTimeOffset.UtcNow;
+                    summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
+                }
+                else
+                {
+                    summary = await Services.GetRequiredService<IExecutionOrchestrator>()
+                        .ExecuteAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
             }
 
             ModuleActivityTracing.RecordPipelineCompletion(
