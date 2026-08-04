@@ -2210,6 +2210,23 @@ public class RunReportTests
             .Contains(message => message.Contains("GlobalHistoryRetention", StringComparison.Ordinal));
     }
 
+    [Test]
+    public async Task RunReportOptionsRejectGlobalRetentionBelowPerIdentityRetention()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                HistoryRetention = 5,
+                GlobalHistoryRetention = 4,
+            },
+        });
+
+        await Assert.That(result.Errors.Select(error => error.Message))
+            .Contains(message => message.Contains("GlobalHistoryRetention", StringComparison.Ordinal)
+                                 && message.Contains("HistoryRetention", StringComparison.Ordinal));
+    }
+
     private static async Task<PipelineSummary> RunPipelineAsync(
         string reportPath,
         string historyPath)

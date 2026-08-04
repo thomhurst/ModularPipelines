@@ -63,9 +63,13 @@ builder.ConfigurePipelineOptions(options => options with
 
 History is partitioned by pipeline identity and pruning only removes files owned by the built-in
 history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
-path and registered module types. After each save, the default store applies both the per-identity
-`HistoryRetention` limit and the cross-identity `GlobalHistoryRetention` limit. The global limit
-prevents obsolete derived identities from growing the history directory indefinitely.
+path and registered module types. After each save, the default store applies the per-identity
+`HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all
+identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of
+its history when newer reports from other identities fill the global pool. Set
+`GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable
+pipeline identities and separate history directories for independently bounded histories. A
+positive global limit must be at least as large as `HistoryRetention`.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the

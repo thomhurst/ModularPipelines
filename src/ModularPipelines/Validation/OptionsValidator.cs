@@ -86,6 +86,16 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         if (options.RunReport.HistoryRetention > 0
+            && options.RunReport.GlobalHistoryRetention > 0
+            && options.RunReport.GlobalHistoryRetention < options.RunReport.HistoryRetention)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention ({options.RunReport.GlobalHistoryRetention}) cannot be lower than " +
+                $"RunReport.HistoryRetention ({options.RunReport.HistoryRetention})."));
+        }
+
+        if (options.RunReport.HistoryRetention > 0
             && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
         {
             result.AddError(new ValidationError(
