@@ -26,6 +26,7 @@ namespace ModularPipelines.Exceptions;
 /// <item><see cref="PipelineValidationException"/> - Pipeline validation failed</item>
 /// <item><see cref="PluginVersionMismatchException"/> - Plugin version incompatibility</item>
 /// <item><see cref="SubModuleFailedException"/> - Sub-module execution failed</item>
+/// <item><see cref="ToolNotFoundException"/> - A command executable could not be found</item>
 /// </list>
 /// <para><b>Handling example:</b></para>
 /// <code>
