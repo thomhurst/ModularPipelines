@@ -143,7 +143,9 @@ public class ModuleExecutorLoggingTests
                         "Terminated results were not registered before AlwaysRun processing."));
                 }
 
-                return Task.FromException(alwaysRunException);
+                return Task.FromException(new AggregateException(
+                    schedulerException,
+                    alwaysRunException));
             });
         var registrationEvents = new Mock<IRegistrationEventExecutor>();
         registrationEvents
@@ -173,6 +175,7 @@ public class ModuleExecutorLoggingTests
         {
             await Assert.That(exception!.InnerExceptions[0]).IsSameReferenceAs(schedulerException);
             await Assert.That(exception.InnerExceptions[1]).IsSameReferenceAs(alwaysRunException);
+            await Assert.That(exception.InnerExceptions).Count().IsEqualTo(2);
             resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCancelledModules(
                 cancelledModules,
                 schedulerException), Times.Once);

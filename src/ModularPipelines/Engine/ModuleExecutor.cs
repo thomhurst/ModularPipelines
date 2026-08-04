@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
@@ -100,10 +101,18 @@ internal class ModuleExecutor : IModuleExecutor
                 }
                 catch (Exception alwaysRunException)
                 {
-                    throw new AggregateException(
-                        "Pipeline execution and AlwaysRun teardown both failed.",
+                    var pipelineExceptions = FlattenDistinctExceptions(outerEx);
+                    var combinedExceptions = FlattenDistinctExceptions(
                         outerEx,
                         alwaysRunException);
+                    if (combinedExceptions.Count == pipelineExceptions.Count)
+                    {
+                        ExceptionDispatchInfo.Capture(outerEx).Throw();
+                    }
+
+                    throw new AggregateException(
+                        "Pipeline execution and AlwaysRun teardown both failed.",
+                        combinedExceptions);
                 }
             }
 
@@ -115,6 +124,15 @@ internal class ModuleExecutor : IModuleExecutor
             scheduler?.Dispose();
         }
     }
+
+    private static IReadOnlyList<Exception> FlattenDistinctExceptions(
+        params Exception[] exceptions) =>
+        exceptions
+            .SelectMany(exception => exception is AggregateException aggregateException
+                ? aggregateException.Flatten().InnerExceptions
+                : [exception])
+            .Distinct<Exception>(ReferenceEqualityComparer.Instance)
+            .ToArray();
 
     private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
     {
