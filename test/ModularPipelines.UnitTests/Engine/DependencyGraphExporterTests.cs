@@ -42,6 +42,7 @@ public class DependencyGraphExporterTests
     private static int _deferredConditionLogicReads;
     private static int _planningCompanionAttributeConstructions;
     private static int _planningPresenceAttributeConstructions;
+    private static int _staticPlanningSkipEvaluations;
 
     private sealed class ConstructorMutationState
     {
@@ -437,6 +438,42 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(_globalConfigurationMutations);
+    }
+
+    private sealed class FrameworkConfigurationMutationModule : Module<string>
+    {
+        public const string EnvironmentVariableName = "MODULAR_PIPELINES_GRAPH_PLANNING_TEST";
+
+        protected override ModuleConfiguration Configure()
+        {
+            var currentValue = Environment.GetEnvironmentVariable(EnvironmentVariableName);
+            Environment.SetEnvironmentVariable(
+                EnvironmentVariableName,
+                currentValue is null ? "configured" : currentValue + "-configured");
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName));
+    }
+
+    private sealed class StaticRuntimeBoundPlanningConditionModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(EvaluatePlanningSkip)
+            .Build();
+
+        private static SkipDecision EvaluatePlanningSkip(IModuleContext context) =>
+            Interlocked.Increment(ref _staticPlanningSkipEvaluations) == 1
+                ? SkipDecision.Skip("first evaluation")
+                : SkipDecision.DoNotSkip;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("static-planning-condition");
     }
 
     private sealed class InjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
@@ -2884,6 +2921,56 @@ public class DependencyGraphExporterTests
             await Assert.That(mutationsAfterActivation).IsEqualTo(1);
             await Assert.That(_globalConfigurationMutations).IsEqualTo(1);
             await Assert.That(result.ValueOrDefault).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_Framework_State()
+    {
+        var originalValue = Environment.GetEnvironmentVariable(
+            FrameworkConfigurationMutationModule.EnvironmentVariableName);
+        try
+        {
+            Environment.SetEnvironmentVariable(
+                FrameworkConfigurationMutationModule.EnvironmentVariableName,
+                null);
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<FrameworkConfigurationMutationModule>();
+            await using var pipeline = await builder.BuildAsync();
+            var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+            var valueAfterActivation = Environment.GetEnvironmentVariable(
+                FrameworkConfigurationMutationModule.EnvironmentVariableName);
+
+            _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+            await Assert.That(Environment.GetEnvironmentVariable(
+                    FrameworkConfigurationMutationModule.EnvironmentVariableName))
+                .IsEqualTo(valueAfterActivation);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(
+                FrameworkConfigurationMutationModule.EnvironmentVariableName,
+                originalValue);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Static_Runtime_Bound_Planning_Condition()
+    {
+        _staticPlanningSkipEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<StaticRuntimeBoundPlanningConditionModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
+            await Assert.That(_staticPlanningSkipEvaluations).IsEqualTo(0);
         }
     }
 

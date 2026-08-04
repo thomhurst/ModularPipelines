@@ -830,9 +830,10 @@ internal sealed class ModuleDiscoveryPlanner(
 
     private static bool DelegateTargetMutatesState(Delegate @delegate, ISet<object> visited) =>
         @delegate.GetInvocationList().Any(invocation =>
-            invocation.Target is { } target
-            && (WritesDelegateTargetField(invocation.Method, target.GetType())
-                || MutatesDelegateTargetState(target, visited)));
+            MethodTouchesStaticState(invocation.Method, new HashSet<MethodInfo>())
+            || (invocation.Target is { } target
+                && (WritesDelegateTargetField(invocation.Method, target.GetType())
+                    || MutatesDelegateTargetState(target, visited))));
 
     private static bool IsTerminalPlanningValue(object value, Type type) =>
         value is string or MemberInfo or SkipDecision
@@ -976,17 +977,7 @@ internal sealed class ModuleDiscoveryPlanner(
     }
 
     private static bool IsKnownPlanningSafeAssembly(Assembly assembly)
-    {
-        if (assembly == typeof(ModuleConfiguration).Assembly
-            || assembly == typeof(object).Assembly)
-        {
-            return true;
-        }
-
-        var assemblyName = assembly.GetName().Name;
-        return assemblyName is "mscorlib" or "netstandard" or "System"
-               || assemblyName?.StartsWith("System.", StringComparison.Ordinal) == true;
-    }
+        => assembly == typeof(ModuleConfiguration).Assembly;
 
     private static OpCode ReadOpCode(byte[] il, ref int offset)
     {
