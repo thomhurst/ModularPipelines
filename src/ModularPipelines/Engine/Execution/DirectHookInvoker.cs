@@ -65,6 +65,26 @@ internal class DirectHookInvoker : IDirectHookInvoker
     }
 
     /// <inheritdoc />
+    public async Task InvokeCachedResultAsync<T>(
+        Module<T> module,
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await module.InvokeOnCachedResultAsync(context, result, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogError(
+                ex,
+                "OnCachedResultAsync hook failed for module {ModuleName}",
+                module.GetType().Name);
+        }
+    }
+
+    /// <inheritdoc />
     public async Task InvokeFailedAsync<T>(
         Module<T> module,
         IModuleContext context,

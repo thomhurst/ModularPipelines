@@ -53,6 +53,15 @@ internal interface IDirectHookInvoker
         CancellationToken cancellationToken);
 
     /// <summary>
+    /// Invokes the OnCachedResultAsync hook on the module.
+    /// </summary>
+    Task InvokeCachedResultAsync<T>(
+        Module<T> module,
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken);
+
+    /// <summary>
     /// Invokes the OnFailedAsync hook on the module.
     /// </summary>
     /// <typeparam name="T">The module result type.</typeparam>

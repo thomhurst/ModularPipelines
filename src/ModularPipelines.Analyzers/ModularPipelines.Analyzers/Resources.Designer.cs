@@ -355,5 +355,131 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("SelfDependencyAnalyzerDescription", resourceCulture);
             }
         }
+
+        internal static string AsyncVoidModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("AsyncVoidModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string AsyncVoidModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("AsyncVoidModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string AsyncVoidModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("AsyncVoidModuleAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string BlockingCallModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("BlockingCallModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string BlockingCallModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("BlockingCallModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string BlockingCallModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("BlockingCallModuleAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string DuplicateDependsOnAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("DuplicateDependsOnAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string DuplicateDependsOnAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("DuplicateDependsOnAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string DuplicateDependsOnAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("DuplicateDependsOnAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string NonPublicModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("NonPublicModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string NonPublicModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("NonPublicModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string NonPublicModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("NonPublicModuleAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string ThreadSleepModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ThreadSleepModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string ThreadSleepModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ThreadSleepModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string ThreadSleepModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ThreadSleepModuleAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string UnflowedCancellationTokenAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("UnflowedCancellationTokenAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string UnflowedCancellationTokenAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("UnflowedCancellationTokenAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string UnflowedCancellationTokenAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("UnflowedCancellationTokenAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string UnregisteredModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("UnregisteredModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string UnregisteredModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("UnregisteredModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string UnregisteredModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("UnregisteredModuleAnalyzerTitle", resourceCulture);
+            }
+        }
     }
 }

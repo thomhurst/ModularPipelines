@@ -142,7 +142,7 @@ internal sealed class FileSystemRunHistoryStore(
         var filePrefix = GetPipelineFilePrefix(report.PipelineIdentity);
         var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{Guid.NewGuid():N}.json";
         var path = Path.Combine(directory, fileName);
-        await File.WriteAllTextAsync(
+        await AtomicFileWriter.WriteAllTextAsync(
                 path,
                 RunReportJsonSerializer.Serialize(report),
                 cancellationToken)

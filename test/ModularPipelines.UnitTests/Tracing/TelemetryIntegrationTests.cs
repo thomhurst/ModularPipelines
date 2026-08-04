@@ -329,6 +329,80 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
+    public async Task Cache_Outcomes_Record_Metrics_And_Activity_Tags()
+    {
+        var measurements = new ConcurrentBag<(string Name, double Value)>();
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var meterListener = CreateMeterListener(measurements);
+        using var activityListener = CreateActivityListener(stoppedActivities);
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
+        {
+            ModuleActivityTracing.RecordCacheHit(activity, typeof(CommandModule));
+            ModuleActivityTracing.RecordCachedResult(activity);
+        }
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(RetriedModule)))
+        {
+            ModuleActivityTracing.RecordCacheMiss(activity, typeof(RetriedModule));
+            ModuleActivityTracing.RecordSuccess(activity);
+        }
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(TimedOutModule)))
+        {
+            ModuleActivityTracing.RecordCacheDisabled(activity);
+            ModuleActivityTracing.RecordSuccess(activity);
+        }
+
+        var hitActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(CommandModule)}");
+        var missActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(RetriedModule)}");
+        var disabledActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(TimedOutModule)}");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(measurements.Single(measurement =>
+                    measurement.Name == ModuleActivityTracing.ModuleCacheHitsMetric).Value)
+                .IsEqualTo(1);
+            await Assert.That(measurements.Single(measurement =>
+                    measurement.Name == ModuleActivityTracing.ModuleCacheMissesMetric).Value)
+                .IsEqualTo(1);
+            await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
+                .IsEqualTo("CachedResult");
+            await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("hit");
+            await Assert.That(missActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("miss");
+            await Assert.That(disabledActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsEqualTo("disabled");
+        }
+    }
+
+    [Test]
+    public async Task Cache_Outcomes_Do_Not_Tag_Pipeline_When_Module_Is_Not_Sampled()
+    {
+        using var listener = new ActivityListener
+        {
+            ShouldListenTo = source => source.Name == ModuleActivityTracing.PipelineSourceName,
+            Sample = static (ref ActivityCreationOptions<ActivityContext> _) =>
+                ActivitySamplingResult.AllDataAndRecorded,
+        };
+        ActivitySource.AddActivityListener(listener);
+
+        using var pipelineActivity = ModuleActivityTracing.StartPipelineActivity("TestPipeline");
+        ModuleActivityTracing.RecordCacheHit(activity: null, typeof(CommandModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(Activity.Current).IsSameReferenceAs(pipelineActivity);
+            await Assert.That(pipelineActivity!.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsNull();
+        }
+    }
+
+    [Test]
     public async Task Failure_Activities_Obfuscate_Registered_Secrets()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();

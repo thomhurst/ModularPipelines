@@ -71,6 +71,8 @@ its history when newer reports from other identities fill the global pool. Set
 pipeline identities and separate history directories for independently bounded histories. A
 positive global limit must be at least as large as `HistoryRetention`.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+Report and history files are published atomically, so cancellation or a failed write cannot replace
+a complete report with partial JSON.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the
 pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and

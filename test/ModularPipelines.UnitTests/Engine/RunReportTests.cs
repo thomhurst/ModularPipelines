@@ -523,6 +523,7 @@ public class RunReportTests
     [Test]
     [Arguments(Status.Skipped)]
     [Arguments(Status.UsedHistory)]
+    [Arguments(Status.CachedResult)]
     public async Task RunReportDoesNotCompareNonExecutedModuleDurations(Status status)
     {
         var module = new SkippedModule();
@@ -549,9 +550,13 @@ public class RunReportTests
         var nonExecutedReport = factory.Create(
             new PipelineSummary(
                 [module],
-                [status == Status.Skipped
-                    ? CreateSkippedResult(module)
-                    : CreateHistoricalResult(module, start)],
+                [status switch
+                {
+                    Status.Skipped => CreateSkippedResult(module),
+                    Status.UsedHistory => CreateHistoricalResult(module, start),
+                    Status.CachedResult => CreateCachedResult(module, start),
+                    _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
+                }],
                 TimeSpan.Zero,
                 start,
                 start),
@@ -893,6 +898,100 @@ public class RunReportTests
                 await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
                     .Count().IsEqualTo(3);
                 await Assert.That(File.Exists(unrelatedPath)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterKeepsExistingFileWhenWriteFails()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+
+        try
+        {
+            await File.WriteAllTextAsync(path, "complete");
+
+            await Assert.That(async () => await AtomicFileWriter.WriteAllTextAsync(
+                    path,
+                    "replacement",
+                    static async (temporaryPath, _, cancellationToken) =>
+                    {
+                        await File.WriteAllTextAsync(temporaryPath, "partial", cancellationToken);
+                        throw new InvalidOperationException("write failed");
+                    }))
+                .Throws<InvalidOperationException>();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo("complete");
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterReplacesExistingFileAfterCompletedWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+
+        try
+        {
+            await File.WriteAllTextAsync(path, "original");
+
+            await AtomicFileWriter.WriteAllTextAsync(path, "replacement");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo("replacement");
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterDoesNotPublishCanceledWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        try
+        {
+            await Assert.That(async () => await AtomicFileWriter.WriteAllTextAsync(
+                    path,
+                    "replacement",
+                    async (temporaryPath, contents, cancellationToken) =>
+                    {
+                        await File.WriteAllTextAsync(
+                            temporaryPath,
+                            contents,
+                            cancellationToken);
+                        cancellationTokenSource.Cancel();
+                    },
+                    cancellationTokenSource.Token))
+                .Throws<OperationCanceledException>();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(path)).IsFalse();
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
             }
         }
         finally
@@ -2378,6 +2477,12 @@ public class RunReportTests
         (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.UsedHistory,
+        };
+
+    private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
+        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        {
+            ModuleStatus = Status.CachedResult,
         };
 
     private static ModuleRunReport CreatePreviousModuleReport(
