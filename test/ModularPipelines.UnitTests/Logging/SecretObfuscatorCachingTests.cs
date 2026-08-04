@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
@@ -107,10 +106,17 @@ public class SecretObfuscatorCachingTests
         var obfuscator = CreateObfuscator(secretProvider.Object);
         var maskingOptions = new SecretMaskingOptions();
 
-        var registeredCache = GetSecretCache(obfuscator, null, maskingOptions, false);
-        var optionsCache = GetSecretCache(obfuscator, optionsObject, maskingOptions, false);
+        var registeredCache = obfuscator.GetSecretCache(null, maskingOptions, false);
+        var optionsCache = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+        var repeatedOptionsCache = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
 
-        await Assert.That(optionsCache).IsSameReferenceAs(registeredCache);
+        using (Assert.Multiple())
+        {
+            await Assert.That(optionsCache).IsSameReferenceAs(registeredCache);
+            await Assert.That(repeatedOptionsCache).IsSameReferenceAs(registeredCache);
+        }
+
+        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Once);
     }
 
     [Test]
@@ -129,8 +135,16 @@ public class SecretObfuscatorCachingTests
         var encodedOptionSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(optionSecret));
 
         var result = obfuscator.Obfuscate(encodedOptionSecret, optionsObject);
+        var registeredCache = obfuscator.GetSecretCache(
+            null,
+            new SecretMaskingOptions(),
+            caseInsensitive: true);
 
-        await Assert.That(result).IsEqualTo("**********");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result).IsEqualTo("**********");
+            await Assert.That(registeredCache.ExactSecrets.Contains(optionSecret)).IsTrue();
+        }
     }
 
     [Test]
@@ -153,18 +167,31 @@ public class SecretObfuscatorCachingTests
         await Assert.That(result).IsEqualTo("**********");
     }
 
-    private static object GetSecretCache(
-        SecretObfuscator obfuscator,
-        object? optionsObject,
-        SecretMaskingOptions maskingOptions,
-        bool caseInsensitive)
+    [Test]
+    public async Task InvalidatesOptionsCacheWhenRegisteredSecretsChange()
     {
-        var method = typeof(SecretObfuscator).GetMethod(
-            "GetSecretCache",
-            BindingFlags.Instance | BindingFlags.NonPublic)!;
-        return method.Invoke(
-            obfuscator,
-            [optionsObject, maskingOptions, caseInsensitive])!;
+        var version = 0L;
+        var optionsObject = new object();
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, []));
+        secretProvider.Setup(x => x.GetSecretsInObject(optionsObject)).Returns(["option-secret"]);
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+        var maskingOptions = new SecretMaskingOptions();
+
+        var first = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+        var repeated = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+        version += 2;
+        var refreshed = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(repeated).IsSameReferenceAs(first);
+            await Assert.That(refreshed).IsNotSameReferenceAs(first);
+        }
+
+        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Exactly(2));
     }
 
     private static SecretObfuscator CreateObfuscator(

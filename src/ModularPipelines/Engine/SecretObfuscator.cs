@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -31,6 +32,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
     private readonly object _secretCacheLock = new();
+    private readonly ConditionalWeakTable<object, OptionsSecretCache> _optionsSecretCaches = [];
 
     private SecretCache? _secretCache;
 
@@ -82,7 +84,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         return ObfuscateCaseSensitive(input, secretCache.Secrets, maskValue);
     }
 
-    private SecretCache GetSecretCache(
+    internal SecretCache GetSecretCache(
         object? optionsObject,
         SecretMaskingOptions options,
         bool caseInsensitive)
@@ -94,6 +96,37 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         }
 
         var minimumLength = Math.Max(1, options.MinimumSecretLength);
+        var optionsSecretCache = _optionsSecretCaches.GetValue(
+            optionsObject,
+            static _ => new OptionsSecretCache());
+
+        lock (optionsSecretCache.SyncRoot)
+        {
+            if (optionsSecretCache.Cache is { } currentCache
+                && currentCache.Version == registeredSecrets.Version
+                && currentCache.CaseInsensitive == caseInsensitive
+                && optionsSecretCache.MinimumSecretLength == minimumLength)
+            {
+                return currentCache;
+            }
+
+            var cache = CreateOptionsSecretCache(
+                optionsObject,
+                registeredSecrets,
+                minimumLength,
+                caseInsensitive);
+            optionsSecretCache.MinimumSecretLength = minimumLength;
+            optionsSecretCache.Cache = cache;
+            return cache;
+        }
+    }
+
+    private SecretCache CreateOptionsSecretCache(
+        object optionsObject,
+        SecretCache registeredSecrets,
+        int minimumLength,
+        bool caseInsensitive)
+    {
         var extraSecrets = _secretProvider.GetSecretsInObject(optionsObject)
             .Where(secret => secret.Length >= minimumLength)
             .Distinct(StringComparer.Ordinal)
@@ -171,7 +204,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             version,
             caseInsensitive,
             orderedSecrets,
-            nonBlankSecrets.ToHashSet(StringComparer.Ordinal),
+            nonBlankSecrets.ToHashSet(comparer),
             searchValues);
     }
 
@@ -239,7 +272,16 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         return result.ToString();
     }
 
-    private sealed record SecretCache(
+    private sealed class OptionsSecretCache
+    {
+        public object SyncRoot { get; } = new();
+
+        public int MinimumSecretLength { get; set; }
+
+        public SecretCache? Cache { get; set; }
+    }
+
+    internal sealed record SecretCache(
         long Version,
         bool CaseInsensitive,
         string[] Secrets,
