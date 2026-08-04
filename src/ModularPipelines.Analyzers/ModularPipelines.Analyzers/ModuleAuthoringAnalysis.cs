@@ -1687,38 +1687,57 @@ internal static class ModuleAuthoringAnalysis
         var foundValue = false;
         foreach (var operation in operations)
         {
-            switch (operation)
+            if (GetDeclaredMemberValue(operation, member) is { } value)
             {
-                case IFieldInitializerOperation fieldInitializer
-                    when fieldInitializer.InitializedFields.Any(field =>
-                        SymbolEqualityComparer.Default.Equals(field, member)):
-                    foundValue = true;
-                    yield return fieldInitializer.Value;
-                    break;
-                case IPropertyInitializerOperation propertyInitializer
-                    when propertyInitializer.InitializedProperties.Any(property =>
-                        SymbolEqualityComparer.Default.Equals(property, member)):
-                    foundValue = true;
-                    yield return propertyInitializer.Value;
-                    break;
-                case IReturnOperation { ReturnedValue: { } returnedValue }
-                    when GetEnclosingCallable(operation) is null
-                         && IsInReachableBranch(operation):
-                    foundValue = true;
-                    yield return returnedValue;
-                    break;
+                foundValue = true;
+                yield return value;
             }
         }
 
-        var memberType = member switch
+        if (!foundValue
+            && TryGetFallbackDeclaredMemberValue(
+                operations,
+                GetMemberType(member),
+                compilation) is { } fallbackValue)
+        {
+            yield return fallbackValue;
+        }
+    }
+
+    private static IOperation? GetDeclaredMemberValue(
+        IOperation operation,
+        ISymbol member) =>
+        operation switch
+        {
+            IFieldInitializerOperation fieldInitializer
+                when fieldInitializer.InitializedFields.Any(field =>
+                    SymbolEqualityComparer.Default.Equals(field, member)) =>
+                fieldInitializer.Value,
+            IPropertyInitializerOperation propertyInitializer
+                when propertyInitializer.InitializedProperties.Any(property =>
+                    SymbolEqualityComparer.Default.Equals(property, member)) =>
+                propertyInitializer.Value,
+            IReturnOperation { ReturnedValue: { } returnedValue }
+                when GetEnclosingCallable(operation) is null
+                     && IsInReachableBranch(operation) => returnedValue,
+            _ => null,
+        };
+
+    private static ITypeSymbol? GetMemberType(ISymbol member) =>
+        member switch
         {
             IFieldSymbol field => field.Type,
             IPropertySymbol property => property.Type,
             _ => null,
         };
-        if (!foundValue
-            && memberType is not null
-            && operations
+
+    private static IOperation? TryGetFallbackDeclaredMemberValue(
+        IEnumerable<IOperation> operations,
+        ITypeSymbol? memberType,
+        Compilation compilation) =>
+        memberType is null
+            ? null
+            : operations
                 .Where(operation => operation.Type is { } operationType
                                     && (SymbolEqualityComparer.Default.Equals(
                                             operationType,
@@ -1728,11 +1747,7 @@ internal static class ModuleAuthoringAnalysis
                                                 memberType)
                                             .IsImplicit))
                 .OrderByDescending(static operation => operation.Syntax.Span.Length)
-                .FirstOrDefault() is { } expressionValue)
-        {
-            yield return expressionValue;
-        }
-    }
+                .FirstOrDefault();
 
     private static IEnumerable<IOperation> GetMemberValues(
         IOperation memberReference,
@@ -5047,34 +5062,45 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> GetReachableValueLeaves(IOperation operation)
     {
-        switch (operation)
+        return operation switch
         {
-            case IConversionOperation conversion:
-                return GetReachableValueLeaves(conversion.Operand);
-            case IConditionalOperation conditional
-                when conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition }:
-                return GetReachableValueLeaves(
-                    condition ? conditional.WhenTrue : conditional.WhenFalse!);
-            case IConditionalOperation conditional:
-                return GetReachableValueLeaves(conditional.WhenTrue)
-                    .Concat(conditional.WhenFalse is null
-                        ? []
-                        : GetReachableValueLeaves(conditional.WhenFalse));
-            case ICoalesceOperation coalesce
-                when coalesce.Value.ConstantValue is { HasValue: true, Value: null }:
-                return GetReachableValueLeaves(coalesce.WhenNull);
-            case ICoalesceOperation coalesce when IsStaticallyNonNullCoalesceValue(coalesce.Value):
-                return GetReachableValueLeaves(coalesce.Value);
-            case ICoalesceOperation coalesce:
-                return GetReachableValueLeaves(coalesce.Value)
-                    .Concat(GetReachableValueLeaves(coalesce.WhenNull));
-            case ISwitchExpressionOperation switchExpression:
-                return switchExpression.Arms
-                    .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
-                    .SelectMany(arm => GetReachableValueLeaves(arm.Value));
-            default:
-                return [operation];
+            IConversionOperation conversion => GetReachableValueLeaves(conversion.Operand),
+            IConditionalOperation conditional => GetReachableConditionalLeaves(conditional),
+            ICoalesceOperation coalesce => GetReachableCoalesceLeaves(coalesce),
+            ISwitchExpressionOperation switchExpression => switchExpression.Arms
+                .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                .SelectMany(arm => GetReachableValueLeaves(arm.Value)),
+            _ => [operation],
+        };
+    }
+
+    private static IEnumerable<IOperation> GetReachableConditionalLeaves(
+        IConditionalOperation conditional)
+    {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            return GetReachableValueLeaves(
+                condition ? conditional.WhenTrue : conditional.WhenFalse!);
         }
+
+        return GetReachableValueLeaves(conditional.WhenTrue)
+            .Concat(conditional.WhenFalse is null
+                ? []
+                : GetReachableValueLeaves(conditional.WhenFalse));
+    }
+
+    private static IEnumerable<IOperation> GetReachableCoalesceLeaves(
+        ICoalesceOperation coalesce)
+    {
+        if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
+        {
+            return GetReachableValueLeaves(coalesce.WhenNull);
+        }
+
+        return IsStaticallyNonNullCoalesceValue(coalesce.Value)
+            ? GetReachableValueLeaves(coalesce.Value)
+            : GetReachableValueLeaves(coalesce.Value)
+                .Concat(GetReachableValueLeaves(coalesce.WhenNull));
     }
 
     private static bool FlowsFromCancellationTokenCoalesce(
@@ -5210,57 +5236,88 @@ internal static class ModuleAuthoringAnalysis
         {
             yield return candidate;
 
-            if (candidate is IInvocationOperation invocation)
+            foreach (var operation in GetInvocationCallbackValues(
+                         candidate,
+                         compilation,
+                         visitedLocals,
+                         visitedMembers,
+                         visitedMethods))
             {
-                var nextVisitedMethods = CloneVisitedMethods(visitedMethods);
-                var returnValues = GetSourceInvocationReturnValues(
-                        invocation,
-                        compilation,
-                        nextVisitedMethods)
-                    .ToArray();
-                foreach (var returnValue in returnValues)
-                {
-                    foreach (var operation in GetValueAndReachingCallbackValues(
-                                 returnValue,
-                                 compilation,
-                                 CloneVisitedLocals(visitedLocals),
-                                 new HashSet<ISymbol>(
-                                     visitedMembers,
-                                     SymbolEqualityComparer.Default),
-                                 CloneVisitedMethods(nextVisitedMethods)))
-                    {
-                        yield return operation;
-                    }
-                }
+                yield return operation;
             }
 
-            foreach (var memberReference in candidate.DescendantsAndSelf()
-                         .Where(static operation => operation is
-                             IFieldReferenceOperation or IPropertyReferenceOperation))
+            foreach (var operation in GetMemberCallbackValues(
+                         candidate,
+                         compilation,
+                         visitedLocals,
+                         visitedMembers,
+                         visitedMethods))
             {
-                var member = GetReferencedMember(memberReference);
-                if (member is null || !visitedMembers.Add(member))
-                {
-                    continue;
-                }
+                yield return operation;
+            }
+        }
+    }
 
-                var memberValues = GetMemberValues(
-                        memberReference,
-                        member,
-                        compilation)
-                    .ToArray();
+    private static IEnumerable<IOperation> GetInvocationCallbackValues(
+        IOperation candidate,
+        Compilation compilation,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (candidate is not IInvocationOperation invocation)
+        {
+            yield break;
+        }
 
-                foreach (var memberValue in memberValues)
+        var nextVisitedMethods = CloneVisitedMethods(visitedMethods);
+        foreach (var returnValue in GetSourceInvocationReturnValues(
+                     invocation,
+                     compilation,
+                     nextVisitedMethods).ToArray())
+        {
+            foreach (var operation in GetValueAndReachingCallbackValues(
+                         returnValue,
+                         compilation,
+                         CloneVisitedLocals(visitedLocals),
+                         new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default),
+                         CloneVisitedMethods(nextVisitedMethods)))
+            {
+                yield return operation;
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetMemberCallbackValues(
+        IOperation candidate,
+        Compilation compilation,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        foreach (var memberReference in candidate.DescendantsAndSelf()
+                     .Where(static operation => operation is
+                         IFieldReferenceOperation or IPropertyReferenceOperation))
+        {
+            var member = GetReferencedMember(memberReference);
+            if (member is null || !visitedMembers.Add(member))
+            {
+                continue;
+            }
+
+            foreach (var memberValue in GetMemberValues(
+                         memberReference,
+                         member,
+                         compilation).ToArray())
+            {
+                foreach (var operation in GetValueAndReachingCallbackValues(
+                             memberValue,
+                             compilation,
+                             visitedLocals,
+                             visitedMembers,
+                             visitedMethods))
                 {
-                    foreach (var operation in GetValueAndReachingCallbackValues(
-                                 memberValue,
-                                 compilation,
-                                 visitedLocals,
-                                 visitedMembers,
-                                 visitedMethods))
-                    {
-                        yield return operation;
-                    }
+                    yield return operation;
                 }
             }
         }
@@ -5315,71 +5372,77 @@ internal static class ModuleAuthoringAnalysis
         {
             foreach (var syntaxReference in constructor.DeclaringSyntaxReferences)
             {
-                var syntaxTree = syntaxReference.SyntaxTree;
-                if (!compilation.ContainsSyntaxTree(syntaxTree))
+                foreach (var value in GetConstructorSyntaxMemberValues(
+                             syntaxReference,
+                             member,
+                             compilation))
                 {
-                    continue;
-                }
-
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var operations = syntaxReference.GetSyntax()
-                    .DescendantNodesAndSelf()
-                    .Select(syntax => semanticModel.GetOperation(syntax))
-                    .OfType<IOperation>()
-                    .ToArray();
-                var assignments = operations
-                    .OfType<ISimpleAssignmentOperation>()
-                    .Where(IsInReachableBranch)
-                    .Where(static assignment => GetEnclosingCallable(assignment) is null)
-                    .Where(assignment => SymbolEqualityComparer.Default.Equals(
-                        GetReferencedMember(assignment.Target),
-                        member))
-                    .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
-                    .ToArray();
-                var linearAssignment = assignments.FirstOrDefault(assignment =>
-                    ReferenceEquals(
-                        GetContainingBlock(assignment),
-                        GetOutermostContainingBlock(assignment)));
-                var branchingOperation = operations
-                    .OfType<IConditionalOperation>()
-                    .Where(IsInReachableBranch)
-                    .Where(static conditional =>
-                        GetEnclosingCallable(conditional) is null)
-                    .Where(conditional => ReferenceEquals(
-                        GetContainingBlock(conditional),
-                        GetOutermostContainingBlock(conditional)))
-                    .Where(conditional =>
-                        conditional.WhenFalse is not null
-                        && DefinitelyAssignsMember(conditional.WhenTrue, member)
-                        && DefinitelyAssignsMember(conditional.WhenFalse, member))
-                    .OrderByDescending(static conditional =>
-                        conditional.Syntax.SpanStart)
-                    .FirstOrDefault();
-                var lowerBound = Math.Max(
-                    linearAssignment?.Syntax.SpanStart ?? int.MinValue,
-                    branchingOperation?.Syntax.SpanStart ?? int.MinValue);
-
-                if (branchingOperation is not null
-                    && branchingOperation.Syntax.SpanStart == lowerBound)
-                {
-                    foreach (var assignment in assignments.Where(assignment =>
-                                 assignment.Syntax.SpanStart
-                                 >= branchingOperation.Syntax.SpanStart))
-                    {
-                        yield return assignment.Value;
-                    }
-
-                    continue;
-                }
-
-                foreach (var assignment in assignments.Where(assignment =>
-                             assignment.Syntax.SpanStart >= lowerBound))
-                {
-                    yield return assignment.Value;
+                    yield return value;
                 }
             }
         }
     }
+
+    private static IEnumerable<IOperation> GetConstructorSyntaxMemberValues(
+        SyntaxReference syntaxReference,
+        ISymbol member,
+        Compilation compilation)
+    {
+        var syntaxTree = syntaxReference.SyntaxTree;
+        if (!compilation.ContainsSyntaxTree(syntaxTree))
+        {
+            yield break;
+        }
+
+        var semanticModel = compilation.GetSemanticModel(syntaxTree);
+        var operations = syntaxReference.GetSyntax()
+            .DescendantNodesAndSelf()
+            .Select(syntax => semanticModel.GetOperation(syntax))
+            .OfType<IOperation>()
+            .ToArray();
+        var assignments = operations
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(IsInReachableBranch)
+            .Where(static assignment => GetEnclosingCallable(assignment) is null)
+            .Where(assignment => SymbolEqualityComparer.Default.Equals(
+                GetReferencedMember(assignment.Target),
+                member))
+            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+            .ToArray();
+        var linearAssignment = assignments.FirstOrDefault(assignment =>
+            ReferenceEquals(
+                GetContainingBlock(assignment),
+                GetOutermostContainingBlock(assignment)));
+        var branchingOperation = GetLatestBranchingMemberAssignment(
+            operations,
+            member);
+        var lowerBound = Math.Max(
+            linearAssignment?.Syntax.SpanStart ?? int.MinValue,
+            branchingOperation?.Syntax.SpanStart ?? int.MinValue);
+
+        foreach (var assignment in assignments.Where(assignment =>
+                     assignment.Syntax.SpanStart >= lowerBound))
+        {
+            yield return assignment.Value;
+        }
+    }
+
+    private static IConditionalOperation? GetLatestBranchingMemberAssignment(
+        IEnumerable<IOperation> operations,
+        ISymbol member) =>
+        operations
+            .OfType<IConditionalOperation>()
+            .Where(IsInReachableBranch)
+            .Where(static conditional => GetEnclosingCallable(conditional) is null)
+            .Where(conditional => ReferenceEquals(
+                GetContainingBlock(conditional),
+                GetOutermostContainingBlock(conditional)))
+            .Where(conditional =>
+                conditional.WhenFalse is not null
+                && DefinitelyAssignsMember(conditional.WhenTrue, member)
+                && DefinitelyAssignsMember(conditional.WhenFalse, member))
+            .OrderByDescending(static conditional => conditional.Syntax.SpanStart)
+            .FirstOrDefault();
 
     private static bool DefinitelyAssignsMember(
         IOperation operation,
