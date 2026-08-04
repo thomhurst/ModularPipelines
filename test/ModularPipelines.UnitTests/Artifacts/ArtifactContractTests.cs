@@ -641,6 +641,30 @@ public class ArtifactContractTests
     }
 
     [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    private sealed class MissingRuntimeIntermediateModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("intermediate completed");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<MissingRuntimeIntermediateModule>]
+    [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
+    private sealed class TransitiveMissingRuntimeConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class IgnoredMissingRuntimeConsumerModule : Module<string>
     {
@@ -1815,6 +1839,42 @@ public class ArtifactContractTests
                 await Assert.That(exception.ToString()).Contains(nameof(MissingRuntimeConsumerModule));
                 await Assert.That(exception.ToString()).Contains("matched no files");
                 await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task TransitiveConsumerRechecksPendingMissingArtifactAndFailsProducer()
+    {
+        DeleteLocalArtifacts();
+        TransitiveMissingRuntimeConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<MissingRuntimeProducerModule>();
+            builder.AddModule<MissingRuntimeIntermediateModule>();
+            builder.AddModule<TransitiveMissingRuntimeConsumerModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
+            var producerResult = pipeline.Services
+                .GetRequiredService<IModuleResultRegistry>()
+                .GetResult(typeof(MissingRuntimeProducerModule));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(MissingRuntimeProducerModule));
+                await Assert.That(exception.ToString()).Contains("missing-runtime");
+                await Assert.That(exception.ToString()).Contains(MissingRuntimeFile);
+                await Assert.That(exception.ToString()).Contains(nameof(TransitiveMissingRuntimeConsumerModule));
+                await Assert.That(exception.ToString()).Contains("matched no files");
+                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
+                await Assert.That(TransitiveMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }
         finally

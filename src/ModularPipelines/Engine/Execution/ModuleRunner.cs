@@ -52,6 +52,8 @@ internal class ModuleRunner : IModuleRunner
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
         _planningSkipEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<Task<bool>>> _historicalResultAvailability = new();
+    private readonly ConcurrentDictionary<Type, Lazy<ModuleFailedException>>
+        _lateArtifactProducerFailures = new();
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -853,6 +855,79 @@ internal class ModuleRunner : IModuleRunner
             : ModuleResultFactory.CreateException(module.ResultType, exception, executionContext);
     }
 
+    private async Task DownloadConsumedArtifactsAsync(
+        Type consumerModuleType,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(
+                    consumerModuleType,
+                    failIfMissing: true,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (MissingConsumedArtifactException exception)
+        {
+            throw RegisterLateArtifactProducerFailure(exception, scheduler);
+        }
+    }
+
+    private ModuleFailedException RegisterLateArtifactProducerFailure(
+        MissingConsumedArtifactException exception,
+        IModuleScheduler scheduler)
+    {
+        return _lateArtifactProducerFailures.GetOrAdd(
+            exception.ProducerModuleType,
+            _ => new Lazy<ModuleFailedException>(
+                () => CreateLateArtifactProducerFailure(exception, scheduler),
+                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
+    }
+
+    private ModuleFailedException CreateLateArtifactProducerFailure(
+        MissingConsumedArtifactException exception,
+        IModuleScheduler scheduler)
+    {
+        var producerType = exception.ProducerModuleType;
+        var producerState = scheduler.GetModuleState(producerType)
+            ?? throw new InvalidOperationException(
+                $"Artifact producer module '{producerType.FullName}' is not registered.",
+                exception);
+        var producesArtifact = producerType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .FirstOrDefault(attribute => attribute.Name == exception.ArtifactName);
+        var detail = producesArtifact is null
+            ? $"Artifact '{exception.ArtifactName}' was not found."
+            : $"Artifact '{exception.ArtifactName}' matched no files for pattern "
+              + $"'{producesArtifact.PathPattern}'.";
+        var failureCause = new InvalidOperationException(
+            $"Module '{producerType.Name}' did not produce required artifacts:{Environment.NewLine}"
+            + $"{detail} Runnable consumers: {exception.ConsumerModuleType.Name}.",
+            exception);
+        var moduleFailure = new ModuleFailedException(producerType, failureCause);
+        var executionContext = CreateExecutionContext(producerState.Module, producerType);
+        executionContext.Status = Enums.Status.Failed;
+        executionContext.Exception = failureCause;
+
+        if (producerState.Result is { } previousResult)
+        {
+            executionContext.StartTime = previousResult.ModuleStart;
+            executionContext.EndTime = previousResult.ModuleEnd;
+            executionContext.Duration = previousResult.ModuleDuration;
+        }
+
+        var failureResult = CreateFailureResult(
+            producerState.Module,
+            producerType,
+            executionContext,
+            failureCause);
+        producerState.Result = failureResult;
+        _resultRegistry.RegisterResult(producerType, failureResult);
+        return moduleFailure;
+    }
+
     private ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
     {
         // Use compiled delegate factory instead of Activator.CreateInstance
@@ -898,10 +973,7 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         Func<CancellationToken, Task>? prepareExecutionAsync = _manageArtifactsLocally
-            ? token => _artifactLifecycleManager.DownloadConsumedArtifactsAsync(
-                module.GetType(),
-                failIfMissing: true,
-                token)
+            ? token => DownloadConsumedArtifactsAsync(module.GetType(), scheduler, token)
             : null;
         if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
         {
