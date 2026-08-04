@@ -220,6 +220,18 @@ public class RunReportTests
             new(_completion.Task);
     }
 
+    private sealed class CommandCountingRunReportEnricher(
+        ICommandExecutionCounter commandExecutionCounter) : IRunReportEnricher
+    {
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            commandExecutionCounter.Record(moduleType: null);
+            return ValueTask.CompletedTask;
+        }
+    }
+
     [Test]
     public async Task WriteRunReportPersistsSchemaHistoryDeltasAndCommandCounts()
     {
@@ -1117,6 +1129,77 @@ public class RunReportTests
                     .IsEqualTo("https://ci.example/**********-run");
                 await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
                 await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RepeatedCompletionsReceiveDistinctRunIds()
+    {
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance);
+
+        var firstReport = await service.CompleteAsync(CreateEmptySummary());
+        var secondReport = await service.CompleteAsync(CreateEmptySummary());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(Guid.TryParseExact(firstReport.RunId, "N", out _)).IsTrue();
+            await Assert.That(Guid.TryParseExact(secondReport.RunId, "N", out _)).IsTrue();
+            await Assert.That(secondReport.RunId).IsNotEqualTo(firstReport.RunId);
+        }
+    }
+
+    [Test]
+    public async Task RunReportIncludesCommandsExecutedByEnrichers()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        commandExecutionCounter.Add(moduleType: null, count: 2);
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new CommandCountingRunReportEnricher(commandExecutionCounter)]);
+
+        try
+        {
+            var report = await service.CompleteAsync(CreateEmptySummary());
+            var persisted = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.CommandCount).IsEqualTo(3);
+                await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
+                await Assert.That(persisted!.CommandCount).IsEqualTo(3);
+                await Assert.That(persisted.UnattributedCommandCount).IsEqualTo(3);
             }
         }
         finally

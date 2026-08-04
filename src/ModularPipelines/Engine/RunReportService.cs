@@ -36,12 +36,12 @@ internal sealed class RunReportService(
     private readonly TimeSpan _enricherTimeout = enricherTimeout ?? DefaultEnricherTimeout;
     private readonly IReadOnlyList<IRunReportEnricher> _runReportEnrichers =
         runReportEnrichers?.ToArray() ?? [];
-    private readonly string _runId = Guid.NewGuid().ToString("N");
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
         Exception? pipelineException = null)
     {
+        var runId = Guid.NewGuid().ToString("N");
         var isDistributedWorker = IsDistributedWorker();
         await SynchronizeDistributedMetricsAsync(isDistributedWorker, summary)
             .ConfigureAwait(false);
@@ -52,9 +52,19 @@ internal sealed class RunReportService(
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
         var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
             .ConfigureAwait(false);
-        var report = CreateReport(summary, previousReport, pipelineIdentity, pipelineException);
+        var report = CreateReport(
+            summary,
+            previousReport,
+            pipelineIdentity,
+            runId,
+            pipelineException);
         report = await EnrichReportAsync(report, pipelineIdentity, reportPath is not null)
             .ConfigureAwait(false);
+        report = report with
+        {
+            CommandCount = commandExecutionCounter.TotalCount,
+            UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
+        };
 
         await WriteReportAsync(reportPath, report).ConfigureAwait(false);
         await SaveHistoryAsync(historyEnabled, report).ConfigureAwait(false);
@@ -102,6 +112,7 @@ internal sealed class RunReportService(
         PipelineSummary summary,
         PipelineRunReport? previousReport,
         string pipelineIdentity,
+        string runId,
         Exception? pipelineException)
     {
         try
@@ -111,14 +122,14 @@ internal sealed class RunReportService(
                 previousReport,
                 pipelineIdentity,
                 pipelineException,
-                _runId);
+                runId);
         }
         catch (Exception exception)
         {
             logger.LogWarning(exception, "Could not create pipeline run report");
             return new PipelineRunReport
             {
-                RunId = _runId,
+                RunId = runId,
                 PipelineIdentity = pipelineIdentity,
                 Status = pipelineException is null ? summary.Status : Status.Failed,
                 Start = summary.Start,
