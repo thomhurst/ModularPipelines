@@ -66,7 +66,9 @@ path and registered module types. History is bounded: after each save, the defau
 owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
 Report and history files are published atomically, so cancellation or a failed write cannot replace
-a complete report with partial JSON.
+a complete report with partial JSON. After each successful history save, the built-in store also
+removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent
+writers.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the
 pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and
