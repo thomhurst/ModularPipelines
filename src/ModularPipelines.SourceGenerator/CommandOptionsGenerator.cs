@@ -331,13 +331,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             propertyType = nullableType.TypeArguments[0];
         }
 
-        if (propertyType.ToDisplayString() == CliValuePairFullName)
+        if (IsCliValuePair(propertyType))
         {
             return 2;
         }
 
         if (propertyType is IArrayTypeSymbol arrayType
-            && arrayType.ElementType.ToDisplayString() == CliValuePairFullName)
+            && IsCliValuePair(arrayType.ElementType))
         {
             return 2;
         }
@@ -347,10 +347,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                    .Append(namedType)
                    .Any(type => type.OriginalDefinition.SpecialType
                                 == SpecialType.System_Collections_Generic_IEnumerable_T
-                                && type.TypeArguments[0].ToDisplayString() == CliValuePairFullName)
+                                && IsCliValuePair(type.TypeArguments[0]))
             ? 2
             : 1;
     }
+
+    private static bool IsCliValuePair(ITypeSymbol type) =>
+        type.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString()
+        == CliValuePairFullName;
 
     private static bool IsGlobalOption(IPropertySymbol property)
     {
