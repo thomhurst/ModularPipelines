@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -9,6 +10,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Registration;
 
@@ -171,6 +173,39 @@ public class PipelineBuilderRegistrationTests
         await Assert.That(builder.Environment.ApplicationName).IsEqualTo("CommandLineApp");
         await Assert.That(builder.Environment.EnvironmentName).IsEqualTo("CommandLineEnvironment");
         await Assert.That(builder.Environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
+    }
+
+    [Test]
+    public async Task ContentRootFileProvider_IsOwnedByBuiltPipeline()
+    {
+        var fileProvider = new Mock<IFileProvider>();
+        var disposable = fileProvider.As<IDisposable>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Environment.ContentRootFileProvider = fileProvider.Object;
+        builder.AddModule<TestModuleA>();
+
+        builder.Dispose();
+        disposable.Verify(x => x.Dispose(), Times.Never);
+
+        var pipeline = await builder.BuildAsync();
+        disposable.Verify(x => x.Dispose(), Times.Never);
+
+        await pipeline.DisposeAsync();
+        disposable.Verify(x => x.Dispose(), Times.Once);
+    }
+
+    [Test]
+    public async Task ContentRootFileProvider_IsDisposed_WhenPipelineBuildFails()
+    {
+        var fileProvider = new Mock<IFileProvider>();
+        var disposable = fileProvider.As<IDisposable>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Environment.ContentRootFileProvider = fileProvider.Object;
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<PipelineValidationException>();
+
+        disposable.Verify(x => x.Dispose(), Times.Once);
     }
 
     [Test]

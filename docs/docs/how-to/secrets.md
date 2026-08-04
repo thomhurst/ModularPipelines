@@ -34,7 +34,7 @@ When a configuration provider supplies a group of secrets, you can register ever
 that section without adding `[SecretValue]` to an options class:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder();
+var builder = Pipeline.CreateBuilder();
 
 builder.MaskConfigurationSection("Secrets");
 ```

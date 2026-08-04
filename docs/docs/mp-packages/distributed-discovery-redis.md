@@ -21,7 +21,7 @@ using ModularPipelines.Distributed.Discovery.Redis;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.SignalR.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddSignalRDistributedCoordinator();

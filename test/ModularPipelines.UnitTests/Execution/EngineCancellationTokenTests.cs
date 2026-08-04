@@ -312,6 +312,36 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task WaitForAllModules_Reports_DependencyFailed_For_Dependent_Module()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+            })
+            .AddModule<BadModule>()
+            .AddModule<Module1>();
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+        var summary = await host.RunAsync();
+        var dependentResult = resultRegistry.GetResult(typeof(Module1));
+        var dependentTimeline = summary.ModuleTimelines!.Single(x => x.ModuleName == nameof(Module1));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Status).IsEqualTo(Status.Failed);
+            await Assert.That(dependentResult).IsNotNull();
+            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentTimeline.Status).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
+            await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
+                .IsEqualTo(nameof(BadModule));
+        }
+    }
+
+    [Test]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel()
     {
         var builder = TestPipelineBuilder.Create()

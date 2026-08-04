@@ -4,7 +4,7 @@ title: Run reports and history
 
 ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 pipeline and module statuses, timings, skip reasons, exception details, command counts, execution
-metrics, and duration changes from the previous retained run.
+metrics, duration changes from the previous retained run, and correlation metadata.
 
 ## Write a report
 
@@ -53,6 +53,33 @@ Each module gets one shared UTF-8 byte budget across its `stdoutTail` and `stder
 output wins when the limit is reached. Console error and command-error output is retained in
 `stderrTail`, while console output and other module logs are retained in `stdoutTail`. Excerpts are
 taken only from secret-masked module buffers and are masked again when the report is created.
+
+Each schema-v2 report has a unique `RunId` plus `RunCorrelation` metadata for the machine and
+detected build system. Registering the Git or GitHub integration also adds the available commit,
+branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
+
+When report writing is enabled, add application-specific metadata through a bounded
+`IRunReportEnricher`:
+
+```csharp
+public sealed class DeploymentRunEnricher : IRunReportEnricher
+{
+    public ValueTask EnrichAsync(
+        RunReportEnrichmentContext context,
+        CancellationToken cancellationToken)
+    {
+        context.GitBranch ??= "deployment";
+        return ValueTask.CompletedTask;
+    }
+}
+
+builder.AddRunReportEnricher<DeploymentRunEnricher>();
+```
+
+Enrichers run sequentially in registration order. Use `??=` for fallback metadata so an earlier
+value survives. Overwrite an existing value only when the current source is authoritative; later
+authoritative enrichers take precedence. The built-in Git enricher fills gaps, while the GitHub
+enricher replaces Git values with CI-provided commit and branch metadata when available.
 
 ## Local history and deltas
 

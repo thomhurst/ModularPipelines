@@ -13,7 +13,8 @@ internal sealed class PipelineRunReportFactory(
         PipelineSummary summary,
         PipelineRunReport? previousReport,
         string pipelineIdentity,
-        Exception? pipelineException = null)
+        Exception? pipelineException = null,
+        string? runId = null)
     {
         var uniqueModuleTypeNames = summary.Modules
             .GroupBy(static module => ModuleTypeIdentifier.Get(module.GetType()), StringComparer.Ordinal)
@@ -78,6 +79,7 @@ internal sealed class PipelineRunReportFactory(
 
         return new PipelineRunReport
         {
+            RunId = runId ?? Guid.NewGuid().ToString("N"),
             PipelineIdentity = pipelineIdentity,
             Status = status,
             Start = summary.Start,
@@ -94,6 +96,24 @@ internal sealed class PipelineRunReportFactory(
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
     }
+
+    public PipelineRunReport WithCorrelation(
+        PipelineRunReport report,
+        RunReportEnrichmentContext context) =>
+        report with
+        {
+            Correlation = new RunCorrelation
+            {
+                GitSha = Obfuscate(context.GitSha),
+                GitBranch = Obfuscate(context.GitBranch),
+                Hostname = Obfuscate(context.Hostname),
+                CiRunUrl = Obfuscate(context.CiRunUrl),
+                BuildSystem = context.BuildSystem,
+            },
+        };
+
+    private string? Obfuscate(string? value) =>
+        value is null ? null : secretObfuscator.Obfuscate(value, null);
 
     private ModuleRunReport CreateModuleReport(
         Type moduleType,
