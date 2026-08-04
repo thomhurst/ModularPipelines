@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "set-iam-policy")]
 public record GcloudDataCatalogTagTemplatesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
 ) : GcloudOptions
 {
 }

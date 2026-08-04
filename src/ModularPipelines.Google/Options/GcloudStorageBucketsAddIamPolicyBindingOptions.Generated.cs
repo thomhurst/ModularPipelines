@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "add-iam-policy-binding")]
 public record GcloudStorageBucketsAddIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "worker-pools", "delete")]
 public record GcloudBuildsWorkerPoolsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string WorkerPool
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
 ) : GcloudOptions
 {
     /// <summary>

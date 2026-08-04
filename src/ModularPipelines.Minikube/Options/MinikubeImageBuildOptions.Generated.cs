@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "build")]
 public record MinikubeImageBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
 ) : MinikubeOptions
 {
     /// <summary>

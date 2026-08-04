@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "public-keys", "update")]
 public record GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PublicKeyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyId
 ) : GcloudOptions
 {
 }

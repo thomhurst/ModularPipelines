@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "sign-url")]
 public record GcloudStorageSignUrlOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Url
 ) : GcloudOptions
 {
     [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]

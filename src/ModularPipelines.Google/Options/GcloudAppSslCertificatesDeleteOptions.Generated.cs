@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "ssl-certificates", "delete")]
 public record GcloudAppSslCertificatesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : GcloudOptions
 {
 }

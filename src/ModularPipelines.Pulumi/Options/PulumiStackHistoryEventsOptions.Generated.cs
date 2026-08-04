@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "history", "events")]
 public record PulumiStackHistoryEventsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UpdateId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UpdateId
 ) : PulumiOptions
 {
     /// <summary>

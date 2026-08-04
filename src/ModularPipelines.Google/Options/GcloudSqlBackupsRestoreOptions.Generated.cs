@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "restore")]
 public record GcloudSqlBackupsRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : GcloudOptions
 {
 }

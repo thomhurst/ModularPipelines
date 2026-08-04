@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "csv")]
 public record GcloudSqlImportCsvOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
 }

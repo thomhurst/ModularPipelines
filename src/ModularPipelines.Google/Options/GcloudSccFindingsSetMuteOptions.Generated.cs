@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "set-mute")]
 public record GcloudSccFindingsSetMuteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Finding
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Finding
 ) : GcloudOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
 public record HelmVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
 ) : HelmOptions
 {
     /// <summary>

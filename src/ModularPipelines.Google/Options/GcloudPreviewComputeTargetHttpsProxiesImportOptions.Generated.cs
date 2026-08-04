@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-https-proxies", "import")]
 public record GcloudPreviewComputeTargetHttpsProxiesImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
     /// <summary>

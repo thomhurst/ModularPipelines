@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "android", "locales", "describe")]
 public record GcloudFirebaseTestAndroidLocalesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Locale
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Locale
 ) : GcloudOptions
 {
 }

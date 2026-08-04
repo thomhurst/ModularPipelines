@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("delete")]
 public record SkopeoDeleteOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ImageName
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
 ) : SkopeoOptions
 {
     /// <summary>

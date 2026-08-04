@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "update")]
 public record GcloudComputeBackendBucketsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucketName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
 ) : GcloudOptions
 {
     /// <summary>

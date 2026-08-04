@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "update")]
 public record GcloudPreviewComputeImagesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
 ) : GcloudOptions
 {
     /// <summary>

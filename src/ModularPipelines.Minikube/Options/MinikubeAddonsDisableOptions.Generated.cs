@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "disable")]
 public record MinikubeAddonsDisableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AddonName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
 ) : MinikubeOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "jobs", "submit", "pyspark")]
 public record GcloudDataprocJobsSubmitPysparkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PyFile
 ) : GcloudOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service")]
 public record MinikubeServiceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
 ) : MinikubeOptions
 {
     /// <summary>

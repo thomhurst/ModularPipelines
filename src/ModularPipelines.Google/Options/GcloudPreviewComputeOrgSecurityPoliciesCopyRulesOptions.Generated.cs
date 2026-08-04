@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "copy-rules")]
 public record GcloudPreviewComputeOrgSecurityPoliciesCopyRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SecurityPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
 ) : GcloudOptions
 {
 }

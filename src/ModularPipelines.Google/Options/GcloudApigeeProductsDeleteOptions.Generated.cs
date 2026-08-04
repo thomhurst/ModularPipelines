@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigee", "products", "delete")]
 public record GcloudApigeeProductsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Api
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Api
 ) : GcloudOptions
 {
 }

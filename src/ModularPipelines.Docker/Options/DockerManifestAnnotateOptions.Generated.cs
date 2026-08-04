@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
 public record DockerManifestAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ManifestList,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Manifest
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ManifestList,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
 ) : DockerOptions
 {
     /// <summary>

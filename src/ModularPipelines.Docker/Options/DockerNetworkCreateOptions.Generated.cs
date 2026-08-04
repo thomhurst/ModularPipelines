@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "create")]
 public record DockerNetworkCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network
 ) : DockerOptions
 {
     /// <summary>

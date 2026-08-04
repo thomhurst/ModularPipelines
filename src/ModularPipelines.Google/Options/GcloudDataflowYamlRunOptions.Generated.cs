@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "yaml", "run")]
 public record GcloudDataflowYamlRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string JobName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobName
 ) : GcloudOptions
 {
 }

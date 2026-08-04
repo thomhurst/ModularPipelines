@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "update")]
 public record PodmanNetworkUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network
 ) : PodmanOptions
 {
     /// <summary>

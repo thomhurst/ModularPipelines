@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "remove-host-rule")]
 public record GcloudComputeUrlMapsRemoveHostRuleOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UrlMap
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
 ) : GcloudOptions
 {
 }

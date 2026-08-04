@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "imagetools", "inspect")]
 public record DockerBuildxImageToolsInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : DockerOptions
 {
     /// <summary>

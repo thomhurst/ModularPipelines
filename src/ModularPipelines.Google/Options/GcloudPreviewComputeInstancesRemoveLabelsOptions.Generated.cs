@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "remove-labels")]
 public record GcloudPreviewComputeInstancesRemoveLabelsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
 }

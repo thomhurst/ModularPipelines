@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "allow-cluster-resource")]
 public record ArgoCdProjAllowClusterResourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Group,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Kind
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Group,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Kind
 ) : ArgoCdOptions
 {
     /// <summary>

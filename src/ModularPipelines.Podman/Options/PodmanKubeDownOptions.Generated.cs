@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "down")]
 public record PodmanKubeDownOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Kubefile
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
 ) : PodmanOptions
 {
     /// <summary>

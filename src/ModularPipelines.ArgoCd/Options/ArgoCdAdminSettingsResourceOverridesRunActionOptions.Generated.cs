@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "resource-overrides", "run-action")]
 public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceYamlPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Action
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceYamlPath,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
 ) : ArgoCdOptions
 {
     /// <summary>

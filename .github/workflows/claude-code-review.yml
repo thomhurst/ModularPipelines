@@ -41,6 +41,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Claude Code Review
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.user.login != 'dependabot[bot]'
         id: claude-review
         uses: anthropics/claude-code-action@v1
         with:

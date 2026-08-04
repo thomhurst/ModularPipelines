@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "get-iam-policy")]
 public record GcloudPreviewComputeBackendBucketsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucket
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucket
 ) : GcloudOptions
 {
 }

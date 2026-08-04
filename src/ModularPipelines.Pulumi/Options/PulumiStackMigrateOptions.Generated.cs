@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "migrate")]
 public record PulumiStackMigrateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
 ) : PulumiOptions
 {
     /// <summary>

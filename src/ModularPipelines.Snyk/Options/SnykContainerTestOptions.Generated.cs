@@ -21,7 +21,7 @@ namespace ModularPipelines.Snyk.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "test")]
 public record SnykContainerTestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : SnykOptions
 {
     /// <summary>

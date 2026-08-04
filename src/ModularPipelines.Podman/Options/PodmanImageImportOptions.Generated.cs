@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "import")]
 public record PodmanImageImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : PodmanOptions
 {
     /// <summary>

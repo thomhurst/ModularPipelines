@@ -20,7 +20,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-blob")]
 public record CosignVerifyBlobOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Blob
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Blob
 ) : CosignOptions
 {
     /// <summary>

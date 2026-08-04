@@ -19,8 +19,8 @@ namespace ModularPipelines.Flux.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trace")]
 public record FluxTraceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
 ) : FluxOptions
 {
     /// <summary>

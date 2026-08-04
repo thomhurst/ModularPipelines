@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "delete")]
 public record GcloudSourceReposDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RepositoryName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
 ) : GcloudOptions
 {
     /// <summary>

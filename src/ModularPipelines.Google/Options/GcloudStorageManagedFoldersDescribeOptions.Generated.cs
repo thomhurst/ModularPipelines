@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "managed-folders", "describe")]
 public record GcloudStorageManagedFoldersDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
 ) : GcloudOptions
 {
     /// <summary>
