@@ -13,6 +13,8 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     private readonly ILogger<GitChanges> _logger;
     private readonly ConcurrentDictionary<string, ChangeCacheEntry> _changesByBase =
         new(StringComparer.Ordinal);
+    private readonly SemaphoreSlim _untrackedPathsGate = new(1, 1);
+    private IReadOnlyList<string>? _untrackedPaths;
 
     public GitChanges(
         IServiceScopeFactory serviceScopeFactory,
@@ -49,6 +51,8 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         {
             cacheEntry.Gate.Dispose();
         }
+
+        _untrackedPathsGate.Dispose();
     }
 
     private async Task<ChangedPathSnapshot> GetChangedPathsAsync(
@@ -84,17 +88,50 @@ internal sealed class GitChanges : IGitChanges, IDisposable
             }
 
             var executionOptions = new CommandExecutionOptions { MaxCapturedOutputLength = 0 };
-            var diffOutput = await RunCommandsUntrimmed(
-                    gitCommandRunner,
-                    executionOptions,
-                    cancellationToken,
-                    "diff",
-                    "--name-only",
-                    "--no-renames",
-                    "-z",
-                    mergeBase,
-                    "--")
-                .ConfigureAwait(false);
+            var diffOutputTask = RunCommandsUntrimmed(
+                gitCommandRunner,
+                executionOptions,
+                cancellationToken,
+                "diff",
+                "--name-only",
+                "--no-renames",
+                "-z",
+                mergeBase,
+                "--");
+            var untrackedPathsTask = GetUntrackedPathsAsync(
+                gitCommandRunner,
+                executionOptions,
+                cancellationToken);
+
+            await Task.WhenAll(diffOutputTask, untrackedPathsTask).ConfigureAwait(false);
+
+            cacheEntry.Snapshot = new ChangedPathSnapshot(
+                IsKnown: true,
+                SplitPaths(await diffOutputTask.ConfigureAwait(false))
+                    .Concat(await untrackedPathsTask.ConfigureAwait(false))
+                    .Distinct(StringComparer.Ordinal)
+                    .ToArray());
+            return cacheEntry.Snapshot;
+        }
+        finally
+        {
+            cacheEntry.Gate.Release();
+        }
+    }
+
+    private async Task<IReadOnlyList<string>> GetUntrackedPathsAsync(
+        IGitCommandRunner gitCommandRunner,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken)
+    {
+        await _untrackedPathsGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            if (_untrackedPaths is not null)
+            {
+                return _untrackedPaths;
+            }
+
             var untrackedOutput = await RunCommandsUntrimmed(
                     gitCommandRunner,
                     executionOptions,
@@ -108,17 +145,12 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                     ":(top)")
                 .ConfigureAwait(false);
 
-            cacheEntry.Snapshot = new ChangedPathSnapshot(
-                IsKnown: true,
-                SplitPaths(diffOutput)
-                    .Concat(SplitPaths(untrackedOutput))
-                    .Distinct(StringComparer.Ordinal)
-                    .ToArray());
-            return cacheEntry.Snapshot;
+            _untrackedPaths = SplitPaths(untrackedOutput).ToArray();
+            return _untrackedPaths;
         }
         finally
         {
-            cacheEntry.Gate.Release();
+            _untrackedPathsGate.Release();
         }
     }
 

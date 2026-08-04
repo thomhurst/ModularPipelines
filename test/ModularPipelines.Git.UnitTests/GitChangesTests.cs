@@ -47,16 +47,16 @@ public class GitChangesTests
             "src/main.cs\0",
             "",
             "release-base",
-            "src/release.cs\0",
-            "");
+            "src/release.cs\0");
         var changes = CreateChanges(runner);
 
         await changes.HasChangesAsync(["src/**"]);
         await changes.HasChangesAsync(["src/**"], "origin/release");
 
-        await Assert.That(runner.Commands).Count().IsEqualTo(6);
+        await Assert.That(runner.Commands).Count().IsEqualTo(5);
         await Assert.That(runner.Commands[3].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/release", "HEAD"]);
+        await Assert.That(runner.Commands.Count(command => command[0] is "ls-files")).IsEqualTo(1);
     }
 
     [Test]
