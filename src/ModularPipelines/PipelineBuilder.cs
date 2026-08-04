@@ -104,7 +104,7 @@ public sealed class PipelineBuilder : IDisposable
     /// Gets the current immutable pipeline options snapshot.
     /// </summary>
     /// <remarks>
-    /// Use <see cref="Extensions.PipelineBuilderExtensions.ConfigurePipelineOptions(PipelineBuilder, Func{PipelineOptions, PipelineOptions})"/>
+    /// Use <see cref="PipelineBuilderExtensions.ConfigurePipelineOptions(PipelineBuilder, Func{PipelineOptions, PipelineOptions})"/>
     /// to replace this snapshot.
     /// </remarks>
     public PipelineOptions Options => _options;
