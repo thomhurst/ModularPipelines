@@ -182,6 +182,11 @@ public static class CurrentApiSnippets
                     new DotNetTestOptions
                     {
                         Project = testProject.Path,
+                        Arguments =
+                        [
+                            "--coverage",
+                            "--coverage-output-format", "cobertura",
+                        ],
                     },
                     cancellationToken: cancellationToken))
                 .ProcessInParallel();

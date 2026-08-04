@@ -66,6 +66,11 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 new DotNetTestOptions
                 {
                     Project = testProject.Path,
+                    Arguments =
+                    [
+                        "--coverage",
+                        "--coverage-output-format", "cobertura",
+                    ],
                 },
                 cancellationToken: cancellationToken))
             .ProcessInParallel();
