@@ -338,6 +338,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_ColonSeparated_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--define:value"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --define:value -- -1");
+    }
+
+    [Test]
     public async Task Build_Hoists_Optional_Manual_Option_With_Explicit_Value()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -378,6 +394,33 @@ public class CommandLineBuilderTests : TestBase
         {
             Filter = "-1",
             Arguments = ["--arguments", "one", "--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Terminal_Status_In_Manual_Short_Cluster()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var modelProvider = await GetService<ICommandModelProvider>();
+        var flags = modelProvider.GetCommandModel(typeof(TestTerminalOptions))
+            .OfType<FlagPart>()
+            .ToDictionary(flag => flag.Attribute.ShortForm!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(flags["-c"].Phase).IsEqualTo(CommandLinePhase.Normal);
+            await Assert.That(flags["-T"].Phase).IsEqualTo(CommandLinePhase.Terminal);
+        }
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["-cT"],
             ArgumentsContainToolOptions = true,
         });
 
@@ -742,6 +785,12 @@ public class CommandLineBuilderTests : TestBase
         [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
         public string? Color { get; set; }
 
+        [CliOption("--define", Format = OptionFormat.ColonSeparated)]
+        public string? Define { get; set; }
+
+        [CliFlag("--compact", ShortForm = "-c")]
+        public bool? Compact { get; set; }
+
         [CliOption("--dry-run", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? DryRun { get; set; }
 
@@ -756,6 +805,9 @@ public class CommandLineBuilderTests : TestBase
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
         public CliOptionValue? RunTests { get; set; }
+
+        [CliFlag("--terminal-flag", ShortForm = "-T", Phase = CommandLinePhase.Terminal)]
+        public bool? TerminalFlag { get; set; }
 
         [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
         public string? TerminalArgument { get; set; }

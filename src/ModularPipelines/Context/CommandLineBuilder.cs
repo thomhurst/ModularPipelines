@@ -135,7 +135,7 @@ internal sealed class CommandLineBuilder(
         }
         if (options.ArgumentsContainToolOptions
             && hasOptionTerminator
-            && ContainsRecognizedManualOption(manualArgs, terminalCommandModel, options))
+            && extractedManualOptions.HasTerminalOptions)
         {
             throw new InvalidOperationException(
                 "Manual terminal options cannot be combined with an end-of-options marker. "
@@ -245,6 +245,7 @@ internal sealed class CommandLineBuilder(
         var globalOptions = new List<string>();
         var commandOptions = new List<string>();
         var remainingArguments = new List<string>();
+        var hasTerminalOptions = false;
         for (var index = 0; index < manualArgs.Count;)
         {
             var match = TryMatchManualOption(
@@ -264,6 +265,7 @@ internal sealed class CommandLineBuilder(
             if (preserveTerminalOptions && match.Value.IsTerminal)
             {
                 remainingArguments.AddRange(matchedArguments);
+                hasTerminalOptions = true;
             }
             else
             {
@@ -276,14 +278,19 @@ internal sealed class CommandLineBuilder(
             index += match.Value.ArgumentCount;
         }
 
-        if (globalOptions.Count == 0 && commandOptions.Count == 0)
+        if (globalOptions.Count == 0
+            && commandOptions.Count == 0
+            && !hasTerminalOptions)
         {
             return ExtractedManualOptions.Empty;
         }
 
         manualArgs.Clear();
         manualArgs.AddRange(remainingArguments);
-        return new ExtractedManualOptions(globalOptions, commandOptions);
+        return new ExtractedManualOptions(
+            globalOptions,
+            commandOptions,
+            hasTerminalOptions);
     }
 
     private static ManualOptionMatch? TryMatchManualOption(
@@ -302,7 +309,7 @@ internal sealed class CommandLineBuilder(
                 IsTerminal: flag.Phase == CommandLinePhase.Terminal);
         }
 
-        if (TryGetAttachedEqualsManualOption(argument, optionsByName, out var attachedOption))
+        if (TryGetAttachedManualOption(argument, optionsByName, out var attachedOption))
         {
             return new ManualOptionMatch(
                 ArgumentCount: 1,
@@ -363,16 +370,23 @@ internal sealed class CommandLineBuilder(
         }
     }
 
-    private static bool TryGetAttachedEqualsManualOption(
+    private static bool TryGetAttachedManualOption(
         string argument,
         IReadOnlyDictionary<string, OptionPart> optionsByName,
         out OptionPart option)
     {
         foreach (var item in optionsByName)
         {
-            if (argument.Length > item.Key.Length
-                && argument.StartsWith(item.Key, StringComparison.Ordinal)
-                && argument[item.Key.Length] == '=')
+            if (argument.Length <= item.Key.Length
+                || !argument.StartsWith(item.Key, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var separator = argument[item.Key.Length];
+            if (separator == '='
+                || (separator == ':'
+                    && item.Value.Attribute.Format == OptionFormat.ColonSeparated))
             {
                 option = item.Value;
                 return true;
@@ -522,7 +536,7 @@ internal sealed class CommandLineBuilder(
         if (argument == "--"
             || flagsByName.ContainsKey(argument)
             || optionsByName.ContainsKey(argument)
-            || TryGetAttachedEqualsManualOption(argument, optionsByName, out _))
+            || TryGetAttachedManualOption(argument, optionsByName, out _))
         {
             return true;
         }
@@ -551,9 +565,10 @@ internal sealed class CommandLineBuilder(
 
     private readonly record struct ExtractedManualOptions(
         IReadOnlyList<string> Global,
-        IReadOnlyList<string> Command)
+        IReadOnlyList<string> Command,
+        bool HasTerminalOptions)
     {
-        public static ExtractedManualOptions Empty { get; } = new([], []);
+        public static ExtractedManualOptions Empty { get; } = new([], [], false);
     }
 
     private readonly record struct ManualOptionMatch(
