@@ -176,6 +176,23 @@ public class JqOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Rejects_Manual_Terminal_Option_Before_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new JqExecuteOptions
+        {
+            Arguments = ["--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+            RunSettings = ["foo"],
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
     public async Task Places_Attached_Manual_Option_Before_OptionTerminated_Filter()
     {
         var builder = await GetService<ICommandLineBuilder>();

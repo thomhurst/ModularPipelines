@@ -99,8 +99,14 @@ internal sealed class CommandLineBuilder(
         }
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
-        // or declared in the manual arguments; leave manual positional operands in place.
-        var hasOptionTerminator = emittedOptionTerminator || options.ArgumentsContainOptionTerminator;
+        // or declared in the manual arguments or run settings; leave manual positional operands in place.
+        var runSettingsTerminatorState = emittedOptionTerminator
+                                         || options.ArgumentsContainOptionTerminator;
+        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
+            RunSettingsCommandModel,
+            options,
+            ref runSettingsTerminatorState);
+        var hasOptionTerminator = runSettingsTerminatorState;
         var extractedManualOptions = options.ArgumentsContainToolOptions
                                      && hasOptionTerminator
             ? ExtractRecognizedManualOptionsByScope(
@@ -137,11 +143,7 @@ internal sealed class CommandLineBuilder(
                 + "emitted by a structured argument. Remove one of the '--' sources.");
         }
 
-        emittedOptionTerminator |= options.ArgumentsContainOptionTerminator;
-        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
-            RunSettingsCommandModel,
-            options,
-            ref emittedOptionTerminator);
+        emittedOptionTerminator = runSettingsTerminatorState;
         var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
