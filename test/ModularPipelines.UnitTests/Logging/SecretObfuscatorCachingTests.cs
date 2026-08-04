@@ -116,7 +116,7 @@ public class SecretObfuscatorCachingTests
             await Assert.That(repeatedOptionsCache).IsSameReferenceAs(registeredCache);
         }
 
-        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Once);
+        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Exactly(2));
     }
 
     [Test]
@@ -191,7 +191,30 @@ public class SecretObfuscatorCachingTests
             await Assert.That(refreshed).IsNotSameReferenceAs(first);
         }
 
-        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Exactly(2));
+        secretProvider.Verify(x => x.GetSecretsInObject(optionsObject), Times.Exactly(3));
+    }
+
+    [Test]
+    public async Task InvalidatesOptionsCacheWhenOptionsObjectChanges()
+    {
+        var optionSecret = "first-option-secret";
+        var optionsObject = new object();
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, []));
+        secretProvider.Setup(x => x.GetSecretsInObject(optionsObject))
+            .Returns(() => [optionSecret]);
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+        var maskingOptions = new SecretMaskingOptions();
+
+        var first = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+        optionSecret = "second-option-secret";
+        var refreshed = obfuscator.GetSecretCache(optionsObject, maskingOptions, false);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(refreshed).IsNotSameReferenceAs(first);
+            await Assert.That(obfuscator.Obfuscate(optionSecret, optionsObject)).IsEqualTo("**********");
+        }
     }
 
     private static SecretObfuscator CreateObfuscator(

@@ -96,60 +96,50 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         }
 
         var minimumLength = Math.Max(1, options.MinimumSecretLength);
+        var extraSecrets = _secretProvider.GetSecretsInObject(optionsObject)
+            .Where(secret => secret.Length >= minimumLength)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
         var optionsSecretCache = _optionsSecretCaches.GetValue(
             optionsObject,
             static _ => new OptionsSecretCache());
 
         lock (optionsSecretCache.SyncRoot)
         {
-            if (optionsSecretCache.Cache is { } currentCache
+            var secretsChanged = optionsSecretCache.MinimumSecretLength != minimumLength
+                                 || !optionsSecretCache.ExtraSecrets.SequenceEqual(
+                                     extraSecrets,
+                                     StringComparer.Ordinal);
+            if (!secretsChanged
+                && optionsSecretCache.Cache is { } currentCache
                 && currentCache.Version == registeredSecrets.Version
-                && currentCache.CaseInsensitive == caseInsensitive
-                && optionsSecretCache.MinimumSecretLength == minimumLength)
+                && currentCache.CaseInsensitive == caseInsensitive)
             {
                 return currentCache;
             }
 
-            var cache = CreateOptionsSecretCache(
-                optionsObject,
-                registeredSecrets,
-                minimumLength,
-                caseInsensitive);
-            optionsSecretCache.MinimumSecretLength = minimumLength;
+            if (secretsChanged)
+            {
+                optionsSecretCache.MinimumSecretLength = minimumLength;
+                optionsSecretCache.ExtraSecrets = extraSecrets;
+                optionsSecretCache.Patterns = extraSecrets
+                    .SelectMany(SecretMaskingPatternGenerator.Generate)
+                    .ToArray();
+            }
+
+            var missingPatterns = optionsSecretCache.Patterns
+                .Where(pattern => !registeredSecrets.ExactSecrets.Contains(pattern))
+                .ToArray();
+            var cache = missingPatterns.Length == 0
+                ? registeredSecrets
+                : CreateSecretCache(
+                    registeredSecrets.Secrets.Concat(missingPatterns),
+                    registeredSecrets.Version,
+                    caseInsensitive);
             optionsSecretCache.Cache = cache;
             return cache;
         }
-    }
-
-    private SecretCache CreateOptionsSecretCache(
-        object optionsObject,
-        SecretCache registeredSecrets,
-        int minimumLength,
-        bool caseInsensitive)
-    {
-        var extraSecrets = _secretProvider.GetSecretsInObject(optionsObject)
-            .Where(secret => secret.Length >= minimumLength)
-            .Distinct(StringComparer.Ordinal)
-            .ToArray();
-
-        if (extraSecrets.Length == 0)
-        {
-            return registeredSecrets;
-        }
-
-        var missingPatterns = extraSecrets
-            .SelectMany(SecretMaskingPatternGenerator.Generate)
-            .Where(pattern => !registeredSecrets.ExactSecrets.Contains(pattern))
-            .ToArray();
-        if (missingPatterns.Length == 0)
-        {
-            return registeredSecrets;
-        }
-
-        return CreateSecretCache(
-            registeredSecrets.Secrets.Concat(missingPatterns),
-            registeredSecrets.Version,
-            caseInsensitive);
     }
 
     private SecretCache GetRegisteredSecretCache(bool caseInsensitive)
@@ -277,6 +267,10 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         public object SyncRoot { get; } = new();
 
         public int MinimumSecretLength { get; set; }
+
+        public string[] ExtraSecrets { get; set; } = [];
+
+        public string[] Patterns { get; set; } = [];
 
         public SecretCache? Cache { get; set; }
     }
