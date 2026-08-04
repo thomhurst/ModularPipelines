@@ -193,6 +193,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     moduleContext,
                     exception,
                     logger,
+                    result => moduleResult = result,
                     completeModule)
                 .ConfigureAwait(false);
             await finalizer.FinalizeAsync(moduleResult).ConfigureAwait(false);
@@ -654,6 +655,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         Exception exception,
         IModuleLogger logger,
+        Action<ModuleResult<T>> preserveResult,
         bool completeModule = true)
     {
         logger.LogError(exception, "Module failed after {Duration}", executionContext.Duration.ToDisplayString());
@@ -686,6 +688,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogInformation("Pipeline has been canceled");
 
             var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            preserveResult(cancelledResult);
             executionContext.SetTypedResult(cancelledResult);
             return cancelledResult;
         }
@@ -703,6 +706,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 executionContext.Status = Status.IgnoredFailure;
 
                 var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+                preserveResult(ignoredResult);
                 executionContext.SetTypedResult(ignoredResult);
 
                 await SaveResults(
@@ -717,6 +721,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Create a failed result before cancelling and throwing
         ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+        preserveResult(failedResult);
         executionContext.SetTypedResult(failedResult);
         if (completeModule)
         {

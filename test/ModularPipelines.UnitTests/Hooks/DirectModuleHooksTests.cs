@@ -4,6 +4,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -170,6 +171,12 @@ public class DirectModuleHooksTests : TestBase
         }
     }
 
+    private class NonIgnoredFailingHookTrackingModule : FailingHookTrackingModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .Build();
+    }
+
     /// <summary>
     /// Module that throws in OnBeforeExecuteAsync.
     /// </summary>
@@ -333,6 +340,25 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.ReceivedAfterResult).IsNotNull();
         await Assert.That(module.ReceivedAfterResult!.ExceptionOrDefault).IsNotNull();
         await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault).IsTypeOf<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task OnAfterExecuteAsync_CalledWhenNonIgnoredModuleFails()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<NonIgnoredFailingHookTrackingModule>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>()
+            .OfType<NonIgnoredFailingHookTrackingModule>()
+            .Single();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+
+        await Assert.That(module.HooksCalled).Contains("OnAfterExecuteAsync");
+        await Assert.That(module.ReceivedAfterResult).IsNotNull();
+        await Assert.That(module.ReceivedAfterResult!.ModuleStatus).IsEqualTo(Status.Failed);
+        await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
     }
 
     [Test]
