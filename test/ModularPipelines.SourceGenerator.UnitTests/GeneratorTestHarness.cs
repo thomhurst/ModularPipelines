@@ -32,22 +32,25 @@ internal static class GeneratorTestHarness
         string source,
         IReadOnlyDictionary<string, string>? globalOptions = null)
     {
-        var infrastructureReference = CreateMetadataReference(
-            "ModularPipelines",
-            [infrastructure],
-            References);
-        var externalReference = CreateMetadataReference(
-            "ExternalModules",
-            [externalSource],
-            [.. References, infrastructureReference]);
-        var compilation = CSharpCompilation.Create(
-            "GeneratorTests",
-            [CSharpSyntaxTree.ParseText(source)],
-            [.. References, infrastructureReference, externalReference],
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        ThrowForCompilationErrors(compilation);
-
+        var compilation = CreateCompilationWithExternalAssembly(infrastructure, externalSource, source);
         return Run(generator, compilation, globalOptions);
+    }
+
+    public static (GeneratorDriverRunResult Result, Diagnostic[] CompilationDiagnostics)
+        RunWithExternalAssemblyAndGetCompilationDiagnostics(
+            IIncrementalGenerator generator,
+            string infrastructure,
+            string externalSource,
+            string source,
+            IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var compilation = CreateCompilationWithExternalAssembly(infrastructure, externalSource, source);
+        var driver = CreateDriver(generator, globalOptions).RunGeneratorsAndUpdateCompilation(
+            compilation,
+            out var outputCompilation,
+            out _);
+
+        return (driver.GetRunResult(), outputCompilation.GetDiagnostics().ToArray());
     }
 
     public static GeneratorDriverRunResult RunWithIndirectExternalAssembly(
@@ -90,17 +93,20 @@ internal static class GeneratorTestHarness
         CSharpCompilation compilation,
         IReadOnlyDictionary<string, string>? globalOptions = null)
     {
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: [generator.AsSourceGenerator()],
-            optionsProvider: new TestAnalyzerConfigOptionsProvider(globalOptions));
-
-        driver = driver.RunGeneratorsAndUpdateCompilation(
+        var driver = CreateDriver(generator, globalOptions).RunGeneratorsAndUpdateCompilation(
             compilation,
             out _,
             out _);
 
         return driver.GetRunResult();
     }
+
+    private static GeneratorDriver CreateDriver(
+        IIncrementalGenerator generator,
+        IReadOnlyDictionary<string, string>? globalOptions) =>
+        CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            optionsProvider: new TestAnalyzerConfigOptionsProvider(globalOptions));
 
     public static GeneratorDriverRunResult RunTwiceWithStepTracking(
         IIncrementalGenerator generator,
@@ -154,6 +160,29 @@ internal static class GeneratorTestHarness
                 CSharpSyntaxTree.ParseText(source),
             ],
             References,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return compilation;
+    }
+
+    private static CSharpCompilation CreateCompilationWithExternalAssembly(
+        string infrastructure,
+        string externalSource,
+        string source)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var externalReference = CreateMetadataReference(
+            "ExternalModules",
+            [externalSource],
+            [.. References, infrastructureReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText(source)],
+            [.. References, infrastructureReference, externalReference],
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         ThrowForCompilationErrors(compilation);
 

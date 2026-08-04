@@ -156,6 +156,59 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Suppresses_External_Experimental_Diagnostics()
+    {
+        var (result, compilationDiagnostics) =
+            GeneratorTestHarness.RunWithExternalAssemblyAndGetCompilationDiagnostics(
+                new CommandOptionsGenerator(),
+                CommandInfrastructure,
+                """
+                using System.Diagnostics.CodeAnalysis;
+
+                [assembly: Experimental("LIBASSEMBLY001")]
+
+                namespace External;
+
+                [Experimental("LIBBASE001")]
+                public class ExperimentalBaseOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [Experimental("LIBPROPERTY001")]
+                    [ModularPipelines.Attributes.CliOption("--value")]
+                    public string Value { get; } = "";
+                }
+
+                [Experimental("LIBOUTER001")]
+                public static class ExperimentalContainer
+                {
+                    [Experimental("LIBTYPE001")]
+                    public sealed class ExperimentalOptions
+                        : ExperimentalBaseOptions;
+                }
+                """,
+                "public sealed class TrimmedHost;",
+                new Dictionary<string, string>
+                {
+                    ["build_property.PublishTrimmed"] = "true",
+                });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(compilationDiagnostics
+                    .Where(static diagnostic => diagnostic.Id is
+                        "LIBASSEMBLY001" or "LIBBASE001" or "LIBOUTER001"
+                        or "LIBPROPERTY001" or "LIBTYPE001"))
+                .IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "#pragma warning disable CS0612, CS0618, LIBASSEMBLY001, LIBBASE001, LIBOUTER001, LIBPROPERTY001, LIBTYPE001");
+            await Assert.That(generatedSource).Contains(
+                "typeof(global::External.ExperimentalContainer.ExperimentalOptions)");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rescans_Legacy_Metadata_Marker()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
