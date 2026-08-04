@@ -125,14 +125,17 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private static IReadOnlyList<Exception> FlattenDistinctExceptions(
+    internal static IReadOnlyList<Exception> FlattenDistinctExceptions(
         params Exception[] exceptions) =>
         exceptions
-            .SelectMany(exception => exception is AggregateException aggregateException
-                ? aggregateException.Flatten().InnerExceptions
-                : [exception])
+            .SelectMany(FlattenException)
             .Distinct<Exception>(ReferenceEqualityComparer.Instance)
             .ToArray();
+
+    private static IEnumerable<Exception> FlattenException(Exception exception) =>
+        exception is AggregateException { InnerExceptions.Count: > 0 } aggregateException
+            ? aggregateException.InnerExceptions.SelectMany(FlattenException)
+            : [exception];
 
     private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
     {

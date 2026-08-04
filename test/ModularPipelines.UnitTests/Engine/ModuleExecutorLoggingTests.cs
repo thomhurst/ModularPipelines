@@ -186,6 +186,25 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    public async Task FlattenDistinctExceptions_PreservesEmptyAggregates()
+    {
+        var pipelineException = new AggregateException();
+        var teardownException = new AggregateException();
+        var nestedTeardownException = new AggregateException(teardownException);
+
+        var exceptions = ModuleExecutor.FlattenDistinctExceptions(
+            pipelineException,
+            nestedTeardownException);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exceptions).Count().IsEqualTo(2);
+            await Assert.That(exceptions[0]).IsSameReferenceAs(pipelineException);
+            await Assert.That(exceptions[1]).IsSameReferenceAs(teardownException);
+        }
+    }
+
+    [Test]
     public async Task StopOnFirstException_SurfacesAllConcurrentWorkerFaults()
     {
         var faultingModule = new FaultingModule();
