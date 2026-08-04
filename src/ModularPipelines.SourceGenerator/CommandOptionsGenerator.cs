@@ -245,7 +245,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             INamedTypeSymbol type => IsOptionsBuilder(type)
                 || IsServiceTypeRegistrationUsage(context),
-            IMethodSymbol method => GetRegisteredOptionsType(method) is ITypeParameterSymbol,
+            IMethodSymbol method => GetRegisteredOptionsType(context, method) is ITypeParameterSymbol,
             _ => false,
         };
     }
@@ -257,7 +257,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             INamedTypeSymbol type => IsOptionsBuilder(type)
                                      || IsServiceTypeRegistrationUsage(context),
-            IMethodSymbol method => GetRegisteredOptionsType(method) is INamedTypeSymbol,
+            IMethodSymbol method => GetRegisteredOptionsType(context, method) is INamedTypeSymbol,
             _ => false,
         };
     }
@@ -308,9 +308,48 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             INamedTypeSymbol constructedType when IsOptionsTypeUsage(constructedType) =>
                 constructedType.TypeArguments[0],
-            IMethodSymbol method => GetRegisteredOptionsType(method),
+            IMethodSymbol method => GetRegisteredOptionsType(context, method),
             _ => null,
         };
+    }
+
+    private static ITypeSymbol? GetRegisteredOptionsType(
+        GeneratorSyntaxContext context,
+        IMethodSymbol method) =>
+        GetRegisteredOptionsType(method)
+        ?? GetServiceTypeArgumentOptionsType(context, method);
+
+    private static ITypeSymbol? GetServiceTypeArgumentOptionsType(
+        GeneratorSyntaxContext context,
+        IMethodSymbol method)
+    {
+        if (!IsServiceTypeCarrier(method)
+            || context.Node is not InvocationExpressionSyntax invocation)
+        {
+            return null;
+        }
+
+        for (var index = 0; index < invocation.ArgumentList.Arguments.Count; index++)
+        {
+            var argument = invocation.ArgumentList.Arguments[index];
+            var parameter = argument.NameColon is { Name.Identifier.ValueText: { } parameterName }
+                ? method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
+                : index < method.Parameters.Length
+                    ? method.Parameters[index]
+                    : null;
+            if (parameter?.Name != "serviceType"
+                || argument.Expression is not TypeOfExpressionSyntax typeOfExpression
+                || context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type
+                    is not INamedTypeSymbol serviceType
+                || !IsOptionsTypeUsage(serviceType))
+            {
+                continue;
+            }
+
+            return serviceType.TypeArguments[0];
+        }
+
+        return null;
     }
 
     private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>

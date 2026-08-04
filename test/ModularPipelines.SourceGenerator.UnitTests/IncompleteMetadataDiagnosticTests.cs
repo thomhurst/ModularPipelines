@@ -1309,6 +1309,39 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Aot_Host_Rejects_Partial_Options_Registered_Through_Type_Alias()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+            using RegisteredOptions = Microsoft.Extensions.Options.IOptions<PartialOptions>;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.AddSingleton(
+                        typeof(RegisteredOptions),
+                        Options.Create(new PartialOptions()));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Aot_Host_Rejects_Partial_Options_Registered_With_Configure()
     {
         var result = GeneratorTestHarness.Run(
