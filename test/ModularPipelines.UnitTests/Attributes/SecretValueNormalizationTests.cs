@@ -1,8 +1,13 @@
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.FSharp.TestFixtures;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.VisualBasic.TestFixtures;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -41,10 +46,17 @@ internal class GeneratedCharacterSecretOptions
     public CliOptionValue BareOptionalValue { get; init; } = CliOptionValue.Bare;
 }
 
-internal sealed class ReflectionCharacterSecretOptions : GeneratedCharacterSecretOptions
+internal sealed class GeneratedNoSecretsOptions;
+
+internal class GeneratedHiddenSecretBase
 {
     [SecretValue]
-    private string InaccessibleSecret => " ";
+    public string Token { get; init; } = "hidden-base-secret";
+}
+
+internal sealed class GeneratedHiddenSecretDerived : GeneratedHiddenSecretBase
+{
+    public new int Token { get; init; } = 42;
 }
 
 internal sealed class GeneratedKeyedSecretOptions
@@ -63,6 +75,12 @@ internal sealed class GeneratedKeyedSecretOptions
 
 public class SecretValueNormalizationTests
 {
+    private sealed class PrivateNoSecretsOptions;
+
+    private sealed class GenericNoSecretsOptions<T>;
+
+    private sealed partial class PartialNoSecretsOptions;
+
     private static readonly string[] CharacterSecrets =
     [
         "array-secret",
@@ -96,17 +114,298 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task ReflectionFallback_NormalizesCharacterSequencesAndCollections()
+    public async Task GeneratedExactEmptyMetadata_ReturnsEmpty()
     {
         var provider = CreateProvider(out _);
         var metadataFound = GeneratedSecretMetadata.TryGetAccessors(
-            typeof(ReflectionCharacterSecretOptions),
-            out _);
+            typeof(GeneratedNoSecretsOptions),
+            out var accessors);
+        var secrets = provider.GetSecretsInObject(new GeneratedNoSecretsOptions()).ToList();
 
-        var secrets = provider.GetSecretsInObject(new ReflectionCharacterSecretOptions()).ToList();
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+            await Assert.That(secrets).IsEmpty();
+        }
+    }
 
-        await Assert.That(metadataFound).IsFalse();
-        await Assert.That(secrets).IsEquivalentTo(ExpectedSecrets);
+    [Test]
+    public async Task GeneratedNamedCoverage_HandlesPrivateAndGenericTypes()
+    {
+        var privateFound = GeneratedSecretMetadata.TryGetAccessors(typeof(PrivateNoSecretsOptions), out _);
+        var genericFound = GeneratedSecretMetadata.TryGetAccessors(typeof(GenericNoSecretsOptions<string>), out _);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(privateFound).IsTrue();
+            await Assert.That(genericFound).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task ArrayOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var provider = CreateProvider(out _);
+        var options = Array.Empty<GeneratedNoSecretsOptions>();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+        var secrets = provider.GetSecretsInObject(options).ToList();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+            await Assert.That(secrets).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task AnonymousOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var provider = CreateProvider(out _);
+        var options = new { Value = "not-secret" };
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+        var secrets = provider.GetSecretsInObject(options).ToList();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+            await Assert.That(secrets).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task GeneratedMetadata_PreservesHiddenBaseSecret()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new GeneratedHiddenSecretDerived()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["hidden-base-secret"]);
+    }
+
+    [Test]
+    public async Task IteratorOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var options = GetIteratorOptions();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task AsyncIteratorOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var options = GetAsyncIteratorOptions();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task ClosureTargetsAreRecognizedAsEmptyMetadata()
+    {
+        var captured = "not-secret";
+        Func<string> callback = () => captured;
+        var target = callback.Target!;
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(target.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task NoncapturingLambdaTargetsAreRecognizedAsEmptyMetadata()
+    {
+        Func<string> callback = () => "not-secret";
+        var target = callback.Target!;
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(target.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(target.GetType().Name).IsEqualTo("<>c");
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task EnumAndDelegateOptionsAreRecognizedAsEmptyMetadata()
+    {
+        Action callback = static () => { };
+
+        var enumFound = GeneratedSecretMetadata.TryGetAccessors(DayOfWeek.Monday.GetType(), out var enumAccessors);
+        var delegateFound = GeneratedSecretMetadata.TryGetAccessors(callback.GetType(), out var delegateAccessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enumFound).IsTrue();
+            await Assert.That(enumAccessors).IsEmpty();
+            await Assert.That(delegateFound).IsTrue();
+            await Assert.That(delegateAccessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task IncompleteProcessedTypeUsesReflectionFallback()
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"CompilerGeneratedOptions_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("GeneratedOptions", TypeAttributes.Public);
+        typeBuilder.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(CompilerGeneratedAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var getter = typeBuilder.DefineMethod(
+            "get_Token",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+            typeof(string),
+            Type.EmptyTypes);
+        var il = getter.GetILGenerator();
+        il.Emit(OpCodes.Ldstr, "generated-secret");
+        il.Emit(OpCodes.Ret);
+        var property = typeBuilder.DefineProperty("Token", PropertyAttributes.None, typeof(string), null);
+        property.SetGetMethod(getter);
+        property.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var objectType = typeBuilder.CreateType()!;
+        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
+        var provider = CreateProvider(out _);
+        var value = Activator.CreateInstance(objectType)!;
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(objectType, out _);
+        var secrets = provider.GetSecretsInObject(value).ToList();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsFalse();
+            await Assert.That(secrets).IsEquivalentTo(["generated-secret"]);
+        }
+    }
+
+    [Test]
+    public async Task VisualBasicOptions_UseReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new VisualBasicSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["visual-basic-secret"]);
+    }
+
+    [Test]
+    public async Task ProcessedAssembly_UsesReflectionForGeneratorEmittedSecrets()
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"GeneratedSecretOptions_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("GeneratedSecretOptions", TypeAttributes.Public);
+        var getter = typeBuilder.DefineMethod(
+            "get_Token",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+            typeof(string),
+            Type.EmptyTypes);
+        var il = getter.GetILGenerator();
+        il.Emit(OpCodes.Ldstr, "generated-secret");
+        il.Emit(OpCodes.Ret);
+        var property = typeBuilder.DefineProperty("Token", PropertyAttributes.None, typeof(string), null);
+        property.SetGetMethod(getter);
+        property.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var optionsType = typeBuilder.CreateType()!;
+        GeneratedSecretMetadata.RegisterAssembly(optionsType.Assembly);
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(Activator.CreateInstance(optionsType)).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["generated-secret"]);
+    }
+
+    [Test]
+    public async Task FSharpOptions_UseReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new FSharpSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["fsharp-secret"]);
+    }
+
+    [Test]
+    public async Task NativeAot_Assumes_Unprocessed_Assemblies_May_Contain_Secrets()
+    {
+        var referencesSecretAttribute = SecretProvider.CanReferenceSecretValueAttribute(
+            typeof(FSharpSecretOptions).Assembly,
+            isDynamicCodeSupported: false);
+
+        await Assert.That(referencesSecretAttribute).IsTrue();
+    }
+
+    [Test]
+    public async Task DerivedOptions_UseBaseAssemblyForReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+        var value = CreateDerivedDynamicOptions();
+
+        var secrets = provider.GetSecretsInObject(value).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["inherited-secret"]);
+    }
+
+    [Test]
+    public async Task IncompleteProcessedTypeWithoutSecretsUsesReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName("MissingSecretMetadata"),
+            AssemblyBuilderAccess.Run);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("ExternalOptions", TypeAttributes.Public);
+        typeBuilder.DefineField(
+            "SecretAttributeReference",
+            typeof(SecretValueAttribute),
+            FieldAttributes.Public);
+        var objectType = typeBuilder.CreateType()!;
+        var value = Activator.CreateInstance(objectType)!;
+        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
+
+        var secrets = provider.GetSecretsInObject(value).ToList();
+
+        await Assert.That(secrets).IsEmpty();
+    }
+
+    [Test]
+    public async Task PartialOptionsWithoutExactMetadataUseReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList();
+
+        await Assert.That(secrets).IsEmpty();
     }
 
     [Test]
@@ -156,5 +455,48 @@ public class SecretValueNormalizationTests
             nativeMasker.Object,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()),
             Mock.Of<ILogger<SecretProvider>>());
+    }
+
+    private static IEnumerable<string> GetIteratorOptions()
+    {
+        yield return "not-secret";
+    }
+
+    private static async IAsyncEnumerable<string> GetAsyncIteratorOptions()
+    {
+        await Task.Yield();
+        yield return "not-secret";
+    }
+
+    private static object CreateDerivedDynamicOptions()
+    {
+        var baseAssembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"SecretBase_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var baseTypeBuilder = baseAssembly.DefineDynamicModule("Main")
+            .DefineType("SecretBase", TypeAttributes.Public);
+        var getter = baseTypeBuilder.DefineMethod(
+            "get_Token",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+            typeof(string),
+            Type.EmptyTypes);
+        var il = getter.GetILGenerator();
+        il.Emit(OpCodes.Ldstr, "inherited-secret");
+        il.Emit(OpCodes.Ret);
+        var property = baseTypeBuilder.DefineProperty("Token", PropertyAttributes.None, typeof(string), null);
+        property.SetGetMethod(getter);
+        property.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var baseType = baseTypeBuilder.CreateType()!;
+
+        var derivedAssembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"SecretDerived_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var derivedType = derivedAssembly.DefineDynamicModule("Main")
+            .DefineType("SecretDerived", TypeAttributes.Public, baseType)
+            .CreateType()!;
+
+        return Activator.CreateInstance(derivedType)!;
     }
 }
