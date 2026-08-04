@@ -30,6 +30,26 @@ public class IncompleteMetadataDiagnosticTests
         }
         """;
 
+    private const string OptionsRegistrationInfrastructure = CommandInfrastructure + """
+
+        namespace Microsoft.Extensions.DependencyInjection
+        {
+            public interface IServiceCollection;
+
+            public sealed class ServiceCollection : IServiceCollection;
+
+            public static class OptionsServiceCollectionExtensions
+            {
+                public static IServiceCollection Configure<TOptions>(
+                    this IServiceCollection services,
+                    System.Action<TOptions> configureOptions) => services;
+
+                public static object AddOptions<TOptions>(
+                    this IServiceCollection services) => new object();
+            }
+        }
+        """;
+
     [Test]
     public async Task Inaccessible_Command_Property_Reports_Diagnostic()
     {
@@ -777,6 +797,64 @@ public class IncompleteMetadataDiagnosticTests
 
             public sealed class Consumer(
                 Microsoft.Extensions.Options.IOptions<PartialOptions> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Partial_Options_Registered_With_Configure()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Configure<PartialOptions>(_ => { });
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Partial_Options_Registered_With_AddOptions()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.AddOptions<PartialOptions>();
+            }
             """,
             globalOptions: new Dictionary<string, string>
             {

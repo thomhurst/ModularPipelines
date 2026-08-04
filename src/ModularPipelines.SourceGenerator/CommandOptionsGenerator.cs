@@ -16,8 +16,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private const int RuntimeMetadataSchemaVersion = 1;
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
-    internal const string OptionsInterfaceMetadataName = "IOptions`1";
     internal const string OptionsNamespace = "Microsoft.Extensions.Options";
+    internal const string DependencyInjectionNamespace = "Microsoft.Extensions.DependencyInjection";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
@@ -54,11 +54,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .WithComparer(TypeMetadataCandidateComparer.Instance);
         var optionsTypeUsages = context.SyntaxProvider
             .CreateSyntaxProvider(
-                static (node, _) => node is GenericNameSyntax
-                {
-                    Identifier.ValueText: "IOptions",
-                    TypeArgumentList.Arguments.Count: 1,
-                },
+                static (node, _) => IsOptionsTypeUsageCandidate(node),
                 static (generatorContext, _) => GetOptionsTypeUsage(generatorContext))
             .Where(static metadataName => metadataName is not null)
             .Select(static (metadataName, _) => metadataName!);
@@ -155,11 +151,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static string? GetOptionsTypeUsage(GeneratorSyntaxContext context)
     {
-        if (context.SemanticModel.GetSymbolInfo(context.Node).Symbol is not INamedTypeSymbol constructedType
-            || constructedType.TypeArguments.Length != 1
-            || constructedType.TypeArguments[0] is not INamedTypeSymbol optionsType
-            || constructedType.OriginalDefinition.MetadataName != OptionsInterfaceMetadataName
-            || constructedType.OriginalDefinition.ContainingNamespace?.ToDisplayString() != OptionsNamespace
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        var optionsTypeSymbol = symbol switch
+        {
+            INamedTypeSymbol constructedType when IsOptionsServiceType(constructedType) =>
+                constructedType.TypeArguments[0],
+            IMethodSymbol method when IsOptionsRegistrationMethod(method) => method.TypeArguments[0],
+            _ => null,
+        };
+        if (optionsTypeSymbol is not INamedTypeSymbol optionsType
             || optionsType.TypeKind == TypeKind.Error
             || optionsType.ContainingNamespace is null)
         {
@@ -167,6 +167,67 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return GetMetadataName(optionsType);
+    }
+
+    private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>
+        node is GenericNameSyntax
+        {
+            Identifier.ValueText: "IOptions"
+                or "IOptionsMonitor"
+                or "IOptionsSnapshot"
+                or "IConfigureOptions"
+                or "IPostConfigureOptions"
+                or "IValidateOptions"
+                or "IConfigureNamedOptions"
+                or "Configure"
+                or "ConfigureAll"
+                or "PostConfigure"
+                or "PostConfigureAll"
+                or "AddOptions"
+                or "AddOptionsWithValidateOnStart",
+            TypeArgumentList.Arguments.Count: > 0,
+        };
+
+    private static bool IsOptionsServiceType(INamedTypeSymbol type)
+    {
+        var definition = type.OriginalDefinition;
+        return type.TypeArguments.Length == 1
+               && definition.ContainingNamespace?.ToDisplayString() == OptionsNamespace
+               && definition.MetadataName is
+                   "IOptions`1"
+                   or "IOptionsMonitor`1"
+                   or "IOptionsSnapshot`1"
+                   or "IConfigureOptions`1"
+                   or "IPostConfigureOptions`1"
+                   or "IValidateOptions`1"
+                   or "IConfigureNamedOptions`1";
+    }
+
+    private static bool IsOptionsRegistrationMethod(IMethodSymbol method)
+    {
+        if (method.TypeArguments.Length == 0)
+        {
+            return false;
+        }
+
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (definition.ContainingNamespace?.ToDisplayString() != DependencyInjectionNamespace)
+        {
+            return false;
+        }
+
+        return definition.ContainingType.MetadataName switch
+        {
+            "OptionsServiceCollectionExtensions" => definition.Name is
+                "Configure"
+                or "ConfigureAll"
+                or "PostConfigure"
+                or "PostConfigureAll"
+                or "AddOptions"
+                or "AddOptionsWithValidateOnStart",
+            "OptionsConfigurationServiceCollectionExtensions" => definition.Name == "Configure",
+            _ => false,
+        };
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)
