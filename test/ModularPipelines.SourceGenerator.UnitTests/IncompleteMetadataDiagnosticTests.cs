@@ -1241,6 +1241,49 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Jit_Host_Rescans_Legacy_External_Options_Without_Marker()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration;
+            }
+
+            namespace External
+            {
+                public class SecretBase
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    private string Token { get; } = "";
+                }
+
+                public sealed class LegacyOptions : SecretBase;
+
+                public sealed class RuntimeReference
+                    : ModularPipelines.Options.CommandLineToolOptions;
+            }
+            """,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<External.LegacyOptions> options);
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "RegisterExternalReflectionFallbackTypeNames(");
+            await Assert.That(generatedSource).Contains("External.LegacyOptions");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions)");
+        }
+    }
+
+    [Test]
     public async Task Aot_Host_Covers_Framework_Option_Assemblies()
     {
         var result = GeneratorTestHarness.Run(

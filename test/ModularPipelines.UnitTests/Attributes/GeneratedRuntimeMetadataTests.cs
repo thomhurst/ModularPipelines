@@ -533,6 +533,32 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task ExternalReflectionFallbackRejectsLegacySecretMetadata()
+    {
+        var type = CreateDynamicType("LegacyReflectionFallback");
+        GeneratedSecretMetadata.Register(type, [], isComplete: true);
+        GeneratedSecretMetadata.RegisterExternalReflectionFallbackTypeNames(
+            typeof(GeneratedRuntimeMetadataTests).Assembly,
+            type.Assembly.FullName!,
+            [type.FullName!]);
+
+        var legacyFound = GeneratedSecretMetadata.TryGetAccessors(type, out _);
+        var currentModel = new List<SecretPropertyAccessor>();
+        GeneratedSecretMetadata.RegisterExternal(
+            typeof(GeneratedRuntimeMetadataTests).Assembly,
+            type,
+            currentModel);
+        var currentFound = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(legacyFound).IsFalse();
+            await Assert.That(currentFound).IsTrue();
+            await Assert.That(registeredModel).IsSameReferenceAs(currentModel);
+        }
+    }
+
+    [Test]
     public async Task CurrentDirectMetadataRemainsAuthoritative()
     {
         var commandType = CreateDynamicType("CurrentDirectCommand");

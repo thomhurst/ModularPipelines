@@ -28,6 +28,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string ExperimentalAttributeFullName = "System.Diagnostics.CodeAnalysis.ExperimentalAttribute";
     internal const string IncompleteRuntimeMetadataAttributeFullName =
         "ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute";
+    internal const string RuntimeMetadataRegistrationFullName =
+        "ModularPipelines.Generated.RuntimeMetadataRegistration";
 
     private static readonly DiagnosticDescriptor IncompleteCommandMetadata =
         GeneratorDiagnostics.IncompleteCommandMetadata;
@@ -499,6 +501,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterSecretCoverage: canRegisterSecretCoverage,
                 UseTypeForEmptySecretCoverage: false,
                 UseExternalTypeNameForEmptySecretCoverage: isExternal,
+                RequiresSecretReflectionFallback: false,
                 IsExternal: isExternal,
                 IsCommandOptions: false,
                 PropertyCollection.Empty,
@@ -527,6 +530,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterSecretCoverage: !hasPartialDeclaration,
                 UseTypeForEmptySecretCoverage: isExternal,
                 UseExternalTypeNameForEmptySecretCoverage: false,
+                RequiresSecretReflectionFallback: false,
                 IsExternal: isExternal,
                 isCommandOptions,
                 commandMetadata,
@@ -833,9 +837,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterCoveredExternalAssemblyIdentities",
             coveredExternalAssemblyIdentities);
-        AppendCoveredExternalTypeNameRegistrations(
+        AppendExternalTypeNameRegistrations(
             sb,
-            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage));
+            "RegisterCoveredExternalTypeNames",
+            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage
+                                             && !item.RequiresSecretReflectionFallback));
+        AppendExternalTypeNameRegistrations(
+            sb,
+            "RegisterExternalReflectionFallbackTypeNames",
+            uniqueItems.Where(static item => item.RequiresSecretReflectionFallback));
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
@@ -848,7 +858,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                                       && item.SecretMetadata.IsComplete
                                       && item.SecretMetadata.Properties.Count == 0
                                       && !item.UseTypeForEmptySecretCoverage
-                                      && !item.UseExternalTypeNameForEmptySecretCoverage));
+                                      && !item.UseExternalTypeNameForEmptySecretCoverage
+                                      && !item.RequiresSecretReflectionFallback));
         AppendTypeNameRegistration(
             sb,
             "RegisterIncompleteTypeNames",
@@ -862,7 +873,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 AppendCommandRegistration(sb, item);
             }
 
-            if (item.SecretMetadata.IsComplete)
+            if (item.SecretMetadata.IsComplete
+                && !item.RequiresSecretReflectionFallback)
             {
                 AppendSecretRegistration(sb, item);
             }
@@ -895,14 +907,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             registryType);
     }
 
-    private static void AppendCoveredExternalTypeNameRegistrations(
+    private static void AppendExternalTypeNameRegistrations(
         StringBuilder sb,
+        string methodName,
         IEnumerable<TypeMetadata> items)
     {
         foreach (var assemblyGroup in items.GroupBy(static item => item.AssemblyIdentity, StringComparer.Ordinal))
         {
             sb.AppendLine(
-                "        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterCoveredExternalTypeNames(");
+                $"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{methodName}(");
             sb.AppendLine("            assembly,");
             sb.AppendLine($"            {Literal(assemblyGroup.Key)},");
             sb.AppendLine("            new string[]");
@@ -1145,18 +1158,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var incompleteTypeNames = GetIncompleteTypeNames(assembly);
-        if (!includeAllRuntimeMetadata && !incompleteTypeNames.Overlaps(usedOptionsTypes))
-        {
-            return [];
-        }
-
+        var requiresSecretReflectionFallback = HasLegacyRuntimeMetadata(assembly);
         return GetTypes(assembly.GlobalNamespace)
             .Select(type => GetExternalTypeCandidate(
                 type,
                 compilation,
                 includeAllRuntimeMetadata,
                 usedOptionsTypes,
-                incompleteTypeNames))
+                incompleteTypeNames,
+                requiresSecretReflectionFallback))
             .OfType<TypeMetadataCandidate>();
     }
 
@@ -1165,21 +1175,43 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Compilation compilation,
         bool includeAllRuntimeMetadata,
         ISet<string> usedOptionsTypes,
-        ISet<string> incompleteTypeNames)
+        ISet<string> incompleteTypeNames,
+        bool requiresSecretReflectionFallback)
     {
         var metadataName = GetMetadataName(type);
-        if (usedOptionsTypes.Contains(metadataName)
-            && (includeAllRuntimeMetadata || incompleteTypeNames.Contains(metadataName)))
+        TypeMetadataCandidate? candidate;
+        if (usedOptionsTypes.Contains(metadataName))
         {
-            return GetExternalOptionsUsageCandidate(
+            candidate = GetExternalOptionsUsageCandidate(
                 type,
                 compilation,
                 incompleteTypeNames.Contains(metadataName));
         }
+        else
+        {
+            candidate = includeAllRuntimeMetadata
+                ? GetExternalTypeCandidate(type, compilation)
+                : null;
+        }
 
-        return includeAllRuntimeMetadata
-            ? GetExternalTypeCandidate(type, compilation)
-            : null;
+        return requiresSecretReflectionFallback && candidate?.Metadata is { } metadata
+            ? candidate with
+            {
+                Metadata = metadata with { RequiresSecretReflectionFallback = true },
+            }
+            : candidate;
+    }
+
+    private static bool HasLegacyRuntimeMetadata(IAssemblySymbol assembly)
+    {
+        var registration = assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName);
+        var schemaVersion = registration?
+            .GetMembers("SchemaVersion")
+            .OfType<IFieldSymbol>()
+            .FirstOrDefault(static field => field.HasConstantValue)?
+            .ConstantValue;
+        return registration is not null
+               && !Equals(schemaVersion, RuntimeMetadataSchemaVersion);
     }
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
@@ -1540,6 +1572,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool CanRegisterSecretCoverage,
         bool UseTypeForEmptySecretCoverage,
         bool UseExternalTypeNameForEmptySecretCoverage,
+        bool RequiresSecretReflectionFallback,
         bool IsExternal,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,

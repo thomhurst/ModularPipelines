@@ -168,17 +168,43 @@ public static class GeneratedSecretMetadata
     public static void RegisterCoveredExternalTypeNames(
         Assembly consumerAssembly,
         string assemblyIdentity,
-        IReadOnlyList<string> metadataNames)
+        IReadOnlyList<string> metadataNames) =>
+        RegisterExternalTypeNames(
+            consumerAssembly,
+            assemblyIdentity,
+            metadataNames,
+            static registrations => registrations.CoveredTypeNamesByAssemblyIdentity);
+
+    /// <summary>
+    /// Rejects legacy exact metadata for external types that require JIT reflection fallback.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterExternalReflectionFallbackTypeNames(
+        Assembly consumerAssembly,
+        string assemblyIdentity,
+        IReadOnlyList<string> metadataNames) =>
+        RegisterExternalTypeNames(
+            consumerAssembly,
+            assemblyIdentity,
+            metadataNames,
+            static registrations => registrations.ReflectionFallbackTypeNamesByAssemblyIdentity);
+
+    private static void RegisterExternalTypeNames(
+        Assembly consumerAssembly,
+        string assemblyIdentity,
+        IReadOnlyList<string> metadataNames,
+        Func<ExternalSecretMetadata,
+            ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>> getRegistrations)
     {
         var registrations = ExternalAccessors.GetValue(
             consumerAssembly,
             static _ => new ExternalSecretMetadata());
-        var coveredTypeNames = registrations.CoveredTypeNamesByAssemblyIdentity.GetOrAdd(
+        var registeredTypeNames = getRegistrations(registrations).GetOrAdd(
             assemblyIdentity,
             static _ => new ConcurrentDictionary<string, byte>(StringComparer.Ordinal));
         foreach (var metadataName in metadataNames)
         {
-            coveredTypeNames.TryAdd(metadataName, 0);
+            registeredTypeNames.TryAdd(metadataName, 0);
         }
     }
 
@@ -225,6 +251,12 @@ public static class GeneratedSecretMetadata
             }
         }
 
+        if (RequiresExternalReflectionFallback(type))
+        {
+            accessors = Array.Empty<SecretPropertyAccessor>();
+            return false;
+        }
+
         if (IsCoveredExternalType(type) || IsCoveredExternalAssembly(type))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
@@ -263,7 +295,20 @@ public static class GeneratedSecretMetadata
             && registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity));
     }
 
-    private static bool IsCoveredExternalType(Type type)
+    private static bool IsCoveredExternalType(Type type) =>
+        IsExternalTypeNameRegistered(
+            type,
+            static registrations => registrations.CoveredTypeNamesByAssemblyIdentity);
+
+    private static bool RequiresExternalReflectionFallback(Type type) =>
+        IsExternalTypeNameRegistered(
+            type,
+            static registrations => registrations.ReflectionFallbackTypeNamesByAssemblyIdentity);
+
+    private static bool IsExternalTypeNameRegistered(
+        Type type,
+        Func<ExternalSecretMetadata,
+            ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>> getRegistrations)
     {
         if (type.Assembly.FullName is not { } assemblyIdentity)
         {
@@ -279,7 +324,7 @@ public static class GeneratedSecretMetadata
         var loadContext = AssemblyLoadContext.GetLoadContext(type.Assembly);
         return ExternalAccessors.Any(registrations =>
             ReferenceEquals(AssemblyLoadContext.GetLoadContext(registrations.Key), loadContext)
-            && registrations.Value.CoveredTypeNamesByAssemblyIdentity.TryGetValue(
+            && getRegistrations(registrations.Value).TryGetValue(
                 assemblyIdentity,
                 out var coveredTypeNames)
             && coveredTypeNames.ContainsKey(metadataName));
@@ -338,6 +383,9 @@ public static class GeneratedSecretMetadata
 
         public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
             CoveredTypeNamesByAssemblyIdentity { get; } = new(StringComparer.Ordinal);
+
+        public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
+            ReflectionFallbackTypeNamesByAssemblyIdentity { get; } = new(StringComparer.Ordinal);
     }
 
     private sealed class AssemblyCoverage
