@@ -794,6 +794,72 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Does_Not_Merge_Diagnostics_Across_Assembly_Identities()
+    {
+        var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            [assembly: ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(
+                "Shared.State")]
+
+            namespace ModularPipelines.Generated
+            {
+                [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple = true)]
+                internal sealed class IncompleteRuntimeMetadataAttribute(string metadataName)
+                    : System.Attribute;
+            }
+
+            namespace Shared
+            {
+                public partial class State;
+            }
+
+            public sealed class FirstRuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            """
+            [assembly: ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(
+                "Shared.State")]
+
+            namespace ModularPipelines.Generated
+            {
+                [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple = true)]
+                internal sealed class IncompleteRuntimeMetadataAttribute(string metadataName)
+                    : System.Attribute;
+            }
+
+            namespace Shared
+            {
+                internal partial class State;
+            }
+
+            public sealed class SecondRuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.AddSingleton(
+                        typeof(IOptions<Shared.State>),
+                        Options.Create(new Shared.State()));
+            }
+            """,
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var diagnostic = result.Diagnostics.Single(static diagnostic =>
+            diagnostic.GetMessage().Contains("global::Shared.State", StringComparison.Ordinal));
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+    }
+
+    [Test]
     public async Task Trimmed_Host_Tracks_External_Options_Usage_By_Assembly()
     {
         var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(
@@ -1364,6 +1430,42 @@ public class IncompleteMetadataDiagnosticTests
                     services.Add(new ServiceDescriptor(
                         typeof(RegisteredOptions),
                         Options.Create(new PartialOptions())));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Target_Typed_ServiceDescriptor_Constructor()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+            using RegisteredOptions = Microsoft.Extensions.Options.IOptions<PartialOptions>;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services)
+                {
+                    ServiceDescriptor descriptor = new(
+                        typeof(RegisteredOptions),
+                        Options.Create(new PartialOptions()));
+                    services.Add(descriptor);
+                }
             }
             """,
             globalOptions: new Dictionary<string, string>

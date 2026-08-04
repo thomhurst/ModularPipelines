@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -163,6 +164,36 @@ internal static class GeneratorTestHarness
         ThrowForCompilationErrors(compilation);
 
         return Run(generator, compilation, globalOptions);
+    }
+
+    public static async Task<ImmutableArray<Diagnostic>> RunWithPeerGeneratorAndAnalyzer(
+        IIncrementalGenerator generator,
+        IIncrementalGenerator peerGenerator,
+        DiagnosticAnalyzer analyzer,
+        string infrastructure,
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var compilation = CreateCompilation(infrastructure, source);
+        var optionsProvider = new TestAnalyzerConfigOptionsProvider(globalOptions);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator(), peerGenerator.AsSourceGenerator()],
+            optionsProvider: optionsProvider);
+        driver.RunGeneratorsAndUpdateCompilation(
+            compilation,
+            out var outputCompilation,
+            out _);
+        var analyzerOptions = new AnalyzerOptions([], optionsProvider);
+        var compilationWithAnalyzers = outputCompilation.WithAnalyzers(
+            [analyzer],
+            new CompilationWithAnalyzersOptions(
+                analyzerOptions,
+                onAnalyzerException: null,
+                concurrentAnalysis: true,
+                logAnalyzerExecutionTime: false,
+                reportSuppressedDiagnostics: false));
+
+        return await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync();
     }
 
     private static GeneratorDriverRunResult Run(

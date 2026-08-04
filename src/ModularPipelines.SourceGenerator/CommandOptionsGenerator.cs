@@ -290,7 +290,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return parameter?.Name == "serviceType";
     }
 
-    private static bool IsServiceTypeCarrier(IMethodSymbol method)
+    internal static bool IsServiceTypeCarrier(IMethodSymbol method)
     {
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
         return IsServiceCollectionRegistration(definition)
@@ -410,11 +410,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             && IsServiceRegistrationMethodName(GetInvokedMethodName(invocation)));
 
     private static bool IsServiceDescriptorObjectCreationCandidate(SyntaxNode node) =>
-        node is ObjectCreationExpressionSyntax
+        node is ImplicitObjectCreationExpressionSyntax
+        {
+            ArgumentList.Arguments.Count: > 0,
+        }
+            or ObjectCreationExpressionSyntax
         {
             Type: IdentifierNameSyntax { Identifier.ValueText: "ServiceDescriptor" }
-                or QualifiedNameSyntax { Right.Identifier.ValueText: "ServiceDescriptor" }
-                or AliasQualifiedNameSyntax { Name.Identifier.ValueText: "ServiceDescriptor" },
+                    or QualifiedNameSyntax { Right.Identifier.ValueText: "ServiceDescriptor" }
+                    or AliasQualifiedNameSyntax { Name.Identifier.ValueText: "ServiceDescriptor" },
         };
 
     private static bool IsServiceRegistrationMethodName(string? methodName) =>
@@ -456,7 +460,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             _ => null,
         };
 
-    private static bool IsOptionsTypeUsage(INamedTypeSymbol type)
+    internal static bool IsOptionsTypeUsage(INamedTypeSymbol type)
     {
         var definition = type.OriginalDefinition;
         return type.TypeArguments.Length == 1
@@ -472,7 +476,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                    or "OptionsBuilder`1";
     }
 
-    private static bool IsOptionsRegistrationMethod(IMethodSymbol method)
+    internal static bool IsOptionsRegistrationMethod(IMethodSymbol method)
     {
         if (method.TypeArguments.Length == 0)
         {
@@ -553,7 +557,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         INamedTypeSymbol? type,
         Compilation compilation,
         bool hasKnownSecretAttribute,
-        bool isExternal = false)
+        bool isExternal = false,
+        PropertyCollection? precomputedSecretMetadata = null)
     {
         if (type is null)
         {
@@ -582,6 +587,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 location,
                 isCommandOptions,
                 hasKnownSecretAttribute,
+                precomputedSecretMetadata,
                 canRegisterSecretCoverage,
                 isExternal);
         }
@@ -589,7 +595,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var commandMetadata = isCommandOptions
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
-        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        var secretMetadata = precomputedSecretMetadata
+                             ?? GetSecretProperties(type, compilation.Assembly);
         return GetAccessibleTypeCandidate(
             type,
             typeName,
@@ -608,11 +615,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Location location,
         bool isCommandOptions,
         bool hasKnownSecretAttribute,
+        PropertyCollection? precomputedSecretMetadata,
         bool canRegisterSecretCoverage,
         bool isExternal)
     {
-        var hasSecretAttributes = hasKnownSecretAttribute
-            || GetSecretProperties(type, currentAssembly).HasAttributes;
+        var hasSecretAttributes = precomputedSecretMetadata?.HasAttributes
+                                  ?? (hasKnownSecretAttribute
+                                      || GetSecretProperties(type, currentAssembly).HasAttributes);
         if (isCommandOptions || hasSecretAttributes)
         {
             return new TypeMetadataCandidate(
@@ -1123,7 +1132,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
-                     .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                     .GroupBy(static candidate => (candidate.TypeName, candidate.AssemblyIdentity))
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
@@ -1552,7 +1561,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Compilation compilation)
     {
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
-        var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
+        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        var hasSecretAttributes = secretMetadata.HasAttributes;
         var canCoverPlainOptions = type.TypeKind is TypeKind.Class or TypeKind.Struct;
         if ((!isCommandOptions && !hasSecretAttributes && !canCoverPlainOptions)
             || (type.IsAbstract && type.IsGenericType && (isCommandOptions || hasSecretAttributes)))
@@ -1560,7 +1570,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return null;
         }
 
-        return GetTypeCandidate(type, compilation, hasSecretAttributes, isExternal: true);
+        return GetTypeCandidate(
+            type,
+            compilation,
+            hasSecretAttributes,
+            isExternal: true,
+            precomputedSecretMetadata: secretMetadata);
     }
 
     private static IEnumerable<INamedTypeSymbol> GetTypes(INamespaceOrTypeSymbol container)
@@ -1770,7 +1785,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     }
 
     private static bool IsSecretAttribute(AttributeData attribute) =>
-        IsAttribute(attribute, SecretValueAttributeFullName);
+        attribute.AttributeClass is { } attributeType
+        && GetBaseTypes(attributeType).Any(static type =>
+            type.ToDisplayString() == SecretValueAttributeFullName);
 
     private static bool IsAttribute(AttributeData attribute, string fullName) =>
         attribute.AttributeClass?.ToDisplayString() == fullName;

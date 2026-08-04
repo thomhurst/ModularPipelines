@@ -4,7 +4,7 @@ namespace ModularPipelines.Attributes;
 /// Marks a property as containing sensitive information that should be obfuscated in logs.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class SecretValueAttribute : Attribute
+public class SecretValueAttribute : Attribute
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="SecretValueAttribute"/> class

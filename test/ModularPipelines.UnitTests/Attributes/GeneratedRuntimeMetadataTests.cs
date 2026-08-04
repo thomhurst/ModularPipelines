@@ -86,12 +86,34 @@ internal sealed record GeneratedOverrideCommandDerived : GeneratedOverrideComman
     public override bool? Verbose { get; init; }
 }
 
+internal sealed class DerivedSecretValueAttribute : SecretValueAttribute;
+
+internal sealed class GeneratedDerivedAttributeSecret
+{
+    [DerivedSecretValue]
+    public string? Token { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
     [Test]
-    public async Task SecretValueAttribute_IsSealed()
+    public async Task SecretValueAttribute_CanBeInherited()
     {
-        await Assert.That(typeof(SecretValueAttribute).IsSealed).IsTrue();
+        await Assert.That(typeof(SecretValueAttribute).IsSealed).IsFalse();
+        await Assert.That(typeof(DerivedSecretValueAttribute).BaseType)
+            .IsEqualTo(typeof(SecretValueAttribute));
+    }
+
+    [Test]
+    public async Task SecretMetadata_RecognizesDerivedAttributes()
+    {
+        var found = GeneratedSecretMetadata.TryGetAccessors(
+            typeof(GeneratedDerivedAttributeSecret),
+            out var accessors);
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(accessors.Select(x => x.PropertyName))
+            .IsEquivalentTo([nameof(GeneratedDerivedAttributeSecret.Token)]);
     }
 
     [Test]
