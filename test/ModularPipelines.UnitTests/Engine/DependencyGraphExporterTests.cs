@@ -284,6 +284,42 @@ public class DependencyGraphExporterTests
             Task.FromResult(counter.Count);
     }
 
+    private sealed record ConfigurationMutationHolder(ConfigurationMutationCounter Counter);
+
+    private sealed class NestedInjectedConfigurationMutationModule(
+        ConfigurationMutationCounter counter) : Module<int>
+    {
+        private readonly ConfigurationMutationHolder _holder = new(counter);
+
+        protected override ModuleConfiguration Configure()
+        {
+            _holder.Counter.Count++;
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_holder.Counter.Count);
+    }
+
+    private sealed class InjectedRuntimeBoundPlanningConditionModule(
+        ConfigurationMutationCounter counter) : Module<string>
+    {
+        private int _planningEvaluations;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ++_planningEvaluations == 1
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("runtime state changed"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>(counter.Count.ToString());
+    }
+
     private sealed class ConfiguredFallbackFactoryModule(string factoryValue) : Module<string>
     {
         private int _configurationCallCount;
@@ -2405,6 +2441,45 @@ public class DependencyGraphExporterTests
             await Assert.That(counter.Count).IsEqualTo(1);
             await Assert.That(result.ValueOrDefault).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Render_Finds_Injected_State_Inside_Module_Owned_Holder()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<ConfigurationMutationCounter>();
+        builder.AddModule<NestedInjectedConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var counter = pipeline.Services.GetRequiredService<ConfigurationMutationCounter>();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        _ = await pipeline.RunAsync();
+        var module = pipeline.Services.GetServices<IModule>()
+            .OfType<NestedInjectedConfigurationMutationModule>()
+            .Single();
+        var result = await module;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(counter.Count).IsEqualTo(1);
+            await Assert.That(result.ValueOrDefault).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Shared_Runtime_Bound_Planning_Condition()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<ConfigurationMutationCounter>();
+        builder.AddModule<InjectedRuntimeBoundPlanningConditionModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(exception!.Message).Contains("mutable runtime state");
     }
 
     [Test]

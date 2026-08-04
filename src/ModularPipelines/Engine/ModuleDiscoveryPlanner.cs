@@ -605,7 +605,9 @@ internal sealed class ModuleDiscoveryPlanner(
                         module,
                         trackingServiceProvider.IsServiceProviderOwned))
                 {
-                    planningCopyProvider.InitializeConfiguration(runtimeModule.Configuration);
+                    var runtimeConfiguration = runtimeModule.Configuration;
+                    RejectRuntimeBoundPlanningCondition(runtimeModule, copyProvider);
+                    planningCopyProvider.InitializeConfiguration(runtimeConfiguration);
                 }
                 else if (copyProvider.IsConfigurationInitialized)
                 {
@@ -637,6 +639,7 @@ internal sealed class ModuleDiscoveryPlanner(
         IModule module,
         Func<object, bool> isServiceProviderOwned)
     {
+        var visited = new HashSet<object>(ReferenceEqualityComparer.Instance) { module };
         for (var type = module.GetType();
              type is not null && (!type.IsGenericType
                                   || type.GetGenericTypeDefinition() != typeof(Module<>));
@@ -648,13 +651,59 @@ internal sealed class ModuleDiscoveryPlanner(
                     | BindingFlags.NonPublic
                     | BindingFlags.DeclaredOnly)
                 .Select(field => field.GetValue(module))
-                .Any(value => value is not null && isServiceProviderOwned(value)))
+                .Any(value => ContainsServiceProviderOwnedState(
+                    value,
+                    isServiceProviderOwned,
+                    visited)))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool ContainsServiceProviderOwnedState(
+        object? value,
+        Func<object, bool> isServiceProviderOwned,
+        ISet<object> visited)
+    {
+        if (value is null)
+        {
+            return false;
+        }
+
+        if (isServiceProviderOwned(value))
+        {
+            return true;
+        }
+
+        var type = value.GetType();
+        if (ShouldSkipPlanningValue(value, type, visited))
+        {
+            return false;
+        }
+
+        if (value is Delegate @delegate)
+        {
+            return @delegate.GetInvocationList().Any(invocation =>
+                ContainsServiceProviderOwnedState(
+                    invocation.Target,
+                    isServiceProviderOwned,
+                    visited));
+        }
+
+        if (value is Array array)
+        {
+            return array.Cast<object?>().Any(item =>
+                ContainsServiceProviderOwnedState(item, isServiceProviderOwned, visited));
+        }
+
+        return GetInstanceFields(type).Any(field =>
+            ContainsServiceProviderOwnedState(
+                field.GetValue(value),
+                isServiceProviderOwned,
+                visited));
     }
 
     private static void RejectRuntimeBoundPlanningCondition(
