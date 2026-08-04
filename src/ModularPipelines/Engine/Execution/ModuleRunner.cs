@@ -212,7 +212,6 @@ internal class ModuleRunner : IModuleRunner
             foreach (var consumerType in consumerTypes)
             {
                 if (await IsRunnableArtifactConsumerAsync(
-                        moduleType,
                         consumerType,
                         scheduler,
                         cancellationToken,
@@ -264,7 +263,6 @@ internal class ModuleRunner : IModuleRunner
                 foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
                 {
                     if (await IsRunnableArtifactConsumerAsync(
-                            producerType,
                             consumerType,
                             scheduler,
                             cancellationToken,
@@ -282,7 +280,6 @@ internal class ModuleRunner : IModuleRunner
     }
 
     private async Task<bool> IsRunnableArtifactConsumerAsync(
-        Type producerType,
         Type consumerType,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
@@ -294,27 +291,21 @@ internal class ModuleRunner : IModuleRunner
             return false;
         }
 
-        if (moduleState.Dependencies.TryGetValue(producerType, out var producerIsOptional)
-            && !producerIsOptional
-            && scheduler.GetModuleState(producerType) is { State: not ModuleExecutionState.Completed } producerState)
-        {
-            var producerSkipDecision = producerState.SkipResult.ShouldSkip
-                ? producerState.SkipResult
-                : await EvaluatePlanningSkipAsync(producerState, cancellationToken).ConfigureAwait(false);
-            if (producerSkipDecision?.ShouldSkip != true)
-            {
-                return true;
-            }
-        }
-
-        if (await HasSkippedRequiredDependencyAsync(
+        var dependencyDemand = await GetRequiredDependencyDemandAsync(
                 moduleState,
                 scheduler,
                 cancellationToken,
-                [consumerType, producerType],
-                requiredProducerTypes).ConfigureAwait(false))
+                [consumerType],
+                requiredProducerTypes)
+            .ConfigureAwait(false);
+        if (dependencyDemand.IsUnrecoverable)
         {
             return false;
+        }
+
+        if (dependencyDemand.HasPendingDependency)
+        {
+            return true;
         }
 
         var skipDecision = await EvaluatePlanningSkipAsync(moduleState, cancellationToken).ConfigureAwait(false);
@@ -339,18 +330,21 @@ internal class ModuleRunner : IModuleRunner
         return await evaluation.Value.ConfigureAwait(false);
     }
 
-    private async Task<bool> HasSkippedRequiredDependencyAsync(
+    private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
         ModuleState moduleState,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
         HashSet<Type> visited,
         IReadOnlySet<Type> requiredProducerTypes)
     {
+        var hasPendingDependency = false;
         foreach (var dependency in moduleState.Dependencies.Where(static dependency => !dependency.Value))
         {
             if (_resultRegistry.GetResult(dependency.Key)?.ModuleStatus == Enums.Status.Skipped)
             {
-                return true;
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: true,
+                    HasPendingDependency: hasPendingDependency);
             }
 
             if (!visited.Add(dependency.Key)
@@ -369,24 +363,35 @@ internal class ModuleRunner : IModuleRunner
                 if (requiredProducerTypes.Contains(dependency.Key)
                     || !await HasHistoricalResultAsync(dependencyState).ConfigureAwait(false))
                 {
-                    return true;
+                    return new RequiredDependencyDemand(
+                        IsUnrecoverable: true,
+                        HasPendingDependency: hasPendingDependency);
                 }
 
                 continue;
             }
 
-            if (await HasSkippedRequiredDependencyAsync(
+            hasPendingDependency = true;
+            var transitiveDemand = await GetRequiredDependencyDemandAsync(
                     dependencyState,
                     scheduler,
                     cancellationToken,
                     visited,
-                    requiredProducerTypes).ConfigureAwait(false))
+                    requiredProducerTypes)
+                .ConfigureAwait(false);
+            if (transitiveDemand.IsUnrecoverable)
             {
-                return true;
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: true,
+                    HasPendingDependency: true);
             }
+
+            hasPendingDependency |= transitiveDemand.HasPendingDependency;
         }
 
-        return false;
+        return new RequiredDependencyDemand(
+            IsUnrecoverable: false,
+            HasPendingDependency: hasPendingDependency);
     }
 
     private async Task<bool> HasHistoricalResultAsync(ModuleState moduleState)
@@ -400,6 +405,10 @@ internal class ModuleRunner : IModuleRunner
                 LazyThreadSafetyMode.ExecutionAndPublication));
         return await evaluation.Value.ConfigureAwait(false);
     }
+
+    private readonly record struct RequiredDependencyDemand(
+        bool IsUnrecoverable,
+        bool HasPendingDependency);
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         GetLocalArtifactConsumers(IEnumerable<IModule> modules)

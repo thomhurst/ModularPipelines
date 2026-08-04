@@ -337,6 +337,41 @@ public class ArtifactContractTests
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    private sealed class ProducerStateIntermediateModule : Module<string>
+    {
+        public static bool IsReady { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            IsReady = true;
+            return Task.FromResult<string?>("ready");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ProducerStateIntermediateModule>]
+    [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
+    private sealed class TransitiveProducerStateConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ProducerStateIntermediateModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("producer path is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
@@ -653,6 +688,23 @@ public class ArtifactContractTests
             Executed = true;
             return Task.FromResult<string?>("consumed");
         }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ArtifactConsumerStateDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>]
+    [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
+    private sealed class DependencyStateInvalidArtifactConsumerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ArtifactConsumerStateDependencyModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("dependency state is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Invalid consumer must fail validation");
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
@@ -1068,6 +1120,23 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task BuildAsyncKeepsConsumerWhoseSkipDependsOnDependencyState()
+    {
+        ArtifactConsumerStateDependencyModule.IsReady = false;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<ArtifactConsumerStateDependencyModule>();
+        builder.AddModule<DependencyStateInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DependencyStateInvalidArtifactConsumerModule)
+            && error.Message.Contains("does not declare", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Test]
     public async Task BuildAsyncIgnoresInvalidContractOnDependencySkippedConsumer()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -1217,6 +1286,40 @@ public class ArtifactContractTests
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
                 await Assert.That(LocalProducerModule.IsReady).IsTrue();
                 await Assert.That(ProducerStateConsumerModule.Executed).IsTrue();
+                await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactDemandWaitsForTransitiveProducerPathBeforeCachingConsumerSkip()
+    {
+        DeleteLocalArtifacts();
+        LocalProducerModule.IsReady = false;
+        ProducerStateIntermediateModule.IsReady = false;
+        TransitiveProducerStateConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<ProducerStateIntermediateModule>();
+            builder.AddModule<TransitiveProducerStateConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var consumerResult = await summary.Modules
+                .OfType<TransitiveProducerStateConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(ProducerStateIntermediateModule.IsReady).IsTrue();
+                await Assert.That(TransitiveProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
             }
         }
