@@ -847,7 +847,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             Status.PipelineTerminated => LogLevel.Error,
             Status.UsedHistory => LogLevel.Information,
             Status.CachedResult => LogLevel.Information,
-            Status.Retried => LogLevel.Warning,
             _ => LogLevel.Error,
         };
 

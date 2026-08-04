@@ -39,7 +39,6 @@ internal static class StatusDisplayProvider
         [Status.PipelineTerminated] = new(MarkupFormatter.StopIcon, "Module {0} terminated due to pipeline error"),
         [Status.UsedHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
         [Status.CachedResult] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
-        [Status.Retried] = new(MarkupFormatter.RetryIcon, "Module {0} retried"),
     };
 
     /// <summary>
