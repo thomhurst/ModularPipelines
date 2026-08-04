@@ -106,6 +106,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Manual_Terminal_Options_With_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "value", "--run-tests", "tests.jq"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
     public async Task Build_Rejects_Command_Options_After_Global_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

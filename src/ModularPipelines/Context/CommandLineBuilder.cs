@@ -77,6 +77,15 @@ internal sealed class CommandLineBuilder(
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex).ToList();
         var manualArgs = options.Arguments?.ToList() ?? [];
+        if (options.ArgumentsContainOptionTerminator
+            && !manualArgs.Contains("--", StringComparer.Ordinal))
+        {
+            throw new ArgumentException(
+                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
+                + $"{nameof(CommandLineToolOptions.Arguments)} to contain '--'.",
+                nameof(options));
+        }
+
         ValidateManualOptionsAfterGlobalTerminator(
             options,
             manualArgs,
@@ -102,21 +111,12 @@ internal sealed class CommandLineBuilder(
             propertyArgs.InsertRange(insertionIndex, leadingManualCommandOptions);
         }
         if (options.ArgumentsContainToolOptions
-            && emittedOptionTerminator
+            && (emittedOptionTerminator || options.ArgumentsContainOptionTerminator)
             && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
         {
             throw new InvalidOperationException(
-                "Manual terminal options cannot follow an end-of-options marker emitted by a "
-                + "structured argument. Remove either the terminal option or the '--' source.");
-        }
-
-        if (options.ArgumentsContainOptionTerminator
-            && !manualArgs.Contains("--", StringComparer.Ordinal))
-        {
-            throw new ArgumentException(
-                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
-                + $"{nameof(CommandLineToolOptions.Arguments)} to contain '--'.",
-                nameof(options));
+                "Manual terminal options cannot be combined with an end-of-options marker. "
+                + "Remove either the terminal option or the '--' source.");
         }
 
         if (options.ArgumentsContainOptionTerminator && emittedOptionTerminator)
