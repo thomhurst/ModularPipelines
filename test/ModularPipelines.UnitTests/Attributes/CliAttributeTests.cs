@@ -1,5 +1,6 @@
 using System.CodeDom.Compiler;
 using System.Globalization;
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
@@ -110,9 +111,14 @@ public class CliAttributeTests
 
         await Assert.That(ordinals[CommandLinePhase.EarlyOperand]).IsEqualTo(0);
         await Assert.That(ordinals[CommandLinePhase.Normal]).IsEqualTo(1);
-        await Assert.That(ordinals[CommandLinePhase.EndOfOptions]).IsEqualTo(2);
+        await Assert.That(ordinals[(CommandLinePhase) 2]).IsEqualTo(2);
         await Assert.That(ordinals[CommandLinePhase.Passthrough]).IsEqualTo(3);
         await Assert.That(ordinals[CommandLinePhase.Terminal]).IsEqualTo(4);
+        await Assert.That(Enum.GetName((CommandLinePhase) 2)).IsEqualTo("EndOfOptions");
+        await Assert.That(typeof(CommandLinePhase)
+                .GetField("EndOfOptions")!
+                .GetCustomAttribute<ObsoleteAttribute>())
+            .IsNotNull();
     }
 
     [Test]

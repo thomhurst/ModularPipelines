@@ -14,9 +14,10 @@ namespace ModularPipelines.Context;
 /// 1. Resolve tool name from [CliTool] attribute or constructor parameter
 /// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
 /// 3. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
-/// 4. Add manual Arguments if present
-/// 5. Render RunSettings as option-terminated pass-through arguments.
-/// 6. Validate option terminators against terminal options in one place.
+/// 4. Combine global arguments, command parts, and command-specific arguments.
+/// 5. Add manual Arguments if present.
+/// 6. Render RunSettings as option-terminated pass-through arguments.
+/// 7. Validate option terminators against terminal options in one place.
 /// </remarks>
 internal sealed class CommandLineBuilder(
     IToolResolver toolResolver,

@@ -11,6 +11,8 @@ namespace ModularPipelines.Helpers.Internal;
 /// <inheritdoc/>
 internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 {
+    private const CommandLinePhase LegacyEndOfOptionsPhase = (CommandLinePhase) 2;
+
     /// <inheritdoc/>
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
@@ -85,7 +87,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         CommandLinePhase.EarlyOperand => 0,
         CommandLinePhase.Normal => 1,
-        CommandLinePhase.EndOfOptions => 2,
+        LegacyEndOfOptionsPhase => 2,
         CommandLinePhase.Passthrough => 3,
         CommandLinePhase.Terminal => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
@@ -121,7 +123,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         else
         {
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
-            if (phase == CommandLinePhase.EndOfOptions
+            if (phase == LegacyEndOfOptionsPhase
                 && rendered.IndexOf("--") is var terminatorIndex
                 && terminatorIndex >= 0)
             {

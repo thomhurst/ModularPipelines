@@ -20,6 +20,7 @@ public enum CommandLinePhase
     /// <summary>
     /// Compatibility phase for end-of-options flags emitted by older generated packages.
     /// </summary>
+    [Obsolete("Use CliArgumentAttribute.PrependOptionTerminator instead.")]
     EndOfOptions = 2,
 
     /// <summary>
