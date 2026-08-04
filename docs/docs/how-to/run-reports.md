@@ -71,3 +71,7 @@ builder.AddRunHistoryStore<MyRunHistoryStore>();
 
 The store returns the latest report for the requested pipeline identity and saves the completed
 current report. Custom stores own their retention behavior.
+
+In v4, `IRunHistoryStore` removes the parameterless `GetLatestAsync` member. Existing custom stores
+must move any identity filtering into `GetLatestAsync(string pipelineIdentity, CancellationToken)`,
+which is now the only read member to implement.
