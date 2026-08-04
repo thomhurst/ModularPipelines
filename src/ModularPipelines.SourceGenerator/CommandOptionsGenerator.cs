@@ -213,7 +213,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             {
                 TypeKind: not TypeKind.Error,
                 ContainingNamespace: not null,
-            } optionsType)
+            } optionsType
+            && IsConcreteOptionsRegistrationUsage(context))
         {
             return new OptionsTypeUsage(
                 new OptionsTypeIdentity(
@@ -245,6 +246,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             INamedTypeSymbol type => IsOptionsBuilder(type)
                 || IsServiceTypeRegistrationUsage(context),
             IMethodSymbol method => GetRegisteredOptionsType(method) is ITypeParameterSymbol,
+            _ => false,
+        };
+    }
+
+    private static bool IsConcreteOptionsRegistrationUsage(GeneratorSyntaxContext context)
+    {
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        return symbol switch
+        {
+            INamedTypeSymbol type => IsOptionsBuilder(type)
+                                     || IsServiceTypeRegistrationUsage(context),
+            IMethodSymbol method => GetRegisteredOptionsType(method) is INamedTypeSymbol,
             _ => false,
         };
     }
@@ -1332,8 +1345,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         var needsCommandMetadata = metadata.IsCommandOptions;
         var needsSecretMetadata = metadata.SecretMetadata.HasAttributes;
-        return (needsCommandMetadata || needsSecretMetadata)
-               && (!needsCommandMetadata
+        return (!needsCommandMetadata
                    || (metadata.CanRegisterCommandMetadata
                        && metadata.CommandMetadata.IsComplete))
                && (!needsSecretMetadata

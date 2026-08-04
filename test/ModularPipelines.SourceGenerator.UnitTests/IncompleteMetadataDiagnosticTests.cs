@@ -540,6 +540,8 @@ public class IncompleteMetadataDiagnosticTests
                     [ModularPipelines.Attributes.SecretValue]
                     public string Password { get; } = "";
                 }
+
+                public sealed class PeerGeneratedPlain;
             }
             """,
             """
@@ -547,6 +549,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public External.PeerGeneratedCommand Command { get; } = new();
                 public External.PeerGeneratedSecret Secret { get; } = new();
+                public External.PeerGeneratedPlain Plain { get; } = new();
             }
             """,
             globalOptions: new Dictionary<string, string>
@@ -568,6 +571,8 @@ public class IncompleteMetadataDiagnosticTests
                 "typeof(global::External.PeerGeneratedSecret)");
             await Assert.That(generatedSource).Contains(
                 "((global::External.PeerGeneratedSecret)instance).@Password");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PeerGeneratedPlain));");
         }
     }
 
@@ -1195,7 +1200,31 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Aot_Host_Rejects_Partial_Unannotated_Options_Type()
+    public async Task Jit_Host_Allows_Partial_Unannotated_Options_Reader()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace Microsoft.Extensions.Options
+            {
+                public interface IOptions<out TOptions>;
+            }
+
+            public partial class PartialOptions;
+
+            public static class OptionsReader
+            {
+                public static PartialOptions Read(
+                    Microsoft.Extensions.Options.IOptions<PartialOptions> options) => default!;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+    }
+
+    [Test]
+    public async Task Aot_Host_Allows_Partial_Unannotated_Options_Reader()
     {
         var result = GeneratorTestHarness.Run(
             new CommandOptionsGenerator(),
@@ -1219,15 +1248,11 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        await AssertSkippedDiagnostic(
-            result,
-            "MPG0006",
-            "global::PartialOptions",
-            DiagnosticSeverity.Error);
+        await Assert.That(result.Diagnostics).IsEmpty();
     }
 
     [Test]
-    public async Task Trimmed_Host_Rejects_Partial_Unannotated_Options_Type()
+    public async Task Trimmed_Host_Allows_Partial_Unannotated_Options_Reader()
     {
         var result = GeneratorTestHarness.Run(
             new CommandOptionsGenerator(),
@@ -1251,15 +1276,11 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishTrimmed"] = "true",
             });
 
-        await AssertSkippedDiagnostic(
-            result,
-            "MPG0006",
-            "global::PartialOptions",
-            DiagnosticSeverity.Error);
+        await Assert.That(result.Diagnostics).IsEmpty();
     }
 
     [Test]
-    public async Task Aot_Host_Rejects_Partial_Options_Through_Using_Alias()
+    public async Task Aot_Host_Allows_Partial_Options_Reader_Through_Using_Alias()
     {
         var result = GeneratorTestHarness.Run(
             new CommandOptionsGenerator(),
@@ -1284,11 +1305,7 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        await AssertSkippedDiagnostic(
-            result,
-            "MPG0006",
-            "global::PartialOptions",
-            DiagnosticSeverity.Error);
+        await Assert.That(result.Diagnostics).IsEmpty();
     }
 
     [Test]
@@ -1534,7 +1551,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Jit_Host_Rejects_External_Partial_Options_Usage()
+    public async Task Jit_Host_Allows_External_Partial_Options_Reader()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -1563,17 +1580,11 @@ public class IncompleteMetadataDiagnosticTests
                 Microsoft.Extensions.Options.IOptions<External.PartialOptions> options);
             """);
 
-        var diagnostic = result.Diagnostics.Single();
-        using (Assert.Multiple())
-        {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
-            await Assert.That(diagnostic.GetMessage()).Contains("global::External.PartialOptions");
-        }
+        await Assert.That(result.Diagnostics).IsEmpty();
     }
 
     [Test]
-    public async Task Jit_Host_Rescans_Legacy_External_Options_Without_Marker()
+    public async Task Jit_Host_Does_Not_Rescan_Legacy_External_Options_Reader()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -1607,18 +1618,15 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "RegisterExternalReflectionFallbackTypeNames(");
-            await Assert.That(generatedSource).Contains("External.LegacyOptions");
             await Assert.That(generatedSource).DoesNotContain(
-                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions)");
+                "External.LegacyOptions");
         }
     }
 
     [Test]
     [Arguments("build_property.PublishTrimmed")]
     [Arguments("build_property.PublishAot")]
-    public async Task Publish_Host_Rejects_Legacy_External_Options_Without_Marker(
+    public async Task Publish_Host_Covers_Legacy_External_Options_Reader(
         string publishProperty)
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
@@ -1647,14 +1655,16 @@ public class IncompleteMetadataDiagnosticTests
                 [publishProperty] = "true",
             });
 
-        var diagnostic = result.Diagnostics.Single(
-            static item => item.GetMessage().Contains("global::External.LegacyOptions"));
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var hasLegacyOptionsDiagnostic = result.Diagnostics.Any(
+            static diagnostic => diagnostic.GetMessage().Contains(
+                "global::External.LegacyOptions"));
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
-            await Assert.That(diagnostic.GetMessage()).Contains("global::External.LegacyOptions");
+            await Assert.That(hasLegacyOptionsDiagnostic).IsFalse();
             await Assert.That(result.GeneratedTrees).HasSingleItem();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions));");
         }
     }
 
