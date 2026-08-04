@@ -173,8 +173,7 @@ internal class ModuleRunner : IModuleRunner
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
-                var isDependencyFailure = ex is DependencyFailedException
-                                          && _pipelineOptions.Value.ExecutionMode == ExecutionMode.WaitForAllModules;
+                var isDependencyFailure = ex is DependencyFailedException;
                 scheduler.MarkModuleCompleted(
                     moduleType,
                     false,
