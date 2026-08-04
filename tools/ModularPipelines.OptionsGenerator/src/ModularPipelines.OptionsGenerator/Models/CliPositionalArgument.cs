@@ -28,6 +28,8 @@ public record CliPositionalArgument
                                  || collection is not null,
                     PrependOptionTerminator = group.Any(argument =>
                         argument.PrependOptionTerminator),
+                    PrependOptionTerminatorIfValueStartsWithDash = group.Any(argument =>
+                        argument.PrependOptionTerminatorIfValueStartsWithDash),
                 };
             })
             .OrderBy(argument => argument.PositionIndex)
@@ -85,6 +87,12 @@ public record CliPositionalArgument
     /// Whether the generated CLI argument must be preceded by the <c>--</c> option terminator.
     /// </summary>
     public bool PrependOptionTerminator { get; init; }
+
+    /// <summary>
+    /// Whether a dash-prefixed generated CLI argument must be preceded by the <c>--</c>
+    /// option terminator.
+    /// </summary>
+    public bool PrependOptionTerminatorIfValueStartsWithDash { get; init; }
 
     /// <summary>
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.
