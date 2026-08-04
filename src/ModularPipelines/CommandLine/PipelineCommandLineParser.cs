@@ -21,86 +21,93 @@ internal static class PipelineCommandLineParser
             return PipelineCommandLineOptions.Empty;
         }
 
-        var command = PipelineCommand.Run;
-        var hostArguments = new List<string>();
-        var targetModules = new List<string>();
-        var skippedModules = new List<string>();
-        var runOnlyCategories = new List<string>();
-        var ignoreCategories = new List<string>();
-        DependencyGraphFormat? graphFormat = null;
-        string? graphPath = null;
+        var state = ParseArguments(arguments);
 
-        for (var index = 0; index < arguments.Count; index++)
-        {
-            var argument = arguments[index];
-            if (argument.Equals(ListModulesOption, StringComparison.OrdinalIgnoreCase))
-            {
-                command = SetCommand(command, PipelineCommand.ListModules, argument);
-                continue;
-            }
-
-            if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
-            {
-                command = SetCommand(command, PipelineCommand.Validate, argument);
-                continue;
-            }
-
-            if (TryReadGraph(arguments, ref index, out var parsedGraphFormat, out var parsedGraphPath))
-            {
-                command = SetCommand(command, PipelineCommand.ExportGraph, argument);
-                graphFormat = parsedGraphFormat;
-                if (parsedGraphPath is not null)
-                {
-                    graphPath = SetGraphPath(graphPath, parsedGraphPath);
-                }
-
-                continue;
-            }
-
-            if (TryReadGraphPath(arguments, ref index, out var parsedExplicitGraphPath))
-            {
-                graphPath = SetGraphPath(graphPath, parsedExplicitGraphPath);
-                continue;
-            }
-
-            if (argument.Equals(DryRunOption, StringComparison.OrdinalIgnoreCase))
-            {
-                command = SetCommand(command, PipelineCommand.DryRun, argument);
-                continue;
-            }
-
-            if (TryReadValues(arguments, ref index, ModuleOption, targetModules)
-                || TryReadValues(arguments, ref index, SkipModuleOption, skippedModules)
-                || TryReadValues(arguments, ref index, CategoriesOption, runOnlyCategories)
-                || TryReadValues(arguments, ref index, IgnoreCategoriesOption, ignoreCategories))
-            {
-                continue;
-            }
-
-            hostArguments.Add(argument);
-        }
-
-        if (graphPath is not null && graphFormat is null)
+        if (state.GraphPath is not null && state.GraphFormat is null)
         {
             throw new ArgumentException(
                 $"Command-line option '{GraphPathOption}' requires '{GraphOption}'.",
                 nameof(arguments));
         }
 
-        if (graphFormat is { } resolvedGraphFormat)
+        if (state.GraphFormat is { } resolvedGraphFormat)
         {
-            graphPath ??= GetDefaultGraphPath(resolvedGraphFormat);
+            state.GraphPath ??= GetDefaultGraphPath(resolvedGraphFormat);
         }
 
         return new PipelineCommandLineOptions(
-            command,
-            hostArguments,
-            Distinct(targetModules),
-            Distinct(skippedModules),
-            Distinct(runOnlyCategories),
-            Distinct(ignoreCategories),
-            graphFormat,
-            graphPath);
+            state.Command,
+            state.HostArguments,
+            Distinct(state.TargetModules),
+            Distinct(state.SkippedModules),
+            Distinct(state.RunOnlyCategories),
+            Distinct(state.IgnoreCategories),
+            state.GraphFormat,
+            state.GraphPath);
+    }
+
+    private static ParsingState ParseArguments(IReadOnlyList<string> arguments)
+    {
+        var state = new ParsingState();
+        for (var index = 0; index < arguments.Count; index++)
+        {
+            ParseArgument(arguments, ref index, state);
+        }
+
+        return state;
+    }
+
+    private static void ParseArgument(
+        IReadOnlyList<string> arguments,
+        ref int index,
+        ParsingState state)
+    {
+        var argument = arguments[index];
+        if (argument.Equals(ListModulesOption, StringComparison.OrdinalIgnoreCase))
+        {
+            state.Command = SetCommand(state.Command, PipelineCommand.ListModules, argument);
+            return;
+        }
+
+        if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
+        {
+            state.Command = SetCommand(state.Command, PipelineCommand.Validate, argument);
+            return;
+        }
+
+        if (TryReadGraph(arguments, ref index, out var parsedGraphFormat, out var parsedGraphPath))
+        {
+            state.Command = SetCommand(state.Command, PipelineCommand.ExportGraph, argument);
+            state.GraphFormat = parsedGraphFormat;
+            if (parsedGraphPath is not null)
+            {
+                state.GraphPath = SetGraphPath(state.GraphPath, parsedGraphPath);
+            }
+
+            return;
+        }
+
+        if (TryReadGraphPath(arguments, ref index, out var parsedExplicitGraphPath))
+        {
+            state.GraphPath = SetGraphPath(state.GraphPath, parsedExplicitGraphPath);
+            return;
+        }
+
+        if (argument.Equals(DryRunOption, StringComparison.OrdinalIgnoreCase))
+        {
+            state.Command = SetCommand(state.Command, PipelineCommand.DryRun, argument);
+            return;
+        }
+
+        if (TryReadValues(arguments, ref index, ModuleOption, state.TargetModules)
+            || TryReadValues(arguments, ref index, SkipModuleOption, state.SkippedModules)
+            || TryReadValues(arguments, ref index, CategoriesOption, state.RunOnlyCategories)
+            || TryReadValues(arguments, ref index, IgnoreCategoriesOption, state.IgnoreCategories))
+        {
+            return;
+        }
+
+        state.HostArguments.Add(argument);
     }
 
     private static bool TryReadGraph(
@@ -287,6 +294,25 @@ internal static class PipelineCommandLineParser
         }
 
         return requested;
+    }
+
+    private sealed class ParsingState
+    {
+        public PipelineCommand Command { get; set; } = PipelineCommand.Run;
+
+        public List<string> HostArguments { get; } = [];
+
+        public List<string> TargetModules { get; } = [];
+
+        public List<string> SkippedModules { get; } = [];
+
+        public List<string> RunOnlyCategories { get; } = [];
+
+        public List<string> IgnoreCategories { get; } = [];
+
+        public DependencyGraphFormat? GraphFormat { get; set; }
+
+        public string? GraphPath { get; set; }
     }
 
     private static IReadOnlyList<string> Distinct(IEnumerable<string> values) =>
