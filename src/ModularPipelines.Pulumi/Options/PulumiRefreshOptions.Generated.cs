@@ -8,6 +8,7 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Pulumi.Options;
 
 namespace ModularPipelines.Pulumi.Options;
@@ -180,7 +181,7 @@ public record PulumiRefreshOptions : PulumiOptions
     /// Suppress display of the state permalink
     /// </summary>
     [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? SuppressPermalink { get; set; }
+    public CliOptionValue? SuppressPermalink { get; set; }
 
     /// <summary>
     /// Suppress display of periodic progress dots

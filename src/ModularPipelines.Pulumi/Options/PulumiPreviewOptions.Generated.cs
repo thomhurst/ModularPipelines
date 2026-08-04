@@ -8,6 +8,7 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Pulumi.Options;
 
 namespace ModularPipelines.Pulumi.Options;
@@ -24,7 +25,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
     [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public IEnumerable<string>? AttachDebugger { get; set; }
+    public IEnumerable<CliOptionValue>? AttachDebugger { get; set; }
 
     /// <summary>
     /// Config to use during the preview and save to the stack config file
@@ -132,7 +133,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// Refresh the state of the stack's resources before this update
     /// </summary>
     [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? Refresh { get; set; }
+    public CliOptionValue? Refresh { get; set; }
 
     /// <summary>
     /// Specify resources to replace. Multiple resources can be specified using --replace urn1 --replace urn2
@@ -223,7 +224,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// Suppress display of the state permalink
     /// </summary>
     [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? SuppressPermalink { get; set; }
+    public CliOptionValue? SuppressPermalink { get; set; }
 
     /// <summary>
     /// Suppress display of periodic progress dots

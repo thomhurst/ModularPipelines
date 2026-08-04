@@ -8,6 +8,7 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Pulumi.Options;
 
 namespace ModularPipelines.Pulumi.Options;
@@ -114,7 +115,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// Refresh the state of the stack's resources before this update
     /// </summary>
     [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? Refresh { get; set; }
+    public CliOptionValue? Refresh { get; set; }
 
     /// <summary>
     /// Remove the stack and its config file after all resources in the stack have been deleted
@@ -186,7 +187,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// Suppress display of the state permalink
     /// </summary>
     [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? SuppressPermalink { get; set; }
+    public CliOptionValue? SuppressPermalink { get; set; }
 
     /// <summary>
     /// Suppress display of periodic progress dots
