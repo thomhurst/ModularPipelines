@@ -47,12 +47,16 @@ public class ReadOnlySetJsonConverterTests
         var expected = new WorkerRegistration(
             1,
             new HashSet<string> { "Docker" },
-            DateTimeOffset.UtcNow);
+            DateTimeOffset.UtcNow)
+        {
+            UnattributedCommandCount = 3,
+        };
 
         var json = JsonSerializer.Serialize(expected);
         var actual = JsonSerializer.Deserialize<WorkerRegistration>(json);
 
         await Assert.That(actual).IsNotNull();
         await Assert.That(actual!.Capabilities.Contains("docker")).IsTrue();
+        await Assert.That(actual.UnattributedCommandCount).IsEqualTo(3);
     }
 }

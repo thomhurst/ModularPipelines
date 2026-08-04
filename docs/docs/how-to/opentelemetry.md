@@ -27,6 +27,9 @@ builder.AddOpenTelemetry(openTelemetry => openTelemetry.AddOtlpExporter());
 The exporter uses the standard `OTEL_EXPORTER_OTLP_*` environment variables. For
 example, set `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector endpoint.
 
+The trace and metric providers start when the pipeline is built. When the pipeline
+is disposed, both providers are flushed before their exporters are shut down.
+
 ## Traces
 
 Each run creates a `Pipeline.Run` root span. Module spans are its children, and

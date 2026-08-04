@@ -4,12 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Caching;
 using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines;
 
 /// <summary>
 /// Convenience extension methods for PipelineBuilder that delegate to Services.
@@ -281,6 +282,38 @@ public static class PipelineBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(configureOptions);
         builder.SetOptions(configureOptions(builder.Options));
+        return builder;
+    }
+
+    /// <summary>
+    /// Writes a schema-versioned JSON report when the pipeline finishes.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="path">The report path.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder WriteRunReport(this PipelineBuilder builder, string path)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return builder.ConfigurePipelineOptions(options => options with
+        {
+            RunReport = options.RunReport with { ReportPath = path },
+        });
+    }
+
+    /// <summary>
+    /// Replaces the default file-system run history store.
+    /// </summary>
+    /// <typeparam name="TStore">The history store implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddRunHistoryStore<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
+        this PipelineBuilder builder)
+        where TStore : class, IRunHistoryStore
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.Replace(ServiceDescriptor.Singleton<IRunHistoryStore, TStore>());
         return builder;
     }
 

@@ -60,7 +60,7 @@ Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "redis-host:6379,password=secret";
-    o.RunIdentifier = null;          // auto-detect
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
     o.KeyPrefix = "modpipe";
     o.KeyExpirationSeconds = 3600;
 });
@@ -69,24 +69,23 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline run. Used to isolate Redis keys so concurrent runs don't collide. If `null`, auto-detected (see below). |
+| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `RUN_IDENTIFIER` is read; otherwise configuration fails. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
 
 ## Run Identifier Resolution
 
-When `RunIdentifier` is not set explicitly, it is resolved automatically in this order:
+Distributed coordination requires an invocation-scoped identifier. It is resolved in this order:
 
 | Priority | Source | Environment |
 |----------|--------|-------------|
 | 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
-| 2 | `GITHUB_SHA` env var | GitHub Actions |
-| 3 | `BUILD_SOURCEVERSION` env var | Azure DevOps |
-| 4 | `CI_COMMIT_SHA` env var | GitLab CI |
-| 5 | `git rev-parse HEAD` | Any git repository |
-| 6 | `Guid.NewGuid()` | Fallback |
+| 2 | `RUN_IDENTIFIER` env var | Any CI or local orchestration |
 
-This means in most CI environments, the run identifier is the commit SHA, which naturally isolates concurrent runs on the same Redis instance.
+Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
+Redis namespace. Local multi-process runs should export one unique `RUN_IDENTIFIER` value before
+starting the master and workers. CI workflows must likewise generate or derive one invocation-specific
+value and export it as `RUN_IDENTIFIER` for every master and worker.
 
 ## Redis Key Schema
 
@@ -94,18 +93,18 @@ All keys follow the pattern `{KeyPrefix}:{RunIdentifier}:{purpose}`. With the de
 
 | Key | Redis Type | Purpose |
 |-----|-----------|---------|
-| `modpipe:{sha}:work:queue` | List | FIFO work queue for module assignments |
-| `modpipe:{sha}:results` | Hash | Completed module results (field = module type name) |
-| `modpipe:{sha}:workers` | Hash | Registered worker information (field = worker index) |
-| `modpipe:{sha}:heartbeats` | Hash | Worker heartbeat timestamps (field = worker index) |
-| `modpipe:{sha}:cancellation` | String | Cancellation signal (set when cancellation is broadcast) |
+| `modpipe:{run}:work:queue` | List | FIFO work queue for module assignments |
+| `modpipe:{run}:results` | Hash | Completed module results (field = module type name) |
+| `modpipe:{run}:workers` | Hash | Registered worker information (field = worker index) |
+| `modpipe:{run}:heartbeats` | Hash | Worker heartbeat timestamps (field = worker index) |
+| `modpipe:{run}:cancellation` | String | Cancellation signal (set when cancellation is broadcast) |
 
 Pub/Sub channels (no TTL, ephemeral):
 
 | Channel | Purpose |
 |---------|---------|
-| `modpipe:{sha}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
-| `modpipe:{sha}:cancellation:signal` | Notifies all instances of a cancellation request |
+| `modpipe:{run}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
+| `modpipe:{run}:cancellation:signal` | Notifies all instances of a cancellation request |
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
 

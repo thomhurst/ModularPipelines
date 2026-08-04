@@ -1,4 +1,5 @@
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -7,6 +8,11 @@ namespace ModularPipelines.Engine.Executors;
 /// </summary>
 internal interface IPipelineInitializer
 {
+    /// <summary>
+    /// Gets the registered modules before initialization performs fallible startup work.
+    /// </summary>
+    IReadOnlyList<IModule> RegisteredModules { get; }
+
     /// <summary>
     /// Initializes the pipeline.
     /// </summary>

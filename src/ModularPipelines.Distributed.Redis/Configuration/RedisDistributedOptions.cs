@@ -12,7 +12,8 @@ public class RedisDistributedOptions
 
     /// <summary>
     /// Gets or sets the run identifier used to isolate keys across concurrent pipeline runs.
-    /// If not set, auto-detected from CI environment variables or git commit SHA.
+    /// Distributed coordination requires a unique value per execution. If not set, an
+    /// invocation-scoped CI identifier is used when available.
     /// </summary>
     public string? RunIdentifier { get; set; }
 

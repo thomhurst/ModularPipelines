@@ -4,6 +4,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -136,6 +137,7 @@ public class DirectModuleHooksTests : TestBase
         public List<string> HooksCalled { get; } = [];
         public Exception? ReceivedFailureException { get; private set; }
         public ModuleResult<string>? ReceivedAfterResult { get; private set; }
+        public bool AfterHookCancellationRequested { get; private set; }
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithIgnoreFailures()
@@ -166,8 +168,15 @@ public class DirectModuleHooksTests : TestBase
             // OnAfterExecuteAsync is called for both success and failure (after OnFailedAsync for failures)
             HooksCalled.Add("OnAfterExecuteAsync");
             ReceivedAfterResult = result;
+            AfterHookCancellationRequested = cancellationToken.IsCancellationRequested;
             return Task.FromResult<ModuleResult<string>?>(null);
         }
+    }
+
+    private class NonIgnoredFailingHookTrackingModule : FailingHookTrackingModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .Build();
     }
 
     /// <summary>
@@ -333,6 +342,36 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.ReceivedAfterResult).IsNotNull();
         await Assert.That(module.ReceivedAfterResult!.ExceptionOrDefault).IsNotNull();
         await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault).IsTypeOf<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task OnAfterExecuteAsync_CalledWhenNonIgnoredModuleFails()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<NonIgnoredFailingHookTrackingModule>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>()
+            .OfType<NonIgnoredFailingHookTrackingModule>()
+            .Single();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+
+        await Assert.That(module.HooksCalled).Contains("OnAfterExecuteAsync");
+        await Assert.That(module.ReceivedAfterResult).IsNotNull();
+        await Assert.That(module.ReceivedAfterResult!.ModuleStatus).IsEqualTo(Status.Failed);
+        await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
+        await Assert.That(module.AfterHookCancellationRequested).IsFalse();
+
+        var registeredResult = host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(NonIgnoredFailingHookTrackingModule));
+        var awaitedResult = await module;
+
+        await Assert.That(registeredResult!.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
+        await Assert.That(awaitedResult.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
     }
 
     [Test]

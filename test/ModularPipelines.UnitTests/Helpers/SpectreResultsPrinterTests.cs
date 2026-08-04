@@ -33,6 +33,7 @@ public class SpectreResultsPrinterTests
                 new ModuleTimeline
                 {
                     ModuleName = nameof(SkippedModule),
+                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
                     Status = ModuleStatus.Skipped,
                     WasSkipped = true,
                 },
@@ -71,6 +72,77 @@ public class SpectreResultsPrinterTests
         await Assert.That(output).Contains("Speedup:");
         await Assert.That(output).DoesNotContain("Parallelism:");
         await Assert.That(output).Contains("2.5x");
+    }
+
+    [Test]
+    public async Task ModulesTable_ShowsPreviousRunDurationDelta()
+    {
+        var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);
+        var module = new SkippedModule();
+        var summary = new PipelineSummary(
+            [module],
+            [],
+            TimeSpan.FromSeconds(5),
+            start,
+            start.AddSeconds(5),
+            moduleTimelines:
+            [
+                new ModuleTimeline
+                {
+                    ModuleName = nameof(SkippedModule),
+                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                    Status = ModuleStatus.Successful,
+                    ExecutionDuration = TimeSpan.FromSeconds(5),
+                },
+            ]) with
+        {
+            RunReport = new PipelineRunReport
+            {
+                TotalDurationDelta = TimeSpan.FromSeconds(2),
+                Modules =
+                [
+                    new ModuleRunReport
+                    {
+                        ModuleName = nameof(SkippedModule),
+                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                        DurationDelta = TimeSpan.FromSeconds(2),
+                    },
+                ],
+            },
+        };
+
+        var output = RenderToString(SpectreResultsPrinter.CreateModulesTable(summary));
+
+        await Assert.That(output).Contains("Δ previous");
+        await Assert.That(output).Contains("+2s");
+    }
+
+    [Test]
+    public async Task ModulesTable_ShowsTotalDeltaWithoutMatchingModuleDeltas()
+    {
+        var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);
+        var module = new SkippedModule();
+        var summary = new PipelineSummary(
+            [module],
+            [],
+            TimeSpan.FromSeconds(5),
+            start,
+            start.AddSeconds(5)) with
+        {
+            RunReport = new PipelineRunReport
+            {
+                TotalDurationDelta = TimeSpan.FromSeconds(2),
+                Modules = [],
+            },
+        };
+
+        var output = RenderToString(SpectreResultsPrinter.CreateModulesTable(summary));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("Δ previous");
+            await Assert.That(output).Contains("+2s");
+        }
     }
 
     private static string RenderToString(IRenderable renderable)
