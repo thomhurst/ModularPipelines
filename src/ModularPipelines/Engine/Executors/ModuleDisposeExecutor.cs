@@ -28,7 +28,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 
     public async ValueTask DisposeAsync()
     {
-        if (!_options.Value.ShowProgressInConsole)
+        if (!_options.Value.Console.ShowProgress)
         {
             // If not an interactive console, we'll dispose each module as it finishes, to print its output
             // Otherwise we'll do it here, so we don't mess up the Progress printer

@@ -653,7 +653,7 @@ internal class ModuleRunner : IModuleRunner
             // Store execution context results in module state
             moduleState.TrySetSkipResult(executionContext.SkipResult);
 
-            if (!_pipelineOptions.Value.ShowProgressInConsole)
+            if (!_pipelineOptions.Value.Console.ShowProgress)
             {
                 await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
             }

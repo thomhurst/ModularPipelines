@@ -1411,7 +1411,7 @@ public class RunReportTests
                 It.IsAny<string>(),
                 It.IsAny<CancellationToken>()))
             .Callback<string, CancellationToken>((_, token) => readToken = token)
-            .ReturnsAsync((PipelineRunReport?)null);
+            .ReturnsAsync((PipelineRunReport?) null);
         historyStore.Setup(store => store.SaveAsync(
                 It.IsAny<PipelineRunReport>(),
                 It.IsAny<CancellationToken>()))
@@ -1576,8 +1576,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
@@ -1618,8 +1617,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
@@ -1662,8 +1660,7 @@ public class RunReportTests
             {
                 builder.ConfigurePipelineOptions(options => options with
                 {
-                    PrintLogo = false,
-                    PrintResults = false,
+                    Console = options.Console with { PrintLogo = false, PrintResults = false },
                     RunReport = options.RunReport with
                     {
                         ReportPath = reportPath,
@@ -1684,8 +1681,7 @@ public class RunReportTests
             using var successfulBuilder = Pipeline.CreateBuilder();
             successfulBuilder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with
                 {
                     ReportPath = reportPath,
@@ -1801,8 +1797,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.StopOnFirstException,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -1841,8 +1836,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -1883,8 +1877,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -2339,8 +2332,7 @@ public class RunReportTests
         {
             ExecutionMode = ExecutionMode.WaitForAllModules,
             ThrowOnPipelineFailure = false,
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
             {
                 HistoryDirectory = historyPath,
@@ -2359,8 +2351,7 @@ public class RunReportTests
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
             {
                 AutoWriteInCi = false,
@@ -2477,13 +2468,13 @@ public class RunReportTests
     }
 
     private static IModuleResult CreateHistoricalResult(IModule module, DateTimeOffset start) =>
-        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.UsedHistory,
         };
 
     private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
-        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.CachedResult,
         };
@@ -2510,7 +2501,7 @@ public class RunReportTests
     {
         var module = new SuccessfulModule();
         var start = new DateTimeOffset(2026, 8, 3, 12, 0, 0, TimeSpan.Zero);
-        var result = (ModuleResult)CreateResult(module, start, duration) with
+        var result = (ModuleResult) CreateResult(module, start, duration) with
         {
             ModuleStatus = status,
         };

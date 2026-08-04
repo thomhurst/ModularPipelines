@@ -27,7 +27,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
-        if (!_options.Value.PrintResults)
+        if (!_options.Value.Console.PrintResults)
         {
             return;
         }

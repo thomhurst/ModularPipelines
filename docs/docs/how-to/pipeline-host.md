@@ -106,9 +106,12 @@ builder.ConfigurePipelineOptions(options => options with
     IgnoreCategories = ["Experimental"],
 
     // Display options
-    ShowProgressInConsole = true,
-    PrintResults = true,
-    PrintLogo = true,
+    Console = options.Console with
+    {
+        ShowProgress = true,
+        PrintResults = true,
+        PrintLogo = true,
+    },
 
     // Concurrency settings
     Concurrency = new ConcurrencyOptions
