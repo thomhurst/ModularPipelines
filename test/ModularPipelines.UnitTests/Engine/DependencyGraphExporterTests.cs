@@ -174,6 +174,19 @@ public class DependencyGraphExporterTests
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
     }
 
+    private sealed class ExecutionMutatingModule : Module<string>
+    {
+        public int Executions { get; private set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executions++;
+            return Task.FromResult<string?>("executed");
+        }
+    }
+
     private sealed class AlwaysSkipCondition : IPlanningRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
@@ -808,6 +821,27 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("factory-skip");
+    }
+
+    private sealed class MutableClosureFactorySkipModule(string factoryValue) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var evaluations = 0;
+            return ModuleConfiguration.Create()
+                .WithSkipWhen(_ => ++evaluations == 1
+                    ? SkipDecision.Skip("first evaluation")
+                    : SkipDecision.DoNotSkip)
+                .Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref _executions);
+            return Task.FromResult<string?>(factoryValue);
+        }
     }
 
     private sealed class RuntimeBoundFactorySkipModule(bool shouldSkip) : Module<string>
@@ -1677,6 +1711,30 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Pipeline_Rejects_Graph_Export_After_Execution()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-graph-");
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<ExecutionMutatingModule>();
+            await using var pipeline = await builder.BuildAsync();
+            _ = await pipeline.RunAsync();
+
+            var exception = await Assert.ThrowsAsync<PipelineException>(() =>
+                pipeline.ExportDependencyGraphAsync(
+                    DependencyGraphFormat.Json,
+                    Path.Combine(directory.FullName, "graph.json")));
+
+            await Assert.That(exception!.Message).Contains("before RunAsync starts");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Async_Attribute_Condition_Is_Unresolved_Without_Starting_Work()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -2440,6 +2498,27 @@ public class DependencyGraphExporterTests
                     .GetProperty("skipped").GetBoolean())
                 .IsTrue();
             await Assert.That(factoryCalls).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Mutable_Factory_Closure_Without_Evaluating_It()
+    {
+        _executions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new MutableClosureFactorySkipModule("factory-only"));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var summary = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
+            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(_executions).IsEqualTo(0);
         }
     }
 

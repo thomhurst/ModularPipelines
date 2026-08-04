@@ -33,6 +33,9 @@ public interface IPipeline : IAsyncDisposable
     /// <param name="format">The output format.</param>
     /// <param name="path">The destination file.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <exception cref="Exceptions.PipelineException">
+    /// Thrown when pipeline execution has already started.
+    /// </exception>
     Task ExportDependencyGraphAsync(
         DependencyGraphFormat format,
         string path,

@@ -28,6 +28,8 @@ internal sealed class ModuleDiscoveryPlanner(
     IServiceProvider serviceProvider,
     IEnumerable<ModulePlanningFactory> planningFactories)
 {
+    private const byte StoreInstanceFieldOpCode = 0x7D;
+
     private readonly IReadOnlyList<IModule> _modules = modules
         .Distinct<IModule>(ReferenceEqualityComparer.Instance)
         .ToArray();
@@ -556,15 +558,125 @@ internal sealed class ModuleDiscoveryPlanner(
         IPlanningModuleCopyProvider copyProvider)
     {
         if (!copyProvider.IsConfigurationInitialized
-            || module.Configuration.SynchronousPlanningSkipCondition is not { } planningCondition
-            || !ReferencesObject(planningCondition, module, new HashSet<object>(ReferenceEqualityComparer.Instance)))
+            || module.Configuration.SynchronousPlanningSkipCondition is not { } planningCondition)
+        {
+            return;
+        }
+
+        var referencesRuntimeModule = ReferencesObject(
+            planningCondition,
+            module,
+            new HashSet<object>(ReferenceEqualityComparer.Instance));
+        var mutatesCapturedState = MutatesDelegateTargetState(
+            planningCondition,
+            new HashSet<object>(ReferenceEqualityComparer.Instance));
+        if (!referencesRuntimeModule && !mutatesCapturedState)
         {
             return;
         }
 
         throw new PipelineException(
             $"The initialized configuration for '{module.GetType().FullName}' contains a planning condition "
-            + "bound to the runtime module. Override CreatePlanningCopy to return an isolated copy.");
+            + "bound to mutable runtime state. Override CreatePlanningCopy to return an isolated copy.");
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Planning delegates are inspected only to reject mutable captured state.")]
+    private static bool MutatesDelegateTargetState(object? value, ISet<object> visited)
+    {
+        if (value is null)
+        {
+            return false;
+        }
+
+        if (value is Delegate @delegate)
+        {
+            return @delegate.GetInvocationList().Any(invocation =>
+                invocation.Target is { } target
+                && (WritesDelegateTargetField(invocation.Method, target.GetType())
+                    || MutatesDelegateTargetState(target, visited)));
+        }
+
+        var type = value.GetType();
+        if (value is string or MemberInfo
+            || type.IsPrimitive
+            || type.IsEnum
+            || type.IsPointer
+            || (!type.IsValueType && !visited.Add(value)))
+        {
+            return false;
+        }
+
+        if (value is Array array)
+        {
+            return array.Cast<object?>().Any(item => MutatesDelegateTargetState(item, visited));
+        }
+
+        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
+            && value is not IEnumerable)
+        {
+            return false;
+        }
+
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            if (current.GetFields(
+                    BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.DeclaredOnly)
+                .Any(field => MutatesDelegateTargetState(field.GetValue(value), visited)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed method bodies conservatively produce no detected field writes.")]
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2070",
+        Justification = "Delegate target fields are inspected only to reject mutable captured state.")]
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Delegate target base fields are inspected only to reject mutable captured state.")]
+    private static bool WritesDelegateTargetField(MethodInfo method, Type targetType)
+    {
+        var il = method.GetMethodBody()?.GetILAsByteArray();
+        if (il is null)
+        {
+            return false;
+        }
+
+        for (var current = targetType; current is not null; current = current.BaseType)
+        {
+            foreach (var field in current.GetFields(
+                         BindingFlags.Instance
+                         | BindingFlags.Public
+                         | BindingFlags.NonPublic
+                         | BindingFlags.DeclaredOnly))
+            {
+                var token = BitConverter.GetBytes(field.MetadataToken);
+                for (var index = 0; index <= il.Length - token.Length - 1; index++)
+                {
+                    if (il[index] == StoreInstanceFieldOpCode
+                        && il.AsSpan(index + 1, token.Length).SequenceEqual(token))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     [UnconditionalSuppressMessage(

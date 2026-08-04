@@ -30,6 +30,7 @@ internal sealed class PipelineImpl : IPipeline
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
+    private int _executionStarted;
     private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
 
@@ -96,6 +97,7 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
+        Interlocked.Exchange(ref _executionStarted, 1);
         var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
         using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
@@ -143,9 +145,17 @@ internal sealed class PipelineImpl : IPipeline
     public Task ExportDependencyGraphAsync(
         DependencyGraphFormat format,
         string path,
-        CancellationToken cancellationToken = default) =>
-        Services.GetRequiredService<IDependencyGraphExporter>()
+        CancellationToken cancellationToken = default)
+    {
+        if (Volatile.Read(ref _executionStarted) != 0)
+        {
+            throw new PipelineException(
+                "The dependency graph must be exported before RunAsync starts.");
+        }
+
+        return Services.GetRequiredService<IDependencyGraphExporter>()
             .ExportAsync(format, path, cancellationToken);
+    }
 
     /// <inheritdoc />
     public ValueTask DisposeAsync()
