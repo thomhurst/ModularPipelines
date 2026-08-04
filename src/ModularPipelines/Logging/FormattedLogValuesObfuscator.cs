@@ -61,6 +61,11 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 
     private object ObfuscateValue(object value)
     {
+        if (value is PreObfuscatedLogValue preObfuscatedValue)
+        {
+            return preObfuscatedValue.Value;
+        }
+
         string originalValue;
         try
         {
@@ -76,6 +81,14 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
             ? value
             : obfuscatedValue;
     }
+}
+
+/// <summary>
+/// Marks a structured log value that has already passed through secret obfuscation.
+/// </summary>
+internal sealed record PreObfuscatedLogValue(string Value)
+{
+    public override string ToString() => Value;
 }
 
 /// <summary>
