@@ -5,6 +5,10 @@ namespace ModularPipelines.Engine;
 /// <summary>
 /// Carries correlation metadata populated while a run report is completed.
 /// </summary>
+/// <remarks>
+/// Each enricher receives values committed by earlier enrichers. Fill gaps for fallback metadata;
+/// overwrite a value only when the current source is more authoritative.
+/// </remarks>
 public sealed class RunReportEnrichmentContext
 {
     /// <summary>

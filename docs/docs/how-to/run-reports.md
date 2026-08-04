@@ -55,6 +55,11 @@ public sealed class DeploymentRunEnricher : IRunReportEnricher
 builder.AddRunReportEnricher<DeploymentRunEnricher>();
 ```
 
+Enrichers run sequentially in registration order. Use `??=` for fallback metadata so an earlier
+value survives. Overwrite an existing value only when the current source is authoritative; later
+authoritative enrichers take precedence. The built-in Git enricher fills gaps, while the GitHub
+enricher replaces Git values with CI-provided commit and branch metadata when available.
+
 ## Local history and deltas
 
 When report writing is enabled, the default `IRunHistoryStore` saves reports under
