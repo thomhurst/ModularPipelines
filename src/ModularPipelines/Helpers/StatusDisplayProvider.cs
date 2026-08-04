@@ -40,7 +40,6 @@ internal static class StatusDisplayProvider
         [Status.DependencyFailed] = new(MarkupFormatter.FailureIcon, "Module {0} did not run because a dependency failed"),
         [Status.UsedHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
         [Status.CachedResult] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
-        [Status.Retried] = new(MarkupFormatter.RetryIcon, "Module {0} retried"),
     };
 
     /// <summary>

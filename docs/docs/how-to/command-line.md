@@ -25,6 +25,7 @@ await builder.ExecutePipelineAsync();
 | --- | --- |
 | `--help`, `-h` | Prints built-in pipeline command-line usage without executing modules. |
 | `--dry-run` | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules. |
+| `--no-cache` | Disables module cache reads and writes for this run. |
 | `--list-modules` | Lists registered modules, categories, and direct dependencies without executing modules. |
 | `--module <name>` | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas. |
 | `--skip-module <name>` | Excludes a module. Repeat the option or separate names with commas. |
@@ -43,6 +44,7 @@ dotnet run -- --module TestModule
 dotnet run -- --module BuildModule,TestModule --skip-module SlowTestModule
 dotnet run -- --categories Test --ignore-categories Integration
 dotnet run -- --dry-run
+dotnet run -- --no-cache
 dotnet run -- --list-modules
 dotnet run -- --validate
 ```

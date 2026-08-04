@@ -292,7 +292,6 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
             ModuleStatus.UsedHistory => "[green3]History[/]",
             ModuleStatus.CachedResult => "[green3]Cached[/]",
-            ModuleStatus.Retried => "[yellow]Retried[/]",
             ModuleStatus.Processing => "[blue]Running[/]",
             ModuleStatus.NotYetStarted => "[dim]Pending[/]",
             ModuleStatus.Unknown => "[dim]Unknown[/]",
