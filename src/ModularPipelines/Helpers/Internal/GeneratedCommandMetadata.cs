@@ -48,7 +48,7 @@ public static class GeneratedCommandMetadata
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model)
     {
-        Register(optionsType, model, isComplete: true);
+        RegisterCore(optionsType, model, isComplete: true, isLegacy: false);
     }
 
     /// <summary>
@@ -60,9 +60,18 @@ public static class GeneratedCommandMetadata
         IReadOnlyList<PropertyCommandLinePart> model,
         bool isComplete = true)
     {
+        RegisterCore(optionsType, model, isComplete, isLegacy: true);
+    }
+
+    private static void RegisterCore(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> model,
+        bool isComplete,
+        bool isLegacy)
+    {
         try
         {
-            Models.Add(optionsType, new CommandMetadata(model, isComplete));
+            Models.Add(optionsType, new CommandMetadata(model, isComplete, isLegacy));
         }
         catch (ArgumentException exception)
         {
@@ -85,25 +94,34 @@ public static class GeneratedCommandMetadata
         var registrations = ExternalModels.GetValue(
             consumerAssembly,
             static _ => new ExternalCommandMetadata());
-        registrations.Models.TryAdd(optionsType, new CommandMetadata(model, IsComplete: true));
+        registrations.Models.TryAdd(
+            optionsType,
+            new CommandMetadata(model, IsComplete: true, IsLegacy: false));
     }
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
     {
-        if (Models.TryGetValue(optionsType, out var metadata) && metadata.IsComplete)
+        Models.TryGetValue(optionsType, out var directMetadata);
+        if (directMetadata is { IsComplete: true, IsLegacy: false })
         {
-            model = metadata.Model;
+            model = directMetadata.Model;
             return true;
         }
 
         foreach (var registrations in ExternalModels)
         {
-            if (registrations.Value.Models.TryGetValue(optionsType, out metadata)
+            if (registrations.Value.Models.TryGetValue(optionsType, out var metadata)
                 && metadata.IsComplete)
             {
                 model = metadata.Model;
                 return true;
             }
+        }
+
+        if (directMetadata is { IsComplete: true })
+        {
+            model = directMetadata.Model;
+            return true;
         }
 
         model = Array.Empty<PropertyCommandLinePart>();
@@ -121,7 +139,10 @@ public static class GeneratedCommandMetadata
                && processedAssembly.CoveredTypeNames.ContainsKey(metadataName);
     }
 
-    private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model, bool IsComplete);
+    private sealed record CommandMetadata(
+        IReadOnlyList<PropertyCommandLinePart> Model,
+        bool IsComplete,
+        bool IsLegacy);
 
     private sealed class ExternalCommandMetadata
     {

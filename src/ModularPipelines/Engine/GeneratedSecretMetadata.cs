@@ -41,7 +41,7 @@ public static class GeneratedSecretMetadata
         Type declaringType,
         IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        Register(declaringType, accessors, isComplete: true);
+        RegisterCore(declaringType, accessors, isComplete: true, isLegacy: false);
     }
 
     /// <summary>
@@ -53,9 +53,18 @@ public static class GeneratedSecretMetadata
         IReadOnlyList<SecretPropertyAccessor> accessors,
         bool isComplete = true)
     {
+        RegisterCore(declaringType, accessors, isComplete, isLegacy: true);
+    }
+
+    private static void RegisterCore(
+        Type declaringType,
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        bool isComplete,
+        bool isLegacy)
+    {
         try
         {
-            Accessors.Add(declaringType, new SecretMetadata(accessors, isComplete));
+            Accessors.Add(declaringType, new SecretMetadata(accessors, isComplete, isLegacy));
         }
         catch (ArgumentException exception)
         {
@@ -115,7 +124,7 @@ public static class GeneratedSecretMetadata
             static _ => new ExternalSecretMetadata());
         registrations.Accessors.TryAdd(
             declaringType,
-            new SecretMetadata(accessors, IsComplete: true));
+            new SecretMetadata(accessors, IsComplete: true, IsLegacy: false));
     }
 
     /// <summary>
@@ -144,20 +153,27 @@ public static class GeneratedSecretMetadata
             return true;
         }
 
-        if (Accessors.TryGetValue(type, out var metadata) && metadata.IsComplete)
+        Accessors.TryGetValue(type, out var directMetadata);
+        if (directMetadata is { IsComplete: true, IsLegacy: false })
         {
-            accessors = metadata.Accessors;
+            accessors = directMetadata.Accessors;
             return true;
         }
 
         foreach (var registrations in ExternalAccessors)
         {
-            if (registrations.Value.Accessors.TryGetValue(type, out metadata)
+            if (registrations.Value.Accessors.TryGetValue(type, out var metadata)
                 && metadata.IsComplete)
             {
                 accessors = metadata.Accessors;
                 return true;
             }
+        }
+
+        if (directMetadata is { IsComplete: true })
+        {
+            accessors = directMetadata.Accessors;
+            return true;
         }
 
         var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
@@ -205,7 +221,10 @@ public static class GeneratedSecretMetadata
                || typeof(IAsyncStateMachine).IsAssignableFrom(type);
     }
 
-    private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
+    private sealed record SecretMetadata(
+        IReadOnlyList<SecretPropertyAccessor> Accessors,
+        bool IsComplete,
+        bool IsLegacy);
 
     private sealed class ExternalSecretMetadata
     {

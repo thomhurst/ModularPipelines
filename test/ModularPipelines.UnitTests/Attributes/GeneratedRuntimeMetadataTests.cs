@@ -379,6 +379,70 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task ExternalMetadataOverridesLegacyDirectRegistration()
+    {
+        var commandType = CreateDynamicType("LegacyDirectCommand");
+        var secretType = CreateDynamicType("LegacyDirectSecret");
+        var legacyCommandModel = new List<PropertyCommandLinePart>();
+        var rescannedCommandModel = new List<PropertyCommandLinePart>();
+        var legacySecretModel = new List<SecretPropertyAccessor>();
+        var rescannedSecretModel = new List<SecretPropertyAccessor>();
+        var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
+        GeneratedCommandMetadata.Register(commandType, legacyCommandModel, isComplete: true);
+        GeneratedSecretMetadata.Register(secretType, legacySecretModel, isComplete: true);
+        GeneratedCommandMetadata.RegisterExternal(
+            consumerAssembly,
+            commandType,
+            rescannedCommandModel);
+        GeneratedSecretMetadata.RegisterExternal(
+            consumerAssembly,
+            secretType,
+            rescannedSecretModel);
+
+        var commandFound = GeneratedCommandMetadata.TryGet(commandType, out var commandModel);
+        var secretFound = GeneratedSecretMetadata.TryGetAccessors(secretType, out var secretModel);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandFound).IsTrue();
+            await Assert.That(commandModel).IsSameReferenceAs(rescannedCommandModel);
+            await Assert.That(secretFound).IsTrue();
+            await Assert.That(secretModel).IsSameReferenceAs(rescannedSecretModel);
+        }
+    }
+
+    [Test]
+    public async Task CurrentDirectMetadataRemainsAuthoritative()
+    {
+        var commandType = CreateDynamicType("CurrentDirectCommand");
+        var secretType = CreateDynamicType("CurrentDirectSecret");
+        var currentCommandModel = new List<PropertyCommandLinePart>();
+        var rescannedCommandModel = new List<PropertyCommandLinePart>();
+        var currentSecretModel = new List<SecretPropertyAccessor>();
+        var rescannedSecretModel = new List<SecretPropertyAccessor>();
+        var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
+        GeneratedCommandMetadata.Register(commandType, currentCommandModel);
+        GeneratedSecretMetadata.Register(secretType, currentSecretModel);
+        GeneratedCommandMetadata.RegisterExternal(
+            consumerAssembly,
+            commandType,
+            rescannedCommandModel);
+        GeneratedSecretMetadata.RegisterExternal(
+            consumerAssembly,
+            secretType,
+            rescannedSecretModel);
+
+        _ = GeneratedCommandMetadata.TryGet(commandType, out var commandModel);
+        _ = GeneratedSecretMetadata.TryGetAccessors(secretType, out var secretModel);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandModel).IsSameReferenceAs(currentCommandModel);
+            await Assert.That(secretModel).IsSameReferenceAs(currentSecretModel);
+        }
+    }
+
+    [Test]
     public async Task LegacyRegistrationOverloads_PreserveCompleteness()
     {
         var completeCommandType = CreateDynamicType("CompleteCommand");
