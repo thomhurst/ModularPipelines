@@ -389,6 +389,7 @@ internal sealed class PipelinePlanner
             skipDecision,
             estimatedDuration,
             _moduleCachingEnabled
+            && !_options.Value.DisableModuleCache
             && module.Configuration.CacheEnabled
             && skipDecision?.ShouldSkip is not true);
     }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public partial record AptGetPackageOptions : AptGetOptions
+public record AptGetPackageOptions : AptGetOptions
 {
     [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string CommandName { get; } = "package";

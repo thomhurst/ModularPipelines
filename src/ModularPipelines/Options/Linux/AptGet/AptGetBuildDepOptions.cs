@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public partial record AptGetBuildDepOptions : AptGetOptions
+public record AptGetBuildDepOptions : AptGetOptions
 {
     [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string CommandName { get; } = "build-dep";

@@ -2,6 +2,10 @@ namespace ModularPipelines.Engine;
 
 internal static class AtomicFileWriter
 {
+    private const string TemporaryFilePrefix = ".modularpipelines-";
+    private const string TemporaryFileSuffix = ".tmp";
+    internal const string TemporaryFilePattern = TemporaryFilePrefix + "*" + TemporaryFileSuffix;
+
     public static Task WriteAllTextAsync(
         string path,
         string contents,
@@ -23,7 +27,7 @@ internal static class AtomicFileWriter
             ?? throw new ArgumentException("The path must include a directory.", nameof(path));
         var temporaryPath = Path.Combine(
             directory,
-            $".modularpipelines-{Guid.NewGuid():N}.tmp");
+            $"{TemporaryFilePrefix}{Guid.NewGuid():N}{TemporaryFileSuffix}");
 
         try
         {
