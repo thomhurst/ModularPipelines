@@ -902,10 +902,6 @@ internal sealed class ModuleDiscoveryPlanner(
 
     [UnconditionalSuppressMessage(
         "Trimming",
-        "IL2026",
-        Justification = "Missing or trimmed Configure bodies conservatively produce no detected static access.")]
-    [UnconditionalSuppressMessage(
-        "Trimming",
         "IL2075",
         Justification = "The already-loaded module Configure method is inspected only to avoid replaying global state.")]
     private static bool ConfigurationTouchesStaticState(IModule module)
@@ -917,6 +913,10 @@ internal sealed class ModuleDiscoveryPlanner(
                && MethodTouchesStaticState(method, new HashSet<MethodInfo>());
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure bodies conservatively produce no detected static access.")]
     private static bool MethodTouchesStaticState(
         MethodInfo method,
         ISet<MethodInfo> visited)
@@ -955,6 +955,10 @@ internal sealed class ModuleDiscoveryPlanner(
         return false;
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure metadata conservatively produces no detected static access.")]
     private static bool InstructionTouchesStaticState(
         MethodInfo method,
         OpCode opCode,
