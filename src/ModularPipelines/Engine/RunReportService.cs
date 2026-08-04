@@ -177,7 +177,7 @@ internal sealed class RunReportService(
             using var timeout = CreatePhaseCancellationTokenSource(
                 ReportWriteTimeout,
                 cancellationToken);
-            await File.WriteAllTextAsync(
+            await AtomicFileWriter.WriteAllTextAsync(
                     fullPath,
                     RunReportJsonSerializer.Serialize(report),
                     timeout.Token)
