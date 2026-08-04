@@ -301,7 +301,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         if (!config.CacheEnabled || _cacheResultRepository is null)
         {
-            ModuleActivityTracing.RecordCacheDisabled();
+            ModuleActivityTracing.RecordCacheDisabled(executionContext.ModuleActivity);
             return null;
         }
 
@@ -314,7 +314,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             .ConfigureAwait(false);
         if (cachedResult is null)
         {
-            ModuleActivityTracing.RecordCacheMiss(module.GetType());
+            ModuleActivityTracing.RecordCacheMiss(executionContext.ModuleActivity, module.GetType());
             return null;
         }
 
@@ -322,7 +322,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext,
             cachedResult,
             logger);
-        ModuleActivityTracing.RecordCacheHit(module.GetType());
+        ModuleActivityTracing.RecordCacheHit(executionContext.ModuleActivity, module.GetType());
         await _directHookInvoker.InvokeCachedResultAsync(
                 module,
                 moduleContext,

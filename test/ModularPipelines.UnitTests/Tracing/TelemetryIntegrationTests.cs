@@ -338,19 +338,19 @@ public class TelemetryIntegrationTests
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
         {
-            ModuleActivityTracing.RecordCacheHit(typeof(CommandModule));
+            ModuleActivityTracing.RecordCacheHit(activity, typeof(CommandModule));
             ModuleActivityTracing.RecordCachedResult(activity);
         }
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(RetriedModule)))
         {
-            ModuleActivityTracing.RecordCacheMiss(typeof(RetriedModule));
+            ModuleActivityTracing.RecordCacheMiss(activity, typeof(RetriedModule));
             ModuleActivityTracing.RecordSuccess(activity);
         }
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(TimedOutModule)))
         {
-            ModuleActivityTracing.RecordCacheDisabled();
+            ModuleActivityTracing.RecordCacheDisabled(activity);
             ModuleActivityTracing.RecordSuccess(activity);
         }
 
@@ -377,6 +377,28 @@ public class TelemetryIntegrationTests
                 .IsEqualTo("miss");
             await Assert.That(disabledActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
                 .IsEqualTo("disabled");
+        }
+    }
+
+    [Test]
+    public async Task Cache_Outcomes_Do_Not_Tag_Pipeline_When_Module_Is_Not_Sampled()
+    {
+        using var listener = new ActivityListener
+        {
+            ShouldListenTo = source => source.Name == ModuleActivityTracing.PipelineSourceName,
+            Sample = static (ref ActivityCreationOptions<ActivityContext> _) =>
+                ActivitySamplingResult.AllDataAndRecorded,
+        };
+        ActivitySource.AddActivityListener(listener);
+
+        using var pipelineActivity = ModuleActivityTracing.StartPipelineActivity("TestPipeline");
+        ModuleActivityTracing.RecordCacheHit(activity: null, typeof(CommandModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(Activity.Current).IsSameReferenceAs(pipelineActivity);
+            await Assert.That(pipelineActivity!.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
+                .IsNull();
         }
     }
 

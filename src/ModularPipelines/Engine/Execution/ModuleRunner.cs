@@ -493,6 +493,7 @@ internal class ModuleRunner : IModuleRunner
         var telemetryStart = Stopwatch.GetTimestamp();
         var telemetryStatus = "Failed";
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
+        executionContext.ModuleActivity = activity;
 
         // Set up logging and module type context using scope wrapper for proper cleanup
         await using var loggerScope = new ModuleLoggerScope(logger, moduleType);

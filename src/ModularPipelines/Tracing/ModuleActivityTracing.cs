@@ -207,20 +207,20 @@ public static class ModuleActivityTracing
             });
     }
 
-    internal static void RecordCacheDisabled()
+    internal static void RecordCacheDisabled(Activity? activity)
     {
-        Activity.Current?.SetTag(ModuleCacheTag, "disabled");
+        activity?.SetTag(ModuleCacheTag, "disabled");
     }
 
-    internal static void RecordCacheHit(Type moduleType)
+    internal static void RecordCacheHit(Activity? activity, Type moduleType)
     {
-        Activity.Current?.SetTag(ModuleCacheTag, "hit");
+        activity?.SetTag(ModuleCacheTag, "hit");
         ModuleCacheHits.Add(1, CreateModuleIdentityTags(moduleType));
     }
 
-    internal static void RecordCacheMiss(Type moduleType)
+    internal static void RecordCacheMiss(Activity? activity, Type moduleType)
     {
-        Activity.Current?.SetTag(ModuleCacheTag, "miss");
+        activity?.SetTag(ModuleCacheTag, "miss");
         ModuleCacheMisses.Add(1, CreateModuleIdentityTags(moduleType));
     }
 
