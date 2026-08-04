@@ -394,6 +394,7 @@ internal sealed class ModuleDiscoveryPlanner(
         {
             return context.IsServiceProviderOwned(first)
                    || first is Array { Length: 0 }
+                   || (first is not Array && !HasInstanceFields(first))
                    || IsKnownImmutableFrameworkSingleton(first)
                    || (IsFrameworkComparer(first)
                        && HasEquivalentFields(first, first, context))
@@ -416,7 +417,29 @@ internal sealed class ModuleDiscoveryPlanner(
 
         return first is Array firstArray && second is Array secondArray
             ? HasEquivalentArrays(firstArray, secondArray, context)
-            : HasEquivalentFields(first, second, context);
+            : HasInstanceFields(first)
+              && HasEquivalentFields(first, second, context);
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Factory-created module state is inspected only to verify planning replay equivalence.")]
+    private static bool HasInstanceFields(object value)
+    {
+        for (var current = value.GetType(); current is not null; current = current.BaseType)
+        {
+            if (current.GetFields(
+                    BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.DeclaredOnly).Length > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool HasEquivalentDelegates(

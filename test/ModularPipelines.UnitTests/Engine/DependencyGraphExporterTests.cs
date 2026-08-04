@@ -30,6 +30,7 @@ public class DependencyGraphExporterTests
     private static int _planningDisposals;
     private static int _planningRegistrationEvents;
     private static int _directModuleActivations;
+    private static readonly object DependencySentinel = new();
 
     private sealed class DependencyModule : Module<string>
     {
@@ -403,6 +404,30 @@ public class DependencyGraphExporterTests
             Task.FromException<IModuleResult>(new InvalidOperationException("Not executed by this test."));
 
         public bool TrySetDistributedResult(IModuleResult result) => false;
+    }
+
+    private sealed class ReferenceIdentityFactoryModule(object state) : Module<string>
+    {
+        public ReferenceIdentityFactoryModule()
+            : this(new object())
+        {
+        }
+
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (ReferenceEquals(state, DependencySentinel))
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("reference-identity");
     }
 
     private sealed class StatefulDirectInterfaceModule : IModule
@@ -2234,6 +2259,21 @@ public class DependencyGraphExporterTests
         var graph = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
         await Assert.That(graph).Contains(nameof(FieldlessStateFactoryModule));
+    }
+
+    [Test]
+    public async Task Render_Preserves_Reference_Identity_Dependent_Configuration()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(_ => new ReferenceIdentityFactoryModule(DependencySentinel));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
     }
 
     [Test]
