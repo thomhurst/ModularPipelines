@@ -30,8 +30,11 @@ public class PipelineCommandLineTests
     {
         public IRenderable? Renderable { get; private set; }
 
+        public List<string> Messages { get; } = [];
+
         public void LogToConsole(string value)
         {
+            Messages.Add(value);
         }
 
         public void Write(IRenderable renderable)
@@ -701,6 +704,53 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task ShortHostOptionIsNotMistakenForPipelineTypo()
+    {
+        using var builder = Pipeline.CreateBuilder(["--mode", "safe"]);
+
+        await Assert.That(builder.Configuration["mode"]).IsEqualTo("safe");
+    }
+
+    [Test]
+    public async Task SeparatorForwardsLikelyTypoToHostConfiguration()
+    {
+        using var builder = Pipeline.CreateBuilder(["--", "--skip-modules", "Deploy"]);
+
+        await Assert.That(builder.Options.SkippedModules).IsNull();
+        await Assert.That(builder.Configuration["skip-modules"]).IsEqualTo("Deploy");
+    }
+
+    [Test]
+    [Arguments("--skip-modules", "--skip-module")]
+    [Arguments("--dryrun", "--dry-run")]
+    [Arguments("--ignore-category", "--ignore-categories")]
+    public async Task LikelyPipelineOptionTypoFailsWithSuggestion(string typo, string suggestion)
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder([typo]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains($"Did you mean '{suggestion}'?");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+            await Assert.That(exception.Message).Contains("Use '--'");
+        }
+    }
+
+    [Test]
+    public async Task MissingOptionValueIncludesUsage()
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder(["--module"]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("requires a value");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
     public async Task RepeatedCommaSeparatedAndEqualsValuesAreParsed()
     {
         using var builder = Pipeline.CreateBuilder(
@@ -782,6 +832,8 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    [Arguments("--help")]
+    [Arguments("-h")]
     [Arguments("--list-modules")]
     [Arguments("--validate")]
     public async Task InformationalCommandsDoNotExecuteModules(string command)
@@ -797,6 +849,23 @@ public class PipelineCommandLineTests
             await Assert.That(_targetExecutions).IsEqualTo(0);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    [Arguments("--help")]
+    [Arguments("-h")]
+    public async Task HelpOptionsPrintUsage(string option)
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = CreateExecutionBuilder([option]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        await builder.ExecutePipelineAsync();
+
+        await Assert.That(consoleWriter.Messages.Single())
+            .Contains("ModularPipelines command-line options:")
+            .And.Contains("--skip-module")
+            .And.Contains("--");
     }
 
     [Test]

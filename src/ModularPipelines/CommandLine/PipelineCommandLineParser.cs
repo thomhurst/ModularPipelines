@@ -2,6 +2,8 @@ namespace ModularPipelines.PipelineCli;
 
 internal static class PipelineCommandLineParser
 {
+    private const string HelpOption = "--help";
+    private const string ShortHelpOption = "-h";
     private const string ListModulesOption = "--list-modules";
     private const string ValidateOption = "--validate";
     private const string DryRunOption = "--dry-run";
@@ -9,6 +11,18 @@ internal static class PipelineCommandLineParser
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
     private const string IgnoreCategoriesOption = "--ignore-categories";
+
+    private static readonly string[] KnownLongOptions =
+    [
+        HelpOption,
+        ListModulesOption,
+        ValidateOption,
+        DryRunOption,
+        ModuleOption,
+        SkipModuleOption,
+        CategoriesOption,
+        IgnoreCategoriesOption,
+    ];
 
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
     {
@@ -27,6 +41,19 @@ internal static class PipelineCommandLineParser
         for (var index = 0; index < arguments.Count; index++)
         {
             var argument = arguments[index];
+            if (argument == "--")
+            {
+                hostArguments.AddRange(arguments.Skip(index + 1));
+                break;
+            }
+
+            if (argument.Equals(HelpOption, StringComparison.OrdinalIgnoreCase)
+                || argument.Equals(ShortHelpOption, StringComparison.OrdinalIgnoreCase))
+            {
+                command = SetCommand(command, PipelineCommand.Help, argument);
+                continue;
+            }
+
             if (argument.Equals(ListModulesOption, StringComparison.OrdinalIgnoreCase))
             {
                 command = SetCommand(command, PipelineCommand.ListModules, argument);
@@ -53,6 +80,8 @@ internal static class PipelineCommandLineParser
                 continue;
             }
 
+            ThrowForLikelyPipelineOptionTypo(argument);
+
             hostArguments.Add(argument);
         }
 
@@ -77,7 +106,7 @@ internal static class PipelineCommandLineParser
         {
             if (++index >= arguments.Count || arguments[index].StartsWith("--", StringComparison.Ordinal))
             {
-                throw new ArgumentException($"Command-line option '{option}' requires a value.", nameof(arguments));
+                throw CreateParseException($"Command-line option '{option}' requires a value.");
             }
 
             value = arguments[index];
@@ -96,7 +125,7 @@ internal static class PipelineCommandLineParser
             : value.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         if (values.Length == 0)
         {
-            throw new ArgumentException($"Command-line option '{option}' requires a non-empty value.", nameof(arguments));
+            throw CreateParseException($"Command-line option '{option}' requires a non-empty value.");
         }
 
         destination.AddRange(values);
@@ -127,7 +156,7 @@ internal static class PipelineCommandLineParser
     {
         if (current != PipelineCommand.Run && current != requested)
         {
-            throw new ArgumentException(
+            throw CreateParseException(
                 $"Command-line option '{option}' cannot be combined with another pipeline command.");
         }
 
@@ -136,4 +165,66 @@ internal static class PipelineCommandLineParser
 
     private static IReadOnlyList<string> Distinct(IEnumerable<string> values) =>
         values.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+
+    private static void ThrowForLikelyPipelineOptionTypo(string argument)
+    {
+        if (!argument.StartsWith("--", StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        var option = argument.Split('=', 2)[0];
+        var maximumDistance = option.Length switch
+        {
+            <= 7 => 1,
+            <= 12 => 2,
+            _ => 3,
+        };
+        var suggestion = KnownLongOptions
+            .Select(knownOption => new
+            {
+                Option = knownOption,
+                Distance = GetEditDistance(option, knownOption),
+            })
+            .Where(candidate => candidate.Distance <= maximumDistance)
+            .OrderBy(candidate => candidate.Distance)
+            .ThenBy(candidate => candidate.Option, StringComparer.Ordinal)
+            .FirstOrDefault();
+
+        if (suggestion is not null)
+        {
+            throw CreateParseException(
+                $"Unknown pipeline option '{option}'. Did you mean '{suggestion.Option}'? "
+                + "Use '--' before the option to forward it to host configuration.");
+        }
+    }
+
+    private static int GetEditDistance(string left, string right)
+    {
+        var previous = Enumerable.Range(0, right.Length + 1).ToArray();
+
+        for (var leftIndex = 1; leftIndex <= left.Length; leftIndex++)
+        {
+            var current = new int[right.Length + 1];
+            current[0] = leftIndex;
+
+            for (var rightIndex = 1; rightIndex <= right.Length; rightIndex++)
+            {
+                var substitutionCost = char.ToUpperInvariant(left[leftIndex - 1])
+                    == char.ToUpperInvariant(right[rightIndex - 1])
+                    ? 0
+                    : 1;
+                current[rightIndex] = Math.Min(
+                    Math.Min(current[rightIndex - 1] + 1, previous[rightIndex] + 1),
+                    previous[rightIndex - 1] + substitutionCost);
+            }
+
+            previous = current;
+        }
+
+        return previous[right.Length];
+    }
+
+    private static ArgumentException CreateParseException(string message) =>
+        new($"{message}{Environment.NewLine}{Environment.NewLine}{PipelineCommandLineHelp.Usage}");
 }

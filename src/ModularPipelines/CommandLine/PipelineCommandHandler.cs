@@ -27,6 +27,8 @@ internal sealed class PipelineCommandHandler(
             case PipelineCommand.Run:
             case PipelineCommand.DryRun:
                 return null;
+            case PipelineCommand.Help:
+                return ShowHelp();
             case PipelineCommand.ListModules:
                 await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);
                 return ListModules();
@@ -36,6 +38,12 @@ internal sealed class PipelineCommandHandler(
             default:
                 throw new ArgumentOutOfRangeException(nameof(commandLineOptions));
         }
+    }
+
+    private PipelineSummary ShowHelp()
+    {
+        consoleWriter.LogToConsole(Markup.Escape(PipelineCommandLineHelp.Usage));
+        return CreateSummary();
     }
 
     private PipelineSummary ListModules()
