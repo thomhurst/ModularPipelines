@@ -265,22 +265,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
-        var containingNamespace = definition.ContainingNamespace?.ToDisplayString();
-        var isServiceCollectionRegistration =
-            containingNamespace == DependencyInjectionNamespace
-            && definition.ContainingType.MetadataName == "ServiceCollectionServiceExtensions"
-            && definition.Name is "AddSingleton" or "AddScoped" or "AddTransient";
-        var isTryAddRegistration =
-            containingNamespace == DependencyInjectionExtensionsNamespace
-            && definition.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
-            && definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient";
-        var isServiceDescriptorRegistration =
-            containingNamespace == DependencyInjectionNamespace
-            && definition.ContainingType.MetadataName == "ServiceDescriptor"
-            && definition.Name is "Singleton" or "Scoped" or "Transient";
-        if (!isServiceCollectionRegistration
-            && !isTryAddRegistration
-            && !isServiceDescriptorRegistration)
+        if (!IsServiceCollectionRegistration(definition)
+            && !IsTryAddRegistration(definition)
+            && !IsServiceDescriptorRegistration(definition))
         {
             return null;
         }
@@ -289,6 +276,27 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .OfType<INamedTypeSymbol>()
             .FirstOrDefault(IsOptionsTypeUsage)
             ?.TypeArguments[0];
+    }
+
+    private static bool IsServiceCollectionRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+               && method.ContainingType.MetadataName == "ServiceCollectionServiceExtensions"
+               && method.Name is "AddSingleton" or "AddScoped" or "AddTransient";
+    }
+
+    private static bool IsTryAddRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionExtensionsNamespace
+               && method.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
+               && method.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient";
+    }
+
+    private static bool IsServiceDescriptorRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+               && method.ContainingType.MetadataName == "ServiceDescriptor"
+               && method.Name is "Singleton" or "Scoped" or "Transient";
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)
