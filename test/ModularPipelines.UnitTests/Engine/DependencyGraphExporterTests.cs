@@ -48,6 +48,7 @@ public class DependencyGraphExporterTests
     private static int _planningCallbackConstructorMutations;
     private static int _customDependencyAttributeConstructions;
     private static int _customDependencyPredicateEvaluations;
+    private static int _customDependencySelectorConstructions;
 
     private sealed class ConstructorMutationState
     {
@@ -222,6 +223,41 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("runtime-predicate-consumer");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class RuntimeDependencySelectorAttribute
+        : DependsOnAllModulesInheritingFromAttribute
+    {
+        public RuntimeDependencySelectorAttribute() : base(typeof(DependencyModule)) =>
+            Interlocked.Increment(ref _customDependencySelectorConstructions);
+    }
+
+    [RuntimeDependencySelector]
+    private sealed class RuntimeSelectorConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("runtime-selector-consumer");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class PlanningSafeDependencySelectorAttribute
+        : DependsOnAllModulesInheritingFromAttribute, IPlanningSafeDependencySelector
+    {
+        public PlanningSafeDependencySelectorAttribute() : base(typeof(DependencyModule))
+        {
+        }
+    }
+
+    [PlanningSafeDependencySelector]
+    private sealed class PlanningSafeSelectorConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("planning-safe-selector-consumer");
     }
 
     private sealed class HistoricalDependencyModule : Module<string>
@@ -2906,6 +2942,38 @@ public class DependencyGraphExporterTests
             await Assert.That(_customDependencyAttributeConstructions).IsGreaterThan(constructionsBeforeRender);
             await Assert.That(_customDependencyPredicateEvaluations).IsGreaterThan(evaluationsBeforeRender);
         }
+    }
+
+    [Test]
+    public async Task Render_Defers_Custom_Inheritance_Selectors()
+    {
+        _customDependencySelectorConstructions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<RuntimeSelectorConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var constructionsBeforeRender = _customDependencySelectorConstructions;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        await Assert.That(_customDependencySelectorConstructions)
+            .IsEqualTo(constructionsBeforeRender);
+    }
+
+    [Test]
+    public async Task Render_Uses_Explicitly_Planning_Safe_Inheritance_Selectors()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<PlanningSafeSelectorConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
     }
 
     [Test]

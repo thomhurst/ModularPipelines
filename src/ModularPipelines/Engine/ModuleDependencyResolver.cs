@@ -1,6 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -75,7 +77,7 @@ internal static class ModuleDependencyResolver
     {
         planningSafeOnly |= dependencyContext is ModuleMetadataRegistry { PlanningSafeOnly: true };
 
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        foreach (var attribute in GetInheritanceSelectorAttributes(moduleType, planningSafeOnly))
         {
             foreach (var candidateType in availableModuleTypes)
             {
@@ -252,5 +254,35 @@ internal static class ModuleDependencyResolver
         return moduleType
             .GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>()
             .Select(static attribute => (attribute.Type, attribute.Optional));
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "This is the documented reflection fallback for dynamically supplied module types.")]
+    private static IEnumerable<DependsOnAllModulesInheritingFromAttribute> GetInheritanceSelectorAttributes(
+        Type moduleType,
+        bool planningSafeOnly)
+    {
+        if (!planningSafeOnly)
+        {
+            return moduleType
+                .GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>();
+        }
+
+        var selectorType = typeof(DependsOnAllModulesInheritingFromAttribute);
+        var attributeData = CustomAttributeMetadata.GetApplicable(
+                moduleType,
+                type => type.IsAssignableTo(selectorType))
+            .Concat(moduleType.GetInterfaces()
+                .SelectMany(static type => type.CustomAttributes)
+                .Where(data => data.AttributeType
+                    .IsAssignableTo(typeof(DependsOnAllModulesInheritingFromAttribute))));
+
+        return attributeData
+            .Where(data => data.AttributeType.Assembly == selectorType.Assembly
+                || data.AttributeType.IsAssignableTo(typeof(IPlanningSafeDependencySelector)))
+            .Select(CustomAttributeMetadata.Create<DependsOnAllModulesInheritingFromAttribute>)
+            .ToArray();
     }
 }
