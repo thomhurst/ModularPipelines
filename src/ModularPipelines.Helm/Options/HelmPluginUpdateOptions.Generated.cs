@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "update")]
 public record HelmPluginUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Plugin
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Plugin
 ) : HelmOptions
 {
     /// <summary>

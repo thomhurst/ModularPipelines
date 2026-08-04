@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "rbac", "can")]
 public record ArgoCdAdminSettingsRbacCanOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleSubject,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Action,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleSubject,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "patch")]
 public record VaultKvPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
 ) : VaultOptions
 {
     /// <summary>

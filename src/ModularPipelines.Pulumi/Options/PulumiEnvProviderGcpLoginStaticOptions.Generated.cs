@@ -19,9 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "gcp-login", "static")]
 public record PulumiEnvProviderGcpLoginStaticOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ProjectNumber,
-    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string AccessToken
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectNumber,
+    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessToken
 ) : PulumiOptions
 {
     /// <summary>

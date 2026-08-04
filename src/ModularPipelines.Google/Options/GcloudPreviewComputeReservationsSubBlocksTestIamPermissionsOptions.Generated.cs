@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reservations", "sub-blocks", "test-iam-permissions")]
 public record GcloudPreviewComputeReservationsSubBlocksTestIamPermissionsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Reservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
 }

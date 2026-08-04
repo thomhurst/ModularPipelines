@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "exec")]
 public record PodmanComposeExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
 ) : PodmanOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Newman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
 public record NewmanRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Collection
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Collection
 ) : NewmanOptions
 {
     /// <summary>

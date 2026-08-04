@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "values", "remove-iam-policy-binding")]
 public record GcloudResourceManagerTagsValuesRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
 ) : GcloudOptions
 {
 }

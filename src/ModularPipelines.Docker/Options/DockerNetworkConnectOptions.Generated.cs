@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
 public record DockerNetworkConnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
 ) : DockerOptions
 {
     /// <summary>

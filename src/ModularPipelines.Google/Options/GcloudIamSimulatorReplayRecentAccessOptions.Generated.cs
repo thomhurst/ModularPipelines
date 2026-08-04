@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "simulator", "replay-recent-access")]
 public record GcloudIamSimulatorReplayRecentAccessOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
 ) : GcloudOptions
 {
 }

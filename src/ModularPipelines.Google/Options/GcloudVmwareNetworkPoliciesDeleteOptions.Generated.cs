@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "delete")]
 public record GcloudVmwareNetworkPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Vm
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
 ) : GcloudOptions
 {
     /// <summary>

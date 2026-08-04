@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "create")]
 public record GcloudStorageBucketsNotificationsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
 ) : GcloudOptions
 {
     [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated)]

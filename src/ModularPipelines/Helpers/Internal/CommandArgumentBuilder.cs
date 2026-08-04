@@ -91,12 +91,19 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var argumentPart in argumentParts)
         {
             var rawValue = argumentPart.Getter(optionsObject);
+            var values = GetValues(rawValue);
+            if (argumentPart.Attribute.Required && IsEmpty(values))
+            {
+                throw new ArgumentException(
+                    $"Required CLI argument '{optionsObject.GetType().Name}.{argumentPart.PropertyName}' cannot be null or empty.",
+                    argumentPart.PropertyName);
+            }
+
             if (rawValue is null)
             {
                 continue;
             }
 
-            var values = GetValues(rawValue);
             if (argumentPart.Attribute.PrependOptionTerminator && values.Count > 0)
             {
                 args.Add("--");
@@ -105,6 +112,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             args.AddRange(values);
         }
     }
+
+    private static bool IsEmpty(IReadOnlyCollection<string> values) =>
+        values.Count == 0 || values.All(string.IsNullOrWhiteSpace);
 
     private static void AddFlagsAndOptions(
         List<string> args,
@@ -432,7 +442,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         };
     }
 
-    private static List<string> GetValues(object rawValue)
+    private static List<string> GetValues(object? rawValue)
     {
         var result = new List<string>();
 

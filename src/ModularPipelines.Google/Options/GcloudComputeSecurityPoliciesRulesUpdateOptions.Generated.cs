@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "rules", "update")]
 public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Priority
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
     /// <summary>

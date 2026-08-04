@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "update")]
 public record GcloudAlloydbClustersUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Cluster
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "delete-signed-url-key")]
 public record GcloudComputeBackendBucketsDeleteSignedUrlKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucketName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
 ) : GcloudOptions
 {
 }

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -30,5 +31,25 @@ public class HelmCliScraper : CobraCliScraper
             .ConfigureAwait(false);
 
         return result.Success;
+    }
+
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (commandParts is not ["install"])
+        {
+            return positionalArguments;
+        }
+
+        return positionalArguments
+            .Select(argument => argument.PropertyName.Equals("Chart", StringComparison.OrdinalIgnoreCase)
+                ? argument with
+                {
+                    CSharpType = argument.CSharpType.TrimEnd('?'),
+                    IsRequired = true,
+                }
+                : argument)
+            .ToList();
     }
 }

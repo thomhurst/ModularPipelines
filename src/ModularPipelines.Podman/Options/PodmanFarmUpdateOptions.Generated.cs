@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "update")]
 public record PodmanFarmUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Farm
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Farm
 ) : PodmanOptions
 {
     /// <summary>

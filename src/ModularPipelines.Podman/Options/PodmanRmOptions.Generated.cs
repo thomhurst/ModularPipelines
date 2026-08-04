@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rm")]
 public record PodmanRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "update")]
 public record GcloudDataCatalogEntriesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Entry
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Entry
 ) : GcloudOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Flux.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
 public record FluxPluginInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string NameVersion
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NameVersion
 ) : FluxOptions
 {
     /// <summary>

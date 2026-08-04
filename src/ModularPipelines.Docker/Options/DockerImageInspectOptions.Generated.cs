@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "inspect")]
 public record DockerImageInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
 ) : DockerOptions
 {
     /// <summary>

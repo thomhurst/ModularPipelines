@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "import")]
 public record GcloudFirestoreImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputUriPrefix
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputUriPrefix
 ) : GcloudOptions
 {
     /// <summary>

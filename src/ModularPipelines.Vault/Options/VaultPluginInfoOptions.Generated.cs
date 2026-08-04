@@ -20,8 +20,8 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "info")]
 public record VaultPluginInfoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Type,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Type,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : VaultOptions
 {
 }

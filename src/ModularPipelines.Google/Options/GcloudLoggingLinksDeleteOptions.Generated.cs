@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "links", "delete")]
 public record GcloudLoggingLinksDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LinkId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LinkId
 ) : GcloudOptions
 {
 }

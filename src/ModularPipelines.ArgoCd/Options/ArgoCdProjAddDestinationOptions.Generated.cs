@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "add-destination")]
 public record ArgoCdProjAddDestinationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ServerOrName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Namespace
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerOrName,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "remove")]
 public record PulumiConfigRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
 ) : PulumiOptions
 {
     /// <summary>

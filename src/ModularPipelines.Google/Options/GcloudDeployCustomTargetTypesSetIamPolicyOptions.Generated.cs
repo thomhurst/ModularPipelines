@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "custom-target-types", "set-iam-policy")]
 public record GcloudDeployCustomTargetTypesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
 ) : GcloudOptions
 {
 }

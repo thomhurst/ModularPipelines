@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entries", "search")]
 public record GcloudDataplexEntriesSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Query
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
 ) : GcloudOptions
 {
 }

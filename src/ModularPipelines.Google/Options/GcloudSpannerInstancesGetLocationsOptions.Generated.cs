@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "get-locations")]
 public record GcloudSpannerInstancesGetLocationsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
     /// <summary>

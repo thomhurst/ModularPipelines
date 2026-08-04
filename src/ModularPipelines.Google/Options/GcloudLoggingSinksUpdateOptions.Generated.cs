@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "sinks", "update")]
 public record GcloudLoggingSinksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SinkName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SinkName
 ) : GcloudOptions
 {
     /// <summary>

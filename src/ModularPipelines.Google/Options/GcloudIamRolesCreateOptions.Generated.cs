@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "create")]
 public record GcloudIamRolesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
 ) : GcloudOptions
 {
 }

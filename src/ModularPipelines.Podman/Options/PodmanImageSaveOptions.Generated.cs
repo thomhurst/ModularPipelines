@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
 public record PodmanImageSaveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
 ) : PodmanOptions
 {
     /// <summary>

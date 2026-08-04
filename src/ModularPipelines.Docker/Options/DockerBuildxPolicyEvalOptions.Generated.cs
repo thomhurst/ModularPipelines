@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "eval")]
 public record DockerBuildxPolicyEvalOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source
 ) : DockerOptions
 {
     /// <summary>

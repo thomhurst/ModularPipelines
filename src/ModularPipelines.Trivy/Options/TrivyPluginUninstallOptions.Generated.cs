@@ -19,7 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "uninstall")]
 public record TrivyPluginUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PluginName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PluginName
 ) : TrivyOptions
 {
     /// <summary>

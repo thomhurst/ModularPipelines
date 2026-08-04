@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "proj", "update-role-policy")]
 public record ArgoCdAdminProjUpdateRolePolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectGlob,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Modification,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Action
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectGlob,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Modification,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
 ) : ArgoCdOptions
 {
     /// <summary>

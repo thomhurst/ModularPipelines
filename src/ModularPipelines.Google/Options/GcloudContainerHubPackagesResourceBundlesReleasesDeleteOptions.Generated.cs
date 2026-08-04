@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles", "releases", "delete")]
 public record GcloudContainerHubPackagesResourceBundlesReleasesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Release
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
 ) : GcloudOptions
 {
 }
