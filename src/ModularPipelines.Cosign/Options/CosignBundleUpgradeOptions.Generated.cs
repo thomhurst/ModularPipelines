@@ -19,7 +19,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "upgrade")]
 public record CosignBundleUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Bundle
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Bundle
 ) : CosignOptions
 {
     /// <summary>

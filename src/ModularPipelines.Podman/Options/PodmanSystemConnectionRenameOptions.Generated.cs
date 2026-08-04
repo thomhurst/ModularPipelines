@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "rename")]
 public record PodmanSystemConnectionRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Old,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string New
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Old,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string New
 ) : PodmanOptions
 {
 }

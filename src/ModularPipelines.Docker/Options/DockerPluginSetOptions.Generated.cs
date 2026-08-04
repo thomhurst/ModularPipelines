@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "set")]
 public record DockerPluginSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Plugin,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> KeyValue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Plugin,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> KeyValue
 ) : DockerOptions
 {
 }

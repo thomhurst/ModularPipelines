@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag")]
 public record PodmanTagOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> TargetName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> TargetName
 ) : PodmanOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback")]
 public record HelmRollbackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Release
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
 ) : HelmOptions
 {
     /// <summary>

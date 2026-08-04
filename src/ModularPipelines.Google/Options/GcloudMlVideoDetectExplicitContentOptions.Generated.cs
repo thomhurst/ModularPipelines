@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "video", "detect-explicit-content")]
 public record GcloudMlVideoDetectExplicitContentOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputPath
 ) : GcloudOptions
 {
     /// <summary>

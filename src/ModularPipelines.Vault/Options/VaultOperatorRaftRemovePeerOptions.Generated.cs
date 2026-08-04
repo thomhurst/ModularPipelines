@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "remove-peer")]
 public record VaultOperatorRaftRemovePeerOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServerId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerId
 ) : VaultOptions
 {
 }

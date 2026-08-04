@@ -22,7 +22,7 @@ namespace ModularPipelines.Snyk.Options;
 [CliSubCommand("container", "sbom")]
 public record SnykContainerSbomOptions(
     [property: CliOption("--format", Format = OptionFormat.EqualsSeparated)] SnykFormat Format,
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : SnykOptions
 {
     /// <summary>

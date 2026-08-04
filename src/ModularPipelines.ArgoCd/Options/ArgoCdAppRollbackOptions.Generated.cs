@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "rollback")]
 public record ArgoCdAppRollbackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
 ) : ArgoCdOptions
 {
     /// <summary>

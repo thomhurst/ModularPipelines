@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "get")]
 public record PulumiInsightsAccountScanGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Account,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ScanId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Account,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScanId
 ) : PulumiOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Flux.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "uninstall")]
 public record FluxPluginUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : FluxOptions
 {
     /// <summary>

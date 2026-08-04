@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port")]
 public record DockerPortOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container
 ) : DockerOptions
 {
     /// <summary>

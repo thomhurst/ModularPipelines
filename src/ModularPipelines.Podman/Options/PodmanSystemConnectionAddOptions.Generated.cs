@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "add")]
 public record PodmanSystemConnectionAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
 ) : PodmanOptions
 {
     /// <summary>

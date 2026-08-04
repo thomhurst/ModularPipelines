@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud-shell", "get-mount-command")]
 public record GcloudCloudShellGetMountCommandOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string MountDir
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MountDir
 ) : GcloudOptions
 {
     /// <summary>

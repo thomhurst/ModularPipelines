@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "export")]
 public record GcloudDatastoreExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OutputUrlPrefix
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OutputUrlPrefix
 ) : GcloudOptions
 {
     /// <summary>

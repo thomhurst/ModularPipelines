@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mount")]
 public record MinikubeMountOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string SourceDirectoryTargetDirectory
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string SourceDirectoryTargetDirectory
 ) : MinikubeOptions
 {
     /// <summary>

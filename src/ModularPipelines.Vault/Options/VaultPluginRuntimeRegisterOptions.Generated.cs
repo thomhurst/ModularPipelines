@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime", "register")]
 public record VaultPluginRuntimeRegisterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : VaultOptions
 {
 }

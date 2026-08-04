@@ -19,7 +19,7 @@ namespace ModularPipelines.Syft.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
 public record SyftAttestOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Image
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : SyftOptions
 {
     /// <summary>

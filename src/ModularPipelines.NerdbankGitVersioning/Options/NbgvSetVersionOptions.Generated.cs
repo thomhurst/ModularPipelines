@@ -20,7 +20,7 @@ namespace ModularPipelines.NerdbankGitVersioning.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("set-version")]
 public record NbgvSetVersionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : NbgvOptions
 {
     /// <summary>

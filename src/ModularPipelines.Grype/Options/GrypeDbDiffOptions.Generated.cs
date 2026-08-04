@@ -19,7 +19,7 @@ namespace ModularPipelines.Grype.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "diff")]
 public record GrypeDbDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string OldDbUrlOrPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string OldDbUrlOrPath
 ) : GrypeOptions
 {
     /// <summary>

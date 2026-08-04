@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "get")]
 public record ArgoCdRepoGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Repo
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repo
 ) : ArgoCdOptions
 {
     /// <summary>

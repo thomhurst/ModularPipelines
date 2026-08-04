@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "edit")]
 public record GcloudPreviewComputeUrlMapsEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UrlMap
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
 ) : GcloudOptions
 {
 }

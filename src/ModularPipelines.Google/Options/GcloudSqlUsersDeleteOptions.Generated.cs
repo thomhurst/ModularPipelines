@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "delete")]
 public record GcloudSqlUsersDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Username
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "graph")]
 public record PulumiStackGraphOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Filename
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Filename
 ) : PulumiOptions
 {
     /// <summary>

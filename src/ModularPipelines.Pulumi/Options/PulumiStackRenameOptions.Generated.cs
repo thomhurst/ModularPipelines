@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "rename")]
 public record PulumiStackRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string NewStackName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewStackName
 ) : PulumiOptions
 {
     /// <summary>

@@ -67,7 +67,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
     private sealed record RepresentativeOptions : CommandLineToolOptions
     {
-        [CliArgument(0, PrependOptionTerminator = true)]
+        [CliArgument(0, PrependOptionTerminator = true, Required = true)]
         public string? Target { get; init; }
 
         [CliArgument(1)]

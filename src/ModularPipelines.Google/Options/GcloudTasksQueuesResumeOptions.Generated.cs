@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "resume")]
 public record GcloudTasksQueuesResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Queue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
 ) : GcloudOptions
 {
     /// <summary>

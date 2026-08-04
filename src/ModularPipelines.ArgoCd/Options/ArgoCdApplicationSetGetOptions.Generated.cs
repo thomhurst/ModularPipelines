@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "get")]
 public record ArgoCdApplicationSetGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationSetName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationSetName
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "subscribe")]
 public record VaultEventsSubscribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string EventType
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string EventType
 ) : VaultOptions
 {
 }

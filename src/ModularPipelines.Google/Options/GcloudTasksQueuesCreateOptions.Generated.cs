@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "create")]
 public record GcloudTasksQueuesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Queue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
 ) : GcloudOptions
 {
     [CliOption("--http-header-override", Format = OptionFormat.EqualsSeparated)]

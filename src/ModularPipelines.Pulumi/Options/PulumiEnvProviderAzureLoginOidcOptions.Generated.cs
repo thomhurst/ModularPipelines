@@ -19,10 +19,10 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "azure-login", "oidc")]
 public record PulumiEnvProviderAzureLoginOidcOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string TenantId,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SubscriptionId,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string ClientId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TenantId,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SubscriptionId,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClientId
 ) : PulumiOptions
 {
     /// <summary>

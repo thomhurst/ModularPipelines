@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "snapshots", "describe")]
 public record GcloudPubsubSnapshotsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Snapshot
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Snapshot
 ) : GcloudOptions
 {
 }
