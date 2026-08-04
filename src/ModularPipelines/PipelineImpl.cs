@@ -10,6 +10,7 @@ using ModularPipelines.Engine.Executors;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -41,13 +42,18 @@ internal sealed class PipelineImpl : IPipeline
         _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
     }
 
-    internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
+    internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder, bool initializePipeline)
     {
         var pipeline = new PipelineImpl(hostBuilder.Build());
         var services = pipeline._host.Services;
 
         try
         {
+            if (!initializePipeline)
+            {
+                return pipeline;
+            }
+
             try
             {
                 ValidateModuleDependencies(services, services.GetServices<IModule>());
@@ -102,10 +108,14 @@ internal sealed class PipelineImpl : IPipeline
         try
         {
             PipelineSummary summary;
-            var commandResult = await Services.GetRequiredService<PipelineCommandHandler>()
+            // Help must bypass PipelineCommandHandler because constructing it enumerates and activates modules.
+            if (Services.GetRequiredService<PipelineCommandLineOptions>().Command == PipelineCommand.Help)
+            {
+                summary = PipelineCommandLineHelp.Show(Services.GetRequiredService<IConsoleWriter>());
+            }
+            else if (await Services.GetRequiredService<PipelineCommandHandler>()
                     .TryExecuteAsync(cancellationToken)
-                    .ConfigureAwait(false);
-            if (commandResult is not null)
+                    .ConfigureAwait(false) is { } commandResult)
             {
                 summary = commandResult;
             }
@@ -117,7 +127,10 @@ internal sealed class PipelineImpl : IPipeline
                     var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
                     Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
                     var now = DateTimeOffset.UtcNow;
-                    summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
+                    summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
+                    {
+                        StatusOverride = Status.Successful,
+                    };
                 }
                 else
                 {

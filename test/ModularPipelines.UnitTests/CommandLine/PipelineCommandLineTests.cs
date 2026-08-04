@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Caching;
 using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -31,8 +32,11 @@ public class PipelineCommandLineTests
     {
         public IRenderable? Renderable { get; private set; }
 
+        public List<string> Messages { get; } = [];
+
         public void LogToConsole(string value)
         {
+            Messages.Add(value);
         }
 
         public void Write(IRenderable renderable)
@@ -98,12 +102,46 @@ public class PipelineCommandLineTests
             Task.FromResult("configured-category");
     }
 
+    private sealed class CacheCandidateModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCacheKeyPart("plan-v1")
+            .Build();
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
     private sealed class UnregisteredModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string>("unregistered");
+    }
+
+    private sealed class ThrowingConstructorModule : Module<string>
+    {
+        public ThrowingConstructorModule() =>
+            throw new InvalidOperationException("Help must not activate modules.");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Help must not execute modules.");
+    }
+
+    private sealed class ThrowingConfigurationModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() =>
+            throw new InvalidOperationException("Help must not read module configuration.");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Help must not execute modules.");
     }
 
     [AddRegistrationDependency(typeof(UnregisteredModule))]
@@ -702,6 +740,72 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task ShortHostOptionIsNotMistakenForPipelineTypo()
+    {
+        using var builder = Pipeline.CreateBuilder(["--mode", "safe"]);
+
+        await Assert.That(builder.Configuration["mode"]).IsEqualTo("safe");
+    }
+
+    [Test]
+    public async Task SeparatorForwardsLikelyTypoToHostConfiguration()
+    {
+        using var builder = Pipeline.CreateBuilder(["--", "--skip-modules", "Deploy"]);
+
+        await Assert.That(builder.Options.SkippedModules).IsNull();
+        await Assert.That(builder.Configuration["skip-modules"]).IsEqualTo("Deploy");
+    }
+
+    [Test]
+    [Arguments("--skip-modules", "--skip-module")]
+    [Arguments("--dryrun", "--dry-run")]
+    [Arguments("--ignore-category", "--ignore-categories")]
+    public async Task LikelyPipelineOptionTypoFailsWithSuggestion(string typo, string suggestion)
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder([typo]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains($"Did you mean '{suggestion}'?");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+            await Assert.That(exception.Message).Contains("Use '--'");
+        }
+    }
+
+    [Test]
+    public async Task MissingOptionValueIncludesUsage()
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder(["--module"]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("requires a value");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
+    [Arguments("--help=value", "--help")]
+    [Arguments("--list-modules=value", "--list-modules")]
+    [Arguments("--validate=value", "--validate")]
+    [Arguments("--dry-run=value", "--dry-run")]
+    public async Task FlagOptionValueFailsWithClearError(string argument, string option)
+    {
+        var exception = await Assert.That(() => Pipeline.CreateBuilder([argument]))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message)
+                .Contains($"Command-line option '{option}' does not accept a value.");
+            await Assert.That(exception.Message).DoesNotContain("Did you mean");
+            await Assert.That(exception.Message).Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
     public async Task RepeatedCommaSeparatedAndEqualsValuesAreParsed()
     {
         using var builder = Pipeline.CreateBuilder(
@@ -783,6 +887,8 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    [Arguments("--help")]
+    [Arguments("-h")]
     [Arguments("--list-modules")]
     [Arguments("--validate")]
     public async Task InformationalCommandsDoNotExecuteModules(string command)
@@ -825,6 +931,76 @@ public class PipelineCommandLineTests
         finally
         {
             directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments("--help")]
+    [Arguments("-h")]
+    public async Task HelpOptionsPrintUsage(string option)
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = CreateExecutionBuilder([option]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        await builder.ExecutePipelineAsync();
+
+        await Assert.That(consoleWriter.Messages.Single())
+            .Contains("ModularPipelines command-line options:")
+            .And.Contains("--skip-module")
+            .And.Contains("--");
+    }
+
+    [Test]
+    public async Task HelpDoesNotRequireAValidPipeline()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
+    public async Task HelpDoesNotActivateModules()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModule<ThrowingConstructorModule>();
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
+    public async Task HelpDoesNotReadModuleConfiguration()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModule<ThrowingConfigurationModule>();
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
         }
     }
 
@@ -1418,6 +1594,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(builder.Options.DryRun).IsTrue();
             await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
             await Assert.That(consoleWriter.Renderable).IsNotNull();
             await Assert.That(output).Contains("Pipeline dry-run plan");
             await Assert.That(output).Contains("Wave ETA");
@@ -1425,6 +1602,30 @@ public class PipelineCommandLineTests
             await Assert.That(_dependencyExecutions).IsEqualTo(0);
             await Assert.That(_targetExecutions).IsEqualTo(0);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task DryRunMarksCacheCandidatesAndQualifiesEstimate()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--dry-run"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModuleCache<FileSystemModuleCache>();
+        builder.AddModule<CacheCandidateModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var summary = await pipeline.RunAsync();
+        var output = Render(consoleWriter.Renderable!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().IsCacheCandidate)
+                .IsTrue();
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+            await Assert.That(output).Contains("Run (cache candidate)");
+            await Assert.That(output).Contains("cache hits may reduce actual duration");
         }
     }
 
@@ -1463,11 +1664,25 @@ public class PipelineCommandLineTests
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ConfiguredCategoryModule>();
 
-        await builder.ExecutePipelineAsync();
+        var summary = await builder.ExecutePipelineAsync();
 
         var output = Render(consoleWriter.Renderable!);
 
-        await Assert.That(output).Contains("configured-category");
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("configured-category");
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+        }
+    }
+
+    [Test]
+    public async Task ValidateCommandReturnsSuccessfulSummary()
+    {
+        using var builder = CreateExecutionBuilder(["--validate"]);
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
     }
 
     private static string Render(IRenderable renderable)

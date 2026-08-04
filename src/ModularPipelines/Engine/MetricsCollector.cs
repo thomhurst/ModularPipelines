@@ -44,7 +44,7 @@ internal class MetricsCollector : IMetricsCollector
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.EndTime = time;
-        data.WasSuccessful = status is Status.Successful or Status.UsedHistory;
+        data.WasSuccessful = status is Status.Successful or Status.UsedHistory or Status.CachedResult;
         data.WasSkipped = skipped;
         data.Status = status;
     }

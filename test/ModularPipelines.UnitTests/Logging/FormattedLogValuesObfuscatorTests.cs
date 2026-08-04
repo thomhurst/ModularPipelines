@@ -124,6 +124,27 @@ public class FormattedLogValuesObfuscatorTests
             Times.Never);
     }
 
+    [Test]
+    public async Task TryObfuscateValues_DoesNotRescanPreObfuscatedValues()
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        var state = new[]
+        {
+            new KeyValuePair<string, object?>(
+                "CommandOutput",
+                new PreObfuscatedLogValue("already-masked")),
+        };
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues(state);
+        var value = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)[0].Value;
+
+        await Assert.That(value).IsEqualTo("already-masked");
+        secretObfuscator.Verify(
+            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
+            Times.Never);
+    }
+
     private sealed class ThrowingToStringState
     {
         public override string ToString() => throw new InvalidOperationException("Cannot format state.");

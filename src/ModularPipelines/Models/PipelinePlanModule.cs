@@ -45,16 +45,26 @@ public sealed record PipelinePlanModule
     /// </summary>
     public TimeSpan EstimatedDuration { get; }
 
+    /// <summary>
+    /// Gets a value indicating whether fingerprint caching may satisfy this module during execution.
+    /// </summary>
+    /// <remarks>
+    /// The planner cannot predict a cache hit because fingerprints may include dependency results.
+    /// </remarks>
+    public bool IsCacheCandidate { get; }
+
     internal PipelinePlanModule(
         IModule module,
         string? category,
         SkipDecision? skipDecision,
-        TimeSpan estimatedDuration)
+        TimeSpan estimatedDuration,
+        bool isCacheCandidate)
     {
         Module = module;
         ModuleName = module.GetType().FullName ?? module.GetType().Name;
         Category = category;
         SkipDecision = skipDecision;
         EstimatedDuration = estimatedDuration;
+        IsCacheCandidate = isCacheCandidate;
     }
 }

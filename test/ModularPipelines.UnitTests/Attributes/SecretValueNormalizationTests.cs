@@ -47,6 +47,20 @@ internal sealed class ReflectionCharacterSecretOptions : GeneratedCharacterSecre
     private string InaccessibleSecret => " ";
 }
 
+internal sealed class GeneratedKeyedSecretOptions
+{
+    [SecretValue("password", "secret", "token", "apiKey")]
+    public IReadOnlyList<KeyValue> Values { get; init; } =
+    [
+        new("auth.password", "dotted-secret"),
+        new("image.pullSecret", "camel-secret"),
+        new("GITHUB_TOKEN", "snake-secret"),
+        new("nuget-api-key", "kebab-secret"),
+        new("hockey", "not-a-secret"),
+        new("tokenizer", "also-not-a-secret"),
+    ];
+}
+
 public class SecretValueNormalizationTests
 {
     private static readonly string[] CharacterSecrets =
@@ -113,6 +127,22 @@ public class SecretValueNormalizationTests
         }
 
         await Assert.That(registeredSecrets.Where(secret => secret.Length == 1)).IsEmpty();
+    }
+
+    [Test]
+    public async Task KeyedSecrets_MatchCompleteIdentifierSegments()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new GeneratedKeyedSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(
+        [
+            "dotted-secret",
+            "camel-secret",
+            "snake-secret",
+            "kebab-secret",
+        ]);
     }
 
     private static SecretProvider CreateProvider(out Mock<IBuildSystemSecretMasker> nativeMasker)
