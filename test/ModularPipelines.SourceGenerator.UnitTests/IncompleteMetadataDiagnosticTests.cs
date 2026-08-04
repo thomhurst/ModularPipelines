@@ -32,6 +32,11 @@ public class IncompleteMetadataDiagnosticTests
 
     private const string OptionsRegistrationInfrastructure = CommandInfrastructure + """
 
+        namespace Microsoft.Extensions.Options
+        {
+            public sealed class OptionsBuilder<TOptions>;
+        }
+
         namespace Microsoft.Extensions.DependencyInjection
         {
             public interface IServiceCollection;
@@ -101,6 +106,48 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).DoesNotContain(
                 "GeneratedCommandMetadata.Register(\n            typeof(global::TestOptions)");
         }
+    }
+
+    [Test]
+    public async Task Obsolete_Error_Command_Property_Reports_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [System.Obsolete("Removed", true)]
+                [ModularPipelines.Attributes.CliOption("--legacy")]
+                public string Legacy { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(result, "MPG0003", "global::TestOptions");
+        await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Legacy");
+        await Assert.That(result.GeneratedTrees.Single().ToString())
+            .DoesNotContain("instance).@Legacy");
+    }
+
+    [Test]
+    public async Task Obsolete_Error_Secret_Property_Reports_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class TestOptions
+            {
+                [System.Obsolete("Removed", true)]
+                [ModularPipelines.Attributes.SecretValue]
+                public string Legacy { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(result, "MPG0004", "global::TestOptions");
+        await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Legacy");
+        await Assert.That(result.GeneratedTrees.Single().ToString())
+            .DoesNotContain("instance).@Legacy");
     }
 
     [Test]
@@ -854,6 +901,31 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void Add(IServiceCollection services) =>
                     services.Configure<PartialOptions>(_ => { });
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Partial_Options_Exposed_Through_OptionsBuilder()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Configure(
+                    Microsoft.Extensions.Options.OptionsBuilder<PartialOptions> builder)
+                {
+                }
             }
             """);
 

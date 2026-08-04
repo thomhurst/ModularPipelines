@@ -149,7 +149,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
         var optionsTypeSymbol = symbol switch
         {
-            INamedTypeSymbol constructedType when IsOptionsServiceType(constructedType) =>
+            INamedTypeSymbol constructedType when IsOptionsTypeUsage(constructedType) =>
                 constructedType.TypeArguments[0],
             IMethodSymbol method when IsOptionsRegistrationMethod(method) => method.TypeArguments[0],
             _ => null,
@@ -174,6 +174,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 or "IPostConfigureOptions"
                 or "IValidateOptions"
                 or "IConfigureNamedOptions"
+                or "OptionsBuilder"
                 or "Configure"
                 or "ConfigureAll"
                 or "PostConfigure"
@@ -183,7 +184,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             TypeArgumentList.Arguments.Count: > 0,
         };
 
-    private static bool IsOptionsServiceType(INamedTypeSymbol type)
+    private static bool IsOptionsTypeUsage(INamedTypeSymbol type)
     {
         var definition = type.OriginalDefinition;
         return type.TypeArguments.Length == 1
@@ -195,7 +196,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                    or "IConfigureOptions`1"
                    or "IPostConfigureOptions`1"
                    or "IValidateOptions`1"
-                   or "IConfigureNamedOptions`1";
+                   or "IConfigureNamedOptions`1"
+                   or "OptionsBuilder`1";
     }
 
     private static bool IsOptionsRegistrationMethod(IMethodSymbol method)
@@ -383,7 +385,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 }
 
                 hasAttributes = true;
-                if (!IsPropertyAccessible(property, currentAssembly))
+                if (!IsPropertyAccessible(property, currentAssembly)
+                    || HasObsoleteError(property))
                 {
                     isComplete = false;
                     incompleteProperties.Add(property.Name);
@@ -444,7 +447,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 }
 
                 hasAttributes = true;
-                if (!IsPropertyAccessible(property, currentAssembly))
+                if (!IsPropertyAccessible(property, currentAssembly)
+                    || HasObsoleteError(property))
                 {
                     isComplete = false;
                     incompleteProperties.Add(property.Name);
@@ -970,17 +974,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         for (var current = type; current is not null; current = current.ContainingType)
         {
-            var obsoleteAttribute = current.GetAttributes().FirstOrDefault(attribute =>
-                attribute.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
-            if (obsoleteAttribute is not null
-                && obsoleteAttribute.ConstructorArguments.Length > 1
-                && obsoleteAttribute.ConstructorArguments[1].Value is true)
+            if (HasObsoleteError(current))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool HasObsoleteError(ISymbol symbol)
+    {
+        var obsoleteAttribute = symbol.GetAttributes().FirstOrDefault(attribute =>
+            attribute.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
+        return obsoleteAttribute is not null
+               && obsoleteAttribute.ConstructorArguments.Length > 1
+               && obsoleteAttribute.ConstructorArguments[1].Value is true;
     }
 
     private static EquatableArray<string> GetExperimentalDiagnosticIds(INamedTypeSymbol type)
