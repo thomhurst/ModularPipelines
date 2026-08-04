@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,6 +15,7 @@ internal sealed class FileSystemRunHistoryStore(
     ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
+    private const string FileTimestampFormat = "yyyyMMddHHmmssfffffff";
     private const int MinimumCompatibleSchemaVersion = 1;
     private static readonly TimeSpan StaleTemporaryFileAge = TimeSpan.FromDays(1);
 
@@ -179,10 +181,28 @@ internal sealed class FileSystemRunHistoryStore(
             .ConfigureAwait(false);
 
         PruneStaleTemporaryFiles(directory, cancellationToken);
+        PruneFiles(directory, $"{filePrefix}*.json", retention, cancellationToken);
+        PruneFiles(
+            directory,
+            $"{OwnedFilePrefix}*.json",
+            pipelineOptions.Value.RunReport.GlobalHistoryRetention,
+            cancellationToken);
+    }
 
+    private void PruneFiles(
+        string directory,
+        string searchPattern,
+        int retention,
+        CancellationToken cancellationToken)
+    {
+        if (retention <= 0)
+        {
+            return;
+        }
         var staleFiles = Directory
-            .EnumerateFiles(directory, $"{filePrefix}*.json", SearchOption.TopDirectoryOnly)
-            .OrderByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
+            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+            .OrderByDescending(GetHistoryTimestamp)
+            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
             .Skip(retention)
             .ToArray();
         foreach (var staleFile in staleFiles)
@@ -197,6 +217,29 @@ internal sealed class FileSystemRunHistoryStore(
                 logger.LogWarning(exception, "Could not prune pipeline run history file {HistoryFile}", staleFile);
             }
         }
+    }
+
+    private static DateTime GetHistoryTimestamp(string path)
+    {
+        var fileName = Path.GetFileName(path);
+        var uniqueIdSeparator = fileName.LastIndexOf('-');
+        var timestampSeparator = uniqueIdSeparator > 0
+            ? fileName.LastIndexOf('-', uniqueIdSeparator - 1)
+            : -1;
+        var timestampStart = timestampSeparator + 1;
+        var timestampLength = uniqueIdSeparator - timestampStart;
+        if (timestampLength != FileTimestampFormat.Length
+            || !DateTime.TryParseExact(
+                fileName.AsSpan(timestampStart, timestampLength),
+                FileTimestampFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var timestamp))
+        {
+            return DateTime.MinValue;
+        }
+
+        return timestamp;
     }
 
     private void PruneStaleTemporaryFiles(string directory, CancellationToken cancellationToken)

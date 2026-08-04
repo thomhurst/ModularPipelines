@@ -55,6 +55,11 @@ public sealed class DeploymentRunEnricher : IRunReportEnricher
 builder.AddRunReportEnricher<DeploymentRunEnricher>();
 ```
 
+Enrichers run sequentially in registration order. Use `??=` for fallback metadata so an earlier
+value survives. Overwrite an existing value only when the current source is authoritative; later
+authoritative enrichers take precedence. The built-in Git enricher fills gaps, while the GitHub
+enricher replaces Git values with CI-provided commit and branch metadata when available.
+
 ## Local history and deltas
 
 By default, the `IRunHistoryStore` saves reports under `.modularpipelines/run-history` on local and
@@ -79,6 +84,7 @@ builder.ConfigurePipelineOptions(options => options with
     {
         HistoryDirectory = "artifacts/run-history",
         HistoryRetention = 10, // Use 0 to disable history.
+        GlobalHistoryRetention = 100, // Use 0 for no global limit.
         PipelineIdentity = "release-pipeline",
     },
 });
@@ -86,8 +92,13 @@ builder.ConfigurePipelineOptions(options => options with
 
 History is partitioned by pipeline identity and pruning only removes files owned by the built-in
 history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
-path and registered module types. History is bounded: after each save, the default store deletes
-owned files beyond the configured limit for that pipeline.
+path and registered module types. After each save, the default store applies the per-identity
+`HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all
+identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of
+its history when newer reports from other identities fill the global pool. Set
+`GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable
+pipeline identities and separate history directories for independently bounded histories. A
+positive global limit must be at least as large as `HistoryRetention`.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
 Report and history files are published atomically, so cancellation or a failed write cannot replace
 a complete report with partial JSON. After each successful history save, the built-in store also

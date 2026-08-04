@@ -17,7 +17,7 @@ using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.ConfigurePipelineOptions(options => options with
 {
     LoadModularPipelineAssemblies = true,

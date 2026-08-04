@@ -28,8 +28,7 @@ namespace ModularPipelines;
 /// A builder for configuring and creating a pipeline.
 /// </summary>
 /// <remarks>
-/// The caller owns the builder and should dispose it when finished, especially after using
-/// <see cref="IHostEnvironment.ContentRootFileProvider"/>.
+/// Resources created while configuring the builder are transferred to the built pipeline.
 /// </remarks>
 public sealed class PipelineBuilder : IDisposable
 {
@@ -37,6 +36,7 @@ public sealed class PipelineBuilder : IDisposable
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
+    private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
 
@@ -78,6 +78,7 @@ public sealed class PipelineBuilder : IDisposable
         }
 
         _environment = CreateHostEnvironment(options, args);
+        _resources = _environment.Resources;
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
         _hostBuilder.UseContentRoot(_environment.ContentRootPath);
 
@@ -122,12 +123,10 @@ public sealed class PipelineBuilder : IDisposable
     public IHostEnvironment Environment => _environment;
 
     /// <summary>
-    /// Releases resources owned by the cached host environment.
+    /// Retained for source compatibility. Resources are owned by the built pipeline.
     /// </summary>
     public void Dispose()
     {
-        (_environment.ContentRootFileProvider as IDisposable)?.Dispose();
-        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -300,12 +299,12 @@ public sealed class PipelineBuilder : IDisposable
             hostConfiguration[HostDefaults.ApplicationKey],
             Assembly.GetEntryAssembly()?.GetName().Name);
 
-        return new PipelineHostEnvironment
+        var resources = new PipelineBuilderResources(contentRootPath);
+        return new PipelineHostEnvironment(resources)
         {
             ApplicationName = applicationName,
             EnvironmentName = environmentName,
             ContentRootPath = contentRootPath,
-            ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
         };
     }
 
@@ -363,7 +362,7 @@ public sealed class PipelineBuilder : IDisposable
             }
         });
 
-        return await PipelineImpl.CreateAsync(_hostBuilder, initializePipeline).ConfigureAwait(false);
+        return await PipelineImpl.CreateAsync(_hostBuilder, _resources, initializePipeline).ConfigureAwait(false);
     }
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
@@ -531,15 +530,21 @@ public sealed class PipelineBuilder : IDisposable
         }
     }
 
-    private sealed class PipelineHostEnvironment : IHostEnvironment
+    private sealed class PipelineHostEnvironment(PipelineBuilderResources resources) : IHostEnvironment
     {
+        internal PipelineBuilderResources Resources { get; } = resources;
+
         public string EnvironmentName { get; set; } = string.Empty;
 
         public string ApplicationName { get; set; } = string.Empty;
 
         public string ContentRootPath { get; set; } = string.Empty;
 
-        public IFileProvider ContentRootFileProvider { get; set; } = null!;
+        public IFileProvider ContentRootFileProvider
+        {
+            get => Resources.ContentRootFileProvider;
+            set => Resources.ContentRootFileProvider = value;
+        }
     }
 
     /// <summary>
