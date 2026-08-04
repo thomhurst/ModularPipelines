@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Caching;
 using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -95,6 +96,18 @@ public class PipelineCommandLineTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult("configured-category");
+    }
+
+    private sealed class CacheCandidateModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCacheKeyPart("plan-v1")
+            .Build();
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
     private sealed class UnregisteredModule : Module<string>
@@ -1309,6 +1322,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(builder.Options.DryRun).IsTrue();
             await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
             await Assert.That(consoleWriter.Renderable).IsNotNull();
             await Assert.That(output).Contains("Pipeline dry-run plan");
             await Assert.That(output).Contains("Wave ETA");
@@ -1316,6 +1330,30 @@ public class PipelineCommandLineTests
             await Assert.That(_dependencyExecutions).IsEqualTo(0);
             await Assert.That(_targetExecutions).IsEqualTo(0);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task DryRunMarksCacheCandidatesAndQualifiesEstimate()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--dry-run"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModuleCache<FileSystemModuleCache>();
+        builder.AddModule<CacheCandidateModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var summary = await pipeline.RunAsync();
+        var output = Render(consoleWriter.Renderable!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().IsCacheCandidate)
+                .IsTrue();
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+            await Assert.That(output).Contains("Run (cache candidate)");
+            await Assert.That(output).Contains("cache hits may reduce actual duration");
         }
     }
 
@@ -1354,11 +1392,25 @@ public class PipelineCommandLineTests
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ConfiguredCategoryModule>();
 
-        await builder.ExecutePipelineAsync();
+        var summary = await builder.ExecutePipelineAsync();
 
         var output = Render(consoleWriter.Renderable!);
 
-        await Assert.That(output).Contains("configured-category");
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("configured-category");
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+        }
+    }
+
+    [Test]
+    public async Task ValidateCommandReturnsSuccessfulSummary()
+    {
+        using var builder = CreateExecutionBuilder(["--validate"]);
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
     }
 
     private static string Render(IRenderable renderable)
