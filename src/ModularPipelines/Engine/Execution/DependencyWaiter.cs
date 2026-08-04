@@ -13,13 +13,6 @@ namespace ModularPipelines.Engine.Execution;
 /// </summary>
 internal class DependencyWaiter : IDependencyWaiter
 {
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-
-    public DependencyWaiter(ISecondaryExceptionContainer secondaryExceptionContainer)
-    {
-        _secondaryExceptionContainer = secondaryExceptionContainer;
-    }
-
     /// <inheritdoc />
     [UnconditionalSuppressMessage(
         "AOT",
@@ -45,9 +38,6 @@ internal class DependencyWaiter : IDependencyWaiter
                             ? runtime.GetLogger(scopedServiceProvider)
                             : (IModuleLogger) scopedServiceProvider.GetRequiredService(
                                 typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
-                    _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
-                        $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
-                        e));
                     depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
             }
