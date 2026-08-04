@@ -5412,6 +5412,58 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Field_Assembly()
+    {
+        var source = $$"""
+            {{Header}}
+            using System.Reflection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Assembly Modules = typeof(BuildModule).Assembly;
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModulesFromAssembly(Modules);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Property_Assembly()
+    {
+        var source = $$"""
+            {{Header}}
+            using System.Reflection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static Assembly Modules => typeof(BuildModule).Assembly;
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModulesFromAssembly(Modules);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Direct_Delegate_Invoke()
     {
         var source = $$"""
@@ -6114,6 +6166,49 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_When_ServiceDescriptor_Reaches_Custom_ServiceCollection_Add()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class NoOpServiceCollectionExtensions
+            {
+                public static void Add(
+                    this IServiceCollection services,
+                    ServiceDescriptor descriptor,
+                    bool ignored)
+                {
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(
+                        ServiceDescriptor.Singleton<IModule, BuildModule>(),
+                        ignored: true);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Unresolved_Descriptor_Passed_Through_Helper_Suppresses_Module()
     {
         var source = $$"""
@@ -6526,6 +6621,36 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Invoked_Field_Constructor_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action Callback = () => new Registrar();
+
+                public static void Register() => Callback();
+
+                private sealed class Registrar
+                {
+                    public Registrar() =>
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Module_Registered_Only_By_Getter_In_Uninvoked_Callback()
     {
         var source = $$"""
@@ -6651,6 +6776,29 @@ public class ModuleAuthoringAnalyzerTests
                     (CancellationToken?)null ?? cancellationToken);
                 return null!;
             }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Composite_CancellationToken_Returned_By_Source_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(
+                    1,
+                    Pick(DateTime.UtcNow.Ticks > 0, cancellationToken, cancellationToken));
+                return null!;
+            }
+
+                private static CancellationToken Pick(
+                    bool flag,
+                    CancellationToken first,
+                    CancellationToken second) => flag ? first : second;
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);

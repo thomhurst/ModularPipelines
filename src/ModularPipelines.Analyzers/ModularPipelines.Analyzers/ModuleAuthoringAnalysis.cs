@@ -265,14 +265,13 @@ internal static class ModuleAuthoringAnalysis
     {
         var objectCreation = (IObjectCreationOperation) context.Operation;
         if (objectCreation.Constructor is null
-            || !IsInReachableBranch(objectCreation)
-            || !IsInsideReachableNestedCallable(objectCreation))
+            || !IsInReachableBranch(objectCreation))
         {
             return;
         }
 
         foreach (var containingMethod in
-                 GetContainingExecutionMethods(context.ContainingSymbol)
+                 GetContainingExecutionMethods(objectCreation, context.ContainingSymbol)
                      .OfType<IMethodSymbol>())
         {
             methodCalls.Add((
@@ -1019,6 +1018,7 @@ internal static class ModuleAuthoringAnalysis
         {
             TrackScannedAssemblies(
                 invocation,
+                compilation,
                 currentAssembly,
                 isApplication,
                 scannedAssemblies);
@@ -1106,15 +1106,28 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsServiceDescriptorRegistrationMethod(
         IInvocationOperation invocation)
     {
-        if (invocation.TargetMethod.Name is not (
-                "Add" or "Insert" or "Replace" or "TryAdd" or "TryAddEnumerable")
-            || !InvocationTargetsServiceCollection(invocation))
+        var definition = (invocation.TargetMethod.ReducedFrom ?? invocation.TargetMethod)
+            .OriginalDefinition;
+        if (!InvocationTargetsServiceCollection(invocation)
+            || !invocation.TargetMethod.Parameters.Any(static parameter =>
+                IsServiceDescriptorType(parameter.Type)))
         {
             return false;
         }
 
-        return invocation.TargetMethod.Parameters.Any(static parameter =>
-            IsServiceDescriptorType(parameter.Type));
+        var containingType = definition.ContainingType.OriginalDefinition.ToDisplayString();
+        return definition.Name switch
+        {
+            "Add" => containingType is
+                "System.Collections.Generic.ICollection<T>"
+                or "Microsoft.Extensions.DependencyInjection.ServiceCollection",
+            "Insert" => containingType is
+                "System.Collections.Generic.IList<T>"
+                or "Microsoft.Extensions.DependencyInjection.ServiceCollection",
+            "Replace" or "TryAdd" or "TryAddEnumerable" => containingType ==
+                "Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions",
+            _ => false,
+        };
     }
 
     private static bool InvocationTargetsServiceCollection(
@@ -2761,6 +2774,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackScannedAssemblies(
         IInvocationOperation invocation,
+        Compilation compilation,
         IAssemblySymbol currentAssembly,
         bool isApplication,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies)
@@ -2779,9 +2793,11 @@ internal static class ModuleAuthoringAnalysis
         {
             _ = TryTrackScannedAssembly(
                 argument.Value,
+                compilation,
                 currentAssembly,
                 isApplication,
                 scannedAssemblies,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]);
         }
     }
@@ -2814,27 +2830,43 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackScannedAssembly(
         IOperation operation,
+        Compilation compilation,
         IAssemblySymbol currentAssembly,
         bool isApplication,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
     {
         switch (operation)
         {
             case IConversionOperation conversion:
                 return TryTrackScannedAssembly(
                     conversion.Operand,
+                    compilation,
                     currentAssembly,
                     isApplication,
                     scannedAssemblies,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
             case ILocalReferenceOperation localReference:
                 return TryTrackScannedAssemblyLocal(
                     localReference,
+                    compilation,
                     currentAssembly,
                     isApplication,
                     scannedAssemblies,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
+            case IFieldReferenceOperation fieldReference:
+                return TryTrackScannedAssemblyMember(
+                    fieldReference,
+                    fieldReference.Field,
+                    compilation,
+                    currentAssembly,
+                    isApplication,
+                    scannedAssemblies,
+                    visitedLocals,
+                    visitedMembers);
             case IPropertyReferenceOperation
             {
                 Property.Name: "Assembly",
@@ -2847,6 +2879,16 @@ internal static class ModuleAuthoringAnalysis
                      && typeOfOperation.TypeOperand is INamedTypeSymbol namedType:
                 scannedAssemblies.Add(namedType.ContainingAssembly);
                 return true;
+            case IPropertyReferenceOperation propertyReference:
+                return TryTrackScannedAssemblyMember(
+                    propertyReference,
+                    propertyReference.Property,
+                    compilation,
+                    currentAssembly,
+                    isApplication,
+                    scannedAssemblies,
+                    visitedLocals,
+                    visitedMembers);
             case IInvocationOperation invocation:
                 return TryTrackScannedAssemblyInvocation(
                     invocation,
@@ -2860,10 +2902,12 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackScannedAssemblyLocal(
         ILocalReferenceOperation localReference,
+        Compilation compilation,
         IAssemblySymbol currentAssembly,
         bool isApplication,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -2879,13 +2923,42 @@ internal static class ModuleAuthoringAnalysis
         {
             trackedAll &= TryTrackScannedAssembly(
                 localValue,
+                compilation,
                 currentAssembly,
                 isApplication,
                 scannedAssemblies,
-                CloneVisitedLocals(visitedLocals));
+                CloneVisitedLocals(visitedLocals),
+                new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default));
         }
 
         return trackedAll;
+    }
+
+    private static bool TryTrackScannedAssemblyMember(
+        IOperation memberReference,
+        ISymbol member,
+        Compilation compilation,
+        IAssemblySymbol currentAssembly,
+        bool isApplication,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
+    {
+        if (!visitedMembers.Add(member))
+        {
+            return false;
+        }
+
+        var memberValues = GetMemberValues(memberReference, member, compilation).ToArray();
+        return memberValues.Length > 0
+               && memberValues.All(value => TryTrackScannedAssembly(
+                   value,
+                   compilation,
+                   currentAssembly,
+                   isApplication,
+                   scannedAssemblies,
+                   CloneVisitedLocals(visitedLocals),
+                   new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
     }
 
     private static bool TryTrackScannedAssemblyInvocation(
@@ -4902,12 +4975,15 @@ internal static class ModuleAuthoringAnalysis
             .OfType<IOperation>()
             .ToArray();
         return returnValues.Length > 0
-               && returnValues.All(returnValue => flowedParameters.Any(parameter =>
-                   FlowsFromCancellationToken(
-                       returnValue,
-                       parameter,
-                       CloneVisitedLocals(visitedLocals),
-                       CloneVisitedMethods(visitedMethods))));
+               && returnValues
+                   .SelectMany(GetReachableValueLeaves)
+                   .Where(static returnValue => !AlwaysThrows(returnValue))
+                   .All(returnValue => flowedParameters.Any(parameter =>
+                       FlowsFromCancellationToken(
+                           returnValue,
+                           parameter,
+                           CloneVisitedLocals(visitedLocals),
+                           CloneVisitedMethods(visitedMethods))));
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
