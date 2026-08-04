@@ -89,6 +89,10 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="T">Any type from the assembly to scan.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the assembly contains a concrete <see cref="IModule"/> implementation that
+    /// does not derive from <see cref="Module{T}"/> or <see cref="SyncModule{T}"/>.
+    /// </exception>
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public static PipelineBuilder AddModulesFromAssemblyContainingType<T>(this PipelineBuilder builder)
     {
@@ -101,6 +105,10 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="assembly">The assembly to scan.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the assembly contains a concrete <see cref="IModule"/> implementation that
+    /// does not derive from <see cref="Module{T}"/> or <see cref="SyncModule{T}"/>.
+    /// </exception>
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public static PipelineBuilder AddModulesFromAssembly(this PipelineBuilder builder, Assembly assembly)
     {

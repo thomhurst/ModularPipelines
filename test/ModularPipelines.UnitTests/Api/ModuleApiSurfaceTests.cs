@@ -50,6 +50,8 @@ public class ModuleApiSurfaceTests
             () => builder.AddModule<DirectModule>(_ => new DirectModule()));
         var runtimeException = Assert.Throws<InvalidOperationException>(
             () => builder.AddModules(typeof(DirectModule)));
+        var assemblyScanException = Assert.Throws<InvalidOperationException>(
+            () => builder.AddModulesFromAssembly(typeof(DirectModule).Assembly));
         var executionException = Assert.Throws<InvalidOperationException>(
             () => new DirectModule().AsInternal());
 
@@ -59,6 +61,7 @@ public class ModuleApiSurfaceTests
                      instanceException,
                      factoryException,
                      runtimeException,
+                     assemblyScanException,
                      executionException,
                  })
         {
