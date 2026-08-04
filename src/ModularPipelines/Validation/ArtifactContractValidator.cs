@@ -143,7 +143,10 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                     .Select(attribute => attribute.ProducerModule)
                     .Where(ignoredModuleTypes.Contains)
                     .ToHashSet();
+                // A planning condition can observe mutable state, so its build-time
+                // DoNotSkip result cannot safely suppress historical fallback.
                 if (consumedProducerTypes.Count == 0
+                    || module.Configuration.PlanningSkipCondition is not null
                     || HasUnrecoverableRequiredDependency(
                         module,
                         modulesByType,

@@ -227,6 +227,10 @@ public class ArtifactContractTests
     {
         public static bool IsReady { get; set; }
 
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCacheKeyPart("local-producer-v1")
+            .Build();
+
         protected internal override async Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
@@ -253,6 +257,24 @@ public class ArtifactContractTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Invalid consumer must fail validation");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class MutableArtifactConsumerModule : Module<string>
+    {
+        public static bool ShouldSkip { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ShouldSkip
+                ? SkipDecision.Skip("mutable consumer skipped")
+                : SkipDecision.DoNotSkip)
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("consumed");
     }
 
     [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
@@ -1312,6 +1334,26 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task BuildAsyncDoesNotUseMutableSkipAsFallbackDemand()
+    {
+        MutableArtifactConsumerModule.ShouldSkip = false;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddResultsRepository<ArtifactHistoryRepository>();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<SkippedArtifactProducerModule>();
+        builder.AddModule<MutableArtifactConsumerModule>();
+        builder.AddModule<PreservedProducerInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(PreservedProducerInvalidArtifactConsumerModule)
+            && error.Message.Contains("missing-output", StringComparison.Ordinal));
+    }
+
+    [Test]
     public async Task ValidateAsyncAcceptsMatchingArtifactContract()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -1345,6 +1387,35 @@ public class ArtifactContractTests
         finally
         {
             DeleteLocalArtifacts();
+        }
+    }
+
+    private sealed class LocalProducerCacheRepository : IModuleCacheResultRepository
+    {
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
+        {
+            if (module is not LocalProducerModule)
+            {
+                return Task.FromResult<ModuleResult<T>?>(null);
+            }
+
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+
+        public void DiscardFingerprint(IModule module)
+        {
         }
     }
 
@@ -2006,6 +2077,49 @@ public class ArtifactContractTests
                 await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task CachedProducerFailureReplacesUsedHistoryResult()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(ProducedFile)!);
+            await File.WriteAllTextAsync(ProducedFile, "cached artifact content");
+            using var builder = Pipeline.CreateBuilder();
+            builder.Services.AddSingleton<IModuleCacheResultRepository, LocalProducerCacheRepository>();
+            builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<LocalConsumerModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => pipeline.RunAsync());
+            var producer = pipeline.Services
+                .GetServices<IModule>()
+                .OfType<LocalProducerModule>()
+                .Single();
+            var registeredResult = pipeline.Services
+                .GetRequiredService<IModuleResultRegistry>()
+                .GetResult(typeof(LocalProducerModule));
+            var awaitedResult = await producer;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ToString())
+                    .Contains("simulated artifact upload failure");
+                await Assert.That(registeredResult!.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Failed);
+                await Assert.That(awaitedResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Failed);
             }
         }
         finally

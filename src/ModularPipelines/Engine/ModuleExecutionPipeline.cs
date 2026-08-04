@@ -103,6 +103,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         logger)
                     .ConfigureAwait(false);
                 await finalizer.FinalizeAsync(skippedResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(skippedResult);
                 finalizer.Complete(skippedResult);
 
                 return skippedResult;
@@ -126,6 +127,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (cachedResult is not null)
             {
                 await finalizer.FinalizeAsync(cachedResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(cachedResult);
                 finalizer.Complete(cachedResult);
 
                 return cachedResult;
@@ -382,7 +384,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
-        executionContext.SetTypedResult(skippedResult);
 
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,
@@ -446,7 +447,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         executionContext.Status = Status.UsedHistory;
         executionContext.SkipResult = skipDecision;
         var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
-        executionContext.SetTypedResult(usedHistoryResult);
         logger.LogDebug(message);
         return usedHistoryResult;
     }
