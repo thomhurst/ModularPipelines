@@ -9,7 +9,7 @@ using TemplatePipeline.Settings;
 var pipelineDirectory = PipelineProjectDirectory.Find();
 Environment.CurrentDirectory = pipelineDirectory;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile(Path.Combine(pipelineDirectory, "appsettings.json"), optional: false)

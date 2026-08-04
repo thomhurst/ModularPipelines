@@ -53,7 +53,7 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
+public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
 {
     private Lazy<ModuleConfiguration> _configuration;
 
@@ -72,7 +72,7 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
         CreateCompletionSource();
 
     /// <inheritdoc />
-    Task<IModuleResult> IModule.ResultTask
+    Task<IModuleResult> IInternalModule.ResultTask
     {
         get
         {
@@ -312,7 +312,7 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
         => OnFailedAsync(context, exception, cancellationToken);
 
     /// <inheritdoc />
-    bool IModule.TrySetDistributedResult(IModuleResult result)
+    bool IInternalModule.TrySetDistributedResult(IModuleResult result)
     {
         return CompletionSource.TrySetResult((ModuleResult<T>) result);
     }

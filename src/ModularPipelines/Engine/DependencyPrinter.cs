@@ -31,7 +31,7 @@ internal class DependencyPrinter : IDependencyPrinter
 
     public void PrintDependencyChains()
     {
-        if (!_options.Value.PrintDependencyChains)
+        if (!_options.Value.Console.PrintDependencyChains)
         {
             return;
         }

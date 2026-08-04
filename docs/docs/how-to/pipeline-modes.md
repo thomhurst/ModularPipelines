@@ -15,7 +15,7 @@ If you want to run every module regardless, you can switch to `WaitForAllModules
 ## Example
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

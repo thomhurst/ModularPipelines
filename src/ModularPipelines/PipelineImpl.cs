@@ -27,6 +27,7 @@ internal sealed class PipelineImpl : IPipeline
     private const string DisposalExceptionDataKey = "ModularPipelines.PipelineDisposalException";
 
     private readonly IHost _host;
+    private readonly PipelineBuilderResources _builderResources;
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
@@ -34,17 +35,21 @@ internal sealed class PipelineImpl : IPipeline
     private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
 
-    private PipelineImpl(IHost host)
+    private PipelineImpl(IHost host, PipelineBuilderResources builderResources)
     {
         _host = host;
+        _builderResources = builderResources;
         _serviceScope = host.Services.CreateAsyncScope();
 
         _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
     }
 
-    internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder, bool initializePipeline)
+    internal static async Task<PipelineImpl> CreateAsync(
+        IHostBuilder hostBuilder,
+        PipelineBuilderResources builderResources,
+        bool initializePipeline)
     {
-        var pipeline = new PipelineImpl(hostBuilder.Build());
+        var pipeline = new PipelineImpl(hostBuilder.Build(), builderResources);
         var services = pipeline._host.Services;
 
         try
@@ -214,7 +219,7 @@ internal sealed class PipelineImpl : IPipeline
         try
         {
             _shutdownRegistration.Dispose();
-            Exception? scopeException = null;
+            var disposalExceptions = new List<Exception>();
             try
             {
                 ValueTask scopeDisposal;
@@ -232,7 +237,7 @@ internal sealed class PipelineImpl : IPipeline
             }
             catch (Exception exception)
             {
-                scopeException = exception;
+                disposalExceptions.Add(exception);
             }
 
             try
@@ -250,14 +255,28 @@ internal sealed class PipelineImpl : IPipeline
 
                 await hostDisposal.ConfigureAwait(false);
             }
-            catch (Exception hostException) when (scopeException is not null)
+            catch (Exception exception)
             {
-                throw new AggregateException(scopeException, hostException);
+                disposalExceptions.Add(exception);
             }
 
-            if (scopeException is not null)
+            try
             {
-                ExceptionDispatchInfo.Capture(scopeException).Throw();
+                _builderResources.Dispose();
+            }
+            catch (Exception exception)
+            {
+                disposalExceptions.Add(exception);
+            }
+
+            if (disposalExceptions.Count == 1)
+            {
+                ExceptionDispatchInfo.Capture(disposalExceptions[0]).Throw();
+            }
+
+            if (disposalExceptions.Count > 1)
+            {
+                throw new AggregateException(disposalExceptions);
             }
         }
         finally

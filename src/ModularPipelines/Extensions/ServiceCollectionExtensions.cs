@@ -36,6 +36,8 @@ internal static class ServiceCollectionExtensions
         this IServiceCollection services)
         where TModule : class, IModule
     {
+        ModuleExecutionContract.Validate(typeof(TModule));
+
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
@@ -72,6 +74,7 @@ internal static class ServiceCollectionExtensions
         where TModule : class, IModule
     {
         ArgumentNullException.ThrowIfNull(tModule);
+        ModuleExecutionContract.Validate(typeof(TModule));
 
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
@@ -116,6 +119,8 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
+        ModuleExecutionContract.Validate(typeof(TModule));
+
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
@@ -157,6 +162,8 @@ internal static class ServiceCollectionExtensions
     /// </remarks>
     internal static IServiceCollection AddModule(this IServiceCollection services, Type moduleType)
     {
+        ModuleExecutionContract.Validate(moduleType);
+
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(moduleType);
 
@@ -293,6 +300,11 @@ internal static class ServiceCollectionExtensions
                     .Where(type => !type.IsAbstract)
                     .Where(type => !type.IsGenericTypeDefinition),
             ];
+
+        foreach (var moduleType in modules)
+        {
+            ModuleExecutionContract.Validate(moduleType);
+        }
 
         // Get already registered module types
         var existingModuleTypes = GetRegisteredModuleTypes(services);

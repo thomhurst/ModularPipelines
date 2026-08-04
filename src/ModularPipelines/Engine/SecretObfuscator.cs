@@ -16,14 +16,10 @@ namespace ModularPipelines.Engine;
 /// called concurrently from multiple threads without external synchronization.
 /// </para>
 /// <para>
-/// <b>Performance:</b> For optimal performance, secrets are sorted by length (longest first)
-/// to ensure longer secrets are masked before shorter ones that might be substrings.
-/// When case-insensitive matching is enabled, a single-pass algorithm using
-/// <see cref="StringComparison.OrdinalIgnoreCase"/> is used. This approach uses .NET's
-/// highly optimized string search which performs well for typical log message sizes.
-/// For extremely large log outputs with many secrets, consider reducing the number of
-/// registered secrets or using case-sensitive matching which uses the more efficient
-/// <see cref="System.Text.StringBuilder.Replace(string, string)"/>.
+/// <b>Performance:</b> Secrets are sorted by length (longest first) so longer secrets
+/// win when multiple patterns match at the same position. A cached
+/// <see cref="SearchValues{T}"/> finds matching positions in a single forward pass,
+/// regardless of whether matching is case-sensitive.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
@@ -74,14 +70,12 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             return input;
         }
 
-        // For case-sensitive matching, StringBuilder.Replace is efficient
-        // For case-insensitive matching, we need a different approach
-        if (caseInsensitive)
-        {
-            return ObfuscateCaseInsensitive(input, secretCache.Secrets, maskValue);
-        }
-
-        return ObfuscateCaseSensitive(input, secretCache.Secrets, maskValue);
+        return ObfuscateMatches(
+            input,
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            maskValue,
+            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
     }
 
     internal SecretCache GetSecretCache(
@@ -198,66 +192,48 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             searchValues);
     }
 
-    /// <summary>
-    /// Performs case-sensitive obfuscation using StringBuilder.Replace.
-    /// This is the most efficient approach for case-sensitive matching.
-    /// </summary>
-    private static string ObfuscateCaseSensitive(string input, IReadOnlyList<string> secrets, string maskValue)
+    private static string ObfuscateMatches(
+        string input,
+        IReadOnlyList<string> secrets,
+        SearchValues<string> searchValues,
+        string maskValue,
+        StringComparison comparison)
     {
-        var stringBuilder = new StringBuilder(input);
-
-        foreach (var secret in secrets)
-        {
-            stringBuilder.Replace(secret, maskValue);
-        }
-
-        return stringBuilder.ToString();
-    }
-
-    /// <summary>
-    /// Performs case-insensitive obfuscation using IndexOf with OrdinalIgnoreCase.
-    /// </summary>
-    private static string ObfuscateCaseInsensitive(string input, IReadOnlyList<string> secrets, string maskValue)
-    {
-        var result = input;
-
-        foreach (var secret in secrets)
-        {
-            result = ReplaceCaseInsensitive(result, secret, maskValue);
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Replaces all occurrences of a pattern in a string, case-insensitively.
-    /// </summary>
-    private static string ReplaceCaseInsensitive(string input, string pattern, string replacement)
-    {
-        if (pattern.Length == 0)
-        {
-            return input;
-        }
-
-        var firstIndex = input.IndexOf(pattern, StringComparison.OrdinalIgnoreCase);
-        if (firstIndex < 0)
-        {
-            return input;
-        }
-
         var result = new StringBuilder(input.Length);
-        var lastIndex = 0;
-        var index = firstIndex;
-        while (index >= 0)
+        var inputOffset = 0;
+        while (inputOffset < input.Length)
         {
-            result.Append(input, lastIndex, index - lastIndex);
-            result.Append(replacement);
-            lastIndex = index + pattern.Length;
-            index = input.IndexOf(pattern, lastIndex, StringComparison.OrdinalIgnoreCase);
+            var remainingInput = input.AsSpan(inputOffset);
+            var relativeMatchIndex = remainingInput.IndexOfAny(searchValues);
+            if (relativeMatchIndex < 0)
+            {
+                break;
+            }
+
+            var matchIndex = inputOffset + relativeMatchIndex;
+            result.Append(input, inputOffset, matchIndex - inputOffset);
+
+            var matchingInput = input.AsSpan(matchIndex);
+            string? matchedSecret = null;
+            foreach (var secret in secrets)
+            {
+                if (matchingInput.StartsWith(secret, comparison))
+                {
+                    matchedSecret = secret;
+                    break;
+                }
+            }
+
+            if (matchedSecret is null)
+            {
+                throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
+            }
+
+            result.Append(maskValue);
+            inputOffset = matchIndex + matchedSecret.Length;
         }
 
-        // Append the remaining part after the last match
-        result.Append(input, lastIndex, input.Length - lastIndex);
+        result.Append(input, inputOffset, input.Length - inputOffset);
 
         return result.ToString();
     }
