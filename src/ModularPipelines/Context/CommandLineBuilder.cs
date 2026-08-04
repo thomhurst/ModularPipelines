@@ -25,6 +25,8 @@ internal sealed class CommandLineBuilder(
     ICommandModelProvider commandModelProvider,
     ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
 {
+    private const CommandLinePhase LegacyEndOfOptionsPhase = (CommandLinePhase) 2;
+
     private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
     [
         new ArgumentPart(
@@ -65,6 +67,12 @@ internal sealed class CommandLineBuilder(
             .ToList();
         var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
+        var passthroughCommandModel = commandSpecificModel
+            .Where(IsPassthrough)
+            .ToList();
+        var regularCommandModel = commandSpecificModel
+            .Where(part => !IsPassthrough(part))
+            .ToList();
         var emittedOptionTerminator = false;
         var globalArgs = _commandArgumentBuilder.BuildArguments(
             globalCommandModel,
@@ -73,7 +81,7 @@ internal sealed class CommandLineBuilder(
             out var globalOptionTerminatorIndex).ToList();
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = _commandArgumentBuilder.BuildArguments(
-            commandSpecificModel,
+            regularCommandModel,
             options,
             ref emittedOptionTerminator,
             out var commandOptionTerminatorIndex).ToList();
@@ -84,18 +92,28 @@ internal sealed class CommandLineBuilder(
             commandSpecificModel,
             terminatorEmittedBeforeProperties);
 
+        var passthroughArgs = _commandArgumentBuilder.BuildArguments(
+            passthroughCommandModel,
+            options,
+            ref emittedOptionTerminator,
+            out var passthroughOptionTerminatorIndex).ToList();
+        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
+            [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
+            options,
+            ref emittedOptionTerminator,
+            out var terminalArgumentOptionTerminatorIndex);
+        var modelEmittedOptionTerminator = emittedOptionTerminator;
+
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
-        var pendingTerminatorState = emittedOptionTerminator
+        var pendingTerminatorState = modelEmittedOptionTerminator
                                      || options.ArgumentsContainOptionTerminator;
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
             ref pendingTerminatorState);
-        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
-            [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
-            options,
-            ref pendingTerminatorState);
+        ValidateRunSettingsTerminator(modelEmittedOptionTerminator, runSettingsArgs);
+
         var hasOptionTerminator = pendingTerminatorState;
         var extractedManualOptions = options.ArgumentsContainToolOptions
                                      && hasOptionTerminator
@@ -118,13 +136,21 @@ internal sealed class CommandLineBuilder(
             propertyArgs,
             commandSpecificModel,
             options);
+        var laterCommandOptionTerminatorIndex = passthroughOptionTerminatorIndex
+                                                ?? terminalArgumentOptionTerminatorIndex;
+        var manualOptionInsertionIndex = commandOptionTerminatorIndex
+                                         ?? (laterCommandOptionTerminatorIndex is not null
+                                             ? propertyArgs.Count
+                                             : null);
         InsertManualOptions(
             globalArgs,
             propertyArgs,
+            passthroughArgs,
             extractedManualOptions,
             globalOptionTerminatorIndex,
-            commandOptionTerminatorIndex,
-            hasRenderedCommandOptions);
+            manualOptionInsertionIndex,
+            hasRenderedCommandOptions,
+            options.ArgumentsContainOptionTerminator && !modelEmittedOptionTerminator);
 
         emittedOptionTerminator = pendingTerminatorState;
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
@@ -138,8 +164,10 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(commandParts);
         allArgs.AddRange(propertyArgs);
 
-        // 5. Add any manual arguments passed via options.Arguments
-        allArgs.AddRange(manualArgs);
+        // 5. Ordinary manual arguments are tool inputs, so keep them ahead of structured
+        // pass-through operands. Explicit option/terminator modes retain their positional
+        // operands after the structured arguments while recognized options are hoisted above.
+        AddManualAndPassthroughArguments(allArgs, manualArgs, passthroughArgs, options);
 
         // 6. Render RunSettings as option-terminated pass-through arguments.
         allArgs.AddRange(runSettingsArgs);
@@ -157,6 +185,38 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static bool IsPassthrough(PropertyCommandLinePart part) =>
+        part.Phase is CommandLinePhase.Passthrough || part.Phase == LegacyEndOfOptionsPhase;
+
+    private static void ValidateRunSettingsTerminator(
+        bool modelEmittedOptionTerminator,
+        IReadOnlyCollection<string> runSettingsArgs)
+    {
+        if (modelEmittedOptionTerminator && runSettingsArgs.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(CommandLineToolOptions.RunSettings)} cannot be combined with a structured "
+                + "argument that emits an end-of-options marker. Remove one of the '--' sources.");
+        }
+    }
+
+    private static void AddManualAndPassthroughArguments(
+        List<string> allArgs,
+        IReadOnlyCollection<string> manualArgs,
+        IReadOnlyCollection<string> passthroughArgs,
+        CommandLineToolOptions options)
+    {
+        if (!options.ArgumentsContainToolOptions && !options.ArgumentsContainOptionTerminator)
+        {
+            allArgs.AddRange(manualArgs);
+            allArgs.AddRange(passthroughArgs);
+            return;
+        }
+
+        allArgs.AddRange(passthroughArgs);
+        allArgs.AddRange(manualArgs);
     }
 
     private static void ValidateTerminatorState(
@@ -204,14 +264,22 @@ internal sealed class CommandLineBuilder(
     private static void InsertManualOptions(
         List<string> globalArgs,
         List<string> propertyArgs,
+        List<string> passthroughArgs,
         ExtractedManualOptions extractedManualOptions,
         int? globalOptionTerminatorIndex,
         int? commandOptionTerminatorIndex,
-        bool hasRenderedCommandOptions)
+        bool hasRenderedCommandOptions,
+        bool insertCommandOptionsAfterPassthrough)
     {
         globalArgs.InsertRange(
             globalOptionTerminatorIndex ?? globalArgs.Count,
             extractedManualOptions.Global);
+        if (insertCommandOptionsAfterPassthrough)
+        {
+            passthroughArgs.AddRange(extractedManualOptions.Command);
+            return;
+        }
+
         if (commandOptionTerminatorIndex is { } insertionIndex)
         {
             propertyArgs.InsertRange(
