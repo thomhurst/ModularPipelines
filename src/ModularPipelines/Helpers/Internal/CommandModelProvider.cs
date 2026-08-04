@@ -64,12 +64,35 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
                 {
                     IsGlobalOption = IsGlobalOption(property),
+                    ManualOperandCount = GetManualOperandCount(property.PropertyType),
                 });
             }
         }
 
         return parts;
     }
+
+    [RequiresUnreferencedCode("Reflection fallback requires option value type metadata.")]
+    internal static int GetManualOperandCount(Type propertyType)
+    {
+        propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        return typeof(ModularPipelines.Models.CliValuePair).IsAssignableFrom(propertyType)
+               || propertyType.GetInterfaces()
+                   .Append(propertyType)
+                   .Any(type => type.IsGenericType
+                                && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                                && typeof(ModularPipelines.Models.CliValuePair)
+                                    .IsAssignableFrom(type.GetGenericArguments()[0]))
+            ? 2
+            : 1;
+    }
+
+    [RequiresUnreferencedCode("Legacy generated metadata requires option property metadata.")]
+    internal static int GetManualOperandCount(Type optionsType, string propertyName) =>
+        GetCommandProperties(optionsType)
+            .FirstOrDefault(property => property.Name == propertyName) is { } property
+            ? GetManualOperandCount(property.PropertyType)
+            : 1;
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
     private static IEnumerable<PropertyInfo> GetCommandProperties(Type optionsType)

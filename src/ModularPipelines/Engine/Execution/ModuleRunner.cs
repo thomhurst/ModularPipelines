@@ -493,6 +493,7 @@ internal class ModuleRunner : IModuleRunner
         var telemetryStart = Stopwatch.GetTimestamp();
         var telemetryStatus = "Failed";
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
+        executionContext.ModuleActivity = activity;
 
         // Set up logging and module type context using scope wrapper for proper cleanup
         await using var loggerScope = new ModuleLoggerScope(logger, moduleType);
@@ -525,6 +526,11 @@ internal class ModuleRunner : IModuleRunner
             {
                 telemetryStatus = "UsedHistory";
                 ModuleActivityTracing.RecordUsedHistory(activity);
+            }
+            else if (executionContext.Status == Enums.Status.CachedResult)
+            {
+                telemetryStatus = "CachedResult";
+                ModuleActivityTracing.RecordCachedResult(activity);
             }
             else if (executionContext.Status == Enums.Status.PipelineTerminated)
             {
@@ -670,7 +676,8 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
-        var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
+        var isSuccessful = executionContext.Status is
+            Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult;
         await _mediator.Publish(
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
@@ -684,7 +691,11 @@ internal class ModuleRunner : IModuleRunner
         Exception exception)
     {
         executionContext.Exception = exception;
-        if (executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.NotYetStarted or Enums.Status.Processing)
+        if (executionContext.Status is Enums.Status.Successful
+            or Enums.Status.UsedHistory
+            or Enums.Status.CachedResult
+            or Enums.Status.NotYetStarted
+            or Enums.Status.Processing)
         {
             executionContext.Status = Enums.Status.Failed;
         }
@@ -740,7 +751,8 @@ internal class ModuleRunner : IModuleRunner
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
         if (!_manageArtifactsLocally
-            || executionContext.Status is not (Enums.Status.Successful or Enums.Status.UsedHistory))
+            || executionContext.Status is not (
+                Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult))
         {
             return;
         }

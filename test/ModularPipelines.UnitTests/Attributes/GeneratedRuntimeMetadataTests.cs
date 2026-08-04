@@ -20,6 +20,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
         0,
         Phase = CommandLinePhase.EarlyOperand,
         PrependOptionTerminator = true,
+        PrependOptionTerminatorIfValueStartsWithDash = true,
         Required = true)]
     public string? File { get; init; }
 
@@ -137,6 +138,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
         await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
         await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
+        await Assert.That(argument.Attribute.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
         await Assert.That(argument.Attribute.Required).IsTrue();
 
         var flag = model.OfType<FlagPart>().Single();

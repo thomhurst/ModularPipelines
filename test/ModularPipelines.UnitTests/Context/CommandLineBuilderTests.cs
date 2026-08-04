@@ -73,6 +73,654 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Terminal_Options_With_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Terminal_Options_With_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "-1"],
+            ArgumentsContainOptionTerminator = true,
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Renders_Legacy_EndOfOptions_Phase()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestLegacyEndOfOptionsOptions
+        {
+            EndOfOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -1");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Declared_Manual_Marker_With_Legacy_Flag()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestLegacyEndOfOptionsOptions
+        {
+            Arguments = ["--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- tail");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Manual_Terminal_Options_With_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "value", "--run-tests", "tests.jq"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Command_Options_After_Global_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+            Force = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("earlier property group");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Global_Property_Terminator_Before_Subcommand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("subcommand");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Manual_Options_After_Global_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+            Arguments = ["--force"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual tool options");
+    }
+
+    [Test]
+    public async Task Build_Accepts_Terminal_Option_When_Option_Value_Is_DoubleDash()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Argument = new CliValuePair("name", "--"),
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- --run-tests tests.jq");
+    }
+
+    [Test]
+    public async Task Build_Accepts_Terminal_Argument_Own_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -x");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Manual_Terminal_Option_Before_Terminal_Argument()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Bare_Manual_Terminal_Option_After_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--run-tests"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Terminal_Option_After_Terminal_Argument_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            TerminalArgument = "-x",
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_RunSettings_Terminator_Precedes_Terminal_Argument()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            RunSettings = ["--filter", "Category=Unit"],
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq -- --filter Category=Unit -x");
+    }
+
+    [Test]
+    public async Task Build_Manual_Terminator_Is_Reused_For_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "-1"],
+            ArgumentsContainOptionTerminator = true,
+            RunSettings = ["extra"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
+    public async Task Build_Does_Not_Infer_Terminator_From_Manual_Option_Value()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arg", "name", "--", "."],
+            RunSettings = ["--foo"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- . -- --foo");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Declared_Manual_Terminator_When_Missing()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["value"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        var exception = Assert.Throws<ArgumentException>(() => _ = Build());
+
+        await Assert.That(exception.ParamName)
+            .IsEqualTo("options");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Manual_Option_Operands_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--arg", "name", "value", "input.json"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arg name value -- -1 input.json");
+    }
+
+    [Test]
+    public async Task Build_Hoists_EqualsSeparated_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --color=never -- -1");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Manual_Option_Before_Early_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestEarlyOperandTerminatorOptions("aws")
+        {
+            Parameters = ["param"],
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("pulumi package info --color=never aws -- param");
+    }
+
+    [Test]
+    public async Task Build_Hoists_ColonSeparated_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--define:value"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --define:value -- -1");
+    }
+
+    [Test]
+    public async Task Build_Hoists_NoSeparator_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--variablevalue"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --variablevalue -- -1");
+    }
+
+    [Test]
+    public async Task Build_Prefers_Exact_Manual_Option_Over_NoSeparator_Prefix()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "-Debug", "value"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq -Debug value -- tail");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Optional_Manual_Option_With_Explicit_Value()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--dry-run", "client"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --dry-run client -- -1");
+    }
+
+    [Test]
+    public async Task Build_Hoists_All_Grouped_Manual_Option_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "--arguments", "one", "two"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments one two -- tail");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Undeclared_Double_Dash_In_Grouped_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arguments", "one", "--", "two"],
+            ArgumentsContainToolOptions = true,
+            RunSettings = ["tail"],
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments one -- two -- tail");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Trailing_Values_With_Attached_Grouped_Option()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "tail", "--arguments=one", "two"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments=one two -- tail");
+    }
+
+    [Test]
+    public async Task Build_Grouped_Option_Preserves_Terminal_Option_For_Validation()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--arguments", "one", "--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Terminal_Status_In_Manual_Short_Cluster()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var modelProvider = await GetService<ICommandModelProvider>();
+        var flags = modelProvider.GetCommandModel(typeof(TestTerminalOptions))
+            .OfType<FlagPart>()
+            .ToDictionary(flag => flag.Attribute.ShortForm!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(flags["-c"].Phase).IsEqualTo(CommandLinePhase.Normal);
+            await Assert.That(flags["-T"].Phase).IsEqualTo(CommandLinePhase.Terminal);
+        }
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["-cT"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    public async Task Build_Derives_Legacy_Generated_Option_Operand_Count()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var optionsType = typeof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(LegacyGeneratedMetadataOptions<LegacyMetadataMarker>.Pairs),
+                    static _ => null,
+                    new CliOptionAttribute("--arg")),
+            ]);
+        var options = new LegacyGeneratedMetadataOptions<LegacyMetadataMarker>
+        {
+            Arguments = ["--arg", "name", "value", "--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        };
+
+        var result = builder.Build(options);
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name value -- tail");
+    }
+
+    [Test]
+    public async Task Reflection_Metadata_Counts_Derived_Value_Pairs()
+    {
+        var model = new CommandModelProvider()
+            .GetCommandModel(typeof(ReflectionDerivedPairOptions<DerivedCliValuePair>));
+
+        await Assert.That(model.OfType<OptionPart>().Single().ManualOperandCount)
+            .IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Build_Preserves_Command_Option_Operand_That_Matches_Global_Flag()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["--set", "--verbose"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("liquibase update --set --verbose -- -input");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Manual_Option_Before_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestManualTerminatorOptions
+        {
+            Filter = ".",
+            Arguments = ["--", "input.json", "--compact-output"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq . --compact-output -- input.json");
+    }
+
+    [Test]
+    public async Task Build_Hoists_Manual_Global_Option_Before_Command()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["--verbose"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("liquibase --verbose update -- -input");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Manual_Short_Cluster_With_Mixed_Scopes()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalCommandOptions
+        {
+            Input = "-input",
+            Arguments = ["-vf"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("cannot mix global and command-specific options");
+    }
+
+    [Test]
+    public async Task Build_Matches_Exact_MultiCharacter_Short_Option_Before_Cluster()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestMultiCharacterShortOptionOptions
+        {
+            Arguments = ["--", "tail", "-ss", "https://symbols"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("dotnet -ss https://symbols -- tail");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Manual_Option_Override_Order_When_Hoisted()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Color = "always",
+            Filter = "-1",
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --color=always --color=never -- -1");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Manual_Terminator_After_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--", "input.json"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("already emitted");
+    }
+
+    [Test]
+    public async Task Build_Empty_RunSettings_Emit_No_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new GenericCommandLineToolOptions("dotnet")
+        {
+            Arguments = ["test"],
+            RunSettings = [],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("dotnet test");
+    }
+
+    [Test]
+    public async Task Build_Property_Terminator_Is_Reused_For_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            RunSettings = ["extra"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
     public async Task Build_FromAttributeBasedOptions_ResolvesToolAndSubcommands()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -276,11 +924,108 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("jq")]
     internal record TestTerminalOptions : CommandLineToolOptions
     {
+        [CliOption("--arg")]
+        public CliValuePair? Argument { get; set; }
+
+        [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+        public string? Color { get; set; }
+
+        [CliOption("--define", Format = OptionFormat.ColonSeparated)]
+        public string? Define { get; set; }
+
+        [CliOption("--variable", Format = OptionFormat.NoSeparator)]
+        public string? Variable { get; set; }
+
+        [CliOption("-D", Format = OptionFormat.NoSeparator)]
+        public string? ShortDefine { get; set; }
+
+        [CliOption("-Debug")]
+        public string? DebugValue { get; set; }
+
+        [CliFlag("--compact", ShortForm = "-c")]
+        public bool? Compact { get; set; }
+
+        [CliOption("--dry-run", ValueArity = CliOptionValueArity.Optional)]
+        public CliOptionValue? DryRun { get; set; }
+
+        [CliOption("--arguments", GroupValues = true)]
+        public IReadOnlyList<string>? GroupedArguments { get; set; }
+
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public string? Filter { get; set; }
+
         [CliOption(
             "--run-tests",
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
         public CliOptionValue? RunTests { get; set; }
+
+        [CliFlag("--terminal-flag", ShortForm = "-T", Phase = CommandLinePhase.Terminal)]
+        public bool? TerminalFlag { get; set; }
+
+        [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
+        public string? TerminalArgument { get; set; }
+    }
+
+    [CliTool("pulumi")]
+    [CliSubCommand("package", "info")]
+    private sealed record TestEarlyOperandTerminatorOptions(
+        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Provider)
+        : CommandLineToolOptions
+    {
+        [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+        public string? Color { get; init; }
+
+        [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+        public IReadOnlyList<string>? Parameters { get; init; }
+    }
+
+    [CliTool("dotnet")]
+    private sealed record TestMultiCharacterShortOptionOptions : CommandLineToolOptions
+    {
+        [CliOption("--source", ShortForm = "-s")]
+        public string? Source { get; init; }
+
+        [CliOption("--symbol-source", ShortForm = "-ss")]
+        public string? SymbolSource { get; init; }
+    }
+
+    private sealed class LegacyMetadataMarker;
+
+    [CliTool("jq")]
+    private sealed record LegacyGeneratedMetadataOptions<T> : CommandLineToolOptions
+    {
+        public IReadOnlyList<CliValuePair>? Pairs { get; init; }
+    }
+
+    private sealed record DerivedCliValuePair(string First, string Second)
+        : CliValuePair(First, Second);
+
+    [CliTool("jq")]
+    private sealed record ReflectionDerivedPairOptions<T> : CommandLineToolOptions
+    {
+        [CliOption("--arg")]
+        public T? Pair { get; init; }
+    }
+
+    [CliTool("jq")]
+    private record TestManualTerminatorOptions : CommandLineToolOptions
+    {
+        [CliFlag("--compact-output")]
+        public bool? CompactOutput { get; set; }
+
+        [CliArgument(0)]
+        public string? Filter { get; set; }
+    }
+
+    [CliTool("jq")]
+    private record TestLegacyEndOfOptionsOptions : CommandLineToolOptions
+    {
+        [CliFlag("--", Phase = (CommandLinePhase)2)]
+        public bool? EndOfOptions { get; set; }
+
+        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Filter { get; set; }
     }
 
     [CliTool("mytool")]
@@ -292,6 +1037,9 @@ public class CommandLineBuilderTests : TestBase
     [CliGlobalOptions]
     internal abstract record TestGlobalOptions : CommandLineToolOptions
     {
+        [CliFlag("--verbose", ShortForm = "-v")]
+        public bool? Verbose { get; set; }
+
         [CliOption("--search-path", Format = OptionFormat.EqualsSeparated)]
         public string? SearchPath { get; set; }
     }
@@ -299,8 +1047,32 @@ public class CommandLineBuilderTests : TestBase
     [CliSubCommand("update")]
     internal sealed record TestGlobalCommandOptions : TestGlobalOptions
     {
+        [CliFlag("--force", ShortForm = "-f")]
+        public bool? Force { get; set; }
+
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
+
+        [CliOption("--set")]
+        public string? Set { get; set; }
+
+        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Input { get; set; }
+    }
+
+    [CliTool("mytool")]
+    [CliGlobalOptions]
+    private abstract record TestGlobalTerminatorOptions : CommandLineToolOptions
+    {
+        [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? GlobalOperand { get; set; }
+    }
+
+    [CliSubCommand("run")]
+    private sealed record TestGlobalTerminatorCommandOptions : TestGlobalTerminatorOptions
+    {
+        [CliFlag("--force")]
+        public bool Force { get; set; }
     }
 
     [CliTool("docker")]
