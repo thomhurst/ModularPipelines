@@ -1250,6 +1250,52 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task HistoryPersistenceInvokesRunReportEnrichersWithoutReportFile()
+    {
+        PipelineRunReport? savedReport = null;
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(EmptyReports());
+        historyStore.Setup(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<PipelineRunReport, CancellationToken>((report, _) => savedReport = report)
+            .Returns(Task.CompletedTask);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new StaticRunReportEnricher()]);
+
+        var report = await service.CompleteAsync(CreateEmptySummary());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Correlation!.GitSha).IsEqualTo("secret-sha");
+            await Assert.That(savedReport).IsSameReferenceAs(report);
+        }
+    }
+
+    [Test]
     public async Task RepeatedCompletionsReceiveDistinctRunIds()
     {
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
@@ -1357,7 +1403,14 @@ public class RunReportTests
                 commandExecutionCounter,
                 new PassthroughSecretObfuscator()),
             Mock.Of<IBuildSystemDetector>(),
-            OptionsFactory.Create(new PipelineOptions()),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    HistoryRetention = 0,
+                },
+            }),
             distributedOptions,
             new RoleDetector(distributedOptions),
             Mock.Of<IDistributedCoordinator>(),
