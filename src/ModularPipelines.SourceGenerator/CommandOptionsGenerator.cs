@@ -352,9 +352,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             : 1;
     }
 
-    private static bool IsCliValuePair(ITypeSymbol type) =>
-        type.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString()
-        == CliValuePairFullName;
+    private static bool IsCliValuePair(ITypeSymbol type)
+    {
+        for (var current = type.WithNullableAnnotation(NullableAnnotation.None) as INamedTypeSymbol;
+             current is not null;
+             current = current.BaseType)
+        {
+            if (current.ToDisplayString() == CliValuePairFullName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static bool IsGlobalOption(IPropertySymbol property)
     {

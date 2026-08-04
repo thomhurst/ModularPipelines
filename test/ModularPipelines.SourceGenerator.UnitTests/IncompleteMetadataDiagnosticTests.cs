@@ -148,6 +148,45 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Derived_CliValuePairs_Consume_Two_Manual_Operands()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Models
+            {
+                public class CliValuePair;
+            }
+
+            public sealed class DerivedCliValuePair
+                : ModularPipelines.Models.CliValuePair;
+
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--arg")]
+                public DerivedCliValuePair Argument { get; } = new();
+
+                [ModularPipelines.Attributes.CliOption("--args")]
+                public DerivedCliValuePair[] Arguments { get; } = [];
+
+                [ModularPipelines.Attributes.CliOption("--more-args")]
+                public System.Collections.Generic.IReadOnlyList<DerivedCliValuePair>
+                    MoreArguments { get; } = [];
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var pairOperandCounts = generatedSource.Split("ManualOperandCount = 2").Length - 1;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(pairOperandCounts).IsEqualTo(3);
+        }
+    }
+
+    [Test]
     public async Task Friend_Assembly_Properties_Are_Accessible()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
