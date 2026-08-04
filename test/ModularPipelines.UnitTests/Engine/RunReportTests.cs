@@ -874,6 +874,18 @@ public class RunReportTests
                 });
             }
 
+            foreach (var file in Directory.GetFiles(directory, "modularpipelines-run-*.json"))
+            {
+                await File.WriteAllTextAsync(
+                    file,
+                    $$"""
+                      {
+                        "schemaVersion": {{PipelineRunReport.CurrentSchemaVersion + 1}},
+                        "pipelineIdentity": { "future": "pipeline-a" }
+                      }
+                      """);
+            }
+
             var latest = await store.GetLatestAsync("pipeline-a");
 
             using (Assert.Multiple())

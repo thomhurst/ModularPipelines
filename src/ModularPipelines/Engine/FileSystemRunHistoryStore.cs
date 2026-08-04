@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
@@ -76,6 +77,26 @@ internal sealed class FileSystemRunHistoryStore(
         ref bool incompatibleSchemaLogged,
         out PipelineRunReport report)
     {
+        using var document = JsonDocument.Parse(json);
+        var schemaVersion = document.RootElement.TryGetProperty("schemaVersion", out var schemaVersionElement)
+            ? schemaVersionElement.GetInt32()
+            : PipelineRunReport.CurrentSchemaVersion;
+        if (!IsSchemaVersionCompatible(schemaVersion))
+        {
+            if (!incompatibleSchemaLogged)
+            {
+                logger.LogWarning(
+                    "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
+                    schemaVersion,
+                    MinimumCompatibleSchemaVersion,
+                    PipelineRunReport.CurrentSchemaVersion);
+                incompatibleSchemaLogged = true;
+            }
+
+            report = null!;
+            return false;
+        }
+
         var deserializedReport = RunReportJsonSerializer.Deserialize(json);
         if (deserializedReport is null)
         {
@@ -84,22 +105,7 @@ internal sealed class FileSystemRunHistoryStore(
         }
 
         report = deserializedReport;
-        if (IsSchemaVersionCompatible(report.SchemaVersion))
-        {
-            return true;
-        }
-
-        if (!incompatibleSchemaLogged)
-        {
-            logger.LogWarning(
-                "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
-                report.SchemaVersion,
-                MinimumCompatibleSchemaVersion,
-                PipelineRunReport.CurrentSchemaVersion);
-            incompatibleSchemaLogged = true;
-        }
-
-        return false;
+        return true;
     }
 
     internal static bool IsSchemaVersionCompatible(
