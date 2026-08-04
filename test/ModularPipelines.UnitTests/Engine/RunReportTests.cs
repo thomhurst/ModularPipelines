@@ -907,6 +907,48 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStoreReadsTimestampWithoutAssumingIdentityLength()
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = directory,
+                    HistoryRetention = 1,
+                    GlobalHistoryRetention = 1,
+                },
+            }),
+            NullLogger<FileSystemRunHistoryStore>.Instance);
+        var legacyFile = Path.Combine(
+            directory,
+            "modularpipelines-run-legacy-202608021300000000000-00000000000000000000000000000000.json");
+
+        try
+        {
+            Directory.CreateDirectory(directory);
+            await File.WriteAllTextAsync(legacyFile, "{}");
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero),
+            });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(legacyFile)).IsTrue();
+                await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
+                    .Count().IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task AtomicFileWriterKeepsExistingFileWhenWriteFails()
     {
         var directory = CreateTemporaryDirectory();

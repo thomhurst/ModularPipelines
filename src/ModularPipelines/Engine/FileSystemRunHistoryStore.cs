@@ -15,7 +15,6 @@ internal sealed class FileSystemRunHistoryStore(
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
     private const string FileTimestampFormat = "yyyyMMddHHmmssfffffff";
-    private const int IdentityHashLength = 64;
     private const int MinimumCompatibleSchemaVersion = 1;
 
     public Task<PipelineRunReport?> GetLatestAsync(
@@ -190,10 +189,15 @@ internal sealed class FileSystemRunHistoryStore(
     private static DateTime GetHistoryTimestamp(string path)
     {
         var fileName = Path.GetFileName(path);
-        var timestampStart = OwnedFilePrefix.Length + IdentityHashLength + 1;
-        if (fileName.Length < timestampStart + FileTimestampFormat.Length
+        var uniqueIdSeparator = fileName.LastIndexOf('-');
+        var timestampSeparator = uniqueIdSeparator > 0
+            ? fileName.LastIndexOf('-', uniqueIdSeparator - 1)
+            : -1;
+        var timestampStart = timestampSeparator + 1;
+        var timestampLength = uniqueIdSeparator - timestampStart;
+        if (timestampLength != FileTimestampFormat.Length
             || !DateTime.TryParseExact(
-                fileName.AsSpan(timestampStart, FileTimestampFormat.Length),
+                fileName.AsSpan(timestampStart, timestampLength),
                 FileTimestampFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
