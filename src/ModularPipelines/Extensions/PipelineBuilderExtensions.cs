@@ -22,14 +22,14 @@ public static class PipelineBuilderExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>A typed registration handle for configuring module metadata.</returns>
-    public static ModuleRegistration<TModule> AddModule<
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModule<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
         this PipelineBuilder builder)
         where TModule : class, IModule
     {
         builder.Services.AddModule<TModule>();
-        return new ModuleRegistration<TModule>(builder);
+        return builder;
     }
 
     /// <summary>
@@ -38,12 +38,12 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="module">The module instance to add.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>A typed registration handle for configuring module metadata.</returns>
-    public static ModuleRegistration<TModule> AddModule<TModule>(this PipelineBuilder builder, TModule module)
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, TModule module)
         where TModule : class, IModule
     {
         builder.Services.AddModule(module);
-        return new ModuleRegistration<TModule>(builder);
+        return builder;
     }
 
     /// <summary>
@@ -52,12 +52,12 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="factory">A factory method for creating the module.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>A typed registration handle for configuring module metadata.</returns>
-    public static ModuleRegistration<TModule> AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
         where TModule : class, IModule
     {
         builder.Services.AddModule(factory);
-        return new ModuleRegistration<TModule>(builder);
+        return builder;
     }
 
     /// <summary>

@@ -26,9 +26,6 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
-    internal const string ModuleRegistrationNamespace = "ModularPipelines";
-    internal const string ModuleRegistrationTypeName = "ModuleRegistration";
-
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
 
@@ -285,10 +282,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static bool IsModuleRegistrationMethod(IMethodSymbol method)
     {
         var containingType = (method.ReducedFrom ?? method).ContainingType.OriginalDefinition;
-        return containingType.ToDisplayString() == PipelineBuilderExtensionsFullName
-               || (containingType.Name == ModuleRegistrationTypeName
-                   && containingType.Arity == 1
-                   && containingType.ContainingNamespace.ToDisplayString() == ModuleRegistrationNamespace);
+        return containingType.ToDisplayString() == PipelineBuilderExtensionsFullName;
     }
 
     private static bool IsCandidate(SyntaxNode node)
