@@ -9,7 +9,8 @@ namespace ModularPipelines.Exceptions;
 /// <para>
 /// This exception is thrown by command execution methods when the underlying process
 /// returns a non-zero exit code. Framework-thrown exceptions expose an obfuscated
-/// command result for debugging without including command output in the exception message.
+/// command result for debugging and include its command input, but not command output,
+/// in the exception message.
 /// </para>
 /// <para><b>Properties available:</b></para>
 /// <list type="bullet">
@@ -39,7 +40,26 @@ public class CommandException : PipelineException
     /// <param name="result">The result of the failed command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
     public CommandException(CommandResult result, Exception? innerException = null)
-        : base($"Command failed with exit code {result.ExitCode}.", innerException)
+        : this($"Command failed with exit code {result.ExitCode}.", result, innerException)
+    {
+    }
+
+    internal static CommandException FromObfuscatedResult(
+        CommandResult result,
+        Exception? innerException = null) =>
+        new(
+            $"Command '{result.CommandInput}' failed with exit code {result.ExitCode}.",
+            result,
+            innerException);
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="CommandException"/> class with a custom message.
+    /// </summary>
+    /// <param name="message">The message that describes the command failure.</param>
+    /// <param name="result">The result of the failed command.</param>
+    /// <param name="innerException">The inner exception that caused this command failure.</param>
+    protected CommandException(string message, CommandResult result, Exception? innerException = null)
+        : base(message, innerException)
     {
         Result = result;
     }

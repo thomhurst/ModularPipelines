@@ -250,7 +250,7 @@ internal sealed class Command : ICommandContext
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
-                throw new CommandException(CreateFailureResult(
+                throw CommandException.FromObfuscatedResult(CreateFailureResult(
                     command,
                     executionOptions,
                     result.CommandInput,
@@ -425,7 +425,7 @@ internal sealed class Command : ICommandContext
                         command.WorkingDirPath));
                 var failure = loggingFailures.CombineWith(e);
 
-                throw new CommandException(
+                throw CommandException.FromObfuscatedResult(
                     CreateFailureResult(
                         command,
                         execOpts,
@@ -502,7 +502,7 @@ internal sealed class Command : ICommandContext
                     command.WorkingDirPath));
             if (commandFailure is not null && loggingFailures.HasFailures)
             {
-                throw new CommandException(
+                throw CommandException.FromObfuscatedResult(
                     commandFailure.Result,
                     loggingFailures.CombineWith(commandFailure));
             }
@@ -552,16 +552,37 @@ internal sealed class Command : ICommandContext
             return CreateTimeoutException(execOpts, combinedFailure);
         }
 
-        return new CommandException(
-            CreateFailureResult(
-                command,
-                execOpts,
-                input,
-                -1,
-                duration,
-                standardOutput,
-                standardError),
-            combinedFailure);
+        var result = CreateFailureResult(
+            command,
+            execOpts,
+            input,
+            -1,
+            duration,
+            standardOutput,
+            standardError);
+        return IsExecutableNotFound(executionFailure)
+            ? new ToolNotFoundException(
+                _secretObfuscator.Obfuscate(command.TargetFilePath, execOpts),
+                result,
+                combinedFailure)
+            : CommandException.FromObfuscatedResult(result, combinedFailure);
+    }
+
+    private static bool IsExecutableNotFound(Exception exception)
+    {
+        if (exception is Win32Exception { NativeErrorCode: 2 })
+        {
+            return true;
+        }
+
+        if (exception is AggregateException aggregateException
+            && aggregateException.InnerExceptions.Any(IsExecutableNotFound))
+        {
+            return true;
+        }
+
+        return exception.InnerException is not null
+               && IsExecutableNotFound(exception.InnerException);
     }
 
     private static TimeoutException CreateTimeoutException(
@@ -619,7 +640,7 @@ internal sealed class Command : ICommandContext
         string standardError)
     {
         return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
-            ? new CommandException(CreateFailureResult(
+            ? CommandException.FromObfuscatedResult(CreateFailureResult(
                 command,
                 execOpts,
                 input,
