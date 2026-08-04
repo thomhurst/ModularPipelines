@@ -1202,7 +1202,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
             .Where(assembly => !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
-                               && !RequiresExternalMetadata(assembly, runtimeAssembly))
+                               && !ReferencesAssemblyDirectly(assembly, runtimeAssembly))
             .Select(assembly => assembly.Identity.ToString())
             .Distinct(StringComparer.Ordinal)
             .OrderBy(static identity => identity, StringComparer.Ordinal)
@@ -1372,6 +1372,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             assembly,
             runtimeAssembly,
             new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
+
+    private static bool ReferencesAssemblyDirectly(
+        IAssemblySymbol assembly,
+        IAssemblySymbol targetAssembly) =>
+        assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(referenced =>
+            SymbolEqualityComparer.Default.Equals(referenced, targetAssembly)));
 
     private static bool ReferencesAssembly(
         IAssemblySymbol assembly,

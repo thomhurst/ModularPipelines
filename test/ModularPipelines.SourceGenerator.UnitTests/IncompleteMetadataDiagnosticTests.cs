@@ -539,6 +539,51 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Aot_Host_Covers_Transitive_Plain_Value_Assembly()
+    {
+        var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace ExternalBase;
+
+            public sealed class RuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+
+            public sealed class BaseMarker;
+            """,
+            """
+            namespace ExternalLeaf;
+
+            public struct PlainStruct;
+
+            public sealed class LeafMarker
+            {
+                public ExternalBase.BaseMarker Value { get; } = new();
+            }
+            """,
+            "public sealed class AotHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            },
+            leafReferencesInfrastructure: false);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var coverageStart = generatedSource.IndexOf(
+            "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(",
+            StringComparison.Ordinal);
+        var coverageEnd = generatedSource.IndexOf(");", coverageStart, StringComparison.Ordinal);
+        var coverageRegistration = generatedSource[coverageStart..coverageEnd];
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(coverageRegistration).Contains("ExternalLeaf");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Allows_Unrelated_Internal_External_Type_Name_Collisions()
     {
         var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(

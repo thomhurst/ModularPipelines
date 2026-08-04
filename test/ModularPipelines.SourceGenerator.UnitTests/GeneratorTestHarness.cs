@@ -59,7 +59,8 @@ internal static class GeneratorTestHarness
         string externalBaseSource,
         string externalLeafSource,
         string source,
-        IReadOnlyDictionary<string, string>? globalOptions = null)
+        IReadOnlyDictionary<string, string>? globalOptions = null,
+        bool leafReferencesInfrastructure = true)
     {
         var infrastructureReference = CreateMetadataReference(
             "ModularPipelines",
@@ -72,7 +73,9 @@ internal static class GeneratorTestHarness
         var externalLeafReference = CreateMetadataReference(
             "ExternalLeaf",
             [externalLeafSource],
-            [.. References, infrastructureReference, externalBaseReference]);
+            leafReferencesInfrastructure
+                ? [.. References, infrastructureReference, externalBaseReference]
+                : [.. References, externalBaseReference]);
         var compilation = CSharpCompilation.Create(
             "GeneratorTests",
             [CSharpSyntaxTree.ParseText(source)],
