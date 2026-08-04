@@ -158,12 +158,16 @@ public class RetryTests : TestBase
 
     private class CancellableModuleWithTimeout : Module<bool>
     {
+        internal int ExecutionCount;
+
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .WithRetry(DefaultRetryCount, TimeSpan.Zero)
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            ExecutionCount++;
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
             return true;
         }
@@ -295,13 +299,9 @@ public class RetryTests : TestBase
     }
 
     [Test]
-    public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
+    public async Task When_Retry_Backoff_Exceeds_Timeout_Then_All_Attempts_Run()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
-            {
-                DefaultRetryCount = DefaultRetryCount,
-            })
             .AddModule<FailedModuleWithTimeout>()
             .BuildAsync();
 
@@ -309,27 +309,29 @@ public class RetryTests : TestBase
 
         var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
-        await Assert.That(timeoutException).IsNotNull();
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(timeoutException).IsNull();
         }
     }
 
     [Test]
     public async Task When_Retry_Timeouts_During_Module_Then_Report_Token_Respected()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
-            {
-                DefaultRetryCount = DefaultRetryCount,
-            })
+        var host = await TestPipelineBuilder.Create()
             .AddModule<CancellableModuleWithTimeout>()
-            .ExecutePipelineAsync());
+            .BuildAsync();
 
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+
+        var module = host.Services.GetServices<IModule>().OfType<CancellableModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
-        await Assert.That(timeoutException).IsNotNull();
-        await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(timeoutException).IsNotNull();
+            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
+        }
     }
 }

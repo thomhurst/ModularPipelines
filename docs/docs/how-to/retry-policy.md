@@ -97,6 +97,10 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
+`WithTimeout` applies to each execution attempt, not to the whole retry chain. Backoff delays run
+outside that timeout. A timed-out attempt is passed to the retry policy as a
+`ModuleTimeoutException`, so exception filters still decide whether it should be retried.
+
 ## Default Retry Policy
 
 Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:

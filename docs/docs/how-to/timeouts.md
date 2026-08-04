@@ -60,6 +60,11 @@ public class ResilientModule : Module<CommandResult>
 
 ## Timeout Behavior
 
+Timeouts apply to each execution attempt. With retries enabled, every attempt receives the full
+timeout and retry backoff delays do not consume it. A module configured with a five-minute timeout
+and three retries can therefore spend up to five minutes in each of its four attempts, plus retry
+delays.
+
 When a timeout occurs:
 
 - The `CancellationToken` passed to `ExecuteAsync` will be cancelled
