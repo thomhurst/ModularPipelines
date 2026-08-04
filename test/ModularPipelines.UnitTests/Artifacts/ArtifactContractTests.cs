@@ -372,6 +372,57 @@ public class ArtifactContractTests
         }
     }
 
+    private sealed class DependencyStateSourceModule : Module<string>
+    {
+        public static bool IsReady { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            IsReady = true;
+            return Task.FromResult<string?>("ready");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyStateSourceModule>]
+    private sealed class StateDependentIntermediateModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => DependencyStateSourceModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("dependency state is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("intermediate");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
+    [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
+    private sealed class TransitiveDependencyStateConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return await File.ReadAllTextAsync(
+                Path.Combine(RestoreDirectory, "local-output"),
+                cancellationToken);
+        }
+    }
+
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
@@ -1321,6 +1372,42 @@ public class ArtifactContractTests
                 await Assert.That(ProducerStateIntermediateModule.IsReady).IsTrue();
                 await Assert.That(TransitiveProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactDemandWaitsBeforeCachingDependencySkip()
+    {
+        DeleteLocalArtifacts();
+        DependencyStateSourceModule.IsReady = false;
+        StateDependentIntermediateModule.Executed = false;
+        TransitiveDependencyStateConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<DependencyStateSourceModule>();
+            builder.AddModule<StateDependentIntermediateModule>();
+            builder.AddModule<TransitiveDependencyStateConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var consumerResult = await summary.Modules
+                .OfType<TransitiveDependencyStateConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
+                await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
+                await Assert.That(TransitiveDependencyStateConsumerModule.Executed).IsTrue();
+                await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("local artifact content");
             }
         }
         finally

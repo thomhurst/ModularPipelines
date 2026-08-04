@@ -354,14 +354,13 @@ internal class ModuleRunner : IModuleRunner
                 continue;
             }
 
-            var skipDecision = dependencyState.SkipResult.ShouldSkip
-                ? dependencyState.SkipResult
-                : await EvaluatePlanningSkipAsync(dependencyState, cancellationToken).ConfigureAwait(false);
-            if (skipDecision?.ShouldSkip == true)
+            if (dependencyState.SkipResult.ShouldSkip)
             {
-                dependencyState.SkipResult = skipDecision;
-                if (requiredProducerTypes.Contains(dependency.Key)
-                    || !await HasHistoricalResultAsync(dependencyState).ConfigureAwait(false))
+                if (await IsSkippedDependencyUnrecoverableAsync(
+                        dependency.Key,
+                        dependencyState,
+                        requiredProducerTypes)
+                    .ConfigureAwait(false))
                 {
                     return new RequiredDependencyDemand(
                         IsUnrecoverable: true,
@@ -371,7 +370,6 @@ internal class ModuleRunner : IModuleRunner
                 continue;
             }
 
-            hasPendingDependency = true;
             var transitiveDemand = await GetRequiredDependencyDemandAsync(
                     dependencyState,
                     scheduler,
@@ -386,13 +384,45 @@ internal class ModuleRunner : IModuleRunner
                     HasPendingDependency: true);
             }
 
-            hasPendingDependency |= transitiveDemand.HasPendingDependency;
+            if (transitiveDemand.HasPendingDependency)
+            {
+                hasPendingDependency = true;
+                continue;
+            }
+
+            var skipDecision = await EvaluatePlanningSkipAsync(dependencyState, cancellationToken)
+                .ConfigureAwait(false);
+            if (skipDecision?.ShouldSkip == true)
+            {
+                dependencyState.SkipResult = skipDecision;
+                if (await IsSkippedDependencyUnrecoverableAsync(
+                        dependency.Key,
+                        dependencyState,
+                        requiredProducerTypes)
+                    .ConfigureAwait(false))
+                {
+                    return new RequiredDependencyDemand(
+                        IsUnrecoverable: true,
+                        HasPendingDependency: hasPendingDependency);
+                }
+
+                continue;
+            }
+
+            hasPendingDependency = true;
         }
 
         return new RequiredDependencyDemand(
             IsUnrecoverable: false,
             HasPendingDependency: hasPendingDependency);
     }
+
+    private async Task<bool> IsSkippedDependencyUnrecoverableAsync(
+        Type dependencyType,
+        ModuleState dependencyState,
+        IReadOnlySet<Type> requiredProducerTypes) =>
+        requiredProducerTypes.Contains(dependencyType)
+        || !await HasHistoricalResultAsync(dependencyState).ConfigureAwait(false);
 
     private async Task<bool> HasHistoricalResultAsync(ModuleState moduleState)
     {
