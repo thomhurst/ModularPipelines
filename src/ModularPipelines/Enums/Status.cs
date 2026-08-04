@@ -29,11 +29,6 @@ public enum Status
     UsedHistory,
 
     /// <summary>
-    /// The module result was restored from the fingerprint cache.
-    /// </summary>
-    CachedResult,
-
-    /// <summary>
     /// The module failed.
     /// </summary>
     Failed,
@@ -67,4 +62,9 @@ public enum Status
     /// Unknown module status.
     /// </summary>
     Unknown,
+
+    /// <summary>
+    /// The module result was restored from the fingerprint cache.
+    /// </summary>
+    CachedResult,
 }
