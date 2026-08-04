@@ -7,12 +7,13 @@ public sealed record RunReportOptions
 {
     /// <summary>
     /// Gets an optional stable identity used to partition retained history.
-    /// When omitted, an identity is derived from the report path and module types.
+    /// When omitted, an identity is derived from the registered module types.
     /// </summary>
     public string? PipelineIdentity { get; init; }
 
     /// <summary>
     /// Gets the explicit JSON report path, or <see langword="null"/> to use the CI default only.
+    /// Relative paths are resolved from the Git root when available, otherwise the application base directory.
     /// </summary>
     public string? ReportPath { get; init; }
 
@@ -24,6 +25,7 @@ public sealed record RunReportOptions
 
     /// <summary>
     /// Gets the directory used by the default local history store.
+    /// Relative paths are resolved from the Git root when available, otherwise the application base directory.
     /// </summary>
     public string HistoryDirectory { get; init; } = Path.Combine(".modularpipelines", "run-history");
 

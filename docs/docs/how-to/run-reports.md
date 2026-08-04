@@ -30,6 +30,10 @@ builder.ConfigurePipelineOptions(options => options with
 });
 ```
 
+Relative report and history paths are resolved from the Git repository root when it is available.
+Outside a Git repository, they are resolved from the application base directory. This keeps the same
+storage location when a pipeline is launched from different working directories.
+
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed
 report is also exposed through `PipelineSummary.RunReport`.
 
@@ -62,8 +66,8 @@ builder.ConfigurePipelineOptions(options => options with
 
 History is partitioned by pipeline identity and pruning only removes files owned by the built-in
 history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
-path and registered module types. History is bounded: after each save, the default store deletes
-owned files beyond the configured limit for that pipeline.
+module types; changing only the report path does not fork history. History is bounded: after each
+save, the default store deletes owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the

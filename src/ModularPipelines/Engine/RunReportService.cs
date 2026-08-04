@@ -22,7 +22,8 @@ internal sealed class RunReportService(
     ICommandExecutionCounter commandExecutionCounter,
     ILogger<RunReportService> logger,
     TimeSpan? historyStoreTimeout = null,
-    TimeSpan? workerMetricsTimeout = null) : IRunReportService
+    TimeSpan? workerMetricsTimeout = null,
+    RunReportPathResolver? pathResolver = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
@@ -30,6 +31,7 @@ internal sealed class RunReportService(
     private static readonly TimeSpan WorkerMetricsPollingInterval = TimeSpan.FromMilliseconds(100);
     private readonly TimeSpan _historyStoreTimeout = historyStoreTimeout ?? DefaultHistoryStoreTimeout;
     private readonly TimeSpan _workerMetricsTimeout = workerMetricsTimeout ?? WorkerMetricsTimeout;
+    private readonly RunReportPathResolver _pathResolver = pathResolver ?? new RunReportPathResolver();
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
@@ -40,7 +42,7 @@ internal sealed class RunReportService(
             .ConfigureAwait(false);
 
         var reportPath = isDistributedWorker ? null : GetReportPath();
-        var pipelineIdentity = GetPipelineIdentity(summary, reportPath);
+        var pipelineIdentity = GetPipelineIdentity(summary);
         var historyEnabled = !isDistributedWorker
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
         var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
@@ -189,11 +191,11 @@ internal sealed class RunReportService(
         var options = pipelineOptions.Value.RunReport;
         if (!string.IsNullOrWhiteSpace(options.ReportPath))
         {
-            return options.ReportPath;
+            return _pathResolver.Resolve(options.ReportPath);
         }
 
         return options.AutoWriteInCi && buildSystemDetector.IsKnownBuildAgent
-            ? Path.Combine("artifacts", "run-report.json")
+            ? _pathResolver.Resolve(Path.Combine("artifacts", "run-report.json"))
             : null;
     }
 
@@ -469,7 +471,7 @@ internal sealed class RunReportService(
             executionIdentifier,
             StringComparison.Ordinal);
 
-    private string GetPipelineIdentity(PipelineSummary summary, string? reportPath)
+    private string GetPipelineIdentity(PipelineSummary summary)
     {
         var configuredIdentity = pipelineOptions.Value.RunReport.PipelineIdentity;
         if (!string.IsNullOrWhiteSpace(configuredIdentity))
@@ -479,10 +481,9 @@ internal sealed class RunReportService(
 
         var definition = string.Join(
             '\n',
-            new[] { reportPath?.Replace('\\', '/') ?? string.Empty }
-                .Concat(summary.Modules
-                    .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
-                    .OrderBy(static name => name, StringComparer.Ordinal)));
+            summary.Modules
+                .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
+                .OrderBy(static name => name, StringComparer.Ordinal));
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(definition)))
             .ToLowerInvariant();
     }
