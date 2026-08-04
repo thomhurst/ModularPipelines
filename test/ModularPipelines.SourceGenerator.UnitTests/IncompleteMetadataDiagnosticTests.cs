@@ -82,6 +82,34 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task CliValuePair_Arrays_Consume_Two_Manual_Operands()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Models
+            {
+                public sealed class CliValuePair;
+            }
+
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--arg")]
+                public ModularPipelines.Models.CliValuePair[] Arguments { get; } = [];
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("ManualOperandCount = 2");
+        }
+    }
+
+    [Test]
     public async Task Friend_Assembly_Properties_Are_Accessible()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(

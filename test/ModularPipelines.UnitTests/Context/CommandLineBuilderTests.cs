@@ -139,6 +139,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Global_Property_Terminator_Before_Subcommand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("subcommand");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Options_After_Global_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

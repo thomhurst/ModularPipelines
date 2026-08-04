@@ -91,6 +91,12 @@ internal sealed class CommandLineBuilder(
             manualArgs,
             commandSpecificModel,
             terminatorEmittedBeforeProperties);
+        if (terminatorEmittedBeforeProperties && commandParts.Count > 0)
+        {
+            throw new InvalidOperationException(
+                "A global end-of-options marker cannot precede a subcommand. "
+                + "Remove the marker source or use options without a subcommand.");
+        }
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments; leave manual positional operands in place.

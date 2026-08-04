@@ -336,6 +336,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return 2;
         }
 
+        if (propertyType is IArrayTypeSymbol arrayType
+            && arrayType.ElementType.ToDisplayString() == CliValuePairFullName)
+        {
+            return 2;
+        }
+
         return propertyType is INamedTypeSymbol namedType
                && namedType.AllInterfaces
                    .Append(namedType)
