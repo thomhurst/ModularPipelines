@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.OpenTelemetry;
 using ModularPipelines.Tracing;
 using OpenTelemetry.Metrics;
@@ -53,6 +54,8 @@ public static class OpenTelemetryPipelineBuilderExtensions
                 ModuleActivityTracing.ModuleSourceName,
                 ModuleActivityTracing.CommandSourceName))
             .WithMetrics(metrics => metrics.AddMeter(ModuleActivityTracing.MeterName));
+
+        builder.Services.TryAddSingleton<OpenTelemetryInitializer>();
 
         configure?.Invoke(new ModularPipelinesOpenTelemetryBuilder(openTelemetryBuilder));
         return builder;

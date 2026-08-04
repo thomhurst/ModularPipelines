@@ -817,13 +817,11 @@ public class RunReportTests
 
             var pipelineA = await store.GetLatestAsync("pipeline-a");
             var pipelineB = await store.GetLatestAsync("pipeline-b");
-            var latest = await store.GetLatestAsync();
 
             using (Assert.Multiple())
             {
                 await Assert.That(pipelineA?.PipelineIdentity).IsEqualTo("pipeline-a");
                 await Assert.That(pipelineB?.PipelineIdentity).IsEqualTo("pipeline-b");
-                await Assert.That(latest?.PipelineIdentity).IsEqualTo("pipeline-b");
                 await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
                     .Count().IsEqualTo(2);
             }
@@ -920,6 +918,14 @@ public class RunReportTests
 
         try
         {
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = new DateTimeOffset(2026, 8, 2, 12, 0, 1, TimeSpan.Zero),
+            });
+            var validReportFile = Directory
+                .GetFiles(directory, "modularpipelines-run-*.json")
+                .Single();
             var invalidReports = new[]
             {
                 "[]",
@@ -929,17 +935,11 @@ public class RunReportTests
             for (var index = 0; index < invalidReports.Length; index++)
             {
                 await File.WriteAllTextAsync(
-                    Path.Combine(directory, $"modularpipelines-run-invalid-{index}.json"),
+                    $"{validReportFile}.invalid-{index}.json",
                     invalidReports[index]);
             }
 
-            await store.SaveAsync(new PipelineRunReport
-            {
-                PipelineIdentity = "pipeline-a",
-                End = new DateTimeOffset(2026, 8, 2, 12, 0, 1, TimeSpan.Zero),
-            });
-
-            var latest = await store.GetLatestAsync();
+            var latest = await store.GetLatestAsync("pipeline-a");
 
             using (Assert.Multiple())
             {

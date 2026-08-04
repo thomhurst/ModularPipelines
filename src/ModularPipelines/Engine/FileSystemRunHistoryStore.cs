@@ -15,20 +15,13 @@ internal sealed class FileSystemRunHistoryStore(
     private const string OwnedFilePrefix = "modularpipelines-run-";
     private const int MinimumCompatibleSchemaVersion = 1;
 
-    public Task<PipelineRunReport?> GetLatestAsync(CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore($"{OwnedFilePrefix}*.json", pipelineIdentity: null, cancellationToken);
-
     public Task<PipelineRunReport?> GetLatestAsync(
         string pipelineIdentity,
         CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore(
-            $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
-            pipelineIdentity,
-            cancellationToken);
+        GetLatestAsyncCore(pipelineIdentity, cancellationToken);
 
     private async Task<PipelineRunReport?> GetLatestAsyncCore(
-        string searchPattern,
-        string? pipelineIdentity,
+        string pipelineIdentity,
         CancellationToken cancellationToken)
     {
         var directory = GetHistoryDirectory();
@@ -41,7 +34,7 @@ internal sealed class FileSystemRunHistoryStore(
         var incompatibleSchemaLogged = false;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
-                     searchPattern,
+                     $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
                      SearchOption.TopDirectoryOnly))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -53,11 +46,10 @@ internal sealed class FileSystemRunHistoryStore(
                     continue;
                 }
 
-                if ((pipelineIdentity is null
-                     || string.Equals(
-                         report.PipelineIdentity,
-                         pipelineIdentity,
-                         StringComparison.Ordinal))
+                if (string.Equals(
+                        report.PipelineIdentity,
+                        pipelineIdentity,
+                        StringComparison.Ordinal)
                     && (latestReport is null || report.End > latestReport.End))
                 {
                     latestReport = report;
