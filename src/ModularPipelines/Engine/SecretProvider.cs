@@ -345,6 +345,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             Memory<char> characters => characters.ToString(),
             ReadOnlyMemory<char> characters => characters.ToString(),
             IEnumerable<char> characters => new string(characters.ToArray()),
+            CliOptionValue optionValue => optionValue.Value,
             _ => value.ToString(),
         };
     }

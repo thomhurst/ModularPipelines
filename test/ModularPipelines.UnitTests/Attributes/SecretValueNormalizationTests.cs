@@ -6,6 +6,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FSharp.TestFixtures;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.VisualBasic.TestFixtures;
 using Moq;
@@ -38,6 +39,12 @@ internal class GeneratedCharacterSecretOptions
     [SecretValue]
     public IEnumerable<string> SecretCollection { get; init; } =
         ["collection-secret-one", "collection-secret-two"];
+
+    [SecretValue]
+    public CliOptionValue OptionalValueSecret { get; init; } = "optional-value-secret";
+
+    [SecretValue]
+    public CliOptionValue BareOptionalValue { get; init; } = CliOptionValue.Bare;
 }
 
 internal sealed class GeneratedNoSecretsOptions;
@@ -68,6 +75,7 @@ public class SecretValueNormalizationTests
         "memory-secret",
         "read-only-memory-secret",
         "segment-secret",
+        "optional-value-secret",
     ];
 
     private static readonly string[] ExpectedSecrets =
@@ -372,13 +380,12 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task PartialOptionsWithoutSecretPropertiesReturnNoSecrets()
+    public async Task PartialOptionsWithoutExactMetadataAreRejected()
     {
         var provider = CreateProvider(out _);
 
-        var secrets = provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList();
-
-        await Assert.That(secrets).IsEmpty();
+        await Assert.That(() => provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList())
+            .Throws<MissingSecretMetadataException>();
     }
 
     [Test]
