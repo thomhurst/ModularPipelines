@@ -425,6 +425,26 @@ public class ArtifactContractTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyStateSourceModule>]
+    private sealed class SharedDependencySiblingModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => DependencyStateSourceModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("shared dependency state is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("shared sibling");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyStateSourceModule>]
     private sealed class StateDependentIntermediateModule : Module<string>
     {
         public static bool Executed { get; set; }
@@ -445,6 +465,7 @@ public class ArtifactContractTests
     }
 
     [ModularPipelines.Attributes.DependsOn<LocalProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<SharedDependencySiblingModule>]
     [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
     [ConsumesArtifact(typeof(LocalProducerModule), "local-output", RestorePath = RestoreDirectory)]
     private sealed class TransitiveDependencyStateConsumerModule : Module<string>
@@ -463,6 +484,7 @@ public class ArtifactContractTests
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<SharedDependencySiblingModule>]
     [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class PrerequisiteStateArtifactConsumerModule : Module<string>
@@ -1506,10 +1528,11 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task ArtifactDemandWaitsBeforeCachingDependencySkip()
+    public async Task ArtifactDemandRevisitsSharedPrerequisiteAcrossSiblingBranches()
     {
         DeleteLocalArtifacts();
         DependencyStateSourceModule.IsReady = false;
+        SharedDependencySiblingModule.Executed = false;
         StateDependentIntermediateModule.Executed = false;
         TransitiveDependencyStateConsumerModule.Executed = false;
 
@@ -1518,6 +1541,7 @@ public class ArtifactContractTests
             using var builder = Pipeline.CreateBuilder();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<DependencyStateSourceModule>();
+            builder.AddModule<SharedDependencySiblingModule>();
             builder.AddModule<StateDependentIntermediateModule>();
             builder.AddModule<TransitiveDependencyStateConsumerModule>();
 
@@ -1530,6 +1554,7 @@ public class ArtifactContractTests
             {
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
+                await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
                 await Assert.That(TransitiveDependencyStateConsumerModule.Executed).IsTrue();
                 await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("local artifact content");
@@ -2102,10 +2127,11 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task IgnoredProducerTraversesPrerequisitesBeforeCachingDependencySkip()
+    public async Task IgnoredProducerRevisitsSharedPrerequisiteAcrossSiblingBranches()
     {
         DeleteLocalArtifacts();
         DependencyStateSourceModule.IsReady = false;
+        SharedDependencySiblingModule.Executed = false;
         StateDependentIntermediateModule.Executed = false;
         PrerequisiteStateArtifactConsumerModule.Executed = false;
 
@@ -2118,6 +2144,7 @@ public class ArtifactContractTests
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<DependencyStateSourceModule>();
+            builder.AddModule<SharedDependencySiblingModule>();
             builder.AddModule<StateDependentIntermediateModule>();
             builder.AddModule<PrerequisiteStateArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
@@ -2134,6 +2161,7 @@ public class ArtifactContractTests
             {
                 await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
+                await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(PrerequisiteStateArtifactConsumerModule.Executed).IsFalse();

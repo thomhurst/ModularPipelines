@@ -276,62 +276,69 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             return new RequiredDependencyDemand(isUnrecoverable, HasPendingDependency: false);
         }
 
-        if (!visitedTypes.Add(dependencyType)
-            || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+        if (!modulesByType.TryGetValue(dependencyType, out var dependencyModule)
+            || !visitedTypes.Add(dependencyType))
         {
             return default;
         }
 
-        var transitiveDemand = await GetRequiredDependencyDemandAsync(
-                dependencyModule,
-                modulesByType,
-                availableModuleTypes,
-                ignoredModuleTypes,
-                unrecoverableIgnoredModuleTypes,
-                consumedProducerTypes,
-                historicalResults,
-                planningSkipDecisions,
-                pipelineContext,
-                visitedTypes)
-            .ConfigureAwait(false);
-        if (transitiveDemand.IsUnrecoverable)
+        try
         {
-            return new RequiredDependencyDemand(
-                IsUnrecoverable: true,
-                HasPendingDependency: true);
-        }
-
-        if (transitiveDemand.HasPendingDependency)
-        {
-            return transitiveDemand;
-        }
-
-        if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
-        {
-            skipDecision = await _modulePlanningSkipEvaluator
-                .EvaluateAsync(dependencyModule, CancellationToken.None)
+            var transitiveDemand = await GetRequiredDependencyDemandAsync(
+                    dependencyModule,
+                    modulesByType,
+                    availableModuleTypes,
+                    ignoredModuleTypes,
+                    unrecoverableIgnoredModuleTypes,
+                    consumedProducerTypes,
+                    historicalResults,
+                    planningSkipDecisions,
+                    pipelineContext,
+                    visitedTypes)
                 .ConfigureAwait(false);
-            planningSkipDecisions[dependencyModule] = skipDecision;
-        }
+            if (transitiveDemand.IsUnrecoverable)
+            {
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: true,
+                    HasPendingDependency: true);
+            }
 
-        if (skipDecision?.ShouldSkip != true)
-        {
+            if (transitiveDemand.HasPendingDependency)
+            {
+                return transitiveDemand;
+            }
+
+            if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
+            {
+                skipDecision = await _modulePlanningSkipEvaluator
+                    .EvaluateAsync(dependencyModule, CancellationToken.None)
+                    .ConfigureAwait(false);
+                planningSkipDecisions[dependencyModule] = skipDecision;
+            }
+
+            if (skipDecision?.ShouldSkip != true)
+            {
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: false,
+                    HasPendingDependency: true);
+            }
+
+            if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
+            {
+                historicalResult = await _resultHistoryProvider
+                    .TryGetAsync(dependencyModule, pipelineContext)
+                    .ConfigureAwait(false);
+                historicalResults[dependencyModule] = historicalResult;
+            }
+
             return new RequiredDependencyDemand(
-                IsUnrecoverable: false,
-                HasPendingDependency: true);
+                IsUnrecoverable: historicalResult is null,
+                HasPendingDependency: false);
         }
-
-        if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
+        finally
         {
-            historicalResult = await _resultHistoryProvider
-                .TryGetAsync(dependencyModule, pipelineContext)
-                .ConfigureAwait(false);
-            historicalResults[dependencyModule] = historicalResult;
+            visitedTypes.Remove(dependencyType);
         }
-
-        return new RequiredDependencyDemand(
-            IsUnrecoverable: historicalResult is null,
-            HasPendingDependency: false);
     }
 
     private readonly record struct RequiredDependencyDemand(

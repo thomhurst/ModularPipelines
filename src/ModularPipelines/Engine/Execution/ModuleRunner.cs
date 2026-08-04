@@ -347,69 +347,76 @@ internal class ModuleRunner : IModuleRunner
                     HasPendingDependency: hasPendingDependency);
             }
 
-            if (!visited.Add(dependency.Key)
-                || scheduler.GetModuleState(dependency.Key) is not { } dependencyState
-                || dependencyState.State == ModuleExecutionState.Completed)
+            if (scheduler.GetModuleState(dependency.Key) is not { } dependencyState
+                || dependencyState.State == ModuleExecutionState.Completed
+                || !visited.Add(dependency.Key))
             {
                 continue;
             }
 
-            if (dependencyState.SkipResult.ShouldSkip)
+            try
             {
-                if (await IsSkippedDependencyUnrecoverableAsync(
-                        dependency.Key,
+                if (dependencyState.SkipResult.ShouldSkip)
+                {
+                    if (await IsSkippedDependencyUnrecoverableAsync(
+                            dependency.Key,
+                            dependencyState,
+                            requiredProducerTypes)
+                        .ConfigureAwait(false))
+                    {
+                        return new RequiredDependencyDemand(
+                            IsUnrecoverable: true,
+                            HasPendingDependency: hasPendingDependency);
+                    }
+
+                    continue;
+                }
+
+                var transitiveDemand = await GetRequiredDependencyDemandAsync(
                         dependencyState,
+                        scheduler,
+                        cancellationToken,
+                        visited,
                         requiredProducerTypes)
-                    .ConfigureAwait(false))
+                    .ConfigureAwait(false);
+                if (transitiveDemand.IsUnrecoverable)
                 {
                     return new RequiredDependencyDemand(
                         IsUnrecoverable: true,
-                        HasPendingDependency: hasPendingDependency);
+                        HasPendingDependency: true);
                 }
 
-                continue;
-            }
+                if (transitiveDemand.HasPendingDependency)
+                {
+                    hasPendingDependency = true;
+                    continue;
+                }
 
-            var transitiveDemand = await GetRequiredDependencyDemandAsync(
-                    dependencyState,
-                    scheduler,
-                    cancellationToken,
-                    visited,
-                    requiredProducerTypes)
-                .ConfigureAwait(false);
-            if (transitiveDemand.IsUnrecoverable)
-            {
-                return new RequiredDependencyDemand(
-                    IsUnrecoverable: true,
-                    HasPendingDependency: true);
-            }
+                var skipDecision = await EvaluatePlanningSkipAsync(dependencyState, cancellationToken)
+                    .ConfigureAwait(false);
+                if (skipDecision?.ShouldSkip == true)
+                {
+                    dependencyState.SkipResult = skipDecision;
+                    if (await IsSkippedDependencyUnrecoverableAsync(
+                            dependency.Key,
+                            dependencyState,
+                            requiredProducerTypes)
+                        .ConfigureAwait(false))
+                    {
+                        return new RequiredDependencyDemand(
+                            IsUnrecoverable: true,
+                            HasPendingDependency: hasPendingDependency);
+                    }
 
-            if (transitiveDemand.HasPendingDependency)
-            {
+                    continue;
+                }
+
                 hasPendingDependency = true;
-                continue;
             }
-
-            var skipDecision = await EvaluatePlanningSkipAsync(dependencyState, cancellationToken)
-                .ConfigureAwait(false);
-            if (skipDecision?.ShouldSkip == true)
+            finally
             {
-                dependencyState.SkipResult = skipDecision;
-                if (await IsSkippedDependencyUnrecoverableAsync(
-                        dependency.Key,
-                        dependencyState,
-                        requiredProducerTypes)
-                    .ConfigureAwait(false))
-                {
-                    return new RequiredDependencyDemand(
-                        IsUnrecoverable: true,
-                        HasPendingDependency: hasPendingDependency);
-                }
-
-                continue;
+                visited.Remove(dependency.Key);
             }
-
-            hasPendingDependency = true;
         }
 
         return new RequiredDependencyDemand(
