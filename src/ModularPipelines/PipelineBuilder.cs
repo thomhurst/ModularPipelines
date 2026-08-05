@@ -40,11 +40,6 @@ public sealed class PipelineBuilder : IDisposable
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
 
-    internal PipelineBuilder(string[]? args)
-        : this(new PipelineBuilderOptions { Args = args })
-    {
-    }
-
     internal PipelineBuilder(PipelineBuilderOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
@@ -79,6 +74,7 @@ public sealed class PipelineBuilder : IDisposable
 
         _environment = CreateHostEnvironment(options, args);
         _resources = _environment.Resources;
+        _configuration.SetBasePath(_environment.WorkingDirectory);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
         _hostBuilder.UseContentRoot(_environment.ContentRootPath);
 
@@ -121,6 +117,11 @@ public sealed class PipelineBuilder : IDisposable
     /// Gets the host environment information.
     /// </summary>
     public IHostEnvironment Environment => _environment;
+
+    /// <summary>
+    /// Gets the default working directory for commands and relative file paths.
+    /// </summary>
+    public string WorkingDirectory => _environment.WorkingDirectory;
 
     /// <summary>
     /// Retained for source compatibility. Resources are owned by the built pipeline.
@@ -289,8 +290,13 @@ public sealed class PipelineBuilder : IDisposable
             options.EnvironmentName,
             hostConfiguration[HostDefaults.EnvironmentKey],
             System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-        var contentRootPath = Path.GetFullPath(FirstNonEmpty(
+        var workingDirectory = Path.GetFullPath(FirstNonEmpty(
             Directory.GetCurrentDirectory(),
+            options.WorkingDirectory,
+            options.ContentRootPath,
+            hostConfiguration[HostDefaults.ContentRootKey]));
+        var contentRootPath = Path.GetFullPath(FirstNonEmpty(
+            workingDirectory,
             options.ContentRootPath,
             hostConfiguration[HostDefaults.ContentRootKey]));
         var applicationName = FirstNonEmpty(
@@ -305,6 +311,7 @@ public sealed class PipelineBuilder : IDisposable
             ApplicationName = applicationName,
             EnvironmentName = environmentName,
             ContentRootPath = contentRootPath,
+            WorkingDirectory = workingDirectory,
         };
     }
 
@@ -348,6 +355,7 @@ public sealed class PipelineBuilder : IDisposable
 
             services
                 .AddSingleton(_commandLineOptions)
+                .AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory))
                 .AddSingleton(_options)
                 .AddTransient<IOptionsFactory<PipelineOptions>, PipelineOptionsFactory>();
 
@@ -539,6 +547,8 @@ public sealed class PipelineBuilder : IDisposable
         public string ApplicationName { get; set; } = string.Empty;
 
         public string ContentRootPath { get; set; } = string.Empty;
+
+        internal string WorkingDirectory { get; init; } = string.Empty;
 
         public IFileProvider ContentRootFileProvider
         {

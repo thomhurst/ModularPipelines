@@ -36,16 +36,16 @@ public interface IEnvironmentContext
     /// <inheritdoc cref="IHostEnvironment.ContentRootPath"/>
     /// <remarks>
     /// This property is immutable after pipeline initialization.
-    /// If you need to change the working directory for command execution,
-    /// use command options or <see cref="System.Environment.CurrentDirectory"/> directly.
     /// </remarks>
     public Folder ContentDirectory { get; }
 
-    /// <inheritdoc cref="Environment.CurrentDirectory"/>
+    /// <summary>
+    /// Gets the pipeline's configured working directory.
+    /// </summary>
     /// <remarks>
-    /// This property captures the working directory at pipeline initialization time and is immutable.
-    /// If you need to change the working directory for command execution,
-    /// use command options or <see cref="System.Environment.CurrentDirectory"/> directly.
+    /// This property is immutable after pipeline initialization. Set
+    /// <see cref="PipelineBuilderOptions.WorkingDirectory"/> when creating the pipeline,
+    /// or override an individual command with <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
     /// </remarks>
     public Folder WorkingDirectory { get; }
 

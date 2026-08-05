@@ -151,6 +151,7 @@ public class PipelineBuilderRegistrationTests
             await Assert.That(environment.ApplicationName).IsEqualTo("ConfiguredApp");
             await Assert.That(environment.EnvironmentName).IsEqualTo("ConfiguredEnvironment");
             await Assert.That(environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
+            await Assert.That(builder.WorkingDirectory).IsEqualTo(Path.GetFullPath(contentRoot));
             await Assert.That(environment.ContentRootFileProvider.GetFileInfo(fileName).Exists).IsTrue();
         }
         finally

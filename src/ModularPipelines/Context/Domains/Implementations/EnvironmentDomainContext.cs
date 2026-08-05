@@ -18,13 +18,15 @@ internal class EnvironmentDomainContext : IEnvironmentDomainContext
     /// </summary>
     /// <param name="variables">The environment variables context.</param>
     /// <param name="buildSystem">The build system context.</param>
+    /// <param name="workingDirectory">The configured pipeline working directory.</param>
     public EnvironmentDomainContext(
         IEnvironmentVariablesContext variables,
-        IBuildSystemContext buildSystem)
+        IBuildSystemContext buildSystem,
+        PipelineWorkingDirectory workingDirectory)
     {
         Variables = variables;
         BuildSystem = buildSystem;
-        WorkingDirectory = System.Environment.CurrentDirectory;
+        WorkingDirectory = workingDirectory.Path;
     }
 
     /// <inheritdoc />
