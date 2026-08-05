@@ -23,10 +23,25 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
     {
         cancellationToken.ThrowIfCancellationRequested();
         var path = GetEntryPath(fingerprint);
-        Stream? stream = File.Exists(path)
-            ? new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 64 * 1024, FileOptions.Asynchronous)
-            : null;
-        return Task.FromResult(stream);
+        try
+        {
+            Stream stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read | FileShare.Delete,
+                64 * 1024,
+                FileOptions.Asynchronous);
+            return Task.FromResult<Stream?>(stream);
+        }
+        catch (FileNotFoundException)
+        {
+            return Task.FromResult<Stream?>(null);
+        }
+        catch (DirectoryNotFoundException)
+        {
+            return Task.FromResult<Stream?>(null);
+        }
     }
 
     /// <inheritdoc />
@@ -51,7 +66,7 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
                 await output.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            File.Move(temporary, destination, overwrite: true);
+            Publish(temporary, destination);
         }
         finally
         {
@@ -64,5 +79,31 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
 
         return Path.Combine(_cacheDirectory, $"{fingerprint.ToLowerInvariant()}.zip");
+    }
+
+    private static void Publish(string temporary, string destination)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            File.Move(temporary, destination, overwrite: true);
+            return;
+        }
+
+        var backup = $"{temporary}.bak";
+        try
+        {
+            try
+            {
+                File.Replace(temporary, destination, backup, ignoreMetadataErrors: true);
+            }
+            catch (FileNotFoundException)
+            {
+                File.Move(temporary, destination, overwrite: true);
+            }
+        }
+        finally
+        {
+            File.Delete(backup);
+        }
     }
 }

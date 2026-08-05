@@ -1632,25 +1632,161 @@ public class RunReportTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunReportRootUsesGitRootForRepositoriesAndWorktrees(bool gitMetadataIsFile)
+    {
+        var directory = CreateTemporaryDirectory();
+        var nestedDirectory = Path.Combine(directory, "src", "Pipeline");
+        var fallbackDirectory = Path.Combine(directory, "fallback");
+        Directory.CreateDirectory(nestedDirectory);
+        Directory.CreateDirectory(fallbackDirectory);
+        var gitMetadataPath = Path.Combine(directory, ".git");
+
+        try
+        {
+            if (gitMetadataIsFile)
+            {
+                await File.WriteAllTextAsync(gitMetadataPath, "gitdir: elsewhere");
+            }
+            else
+            {
+                Directory.CreateDirectory(gitMetadataPath);
+            }
+
+            var root = RunReportPathResolver.FindRootDirectory(
+                nestedDirectory,
+                fallbackDirectory);
+
+            if (gitMetadataIsFile)
+            {
+                File.Delete(gitMetadataPath);
+            }
+            else
+            {
+                Directory.Delete(gitMetadataPath);
+            }
+
+            var fallbackRoot = RunReportPathResolver.FindRootDirectory(
+                nestedDirectory,
+                fallbackDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(root).IsEqualTo(directory);
+                await Assert.That(fallbackRoot).IsEqualTo(fallbackDirectory);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RelativeHistoryDirectoryUsesStableRunReportRoot()
+    {
+        var directory = CreateTemporaryDirectory();
+        var historyDirectory = Path.Combine(directory, "custom", "history");
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = Path.Combine("custom", "history"),
+                    HistoryRetention = 1,
+                },
+            }),
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            new RunReportPathResolver(directory));
+
+        try
+        {
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "stable-root",
+                End = DateTimeOffset.UtcNow,
+            });
+
+            await Assert.That(Directory.GetFiles(historyDirectory, "modularpipelines-run-*.json"))
+                .HasSingleItem();
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task KnownCiUsesDefaultArtifactReportPath()
     {
-        var options = OptionsFactory.Create(new PipelineOptions());
-        var commandExecutionCounter = new CommandExecutionCounter();
-        var service = new RunReportService(
-            Mock.Of<IRunHistoryStore>(),
-            new PipelineRunReportFactory(
+        var directory = CreateTemporaryDirectory();
+        try
+        {
+            var options = OptionsFactory.Create(new PipelineOptions());
+            var commandExecutionCounter = new CommandExecutionCounter();
+            var service = new RunReportService(
+                Mock.Of<IRunHistoryStore>(),
+                new PipelineRunReportFactory(
+                    commandExecutionCounter,
+                    new PassthroughSecretObfuscator()),
+                new KnownBuildSystemDetector(),
+                options,
+                OptionsFactory.Create(new DistributedOptions()),
+                new RoleDetector(OptionsFactory.Create(new DistributedOptions())),
+                Mock.Of<IDistributedCoordinator>(),
                 commandExecutionCounter,
-                new PassthroughSecretObfuscator()),
-            new KnownBuildSystemDetector(),
-            options,
-            OptionsFactory.Create(new DistributedOptions()),
-            new RoleDetector(OptionsFactory.Create(new DistributedOptions())),
-            Mock.Of<IDistributedCoordinator>(),
-            commandExecutionCounter,
-            NullLogger<RunReportService>.Instance);
+                NullLogger<RunReportService>.Instance,
+                pathResolver: new RunReportPathResolver(directory));
 
-        await Assert.That(service.GetReportPath())
-            .IsEqualTo(Path.Combine("artifacts", "run-report.json"));
+            await Assert.That(service.GetReportPath())
+                .IsEqualTo(Path.Combine(directory, "artifacts", "run-report.json"));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task DerivedPipelineIdentityDoesNotDependOnReportPath()
+    {
+        var directory = CreateTemporaryDirectory();
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var pathResolver = new RunReportPathResolver(directory);
+
+        try
+        {
+            RunReportService CreateService(string reportPath) => new(
+                Mock.Of<IRunHistoryStore>(),
+                new PipelineRunReportFactory(
+                    commandExecutionCounter,
+                    new PassthroughSecretObfuscator()),
+                Mock.Of<IBuildSystemDetector>(),
+                OptionsFactory.Create(new PipelineOptions
+                {
+                    RunReport = new RunReportOptions { ReportPath = reportPath },
+                }),
+                distributedOptions,
+                new RoleDetector(distributedOptions),
+                Mock.Of<IDistributedCoordinator>(),
+                commandExecutionCounter,
+                NullLogger<RunReportService>.Instance,
+                pathResolver: pathResolver);
+
+            var firstService = CreateService("first.json");
+            var secondService = CreateService(Path.Combine("nested", "second.json"));
+
+            var firstReport = await firstService.CompleteAsync(CreateEmptySummary());
+            var secondReport = await secondService.CompleteAsync(CreateEmptySummary());
+
+            await Assert.That(secondReport.PipelineIdentity).IsEqualTo(firstReport.PipelineIdentity);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
     }
 
     [Test]

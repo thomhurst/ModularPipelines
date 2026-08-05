@@ -24,7 +24,8 @@ internal sealed class RunReportService(
     TimeSpan? historyStoreTimeout = null,
     TimeSpan? workerMetricsTimeout = null,
     TimeSpan? enricherTimeout = null,
-    IEnumerable<IRunReportEnricher>? runReportEnrichers = null) : IRunReportService
+    IEnumerable<IRunReportEnricher>? runReportEnrichers = null,
+    RunReportPathResolver? pathResolver = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
@@ -36,6 +37,7 @@ internal sealed class RunReportService(
     private readonly TimeSpan _enricherTimeout = enricherTimeout ?? DefaultEnricherTimeout;
     private readonly IReadOnlyList<IRunReportEnricher> _runReportEnrichers =
         runReportEnrichers?.ToArray() ?? [];
+    private readonly RunReportPathResolver _pathResolver = pathResolver ?? new RunReportPathResolver();
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
@@ -48,7 +50,7 @@ internal sealed class RunReportService(
             .ConfigureAwait(false);
 
         var reportPath = isDistributedWorker ? null : GetReportPath();
-        var pipelineIdentity = GetPipelineIdentity(summary, reportPath);
+        var pipelineIdentity = GetPipelineIdentity(summary);
         var historyEnabled = !isDistributedWorker
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
         var previousReport = await LoadPreviousReportAsync(
@@ -283,11 +285,11 @@ internal sealed class RunReportService(
         var options = pipelineOptions.Value.RunReport;
         if (!string.IsNullOrWhiteSpace(options.ReportPath))
         {
-            return options.ReportPath;
+            return _pathResolver.Resolve(options.ReportPath);
         }
 
         return options.AutoWriteInCi && buildSystemDetector.IsKnownBuildAgent
-            ? Path.Combine("artifacts", "run-report.json")
+            ? _pathResolver.Resolve(Path.Combine("artifacts", "run-report.json"))
             : null;
     }
 
@@ -621,7 +623,7 @@ internal sealed class RunReportService(
         return cancellationTokenSource;
     }
 
-    private string GetPipelineIdentity(PipelineSummary summary, string? reportPath)
+    private string GetPipelineIdentity(PipelineSummary summary)
     {
         var configuredIdentity = pipelineOptions.Value.RunReport.PipelineIdentity;
         if (!string.IsNullOrWhiteSpace(configuredIdentity))
@@ -631,10 +633,9 @@ internal sealed class RunReportService(
 
         var definition = string.Join(
             '\n',
-            new[] { reportPath?.Replace('\\', '/') ?? string.Empty }
-                .Concat(summary.Modules
-                    .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
-                    .OrderBy(static name => name, StringComparer.Ordinal)));
+            summary.Modules
+                .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
+                .OrderBy(static name => name, StringComparer.Ordinal));
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(definition)))
             .ToLowerInvariant();
     }
