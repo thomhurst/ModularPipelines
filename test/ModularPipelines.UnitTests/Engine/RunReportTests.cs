@@ -1480,8 +1480,6 @@ public class RunReportTests
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
-            PrintLogo = false,
-            PrintResults = false,
             RunReport = CreateReportingOptions(Path.Combine(directory, "report.json")).RunReport,
         });
         builder.AddModule<SuccessfulModule>();
