@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
@@ -102,6 +103,51 @@ public class ParallelLimitHandlerTests
         scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Once);
     }
 
+    [Test]
+    public async Task ModuleRunner_PreservesAlwaysRunDuringCancelledLimiterWaits()
+    {
+        var observedTokens = new List<CancellationToken>();
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(AlwaysRunTestModule),
+                It.IsAny<CancellationToken>()))
+            .Callback<Type, CancellationToken>((_, token) => observedTokens.Add(token))
+            .ReturnsAsync(Mock.Of<IDisposable>());
+        parallelLimitHandler
+            .Setup(x => x.AcquireExecutionTypeLimitAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<ModuleState, CancellationToken>((_, token) => observedTokens.Add(token))
+            .ReturnsAsync(Mock.Of<IDisposable>());
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<AlwaysRunTestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler
+            .Setup(x => x.MarkModuleStarted(typeof(AlwaysRunTestModule)))
+            .Returns(false);
+        var moduleState = new ModuleState(
+            new AlwaysRunTestModule(),
+            typeof(AlwaysRunTestModule));
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        await moduleRunner.ExecuteWithoutDependencyWaitAsync(
+            moduleState,
+            scheduler.Object,
+            cancellationTokenSource.Token);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(observedTokens).Count().IsEqualTo(2);
+            await Assert.That(observedTokens.All(token => !token.IsCancellationRequested)).IsTrue();
+        }
+    }
+
     private static ParallelLimitHandler CreateHandler(PipelineOptions options)
     {
         return new ParallelLimitHandler(
@@ -125,5 +171,13 @@ public class ParallelLimitHandlerTests
         {
             return Task.FromResult(true);
         }
+    }
+
+    private sealed class AlwaysRunTestModule : TestModule
+    {
+        protected override ModuleConfiguration Configure() =>
+            ModuleConfiguration.Create()
+                .WithAlwaysRun()
+                .Build();
     }
 }

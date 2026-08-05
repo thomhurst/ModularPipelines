@@ -150,11 +150,14 @@ internal class ModuleRunner : IModuleRunner
                             cancellationToken)
                         .ConfigureAwait(false);
 
+                var limiterCancellationToken = module.Configuration.AlwaysRun
+                    ? executionContext.ModuleCancellationTokenSource.Token
+                    : cancellationToken;
                 using var semaphoreHandle = await _parallelLimitHandler
-                    .AcquireParallelLimitAsync(moduleType, cancellationToken)
+                    .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
                     .ConfigureAwait(false);
                 using var executionTypeHandle = await _parallelLimitHandler
-                    .AcquireExecutionTypeLimitAsync(moduleState, cancellationToken)
+                    .AcquireExecutionTypeLimitAsync(moduleState, limiterCancellationToken)
                     .ConfigureAwait(false);
 
                 // Check constraints again after acquiring execution slots. Keeping the module queued
