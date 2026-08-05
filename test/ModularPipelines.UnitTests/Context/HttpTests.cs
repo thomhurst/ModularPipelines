@@ -60,7 +60,10 @@ public class HttpTests : TestBase
         var result = await GetServiceWithPipelineConfiguration<IHttpContext>(builder =>
             builder.ConfigurePipelineOptions(options => options with
             {
-                DefaultHttpTimeout = useRequestTimeout ? null : timeout,
+                Http = options.Http with
+                {
+                    Timeout = useRequestTimeout ? null : timeout,
+                },
             }));
         using var response = await result.T.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-body"))
@@ -302,11 +305,11 @@ public class HttpTests : TestBase
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await http.SendAsync(new HttpOptions(
                     new HttpRequestMessage(HttpMethod.Get, "https://example.test/legacy-logger"))
-                {
-                    HttpClient = httpClient,
-                    LoggingType = HttpLoggingType.Response,
-                    Timeout = timeout,
-                })
+            {
+                HttpClient = httpClient,
+                LoggingType = HttpLoggingType.Response,
+                Timeout = timeout,
+            })
                 .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
@@ -331,11 +334,11 @@ public class HttpTests : TestBase
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await http.SendAsync(new HttpOptions(request)
-                {
-                    HttpClient = httpClient,
-                    LoggingType = HttpLoggingType.Request,
-                    Timeout = timeout,
-                })
+            {
+                HttpClient = httpClient,
+                LoggingType = HttpLoggingType.Request,
+                Timeout = timeout,
+            })
                 .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
@@ -462,15 +465,15 @@ public class HttpTests : TestBase
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await http.SendAsync(new HttpOptions(
                     new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-custom-log-body"))
+            {
+                HttpClient = httpClient,
+                LoggingType = HttpLoggingType.Response,
+                LogSettings = new HttpLoggingOptions
                 {
-                    HttpClient = httpClient,
-                    LoggingType = HttpLoggingType.Response,
-                    LogSettings = new HttpLoggingOptions
-                    {
-                        MaxBodySizeToLog = maxBodySizeToLog,
-                    },
-                    Timeout = timeout,
-                })
+                    MaxBodySizeToLog = maxBodySizeToLog,
+                },
+                Timeout = timeout,
+            })
                 .WaitAsync(TestHostSettings.DefaultTestTimeout));
     }
 
@@ -532,12 +535,12 @@ public class HttpTests : TestBase
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
                 await http.SendAsync(new HttpOptions(
                         new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-error-body"))
-                    {
-                        HttpClient = useCustomClient ? httpClient : null,
-                        LoggingType = HttpLoggingType.None,
-                        ThrowOnNonSuccessStatusCode = true,
-                        Timeout = useConfiguredTimeout ? TimeSpan.FromMilliseconds(100) : null,
-                    },
+                {
+                    HttpClient = useCustomClient ? httpClient : null,
+                    LoggingType = HttpLoggingType.None,
+                    ThrowOnNonSuccessStatusCode = true,
+                    Timeout = useConfiguredTimeout ? TimeSpan.FromMilliseconds(100) : null,
+                },
                     useConfiguredTimeout ? CancellationToken.None : cancellationTokenSource.Token)
                     .WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
@@ -627,10 +630,10 @@ public class HttpTests : TestBase
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
                 await http.SendAsync(new HttpOptions(
                         new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-log-body"))
-                    {
-                        LoggingType = HttpLoggingType.Response,
-                        Timeout = timeout,
-                    })
+                {
+                    LoggingType = HttpLoggingType.Response,
+                    Timeout = timeout,
+                })
                     .WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
@@ -657,11 +660,14 @@ public class HttpTests : TestBase
             moduleLoggerProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                DefaultHttpResilienceOptions = new HttpResilienceOptions
+                Http = new PipelineHttpOptions
                 {
-                    MaxRetryAttempts = 1,
-                    InitialDelay = TimeSpan.Zero,
-                    JitterFactor = 0,
+                    Resilience = new HttpResilienceOptions
+                    {
+                        MaxRetryAttempts = 1,
+                        InitialDelay = TimeSpan.Zero,
+                        JitterFactor = 0,
+                    },
                 },
             }))
         {
@@ -693,11 +699,14 @@ public class HttpTests : TestBase
             moduleLoggerProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                DefaultHttpResilienceOptions = new HttpResilienceOptions
+                Http = new PipelineHttpOptions
                 {
-                    MaxRetryAttempts = 1,
-                    InitialDelay = TimeSpan.Zero,
-                    JitterFactor = 0,
+                    Resilience = new HttpResilienceOptions
+                    {
+                        MaxRetryAttempts = 1,
+                        InitialDelay = TimeSpan.Zero,
+                        JitterFactor = 0,
+                    },
                 },
             }))
         {

@@ -15,14 +15,10 @@ namespace ModularPipelines.Engine.Execution;
 /// </summary>
 internal class DependencyWaiter : IDependencyWaiter
 {
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    public DependencyWaiter(
-        ISecondaryExceptionContainer secondaryExceptionContainer,
-        IOptions<PipelineOptions> pipelineOptions)
+    public DependencyWaiter(IOptions<PipelineOptions> pipelineOptions)
     {
-        _secondaryExceptionContainer = secondaryExceptionContainer;
         _pipelineOptions = pipelineOptions;
     }
 
@@ -43,7 +39,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 {
                     await dependencyTask.ConfigureAwait(false);
                 }
-                catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
+                catch (Exception e) when (moduleState.Module.Configuration.AlwaysRun)
                 {
                     var depLogger = GeneratedModuleMetadata.TryGetRuntime(
                         moduleState.ModuleType,
@@ -51,9 +47,6 @@ internal class DependencyWaiter : IDependencyWaiter
                             ? runtime.GetLogger(scopedServiceProvider)
                             : (IModuleLogger) scopedServiceProvider.GetRequiredService(
                                 typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
-                    _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
-                        $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
-                        e));
                     depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
                 catch (Exception e) when (

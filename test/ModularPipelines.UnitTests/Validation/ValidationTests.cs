@@ -525,7 +525,10 @@ public class ValidationTests
         builder.AddModule<SimpleModule>();
         builder.ConfigurePipelineOptions(options => options with
         {
-            ModuleOutputFlushInterval = TimeSpan.FromSeconds(-1),
+            Console = options.Console with
+            {
+                ModuleOutputFlushInterval = TimeSpan.FromSeconds(-1),
+            },
         });
 
         var result = await builder.ValidateAsync();
@@ -543,7 +546,10 @@ public class ValidationTests
         builder.AddModule<SimpleModule>();
         builder.ConfigurePipelineOptions(options => options with
         {
-            ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(uint.MaxValue),
+            Console = options.Console with
+            {
+                ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(uint.MaxValue),
+            },
         });
 
         var result = await builder.ValidateAsync();
@@ -561,7 +567,7 @@ public class ValidationTests
         builder.Services.AddModule<SimpleModule>();
         builder.ConfigurePipelineOptions(options => options with
         {
-            ModuleOutputFlushThreshold = -1,
+            Console = options.Console with { ModuleOutputFlushThreshold = -1 },
         });
 
         var result = await builder.ValidateAsync();

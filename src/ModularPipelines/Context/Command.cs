@@ -672,7 +672,7 @@ internal sealed class Command : ICommandContext
     private string GetTelemetryCommandInput(string inputToLog, CommandExecutionOptions options)
     {
         var loggingOptions = options.LogSettings
-                             ?? _pipelineOptions.Value.DefaultLoggingOptions
+                             ?? _pipelineOptions.Value.Commands.Logging
                              ?? CommandLoggingOptions.Default;
         return loggingOptions.Verbosity == CommandLogVerbosity.Silent
                || !loggingOptions.ShowCommandArguments
