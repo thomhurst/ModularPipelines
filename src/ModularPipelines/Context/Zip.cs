@@ -6,12 +6,16 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
+internal class Zip(
+    IFileSystemProvider fileSystemProvider,
+    PipelineWorkingDirectory workingDirectory) : IZipContext
 {
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
+    private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
+        outputPath = _workingDirectory.ResolvePath(outputPath);
         var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
                                 || (!_fileSystemProvider.FileExists(outputPath)
                                     && IsDirectoryPath(outputPath));
@@ -74,6 +78,8 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputFolderPath);
+        zipPath = _workingDirectory.ResolvePath(zipPath);
+        outputFolderPath = _workingDirectory.ResolvePath(outputFolderPath);
 
         if (!_fileSystemProvider.FileExists(zipPath))
         {

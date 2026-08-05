@@ -43,12 +43,11 @@ public static class PipelineDirectory
         }
 
         var sourceDirectory = Path.GetDirectoryName(sourceFilePath);
-        if (IsPipelineProject(sourceDirectory))
-        {
-            return Path.GetFullPath(sourceDirectory!);
-        }
+        var sourceProject = Directory.Exists(sourceDirectory)
+            ? FindAncestor(sourceDirectory!, IsPipelineProject)
+            : null;
 
-        return FindAncestor(AppContext.BaseDirectory, IsPipelineProject);
+        return sourceProject ?? FindAncestor(AppContext.BaseDirectory, IsPipelineProject);
     }
 
     private static string GetSearchDirectory(string sourceFilePath)

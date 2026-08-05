@@ -6,7 +6,7 @@ using TemplatePipeline;
 using TemplatePipeline.Modules;
 using TemplatePipeline.Settings;
 
-var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilderFromSource(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
