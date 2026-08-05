@@ -1,6 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -70,9 +72,12 @@ internal static class ModuleDependencyResolver
     public static IEnumerable<(Type DependencyType, bool Optional)> GetSelectorDependencies(
         Type moduleType,
         IReadOnlyList<Type> availableModuleTypes,
-        IDependencyContext? dependencyContext)
+        IDependencyContext? dependencyContext,
+        bool planningSafeOnly = false)
     {
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        planningSafeOnly |= dependencyContext is ModuleMetadataRegistry { PlanningSafeOnly: true };
+
+        foreach (var attribute in GetInheritanceSelectorAttributes(moduleType, planningSafeOnly))
         {
             foreach (var candidateType in availableModuleTypes)
             {
@@ -93,7 +98,11 @@ internal static class ModuleDependencyResolver
         // Handle predicate-based dependencies (DependsOnBaseAttribute derivatives)
         if (dependencyContext != null)
         {
-            foreach (var dep in GetPredicateDependencies(moduleType, availableModuleTypes, dependencyContext))
+            foreach (var dep in GetPredicateDependencies(
+                         moduleType,
+                         availableModuleTypes,
+                         dependencyContext,
+                         planningSafeOnly))
             {
                 yield return dep;
             }
@@ -106,15 +115,22 @@ internal static class ModuleDependencyResolver
     /// <param name="moduleType">The module type to get predicate dependencies for.</param>
     /// <param name="availableModuleTypes">All available module types to evaluate against predicates.</param>
     /// <param name="dependencyContext">Context providing access to module metadata.</param>
+    /// <param name="planningSafeOnly">Whether to evaluate only predicates explicitly safe for planning.</param>
     /// <returns>Enumerable of dependency tuples (DependencyType, Optional).</returns>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetPredicateDependencies(
         Type moduleType,
         IReadOnlyList<Type> availableModuleTypes,
-        IDependencyContext dependencyContext)
+        IDependencyContext dependencyContext,
+        bool planningSafeOnly = false)
     {
-        var predicateAttributes = moduleType
-            .GetCustomAttributesIncludingBaseInterfaces<DependsOnBaseAttribute>()
-            .ToList();
+        var predicateAttributes = planningSafeOnly
+            ? moduleType
+                .GetCustomAttributesIncludingBaseInterfaces<PlanningSafeDependsOnBaseAttribute>()
+                .Cast<DependsOnBaseAttribute>()
+                .ToList()
+            : moduleType
+                .GetCustomAttributesIncludingBaseInterfaces<DependsOnBaseAttribute>()
+                .ToList();
 
         if (predicateAttributes.Count == 0)
         {
@@ -189,7 +205,8 @@ internal static class ModuleDependencyResolver
         IModule module,
         IEnumerable<Type> availableModuleTypes,
         IModuleDependencyRegistry? dynamicRegistry = null,
-        IDependencyContext? dependencyContext = null)
+        IDependencyContext? dependencyContext = null,
+        bool planningSafeOnly = false)
     {
         var moduleType = module.GetType();
 
@@ -206,7 +223,11 @@ internal static class ModuleDependencyResolver
         }
 
         var availableModuleTypesList = availableModuleTypes as IReadOnlyList<Type> ?? availableModuleTypes.ToList();
-        foreach (var dep in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext))
+        foreach (var dep in GetSelectorDependencies(
+                     moduleType,
+                     availableModuleTypesList,
+                     dependencyContext,
+                     planningSafeOnly))
         {
             yield return dep;
         }
@@ -233,5 +254,35 @@ internal static class ModuleDependencyResolver
         return moduleType
             .GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>()
             .Select(static attribute => (attribute.Type, attribute.Optional));
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "This is the documented reflection fallback for dynamically supplied module types.")]
+    private static IEnumerable<DependsOnAllModulesInheritingFromAttribute> GetInheritanceSelectorAttributes(
+        Type moduleType,
+        bool planningSafeOnly)
+    {
+        if (!planningSafeOnly)
+        {
+            return moduleType
+                .GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>();
+        }
+
+        var selectorType = typeof(DependsOnAllModulesInheritingFromAttribute);
+        var attributeData = CustomAttributeMetadata.GetApplicable(
+                moduleType,
+                type => type.IsAssignableTo(selectorType))
+            .Concat(moduleType.GetInterfaces()
+                .SelectMany(static type => type.CustomAttributes)
+                .Where(data => data.AttributeType
+                    .IsAssignableTo(typeof(DependsOnAllModulesInheritingFromAttribute))));
+
+        return attributeData
+            .Where(data => data.AttributeType.Assembly == selectorType.Assembly
+                || data.AttributeType.IsAssignableTo(typeof(IPlanningSafeDependencySelector)))
+            .Select(CustomAttributeMetadata.Create<DependsOnAllModulesInheritingFromAttribute>)
+            .ToArray();
     }
 }

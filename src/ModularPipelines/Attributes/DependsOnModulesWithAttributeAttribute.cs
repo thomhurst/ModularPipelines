@@ -13,7 +13,7 @@ namespace ModularPipelines.Attributes;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class DependsOnModulesWithAttributeAttribute<TAttribute> : DependsOnBaseAttribute
+public sealed class DependsOnModulesWithAttributeAttribute<TAttribute> : PlanningSafeDependsOnBaseAttribute
     where TAttribute : Attribute
 {
     /// <inheritdoc />

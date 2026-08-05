@@ -7,7 +7,7 @@ namespace ModularPipelines.Attributes;
 /// Runs a module on any of the selected operating systems.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfOperatingSystemAttribute : RunIfAllAttribute, IOperatingSystemConditionAttribute
+public sealed class RunIfOperatingSystemAttribute : RunIfAllAttribute, IOperatingSystemConditionAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfOperatingSystemAttribute"/> class.
@@ -36,7 +36,7 @@ public sealed class RunIfOperatingSystemAttribute : RunIfAllAttribute, IOperatin
 /// Skips a module on any of the selected operating systems.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class SkipIfOperatingSystemAttribute : SkipIfAttribute, IOperatingSystemConditionAttribute
+public sealed class SkipIfOperatingSystemAttribute : SkipIfAttribute, IOperatingSystemConditionAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SkipIfOperatingSystemAttribute"/> class.
