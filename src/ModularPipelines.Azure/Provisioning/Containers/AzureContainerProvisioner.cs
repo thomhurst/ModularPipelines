@@ -11,7 +11,7 @@ public class AzureContainerProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ContainerRegistryResource>> ContainerRegistryAsync(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);

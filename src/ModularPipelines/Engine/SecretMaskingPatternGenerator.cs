@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using CliWrap.Builders;
 
 namespace ModularPipelines.Engine;
 
@@ -21,6 +22,23 @@ internal static class SecretMaskingPatternGenerator
             jsonEscaped,
         };
 
+        AddArgumentEscapedPatterns(patterns, secret);
+
+        var commandScriptEscaped = secret.Replace("\"", "\"\"");
+        patterns.Add(commandScriptEscaped);
+        AddArgumentEscapedPatterns(patterns, commandScriptEscaped);
+
         return patterns.ToArray();
+    }
+
+    private static void AddArgumentEscapedPatterns(ISet<string> patterns, string secret)
+    {
+        var escaped = ArgumentsBuilder.Escape(secret);
+        patterns.Add(escaped);
+
+        if (escaped.Length >= 2 && escaped[0] == '"' && escaped[^1] == '"')
+        {
+            patterns.Add(escaped[1..^1]);
+        }
     }
 }

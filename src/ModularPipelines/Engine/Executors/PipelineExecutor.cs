@@ -68,9 +68,8 @@ internal class PipelineExecutor : IPipelineExecutor
             || _options.Value.ThrowOnPipelineFailure)
         {
             _exceptionRethrowService.ThrowOriginalExceptionIfPresent();
+            _secondaryExceptionContainer.ThrowExceptions();
         }
-
-        _secondaryExceptionContainer.ThrowExceptions();
 
         return pipelineSummary;
     }

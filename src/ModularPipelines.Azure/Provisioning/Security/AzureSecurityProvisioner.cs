@@ -15,7 +15,7 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<UserAssignedIdentityResource>> UserAssignedIdentity(AzureResourceIdentifier azureResourceIdentifier, UserAssignedIdentityData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<UserAssignedIdentityResource>> UserAssignedIdentityAsync(AzureResourceIdentifier azureResourceIdentifier, UserAssignedIdentityData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -25,7 +25,7 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<RoleAssignmentResource>> RoleAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleAssignmentCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<RoleAssignmentResource>> RoleAssignmentAsync(AzureResourceIdentifier azureResourceIdentifier, RoleAssignmentCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -35,7 +35,7 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<RoleManagementPolicyAssignmentResource>> RoleManagementPolicyAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleManagementPolicyAssignmentData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<RoleManagementPolicyAssignmentResource>> RoleManagementPolicyAssignmentAsync(AzureResourceIdentifier azureResourceIdentifier, RoleManagementPolicyAssignmentData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -45,7 +45,7 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<AuthorizationRoleDefinitionResource>> AuthorizationRoleDefinition(AzureScope scope, ResourceIdentifier roleDefinitionIdentifier, AuthorizationRoleDefinitionData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<AuthorizationRoleDefinitionResource>> AuthorizationRoleDefinitionAsync(AzureScope scope, ResourceIdentifier roleDefinitionIdentifier, AuthorizationRoleDefinitionData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(scope);
         ArgumentNullException.ThrowIfNull(roleDefinitionIdentifier);
