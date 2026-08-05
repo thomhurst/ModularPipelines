@@ -272,6 +272,33 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task FailureCancellation_DoesNotCancelNonFailureToken()
+    {
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+
+        engineCancellationToken.CancelWithException(new InvalidOperationException("module failed"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(engineCancellationToken.Token.IsCancellationRequested).IsTrue();
+            await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task UserCancellationAfterFailure_CancelsNonFailureToken()
+    {
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        engineCancellationToken.CancelWithException(new InvalidOperationException("module failed"));
+
+        engineCancellationToken.CancelWithReason("user cancelled");
+
+        await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+    }
+
+    [Test]
     public async Task Cancel_And_Dispose_Can_Run_Concurrently()
     {
         for (var iteration = 0; iteration < 1_000; iteration++)

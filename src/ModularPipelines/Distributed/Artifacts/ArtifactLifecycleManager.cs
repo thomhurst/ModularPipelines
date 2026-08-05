@@ -310,6 +310,7 @@ internal class ArtifactLifecycleManager
                 restorePath,
                 moduleType,
                 failIfMissing,
+                attr.ProducerModule,
                 cancellationToken);
         }
     }
@@ -331,6 +332,7 @@ internal class ArtifactLifecycleManager
             restorePath,
             consumerModuleType,
             failIfMissing: false,
+            producerModuleType: null,
             cancellationToken);
 
     internal async Task DownloadConsumedArtifactsForPathAsync(
@@ -339,6 +341,7 @@ internal class ArtifactLifecycleManager
         string restorePath,
         Type consumerModuleType,
         bool failIfMissing,
+        Type? producerModuleType,
         CancellationToken cancellationToken)
     {
         var normalizedPath = ResolvePath(restorePath);
@@ -354,6 +357,7 @@ internal class ArtifactLifecycleManager
                 normalizedPath,
                 consumerModuleType,
                 failIfMissing,
+                producerModuleType,
                 CancellationToken.None)));
 
         try
@@ -382,6 +386,7 @@ internal class ArtifactLifecycleManager
         string restorePath,
         Type consumerModuleType,
         bool failIfMissing,
+        Type? producerModuleType,
         CancellationToken cancellationToken)
     {
         var artifacts = await _store.ListArtifactsAsync(producerTypeName, cancellationToken);
@@ -393,6 +398,14 @@ internal class ArtifactLifecycleManager
                           $"was not found for consumer '{consumerModuleType.Name}'.";
             if (failIfMissing)
             {
+                if (producerModuleType is not null)
+                {
+                    throw new MissingConsumedArtifactException(
+                        producerModuleType,
+                        artifactName,
+                        consumerModuleType);
+                }
+
                 throw new InvalidOperationException(message);
             }
 
