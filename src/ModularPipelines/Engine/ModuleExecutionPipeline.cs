@@ -678,29 +678,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Exception = exception;
 
-        // Check for timeout - use the enhanced exception type for detailed logging
-        if (exception is ModuleTimeoutException timeoutException)
-        {
-            executionContext.Status = Status.TimedOut;
+        executionContext.Status = ClassifyException(config, executionContext, exception);
 
-            // Log additional timeout details
-            if (!timeoutException.WasCancellationTokenRespected)
-            {
-                logger.LogWarning(
-                    "Module {ModuleName} did not complete within the cancellation grace period; timeout enforcement stopped waiting after {ElapsedTime}",
-                    executionContext.ModuleType.Name,
-                    timeoutException.ElapsedTime.ToDisplayString());
-            }
-        }
-        else if (IsTimeout(config, executionContext, exception))
+        if (executionContext.Status == Status.PipelineTerminated)
         {
-            executionContext.Status = Status.TimedOut;
-        }
-
-        // Check for pipeline cancellation
-        else if (IsPipelineCancelled(exception))
-        {
-            executionContext.Status = Status.PipelineTerminated;
             logger.LogInformation("Pipeline has been canceled");
 
             var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
@@ -708,9 +689,17 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.SetTypedResult(cancelledResult);
             return cancelledResult;
         }
-        else
+
+        // Use the enhanced exception type for detailed timeout logging.
+        if (exception is ModuleTimeoutException timeoutException)
         {
-            executionContext.Status = Status.Failed;
+            if (!timeoutException.WasCancellationTokenRespected)
+            {
+                logger.LogWarning(
+                    "Module {ModuleName} did not complete within the cancellation grace period; timeout enforcement stopped waiting after {ElapsedTime}",
+                    executionContext.ModuleType.Name,
+                    timeoutException.ElapsedTime.ToDisplayString());
+            }
         }
 
         // Check if we should ignore failures
@@ -751,6 +740,22 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
+    private Status ClassifyException(
+        ModuleConfiguration config,
+        ModuleExecutionContext executionContext,
+        Exception exception)
+    {
+        if (_engineCancellationToken.IsCancelled
+            && exception is OperationCanceledException or ModuleTimeoutException)
+        {
+            return Status.PipelineTerminated;
+        }
+
+        return exception is ModuleTimeoutException || IsTimeout(config, executionContext, exception)
+            ? Status.TimedOut
+            : Status.Failed;
+    }
+
     private bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
     {
         var timeout = GetTimeout(config);
@@ -760,13 +765,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         var isTimeoutExceeded = executionContext.Stopwatch.Elapsed >= timeout;
-        return isTimeoutExceeded && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
-    }
-
-    private bool IsPipelineCancelled(Exception exception)
-    {
-        return exception is TaskCanceledException or OperationCanceledException or ModuleTimeoutException
-               && _engineCancellationToken.IsCancelled;
+        return isTimeoutExceeded && exception is OperationCanceledException;
     }
 
     private void CancelPipelineAndThrow(
