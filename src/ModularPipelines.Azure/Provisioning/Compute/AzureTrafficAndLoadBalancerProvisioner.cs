@@ -12,7 +12,7 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<TrafficManagerProfileResource>> TrafficManagerProfile(AzureResourceIdentifier azureResourceIdentifier, TrafficManagerProfileData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<TrafficManagerProfileResource>> TrafficManagerProfileAsync(AzureResourceIdentifier azureResourceIdentifier, TrafficManagerProfileData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -22,7 +22,7 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<LoadBalancerResource>> LoadBalancer(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<LoadBalancerResource>> LoadBalancerAsync(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -32,7 +32,7 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGateway(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);

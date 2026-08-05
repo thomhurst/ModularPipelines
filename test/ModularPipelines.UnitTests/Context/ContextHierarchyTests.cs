@@ -123,13 +123,16 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task IModuleContext_ShouldHaveSubModuleMethods()
+    public async Task IModuleContext_ShouldHaveSubModuleAsyncMethods()
     {
         var moduleContextType = typeof(IModuleContext);
 
-        // Check for SubModule methods
-        var subModuleMethods = moduleContextType.GetMethods().Where(m => m.Name == "SubModule").ToArray();
-        await Assert.That(subModuleMethods.Length).IsGreaterThanOrEqualTo(1)
-            .Because("IModuleContext should have SubModule methods");
+        var subModuleMethods = moduleContextType.GetMethods()
+            .Where(m => m.Name == "SubModuleAsync")
+            .ToArray();
+
+        await Assert.That(subModuleMethods).Count().IsEqualTo(2);
+        await Assert.That(subModuleMethods.All(
+            method => method.GetParameters()[^1].ParameterType == typeof(CancellationToken))).IsTrue();
     }
 }

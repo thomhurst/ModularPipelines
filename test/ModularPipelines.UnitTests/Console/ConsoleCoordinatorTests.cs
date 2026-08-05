@@ -128,7 +128,10 @@ public class ConsoleCoordinatorTests
             .Returns(Task.CompletedTask);
         var coordinator = CreateCoordinator(
             outputCoordinator.Object,
-            new PipelineOptions { ModuleOutputFlushThreshold = 2 });
+            new PipelineOptions
+            {
+                Console = new PipelineConsoleOptions { ModuleOutputFlushThreshold = 2 },
+            });
         var buffer = coordinator.GetModuleBuffer(typeof(ConsoleCoordinatorTests));
 
         buffer.WriteLine("first");
@@ -158,7 +161,10 @@ public class ConsoleCoordinatorTests
         var originalConsole = AnsiConsole.Console;
         var coordinator = CreateCoordinator(
             Mock.Of<IOutputCoordinator>(),
-            new PipelineOptions { ShowProgressInConsole = showProgress });
+            new PipelineOptions
+            {
+                Console = new PipelineConsoleOptions { ShowProgress = showProgress },
+            });
 
         try
         {

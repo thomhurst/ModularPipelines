@@ -28,7 +28,7 @@ internal class AlwaysRunHandler(
     /// <inheritdoc />
     public async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules)
     {
-        var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
+        var alwaysRunModules = modules.Where(x => x.Configuration.AlwaysRun).ToList();
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
 
         var exceptions = new ConcurrentQueue<Exception>();

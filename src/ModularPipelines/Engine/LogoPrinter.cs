@@ -37,7 +37,7 @@ internal sealed class LogoPrinter(IOptions<PipelineOptions> options) : ILogoPrin
 
     public void PrintLogo()
     {
-        if (!_options.Value.PrintLogo)
+        if (!_options.Value.Console.PrintLogo)
         {
             return;
         }
