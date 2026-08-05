@@ -332,7 +332,7 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
-    public async Task WaitForAlwaysRunModulesAsync_TimesOutWhenModuleTimeoutsAreDisabled()
+    public async Task WaitForAlwaysRunModulesAsync_UsesDedicatedProgressTimeoutWhenModuleTimeoutsAreDisabled()
     {
         var timeProvider = TestPipelineBuilder.CreateFakeTimeProvider();
         var module = new FirstAlwaysRunModule();
@@ -358,10 +358,11 @@ public class AlwaysRunHandlerTests
                 CancellationToken.None))
             .Returns(Task.CompletedTask);
 
-        var handler = CreateHandler(
-            moduleRunner.Object,
-            timeProvider: timeProvider,
-            defaultModuleTimeout: TimeSpan.Zero);
+        var pipelineOptions = new PipelineOptions
+        {
+            DefaultModuleTimeout = TimeSpan.Zero,
+        };
+        var handler = CreateHandler(moduleRunner.Object, pipelineOptions, timeProvider);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
 
         await progressWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
@@ -418,7 +419,10 @@ public class AlwaysRunHandlerTests
 
         var handler = CreateHandler(
             moduleRunner.Object,
-            TimeSpan.FromMilliseconds(200),
+            new PipelineOptions
+            {
+                AlwaysRunProgressTimeout = TimeSpan.FromMilliseconds(200),
+            },
             timeProvider);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(
             scheduler.Object,
@@ -460,9 +464,8 @@ public class AlwaysRunHandlerTests
 
     private static AlwaysRunHandler CreateHandler(
         IModuleRunner moduleRunner,
-        TimeSpan? schedulerProgressTimeout = null,
-        TimeProvider? timeProvider = null,
-        TimeSpan? defaultModuleTimeout = null)
+        PipelineOptions? pipelineOptions = null,
+        TimeProvider? timeProvider = null)
     {
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
         parallelLimitProvider
@@ -472,11 +475,7 @@ public class AlwaysRunHandlerTests
         return new AlwaysRunHandler(
             moduleRunner,
             parallelLimitProvider.Object,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
-            {
-                AlwaysRunProgressTimeout = schedulerProgressTimeout ?? new PipelineOptions().AlwaysRunProgressTimeout,
-                DefaultModuleTimeout = defaultModuleTimeout ?? TimeSpan.FromMinutes(30),
-            }),
+            Microsoft.Extensions.Options.Options.Create(pipelineOptions ?? new PipelineOptions()),
             NullLogger<AlwaysRunHandler>.Instance,
             timeProvider ?? TimeProvider.System);
     }
