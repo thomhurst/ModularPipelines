@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -34,7 +35,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 model = BuildModel(type);
             }
 
-            ValidateUniqueSwitches(type, model);
+            ValidateModel(type, model);
             return new CommandModel(model);
         }).Value;
     }
@@ -50,6 +51,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
                 {
                     IsGlobalOption = IsGlobalOption(property),
+                    HasExplicitPosition = property.CustomAttributes.Any(static attribute =>
+                        attribute.AttributeType == typeof(CliArgumentAttribute)
+                        && attribute.ConstructorArguments.Count > 0),
                 });
             }
             else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
@@ -57,14 +61,20 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new FlagPart(property.Name, property.GetValue, flag)
                 {
                     IsGlobalOption = IsGlobalOption(property),
+                    IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType),
                 });
             }
             else if (property.GetCustomAttribute<CliOptionAttribute>() is { } option)
             {
+                var allowsLegacyOptionalValues = IsLegacyGeneratedOption(property);
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
                 {
                     IsGlobalOption = IsGlobalOption(property),
                     ManualOperandCount = GetManualOperandCount(property.PropertyType),
+                    AllowsLegacyOptionalValues = allowsLegacyOptionalValues,
+                    IsSupportedPropertyType = IsSupportedOptionalValueType(
+                        property.PropertyType,
+                        allowsLegacyOptionalValues),
                 });
             }
         }
@@ -137,6 +147,88 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
 
         return false;
+    }
+
+    private static bool IsSupportedFlagType(Type propertyType)
+    {
+        propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        return propertyType == typeof(bool) || propertyType == typeof(int);
+    }
+
+    private static bool IsSupportedOptionalValueType(
+        Type propertyType,
+        bool allowsLegacyOptionalValues)
+    {
+        propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        return propertyType == typeof(ModularPipelines.Models.CliOptionValue)
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>))
+               || (allowsLegacyOptionalValues
+                   && (propertyType == typeof(string)
+                       || propertyType.IsAssignableTo(typeof(IEnumerable<string>))));
+    }
+
+    private static bool IsLegacyGeneratedOption(PropertyInfo property) =>
+        property.DeclaringType?.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
+        == "ModularPipelines.OptionsGenerator";
+
+    private static void ValidateModel(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> parts)
+    {
+        ValidateUniqueSwitches(optionsType, parts);
+        ValidateUniqueArgumentPositions(optionsType, parts);
+
+        foreach (var part in parts)
+        {
+            ValidateProperty(optionsType, part);
+        }
+    }
+
+    private static void ValidateUniqueArgumentPositions(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> parts)
+    {
+        var positions = new Dictionary<(bool IsGlobalOption, CommandLinePhase Phase, int Position), string>();
+        foreach (var argument in parts.OfType<ArgumentPart>().Where(static argument => argument.HasExplicitPosition))
+        {
+            var key = (argument.IsGlobalOption, argument.Phase, argument.Attribute.Position);
+            if (positions.TryGetValue(key, out var existingProperty))
+            {
+                throw new InvalidOperationException(
+                    $"{optionsType.Name} defines CLI argument position {argument.Attribute.Position} "
+                    + $"more than once in phase {argument.Phase} on properties "
+                    + $"'{existingProperty}' and '{argument.PropertyName}'.");
+            }
+
+            positions.Add(key, argument.PropertyName);
+        }
+    }
+
+    private static void ValidateProperty(Type optionsType, PropertyCommandLinePart part)
+    {
+        var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
+        switch (part)
+        {
+            case FlagPart { IsSupportedPropertyType: false }:
+                throw new InvalidOperationException(
+                    $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
+            case OptionPart { Attribute.GroupValues: true } groupedOption
+                when groupedOption.Attribute.Format != OptionFormat.SpaceSeparated:
+                throw new InvalidOperationException(
+                    $"Grouped CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
+            case OptionPart { ManualOperandCount: 2 } valuePairOption
+                when valuePairOption.Attribute.Format != OptionFormat.SpaceSeparated:
+                throw new InvalidOperationException(
+                    $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
+            case OptionPart
+            {
+                Attribute.ValueArity: CliOptionValueArity.Optional,
+                IsSupportedPropertyType: false,
+            }:
+                throw new InvalidOperationException(
+                    $"Optional-value CLI option property '{propertyName}' must use "
+                    + "CliOptionValue or IEnumerable<CliOptionValue>.");
+        }
     }
 
     private static void ValidateUniqueSwitches(

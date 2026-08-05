@@ -379,12 +379,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        if (GetSeparator(optionPart.Attribute) != " ")
-        {
-            throw new InvalidOperationException(
-                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
-        }
-
         foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
         {
             ValidateOptionalValue(optionValue, optionsType, optionPart);
@@ -401,7 +395,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         Type optionsType,
         OptionPart optionPart)
     {
-        var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
+        var isLegacyGeneratedOption = optionPart.AllowsLegacyOptionalValues
+                                      || (optionPart.IsSupportedPropertyType is null
+                                          && IsLegacyGeneratedOption(optionsType, optionPart));
         return rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
@@ -502,12 +498,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<string> values,
         Type optionsType)
     {
-        if (GetSeparator(optionPart.Attribute) != " ")
-        {
-            throw new InvalidOperationException(
-                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
-        }
-
         var renderedValues = values.ToList();
         if (renderedValues.Count == 0)
         {
@@ -539,13 +529,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<CliValuePair> pairs,
         Type optionsType)
     {
-        if (GetSeparator(optionPart.Attribute) != " ")
-        {
-            throw new InvalidOperationException(
-                $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
-                + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
-        }
-
         var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
