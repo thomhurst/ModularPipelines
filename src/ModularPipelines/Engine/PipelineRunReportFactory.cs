@@ -74,6 +74,8 @@ internal sealed class PipelineRunReportFactory(
                                           && previousReport?.Status == Status.Successful
             ? previousReport.TotalDuration
             : null;
+        var hasDeltaBaseline = previousTotalDuration.HasValue
+                               || modules.Any(static module => module.DurationDelta.HasValue);
 
         return new PipelineRunReport
         {
@@ -83,6 +85,7 @@ internal sealed class PipelineRunReportFactory(
             Start = summary.Start,
             End = summary.End,
             TotalDuration = summary.TotalDuration,
+            PreviousEnd = hasDeltaBaseline ? previousReport!.End : null,
             PreviousTotalDuration = previousTotalDuration,
             TotalDurationDelta = previousTotalDuration is null
                 ? null

@@ -53,6 +53,11 @@ public sealed record PipelineRunReport
     public TimeSpan TotalDuration { get; init; }
 
     /// <summary>
+    /// Gets when the previous retained run used as the delta baseline finished.
+    /// </summary>
+    public DateTimeOffset? PreviousEnd { get; init; }
+
+    /// <summary>
     /// Gets the previous retained run's total duration, when available.
     /// </summary>
     public TimeSpan? PreviousTotalDuration { get; init; }
