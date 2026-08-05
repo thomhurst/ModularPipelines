@@ -86,7 +86,7 @@ internal class ModuleRetriever
     {
         if (_modules.Count == 0)
         {
-            throw new PipelineException("No modules have been registered");
+            throw new NoModulesRegisteredException();
         }
 
         // Dynamic dependencies and metadata must be registered before conditions and cascade skipping are evaluated.

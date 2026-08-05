@@ -233,7 +233,7 @@ public sealed class PipelineBuilder : IDisposable
                 : ValidationResult.Success();
             return (pipeline, validationResult, null);
         }
-        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
+        catch (NoModulesRegisteredException ex)
         {
             return (
                 pipeline,
