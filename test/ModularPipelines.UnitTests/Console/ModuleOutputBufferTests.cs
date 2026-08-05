@@ -203,6 +203,7 @@ public class ModuleOutputBufferTests
     {
         var formatterCalls = 0;
         var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(true);
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => value?.Replace("secret", "***") ?? string.Empty);
@@ -236,6 +237,7 @@ public class ModuleOutputBufferTests
         const string secret = "late-registered-secret";
         var redactSecret = false;
         var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(() => redactSecret);
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => redactSecret
@@ -268,6 +270,7 @@ public class ModuleOutputBufferTests
         const string secret = "late-registered-secret";
         var redactSecret = false;
         var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(() => redactSecret);
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => redactSecret

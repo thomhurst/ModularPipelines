@@ -6,6 +6,15 @@ namespace ModularPipelines.Engine;
 public interface ISecretObfuscator
 {
     /// <summary>
+    /// Gets whether any secrets are currently registered for global masking.
+    /// </summary>
+    /// <remarks>
+    /// The conservative default preserves masking for custom implementations that do not
+    /// expose their registration state.
+    /// </remarks>
+    bool HasSecrets => true;
+
+    /// <summary>
     /// Obfuscates sensitive information in the provided input.
     /// </summary>
     /// <param name="input">The input string that may contain sensitive information.</param>

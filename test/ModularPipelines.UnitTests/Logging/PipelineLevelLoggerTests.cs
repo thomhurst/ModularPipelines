@@ -145,6 +145,26 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_PreservesOriginalExceptionWhenNoSecretsAreRegistered()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var originalException = new InvalidOperationException("Failure");
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(false);
+        var pipelineLevelLogger = new PipelineLevelLogger(
+            underlyingLogger,
+            secretObfuscator.Object,
+            new FormattedLogValuesObfuscator(secretObfuscator.Object));
+
+        pipelineLevelLogger.LogError(originalException, "Failure");
+
+        await Assert.That(underlyingLogger.Exception).IsSameReferenceAs(originalException);
+        secretObfuscator.Verify(
+            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task Log_PreservesSanitizedExceptionDiagnostics()
     {
         const string secret = "pipeline-secret";
@@ -318,6 +338,7 @@ public class PipelineLevelLoggerTests
         Func<string?, string>? obfuscate = null)
     {
         var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(true);
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => obfuscate?.Invoke(value) ?? value ?? string.Empty);

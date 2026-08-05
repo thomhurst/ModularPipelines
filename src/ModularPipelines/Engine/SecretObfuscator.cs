@@ -34,6 +34,9 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public int Order => int.MaxValue;
 
+    public bool HasSecrets =>
+        GetRegisteredSecretCache(_maskingOptions.Value.CaseInsensitive).SearchValues is not null;
+
     public SecretObfuscator(
         ISecretProvider secretProvider,
         IOptions<SecretMaskingOptions> maskingOptions)
