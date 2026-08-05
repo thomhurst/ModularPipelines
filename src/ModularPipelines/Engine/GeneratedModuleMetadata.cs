@@ -208,8 +208,6 @@ internal interface IGeneratedModuleRuntime
 
     ILogger GetOutputLogger(IServiceProvider serviceProvider);
 
-    void CancelCompletionSource(IModule module);
-
     void SetCompletionSource(IModule module, IModuleResult result);
 
     Task<IModuleResult> ExecuteAsync(
@@ -255,11 +253,6 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
     public ILogger GetOutputLogger(IServiceProvider serviceProvider)
     {
         return serviceProvider.GetRequiredService<ILogger<TModule>>();
-    }
-
-    public void CancelCompletionSource(IModule module)
-    {
-        ((Module<TResult>) module).CompletionSource.TrySetCanceled();
     }
 
     public void SetCompletionSource(IModule module, IModuleResult result)
