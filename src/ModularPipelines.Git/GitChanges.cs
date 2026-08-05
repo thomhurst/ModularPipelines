@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -8,12 +10,18 @@ namespace ModularPipelines.Git;
 internal sealed class GitChanges : IGitChanges, IDisposable
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILogger<GitChanges> _logger;
     private readonly ConcurrentDictionary<string, ChangeCacheEntry> _changesByBase =
         new(StringComparer.Ordinal);
+    private readonly SemaphoreSlim _untrackedPathsGate = new(1, 1);
+    private IReadOnlyList<string>? _untrackedPaths;
 
-    public GitChanges(IServiceScopeFactory serviceScopeFactory)
+    public GitChanges(
+        IServiceScopeFactory serviceScopeFactory,
+        ILogger<GitChanges>? logger = null)
     {
         _serviceScopeFactory = serviceScopeFactory;
+        _logger = logger ?? NullLogger<GitChanges>.Instance;
     }
 
     public async Task<bool> HasChangesAsync(
@@ -34,9 +42,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         matcher.AddIncludePatterns(patterns);
 
         var snapshot = await GetChangedPathsAsync(baseReference, cancellationToken).ConfigureAwait(false);
-        return !snapshot.IsKnown || snapshot.Paths.Any(path =>
-            patterns.Contains(path, StringComparer.Ordinal)
-            || matcher.Match(path).HasMatches);
+        return !snapshot.IsKnown || snapshot.Paths.Any(path => Matches(path, patterns, matcher));
     }
 
     public void Dispose()
@@ -45,6 +51,8 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         {
             cacheEntry.Gate.Dispose();
         }
+
+        _untrackedPathsGate.Dispose();
     }
 
     private async Task<ChangedPathSnapshot> GetChangedPathsAsync(
@@ -71,30 +79,78 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 .ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(mergeBase))
             {
+                _logger.LogWarning(
+                    "Could not resolve Git merge base '{BaseReference}' against HEAD. "
+                    + "RunIfChanged will conservatively report changes.",
+                    baseReference);
                 cacheEntry.Snapshot = ChangedPathSnapshot.Unknown;
                 return cacheEntry.Snapshot;
             }
 
-            var output = await RunCommandsUntrimmed(
-                    gitCommandRunner,
-                    new CommandExecutionOptions { MaxCapturedOutputLength = 0 },
-                    cancellationToken,
-                    "diff",
-                    "--name-only",
-                    "--no-renames",
-                    "-z",
-                    mergeBase,
-                    "--")
-                .ConfigureAwait(false);
+            var executionOptions = new CommandExecutionOptions { MaxCapturedOutputLength = 0 };
+            var diffOutputTask = RunCommandsUntrimmed(
+                gitCommandRunner,
+                executionOptions,
+                cancellationToken,
+                "diff",
+                "--name-only",
+                "--no-renames",
+                "-z",
+                mergeBase,
+                "--");
+            var untrackedPathsTask = GetUntrackedPathsAsync(
+                gitCommandRunner,
+                executionOptions,
+                cancellationToken);
+
+            await Task.WhenAll(diffOutputTask, untrackedPathsTask).ConfigureAwait(false);
 
             cacheEntry.Snapshot = new ChangedPathSnapshot(
                 IsKnown: true,
-                output.Split('\0', StringSplitOptions.RemoveEmptyEntries));
+                SplitPaths(await diffOutputTask.ConfigureAwait(false))
+                    .Concat(await untrackedPathsTask.ConfigureAwait(false))
+                    .Distinct(StringComparer.Ordinal)
+                    .ToArray());
             return cacheEntry.Snapshot;
         }
         finally
         {
             cacheEntry.Gate.Release();
+        }
+    }
+
+    private async Task<IReadOnlyList<string>> GetUntrackedPathsAsync(
+        IGitCommandRunner gitCommandRunner,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken)
+    {
+        await _untrackedPathsGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            if (_untrackedPaths is not null)
+            {
+                return _untrackedPaths;
+            }
+
+            var untrackedOutput = await RunCommandsUntrimmed(
+                    gitCommandRunner,
+                    executionOptions,
+                    cancellationToken,
+                    "ls-files",
+                    "--others",
+                    "--exclude-standard",
+                    "--full-name",
+                    "-z",
+                    "--",
+                    ":(top)")
+                .ConfigureAwait(false);
+
+            _untrackedPaths = SplitPaths(untrackedOutput).ToArray();
+            return _untrackedPaths;
+        }
+        finally
+        {
+            _untrackedPathsGate.Release();
         }
     }
 
@@ -111,6 +167,22 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     }
 
     private static string NormalizePatternSeparators(string pattern) => pattern.Replace('\\', '/');
+
+    private static bool Matches(string path, IReadOnlyList<string> patterns, Matcher matcher)
+    {
+        if (matcher.Match(path).HasMatches)
+        {
+            return true;
+        }
+
+        return patterns
+            .Where(pattern => pattern.IndexOfAny(['*', '?']) < 0)
+            .Any(pattern => path.Equals(pattern, StringComparison.Ordinal)
+                            || path.StartsWith(pattern.TrimEnd('/') + '/', StringComparison.Ordinal));
+    }
+
+    private static IEnumerable<string> SplitPaths(string output) =>
+        output.Split('\0', StringSplitOptions.RemoveEmptyEntries);
 
     private static Task<string> RunCommandsUntrimmed(
         IGitCommandRunner gitCommandRunner,

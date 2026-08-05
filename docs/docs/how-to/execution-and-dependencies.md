@@ -47,7 +47,7 @@ public class Module2 : Module<string>
 When you declare a required dependency, you don't need to explicitly register it:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<Module2>(); // Module1 is auto-registered because Module2 depends on it
 
 await builder.ExecutePipelineAsync();

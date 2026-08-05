@@ -12,6 +12,9 @@ public interface ILinuxInstallerContext
     /// Installs a Debian package using dpkg.
     /// </summary>
     /// <param name="options">The options specifying the package file and installation parameters.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A <see cref="CommandResult"/> containing the result of the dpkg installation command.</returns>
-    Task<CommandResult> InstallFromDpkgAsync(DpkgInstallOptions options);
+    Task<CommandResult> InstallFromDpkgAsync(
+        DpkgInstallOptions options,
+        CancellationToken cancellationToken = default);
 }

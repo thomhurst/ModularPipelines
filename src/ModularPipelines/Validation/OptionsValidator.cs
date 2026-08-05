@@ -48,42 +48,29 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
         }
 
-        if (options.ModuleOutputFlushInterval < TimeSpan.Zero)
+        var consoleOptions = options.Console;
+        if (consoleOptions.ModuleOutputFlushInterval < TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"ModuleOutputFlushInterval cannot be negative. Current value: {options.ModuleOutputFlushInterval}"));
+                $"Console.ModuleOutputFlushInterval cannot be negative. Current value: {consoleOptions.ModuleOutputFlushInterval}"));
         }
-        else if (options.ModuleOutputFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+        else if (consoleOptions.ModuleOutputFlushInterval > PipelineConsoleOptions.MaximumModuleOutputFlushInterval)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"ModuleOutputFlushInterval cannot exceed {PipelineOptions.MaximumModuleOutputFlushInterval}. " +
-                $"Current value: {options.ModuleOutputFlushInterval}"));
-        }
-
-        if (options.ModuleOutputFlushThreshold < 0)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
+                $"Console.ModuleOutputFlushInterval cannot exceed {PipelineConsoleOptions.MaximumModuleOutputFlushInterval}. " +
+                $"Current value: {consoleOptions.ModuleOutputFlushInterval}"));
         }
 
-        if (options.RunReport.HistoryRetention < 0)
+        if (consoleOptions.ModuleOutputFlushThreshold < 0)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"RunReport.HistoryRetention cannot be negative. Current value: " +
-                $"{options.RunReport.HistoryRetention}"));
+                $"Console.ModuleOutputFlushThreshold cannot be negative. Current value: {consoleOptions.ModuleOutputFlushThreshold}"));
         }
 
-        if (options.RunReport.HistoryRetention > 0
-            && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
-        }
+        ValidateRunReportOptions(options.RunReport, result);
 
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
@@ -94,11 +81,11 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         // Validate HTTP timeout if set
-        if (options.DefaultHttpTimeout.HasValue && options.DefaultHttpTimeout.Value <= TimeSpan.Zero)
+        if (options.Http.Timeout is { } httpTimeout && httpTimeout <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"DefaultHttpTimeout must be positive. Current value: {options.DefaultHttpTimeout.Value}"));
+                $"Http.Timeout must be positive. Current value: {httpTimeout}"));
         }
 
         // Validate conflicting category filters
@@ -116,6 +103,43 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         return result;
+    }
+
+    private static void ValidateRunReportOptions(
+        RunReportOptions options,
+        ValidationResult result)
+    {
+        if (options.HistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.HistoryRetention cannot be negative. Current value: {options.HistoryRetention}"));
+        }
+
+        if (options.GlobalHistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention cannot be negative. Current value: {options.GlobalHistoryRetention}"));
+        }
+
+        if (options.HistoryRetention > 0
+            && options.GlobalHistoryRetention > 0
+            && options.GlobalHistoryRetention < options.HistoryRetention)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention ({options.GlobalHistoryRetention}) cannot be lower than " +
+                $"RunReport.HistoryRetention ({options.HistoryRetention})."));
+        }
+
+        if (options.HistoryRetention > 0
+            && string.IsNullOrWhiteSpace(options.HistoryDirectory))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
+        }
     }
 
     /// <inheritdoc />

@@ -6,5 +6,6 @@ internal interface IRunReportService
 {
     Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
-        Exception? pipelineException = null);
+        Exception? pipelineException = null,
+        CancellationToken cancellationToken = default);
 }

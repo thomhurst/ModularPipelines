@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -13,11 +15,11 @@ namespace ModularPipelines.Engine.Execution;
 /// </summary>
 internal class DependencyWaiter : IDependencyWaiter
 {
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    public DependencyWaiter(ISecondaryExceptionContainer secondaryExceptionContainer)
+    public DependencyWaiter(IOptions<PipelineOptions> pipelineOptions)
     {
-        _secondaryExceptionContainer = secondaryExceptionContainer;
+        _pipelineOptions = pipelineOptions;
     }
 
     /// <inheritdoc />
@@ -37,7 +39,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 {
                     await dependencyTask.ConfigureAwait(false);
                 }
-                catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
+                catch (Exception e) when (moduleState.Module.Configuration.AlwaysRun)
                 {
                     var depLogger = GeneratedModuleMetadata.TryGetRuntime(
                         moduleState.ModuleType,
@@ -45,10 +47,19 @@ internal class DependencyWaiter : IDependencyWaiter
                             ? runtime.GetLogger(scopedServiceProvider)
                             : (IModuleLogger) scopedServiceProvider.GetRequiredService(
                                 typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
-                    _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
-                        $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
-                        e));
                     depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                }
+                catch (Exception e) when (
+                    e is not OperationCanceledException
+                    && _pipelineOptions.Value.ExecutionMode == ExecutionMode.WaitForAllModules)
+                {
+                    var dependency = scheduler.GetModuleState(dependencyType)?.Module;
+                    if (dependency is null)
+                    {
+                        throw;
+                    }
+
+                    throw new DependencyFailedException(e, dependency);
                 }
             }
             else if (!optional)

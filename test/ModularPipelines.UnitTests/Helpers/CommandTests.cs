@@ -163,7 +163,27 @@ public class CommandTests : TestBase
             await Assert.That(exception.Result.StandardOutput).DoesNotContain(secret);
             await Assert.That(exception.Result.StandardError).DoesNotContain(secret);
             await Assert.That(exception.Result.EnvironmentVariables["MP_TEST_SECRET"]).DoesNotContain(secret);
-            await Assert.That(exception.Message).IsEqualTo("Command failed with exit code 42.");
+            await Assert.That(exception.Message).Contains(exception.Result.CommandInput);
+            await Assert.That(exception.Message).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task Missing_Executable_Throws_Actionable_Exception()
+    {
+        var executable = $"modular-pipelines-missing-{Guid.NewGuid():N}";
+        var command = await GetService<ICommandContext>();
+
+        var exception = await Assert.ThrowsAsync<ToolNotFoundException>(() =>
+            command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(executable)));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Executable).IsEqualTo(executable);
+            await Assert.That(exception.Result.ExitCode).IsEqualTo(-1);
+            await Assert.That(exception.Result.CommandInput).Contains(executable);
+            await Assert.That(exception.Message).Contains($"Executable '{executable}' was not found on PATH");
+            await Assert.That(exception.Message).Contains("context.Installers");
         }
     }
 

@@ -127,17 +127,20 @@ public class ModuleTestBuilder<TModule>
             recorder.SetHandler(_commandHandler);
         }
 
-        using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+        var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
         {
             EnableCommandLineOptions = false,
         });
 
         builder.ConfigurePipelineOptions(options => options with
         {
-            ShowProgressInConsole = false,
-            PrintResults = false,
-            PrintLogo = false,
-            PrintDependencyChains = false,
+            Console = options.Console with
+            {
+                ShowProgress = false,
+                PrintResults = false,
+                PrintLogo = false,
+                PrintDependencyChains = false,
+            },
             ThrowOnPipelineFailure = false,
         });
         builder.Services.AddLogging(logging => logging.ClearProviders());
@@ -290,7 +293,7 @@ public class ModuleTestBuilder<TModule>
                 ModuleType = typeof(TDependency),
             };
 
-            ((IModule) module).TrySetDistributedResult(result);
+            module.AsInternal().TrySetDistributedResult(result);
             services.GetRequiredService<IModuleResultRegistry>()
                 .RegisterResult(typeof(TDependency), result);
         }

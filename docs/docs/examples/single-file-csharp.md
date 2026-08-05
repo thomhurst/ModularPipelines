@@ -30,7 +30,7 @@ Install the .NET 10 SDK, then follow these steps:
     using ModularPipelines.Models;
     using ModularPipelines.Modules;
 
-    using var builder = Pipeline.CreateBuilder(args);
+    var builder = Pipeline.CreateBuilder(args);
 
     builder
         .AddModule<UpdateDotnetWorkloads>()
