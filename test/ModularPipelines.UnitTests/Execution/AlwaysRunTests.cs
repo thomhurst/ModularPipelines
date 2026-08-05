@@ -3,9 +3,11 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -59,6 +61,21 @@ public class AlwaysRunTests : TestBase
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<MyModule1>]
+    public class SuccessfulAlwaysRunModule : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
     [Test]
     public async Task AlwaysRunModules_Will_Run_Even_With_Exception()
     {
@@ -92,5 +109,47 @@ public class AlwaysRunTests : TestBase
             await Assert.That(result3.ModuleStatus).IsEqualTo(Status.Failed);
             await Assert.That(result4.ModuleStatus).IsNotEqualTo(Status.NotYetStarted);
         }
+    }
+
+    [Test]
+    public async Task WaitForAllModules_Returns_Summary_When_AlwaysRun_Dependency_Fails()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+                ThrowOnPipelineFailure = false,
+            })
+            .AddModule<MyModule1>()
+            .AddModule<SuccessfulAlwaysRunModule>()
+            .BuildAsync();
+
+        var summary = await host.RunAsync();
+        var alwaysRunResult = host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(SuccessfulAlwaysRunModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Status).IsEqualTo(Status.Failed);
+            await Assert.That(alwaysRunResult).IsNotNull();
+            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        }
+    }
+
+    [Test]
+    public async Task StopOnFirstException_Preserves_Primary_Failure_With_AlwaysRun_Dependency()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.StopOnFirstException,
+                ThrowOnPipelineFailure = true,
+            })
+            .AddModule<MyModule1>()
+            .AddModule<SuccessfulAlwaysRunModule>()
+            .BuildAsync();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
     }
 }
