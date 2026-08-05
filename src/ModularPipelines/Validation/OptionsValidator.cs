@@ -48,25 +48,26 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
         }
 
-        if (options.ModuleOutputFlushInterval < TimeSpan.Zero)
+        var consoleOptions = options.Console;
+        if (consoleOptions.ModuleOutputFlushInterval < TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"ModuleOutputFlushInterval cannot be negative. Current value: {options.ModuleOutputFlushInterval}"));
+                $"Console.ModuleOutputFlushInterval cannot be negative. Current value: {consoleOptions.ModuleOutputFlushInterval}"));
         }
-        else if (options.ModuleOutputFlushInterval > PipelineOptions.MaximumModuleOutputFlushInterval)
+        else if (consoleOptions.ModuleOutputFlushInterval > PipelineConsoleOptions.MaximumModuleOutputFlushInterval)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"ModuleOutputFlushInterval cannot exceed {PipelineOptions.MaximumModuleOutputFlushInterval}. " +
-                $"Current value: {options.ModuleOutputFlushInterval}"));
+                $"Console.ModuleOutputFlushInterval cannot exceed {PipelineConsoleOptions.MaximumModuleOutputFlushInterval}. " +
+                $"Current value: {consoleOptions.ModuleOutputFlushInterval}"));
         }
 
-        if (options.ModuleOutputFlushThreshold < 0)
+        if (consoleOptions.ModuleOutputFlushThreshold < 0)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
+                $"Console.ModuleOutputFlushThreshold cannot be negative. Current value: {consoleOptions.ModuleOutputFlushThreshold}"));
         }
 
         ValidateRunReportOptions(options.RunReport, result);
@@ -80,11 +81,11 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         // Validate HTTP timeout if set
-        if (options.DefaultHttpTimeout.HasValue && options.DefaultHttpTimeout.Value <= TimeSpan.Zero)
+        if (options.Http.Timeout is { } httpTimeout && httpTimeout <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"DefaultHttpTimeout must be positive. Current value: {options.DefaultHttpTimeout.Value}"));
+                $"Http.Timeout must be positive. Current value: {httpTimeout}"));
         }
 
         // Validate conflicting category filters

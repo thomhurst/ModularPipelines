@@ -32,7 +32,7 @@ internal class Http : IHttpContext
 
         // Priority: options property > pipeline default > HttpClient timeout
         var effectiveTimeout = httpOptions.Timeout
-                               ?? _pipelineOptions.Value.DefaultHttpTimeout
+                               ?? _pipelineOptions.Value.Http.Timeout
                                ?? GetFiniteTimeout(httpClient);
 
         // Create timeout token if timeout is specified
@@ -176,9 +176,9 @@ internal class Http : IHttpContext
             return httpOptions.LogSettings;
         }
 
-        if (_pipelineOptions.Value.DefaultHttpLoggingOptions is not null)
+        if (_pipelineOptions.Value.Http.Logging is not null)
         {
-            return _pipelineOptions.Value.DefaultHttpLoggingOptions;
+            return _pipelineOptions.Value.Http.Logging;
         }
 
         return HttpLoggingOptions.Default;

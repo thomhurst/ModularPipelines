@@ -1495,8 +1495,7 @@ public class RunReportTests
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = CreateReportingOptions(Path.Combine(directory, "report.json")).RunReport,
         });
         builder.AddModule<SuccessfulModule>();
@@ -1871,6 +1870,71 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task CancellationInterruptsHistoryLoadAndSkipsPersistence()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "run-report.json");
+        var readStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var readCompletion = new TaskCompletionSource<PipelineRunReport?>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetLatestAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<string, CancellationToken>((_, _) => readStarted.TrySetResult())
+            .Returns(readCompletion.Task);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    ReportPath = reportPath,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            historyStoreTimeout: TimeSpan.FromMinutes(1));
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        try
+        {
+            var completion = service.CompleteAsync(
+                CreateEmptySummary(),
+                cancellationToken: cancellationTokenSource.Token);
+            await readStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+
+            cancellationTokenSource.Cancel();
+            var report = await completion.WaitAsync(TimeSpan.FromSeconds(2));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report).IsNotNull();
+                await Assert.That(File.Exists(reportPath)).IsFalse();
+                historyStore.Verify(store => store.SaveAsync(
+                    It.IsAny<PipelineRunReport>(),
+                    It.IsAny<CancellationToken>()), Times.Never);
+            }
+        }
+        finally
+        {
+            readCompletion.TrySetResult(null);
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DistributedWorkerMetricsTimeoutWhenCoordinatorIgnoresCancellation()
     {
         var coordinator = new Mock<IDistributedCoordinator>();
@@ -1991,8 +2055,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
@@ -2033,8 +2096,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<SuccessfulModule>();
@@ -2077,8 +2139,7 @@ public class RunReportTests
             {
                 builder.ConfigurePipelineOptions(options => options with
                 {
-                    PrintLogo = false,
-                    PrintResults = false,
+                    Console = options.Console with { PrintLogo = false, PrintResults = false },
                     RunReport = options.RunReport with
                     {
                         ReportPath = reportPath,
@@ -2099,8 +2160,7 @@ public class RunReportTests
             using var successfulBuilder = Pipeline.CreateBuilder();
             successfulBuilder.ConfigurePipelineOptions(options => options with
             {
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with
                 {
                     ReportPath = reportPath,
@@ -2216,8 +2276,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.StopOnFirstException,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -2256,8 +2315,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -2298,8 +2356,7 @@ public class RunReportTests
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,
                 ThrowOnPipelineFailure = false,
-                PrintLogo = false,
-                PrintResults = false,
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
             });
             builder.AddModule<FailingModule>();
@@ -2909,8 +2966,7 @@ public class RunReportTests
         {
             ExecutionMode = ExecutionMode.WaitForAllModules,
             ThrowOnPipelineFailure = false,
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
             {
                 HistoryDirectory = historyPath,
@@ -2929,8 +2985,7 @@ public class RunReportTests
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
             {
                 AutoWriteInCi = false,

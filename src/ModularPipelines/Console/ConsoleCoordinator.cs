@@ -90,7 +90,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
-            _options.Value.ModuleOutputFlushThreshold,
+            _options.Value.Console.ModuleOutputFlushThreshold,
             RequestThresholdFlush,
             isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                 OutputLoggerCategories.Pipeline,
@@ -124,7 +124,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     ? AnsiConsole.Create(
                         CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent))
                     : _ansiConsole;
-                configuredAnsiConsole.Profile.Capabilities.Interactive = _options.Value.ShowProgressInConsole;
+                configuredAnsiConsole.Profile.Capabilities.Interactive = _options.Value.Console.ShowProgress;
                 if (UsesGlobalAnsiConsole)
                 {
                     AnsiConsole.Console = configuredAnsiConsole;
@@ -245,7 +245,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         OrganizedModules modules,
         CancellationToken cancellationToken)
     {
-        if (!_options.Value.ShowProgressInConsole)
+        if (!_options.Value.Console.ShowProgress)
         {
             // Return a no-op session if progress is disabled
             // Explicitly ensure deferred output is disabled for consistency
@@ -298,7 +298,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             moduleType,
             t => new ModuleOutputBuffer(
                 t,
-                _options.Value.ModuleOutputFlushThreshold,
+                _options.Value.Console.ModuleOutputFlushThreshold,
                 RequestThresholdFlush,
                 isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                     OutputLoggerCategories.ForModule(t),
@@ -669,7 +669,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     private void ConfigureConsoleWidth()
     {
-        var configuredWidth = _options.Value.ConsoleWidth;
+        var configuredWidth = _options.Value.Console.Width;
 
         if (configuredWidth.HasValue)
         {

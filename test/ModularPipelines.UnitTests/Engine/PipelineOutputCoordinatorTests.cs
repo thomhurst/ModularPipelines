@@ -30,8 +30,11 @@ public class PipelineOutputCoordinatorTests
         const int expectedThreshold = 23;
         builder.ConfigurePipelineOptions(options => options with
         {
-            ModuleOutputFlushInterval = expectedInterval,
-            ModuleOutputFlushThreshold = expectedThreshold,
+            Console = options.Console with
+            {
+                ModuleOutputFlushInterval = expectedInterval,
+                ModuleOutputFlushThreshold = expectedThreshold,
+            },
         });
 
         await using var pipeline = await builder.BuildAsync();
@@ -39,8 +42,8 @@ public class PipelineOutputCoordinatorTests
             .GetRequiredService<Microsoft.Extensions.Options.IOptions<PipelineOptions>>()
             .Value;
 
-        await Assert.That(runtimeOptions.ModuleOutputFlushInterval).IsEqualTo(expectedInterval);
-        await Assert.That(runtimeOptions.ModuleOutputFlushThreshold).IsEqualTo(expectedThreshold);
+        await Assert.That(runtimeOptions.Console.ModuleOutputFlushInterval).IsEqualTo(expectedInterval);
+        await Assert.That(runtimeOptions.Console.ModuleOutputFlushThreshold).IsEqualTo(expectedThreshold);
     }
 
     [Test]
@@ -81,7 +84,7 @@ public class PipelineOutputCoordinatorTests
             outputCoordinator.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ModuleOutputFlushInterval = TimeSpan.Zero,
+                Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
             Mock.Of<ILogger<PipelineOutputCoordinator>>());
         var scope = await coordinator.InitializeAsync();
@@ -124,7 +127,7 @@ public class PipelineOutputCoordinatorTests
             outputCoordinator.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ModuleOutputFlushInterval = TimeSpan.Zero,
+                Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
             Mock.Of<ILogger<PipelineOutputCoordinator>>());
         var scope = await coordinator.InitializeAsync();
@@ -166,7 +169,7 @@ public class PipelineOutputCoordinatorTests
             outputCoordinator.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ModuleOutputFlushInterval = TimeSpan.Zero,
+                Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
             }),
             Mock.Of<ILogger<PipelineOutputCoordinator>>());
         var scope = await coordinator.InitializeAsync();
@@ -215,7 +218,10 @@ public class PipelineOutputCoordinatorTests
             outputCoordinator.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(10),
+                Console = new PipelineConsoleOptions
+                {
+                    ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(10),
+                },
             }),
             Mock.Of<ILogger<PipelineOutputCoordinator>>());
 
@@ -255,7 +261,10 @@ public class PipelineOutputCoordinatorTests
             Mock.Of<IOutputCoordinator>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(milliseconds),
+                Console = new PipelineConsoleOptions
+                {
+                    ModuleOutputFlushInterval = TimeSpan.FromMilliseconds(milliseconds),
+                },
             }),
             Mock.Of<ILogger<PipelineOutputCoordinator>>());
 

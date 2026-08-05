@@ -109,17 +109,22 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         return _executionContext.MatrixTarget;
     }
 
-    public Task<T> SubModule<T>(string name, Func<Task<T>> action) => ExecuteSubModule(name, action);
+    public Task<T> SubModuleAsync<T>(string name, Func<Task<T>> action, CancellationToken cancellationToken = default) =>
+        ExecuteSubModuleAsync(name, action, cancellationToken);
 
-    public Task SubModule(string name, Func<Task> action) =>
-        ExecuteSubModule(name, async () =>
+    public Task SubModuleAsync(string name, Func<Task> action, CancellationToken cancellationToken = default) =>
+        ExecuteSubModuleAsync(name, async () =>
         {
             await action().ConfigureAwait(false);
             return 0;
-        });
+        }, cancellationToken);
 
-    private async Task<T> ExecuteSubModule<T>(string name, Func<Task<T>> action)
+    private async Task<T> ExecuteSubModuleAsync<T>(
+        string name,
+        Func<Task<T>> action,
+        CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var moduleType = _currentModule.GetType();
         var tracker = new SubModuleTracker(name, moduleType);
         var estimates = await _subModuleEstimations.Value.ConfigureAwait(false);
@@ -128,7 +133,8 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
             ?.EstimatedDuration ?? DefaultSubModuleEstimatedDuration;
 
         await _mediator.Publish(
-            new SubModuleCreatedNotification(_currentModule, tracker, estimatedDuration))
+            new SubModuleCreatedNotification(_currentModule, tracker, estimatedDuration),
+            cancellationToken)
             .ConfigureAwait(false);
 
         try
@@ -146,7 +152,8 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
             }
 
             await _mediator.Publish(
-                new SubModuleCompletedNotification(_currentModule, tracker, isSuccessful))
+                new SubModuleCompletedNotification(_currentModule, tracker, isSuccessful),
+                cancellationToken)
                 .ConfigureAwait(false);
         }
     }
