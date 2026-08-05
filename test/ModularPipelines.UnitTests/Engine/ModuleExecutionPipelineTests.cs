@@ -89,6 +89,37 @@ public class ModuleExecutionPipelineTests
         }
     }
 
+    private sealed class AlwaysRunTimeoutExceptionModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new ModuleTimeoutException(
+                GetType(),
+                TimeSpan.FromSeconds(1)));
+        }
+    }
+
+    private sealed class AlwaysRunElapsedCancellationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .WithTimeout(TimeSpan.FromMilliseconds(5))
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new OperationCanceledException());
+        }
+    }
+
     [Test]
     public async Task ExecuteAsync_ClassifiesLateTimeoutAsPipelineTerminated()
     {
@@ -109,6 +140,33 @@ public class ModuleExecutionPipelineTests
         var result = await ExecuteAfterPipelineCancellation(module, executionContext);
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesAlwaysRunTimeoutIndependentlyOfPipelineCancellation()
+    {
+        var module = new AlwaysRunTimeoutExceptionModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+
+        await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
+            .Throws<ModuleFailedException>();
+
+        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesAlwaysRunElapsedCancellationAsTimeout()
+    {
+        var module = new AlwaysRunElapsedCancellationModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        executionContext.Stopwatch.Start();
+        await Task.Delay(TimeSpan.FromMilliseconds(25));
+        executionContext.Stopwatch.Stop();
+
+        await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
+            .Throws<ModuleFailedException>();
+
+        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
     }
 
     [Test]
