@@ -159,10 +159,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var argumentPart in argumentParts)
         {
             var values = argumentValues[argumentPart];
-            if (argumentPart.Attribute.Required && IsEmpty(values))
+            if (argumentPart.Attribute.Required && values.Count == 0)
             {
                 throw new ArgumentException(
-                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null or empty.",
+                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null.",
                     argumentPart.PropertyName);
             }
 
@@ -182,9 +182,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             args.AddRange(values);
         }
     }
-
-    private static bool IsEmpty(IReadOnlyCollection<string> values) =>
-        values.Count == 0 || values.All(string.IsNullOrWhiteSpace);
 
     private sealed record RenderedPhase(
         IReadOnlyList<string> Arguments,
@@ -346,11 +343,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var value in values)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw CreateEmptyRequiredValueException(optionsType, optionPart);
-            }
-
             AddOptionValue(args, optionPart, value);
         }
     }
@@ -472,11 +464,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         Type optionsType,
         OptionPart optionPart)
     {
-        if (string.IsNullOrWhiteSpace(optionValue.Value))
+        if (optionValue.Value is null)
         {
             throw new InvalidOperationException(
                 $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or a non-empty value.");
+                + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or an explicit value.");
         }
     }
 
@@ -514,9 +506,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        if (renderedValues.Any(string.IsNullOrWhiteSpace))
+        if (renderedValues.Any(static value => value is null))
         {
-            throw CreateEmptyRequiredValueException(optionsType, optionPart);
+            throw CreateNullRequiredValueException(optionsType, optionPart);
         }
 
         args.Add(GetEffectiveName(optionPart.Attribute));
@@ -549,10 +541,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
-            if (string.IsNullOrWhiteSpace(pair.First)
-                || pair.Second is null)
+            if (pair.First is null || pair.Second is null)
             {
-                throw CreateEmptyRequiredValueException(optionsType, optionPart);
+                throw CreateNullRequiredValueException(optionsType, optionPart);
             }
 
             args.Add(optionName);
@@ -561,12 +552,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static InvalidOperationException CreateEmptyRequiredValueException(
+    private static InvalidOperationException CreateNullRequiredValueException(
         Type optionsType,
         OptionPart optionPart) =>
         new(
             $"Required CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-            + "cannot be empty or whitespace.");
+            + "cannot contain null values.");
 
     private static string GetEffectiveName(CliFlagAttribute attribute) =>
         attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
