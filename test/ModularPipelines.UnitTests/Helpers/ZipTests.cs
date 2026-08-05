@@ -176,7 +176,7 @@ public class ZipTests : TestBase
         {
             await System.IO.File.WriteAllTextAsync(sourceFile, "contents");
             System.IO.File.SetLastWriteTime(sourceFile, expectedTimestamp);
-            var zip = new Zip(SystemFileSystemProvider.Instance);
+            var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
             zip.ZipFolder(new Folder(sourceDirectory), zipPath, CompressionLevel.Optimal);
             zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: true);
@@ -205,7 +205,7 @@ public class ZipTests : TestBase
         {
             await System.IO.File.WriteAllTextAsync(sourceFile, "contents");
             await System.IO.File.WriteAllTextAsync(zipPath, "existing");
-            var zip = new Zip(SystemFileSystemProvider.Instance);
+            var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
             await Assert.That(() =>
                     zip.ZipFolder(
@@ -269,7 +269,7 @@ public class ZipTests : TestBase
                     It.IsAny<FileAccess>()))
                 .Returns((string path, FileMode mode, FileAccess access) =>
                     System.IO.File.Open(path, mode, access, FileShare.None));
-            var zip = new Zip(fileSystemProvider.Object);
+            var zip = new Zip(fileSystemProvider.Object, new PipelineWorkingDirectory(root));
 
             await Assert.That(() =>
                     zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: false))

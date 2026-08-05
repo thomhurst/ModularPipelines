@@ -11,6 +11,9 @@ public class PipelineWorkingDirectoryTests
     private sealed record WorkingDirectoryObservation(
         string EnvironmentDirectory,
         string FilePath,
+        string Checksum,
+        string ZipPath,
+        string UnzipPath,
         string CommandDirectory);
 
     private sealed class ObserveWorkingDirectoryModule : Module<WorkingDirectoryObservation>
@@ -20,6 +23,9 @@ public class PipelineWorkingDirectoryTests
             CancellationToken cancellationToken)
         {
             await context.Files.WriteAsync("relative.txt", "content", cancellationToken);
+            var checksum = context.Files.Checksum.Md5("relative.txt");
+            var zip = context.Files.Zip.ZipFolder(context.Files.GetFolder("."), "out.zip");
+            var unzipped = context.Files.Zip.UnZipToFolder("out.zip", "unzipped");
             var command = await context.Shell.PowerShell.ScriptAsync(
                 new("Write-Output $PWD.Path"),
                 cancellationToken: cancellationToken);
@@ -27,6 +33,9 @@ public class PipelineWorkingDirectoryTests
             return new WorkingDirectoryObservation(
                 context.Environment.WorkingDirectory,
                 context.Files.GetFile("relative.txt").Path,
+                checksum,
+                zip.Path,
+                unzipped.Path,
                 command.WorkingDirectory);
         }
     }
@@ -56,6 +65,11 @@ public class PipelineWorkingDirectoryTests
                 await Assert.That(observation.EnvironmentDirectory).IsEqualTo(workingDirectory.FullName);
                 await Assert.That(observation.FilePath)
                     .IsEqualTo(Path.Combine(workingDirectory.FullName, "relative.txt"));
+                await Assert.That(observation.Checksum).IsEqualTo("9A0364B9E99BB480DD25E1F0284C8555");
+                await Assert.That(observation.ZipPath)
+                    .IsEqualTo(Path.Combine(workingDirectory.FullName, "out.zip"));
+                await Assert.That(observation.UnzipPath)
+                    .IsEqualTo(Path.Combine(workingDirectory.FullName, "unzipped"));
                 await Assert.That(observation.CommandDirectory).IsEqualTo(workingDirectory.FullName);
                 await Assert.That(Environment.CurrentDirectory).IsEqualTo(processDirectory);
             }
@@ -77,8 +91,9 @@ public class PipelineWorkingDirectoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(
-                sourceFilePath: Path.Combine(projectDirectory.FullName, "Program.cs"));
+            var nestedDirectory = Directory.CreateDirectory(Path.Combine(projectDirectory.FullName, "src", "Pipeline"));
+            using var builder = Pipeline.CreateBuilderFromSource(
+                sourceFilePath: Path.Combine(nestedDirectory.FullName, "Program.cs"));
             builder.Configuration.AddJsonFile("appsettings.json");
 
             using (Assert.Multiple())
@@ -91,6 +106,14 @@ public class PipelineWorkingDirectoryTests
         {
             projectDirectory.Delete(recursive: true);
         }
+    }
+
+    [Test]
+    public async Task CreateBuilderRetainsSingleArgumentBinarySignature()
+    {
+        var method = typeof(Pipeline).GetMethod(nameof(Pipeline.CreateBuilder), [typeof(string[])]);
+
+        await Assert.That(method).IsNotNull();
     }
 
     [Test]
