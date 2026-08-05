@@ -332,7 +332,7 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
-    public async Task WaitForAlwaysRunModulesAsync_TimesOutWhenSchedulerCannotMakeProgress()
+    public async Task WaitForAlwaysRunModulesAsync_TimesOutWhenModuleTimeoutsAreDisabled()
     {
         var timeProvider = TestPipelineBuilder.CreateFakeTimeProvider();
         var module = new FirstAlwaysRunModule();
@@ -360,12 +360,12 @@ public class AlwaysRunHandlerTests
 
         var handler = CreateHandler(
             moduleRunner.Object,
-            TimeSpan.FromMilliseconds(50),
-            timeProvider);
+            timeProvider: timeProvider,
+            defaultModuleTimeout: TimeSpan.Zero);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
 
         await progressWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
-        timeProvider.Advance(TimeSpan.FromMilliseconds(50));
+        timeProvider.Advance(TimeSpan.FromSeconds(30));
         var exception = await Assert.ThrowsAsync<AggregateException>(() => handlerTask);
 
         await Assert.That(exception!.InnerExceptions).Contains(x => x is TimeoutException);
@@ -461,7 +461,8 @@ public class AlwaysRunHandlerTests
     private static AlwaysRunHandler CreateHandler(
         IModuleRunner moduleRunner,
         TimeSpan? schedulerProgressTimeout = null,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        TimeSpan? defaultModuleTimeout = null)
     {
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
         parallelLimitProvider
@@ -473,7 +474,8 @@ public class AlwaysRunHandlerTests
             parallelLimitProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                DefaultModuleTimeout = schedulerProgressTimeout ?? TimeSpan.FromSeconds(2),
+                AlwaysRunProgressTimeout = schedulerProgressTimeout ?? new PipelineOptions().AlwaysRunProgressTimeout,
+                DefaultModuleTimeout = defaultModuleTimeout ?? TimeSpan.FromMinutes(30),
             }),
             NullLogger<AlwaysRunHandler>.Instance,
             timeProvider ?? TimeProvider.System);
