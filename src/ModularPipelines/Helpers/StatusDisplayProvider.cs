@@ -37,6 +37,7 @@ internal static class StatusDisplayProvider
         [Status.Unknown] = new(MarkupFormatter.QuestionIcon, "Unknown status for module {0}"),
         [Status.IgnoredFailure] = new("[orange3]⚠[/]", "Module {0} failed but the failure was ignored"),
         [Status.PipelineTerminated] = new(MarkupFormatter.StopIcon, "Module {0} terminated due to pipeline error"),
+        [Status.DependencyFailed] = new(MarkupFormatter.FailureIcon, "Module {0} did not run because a dependency failed"),
         [Status.UsedHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
         [Status.CachedResult] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
     };

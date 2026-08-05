@@ -15,7 +15,7 @@ public class AzureCosmosProvisioner : BaseAzureProvisioner
         Sql = sql;
     }
 
-    public async Task<ArmOperation<CosmosDBAccountResource>> Account(
+    public async Task<ArmOperation<CosmosDBAccountResource>> AccountAsync(
         AzureResourceIdentifier azureResourceIdentifier, CosmosDBAccountCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);

@@ -27,7 +27,7 @@ configured by an earlier call or by command-line options. Pass the complete filt
 ## Example of Running Specific Categories
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -44,7 +44,7 @@ await builder.ExecutePipelineAsync();
 ## Example of Ignoring Specific Categories
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

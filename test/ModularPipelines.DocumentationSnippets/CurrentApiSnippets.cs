@@ -41,7 +41,7 @@ public static class CurrentApiSnippets
 
     public static async Task<int> RunPipelineAndMapExitCode(string[] args)
     {
-        using var builder = Pipeline.CreateBuilder(args);
+        var builder = Pipeline.CreateBuilder(args);
         builder.ConfigurePipelineOptions(options => options with
         {
             ExecutionMode = ExecutionMode.WaitForAllModules,
@@ -57,7 +57,7 @@ public static class CurrentApiSnippets
 
     public static async Task VerifySuccessfulPipeline(string[] args)
     {
-        using var builder = Pipeline.CreateBuilder(args);
+        var builder = Pipeline.CreateBuilder(args);
         builder.ConfigurePipelineOptions(options => options with
         {
             ThrowOnPipelineFailure = false,
@@ -73,7 +73,7 @@ public static class CurrentApiSnippets
 
     public static async Task ConfigureSingleFilePipeline(string[] args)
     {
-        using var builder = Pipeline.CreateBuilder(args);
+        var builder = Pipeline.CreateBuilder(args);
         builder
             .AddModule<UpdateDotnetWorkloads>()
             .AddModule<CheckDotnetSdkModule>();
@@ -83,7 +83,7 @@ public static class CurrentApiSnippets
 
     public static async Task ConfigureTestPackPublishPipeline(string[] args)
     {
-        using var builder = Pipeline.CreateBuilder(args);
+        var builder = Pipeline.CreateBuilder(args);
         builder
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<RunUnitTestsModule>()
@@ -188,7 +188,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var version = await context.Tools.Git.Versioning.GetGitVersioningInformation();
+            var version = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken);
             return version.FullSemVer
                    ?? throw new InvalidOperationException(
                        "GitVersion did not return a semantic version.");

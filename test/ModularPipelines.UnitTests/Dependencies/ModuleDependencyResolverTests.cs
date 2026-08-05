@@ -22,10 +22,6 @@ public class ModuleDependencyResolverTests
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create()
             .DependsOnOptional<DependencyModule>()
             .Build();
-
-        public Task<IModuleResult> ResultTask => null!;
-
-        public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
     [Test]

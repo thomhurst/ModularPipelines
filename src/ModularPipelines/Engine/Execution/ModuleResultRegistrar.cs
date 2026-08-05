@@ -26,11 +26,25 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     /// <inheritdoc />
     public void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
     {
+        RegisterFailureResult(module, moduleType, exception, Enums.Status.PipelineTerminated);
+    }
+
+    /// <inheritdoc />
+    public void RegisterDependencyFailedResult(IModule module, Type moduleType, Exception exception)
+    {
+        RegisterFailureResult(module, moduleType, exception, Enums.Status.DependencyFailed);
+    }
+
+    private void RegisterFailureResult(
+        IModule module,
+        Type moduleType,
+        Exception exception,
+        Enums.Status status)
+    {
         var resultType = module.ResultType;
 
-        // Create execution context with PipelineTerminated status using compiled delegate factory
         var executionContext = ExecutionContextFactory.Create(module, moduleType);
-        executionContext.Status = Enums.Status.PipelineTerminated;
+        executionContext.Status = status;
         executionContext.Exception = exception;
 
         var hasGeneratedRuntime = GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime);
@@ -57,7 +71,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
         {
             // AlwaysRun modules may still execute after scheduler cancellation.
             // Their final execution path must own both registry and typed-task completion.
-            if (module.ModuleRunType == ModuleRunType.AlwaysRun)
+            if (module.Configuration.AlwaysRun)
             {
                 continue;
             }

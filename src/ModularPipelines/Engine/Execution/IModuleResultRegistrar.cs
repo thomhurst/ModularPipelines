@@ -18,6 +18,14 @@ internal interface IModuleResultRegistrar
     void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception);
 
     /// <summary>
+    /// Registers a result for a module that could not run because a dependency failed.
+    /// </summary>
+    /// <param name="module">The module instance.</param>
+    /// <param name="moduleType">The type of the module.</param>
+    /// <param name="exception">The dependency failure.</param>
+    void RegisterDependencyFailedResult(IModule module, Type moduleType, Exception exception);
+
+    /// <summary>
     /// Registers terminated results for all modules that were cancelled before they started.
     /// </summary>
     /// <param name="modules">The list of all modules.</param>

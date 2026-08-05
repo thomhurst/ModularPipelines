@@ -23,11 +23,17 @@ public static class TestPipelineBuilder
 
         builder.ConfigurePipelineOptions(options => options with
         {
-            DefaultLoggingOptions = testHostSettings.CommandLogging,
-            ShowProgressInConsole = testHostSettings.ShowProgressInConsole,
-            PrintResults = false,
-            PrintLogo = false,
-            PrintDependencyChains = false,
+            Commands = options.Commands with
+            {
+                Logging = testHostSettings.CommandLogging,
+            },
+            Console = options.Console with
+            {
+                ShowProgress = testHostSettings.ShowProgressInConsole,
+                PrintResults = false,
+                PrintLogo = false,
+                PrintDependencyChains = false,
+            },
             ThrowOnPipelineFailure = false, // Tests handle failures explicitly
         });
 

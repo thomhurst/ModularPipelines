@@ -26,7 +26,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var projects = repositoryInfo.Root
             .GetFiles(x =>
@@ -40,7 +40,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         foreach (var project in projects)
         {
-            yield return await context.SubModule(project.Name, () => context.Tools.DotNet.PackAsync(new DotNetPackOptions
+            yield return await context.SubModuleAsync(project.Name, () => context.Tools.DotNet.PackAsync(new DotNetPackOptions
             {
                 TargetPath = project,
                 Configuration = Configuration.Release,
@@ -49,7 +49,7 @@ public class PackProjectsModule : Module<CommandResult[]>
                     $"PackageVersion={packageVersion}",
                     $"Version={packageVersion}",
                 },
-            }, cancellationToken));
+            }, cancellationToken), cancellationToken);
         }
     }
 }

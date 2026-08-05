@@ -52,7 +52,7 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IModule
+public abstract class Module<T> : IInternalModule
 {
     private readonly Lazy<ModuleConfiguration> _configuration;
 
@@ -73,7 +73,7 @@ public abstract class Module<T> : IModule
         new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     /// <inheritdoc />
-    Task<IModuleResult> IModule.ResultTask
+    Task<IModuleResult> IInternalModule.ResultTask
     {
         get
         {
@@ -275,7 +275,7 @@ public abstract class Module<T> : IModule
         => OnFailedAsync(context, exception, cancellationToken);
 
     /// <inheritdoc />
-    bool IModule.TrySetDistributedResult(IModuleResult result)
+    bool IInternalModule.TrySetDistributedResult(IModuleResult result)
     {
         return CompletionSource.TrySetResult((ModuleResult<T>) result);
     }

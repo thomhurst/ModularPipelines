@@ -23,6 +23,9 @@ public class PipelineOptionsTests
     [Test]
     [Arguments(typeof(PipelineBuilderOptions))]
     [Arguments(typeof(PipelineOptions))]
+    [Arguments(typeof(PipelineConsoleOptions))]
+    [Arguments(typeof(PipelineHttpOptions))]
+    [Arguments(typeof(PipelineCommandOptions))]
     [Arguments(typeof(ConcurrencyOptions))]
     [Arguments(typeof(HttpLoggingOptions))]
     [Arguments(typeof(HttpResilienceOptions))]
@@ -37,6 +40,41 @@ public class PipelineOptionsTests
             .Select(property => property.Name);
 
         await Assert.That(mutableProperties).IsEmpty();
+    }
+
+    [Test]
+    public async Task SubsystemSettings_AreGrouped()
+    {
+        var pipelineOptionsType = typeof(PipelineOptions);
+        var legacyPropertyNames = new HashSet<string>
+        {
+            "ShowProgressInConsole",
+            "PrintResults",
+            "PrintLogo",
+            "PrintDependencyChains",
+            "ConsoleWidth",
+            "ModuleOutputFlushInterval",
+            "ModuleOutputFlushThreshold",
+            "DefaultHttpLoggingOptions",
+            "DefaultHttpTimeout",
+            "DefaultHttpResilienceOptions",
+            "DefaultLoggingOptions",
+            "DefaultExecutionOptions",
+        };
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipelineOptionsType.GetProperty(nameof(PipelineOptions.Console))!.PropertyType)
+                .IsEqualTo(typeof(PipelineConsoleOptions));
+            await Assert.That(pipelineOptionsType.GetProperty(nameof(PipelineOptions.Http))!.PropertyType)
+                .IsEqualTo(typeof(PipelineHttpOptions));
+            await Assert.That(pipelineOptionsType.GetProperty(nameof(PipelineOptions.Commands))!.PropertyType)
+                .IsEqualTo(typeof(PipelineCommandOptions));
+            await Assert.That(pipelineOptionsType.GetProperties()
+                    .Select(property => property.Name)
+                    .Where(legacyPropertyNames.Contains))
+                .IsEmpty();
+        }
     }
 
     [Test]
@@ -80,7 +118,10 @@ public class PipelineOptionsTests
         {
             _ = new PipelineOptions
             {
-                ShowProgressInConsole = !originalInteractive,
+                Console = new PipelineConsoleOptions
+                {
+                    ShowProgress = !originalInteractive,
+                },
             };
 
             await Assert.That(AnsiConsole.Profile.Capabilities.Interactive)
@@ -95,7 +136,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task DefaultProgressOption_UsesSpectreCapability()
     {
-        await Assert.That(new PipelineOptions().ShowProgressInConsole)
+        await Assert.That(new PipelineOptions().Console.ShowProgress)
             .IsEqualTo(AnsiConsole.Profile.Capabilities.Interactive);
     }
 
@@ -134,13 +175,16 @@ public class PipelineOptionsTests
         };
         var options = new PipelineOptions
         {
-            DefaultHttpLoggingOptions = new HttpLoggingOptions
+            Http = new PipelineHttpOptions
             {
-                SensitiveHeaderNames = sensitiveHeaders,
-            },
-            DefaultHttpResilienceOptions = new HttpResilienceOptions
-            {
-                RetryableStatusCodes = retryableStatusCodes,
+                Logging = new HttpLoggingOptions
+                {
+                    SensitiveHeaderNames = sensitiveHeaders,
+                },
+                Resilience = new HttpResilienceOptions
+                {
+                    RetryableStatusCodes = retryableStatusCodes,
+                },
             },
         };
 
@@ -149,17 +193,17 @@ public class PipelineOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.DefaultHttpLoggingOptions!.SensitiveHeaderNames)
+            await Assert.That(options.Http.Logging!.SensitiveHeaderNames)
                 .IsEquivalentTo(["X-Secret"]);
-            await Assert.That(options.DefaultHttpResilienceOptions!.RetryableStatusCodes)
+            await Assert.That(options.Http.Resilience!.RetryableStatusCodes)
                 .IsEquivalentTo([HttpStatusCode.ServiceUnavailable]);
             await Assert.That(
-                    ((ICollection<string>) options.DefaultHttpLoggingOptions.SensitiveHeaderNames)
+                    ((ICollection<string>) options.Http.Logging.SensitiveHeaderNames)
                     .IsReadOnly)
                 .IsTrue();
             await Assert.That(
                     ((ICollection<HttpStatusCode>)
-                        options.DefaultHttpResilienceOptions.RetryableStatusCodes)
+                        options.Http.Resilience.RetryableStatusCodes)
                     .IsReadOnly)
                 .IsTrue();
         }
@@ -174,16 +218,19 @@ public class PipelineOptionsTests
         };
         var options = new PipelineOptions
         {
-            DefaultExecutionOptions = new CommandExecutionOptions
+            Commands = new PipelineCommandOptions
             {
-                EnvironmentVariables = environmentVariables,
+                Execution = new CommandExecutionOptions
+                {
+                    EnvironmentVariables = environmentVariables,
+                },
             },
         };
 
         environmentVariables["ORIGINAL"] = "changed";
         environmentVariables["ADDED"] = "later";
 
-        var snapshot = options.DefaultExecutionOptions!.EnvironmentVariables!;
+        var snapshot = options.Commands.Execution!.EnvironmentVariables!;
         using (Assert.Multiple())
         {
             await Assert.That(snapshot["ORIGINAL"]).IsEqualTo("value");
@@ -230,8 +277,8 @@ public class PipelineOptionsTests
         var namedSetup = new ConfigureNamedOptions<PipelineOptions>(
             "custom",
             options => typeof(PipelineOptions)
-                .GetProperty(nameof(PipelineOptions.PrintLogo))!
-                .SetValue(options, false));
+                .GetProperty(nameof(PipelineOptions.Console))!
+                .SetValue(options, options.Console with { PrintLogo = false }));
         var factory = new PipelineOptionsFactory(
             source,
             [namedSetup],
@@ -243,9 +290,9 @@ public class PipelineOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(custom.PrintLogo).IsFalse();
-            await Assert.That(defaults.PrintLogo).IsTrue();
-            await Assert.That(source.PrintLogo).IsTrue();
+            await Assert.That(custom.Console.PrintLogo).IsFalse();
+            await Assert.That(defaults.Console.PrintLogo).IsTrue();
+            await Assert.That(source.Console.PrintLogo).IsTrue();
             await Assert.That(custom).IsNotSameReferenceAs(defaults);
             await Assert.That(custom).IsNotSameReferenceAs(source);
             await Assert.That(defaults).IsNotSameReferenceAs(source);
