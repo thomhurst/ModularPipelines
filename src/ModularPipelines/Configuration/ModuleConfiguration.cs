@@ -58,10 +58,10 @@ public sealed class ModuleConfiguration
     internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? PlanningSkipCondition { get; init; }
 
     /// <summary>
-    /// Gets the timeout duration for module execution.
+    /// Gets the timeout duration for each module execution attempt.
     /// </summary>
     /// <value>
-    /// A <see cref="TimeSpan"/> representing the maximum execution time,
+    /// A <see cref="TimeSpan"/> representing the maximum time for each attempt,
     /// or null if no timeout is configured.
     /// </value>
     public TimeSpan? Timeout { get; init; }

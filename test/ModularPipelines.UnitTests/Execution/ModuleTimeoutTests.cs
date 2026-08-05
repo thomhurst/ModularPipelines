@@ -1,6 +1,7 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -186,5 +187,32 @@ public class ModuleTimeoutTests : TestBase
         var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.Message).Contains("did not complete within the cancellation grace period");
+    }
+
+    [Test]
+    public async Task Timeout_Fault_During_Grace_Period_Counts_As_Response()
+    {
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            async cancellationToken =>
+            {
+                try
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw new TimeoutException("Inner operation timed out.");
+                }
+
+                return true;
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
     }
 }

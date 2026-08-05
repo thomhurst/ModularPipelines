@@ -489,38 +489,47 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
         var moduleAttemptCount = 0;
-        var moduleAttemptRespondedToCancellation = 0;
+        ModuleTimeoutException? abandonedAttemptTimeout = null;
 
+        // Keep timeout enforcement inside the retry policy so each attempt gets a fresh budget
+        // and policy-owned backoff delays are not mistaken for unresponsive module execution.
         async Task<T> ExecuteModuleAttempt(CancellationToken ct)
         {
             Interlocked.Increment(ref moduleAttemptCount);
-            try
+
+            var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
+                timeout == TimeSpan.Zero ? null : timeout,
+                ct,
+                $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+
+            if (timeoutResult.TimedOut)
             {
-                return await module.ExecuteAsync(moduleContext, ct).ConfigureAwait(false);
-            }
-            finally
-            {
-                if (ct.IsCancellationRequested)
+                var timeoutException = new ModuleTimeoutException(
+                    executionContext.ModuleType,
+                    timeout,
+                    timeoutResult.ElapsedTime,
+                    timeoutResult.WasCancellationTokenRespected);
+
+                if (!timeoutResult.WasCancellationTokenRespected)
                 {
-                    Volatile.Write(ref moduleAttemptRespondedToCancellation, 1);
+                    abandonedAttemptTimeout = timeoutException;
+                    // Exit the retry policy successfully, then surface the timeout below.
+                    return default!;
                 }
+
+                throw timeoutException;
             }
+
+            return timeoutResult.Value!;
         }
 
-        // Create the execution function that optionally includes retry
-        Func<CancellationToken, Task<T>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
-            : ExecuteModuleAttempt;
-
-        // Use TimeoutHelper with detailed results to get information about token cooperation
-        TimeoutExecutionResult<T> timeoutResult;
+        T result;
         try
         {
-            timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-                executeFunc,
-                timeout == TimeSpan.Zero ? null : timeout,
-                cancellationToken,
-                $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+            result = retryPolicy != null
+                ? await retryPolicy.ExecuteAsync(ExecuteModuleAttempt, cancellationToken).ConfigureAwait(false)
+                : await ExecuteModuleAttempt(cancellationToken).ConfigureAwait(false);
         }
         finally
         {
@@ -529,21 +538,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 Math.Max(0, Volatile.Read(ref moduleAttemptCount) - 1));
         }
 
-        if (timeoutResult.TimedOut)
+        if (abandonedAttemptTimeout is not null)
         {
-            var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
-                                                && (retryPolicy is null
-                                                    || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
-
-            // Create a detailed timeout exception with information about token cooperation
-            throw new ModuleTimeoutException(
-                executionContext.ModuleType,
-                timeout,
-                timeoutResult.ElapsedTime,
-                wasCancellationTokenRespected);
+            throw abandonedAttemptTimeout;
         }
 
-        return timeoutResult.Value!;
+        return result;
     }
 
     private TimeSpan GetTimeout(ModuleConfiguration config)
@@ -692,11 +692,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     timeoutException.ElapsedTime.ToDisplayString());
             }
         }
-        else if (IsTimeout(config, executionContext, exception))
-        {
-            executionContext.Status = Status.TimedOut;
-        }
-
         // Check for pipeline cancellation
         else if (IsPipelineCancelled(exception))
         {
@@ -749,18 +744,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // This won't be reached, but compiler needs it
         throw exception;
-    }
-
-    private bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
-    {
-        var timeout = GetTimeout(config);
-        if (timeout == TimeSpan.Zero)
-        {
-            return false;
-        }
-
-        var isTimeoutExceeded = executionContext.Stopwatch.Elapsed >= timeout;
-        return isTimeoutExceeded && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
     }
 
     private bool IsPipelineCancelled(Exception exception)
