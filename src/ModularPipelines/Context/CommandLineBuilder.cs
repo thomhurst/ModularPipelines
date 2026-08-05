@@ -11,13 +11,14 @@ namespace ModularPipelines.Context;
 /// </summary>
 /// <remarks>
 /// Uses existing internal helpers to:
-/// 1. Resolve tool name from [CliTool] attribute or constructor parameter
-/// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
-/// 3. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
-/// 4. Combine global arguments, command parts, and command-specific arguments.
-/// 5. Add manual Arguments if present.
-/// 6. Render RunSettings as option-terminated pass-through arguments.
-/// 7. Validate option terminators against terminal options in one place.
+/// 1. Validate DataAnnotations on the options object.
+/// 2. Resolve tool name from [CliTool] attribute or constructor parameter.
+/// 3. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias].
+/// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes.
+/// 5. Combine global arguments, command parts, and command-specific arguments.
+/// 6. Add manual Arguments if present.
+/// 7. Render RunSettings as option-terminated pass-through arguments.
+/// 8. Validate option terminators against terminal options in one place.
 /// </remarks>
 internal sealed class CommandLineBuilder(
     IToolResolver toolResolver,
@@ -44,6 +45,8 @@ internal sealed class CommandLineBuilder(
     /// <inheritdoc />
     public CommandLine Build(CommandLineToolOptions options)
     {
+        CommandLineOptionsValidator.Validate(options);
+
         // 1. Resolve tool name using _toolResolver
         var tool = _toolResolver.ResolveTool(options)
             ?? throw new InvalidOperationException(
