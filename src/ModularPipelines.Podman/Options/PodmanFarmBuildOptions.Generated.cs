@@ -8,6 +8,7 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Podman.Options;
 
 namespace ModularPipelines.Podman.Options;
@@ -372,7 +373,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// Pull image policy ("always/true"|"missing"|"never/false"|"newer") (default "missing")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? Pull { get; set; }
+    public CliOptionValue? Pull { get; set; }
 
     /// <summary>
     /// refrain from announcing build instructions and image read/write progress

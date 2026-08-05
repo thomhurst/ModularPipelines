@@ -1,4 +1,3 @@
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -401,47 +400,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         Type optionsType,
         OptionPart optionPart)
     {
-        var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
         return rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
             IEnumerable<CliOptionValue> values => values.OfType<CliOptionValue>(),
-            // Preserve compatibility with generated option packages that predate CliOptionValue.
-            string value when isLegacyGeneratedOption => [ToLegacyOptionalValue(value)],
-            IEnumerable<string> values when isLegacyGeneratedOption => values
-                .OfType<string>()
-                .Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
-    }
-
-    private static CliOptionValue ToLegacyOptionalValue(string value)
-        => string.IsNullOrWhiteSpace(value) ? CliOptionValue.Bare : value;
-
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2070",
-        Justification = "Legacy generated options retain their public CLI properties for reflection-based compatibility.")]
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2075",
-        Justification = "Legacy generated option base types retain their public CLI properties for reflection-based compatibility.")]
-    private static bool IsLegacyGeneratedOption(Type optionsType, OptionPart optionPart)
-    {
-        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
-        {
-            var property = currentType.GetProperty(
-                optionPart.PropertyName,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
-            if (property is not null)
-            {
-                return currentType.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
-                    == "ModularPipelines.OptionsGenerator";
-            }
-        }
-
-        return false;
     }
 
     private static InvalidOperationException CreateInvalidOptionalValueTypeException(

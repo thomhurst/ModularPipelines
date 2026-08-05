@@ -397,53 +397,36 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Preserves_Legacy_Multiple_Optional_String_Values()
+    public async Task Parser_Rejects_Generated_Legacy_Optional_String_Collection()
     {
         var options = new TestCliOptionsWithLegacyMultipleOptionalValues
         {
-            Output = [string.Empty, "json"],
+            Output = ["json"],
         };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(
-            ["--output", "--output=json"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
-    public async Task Parser_Skips_Null_Legacy_Repeatable_Optional_Values()
-    {
-        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
-        {
-            Output = [string.Empty, null!, "json"],
-        };
-
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(
-            ["--output", "--output=json"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
-    }
-
-    [Test]
-    public async Task Parser_Preserves_Legacy_Scalar_Optional_String_Value()
+    public async Task Parser_Rejects_Generated_Legacy_Scalar_Optional_String_Value()
     {
         var options = new TestCliOptionsWithLegacyScalarOptionalValue { Output = "json" };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
-    public async Task Parser_Preserves_Legacy_Optional_Value_From_Generated_Base_Type()
+    public async Task Parser_Rejects_Legacy_Optional_Value_From_Generated_Base_Type()
     {
         var options = new TestCliOptionsDerivedFromLegacyGeneratedOptions { Output = "json" };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
