@@ -253,6 +253,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         var output = new StringBuilder(pending.Length);
+        var outputIndex = 0;
         var searchIndex = 0;
         var replaced = false;
         var retainedPrefixInvalidated = false;
@@ -263,7 +264,7 @@ internal class CoordinatedTextWriter : TextWriter
             var match = FindFirstPattern(pending, patterns, searchIndex);
             if (match.Index < 0)
             {
-                output.Append(pending, searchIndex, pending.Length - searchIndex);
+                output.Append(pending, outputIndex, pending.Length - outputIndex);
                 break;
             }
 
@@ -271,15 +272,16 @@ internal class CoordinatedTextWriter : TextWriter
                 && retainedPrefixLength > 0
                 && match.Index + match.Length > retainedPrefixStart)
             {
-                output.Append(pending, searchIndex, pending.Length - searchIndex);
-                break;
+                searchIndex = match.Index + 1;
+                continue;
             }
 
-            output.Append(pending, searchIndex, match.Index - searchIndex);
+            output.Append(pending, outputIndex, match.Index - outputIndex);
             var secret = pending.Substring(match.Index, match.Length);
             output.Append(_secretObfuscator.Obfuscate(secret, null));
             retainedPrefixInvalidated |= match.Index + match.Length > retainedPrefixStart;
-            searchIndex = match.Index + match.Length;
+            outputIndex = match.Index + match.Length;
+            searchIndex = outputIndex;
             replaced = true;
         }
 
