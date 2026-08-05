@@ -303,6 +303,8 @@ public class RunReportTests
             {
                 await Assert.That(firstSummary.RunReport!.PreviousTotalDuration).IsNull();
                 await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNotNull();
+                await Assert.That(secondSummary.RunReport.PreviousEnd)
+                    .IsEqualTo(firstSummary.RunReport.End);
                 await Assert.That(Directory.GetFiles(historyPath, "*.json")).Count().IsEqualTo(2);
             }
         }
@@ -1359,6 +1361,40 @@ public class RunReportTests
                 HistoryRetention = 0,
             },
         };
+
+    [Test]
+    public async Task SuccessfulReportWriteLogsFullPath()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "artifacts", "run-report.json");
+        var log = new StringBuilder();
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            new StringLogger<RunReportService>(log));
+
+        try
+        {
+            await service.CompleteAsync(CreateEmptySummary());
+
+            await Assert.That(log.ToString())
+                .Contains($"Run report written to {Path.GetFullPath(reportPath)}");
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
 
     [Test]
     public async Task RunReportEnrichersPopulateObfuscatedCorrelation()

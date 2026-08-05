@@ -83,6 +83,7 @@ internal sealed class PipelineRunReportFactory(
             Start = summary.Start,
             End = summary.End,
             TotalDuration = summary.TotalDuration,
+            PreviousEnd = previousTotalDuration is null ? null : previousReport!.End,
             PreviousTotalDuration = previousTotalDuration,
             TotalDurationDelta = previousTotalDuration is null
                 ? null
