@@ -2865,8 +2865,7 @@ public class RunReportTests
         using var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
-            PrintLogo = false,
-            PrintResults = false,
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with
             {
                 AutoWriteInCi = false,
