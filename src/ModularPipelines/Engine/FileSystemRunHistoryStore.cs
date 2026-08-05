@@ -11,11 +11,13 @@ namespace ModularPipelines.Engine;
 
 internal sealed class FileSystemRunHistoryStore(
     IOptions<PipelineOptions> pipelineOptions,
-    ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
+    ILogger<FileSystemRunHistoryStore> logger,
+    RunReportPathResolver? pathResolver = null) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
     private const string FileTimestampFormat = "yyyyMMddHHmmssfffffff";
     private const int MinimumCompatibleSchemaVersion = 1;
+    private readonly RunReportPathResolver _pathResolver = pathResolver ?? new RunReportPathResolver();
     private static readonly TimeSpan StaleTemporaryFileAge = TimeSpan.FromDays(1);
 
     public Task<PipelineRunReport?> GetLatestAsync(
@@ -237,7 +239,7 @@ internal sealed class FileSystemRunHistoryStore(
     }
 
     private string GetHistoryDirectory() =>
-        Path.GetFullPath(pipelineOptions.Value.RunReport.HistoryDirectory);
+        _pathResolver.Resolve(pipelineOptions.Value.RunReport.HistoryDirectory);
 
     private static string GetPipelineFilePrefix(string? pipelineIdentity)
     {

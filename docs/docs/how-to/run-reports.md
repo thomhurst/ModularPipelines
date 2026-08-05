@@ -30,6 +30,10 @@ builder.ConfigurePipelineOptions(options => options with
 });
 ```
 
+Relative report and history paths are resolved from the Git repository root when it is available.
+Outside a Git repository, they are resolved from the application base directory. This keeps the same
+storage location when a pipeline is launched from different working directories.
+
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed
 report is also exposed through `PipelineSummary.RunReport`.
 
@@ -91,11 +95,11 @@ builder.ConfigurePipelineOptions(options => options with
 ```
 
 History is partitioned by pipeline identity and pruning only removes files owned by the built-in
-history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the report
-path and registered module types. After each save, the default store applies the per-identity
-`HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all
-identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of
-its history when newer reports from other identities fill the global pool. Set
+history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered
+module types; changing only the report path does not fork history. After each save, the default store
+applies the per-identity `HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention`
+reports across all identities. The global limit supersedes the per-identity limit: a quieter identity
+can lose all of its history when newer reports from other identities fill the global pool. Set
 `GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable
 pipeline identities and separate history directories for independently bounded histories. A
 positive global limit must be at least as large as `HistoryRetention`.
