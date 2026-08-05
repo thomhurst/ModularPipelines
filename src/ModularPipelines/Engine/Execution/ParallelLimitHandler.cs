@@ -23,7 +23,9 @@ internal class ParallelLimitHandler : IParallelLimitHandler
     }
 
     /// <inheritdoc />
-    public async Task<IDisposable> AcquireParallelLimitAsync(Type moduleType)
+    public async Task<IDisposable> AcquireParallelLimitAsync(
+        Type moduleType,
+        CancellationToken cancellationToken)
     {
         var parallelLimiterAttribute =
             moduleType.GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault();
@@ -36,14 +38,19 @@ internal class ParallelLimitHandler : IParallelLimitHandler
                 parallelLimiterAttribute.Type.Name);
 
             // Use the attribute's GetLock method to avoid reflection on IParallelLimit
-            return await parallelLimiterAttribute.GetLock(_parallelLimitProvider).WaitAsync().ConfigureAwait(false);
+            return await parallelLimiterAttribute
+                .GetLock(_parallelLimitProvider)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;
     }
 
     /// <inheritdoc />
-    public async Task<IDisposable> AcquireExecutionTypeLimitAsync(ModuleState moduleState)
+    public async Task<IDisposable> AcquireExecutionTypeLimitAsync(
+        ModuleState moduleState,
+        CancellationToken cancellationToken)
     {
         var executionTypeLock = _parallelLimitProvider.GetExecutionTypeLock(moduleState.ExecutionType);
 
@@ -54,7 +61,7 @@ internal class ParallelLimitHandler : IParallelLimitHandler
                 moduleState.ModuleType.Name,
                 moduleState.ExecutionType);
 
-            return await executionTypeLock.WaitAsync().ConfigureAwait(false);
+            return await executionTypeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;
