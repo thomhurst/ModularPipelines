@@ -12,7 +12,8 @@ internal static class GitRootFinder
 
         while (!string.IsNullOrEmpty(directory))
         {
-            if (Directory.Exists(Path.Combine(directory, ".git")))
+            var gitMetadataPath = Path.Combine(directory, ".git");
+            if (Directory.Exists(gitMetadataPath) || File.Exists(gitMetadataPath))
             {
                 return directory;
             }
