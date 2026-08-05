@@ -2188,6 +2188,8 @@ public class RunReportTests
         }
         finally
         {
+            readCompletion.TrySetResult();
+            saveCompletion.TrySetResult();
             Directory.Delete(directory, recursive: true);
         }
     }
