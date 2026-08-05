@@ -24,7 +24,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         "ModularPipelines.Attributes.DependsOnBaseAttribute";
 
     internal const string PipelineBuilderExtensionsFullName =
-        "ModularPipelines.Extensions.PipelineBuilderExtensions";
+        "ModularPipelines.PipelineBuilderExtensions";
 
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
