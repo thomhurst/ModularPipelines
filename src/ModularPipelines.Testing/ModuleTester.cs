@@ -1,7 +1,9 @@
 using Mediator;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
@@ -52,6 +54,7 @@ public class ModuleTestBuilder<TModule>
 {
     private readonly List<Action<PipelineBuilder>> _registrations = [];
     private readonly List<IDependencySeed> _dependencySeeds = [];
+    private readonly Dictionary<(Type ProducerModule, string ArtifactName), byte[]> _artifactSeeds = [];
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>>? _commandHandler;
 
     /// <summary>
@@ -79,6 +82,40 @@ public class ModuleTestBuilder<TModule>
     {
         _registrations.Add(static builder => builder.AddModule<TDependency>());
         _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(value));
+        return this;
+    }
+
+    /// <summary>
+    /// Seeds a single-file artifact consumed by the module.
+    /// </summary>
+    /// <typeparam name="TProducer">The module that declares the produced artifact.</typeparam>
+    /// <param name="artifactName">The artifact name from <see cref="ConsumesArtifactAttribute"/>.</param>
+    /// <param name="contents">The UTF-8 artifact contents.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithArtifact<TProducer>(
+        string artifactName,
+        string contents)
+        where TProducer : class, IModule
+    {
+        ArgumentNullException.ThrowIfNull(contents);
+        return WithArtifact<TProducer>(artifactName, Encoding.UTF8.GetBytes(contents));
+    }
+
+    /// <summary>
+    /// Seeds a single-file artifact consumed by the module.
+    /// </summary>
+    /// <typeparam name="TProducer">The module that declares the produced artifact.</typeparam>
+    /// <param name="artifactName">The artifact name from <see cref="ConsumesArtifactAttribute"/>.</param>
+    /// <param name="contents">The binary artifact contents.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithArtifact<TProducer>(
+        string artifactName,
+        byte[] contents)
+        where TProducer : class, IModule
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(artifactName);
+        ArgumentNullException.ThrowIfNull(contents);
+        _artifactSeeds[(typeof(TProducer), artifactName)] = contents.ToArray();
         return this;
     }
 
@@ -191,6 +228,7 @@ public class ModuleTestBuilder<TModule>
             estimatedTimeProvider);
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
+        var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
 
         await using var loggerScope = new ModuleLoggerScope(logger, typeof(TModule));
 
@@ -202,7 +240,7 @@ public class ModuleTestBuilder<TModule>
                     module,
                     executionContext,
                     moduleContext,
-                    prepareExecutionAsync: null,
+                    token => RestoreConsumedArtifactsAsync(module, effectiveFileSystem, token),
                     finalizeExecutionAsync: null,
                     completeModule: true,
                     cancellationToken: CancellationToken.None)
@@ -216,8 +254,37 @@ public class ModuleTestBuilder<TModule>
         pipeline.Services.GetRequiredService<IModuleResultRegistry>()
             .RegisterResult(typeof(TModule), result);
 
-        var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
         return new ExecutionOutcome(result, recorder.Commands, effectiveFileSystem);
+    }
+
+    private async Task RestoreConsumedArtifactsAsync(
+        IModule module,
+        IFileSystemProvider fileSystem,
+        CancellationToken cancellationToken)
+    {
+        var attributes = module.GetType()
+            .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+            .Cast<ConsumesArtifactAttribute>();
+        foreach (var attribute in attributes)
+        {
+            if (!_artifactSeeds.TryGetValue(
+                    (attribute.ProducerModule, attribute.ArtifactName),
+                    out var contents))
+            {
+                throw new InvalidOperationException(
+                    $"Artifact '{attribute.ArtifactName}' from module "
+                    + $"'{attribute.ProducerModule.FullName}' was not seeded for consumer "
+                    + $"'{module.GetType().Name}'. Call WithArtifact to seed it.");
+            }
+
+            var restorePath = attribute.RestorePath ?? Environment.CurrentDirectory;
+            fileSystem.CreateDirectory(restorePath);
+            await fileSystem.WriteAllBytesAsync(
+                    fileSystem.Combine(restorePath, attribute.ArtifactName),
+                    contents,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 
     private static IModuleLogger GetModuleLogger(IServiceProvider services)
@@ -322,6 +389,26 @@ public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TMod
         where TDependency : Module<TDependencyResult>
     {
         base.WithDependencyResult<TDependency, TDependencyResult>(value);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithArtifact{TProducer}(string,string)"/>
+    public new ModuleTestBuilder<TModule, TResult> WithArtifact<TProducer>(
+        string artifactName,
+        string contents)
+        where TProducer : class, IModule
+    {
+        base.WithArtifact<TProducer>(artifactName, contents);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithArtifact{TProducer}(string,byte[])"/>
+    public new ModuleTestBuilder<TModule, TResult> WithArtifact<TProducer>(
+        string artifactName,
+        byte[] contents)
+        where TProducer : class, IModule
+    {
+        base.WithArtifact<TProducer>(artifactName, contents);
         return this;
     }
 
