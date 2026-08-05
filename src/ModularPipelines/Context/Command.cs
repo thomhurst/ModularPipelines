@@ -37,6 +37,7 @@ internal sealed class Command : ICommandContext
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ICommandExecutionCounter _commandExecutionCounter;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly PipelineWorkingDirectory _pipelineWorkingDirectory;
 
     public Command(
         ICommandLogger commandLogger,
@@ -46,7 +47,8 @@ internal sealed class Command : ICommandContext
         ISecretRegistry secretRegistry,
         ISecretObfuscator secretObfuscator,
         ICommandExecutionCounter commandExecutionCounter,
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        PipelineWorkingDirectory pipelineWorkingDirectory)
     {
         _commandLogger = commandLogger;
         _commandLineBuilder = commandLineBuilder;
@@ -56,6 +58,7 @@ internal sealed class Command : ICommandContext
         _secretObfuscator = secretObfuscator;
         _commandExecutionCounter = commandExecutionCounter;
         _pipelineOptions = pipelineOptions;
+        _pipelineWorkingDirectory = pipelineWorkingDirectory;
     }
 
     public async Task<CommandResult> ExecuteCommandLineToolAsync(
@@ -64,7 +67,12 @@ internal sealed class Command : ICommandContext
         CancellationToken cancellationToken = default)
     {
         _commandExecutionCounter.Record(AmbientModuleContext.CurrentModuleType);
-        var execOpts = executionOptions ?? new CommandExecutionOptions();
+        var execOpts = (executionOptions ?? new CommandExecutionOptions()) with
+        {
+            WorkingDirectory = executionOptions?.WorkingDirectory is { } workingDirectory
+                ? _pipelineWorkingDirectory.ResolvePath(workingDirectory)
+                : _pipelineWorkingDirectory.Path,
+        };
         RegisterSecrets(options, execOpts);
         var (command, commandInput, tool, parsedArgs) = CreateCommand(options, execOpts);
 
