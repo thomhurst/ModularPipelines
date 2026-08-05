@@ -11,7 +11,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<ServiceBusNamespaceResource>> Namespace(AzureResourceIdentifier azureResourceIdentifier, ServiceBusNamespaceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ServiceBusNamespaceResource>> NamespaceAsync(AzureResourceIdentifier azureResourceIdentifier, ServiceBusNamespaceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -21,7 +21,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<MigrationConfigurationResource>> MigrationConfiguration(AzureResourceIdentifier azureResourceIdentifier, string queueName, MigrationConfigurationData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<MigrationConfigurationResource>> MigrationConfigurationAsync(AzureResourceIdentifier azureResourceIdentifier, string queueName, MigrationConfigurationData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(queueName);
@@ -34,7 +34,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, queueName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusQueueResource>> Queue(AzureResourceIdentifier azureResourceIdentifier, string queueName, ServiceBusQueueData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ServiceBusQueueResource>> QueueAsync(AzureResourceIdentifier azureResourceIdentifier, string queueName, ServiceBusQueueData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(queueName);
@@ -47,7 +47,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, queueName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusTopicResource>> Topic(AzureResourceIdentifier azureResourceIdentifier, string topicName, ServiceBusTopicData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ServiceBusTopicResource>> TopicAsync(AzureResourceIdentifier azureResourceIdentifier, string topicName, ServiceBusTopicData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(topicName);
@@ -60,7 +60,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, topicName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusSubscriptionResource>> Subscription(AzureResourceIdentifier azureResourceIdentifier, string topicName, string subscriptionName, ServiceBusSubscriptionData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<ServiceBusSubscriptionResource>> SubscriptionAsync(AzureResourceIdentifier azureResourceIdentifier, string topicName, string subscriptionName, ServiceBusSubscriptionData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(topicName);
@@ -76,7 +76,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, subscriptionName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusTopicAuthorizationRuleResource>> TopicAuthorizationRule(
+    public async Task<ArmOperation<ServiceBusTopicAuthorizationRuleResource>> TopicAuthorizationRuleAsync(
         AzureResourceIdentifier azureResourceIdentifier, string topicName, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {
@@ -94,7 +94,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, authorizationRuleName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusNamespaceAuthorizationRuleResource>> NamespaceAuthorizationRule(
+    public async Task<ArmOperation<ServiceBusNamespaceAuthorizationRuleResource>> NamespaceAuthorizationRuleAsync(
         AzureResourceIdentifier azureResourceIdentifier, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {
@@ -109,7 +109,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, authorizationRuleName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ServiceBusQueueAuthorizationRuleResource>> QueueAuthorizationRule(
+    public async Task<ArmOperation<ServiceBusQueueAuthorizationRuleResource>> QueueAuthorizationRuleAsync(
         AzureResourceIdentifier azureResourceIdentifier, string queueName, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {

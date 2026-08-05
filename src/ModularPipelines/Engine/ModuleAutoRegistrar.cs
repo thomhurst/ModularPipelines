@@ -75,9 +75,15 @@ internal static class ModuleAutoRegistrar
     /// </summary>
     private static bool IsValidModuleType(Type type)
     {
-        return type.IsClass
-               && !type.IsAbstract
-               && !type.IsGenericTypeDefinition
-               && type.IsAssignableTo(typeof(IModule));
+        var isConcreteModule = type.IsClass
+                               && !type.IsAbstract
+                               && !type.IsGenericTypeDefinition
+                               && type.IsAssignableTo(typeof(IModule));
+        if (isConcreteModule)
+        {
+            ModuleExecutionContract.Validate(type);
+        }
+
+        return isConcreteModule;
     }
 }

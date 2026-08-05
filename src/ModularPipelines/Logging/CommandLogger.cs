@@ -128,7 +128,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return execOpts.LogSettings;
         }
 
-        return _pipelineOptions.Value.DefaultLoggingOptions ?? CommandLoggingOptions.Default;
+        return _pipelineOptions.Value.Commands.Logging ?? CommandLoggingOptions.Default;
     }
 
     private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)

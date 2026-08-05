@@ -933,7 +933,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule) module).ResultTask
+        var moduleResult = await ((IInternalModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult).IsNotNull();
@@ -978,7 +978,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule) module).ResultTask
+        var moduleResult = await ((IInternalModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult).IsNotNull();
@@ -1024,7 +1024,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule) module).ResultTask
+        var moduleResult = await ((IInternalModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult.ExceptionOrDefault)

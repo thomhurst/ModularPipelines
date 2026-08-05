@@ -20,7 +20,10 @@ entry threshold still protects against unbounded buffering:
 ```csharp
 builder.ConfigurePipelineOptions(options => options with
 {
-    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
+    Console = options.Console with
+    {
+        ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
+    },
 });
 ```
 
@@ -29,10 +32,13 @@ To keep all output buffered until each module completes, disable both triggers:
 ```csharp
 builder.ConfigurePipelineOptions(options => options with
 {
-    ModuleOutputFlushInterval = TimeSpan.Zero,
-    ModuleOutputFlushThreshold = 0,
+    Console = options.Console with
+    {
+        ModuleOutputFlushInterval = TimeSpan.Zero,
+        ModuleOutputFlushThreshold = 0,
+    },
 });
 ```
 
-`ModuleOutputFlushThreshold` counts entries, not bytes. Its default is 1,000 entries per
+`Console.ModuleOutputFlushThreshold` counts entries, not bytes. Its default is 1,000 entries per
 module.

@@ -11,7 +11,7 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<VirtualNetworkResource>> VirtualNetwork(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<VirtualNetworkResource>> VirtualNetworkAsync(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -21,7 +21,7 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<SubnetResource>> Subnet(AzureResourceIdentifier azureResourceIdentifier, string subnetName, SubnetData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<SubnetResource>> SubnetAsync(AzureResourceIdentifier azureResourceIdentifier, string subnetName, SubnetData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(subnetName);
@@ -33,7 +33,7 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
         return await virtualNetwork.Value.GetSubnets().CreateOrUpdateAsync(WaitUntil.Completed, subnetName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<PrivateLinkServiceResource>> PrivateLinkService(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateLinkServiceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<PrivateLinkServiceResource>> PrivateLinkServiceAsync(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateLinkServiceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -43,7 +43,7 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<PrivateEndpointResource>> PrivateEndpoint(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateEndpointData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<PrivateEndpointResource>> PrivateEndpointAsync(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateEndpointData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -53,7 +53,7 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<WebApplicationFirewallPolicyResource>> WebApplicationFirewallPolicy(AzureResourceIdentifier azureResourceIdentifier, string subnetName, WebApplicationFirewallPolicyData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<WebApplicationFirewallPolicyResource>> WebApplicationFirewallPolicyAsync(AzureResourceIdentifier azureResourceIdentifier, string subnetName, WebApplicationFirewallPolicyData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);

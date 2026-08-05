@@ -18,14 +18,18 @@ internal class LinuxInstaller : ILinuxInstallerContext
         _aptGet = aptGet;
     }
 
-    public virtual async Task<CommandResult> InstallFromDpkgAsync(DpkgInstallOptions options)
+    public virtual async Task<CommandResult> InstallFromDpkgAsync(
+        DpkgInstallOptions options,
+        CancellationToken cancellationToken = default)
     {
-        var linuxInstallationResult = await _command.ExecuteCommandLineToolAsync(options).ConfigureAwait(false);
+        var linuxInstallationResult = await _command.ExecuteCommandLineToolAsync(
+            options,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         await _aptGet.InstallAsync(new AptGetInstallOptions
         {
             FixBroken = true,
-        }).ConfigureAwait(false);
+        }, cancellationToken).ConfigureAwait(false);
 
         return linuxInstallationResult;
     }

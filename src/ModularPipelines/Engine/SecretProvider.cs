@@ -244,10 +244,12 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             yield break;
         }
 
-        if (propertyValue is not IEnumerable<KeyValue> keyValues)
+        var keyValues = propertyValue switch
         {
-            yield break;
-        }
+            KeyValue keyValue => [keyValue],
+            IEnumerable<KeyValue> values => values,
+            _ => [],
+        };
 
         foreach (var keyValue in keyValues)
         {
@@ -409,6 +411,13 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
     private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
+        if (value is CliValuePair pair)
+        {
+            yield return pair.First;
+            yield return pair.Second;
+            yield break;
+        }
+
         if (value is string || value is IEnumerable<char> || value is not IEnumerable enumerable)
         {
             yield return NormalizeSecret(value);
@@ -417,7 +426,15 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         foreach (var item in enumerable)
         {
-            yield return NormalizeSecret(item);
+            if (item is CliValuePair itemPair)
+            {
+                yield return itemPair.First;
+                yield return itemPair.Second;
+            }
+            else
+            {
+                yield return NormalizeSecret(item);
+            }
         }
     }
 
@@ -432,6 +449,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             ReadOnlyMemory<char> characters => characters.ToString(),
             IEnumerable<char> characters => new string(characters.ToArray()),
             CliOptionValue optionValue => optionValue.Value,
+            KeyValue keyValue => keyValue.Value,
             _ => value.ToString(),
         };
     }

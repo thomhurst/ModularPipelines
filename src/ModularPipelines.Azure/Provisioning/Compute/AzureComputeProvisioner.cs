@@ -11,7 +11,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<AppServicePlanResource>> AppServicePlan(AzureResourceIdentifier azureResourceIdentifier, AppServicePlanData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<AppServicePlanResource>> AppServicePlanAsync(AzureResourceIdentifier azureResourceIdentifier, AppServicePlanData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -21,7 +21,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<WebSiteResource>> WebSite(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<WebSiteResource>> WebSiteAsync(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -31,7 +31,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<WebSiteSlotResource>> WebSiteSlot(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<WebSiteSlotResource>> WebSiteSlotAsync(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -43,7 +43,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<SiteFunctionResource>> WebSiteDeployment(AzureResourceIdentifier azureResourceIdentifier, FunctionEnvelopeData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<SiteFunctionResource>> WebSiteDeploymentAsync(AzureResourceIdentifier azureResourceIdentifier, FunctionEnvelopeData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -55,7 +55,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<StaticSiteResource>> StaticSite(AzureResourceIdentifier azureResourceIdentifier, StaticSiteData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<StaticSiteResource>> StaticSiteAsync(AzureResourceIdentifier azureResourceIdentifier, StaticSiteData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -65,7 +65,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<AppServiceDomainResource>> AppServiceDomain(AzureResourceIdentifier azureResourceIdentifier, AppServiceDomainData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<AppServiceDomainResource>> AppServiceDomainAsync(AzureResourceIdentifier azureResourceIdentifier, AppServiceDomainData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -75,7 +75,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<AppServiceEnvironmentResource>> AppServiceEnvironment(AzureResourceIdentifier azureResourceIdentifier, AppServiceEnvironmentData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<AppServiceEnvironmentResource>> AppServiceEnvironmentAsync(AzureResourceIdentifier azureResourceIdentifier, AppServiceEnvironmentData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
