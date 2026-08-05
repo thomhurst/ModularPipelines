@@ -292,7 +292,7 @@ public class TaskCompletionSourceTests
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
             .Returns(schedulerTaskSource.Task);
-        scheduler.Setup(x => x.CancelPendingModules(false)).Returns([]);
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
         schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
         var alwaysRunHandler = new Mock<IAlwaysRunHandler>();

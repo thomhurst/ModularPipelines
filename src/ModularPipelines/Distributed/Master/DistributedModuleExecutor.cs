@@ -182,7 +182,7 @@ internal class DistributedModuleExecutor(
         IModuleResultRegistrar resultRegistrar,
         CancellationToken cancellationToken)
     {
-        var cancelledModules = scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+        var cancelledModules = scheduler.CancelPendingModules();
         resultRegistrar.RegisterTerminatedResultsForCancelledModules(
             cancelledModules,
             new OperationCanceledException(cancellationToken));

@@ -32,7 +32,7 @@ internal sealed class WorkerModuleScheduler : IModuleScheduler
 
     public ModuleState? GetModuleState(Type moduleType) => null;
 
-    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
+    public IReadOnlyList<IModule> CancelPendingModules()
     {
         return [];
     }

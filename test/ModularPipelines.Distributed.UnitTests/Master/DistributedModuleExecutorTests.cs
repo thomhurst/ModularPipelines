@@ -192,7 +192,7 @@ public class DistributedModuleExecutorTests
                 return tcs.Task;
             });
         scheduler.Setup(s => s.MarkModuleStarted(It.IsAny<Type>())).Returns(true);
-        scheduler.Setup(s => s.CancelPendingModules(It.IsAny<bool>())).Returns([]);
+        scheduler.Setup(s => s.CancelPendingModules()).Returns([]);
 
         return scheduler;
     }
@@ -898,7 +898,7 @@ public class DistributedModuleExecutorTests
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
-        scheduler.Setup(s => s.CancelPendingModules(false))
+        scheduler.Setup(s => s.CancelPendingModules())
             .Returns([]);
         scheduler.Setup(s => s.MarkModuleStarted(typeof(DistributedModule)))
             .Returns(() =>
@@ -954,7 +954,7 @@ public class DistributedModuleExecutorTests
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
-        scheduler.Setup(s => s.CancelPendingModules(false))
+        scheduler.Setup(s => s.CancelPendingModules())
             .Returns([]);
 
         var publishException = new InvalidOperationException("Broker unavailable");
