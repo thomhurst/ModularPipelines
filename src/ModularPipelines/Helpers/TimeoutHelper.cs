@@ -90,31 +90,8 @@ internal static class TimeoutHelper
         // Fast path: no timeout specified
         if (!timeout.HasValue || timeout.Value == TimeSpan.Zero)
         {
-            var task = taskFactory(cancellationToken);
-
-            // If the token can't be cancelled, just await directly (avoid allocations)
-            if (!cancellationToken.CanBeCanceled)
-            {
-                var result = await task.ConfigureAwait(false);
-                return TimeoutExecutionResult<T>.Success(result, stopwatch.Elapsed);
-            }
-
-            // Race against cancellation - TrySetCanceled makes the TCS throw
-            // OperationCanceledException when awaited
-            var tcs = new TaskCompletionSource<T>(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            using var reg = cancellationToken.Register(
-                static state => ((TaskCompletionSource<T>) state!).TrySetCanceled(),
-                tcs);
-
-            var fastPathWinner = await Task.WhenAny(task, tcs.Task).ConfigureAwait(false);
-            if (fastPathWinner != task)
-            {
-                TaskObservation.ObserveFault(task);
-            }
-
-            var winningResult = await fastPathWinner.ConfigureAwait(false);
-            return TimeoutExecutionResult<T>.Success(winningResult, stopwatch.Elapsed);
+            return await ExecuteWithoutTimeoutAsync(taskFactory, cancellationToken, stopwatch)
+                .ConfigureAwait(false);
         }
 
         // Timeout path: create linked token so task can observe both timeout
@@ -142,54 +119,8 @@ internal static class TimeoutHelper
 
         if (winner == cancelledTcs.Task)
         {
-            // Determine if it was external cancellation or timeout
-            if (cancellationToken.IsCancellationRequested)
-            {
-                TaskObservation.ObserveFault(executionTask);
-                throw new OperationCanceledException(cancellationToken);
-            }
-
-            // Timeout occurred - the task did NOT respond to the cancellation token
-            // in time (otherwise executionTask would have completed first with a
-            // TaskCanceledException). Give it a brief grace period to clean up.
-            var taskRespondedDuringGrace = false;
-            try
-            {
-                await executionTask.WaitAsync(GracePeriod, CancellationToken.None).ConfigureAwait(false);
-
-                // Task completed during grace period - it did eventually respond
-                taskRespondedDuringGrace = true;
-            }
-            catch (TimeoutException)
-            {
-                // WaitAsync also propagates a TimeoutException thrown by the task itself.
-                // Only an incomplete task means the grace period actually expired.
-                taskRespondedDuringGrace = executionTask.IsCompleted;
-                if (!taskRespondedDuringGrace)
-                {
-                    TaskObservation.ObserveFault(executionTask);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // Task threw OperationCanceledException/TaskCanceledException from
-                // finally observing the cancellation token - consider it responsive
-                taskRespondedDuringGrace = true;
-            }
-            catch (Exception)
-            {
-                // Task threw some other exception during grace period - it did respond
-                // (with an error), so consider it responsive to the cancellation
-                taskRespondedDuringGrace = true;
-            }
-
-            var elapsedTime = stopwatch.Elapsed;
-
-            // If the task completed exactly when timeout fired (race condition),
-            // we still consider it a timeout since the deadline was reached
-            return taskRespondedDuringGrace
-                ? TimeoutExecutionResult<T>.TimeoutWithTokenRespected(elapsedTime)
-                : TimeoutExecutionResult<T>.TimeoutWithTokenIgnored(elapsedTime);
+            return await CreateTimeoutResultAsync(executionTask, cancellationToken, stopwatch)
+                .ConfigureAwait(false);
         }
 
         // Task completed before timeout
@@ -205,6 +136,82 @@ internal static class TimeoutHelper
             // This can happen when executionTask and cancelledTcs.Task complete at nearly
             // the same time, and executionTask wins the race.
             return TimeoutExecutionResult<T>.TimeoutWithTokenRespected(stopwatch.Elapsed);
+        }
+    }
+
+    private static async Task<TimeoutExecutionResult<T>> ExecuteWithoutTimeoutAsync<T>(
+        Func<CancellationToken, Task<T>> taskFactory,
+        CancellationToken cancellationToken,
+        Stopwatch stopwatch)
+    {
+        var task = taskFactory(cancellationToken);
+
+        if (!cancellationToken.CanBeCanceled)
+        {
+            var result = await task.ConfigureAwait(false);
+            return TimeoutExecutionResult<T>.Success(result, stopwatch.Elapsed);
+        }
+
+        var cancellationTaskSource = new TaskCompletionSource<T>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        using var registration = cancellationToken.Register(
+            static state => ((TaskCompletionSource<T>) state!).TrySetCanceled(),
+            cancellationTaskSource);
+
+        var winner = await Task.WhenAny(task, cancellationTaskSource.Task).ConfigureAwait(false);
+        if (winner != task)
+        {
+            TaskObservation.ObserveFault(task);
+        }
+
+        var resultValue = await winner.ConfigureAwait(false);
+        return TimeoutExecutionResult<T>.Success(resultValue, stopwatch.Elapsed);
+    }
+
+    private static async Task<TimeoutExecutionResult<T>> CreateTimeoutResultAsync<T>(
+        Task<T> executionTask,
+        CancellationToken cancellationToken,
+        Stopwatch stopwatch)
+    {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            TaskObservation.ObserveFault(executionTask);
+            throw new OperationCanceledException(cancellationToken);
+        }
+
+        var taskRespondedDuringGrace = await DidTaskRespondDuringGracePeriodAsync(executionTask)
+            .ConfigureAwait(false);
+        var elapsedTime = stopwatch.Elapsed;
+
+        return taskRespondedDuringGrace
+            ? TimeoutExecutionResult<T>.TimeoutWithTokenRespected(elapsedTime)
+            : TimeoutExecutionResult<T>.TimeoutWithTokenIgnored(elapsedTime);
+    }
+
+    private static async Task<bool> DidTaskRespondDuringGracePeriodAsync(Task executionTask)
+    {
+        try
+        {
+            await executionTask.WaitAsync(GracePeriod, CancellationToken.None).ConfigureAwait(false);
+            return true;
+        }
+        catch (TimeoutException)
+        {
+            var taskRespondedDuringGrace = executionTask.IsCompleted;
+            if (!taskRespondedDuringGrace)
+            {
+                TaskObservation.ObserveFault(executionTask);
+            }
+
+            return taskRespondedDuringGrace;
+        }
+        catch (OperationCanceledException)
+        {
+            return true;
+        }
+        catch (Exception)
+        {
+            return true;
         }
     }
 }
