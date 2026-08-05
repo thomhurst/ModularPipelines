@@ -27,7 +27,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var options = _pipelineOptions.Value.DefaultHttpResilienceOptions ?? HttpResilienceOptions.Default;
+        var options = _pipelineOptions.Value.Http.Resilience ?? HttpResilienceOptions.Default;
 
         if (options.MaxRetryAttempts <= 0)
         {

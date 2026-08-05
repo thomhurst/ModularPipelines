@@ -88,7 +88,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> ChocolateyAsync()
+    public virtual async Task<CommandResult> ChocolateyAsync(CancellationToken cancellationToken = default)
     {
         var result = await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("powershell.exe")
         {
@@ -102,7 +102,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
                 "-Command",
                 "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))",
             ],
-        }).ConfigureAwait(false);
+        }, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var allUsersProfile = _environmentVariables.GetEnvironmentVariable("ALLUSERSPROFILE")
                               ?? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
@@ -112,7 +112,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> Powershell7Async()
+    public virtual async Task<CommandResult> Powershell7Async(CancellationToken cancellationToken = default)
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
@@ -121,28 +121,31 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             var arch = _environmentContext.Is64BitOperatingSystem ? "x64" : "x86";
             var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
-            return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url)).ConfigureAwait(false);
+            return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url), cancellationToken).ConfigureAwait(false);
         }
 
         if (operatingSystem == OperatingSystemIdentifier.MacOS)
         {
-            return await _macInstaller.InstallFromBrewAsync(new MacBrewOptions("powershell")).ConfigureAwait(false);
+            return await _macInstaller.InstallFromBrewAsync(new MacBrewOptions("powershell"), cancellationToken).ConfigureAwait(false);
         }
 
         var linuxUrl = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/powershell_{Versions.PowerShell7}-1.deb_amd64.deb";
-        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(linuxUrl))).ConfigureAwait(false);
+        var linuxFile = await _downloader.DownloadFileAsync(
+            new DownloadFileOptions(new Uri(linuxUrl)),
+            cancellationToken).ConfigureAwait(false);
 
-        return await _linuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
+        return await _linuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(linuxFile), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<File?> Nvm(string? version = null)
+    public async Task<File?> NvmAsync(string? version = null, CancellationToken cancellationToken = default)
     {
         if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
             var nvmWindowsUrl = $"https://github.com/coreybutler/nvm-windows/releases/download/{Versions.NvmWindows}/nvm-noinstall.zip";
             var zipFile = await _downloader.DownloadFileAsync(
-                new DownloadFileOptions(new Uri(nvmWindowsUrl))).ConfigureAwait(false);
+                new DownloadFileOptions(new Uri(nvmWindowsUrl)),
+                cancellationToken).ConfigureAwait(false);
 
             var newFolder = _zip.UnZipToFolder(zipFile, Folder.CreateTemporaryFolder());
 
@@ -154,7 +157,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
                                                                path: {nodejsPath}
                                                                arch: 64
                                                                proxy: none
-                                                               """).ConfigureAwait(false);
+                                                               """, cancellationToken).ConfigureAwait(false);
 
             var symLinkFolder = newFolder.CreateFolder("nvm_symlink").GetFolder(Guid.NewGuid().ToString("N"));
 
@@ -168,20 +171,23 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         var nvmLinuxUrl = $"https://raw.githubusercontent.com/nvm-sh/nvm/v{Versions.NvmLinux}/install.sh";
         var bashScript = await _downloader.DownloadFileAsync(
-            new DownloadFileOptions(new Uri(nvmLinuxUrl))).ConfigureAwait(false);
+            new DownloadFileOptions(new Uri(nvmLinuxUrl)),
+            cancellationToken).ConfigureAwait(false);
 
-        await _bash.FromFileAsync(new BashFileOptions(bashScript)).ConfigureAwait(false);
+        await _bash.FromFileAsync(new BashFileOptions(bashScript), cancellationToken).ConfigureAwait(false);
 
         var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
         return new File(nvmDir);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> NodeAsync(string version = "--lts")
+    public virtual async Task<CommandResult> NodeAsync(
+        string version = "--lts",
+        CancellationToken cancellationToken = default)
     {
         ValidateNodeVersion(version);
 
-        await Nvm().ConfigureAwait(false);
+        await NvmAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
@@ -189,13 +195,14 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
-            }).ConfigureAwait(false);
+            }, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
         var escapedVersion = ShellArgumentEscaper.Escape(version);
         return await _bash.CommandAsync(new BashCommandOptions(
-            $"export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install {escapedVersion}"))
+            $"export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install {escapedVersion}"),
+            cancellationToken)
             .ConfigureAwait(false);
     }
 

@@ -19,6 +19,8 @@ public class PredefinedInstallersTests
     {
         const string allUsersProfile = @"C:\ProgramData";
         CommandLineToolOptions? capturedOptions = null;
+        CancellationToken capturedCancellationToken = default;
+        using var cancellationTokenSource = new CancellationTokenSource();
         var result = CreateResult();
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(
@@ -26,7 +28,11 @@ public class PredefinedInstallersTests
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
             .Callback<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
-                (options, _, _) => capturedOptions = options)
+                (options, _, cancellationToken) =>
+                {
+                    capturedOptions = options;
+                    capturedCancellationToken = cancellationToken;
+                })
             .ReturnsAsync(result);
         var environmentVariables = new Mock<IEnvironmentVariablesContext>();
         environmentVariables.Setup(context => context.GetEnvironmentVariable(
@@ -40,7 +46,7 @@ public class PredefinedInstallersTests
             Mock.Of<IBashContext>(),
             environmentVariables.Object);
 
-        var actualResult = await installer.ChocolateyAsync();
+        var actualResult = await installer.ChocolateyAsync(cancellationTokenSource.Token);
 
         var options = (GenericCommandLineToolOptions) capturedOptions!;
         var arguments = options.Arguments!.ToArray();
@@ -51,6 +57,7 @@ public class PredefinedInstallersTests
             await Assert.That(arguments).Contains("-Command");
             await Assert.That(arguments).DoesNotContain("&&");
             await Assert.That(arguments).DoesNotContain("SET");
+            await Assert.That(capturedCancellationToken).IsEqualTo(cancellationTokenSource.Token);
         }
 
         environmentVariables.Verify(context => context.AddToPath(

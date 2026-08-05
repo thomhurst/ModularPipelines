@@ -105,6 +105,10 @@ public sealed class ModuleRegistration<TModule>
     /// </summary>
     /// <typeparam name="T">Any type from the assembly to scan.</typeparam>
     /// <returns>The pipeline builder.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the assembly contains a concrete <see cref="IModule"/> implementation that
+    /// does not derive from <see cref="Module{T}"/> or <see cref="SyncModule{T}"/>.
+    /// </exception>
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public PipelineBuilder AddModulesFromAssemblyContainingType<T>()
         => Builder.AddModulesFromAssemblyContainingType<T>();
@@ -114,6 +118,10 @@ public sealed class ModuleRegistration<TModule>
     /// </summary>
     /// <param name="assembly">The assembly to scan.</param>
     /// <returns>The pipeline builder.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the assembly contains a concrete <see cref="IModule"/> implementation that
+    /// does not derive from <see cref="Module{T}"/> or <see cref="SyncModule{T}"/>.
+    /// </exception>
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public PipelineBuilder AddModulesFromAssembly(Assembly assembly)
         => Builder.AddModulesFromAssembly(assembly);

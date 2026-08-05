@@ -12,7 +12,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<StorageAccountResource>> StorageAccount(AzureResourceIdentifier azureResourceIdentifier, StorageAccountCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<StorageAccountResource>> StorageAccountAsync(AzureResourceIdentifier azureResourceIdentifier, StorageAccountCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -22,7 +22,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<BlobServiceResource>> BlobService(AzureResourceIdentifier azureResourceIdentifier, BlobServiceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<BlobServiceResource>> BlobServiceAsync(AzureResourceIdentifier azureResourceIdentifier, BlobServiceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -32,7 +32,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<BlobContainerResource>> BlobContainer(AzureResourceIdentifier azureResourceIdentifier, string containerName, BlobContainerData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<BlobContainerResource>> BlobContainerAsync(AzureResourceIdentifier azureResourceIdentifier, string containerName, BlobContainerData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(containerName);
@@ -42,7 +42,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
         return await GetStorageAccount(azureResourceIdentifier).GetBlobService().GetBlobContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<TableServiceResource>> TableService(AzureResourceIdentifier azureResourceIdentifier, TableServiceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<TableServiceResource>> TableServiceAsync(AzureResourceIdentifier azureResourceIdentifier, TableServiceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -52,7 +52,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<TableResource>> Table(AzureResourceIdentifier azureResourceIdentifier, string tableName, TableData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<TableResource>> TableAsync(AzureResourceIdentifier azureResourceIdentifier, string tableName, TableData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(tableName);
@@ -62,7 +62,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
         return await GetStorageAccount(azureResourceIdentifier).GetTableService().GetTables().CreateOrUpdateAsync(WaitUntil.Completed, tableName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<FileServiceResource>> FileService(AzureResourceIdentifier azureResourceIdentifier, FileServiceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<FileServiceResource>> FileServiceAsync(AzureResourceIdentifier azureResourceIdentifier, FileServiceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -72,7 +72,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<FileShareResource>> FileShare(AzureResourceIdentifier azureResourceIdentifier, string fileShareName, FileShareData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<FileShareResource>> FileShareAsync(AzureResourceIdentifier azureResourceIdentifier, string fileShareName, FileShareData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(fileShareName);
@@ -82,7 +82,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
         return await GetStorageAccount(azureResourceIdentifier).GetFileService().GetFileShares().CreateOrUpdateAsync(WaitUntil.Completed, fileShareName, properties, expand: null, cancellationToken);
     }
 
-    public async Task<ArmOperation<QueueServiceResource>> QueueService(AzureResourceIdentifier azureResourceIdentifier, QueueServiceData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<QueueServiceResource>> QueueServiceAsync(AzureResourceIdentifier azureResourceIdentifier, QueueServiceData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
@@ -92,7 +92,7 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<StorageQueueResource>> StorageQueue(AzureResourceIdentifier azureResourceIdentifier, string storageQueueName, StorageQueueData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<StorageQueueResource>> StorageQueueAsync(AzureResourceIdentifier azureResourceIdentifier, string storageQueueName, StorageQueueData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(storageQueueName);

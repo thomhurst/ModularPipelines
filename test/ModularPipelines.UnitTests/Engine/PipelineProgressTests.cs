@@ -114,8 +114,11 @@ public class PipelineProgressTests
                     .ConfigureServices(services => services.AddSingleton<IAnsiConsole>(console))
                     .ConfigurePipelineOptions((_, options) => options with
                     {
-                        PrintResults = false,
-                        ShowProgressInConsole = true,
+                        Console = options.Console with
+                        {
+                            PrintResults = false,
+                            ShowProgress = true,
+                        },
                     })
                     .AddModule<Module1>()
                     .AddModule<Module2>()

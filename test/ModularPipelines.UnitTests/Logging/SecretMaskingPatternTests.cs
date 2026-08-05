@@ -1,3 +1,4 @@
+using CliWrap;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Console;
@@ -56,6 +57,34 @@ public class SecretMaskingPatternTests
             await Assert.That(obfuscator.Obfuscate(pattern, new SecretOptions()))
                 .IsEqualTo("**********");
         }
+    }
+
+    [Test]
+    [Arguments("abc\"def")]
+    [Arguments("abc\\\"def")]
+    [Arguments("abc \\")]
+    public async Task CliWrapEscapedCommandInput_MasksEmbeddedSecret(string secret)
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret(secret);
+        var commandInput = Cli.Wrap("tool")
+            .WithArguments([$"--value={secret}"])
+            .ToString();
+
+        await Assert.That(CreateObfuscator(provider).Obfuscate(commandInput, null))
+            .IsEqualTo("tool \"--value=**********\"");
+    }
+
+    [Test]
+    public async Task CommandScriptEscapedSecret_IsMasked()
+    {
+        const string secret = "abc\"def";
+        var provider = CreateProvider(out _);
+        provider.AddSecret(secret);
+        var commandScriptEscaped = secret.Replace("\"", "\"\"");
+
+        await Assert.That(CreateObfuscator(provider).Obfuscate($"before {commandScriptEscaped} after", null))
+            .IsEqualTo("before ********** after");
     }
 
     [Test]

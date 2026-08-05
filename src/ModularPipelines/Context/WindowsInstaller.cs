@@ -14,13 +14,21 @@ internal class WindowsInstaller : IWindowsInstallerContext
         _command = command;
     }
 
-    public virtual async Task<CommandResult> InstallMsiAsync(MsiInstallerOptions msiInstallerOptions)
+    public virtual async Task<CommandResult> InstallMsiAsync(
+        MsiInstallerOptions msiInstallerOptions,
+        CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(msiInstallerOptions).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(
+            msiInstallerOptions,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public virtual async Task<CommandResult> InstallExeAsync(ExeInstallerOptions exeInstallerOptions)
+    public virtual async Task<CommandResult> InstallExeAsync(
+        ExeInstallerOptions exeInstallerOptions,
+        CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(exeInstallerOptions).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(
+            exeInstallerOptions,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 }

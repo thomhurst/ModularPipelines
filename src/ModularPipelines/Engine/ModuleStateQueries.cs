@@ -75,7 +75,7 @@ internal class ModuleStateQueries
         return _moduleStates.Values.Where(m =>
             m.State != ModuleExecutionState.Executing &&
             m.State != ModuleExecutionState.Completed &&
-            m.Module.ModuleRunType != ModuleRunType.AlwaysRun);
+            !m.Module.Configuration.AlwaysRun);
     }
 
     /// <summary>

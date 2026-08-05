@@ -36,7 +36,7 @@ public class FinalCountdownModule : Module<CountdownStatus>
         context.Logger.LogDebug("Ground power disconnect confirmed");
 
         // Simulate countdown with SubModules for visibility
-        await context.SubModule("T-10 seconds", async () =>
+        await context.SubModuleAsync("T-10 seconds", async () =>
         {
             context.Logger.LogInformation("T-10... Main engine start sequence initiated");
             context.Logger.LogDebug("Fuel prevalves opening...");
@@ -53,9 +53,9 @@ public class FinalCountdownModule : Module<CountdownStatus>
             context.Logger.LogInformation("T-6... Engine 3 ignition confirmed");
             await Task.Delay(TimeSpan.FromMilliseconds(200), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
-        await context.SubModule("T-5 seconds", async () =>
+        await context.SubModuleAsync("T-5 seconds", async () =>
         {
             context.Logger.LogInformation("T-5... All engines at full thrust");
             context.Logger.LogDebug("Engine 1 thrust: 100%");
@@ -74,9 +74,9 @@ public class FinalCountdownModule : Module<CountdownStatus>
             await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);
             context.Logger.LogInformation("T-1... Guidance is internal");
             return true;
-        });
+        }, cancellationToken);
 
-        await context.SubModule("T-0 seconds", async () =>
+        await context.SubModuleAsync("T-0 seconds", async () =>
         {
             context.Logger.LogInformation("T-0... LIFTOFF!");
             context.Logger.LogDebug("Hold-down clamps released");
@@ -88,7 +88,7 @@ public class FinalCountdownModule : Module<CountdownStatus>
             context.Logger.LogDebug("Throttling down for Max Q...");
             await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
         return new CountdownStatus(
             SecondsRemaining: 0,

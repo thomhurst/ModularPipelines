@@ -26,7 +26,7 @@ public class TelemetryStreamModule : Module<TelemetryData>
         context.Logger.LogDebug("Frame sync acquired");
 
         // Simulate telemetry updates with SubModules
-        await context.SubModule("Telemetry T+30s", async () =>
+        await context.SubModuleAsync("Telemetry T+30s", async () =>
         {
             context.Logger.LogInformation("T+30s: First stage powered flight");
             context.Logger.LogDebug("Altitude: 15 km");
@@ -39,9 +39,9 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Trajectory deviation: 0.02°");
             await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
-        await context.SubModule("Telemetry T+60s", async () =>
+        await context.SubModuleAsync("Telemetry T+60s", async () =>
         {
             context.Logger.LogInformation("T+60s: Approaching Max-Q");
             context.Logger.LogDebug("Altitude: 50 km");
@@ -53,9 +53,9 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Downrange distance: 45 km");
             await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
-        await context.SubModule("Telemetry T+90s", async () =>
+        await context.SubModuleAsync("Telemetry T+90s", async () =>
         {
             context.Logger.LogInformation("T+90s: MECO - Main Engine Cutoff");
             context.Logger.LogDebug("Altitude: 120 km");
@@ -66,9 +66,9 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Stage separation pyros: ARMED");
             await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
-        await context.SubModule("Telemetry T+120s", async () =>
+        await context.SubModuleAsync("Telemetry T+120s", async () =>
         {
             context.Logger.LogInformation("T+120s: Stage separation and S2 ignition");
             context.Logger.LogDebug("Stage separation confirmed");
@@ -81,7 +81,7 @@ public class TelemetryStreamModule : Module<TelemetryData>
             context.Logger.LogDebug("Fairing halves tracking confirmed");
             await Task.Delay(TimeSpan.FromMilliseconds(400), cancellationToken);
             return true;
-        });
+        }, cancellationToken);
 
         var missionElapsed = DateTime.UtcNow - launch.LaunchTime;
 
