@@ -103,7 +103,7 @@ public class ModuleExecutorLoggingTests
 
         var logOutput = logs.ToString();
         await Assert.That(logOutput).DoesNotContain("Cancellation triggered");
-        scheduler.Verify(x => x.CancelPendingModules(false), Times.Once);
+        scheduler.Verify(x => x.CancelPendingModules(), Times.Once);
     }
 
     [Test]
@@ -119,7 +119,7 @@ public class ModuleExecutorLoggingTests
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        scheduler.Setup(x => x.CancelPendingModules(false))
+        scheduler.Setup(x => x.CancelPendingModules())
             .Returns(cancelledModules);
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
         schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
@@ -668,7 +668,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task CancelPendingModules_CompletesPendingModuleAwaitable()
+    public async Task CancelPendingModules_LeavesModuleResultForRegistrarCompletion()
     {
         var module = new LaterModule();
         var state = new ModuleState(module, module.GetType());
@@ -680,8 +680,8 @@ public class ModuleExecutorLoggingTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
-            await Assert.That(((IInternalModule) module).ResultTask.IsCompleted).IsTrue();
+            await Assert.That(state.CompletionSource.Task.IsCanceled).IsTrue();
+            await Assert.That(((IInternalModule) module).ResultTask.IsCompleted).IsFalse();
         }
     }
 

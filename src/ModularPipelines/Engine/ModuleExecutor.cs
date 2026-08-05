@@ -189,7 +189,7 @@ internal class ModuleExecutor : IModuleExecutor
         catch (Exception exception)
         {
             var cancelledModules =
-                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+                scheduler.CancelPendingModules();
             _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
                 cancelledModules,
                 exception);
@@ -230,7 +230,7 @@ internal class ModuleExecutor : IModuleExecutor
     private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
     {
         cancellationTokenSource.Token.Register(
-            () => scheduler.CancelPendingModules(cancelModuleResultAwaiters: false));
+            () => scheduler.CancelPendingModules());
     }
 
     private async Task<Exception?> ExecuteWorkerPoolAsync(
@@ -277,7 +277,7 @@ internal class ModuleExecutor : IModuleExecutor
                         if (isFirstFailure)
                         {
                             var cancelledModules =
-                                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+                                scheduler.CancelPendingModules();
                             _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
                                 cancelledModules,
                                 ex);
