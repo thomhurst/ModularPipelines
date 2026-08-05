@@ -94,6 +94,12 @@ public record PipelineOptions
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
+    /// Gets the maximum cumulative time to wait for scheduler progress before retrying deferred
+    /// <c>AlwaysRun</c> modules. Set to <see cref="TimeSpan.Zero"/> to disable this watchdog.
+    /// </summary>
+    public TimeSpan AlwaysRunProgressTimeout { get; init; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
     /// Gets the collection of module categories to run exclusively, matched case-insensitively.
     /// If specified, only modules in these categories will run.
     /// </summary>

@@ -21,7 +21,7 @@ internal class AlwaysRunHandler(
 {
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
-    private readonly TimeSpan _schedulerProgressTimeout = pipelineOptions.Value.DefaultModuleTimeout;
+    private readonly TimeSpan _schedulerProgressTimeout = pipelineOptions.Value.AlwaysRunProgressTimeout;
     private readonly ILogger<AlwaysRunHandler> _logger = logger;
     private readonly TimeProvider _timeProvider = timeProvider;
 

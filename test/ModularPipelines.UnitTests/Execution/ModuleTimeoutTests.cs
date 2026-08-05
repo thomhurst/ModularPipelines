@@ -73,6 +73,14 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Default_AlwaysRun_Progress_Timeout_Is_Thirty_Seconds()
+    {
+        var options = new PipelineOptions();
+
+        await Assert.That(options.AlwaysRunProgressTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+    }
+
+    [Test]
     public async Task Pipeline_Default_Module_Timeout_Is_Applied()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineBuilder.Create()
