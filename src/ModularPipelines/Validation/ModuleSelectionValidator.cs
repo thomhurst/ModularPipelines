@@ -10,9 +10,6 @@ internal sealed class ModuleSelectionValidator(IOptions<PipelineOptions> options
 {
     public int Order => 250;
 
-    public ValidationResult Validate(IServiceProvider services) =>
-        ValidateAsync(services).GetAwaiter().GetResult();
-
     public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         if (options.Value.TargetModules?.Count is not > 0
