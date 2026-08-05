@@ -906,6 +906,53 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStoreStopsAfterNewestCompatibleReport()
+    {
+        var directory = CreateTemporaryDirectory();
+        var log = new StringBuilder();
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = directory,
+                    HistoryRetention = 2,
+                },
+            }),
+            new StringLogger<FileSystemRunHistoryStore>(log));
+
+        try
+        {
+            for (var second = 1; second <= 2; second++)
+            {
+                await store.SaveAsync(new PipelineRunReport
+                {
+                    PipelineIdentity = "pipeline-a",
+                    End = new DateTimeOffset(2026, 8, 2, 12, 0, second, TimeSpan.Zero),
+                });
+            }
+
+            var oldestFile = Directory
+                .GetFiles(directory, "modularpipelines-run-*.json")
+                .OrderBy(Path.GetFileName, StringComparer.Ordinal)
+                .First();
+            await File.WriteAllTextAsync(oldestFile, "not json");
+
+            var latest = await store.GetLatestAsync("pipeline-a");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(latest?.End.Second).IsEqualTo(2);
+                await Assert.That(log.ToString()).IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task FileSystemHistoryStorePrunesOnlyStaleOwnedTemporaryFiles()
     {
         var directory = CreateTemporaryDirectory();
@@ -1258,25 +1305,29 @@ public class RunReportTests
 
         try
         {
-            await store.SaveAsync(new PipelineRunReport
+            for (var second = 1; second <= 4; second++)
             {
-                PipelineIdentity = "pipeline-a",
-                End = new DateTimeOffset(2026, 8, 2, 12, 0, 1, TimeSpan.Zero),
-            });
-            var validReportFile = Directory
-                .GetFiles(directory, "modularpipelines-run-*.json")
-                .Single();
+                await store.SaveAsync(new PipelineRunReport
+                {
+                    PipelineIdentity = "pipeline-a",
+                    End = new DateTimeOffset(2026, 8, 2, 12, 0, second, TimeSpan.Zero),
+                });
+            }
+
             var invalidReports = new[]
             {
                 "[]",
                 "{ \"schemaVersion\": \"future\" }",
                 "{ \"schemaVersion\": 2147483648 }",
             };
+            var newestFiles = Directory
+                .GetFiles(directory, "modularpipelines-run-*.json")
+                .OrderByDescending(Path.GetFileName, StringComparer.Ordinal)
+                .Take(invalidReports.Length)
+                .ToArray();
             for (var index = 0; index < invalidReports.Length; index++)
             {
-                await File.WriteAllTextAsync(
-                    $"{validReportFile}.invalid-{index}.json",
-                    invalidReports[index]);
+                await File.WriteAllTextAsync(newestFiles[index], invalidReports[index]);
             }
 
             var latest = await store.GetLatestAsync("pipeline-a");
