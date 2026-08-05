@@ -31,6 +31,11 @@ public sealed record ArgumentPart(
     Func<object, object?> Getter,
     CliArgumentAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
+    /// <summary>
+    /// Gets a value indicating whether the argument position was explicitly supplied.
+    /// </summary>
+    public bool HasExplicitPosition { get; init; }
+
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
 }

@@ -657,6 +657,35 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Preserves_Legacy_Default_Argument_Positions()
+    {
+        var arguments = BuildArguments(new TestCliOptionsWithLegacyDefaultArgumentPositions
+        {
+            First = "first",
+            Second = "second",
+        });
+
+        await Assert.That(string.Join('|', arguments)).IsEqualTo("first|second");
+    }
+
+    [Test]
+    public async Task CommandModel_Preserves_Shipped_Multi_Operand_Options()
+    {
+        var arguments = BuildArguments(
+            new ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions("curl"));
+
+        await Assert.That(string.Join('|', arguments)).IsEqualTo("--assume-yes|install|curl");
+    }
+
+    [Test]
+    public async Task CommandModel_Allows_Argument_Positions_In_Separate_Scopes()
+    {
+        await Assert.That(() =>
+                new CommandModelProvider().GetCommandModel(typeof(TestCliOptionsWithScopedArgumentPositions)))
+            .ThrowsNothing();
+    }
+
+    [Test]
     public async Task Parser_Handles_CliArgument_After_Options()
     {
         var options = new TestCliOptionsWithArgumentAfterOptions
@@ -980,6 +1009,28 @@ public class CliAttributeTests
 
         [CliArgument(0)]
         public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithLegacyDefaultArgumentPositions : CommandLineToolOptions
+    {
+        [CliArgument]
+        public string? First { get; set; }
+
+        [CliArgument]
+        public string? Second { get; set; }
+    }
+
+    [CliGlobalOptions]
+    internal record TestCliGlobalArgumentOptions : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public string? Global { get; set; }
+    }
+
+    internal record TestCliOptionsWithScopedArgumentPositions : TestCliGlobalArgumentOptions
+    {
+        [CliArgument(0)]
+        public string? Command { get; set; }
     }
 
     internal record TestCliOptionsWithEarlyTerminator : CommandLineToolOptions

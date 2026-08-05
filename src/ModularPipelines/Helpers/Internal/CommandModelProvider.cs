@@ -51,6 +51,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
                 {
                     IsGlobalOption = IsGlobalOption(property),
+                    HasExplicitPosition = property.CustomAttributes.Any(static attribute =>
+                        attribute.AttributeType == typeof(CliArgumentAttribute)
+                        && attribute.ConstructorArguments.Count > 0),
                 });
             }
             else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
@@ -185,10 +188,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> parts)
     {
-        var positions = new Dictionary<(CommandLinePhase Phase, int Position), string>();
-        foreach (var argument in parts.OfType<ArgumentPart>())
+        var positions = new Dictionary<(bool IsGlobalOption, CommandLinePhase Phase, int Position), string>();
+        foreach (var argument in parts.OfType<ArgumentPart>().Where(static argument => argument.HasExplicitPosition))
         {
-            var key = (argument.Phase, argument.Attribute.Position);
+            var key = (argument.IsGlobalOption, argument.Phase, argument.Attribute.Position);
             if (positions.TryGetValue(key, out var existingProperty))
             {
                 throw new InvalidOperationException(

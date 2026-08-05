@@ -825,6 +825,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     0,
                     property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                     false,
+                    false,
                     false));
             }
         }
@@ -885,7 +886,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 false,
-                false);
+                false,
+                attribute.ConstructorArguments.Length > 0);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -907,6 +909,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 IsSupportedFlagType(property.Type),
+                false,
                 false);
         }
 
@@ -928,7 +931,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetManualOperandCount(property.Type),
             property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             IsSupportedOptionalValueType(property.Type, allowsLegacyOptionalValues),
-            allowsLegacyOptionalValues);
+            allowsLegacyOptionalValues,
+            false);
     }
 
     private static bool IsSupportedFlagType(ITypeSymbol propertyType)
@@ -1313,7 +1317,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }},");
                     break;
                 case PropertyKind.Flag:
                     sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.FlagPart(");
@@ -2073,7 +2077,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         int ManualOperandCount,
         string AccessorTypeName,
         bool IsSupportedPropertyType,
-        bool AllowsLegacyOptionalValues);
+        bool AllowsLegacyOptionalValues,
+        bool HasExplicitArgumentPosition);
 
     private enum PropertyKind
     {
