@@ -298,6 +298,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
 
         services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
+        services.TryAddSingleton<IRunHistoryReader, RunHistoryReader>();
     }
 
     /// <summary>

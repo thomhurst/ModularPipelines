@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -18,54 +19,82 @@ internal sealed class FileSystemRunHistoryStore(
     private const int MinimumCompatibleSchemaVersion = 1;
     private static readonly TimeSpan StaleTemporaryFileAge = TimeSpan.FromDays(1);
 
-    public Task<PipelineRunReport?> GetLatestAsync(
-        string pipelineIdentity,
-        CancellationToken cancellationToken = default) =>
-        GetLatestAsyncCore(pipelineIdentity, cancellationToken);
-
-    private async Task<PipelineRunReport?> GetLatestAsyncCore(
-        string pipelineIdentity,
-        CancellationToken cancellationToken)
+    public async IAsyncEnumerable<PipelineRunReport> GetRunsAsync(
+        RunHistoryQuery query,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(query);
+        ArgumentException.ThrowIfNullOrWhiteSpace(query.PipelineIdentity);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(query.MaxRuns);
+
         var directory = GetHistoryDirectory();
         if (!Directory.Exists(directory))
         {
-            return null;
+            yield break;
         }
 
-        PipelineRunReport? latestReport = null;
+        var reports = await LoadReportsAsync(directory, query, cancellationToken)
+            .ConfigureAwait(false);
+        foreach (var report in reports
+                     .OrderByDescending(static report => report.End)
+                     .Take(query.MaxRuns))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            yield return report;
+        }
+    }
+
+    private async Task<List<PipelineRunReport>> LoadReportsAsync(
+        string directory,
+        RunHistoryQuery query,
+        CancellationToken cancellationToken)
+    {
+        var reports = new List<PipelineRunReport>();
         var incompatibleSchemaLogged = false;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
-                     $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
+                     $"{GetPipelineFilePrefix(query.PipelineIdentity)}*.json",
                      SearchOption.TopDirectoryOnly))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            try
+            var readResult = await ReadReportAsync(
+                    file,
+                    incompatibleSchemaLogged,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            incompatibleSchemaLogged = readResult.IncompatibleSchemaLogged;
+            if (readResult.Report is not null && MatchesQuery(readResult.Report, query))
             {
-                var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
-                if (!TryDeserializeCompatibleReport(json, ref incompatibleSchemaLogged, out var report))
-                {
-                    continue;
-                }
-
-                if (string.Equals(
-                        report.PipelineIdentity,
-                        pipelineIdentity,
-                        StringComparison.Ordinal)
-                    && (latestReport is null || report.End > latestReport.End))
-                {
-                    latestReport = report;
-                }
-            }
-            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
-            {
-                logger.LogWarning(exception, "Could not read pipeline run history file {HistoryFile}", file);
+                reports.Add(readResult.Report);
             }
         }
 
-        return latestReport;
+        return reports;
     }
+
+    private async Task<HistoryReadResult> ReadReportAsync(
+        string file,
+        bool incompatibleSchemaLogged,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
+            return TryDeserializeCompatibleReport(json, ref incompatibleSchemaLogged, out var report)
+                ? new HistoryReadResult(report, incompatibleSchemaLogged)
+                : new HistoryReadResult(null, incompatibleSchemaLogged);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or JsonException)
+        {
+            logger.LogWarning(exception, "Could not read pipeline run history file {HistoryFile}", file);
+            return new HistoryReadResult(null, incompatibleSchemaLogged);
+        }
+    }
+
+    private static bool MatchesQuery(PipelineRunReport report, RunHistoryQuery query) =>
+        string.Equals(report.PipelineIdentity, query.PipelineIdentity, StringComparison.Ordinal)
+        && (!query.Since.HasValue || report.End >= query.Since.Value)
+        && (!query.Status.HasValue || report.Status == query.Status.Value);
 
     private bool TryDeserializeCompatibleReport(
         string json,
@@ -245,4 +274,8 @@ internal sealed class FileSystemRunHistoryStore(
         var identityHash = Convert.ToHexString(SHA256.HashData(identityBytes)).ToLowerInvariant();
         return $"{OwnedFilePrefix}{identityHash}-";
     }
+
+    private sealed record HistoryReadResult(
+        PipelineRunReport? Report,
+        bool IncompatibleSchemaLogged);
 }
