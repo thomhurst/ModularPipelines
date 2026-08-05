@@ -6009,6 +6009,25 @@ completed before the target module starts. Calls such as
 If a required dependency has no seeded result, `ExecuteAsync` fails immediately
 and names the missing dependency instead of waiting for the module timeout.
 
+## Seed consumed artifacts
+
+Seed each artifact declared by the module before executing it:
+
+```csharp
+var run = await ModuleTester.For<DeployModule, string>()
+    .WithDependencyResult<BuildModule, BuildArtifact>(buildArtifact)
+    .WithArtifact<BuildModule>("application", "artifact contents")
+    .ExecuteAsync();
+```
+
+The harness writes a seeded single-file artifact to the declaration's `RestorePath`, using the
+artifact name as the file name. Binary contents can be passed as a `byte[]`. A consumed artifact
+that was not seeded fails the run before the module body executes.
+
+The isolated harness does not exercise artifact upload/download, archive extraction, or produced
+artifact glob matching. Assert files produced through `context.Files` via `run.FileSystem`; use an
+integration pipeline test when the artifact transport lifecycle itself is under test.
+
 ## Intercept and inspect commands
 
 Commands never start real processes unless you explicitly replace the test
