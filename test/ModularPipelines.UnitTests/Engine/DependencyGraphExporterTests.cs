@@ -3684,42 +3684,36 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Rejects_Direct_Interface_Module_Without_Reactivation()
+    public async Task Registration_Rejects_Direct_Interface_Module_Without_Activation()
     {
         _directModuleActivations = 0;
         using var builder = Pipeline.CreateBuilder();
-        builder.AddModule<DirectInterfaceModule>();
-        await using var pipeline = await builder.BuildAsync();
-        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => builder.AddModule<DirectInterfaceModule>());
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception!.Message).Contains("cannot be copied");
-            await Assert.That(_directModuleActivations).IsEqualTo(1);
+            await Assert.That(exception!.Message).Contains("must derive from Module<T> or SyncModule<T>");
+            await Assert.That(_directModuleActivations).IsEqualTo(0);
         }
     }
 
     [Test]
-    public async Task Render_Validates_Direct_Module_Before_Configuration()
+    public async Task Registration_Validates_Direct_Module_Before_Configuration()
     {
         var runtimeModule = new StatefulDirectInterfaceModule();
         using var builder = Pipeline.CreateBuilder();
-        builder.AddModule(runtimeModule);
-        await using var pipeline = await builder.BuildAsync();
-        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         StatefulDirectInterfaceModule.InitialConfigurationCallCount = runtimeModule.ConfigurationCallCount;
 
         try
         {
-            var exception = await Assert.ThrowsAsync<PipelineException>(
-                () => exporter.RenderAsync(DependencyGraphFormat.Json));
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => builder.AddModule(runtimeModule));
 
             using (Assert.Multiple())
             {
-                await Assert.That(exception!.Message).Contains("cannot be copied");
+                await Assert.That(exception!.Message).Contains("must derive from Module<T> or SyncModule<T>");
                 await Assert.That(runtimeModule.ConfigurationCallCount)
                     .IsEqualTo(StatefulDirectInterfaceModule.InitialConfigurationCallCount);
             }
@@ -3731,45 +3725,39 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Rejects_Service_Backed_Direct_Module_Before_Configuration()
+    public async Task Registration_Rejects_Service_Backed_Direct_Module_Before_Configuration()
     {
         var state = new DirectModulePlanningState();
         var runtimeModule = new ServiceBackedDirectInterfaceModule(state);
         using var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(state);
-        builder.AddModule(runtimeModule);
-        await using var pipeline = await builder.BuildAsync();
-        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         var configurationReadsBeforeExport = state.ConfigurationReads;
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => builder.AddModule(runtimeModule));
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception!.Message).Contains("cannot be copied");
+            await Assert.That(exception!.Message).Contains("must derive from Module<T> or SyncModule<T>");
             await Assert.That(state.ConfigurationReads).IsEqualTo(configurationReadsBeforeExport);
         }
     }
 
     [Test]
-    public async Task Render_Rejects_Direct_Interface_Singleton_Factory_Without_Reactivation()
+    public async Task Registration_Rejects_Direct_Interface_Singleton_Factory_Without_Activation()
     {
         _directModuleActivations = 0;
         using var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<DirectInterfaceModule>();
-        builder.AddModule(serviceProvider =>
-            serviceProvider.GetRequiredService<DirectInterfaceModule>());
-        await using var pipeline = await builder.BuildAsync();
-        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            builder.AddModule(serviceProvider =>
+                serviceProvider.GetRequiredService<DirectInterfaceModule>()));
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception!.Message).Contains("cannot be copied");
-            await Assert.That(_directModuleActivations).IsEqualTo(1);
+            await Assert.That(exception!.Message).Contains("must derive from Module<T> or SyncModule<T>");
+            await Assert.That(_directModuleActivations).IsEqualTo(0);
         }
     }
 
