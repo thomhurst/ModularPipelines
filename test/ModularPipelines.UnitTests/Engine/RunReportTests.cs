@@ -4,6 +4,7 @@ using System.Runtime.Loader;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Console;
@@ -91,8 +92,8 @@ public class RunReportTests
             CancellationToken cancellationToken)
         {
             secretRegistry.AddSecret("module-output-secret");
-            System.Console.WriteLine("stdout module-output-secret");
-            System.Console.Error.WriteLine("stderr module-output-secret");
+            context.Logger.LogInformation("{CommandOutput}", "stdout module-output-secret");
+            context.Logger.LogInformation("{CommandError}", "stderr module-output-secret");
             return Task.FromResult<string?>("success");
         }
     }
@@ -3052,7 +3053,7 @@ public class RunReportTests
         };
 
     private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
-        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.CachedResult,
         };
@@ -3079,7 +3080,7 @@ public class RunReportTests
     {
         var module = new SuccessfulModule();
         var start = new DateTimeOffset(2026, 8, 3, 12, 0, 0, TimeSpan.Zero);
-        var result = (ModuleResult)CreateResult(module, start, duration) with
+        var result = (ModuleResult) CreateResult(module, start, duration) with
         {
             ModuleStatus = status,
         };
