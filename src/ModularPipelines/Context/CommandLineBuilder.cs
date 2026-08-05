@@ -14,7 +14,7 @@ namespace ModularPipelines.Context;
 /// 1. Resolve tool name from [CliTool] attribute or constructor parameter
 /// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
 /// 3. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
-/// 4. Combine global arguments, command parts, and command-specific arguments.
+/// 4. Insert phase-aware AdditionalArguments and combine command parts.
 /// 5. Add manual Arguments if present.
 /// 6. Render RunSettings as option-terminated pass-through arguments.
 /// 7. Validate option terminators against terminal options in one place.
@@ -57,6 +57,9 @@ internal sealed class CommandLineBuilder(
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
+        var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
+        ValidateAdditionalArguments(additionalArguments);
+
         var terminalCommandModel = commandModel
             .Where(part => part.Phase == CommandLinePhase.Terminal)
             .ToList();
@@ -66,17 +69,21 @@ internal sealed class CommandLineBuilder(
         var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
         var emittedOptionTerminator = false;
-        var globalArgs = _commandArgumentBuilder.BuildArguments(
+        var globalArgs = BuildNonTerminalArguments(
             globalCommandModel,
+            additionalArguments,
             options,
+            isGlobalOption: true,
             ref emittedOptionTerminator,
-            out var globalOptionTerminatorIndex).ToList();
+            out var globalOptionTerminatorIndex);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
-        var propertyArgs = _commandArgumentBuilder.BuildArguments(
+        var propertyArgs = BuildNonTerminalArguments(
             commandSpecificModel,
+            additionalArguments,
             options,
+            isGlobalOption: false,
             ref emittedOptionTerminator,
-            out var commandOptionTerminatorIndex).ToList();
+            out var commandOptionTerminatorIndex);
         var manualArgs = options.Arguments?.ToList() ?? [];
         ValidateManualOptionsAfterGlobalTerminator(
             options,
@@ -96,6 +103,10 @@ internal sealed class CommandLineBuilder(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref pendingTerminatorState);
+        var terminalAdditionalArgs = GetAdditionalArguments(
+                additionalArguments,
+                CommandLinePhase.Terminal)
+            .ToList();
         var hasOptionTerminator = pendingTerminatorState;
         var extractedManualOptions = options.ArgumentsContainToolOptions
                                      && hasOptionTerminator
@@ -145,7 +156,8 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(runSettingsArgs);
 
         // 7. A terminal option must not follow any rendered or manually supplied option terminator.
-        if (terminalOptionArgs.Count > 0 && emittedOptionTerminator)
+        if ((terminalAdditionalArgs.Count > 0 || terminalOptionArgs.Count > 0)
+            && emittedOptionTerminator)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with arguments that emit or supply an "
@@ -154,9 +166,121 @@ internal sealed class CommandLineBuilder(
 
         // Terminal options must follow every positional argument source.
         allArgs.AddRange(terminalArgumentArgs);
+        allArgs.AddRange(terminalAdditionalArgs);
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private List<string> BuildNonTerminalArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
+        CommandLineToolOptions options,
+        bool isGlobalOption,
+        ref bool emittedOptionTerminator,
+        out int? emittedOptionTerminatorIndex)
+    {
+        var result = new List<string>();
+        emittedOptionTerminatorIndex = null;
+
+        foreach (var phase in Enum.GetValues<CommandLinePhase>()
+                     .Where(static phase => phase != CommandLinePhase.Terminal))
+        {
+            var phaseAdditionalArguments = GetAdditionalArguments(
+                    additionalArguments,
+                    phase,
+                    isGlobalOption)
+                .ToList();
+            if (phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
+                && phaseAdditionalArguments.Count > 0)
+            {
+                if (emittedOptionTerminator)
+                {
+                    throw new InvalidOperationException(
+                        "An additional end-of-options marker cannot follow one that was already emitted.");
+                }
+
+                emittedOptionTerminatorIndex = result.Count;
+                emittedOptionTerminator = true;
+            }
+
+            result.AddRange(phaseAdditionalArguments);
+
+            var phaseModel = commandModel.Where(part => part.Phase == phase).ToList();
+            var phaseArguments = _commandArgumentBuilder.BuildArguments(
+                phaseModel,
+                options,
+                ref emittedOptionTerminator,
+                out var phaseOptionTerminatorIndex);
+            if (emittedOptionTerminatorIndex is null
+                && phaseOptionTerminatorIndex is { } phaseIndex)
+            {
+                emittedOptionTerminatorIndex = result.Count + phaseIndex;
+            }
+
+            result.AddRange(phaseArguments);
+        }
+
+        return result;
+    }
+
+    private static IEnumerable<string> GetAdditionalArguments(
+        IEnumerable<AdditionalCommandLineArgument> additionalArguments,
+        CommandLinePhase phase,
+        bool? isGlobalOption = null)
+        => additionalArguments
+            .Where(argument => argument.Phase == phase
+                && (isGlobalOption is null || argument.IsGlobalOption == isGlobalOption))
+            .Select(argument => argument.Value);
+
+    private static void ValidateAdditionalArguments(
+        IReadOnlyCollection<AdditionalCommandLineArgument> additionalArguments)
+    {
+        foreach (var argument in additionalArguments)
+        {
+            ArgumentNullException.ThrowIfNull(argument);
+
+            if (!Enum.IsDefined(argument.Phase))
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(CommandLineToolOptions.AdditionalArguments),
+                    argument.Phase,
+                    "The additional argument phase is not defined.");
+            }
+
+            ArgumentNullException.ThrowIfNull(argument.Value);
+
+            if (argument is { IsGlobalOption: true, Phase: CommandLinePhase.Terminal })
+            {
+                throw new ArgumentException(
+                    "A terminal additional argument cannot be a global option.",
+                    nameof(CommandLineToolOptions.AdditionalArguments));
+            }
+
+            if (argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
+                && argument.Value != "--")
+            {
+                throw new ArgumentException(
+                    "The legacy end-of-options phase only accepts the '--' marker.",
+                    nameof(CommandLineToolOptions.AdditionalArguments));
+            }
+
+            if (argument.Value == "--"
+                && argument.Phase != CommandLinePhaseCompatibility.LegacyEndOfOptions)
+            {
+                throw new ArgumentException(
+                    "The '--' marker must use the legacy end-of-options phase.",
+                    nameof(CommandLineToolOptions.AdditionalArguments));
+            }
+        }
+
+        if (additionalArguments.Count(argument =>
+                argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions) > 1)
+        {
+            throw new ArgumentException(
+                "Additional arguments can contain at most one end-of-options marker.",
+                nameof(CommandLineToolOptions.AdditionalArguments));
+        }
     }
 
     private static void ValidateTerminatorState(

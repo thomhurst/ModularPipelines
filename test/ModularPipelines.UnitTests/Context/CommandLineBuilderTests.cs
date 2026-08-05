@@ -873,6 +873,112 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Places_Additional_Arguments_By_Phase_And_Scope()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestMultiLevelCommandOptions
+        {
+            Context = "remote",
+            Reference = "build-reference",
+            Follow = true,
+            Arguments = ["manual"],
+            AdditionalArguments =
+            [
+                new("--global-unmodeled", IsGlobalOption: true),
+                new("early-unmodeled", CommandLinePhase.EarlyOperand),
+                new("--normal-unmodeled"),
+                new("pass-through", CommandLinePhase.Passthrough),
+            ],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "docker --global-unmodeled --context remote buildx history logs "
+            + "early-unmodeled build-reference --normal-unmodeled --follow pass-through manual");
+    }
+
+    [Test]
+    public async Task Build_Places_Additional_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            AdditionalArguments =
+            [
+                new("--unmodeled"),
+            ],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --unmodeled -- -1");
+    }
+
+    [Test]
+    public async Task Build_Places_Additional_Terminal_Arguments_Last()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestAttributeOptions
+        {
+            Force = true,
+            Arguments = ["manual"],
+            AdditionalArguments =
+            [
+                new("terminal", CommandLinePhase.Terminal),
+            ],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "mytool sub command --force manual terminal");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Additional_Terminal_Argument_With_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestAttributeOptions
+        {
+            RunSettings = ["pass-through"],
+            AdditionalArguments =
+            [
+                new("terminal", CommandLinePhase.Terminal),
+            ],
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Additional_Terminator_Outside_Legacy_Phase()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        CommandLinePhase[] phases =
+        [
+            CommandLinePhase.EarlyOperand,
+            CommandLinePhase.Normal,
+            CommandLinePhase.Passthrough,
+            CommandLinePhase.Terminal,
+        ];
+
+        foreach (var phase in phases)
+        {
+            CommandLine Build() => builder.Build(new TestTerminalOptions
+            {
+                AdditionalArguments = [new("--", phase)],
+                RunTests = "tests.jq",
+            });
+
+            await Assert.That(Build)
+                .Throws<ArgumentException>()
+                .And.HasMessageContaining("legacy end-of-options phase");
+        }
+    }
+
+    [Test]
     public async Task Build_Keeps_MultiLevel_Command_Chain_Atomic()
     {
         var builder = await GetService<ICommandLineBuilder>();
