@@ -272,6 +272,7 @@ public class RunReportTests
             {
                 await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNull();
                 await Assert.That(secondReport!.TotalDurationDelta).IsNull();
+                await Assert.That(secondReport.PreviousEnd).IsEqualTo(firstReport!.End);
                 await Assert.That(secondReport.Modules
                         .Single(module => module.Status == Status.Successful)
                         .PreviousDuration)
