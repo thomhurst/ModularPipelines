@@ -292,21 +292,17 @@ public class ModuleMetadataGeneratorTests
             namespace ModularPipelines
             {
                 public sealed class PipelineBuilder;
-            }
 
-            namespace ModularPipelines.Extensions
-            {
                 public static class PipelineBuilderExtensions
                 {
-                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
-                        this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder)
+                        where TModule : class, Modules.IModule => builder;
                 }
             }
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
 
@@ -336,7 +332,7 @@ public class ModuleMetadataGeneratorTests
                 public sealed class PipelineBuilder;
             }
 
-            namespace ModularPipelines.Extensions
+            namespace ModularPipelines
             {
                 public static class PipelineBuilderExtensions
                 {
@@ -348,7 +344,7 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class StarterModule : ModularPipelines.Modules.Module<string>;
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
@@ -393,7 +389,7 @@ public class ModuleMetadataGeneratorTests
                 public sealed class PipelineBuilder;
             }
 
-            namespace ModularPipelines.Extensions
+            namespace ModularPipelines
             {
                 public static class PipelineBuilderExtensions
                 {
@@ -415,7 +411,7 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
 
@@ -459,7 +455,7 @@ public class ModuleMetadataGeneratorTests
                 public sealed class PipelineBuilder;
             }
 
-            namespace ModularPipelines.Extensions
+            namespace ModularPipelines
             {
                 public static class PipelineBuilderExtensions
                 {
@@ -471,7 +467,7 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
 
@@ -509,7 +505,7 @@ public class ModuleMetadataGeneratorTests
                 public sealed class PipelineBuilder;
             }
 
-            namespace ModularPipelines.Extensions
+            namespace ModularPipelines
             {
                 public static class PipelineBuilderExtensions
                 {
@@ -527,7 +523,7 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
 
@@ -687,7 +683,7 @@ public class ModuleMetadataGeneratorTests
                 public sealed class PipelineBuilder;
             }
 
-            namespace ModularPipelines.Extensions
+            namespace ModularPipelines
             {
                 public static class PipelineBuilderExtensions
                 {
@@ -699,7 +695,7 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public static class Registration
                 {
