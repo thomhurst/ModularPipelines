@@ -9,7 +9,7 @@ Pass the application's `args` to `Pipeline.CreateBuilder(args)` to enable the
 built-in pipeline command line:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -120,7 +120,7 @@ To forward every argument to host configuration, disable pipeline command-line
 options:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
 {
     Args = args,
     EnableCommandLineOptions = false,

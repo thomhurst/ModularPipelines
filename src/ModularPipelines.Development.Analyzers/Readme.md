@@ -91,7 +91,7 @@ If you want to see how to get started, or want to know more about ModularPipelin
 ### Program.cs - Main method
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Services
     .Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"))

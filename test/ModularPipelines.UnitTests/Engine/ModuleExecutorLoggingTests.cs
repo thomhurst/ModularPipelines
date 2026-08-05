@@ -681,7 +681,7 @@ public class ModuleExecutorLoggingTests
         using (Assert.Multiple())
         {
             await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
-            await Assert.That(((IModule) module).ResultTask.IsCompleted).IsTrue();
+            await Assert.That(((IInternalModule) module).ResultTask.IsCompleted).IsTrue();
         }
     }
 

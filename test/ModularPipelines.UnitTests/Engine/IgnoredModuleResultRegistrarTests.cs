@@ -66,7 +66,7 @@ public class IgnoredModuleResultRegistrarTests
             await Assert.That(result.IgnoredModules.Select(module => module.Module))
                 .DoesNotContain(dependent);
             await Assert.That(resultRegistry.GetResult(dependency.GetType())).IsNull();
-            await Assert.That(((IModule) dependency).ResultTask.IsCompleted).IsFalse();
+            await Assert.That(((IInternalModule) dependency).ResultTask.IsCompleted).IsFalse();
         }
         finally
         {

@@ -108,7 +108,7 @@ running the same module instance concurrently with its abandoned attempt.
 Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

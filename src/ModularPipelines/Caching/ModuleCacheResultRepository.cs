@@ -418,7 +418,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 continue;
             }
 
-            var dependencyResult = await dependencyModule.ResultTask
+            var dependencyResult = await dependencyModule.AsInternal().ResultTask
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
             AppendDependencyFingerprint(fingerprint, dependencyType, dependencyResult);

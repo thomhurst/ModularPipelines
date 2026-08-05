@@ -6,7 +6,7 @@ namespace ModularPipelines.Options;
 /// Options for configuring HTTP resilience behavior (retry policies for transient failures).
 /// </summary>
 /// <remarks>
-/// <para>Configure via <see cref="PipelineOptions.DefaultHttpResilienceOptions"/> for global defaults,
+/// <para>Configure via <see cref="PipelineHttpOptions.Resilience"/> for global defaults,
 /// or create custom options for specific use cases.</para>
 /// <para>Default behavior:</para>
 /// <list type="bullet">

@@ -10,7 +10,7 @@ public static class GettingStartedSnippets
 {
     public static async Task ConfigurePipeline(string[] args)
     {
-        using var builder = Pipeline.CreateBuilder(args);
+        var builder = Pipeline.CreateBuilder(args);
         builder.AddModule<BuildModule>();
 
         await builder.ExecutePipelineAsync();

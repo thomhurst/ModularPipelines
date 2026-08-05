@@ -10,13 +10,10 @@ sidebar_position: 2
 Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.NET Core minimal API pattern, providing direct access to `Configuration`, `Services`, and `Options`. Setup should feel familiar if you've used ASP.NET Core.
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 await builder.ExecutePipelineAsync();
 ```
-
-`PipelineBuilder` owns its content-root file provider, so keep it in a `using`
-scope until configuration and execution are complete.
 
 ## Modules
 

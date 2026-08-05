@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using ModularPipelines.Configuration;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
@@ -16,24 +15,7 @@ public interface IModule
     Type ResultType { get; }
 
     /// <summary>
-    /// Gets whether this module should always run, even when the pipeline fails.
-    /// </summary>
-    ModuleRunType ModuleRunType => Configuration.AlwaysRun ? ModuleRunType.AlwaysRun : ModuleRunType.OnSuccessfulDependencies;
-
-    /// <summary>
     /// Gets the configuration for this module's execution behaviors.
     /// </summary>
     ModuleConfiguration Configuration { get; }
-
-    /// <summary>
-    /// Gets a task that completes when the module finishes execution, producing the module result.
-    /// The result can be cast to <see cref="IModuleResult"/> on success.
-    /// </summary>
-    [JsonIgnore]
-    Task<IModuleResult> ResultTask { get; }
-
-    /// <summary>
-    /// Applies a deserialized result from distributed execution to this module's CompletionSource.
-    /// </summary>
-    bool TrySetDistributedResult(IModuleResult result);
 }

@@ -4,5 +4,5 @@ namespace ModularPipelines.Git;
 
 public interface IGitVersioning
 {
-    Task<GitVersionInformation> GetGitVersioningInformation();
+    Task<GitVersionInformation> GetVersioningInformationAsync(CancellationToken cancellationToken = default);
 }

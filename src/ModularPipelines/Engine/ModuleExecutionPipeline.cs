@@ -827,6 +827,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             Status.Unknown => LogLevel.Error,
             Status.IgnoredFailure => LogLevel.Warning,
             Status.PipelineTerminated => LogLevel.Error,
+            Status.DependencyFailed => LogLevel.Error,
             Status.UsedHistory => LogLevel.Information,
             Status.CachedResult => LogLevel.Information,
             _ => LogLevel.Error,

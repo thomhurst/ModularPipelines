@@ -11,15 +11,17 @@ namespace ModularPipelines.Engine;
 [ExcludeFromCodeCoverage]
 internal class EngineCancellationToken : IDisposable
 {
-    private readonly CancellationTokenSource _cts = new();
+    private readonly CancellationTokenSource _cts;
+    private readonly CancellationTokenSource _nonFailureCancellationTokenSource = new();
     private readonly CancellationToken _token;
+    private readonly CancellationToken _nonFailureCancellationToken;
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
     private readonly object _lifetimeLock = new();
 
     private int _activeCancellationOperations;
     private int _cancelKeyPressReceived;
-    private bool _disposeCancellationTokenSource;
-    private bool _ctsDisposed;
+    private bool _disposeCancellationTokenSources;
+    private bool _cancellationTokenSourcesDisposed;
 
     public string? Reason { get; private set; }
 
@@ -27,6 +29,12 @@ internal class EngineCancellationToken : IDisposable
     /// Gets the cancellation token from the underlying CancellationTokenSource.
     /// </summary>
     public CancellationToken Token => _token;
+
+    /// <summary>
+    /// Gets a token that is cancelled for user, console, and process-exit cancellation,
+    /// but not for pipeline failure cancellation.
+    /// </summary>
+    public CancellationToken NonFailureCancellationToken => _nonFailureCancellationToken;
 
     /// <summary>
     /// Gets a value indicating whether cancellation has been requested on the underlying token source.
@@ -56,6 +64,8 @@ internal class EngineCancellationToken : IDisposable
     public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
     {
         _primaryExceptionContainer = primaryExceptionContainer;
+        _nonFailureCancellationToken = _nonFailureCancellationTokenSource.Token;
+        _cts = CancellationTokenSource.CreateLinkedTokenSource(_nonFailureCancellationToken);
         _token = _cts.Token;
 
         System.Console.CancelKeyPress += OnCancelKeyPress;
@@ -66,7 +76,7 @@ internal class EngineCancellationToken : IDisposable
     {
         Reason = reason;
         _isCancelled = true;
-        Cancel();
+        Cancel(_nonFailureCancellationTokenSource);
     }
 
     public void CancelWithException(Exception exception, string? reason = null)
@@ -75,7 +85,7 @@ internal class EngineCancellationToken : IDisposable
 
         Reason = reason ?? exception.Message;
         _isCancelled = true;
-        Cancel();
+        Cancel(_cts);
     }
 
     public void RecordException(Exception exception)
@@ -86,7 +96,9 @@ internal class EngineCancellationToken : IDisposable
     /// <summary>
     /// Communicates a request for cancellation.
     /// </summary>
-    public void Cancel()
+    public void Cancel() => Cancel(_nonFailureCancellationTokenSource);
+
+    private void Cancel(CancellationTokenSource cancellationTokenSource)
     {
         if (!TryBeginCancellation())
         {
@@ -95,7 +107,7 @@ internal class EngineCancellationToken : IDisposable
 
         try
         {
-            _cts.Cancel();
+            cancellationTokenSource.Cancel();
         }
         finally
         {
@@ -111,7 +123,7 @@ internal class EngineCancellationToken : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        CancellationTokenSource? cancellationTokenSourceToDispose = null;
+        var disposeCancellationTokenSources = false;
 
         lock (_lifetimeLock)
         {
@@ -121,12 +133,12 @@ internal class EngineCancellationToken : IDisposable
             }
 
             _disposed = true;
-            _disposeCancellationTokenSource = disposing;
+            _disposeCancellationTokenSources = disposing;
 
             if (disposing && _activeCancellationOperations == 0)
             {
-                _ctsDisposed = true;
-                cancellationTokenSourceToDispose = _cts;
+                _cancellationTokenSourcesDisposed = true;
+                disposeCancellationTokenSources = true;
             }
         }
 
@@ -134,7 +146,10 @@ internal class EngineCancellationToken : IDisposable
         {
             System.Console.CancelKeyPress -= OnCancelKeyPress;
             AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
-            cancellationTokenSourceToDispose?.Dispose();
+            if (disposeCancellationTokenSources)
+            {
+                DisposeCancellationTokenSources();
+            }
         }
     }
 
@@ -165,7 +180,7 @@ internal class EngineCancellationToken : IDisposable
         try
         {
             _isCancelled = true;
-            _cts.Cancel();
+            _nonFailureCancellationTokenSource.Cancel();
             return true;
         }
         finally
@@ -190,22 +205,31 @@ internal class EngineCancellationToken : IDisposable
 
     private void EndCancellation()
     {
-        CancellationTokenSource? cancellationTokenSourceToDispose = null;
+        var disposeCancellationTokenSources = false;
 
         lock (_lifetimeLock)
         {
             _activeCancellationOperations--;
 
             if (_disposed
-                && _disposeCancellationTokenSource
-                && !_ctsDisposed
+                && _disposeCancellationTokenSources
+                && !_cancellationTokenSourcesDisposed
                 && _activeCancellationOperations == 0)
             {
-                _ctsDisposed = true;
-                cancellationTokenSourceToDispose = _cts;
+                _cancellationTokenSourcesDisposed = true;
+                disposeCancellationTokenSources = true;
             }
         }
 
-        cancellationTokenSourceToDispose?.Dispose();
+        if (disposeCancellationTokenSources)
+        {
+            DisposeCancellationTokenSources();
+        }
+    }
+
+    private void DisposeCancellationTokenSources()
+    {
+        _cts.Dispose();
+        _nonFailureCancellationTokenSource.Dispose();
     }
 }

@@ -15,4 +15,15 @@ public class GitHubMarkdownSummaryGeneratorTests
             await Assert.That(status).Contains(nameof(Status.CachedResult));
         }
     }
+
+    [Test]
+    public async Task EveryStatusCanBeRendered()
+    {
+        foreach (var status in Enum.GetValues<Status>())
+        {
+            var renderedStatus = GitHubMarkdownSummaryGenerator.GetStatusString(status);
+
+            await Assert.That(renderedStatus).Contains(status.ToString());
+        }
+    }
 }

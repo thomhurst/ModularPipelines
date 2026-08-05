@@ -4,7 +4,7 @@ namespace ModularPipelines.Options;
 /// Options for customizing command execution logging.
 /// </summary>
 /// <remarks>
-/// <para>Set via <see cref="CommandExecutionOptions.LogSettings"/> or <see cref="PipelineOptions.DefaultLoggingOptions"/>.</para>
+/// <para>Set via <see cref="CommandExecutionOptions.LogSettings"/> or <see cref="PipelineCommandOptions.Logging"/>.</para>
 /// <para>Verbosity levels control what is logged automatically:</para>
 /// <list type="bullet">
 /// <item><description><see cref="CommandLogVerbosity.Silent"/> - No logging</description></item>

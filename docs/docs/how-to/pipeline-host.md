@@ -18,7 +18,7 @@ The pipeline builder follows the ASP.NET Core minimal API pattern, providing dir
 ## Basic Example
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -36,7 +36,7 @@ for listing, selecting, skipping, and validating modules.
 Add configuration sources directly via the `Configuration` property:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
@@ -53,7 +53,7 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
 builder
@@ -70,7 +70,7 @@ builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 Use `builder.Environment` or `builder.Configuration` for conditional module registration:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -94,7 +94,7 @@ builder.AddModule<AlwaysRunModule>();
 Configure pipeline behavior via the `Options` property:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.ConfigurePipelineOptions(options => options with
 {
@@ -106,9 +106,12 @@ builder.ConfigurePipelineOptions(options => options with
     IgnoreCategories = ["Experimental"],
 
     // Display options
-    ShowProgressInConsole = true,
-    PrintResults = true,
-    PrintLogo = true,
+    Console = options.Console with
+    {
+        ShowProgress = true,
+        PrintResults = true,
+        PrintLogo = true,
+    },
 
     // Concurrency settings
     Concurrency = new ConcurrencyOptions
@@ -123,7 +126,7 @@ builder.ConfigurePipelineOptions(options => options with
 The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.ConfigurePipelineOptions(options => options with
 {
     ExecutionMode = ExecutionMode.WaitForAllModules,
@@ -150,7 +153,7 @@ the returned summary after a module fails. Fail-fast mode rethrows the module ex
 `BuildAsync()` always validates the pipeline configuration before returning:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 try
@@ -172,7 +175,7 @@ catch (PipelineValidationException ex)
 ### Validate Without Running
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 var validation = await builder.ValidateAsync();
@@ -197,7 +200,7 @@ using ModularPipelines;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Configuration
 builder.Configuration
@@ -245,7 +248,7 @@ await builder.ExecutePipelineAsync();
 Register global hooks and pipeline requirements:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Global hooks (run before/after all modules)
 builder.AddPipelineGlobalHooks<MyGlobalHooks>();
@@ -263,7 +266,7 @@ builder.AddRequirement<GitRequirement>();
 For a more fluent API, extension methods are available:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 await builder
     .AddModule<Module1>()

@@ -15,7 +15,7 @@ namespace ModularPipelines.Git;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Thread Safety:</b> This class is thread-safe. The <see cref="GetGitVersioningInformation"/>
+/// <b>Thread Safety:</b> This class is thread-safe. The <see cref="GetVersioningInformationAsync"/>
 /// method can be called concurrently from multiple threads without external synchronization.
 /// </para>
 /// <para>
@@ -50,9 +50,10 @@ internal class GitVersioning : IGitVersioning
         _temporaryFolder = fileSystemContext.CreateTemporaryFolder();
     }
 
-    public async Task<GitVersionInformation> GetGitVersioningInformation()
+    public async Task<GitVersionInformation> GetVersioningInformationAsync(
+        CancellationToken cancellationToken = default)
     {
-        await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        await _semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
 
         try
         {
@@ -61,7 +62,7 @@ internal class GitVersioning : IGitVersioning
                 return _prefetchedGitVersionInformation;
             }
 
-            var repositoryInfo = await _gitInformation.GetInfoAsync().ConfigureAwait(false)
+            var repositoryInfo = await _gitInformation.GetInfoAsync(cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
             await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("dotnet")
@@ -74,9 +75,9 @@ internal class GitVersioning : IGitVersioning
                     "GitVersion.Tool",
                     "--version", "6.*"
                 ],
-            }).ConfigureAwait(false);
+            }, cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            await TryWriteConfigurationFile(repositoryInfo.Root).ConfigureAwait(false);
+            await TryWriteConfigurationFileAsync(repositoryInfo.Root, cancellationToken).ConfigureAwait(false);
 
             var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
@@ -89,7 +90,8 @@ internal class GitVersioning : IGitVersioning
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = repositoryInfo.Root.Path,
-                }).ConfigureAwait(false);
+                },
+                cancellationToken).ConfigureAwait(false);
 
             return _prefetchedGitVersionInformation ??=
                 JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
@@ -100,7 +102,7 @@ internal class GitVersioning : IGitVersioning
         }
     }
 
-    private async Task TryWriteConfigurationFile(Folder root)
+    private async Task TryWriteConfigurationFileAsync(Folder root, CancellationToken cancellationToken)
     {
         try
         {
@@ -113,11 +115,11 @@ internal class GitVersioning : IGitVersioning
                     mode: ContinuousDeployment
                     strategies:
                       - Mainline
-                    """
-                ).ConfigureAwait(false);
+                    """,
+                    cancellationToken).ConfigureAwait(false);
             }
         }
-        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception e) when (e is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
             _moduleLoggerProvider.GetLogger().LogWarning(e, "Error defining GitVersion.yml configuration");
         }

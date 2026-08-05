@@ -11,7 +11,7 @@ public class AzureKubernetesProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironment(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties, CancellationToken cancellationToken = default)
+    public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironmentAsync(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
