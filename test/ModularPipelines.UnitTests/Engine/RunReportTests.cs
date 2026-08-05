@@ -2026,14 +2026,13 @@ public class RunReportTests
         var reportPath = Path.Combine(directory, "run-report.json");
         var readStarted = new TaskCompletionSource(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        var readCompletion = new TaskCompletionSource<PipelineRunReport?>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
         var historyStore = new Mock<IRunHistoryStore>();
-        historyStore.Setup(store => store.GetLatestAsync(
-                It.IsAny<string>(),
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<string, CancellationToken>((_, _) => readStarted.TrySetResult())
-            .Returns(readCompletion.Task);
+            .Callback<RunHistoryQuery, CancellationToken>((_, _) => readStarted.TrySetResult())
+            .Returns((RunHistoryQuery _, CancellationToken token) =>
+                ReportsAfterAsync(Task.Delay(Timeout.InfiniteTimeSpan, token)));
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
         var commandExecutionCounter = new CommandExecutionCounter();
         var service = new RunReportService(
@@ -2079,7 +2078,6 @@ public class RunReportTests
         }
         finally
         {
-            readCompletion.TrySetResult(null);
             Directory.Delete(directory, recursive: true);
         }
     }
