@@ -35,7 +35,6 @@ public class InterfaceVisibilityTests
             "ModularPipelines.Modules.SubModuleBase",
             "ModularPipelines.Context.ICommandLineBuilder",
             "ModularPipelines.Engine.LogoPrinter",
-            "ModularPipelines.Exceptions.AlwaysRunPostponedException",
         ];
 
         foreach (var typeName in internalTypeNames)
