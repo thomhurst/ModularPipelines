@@ -409,7 +409,7 @@ public class RetryTests : TestBase
             using (Assert.Multiple())
             {
                 await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-                await Assert.That(module.RetryCallbackCount).IsEqualTo(DefaultRetryCount);
+                await Assert.That(module.RetryCallbackCount).IsEqualTo(0);
                 await Assert.That(timeoutException).IsNotNull();
                 await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
             }

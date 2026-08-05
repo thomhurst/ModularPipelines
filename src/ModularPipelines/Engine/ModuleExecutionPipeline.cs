@@ -497,11 +497,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             Interlocked.Increment(ref moduleAttemptCount);
 
-            if (abandonedAttemptTimeout is not null)
-            {
-                throw abandonedAttemptTimeout;
-            }
-
             var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
                 attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
                 timeout == TimeSpan.Zero ? null : timeout,
@@ -519,6 +514,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 if (!timeoutResult.WasCancellationTokenRespected)
                 {
                     abandonedAttemptTimeout = timeoutException;
+                    // Exit the retry policy successfully, then surface the timeout below.
+                    return default!;
                 }
 
                 throw timeoutException;
@@ -527,9 +524,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             return timeoutResult.Value!;
         }
 
+        T result;
         try
         {
-            return retryPolicy != null
+            result = retryPolicy != null
                 ? await retryPolicy.ExecuteAsync(ExecuteModuleAttempt, cancellationToken).ConfigureAwait(false)
                 : await ExecuteModuleAttempt(cancellationToken).ConfigureAwait(false);
         }
@@ -539,6 +537,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 executionContext.ModuleType,
                 Math.Max(0, Volatile.Read(ref moduleAttemptCount) - 1));
         }
+
+        if (abandonedAttemptTimeout is not null)
+        {
+            throw abandonedAttemptTimeout;
+        }
+
+        return result;
     }
 
     private TimeSpan GetTimeout(ModuleConfiguration config)
