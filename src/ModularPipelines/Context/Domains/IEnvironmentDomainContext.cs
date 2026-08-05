@@ -29,10 +29,11 @@ public interface IEnvironmentDomainContext
     string UserName { get; }
 
     /// <summary>
-    /// Gets the working directory captured when the pipeline context was created.
+    /// Gets the pipeline's configured working directory.
     /// </summary>
     /// <remarks>
-    /// To run a command in another directory, set
+    /// Set <see cref="PipelineBuilderOptions.WorkingDirectory"/> when creating the pipeline,
+    /// or override an individual command with
     /// <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
     /// </remarks>
     string WorkingDirectory { get; }

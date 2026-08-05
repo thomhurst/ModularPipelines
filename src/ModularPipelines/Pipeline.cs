@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace ModularPipelines;
 
 /// <summary>
@@ -9,6 +11,7 @@ public static class Pipeline
     /// Creates a new pipeline builder.
     /// </summary>
     /// <param name="args">Optional command line arguments.</param>
+    /// <param name="sourceFilePath">The calling source file path, supplied by the compiler.</param>
     /// <returns>A new pipeline builder instance.</returns>
     /// <example>
     /// <code>
@@ -24,9 +27,15 @@ public static class Pipeline
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>
-    public static PipelineBuilder CreateBuilder(string[]? args = null)
+    public static PipelineBuilder CreateBuilder(
+        string[]? args = null,
+        [CallerFilePath] string sourceFilePath = "")
     {
-        return new PipelineBuilder(args);
+        return new PipelineBuilder(new PipelineBuilderOptions
+        {
+            Args = args,
+            WorkingDirectory = PipelineDirectory.TryFindPipelineProject(sourceFilePath),
+        });
     }
 
     /// <summary>

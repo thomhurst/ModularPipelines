@@ -9,11 +9,13 @@ internal class EnvironmentContext : IEnvironmentContext
     private readonly IHostEnvironment _hostEnvironment;
 
     public EnvironmentContext(IHostEnvironment hostEnvironment,
-        IEnvironmentVariablesContext environmentVariables)
+        IEnvironmentVariablesContext environmentVariables,
+        PipelineWorkingDirectory workingDirectory)
     {
         _hostEnvironment = hostEnvironment;
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
+        WorkingDirectory = new Folder(workingDirectory.Path);
 
         OperatingSystem = OperatingSystemHelper.GetOperatingSystem();
     }
@@ -30,7 +32,7 @@ internal class EnvironmentContext : IEnvironmentContext
 
     public Folder ContentDirectory { get; }
 
-    public Folder WorkingDirectory { get; } = Environment.CurrentDirectory!;
+    public Folder WorkingDirectory { get; }
 
     public IEnvironmentVariablesContext EnvironmentVariables { get; }
 
