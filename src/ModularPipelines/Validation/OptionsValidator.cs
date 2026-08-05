@@ -48,6 +48,13 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
         }
 
+        if (options.AlwaysRunProgressTimeout < TimeSpan.Zero)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"AlwaysRunProgressTimeout cannot be negative. Current value: {options.AlwaysRunProgressTimeout}"));
+        }
+
         var consoleOptions = options.Console;
         if (consoleOptions.ModuleOutputFlushInterval < TimeSpan.Zero)
         {
