@@ -813,10 +813,15 @@ internal sealed class BufferedLogEvent<TState>(
     public string? FormatException()
         => _obfuscatedException is null
             ? null
-            : secretObfuscator.Obfuscate(_obfuscatedException.ToString(), null);
+            : Obfuscate(_obfuscatedException.ToString());
 
     private string Format(object? state, Exception? logException)
-        => secretObfuscator.Obfuscate(_rawFormattedMessage.Value, null) ?? string.Empty;
+        => Obfuscate(_rawFormattedMessage.Value);
+
+    private string Obfuscate(string value)
+        => secretObfuscator.HasSecrets
+            ? secretObfuscator.Obfuscate(value, null)
+            : value;
 
     private string FormatTyped(TState state, Exception? logException)
         => Format(state!, logException);
