@@ -132,16 +132,6 @@ internal class ModuleRunner : IModuleRunner
         {
             try
             {
-                // Check if the module can proceed with execution
-                // Returns false if constraints (e.g., NotInParallel) prevent execution
-                if (!scheduler.MarkModuleStarted(moduleType))
-                {
-                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
-                    return; // Module will be rescheduled by the scheduler
-                }
-
-                _logger.LogDebug("Starting module {ModuleName}", moduleName);
-
                 if (!skipDependencyWait)
                 {
                     await _dependencyWaiter.WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider).ConfigureAwait(false);
@@ -159,6 +149,23 @@ internal class ModuleRunner : IModuleRunner
                             scheduler,
                             cancellationToken)
                         .ConfigureAwait(false);
+
+                using var semaphoreHandle = await _parallelLimitHandler
+                    .AcquireParallelLimitAsync(moduleType, cancellationToken)
+                    .ConfigureAwait(false);
+                using var executionTypeHandle = await _parallelLimitHandler
+                    .AcquireExecutionTypeLimitAsync(moduleState, cancellationToken)
+                    .ConfigureAwait(false);
+
+                // Check constraints again after acquiring execution slots. Keeping the module queued
+                // until this point prevents limiter wait time from being reported as execution time.
+                if (!scheduler.MarkModuleStarted(moduleType))
+                {
+                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
+                    return; // Module will be rescheduled by the scheduler
+                }
+
+                _logger.LogDebug("Starting module {ModuleName}", moduleName);
 
                 await ExecuteModuleWithPipeline(
                         moduleState,
@@ -726,9 +733,6 @@ internal class ModuleRunner : IModuleRunner
                 new ModuleStartedNotification(moduleState, estimatedDuration),
                 CancellationToken.None)
             .ConfigureAwait(false);
-
-        using var semaphoreHandle = await _parallelLimitHandler.AcquireParallelLimitAsync(moduleType).ConfigureAwait(false);
-        using var executionTypeHandle = await _parallelLimitHandler.AcquireExecutionTypeLimitAsync(moduleState).ConfigureAwait(false);
 
         // Track start time for lifecycle events
         var startTime = DateTimeOffset.UtcNow;
