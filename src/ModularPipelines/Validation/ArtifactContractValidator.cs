@@ -17,21 +17,6 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
     public int Order => 250;
 
     /// <inheritdoc />
-    public ValidationResult Validate(IServiceProvider services)
-    {
-        var result = ValidateModules(services, services.GetServices<IModule>());
-        if (!result.HasErrors)
-        {
-            return result;
-        }
-
-        var modules = GetRunnableModulesForArtifactValidationAsync(services)
-            .GetAwaiter()
-            .GetResult();
-        return ValidateModules(services, modules.AvailableModules, modules.RunnableConsumerTypes);
-    }
-
-    /// <inheritdoc />
     public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         var result = ValidateModules(services, services.GetServices<IModule>());

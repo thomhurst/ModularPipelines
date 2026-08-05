@@ -12,10 +12,10 @@ internal class ModuleConfigurationValidator : IModuleConfigurationValidator
     public int Order => 300;
 
     /// <inheritdoc />
-    public ValidationResult Validate(IServiceProvider services)
+    public Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         var modules = services.GetServices<IModule>();
-        return ValidateModules(modules);
+        return Task.FromResult(ValidateModules(modules));
     }
 
     /// <inheritdoc />
