@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using Spectre.Console;
 
 namespace ModularPipelines.Console;
@@ -36,6 +37,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly TimeSpan _renderGateTimeout;
     private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
+    private readonly ModuleOutputExcerptBuffer? _outputExcerptBuffer;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
@@ -56,19 +58,22 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
+    /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
         TimeSpan? renderGateTimeout = null,
-        Func<LogLevel, bool>? isSpectreEnabled = null)
+        Func<LogLevel, bool>? isSpectreEnabled = null,
+        int outputExcerptMaximumBytes = 0)
         : this(
             moduleType.Name,
             moduleType,
             outputFlushThreshold,
             requestIncrementalFlush,
             renderGateTimeout,
-            isSpectreEnabled)
+            isSpectreEnabled,
+            outputExcerptMaximumBytes)
     {
     }
 
@@ -82,13 +87,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
+    /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
         TimeSpan? renderGateTimeout = null,
-        Func<LogLevel, bool>? isSpectreEnabled = null)
+        Func<LogLevel, bool>? isSpectreEnabled = null,
+        int outputExcerptMaximumBytes = 0)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -97,12 +104,25 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _requestIncrementalFlush = requestIncrementalFlush;
         _renderGateTimeout = renderGateTimeout ?? DefaultRenderGateTimeout;
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
+        _outputExcerptBuffer = outputExcerptMaximumBytes > 0
+            ? new ModuleOutputExcerptBuffer(outputExcerptMaximumBytes)
+            : null;
     }
 
     /// <inheritdoc />
     public void WriteLine(string message)
     {
-        AddOutput(BufferedOutput.FromString(message), allowAfterCompletion: true);
+        AddOutput(
+            BufferedOutput.FromString(message, ModuleOutputStream.StandardOutput),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
+    public void WriteErrorLine(string message)
+    {
+        AddOutput(
+            BufferedOutput.FromString(message, ModuleOutputStream.StandardError),
+            allowAfterCompletion: true);
     }
 
     /// <inheritdoc />
@@ -189,6 +209,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         lock (_lock)
         {
             _isComplete = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public ModuleOutputExcerpt? GetOutputExcerpt()
+    {
+        lock (_lock)
+        {
+            return _outputExcerptBuffer?.CreateExcerpt();
         }
     }
 
@@ -283,6 +312,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
 
             _outputs.Add(output);
+            CaptureOutputExcerpt(output);
             if (_requestIncrementalFlush is not null
                 && _outputFlushThreshold > 0
                 && _outputs.Count >= _outputFlushThreshold
@@ -294,6 +324,38 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         requestIncrementalFlush?.Invoke(this);
+    }
+
+    private void CaptureOutputExcerpt(BufferedOutput output)
+    {
+        if (_outputExcerptBuffer is null || output.IsRawBuildSystemCommand)
+        {
+            return;
+        }
+
+        try
+        {
+            if (output.IsString)
+            {
+                _outputExcerptBuffer.Append(output.StringValue!, output.Stream);
+                return;
+            }
+
+            if (output.LogEvent is not { } logEvent)
+            {
+                return;
+            }
+
+            _outputExcerptBuffer.Append(logEvent.FormatMessageWithLevel(), logEvent.Stream);
+            if (logEvent.FormatException() is { } exception)
+            {
+                _outputExcerptBuffer.Append(exception, logEvent.Stream);
+            }
+        }
+        catch (Exception)
+        {
+            // Report capture must never disrupt module logging or execution.
+        }
     }
 
     private bool TryTakeOutputs(
@@ -721,9 +783,17 @@ internal readonly struct BufferedOutput
     public bool IsRawBuildSystemCommand { get; private init; }
 
     /// <summary>
+    /// Gets the output stream represented by this item.
+    /// </summary>
+    public ModuleOutputStream Stream { get; private init; }
+
+    /// <summary>
     /// Creates a buffered output from a string.
     /// </summary>
-    public static BufferedOutput FromString(string value) => new() { StringValue = value };
+    public static BufferedOutput FromString(
+        string value,
+        ModuleOutputStream stream = ModuleOutputStream.StandardOutput) =>
+        new() { StringValue = value, Stream = stream };
 
     /// <summary>
     /// Creates a buffered output from a raw build-system command.
@@ -739,7 +809,7 @@ internal readonly struct BufferedOutput
     /// Creates a buffered output from a log event.
     /// </summary>
     public static BufferedOutput FromLogEvent(IBufferedLogEvent logEvent)
-        => new() { LogEvent = logEvent };
+        => new() { LogEvent = logEvent, Stream = logEvent.Stream };
 }
 
 /// <summary>
@@ -748,6 +818,8 @@ internal readonly struct BufferedOutput
 internal interface IBufferedLogEvent
 {
     LogLevel Level { get; }
+
+    ModuleOutputStream Stream => ModuleOutputStream.StandardOutput;
 
     void WriteTo(ILogger logger);
 
@@ -775,6 +847,8 @@ internal sealed class BufferedLogEvent<TState>(
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     public LogLevel Level => level;
+
+    public ModuleOutputStream Stream { get; } = GetStream(obfuscatedState);
 
     public void WriteTo(ILogger logger)
     {
@@ -832,4 +906,15 @@ internal sealed class BufferedLogEvent<TState>(
             LogLevel.Critical => "CRIT",
             _ => "NONE",
         };
+
+    private static ModuleOutputStream GetStream(object? state)
+    {
+        if (state is IEnumerable<KeyValuePair<string, object?>> properties
+            && properties.Any(static property => property.Key == "CommandError"))
+        {
+            return ModuleOutputStream.StandardError;
+        }
+
+        return ModuleOutputStream.StandardOutput;
+    }
 }

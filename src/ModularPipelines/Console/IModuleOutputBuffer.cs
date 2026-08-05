@@ -1,6 +1,7 @@
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Console;
 
@@ -33,6 +34,17 @@ internal interface IModuleOutputBuffer
     /// </summary>
     /// <param name="message">The message to buffer.</param>
     void WriteLine(string message);
+
+    /// <summary>
+    /// Adds a standard-error line to the buffer.
+    /// </summary>
+    /// <param name="message">The message to buffer.</param>
+    void WriteErrorLine(string message) => WriteLine(message);
+
+    /// <summary>
+    /// Gets the retained report excerpt, when excerpt capture is enabled and output exists.
+    /// </summary>
+    ModuleOutputExcerpt? GetOutputExcerpt() => null;
 
     /// <summary>
     /// Buffers a build-system group command while preserving its position relative to section output.

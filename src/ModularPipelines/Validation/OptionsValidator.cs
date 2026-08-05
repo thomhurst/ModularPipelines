@@ -133,6 +133,13 @@ internal class OptionsValidator : IOptionsValidator
                 $"RunReport.HistoryRetention ({options.HistoryRetention})."));
         }
 
+        if (options.IncludeModuleOutput && options.MaxOutputBytesPerModule <= 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.MaxOutputBytesPerModule must be positive. Current value: {options.MaxOutputBytesPerModule}"));
+        }
+
         if (options.HistoryRetention > 0
             && string.IsNullOrWhiteSpace(options.HistoryDirectory))
         {

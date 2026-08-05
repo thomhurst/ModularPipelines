@@ -4,8 +4,10 @@ using System.Runtime.Loader;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
+using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Distributed;
@@ -81,6 +83,19 @@ public class RunReportTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("success");
+    }
+
+    private sealed class OutputExcerptModule(ISecretRegistry secretRegistry) : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            secretRegistry.AddSecret("module-output-secret");
+            context.Logger.LogInformation("{CommandOutput}", "stdout module-output-secret");
+            context.Logger.LogInformation("{CommandError}", "stderr module-output-secret");
+            return Task.FromResult<string?>("success");
+        }
     }
 
     private sealed class GenericModule<T> : Module<string>
@@ -2920,6 +2935,131 @@ public class RunReportTests
 
         await Assert.That(result.Errors.Select(error => error.Message))
             .Contains(message => message.Contains("HistoryRetention", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportJsonRoundTripPreservesModuleOutputExcerpt()
+    {
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "stdout tail",
+                        StderrTail = "stderr tail",
+                        TruncatedBytes = 42,
+                    },
+                },
+            ],
+        };
+
+        var deserialized = RunReportJsonSerializer.Deserialize(
+            RunReportJsonSerializer.Serialize(report));
+        var output = deserialized!.Modules.Single().Output;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output!.StdoutTail).IsEqualTo("stdout tail");
+            await Assert.That(output.StderrTail).IsEqualTo("stderr tail");
+            await Assert.That(output.TruncatedBytes).IsEqualTo(42);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOptionsRejectNonPositiveOutputLimit()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = 0,
+            },
+        });
+
+        await Assert.That(result.Errors.Select(error => error.Message))
+            .Contains(message => message.Contains("MaxOutputBytesPerModule", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportOptionsIgnoreOutputLimitWhenOutputIsDisabled()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 0 },
+        });
+
+        await Assert.That(result.Errors).IsEmpty();
+    }
+
+    [Test]
+    public async Task RunReportIncludesMaskedModuleOutputWhenEnabled()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
+            RunReport = options.RunReport with
+            {
+                AutoWriteInCi = false,
+                HistoryRetention = 0,
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = 1024,
+            },
+        });
+        builder.AddModule<OutputExcerptModule>();
+
+        var summary = await builder.ExecutePipelineAsync();
+        var output = summary.RunReport!.Modules.Single().Output;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsNotNull();
+            await Assert.That(output!.StdoutTail).Contains("stdout");
+            await Assert.That(output.StderrTail).Contains("stderr");
+            await Assert.That(output.StdoutTail).DoesNotContain("module-output-secret");
+            await Assert.That(output.StderrTail).DoesNotContain("module-output-secret");
+        }
+    }
+
+    [Test]
+    public async Task RunReportMasksOutputAgainAtCreation()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret",
+                StderrTail = "late-secret",
+            });
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("late-secret", "***") ?? string.Empty);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object)
+            .Create(summary, null, "output-remasking");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Modules.Single().Output!.StdoutTail).IsEqualTo("***");
+            await Assert.That(report.Modules.Single().Output!.StderrTail).IsEqualTo("***");
+        }
     }
 
     [Test]
