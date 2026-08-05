@@ -206,7 +206,7 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         if (!_manageArtifactsLocally
-            || !_localArtifactConsumers.ContainsKey(moduleType))
+            || !_localArtifactConsumers.TryGetValue(moduleType, out var consumersByArtifact))
         {
             return;
         }
@@ -215,15 +215,95 @@ internal class ModuleRunner : IModuleRunner
                 scheduler,
                 cancellationToken)
             .ConfigureAwait(false);
-        if (!demandPlan.RequiredArtifactsByProducer.TryGetValue(moduleType, out var artifactNames)
-            || artifactNames.Count == 0)
+        if (!demandPlan.RequiredArtifactsByProducer.TryGetValue(moduleType, out var requiredArtifactNames)
+            || requiredArtifactNames.Count == 0)
         {
             return;
         }
 
-        await _artifactLifecycleManager
-            .UploadProducedArtifactsAsync(moduleType, artifactNames, cancellationToken)
+        var demandedArtifactNames = new HashSet<string>(StringComparer.Ordinal);
+        var runnableConsumersByArtifact = new Dictionary<string, List<Type>>(StringComparer.Ordinal);
+        foreach (var (artifactName, consumerTypes) in consumersByArtifact
+                     .Where(pair => requiredArtifactNames.Contains(pair.Key)))
+        {
+            foreach (var consumerType in consumerTypes)
+            {
+                var demand = await GetArtifactConsumerDemandAsync(
+                        consumerType,
+                        scheduler,
+                        cancellationToken,
+                        demandPlan.RequiredProducerTypes,
+                        moduleType)
+                    .ConfigureAwait(false);
+                if (demand == ArtifactConsumerDemand.NotRunnable)
+                {
+                    continue;
+                }
+
+                demandedArtifactNames.Add(artifactName);
+                if (demand != ArtifactConsumerDemand.Runnable)
+                {
+                    continue;
+                }
+
+                if (!runnableConsumersByArtifact.TryGetValue(artifactName, out var runnableConsumers))
+                {
+                    runnableConsumers = [];
+                    runnableConsumersByArtifact.Add(artifactName, runnableConsumers);
+                }
+
+                runnableConsumers.Add(consumerType);
+            }
+        }
+
+        if (demandedArtifactNames.Count == 0)
+        {
+            return;
+        }
+
+        var uploadedArtifacts = await _artifactLifecycleManager
+            .UploadProducedArtifactsAsync(moduleType, demandedArtifactNames, cancellationToken)
             .ConfigureAwait(false);
+
+        ThrowIfRequiredArtifactsWereNotProduced(
+            moduleType,
+            uploadedArtifacts,
+            runnableConsumersByArtifact);
+    }
+
+    private static void ThrowIfRequiredArtifactsWereNotProduced(
+        Type moduleType,
+        IReadOnlyList<ArtifactReference> uploadedArtifacts,
+        Dictionary<string, List<Type>> runnableConsumersByArtifact)
+    {
+        var uploadedArtifactNames = uploadedArtifacts
+            .Select(artifact => artifact.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        var missingArtifacts = moduleType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Where(attribute => runnableConsumersByArtifact.ContainsKey(attribute.Name)
+                                && !uploadedArtifactNames.Contains(attribute.Name))
+            .OrderBy(attribute => attribute.Name, StringComparer.Ordinal)
+            .ToList();
+
+        if (missingArtifacts.Count == 0)
+        {
+            return;
+        }
+
+        var details = missingArtifacts.Select(attribute =>
+        {
+            var consumers = runnableConsumersByArtifact[attribute.Name]
+                .Select(type => type.Name)
+                .OrderBy(name => name, StringComparer.Ordinal);
+            return $"Artifact '{attribute.Name}' matched no files for pattern '{attribute.PathPattern}'. "
+                   + $"Runnable consumers: {string.Join(", ", consumers)}.";
+        });
+
+        throw new InvalidOperationException(
+            $"Module '{moduleType.Name}' did not produce required artifacts:{Environment.NewLine}"
+            + string.Join(Environment.NewLine, details));
     }
 
     private async Task<bool> HasRunnableArtifactConsumerAsync(
@@ -260,12 +340,12 @@ internal class ModuleRunner : IModuleRunner
                     {
                         foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
                         {
-                            if (await IsRunnableArtifactConsumerAsync(
+                            if (await GetArtifactConsumerDemandAsync(
                                     consumerType,
                                     scheduler,
                                     cancellationToken,
                                     currentDemand)
-                                .ConfigureAwait(false))
+                                .ConfigureAwait(false) != ArtifactConsumerDemand.NotRunnable)
                             {
                                 nextRequiredProducerTypes.Add(producerType);
                                 break;
@@ -289,12 +369,12 @@ internal class ModuleRunner : IModuleRunner
                     {
                         foreach (var consumerType in consumerTypes)
                         {
-                            if (!await IsRunnableArtifactConsumerAsync(
+                            if (await GetArtifactConsumerDemandAsync(
                                     consumerType,
                                     scheduler,
                                     cancellationToken,
                                     requiredProducerTypes)
-                                .ConfigureAwait(false))
+                                .ConfigureAwait(false) == ArtifactConsumerDemand.NotRunnable)
                             {
                                 continue;
                             }
@@ -315,16 +395,17 @@ internal class ModuleRunner : IModuleRunner
             cancellationToken);
     }
 
-    private async Task<bool> IsRunnableArtifactConsumerAsync(
+    private async Task<ArtifactConsumerDemand> GetArtifactConsumerDemandAsync(
         Type consumerType,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
-        IReadOnlySet<Type> requiredProducerTypes)
+        IReadOnlySet<Type> requiredProducerTypes,
+        Type? producerTypeBeingFinalized = null)
     {
         if (scheduler.GetModuleState(consumerType) is not { State: not ModuleExecutionState.Completed } moduleState
             || moduleState.SkipResult.ShouldSkip)
         {
-            return false;
+            return ArtifactConsumerDemand.NotRunnable;
         }
 
         var dependencyDemand = await GetRequiredDependencyDemandAsync(
@@ -332,26 +413,27 @@ internal class ModuleRunner : IModuleRunner
                 scheduler,
                 cancellationToken,
                 [consumerType],
-                requiredProducerTypes)
+                requiredProducerTypes,
+                producerTypeBeingFinalized)
             .ConfigureAwait(false);
         if (dependencyDemand.IsUnrecoverable)
         {
-            return false;
+            return ArtifactConsumerDemand.NotRunnable;
         }
 
         if (dependencyDemand.HasPendingDependency)
         {
-            return true;
+            return ArtifactConsumerDemand.Pending;
         }
 
         var skipDecision = await EvaluatePlanningSkipAsync(moduleState, cancellationToken).ConfigureAwait(false);
         if (skipDecision?.ShouldSkip != true)
         {
-            return true;
+            return ArtifactConsumerDemand.Runnable;
         }
 
         moduleState.TrySetSkipResult(skipDecision);
-        return false;
+        return ArtifactConsumerDemand.NotRunnable;
     }
 
     private async Task<SkipDecision?> EvaluatePlanningSkipAsync(
@@ -371,93 +453,106 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
         HashSet<Type> visited,
-        IReadOnlySet<Type> requiredProducerTypes)
+        IReadOnlySet<Type> requiredProducerTypes,
+        Type? dependencyTypeBeingFinalized = null)
     {
         var hasPendingDependency = false;
-        foreach (var dependency in moduleState.Dependencies.Where(static dependency => !dependency.Value))
+        foreach (var dependency in moduleState.Dependencies.Where(
+                     dependency => !dependency.Value && dependency.Key != dependencyTypeBeingFinalized))
         {
-            if (_resultRegistry.GetResult(dependency.Key)?.ModuleStatus == Enums.Status.Skipped)
+            var dependencyDemand = await GetRequiredDependencyDemandAsync(
+                    dependency.Key,
+                    scheduler,
+                    cancellationToken,
+                    visited,
+                    requiredProducerTypes,
+                    dependencyTypeBeingFinalized)
+                .ConfigureAwait(false);
+            hasPendingDependency |= dependencyDemand.HasPendingDependency;
+            if (dependencyDemand.IsUnrecoverable)
             {
                 return new RequiredDependencyDemand(
                     IsUnrecoverable: true,
                     HasPendingDependency: hasPendingDependency);
-            }
-
-            if (scheduler.GetModuleState(dependency.Key) is not { } dependencyState
-                || dependencyState.State == ModuleExecutionState.Completed
-                || !visited.Add(dependency.Key))
-            {
-                continue;
-            }
-
-            try
-            {
-                if (dependencyState.SkipResult.ShouldSkip)
-                {
-                    if (await IsSkippedDependencyUnrecoverableAsync(
-                            dependency.Key,
-                            dependencyState,
-                            requiredProducerTypes)
-                        .ConfigureAwait(false))
-                    {
-                        return new RequiredDependencyDemand(
-                            IsUnrecoverable: true,
-                            HasPendingDependency: hasPendingDependency);
-                    }
-
-                    continue;
-                }
-
-                var transitiveDemand = await GetRequiredDependencyDemandAsync(
-                        dependencyState,
-                        scheduler,
-                        cancellationToken,
-                        visited,
-                        requiredProducerTypes)
-                    .ConfigureAwait(false);
-                if (transitiveDemand.IsUnrecoverable)
-                {
-                    return new RequiredDependencyDemand(
-                        IsUnrecoverable: true,
-                        HasPendingDependency: true);
-                }
-
-                if (transitiveDemand.HasPendingDependency)
-                {
-                    hasPendingDependency = true;
-                    continue;
-                }
-
-                var skipDecision = await EvaluatePlanningSkipAsync(dependencyState, cancellationToken)
-                    .ConfigureAwait(false);
-                if (skipDecision?.ShouldSkip == true)
-                {
-                    dependencyState.TrySetSkipResult(skipDecision);
-                    if (await IsSkippedDependencyUnrecoverableAsync(
-                            dependency.Key,
-                            dependencyState,
-                            requiredProducerTypes)
-                        .ConfigureAwait(false))
-                    {
-                        return new RequiredDependencyDemand(
-                            IsUnrecoverable: true,
-                            HasPendingDependency: hasPendingDependency);
-                    }
-
-                    continue;
-                }
-
-                hasPendingDependency = true;
-            }
-            finally
-            {
-                visited.Remove(dependency.Key);
             }
         }
 
         return new RequiredDependencyDemand(
             IsUnrecoverable: false,
             HasPendingDependency: hasPendingDependency);
+    }
+
+    private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
+        Type dependencyType,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken,
+        HashSet<Type> visited,
+        IReadOnlySet<Type> requiredProducerTypes,
+        Type? dependencyTypeBeingFinalized)
+    {
+        if (_resultRegistry.GetResult(dependencyType)?.ModuleStatus == Enums.Status.Skipped)
+        {
+            return new RequiredDependencyDemand(IsUnrecoverable: true, HasPendingDependency: false);
+        }
+
+        if (scheduler.GetModuleState(dependencyType) is not { } dependencyState
+            || dependencyState.State == ModuleExecutionState.Completed
+            || !visited.Add(dependencyType))
+        {
+            return default;
+        }
+
+        try
+        {
+            if (dependencyState.SkipResult.ShouldSkip)
+            {
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: await IsSkippedDependencyUnrecoverableAsync(
+                            dependencyType,
+                            dependencyState,
+                            requiredProducerTypes)
+                        .ConfigureAwait(false),
+                    HasPendingDependency: false);
+            }
+
+            var transitiveDemand = await GetRequiredDependencyDemandAsync(
+                    dependencyState,
+                    scheduler,
+                    cancellationToken,
+                    visited,
+                    requiredProducerTypes,
+                    dependencyTypeBeingFinalized)
+                .ConfigureAwait(false);
+            if (transitiveDemand.IsUnrecoverable)
+            {
+                return new RequiredDependencyDemand(IsUnrecoverable: true, HasPendingDependency: true);
+            }
+
+            if (transitiveDemand.HasPendingDependency)
+            {
+                return transitiveDemand;
+            }
+
+            var skipDecision = await EvaluatePlanningSkipAsync(dependencyState, cancellationToken)
+                .ConfigureAwait(false);
+            if (skipDecision?.ShouldSkip != true)
+            {
+                return new RequiredDependencyDemand(IsUnrecoverable: false, HasPendingDependency: true);
+            }
+
+            dependencyState.TrySetSkipResult(skipDecision);
+            return new RequiredDependencyDemand(
+                IsUnrecoverable: await IsSkippedDependencyUnrecoverableAsync(
+                        dependencyType,
+                        dependencyState,
+                        requiredProducerTypes)
+                    .ConfigureAwait(false),
+                HasPendingDependency: false);
+        }
+        finally
+        {
+            visited.Remove(dependencyType);
+        }
     }
 
     private async Task<bool> IsSkippedDependencyUnrecoverableAsync(
@@ -482,6 +577,13 @@ internal class ModuleRunner : IModuleRunner
     private readonly record struct RequiredDependencyDemand(
         bool IsUnrecoverable,
         bool HasPendingDependency);
+
+    private enum ArtifactConsumerDemand
+    {
+        NotRunnable,
+        Pending,
+        Runnable,
+    }
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         GetLocalArtifactConsumers(IEnumerable<IModule> modules)
@@ -743,9 +845,7 @@ internal class ModuleRunner : IModuleRunner
 
         try
         {
-            // Invoke OnModuleFailed lifecycle event
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, exception).ConfigureAwait(false);
-
             await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
         }
         finally
