@@ -745,7 +745,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext executionContext,
         Exception exception)
     {
-        if (_engineCancellationToken.IsCancelled
+        if (!config.AlwaysRun
+            && _engineCancellationToken.IsCancelled
             && exception is OperationCanceledException or ModuleTimeoutException)
         {
             return Status.PipelineTerminated;
