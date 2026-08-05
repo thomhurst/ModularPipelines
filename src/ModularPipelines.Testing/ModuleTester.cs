@@ -3,7 +3,9 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
@@ -229,6 +231,9 @@ public class ModuleTestBuilder<TModule>
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
         var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
+        var workingDirectory = pipeline.Services
+            .GetRequiredService<IOptions<ModuleCacheOptions>>()
+            .Value.WorkingDirectory;
 
         await using var loggerScope = new ModuleLoggerScope(logger, typeof(TModule));
 
@@ -240,7 +245,11 @@ public class ModuleTestBuilder<TModule>
                     module,
                     executionContext,
                     moduleContext,
-                    token => RestoreConsumedArtifactsAsync(module, effectiveFileSystem, token),
+                    token => RestoreConsumedArtifactsAsync(
+                        module,
+                        effectiveFileSystem,
+                        workingDirectory,
+                        token),
                     finalizeExecutionAsync: null,
                     completeModule: true,
                     cancellationToken: CancellationToken.None)
@@ -260,6 +269,7 @@ public class ModuleTestBuilder<TModule>
     private async Task RestoreConsumedArtifactsAsync(
         IModule module,
         IFileSystemProvider fileSystem,
+        string workingDirectory,
         CancellationToken cancellationToken)
     {
         var attributes = module.GetType()
@@ -277,7 +287,9 @@ public class ModuleTestBuilder<TModule>
                     + $"'{module.GetType().Name}'. Call WithArtifact to seed it.");
             }
 
-            var restorePath = attribute.RestorePath ?? Environment.CurrentDirectory;
+            var restorePath = ResolveArtifactRestorePath(
+                attribute.RestorePath,
+                workingDirectory);
             fileSystem.CreateDirectory(restorePath);
             await fileSystem.WriteAllBytesAsync(
                     fileSystem.Combine(restorePath, attribute.ArtifactName),
@@ -285,6 +297,18 @@ public class ModuleTestBuilder<TModule>
                     cancellationToken)
                 .ConfigureAwait(false);
         }
+    }
+
+    private static string ResolveArtifactRestorePath(
+        string? restorePath,
+        string workingDirectory)
+    {
+        var normalizedWorkingDirectory = Path.GetFullPath(workingDirectory);
+        var configuredRestorePath = restorePath ?? normalizedWorkingDirectory;
+        return Path.GetFullPath(
+            Path.IsPathRooted(configuredRestorePath)
+                ? configuredRestorePath
+                : Path.Combine(normalizedWorkingDirectory, configuredRestorePath));
     }
 
     private static IModuleLogger GetModuleLogger(IServiceProvider services)

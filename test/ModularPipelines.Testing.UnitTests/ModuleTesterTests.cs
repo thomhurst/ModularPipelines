@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -7,6 +8,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Testing.UnitTests;
 
@@ -185,6 +187,37 @@ public class ModuleTesterTests
             await Assert.That(run.Value).IsEqualTo("artifact contents");
             await Assert.That(run.Exception).IsNull();
             await Assert.That(run.FileSystem).IsSameReferenceAs(fileSystem);
+        }
+    }
+
+    [Test]
+    public async Task ResolvesConsumedArtifactFromConfiguredWorkingDirectory()
+    {
+        var workingDirectory = Path.Combine(
+            Environment.CurrentDirectory,
+            $"module-tester-working-{Guid.NewGuid():N}");
+        var artifactPath = Path.Combine(
+            workingDirectory,
+            "restored-artifacts",
+            "application");
+        var fileSystem = new InMemoryFileSystemProvider();
+        var run = await ModuleTester.For<WorkingDirectoryArtifactConsumerModule, string>()
+            .WithService<IFileSystemProvider>(fileSystem)
+            .WithService<IOptions<ModuleCacheOptions>>(
+                Microsoft.Extensions.Options.Options.Create(new ModuleCacheOptions
+                {
+                    WorkingDirectory = workingDirectory,
+                }))
+            .WithService(new FilePath(artifactPath))
+            .WithDependencyResult<ArtifactProducerModule, string>("producer result")
+            .WithArtifact<ArtifactProducerModule>("application", "artifact contents")
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Value).IsEqualTo("artifact contents");
+            await Assert.That(run.Exception).IsNull();
+            await Assert.That(fileSystem.FileExists(artifactPath)).IsTrue();
         }
     }
 
@@ -496,6 +529,23 @@ public class ModuleTesterTests
         {
             var artifact = context.Files.GetFile(
                 Path.Combine("restored-artifacts", "application"));
+            return await artifact.ReadAsync(cancellationToken)
+                ?? throw new InvalidOperationException("Seeded artifact was not restored.");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(ArtifactProducerModule),
+        "application",
+        RestorePath = "restored-artifacts")]
+    public sealed class WorkingDirectoryArtifactConsumerModule(FilePath artifactPath) : Module<string>
+    {
+        protected override async Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var artifact = context.Files.GetFile(artifactPath.Value);
             return await artifact.ReadAsync(cancellationToken)
                 ?? throw new InvalidOperationException("Seeded artifact was not restored.");
         }
