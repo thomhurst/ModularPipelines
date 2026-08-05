@@ -2,9 +2,11 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Caching;
+using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -59,6 +61,112 @@ public class ModuleExecutionPipelineTests
         {
             return Task.FromResult(42);
         }
+    }
+
+    private sealed class TimeoutExceptionModule : Module<int>
+    {
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new ModuleTimeoutException(
+                GetType(),
+                TimeSpan.FromSeconds(1)));
+        }
+    }
+
+    private sealed class ElapsedCancellationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(5))
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new OperationCanceledException());
+        }
+    }
+
+    private sealed class AlwaysRunTimeoutExceptionModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new ModuleTimeoutException(
+                GetType(),
+                TimeSpan.FromSeconds(1)));
+        }
+    }
+
+    private sealed class AlwaysRunElapsedCancellationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .WithTimeout(TimeSpan.FromMilliseconds(5))
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new OperationCanceledException());
+        }
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesLateTimeoutAsPipelineTerminated()
+    {
+        var result = await ExecuteAfterPipelineCancellation(new TimeoutExceptionModule());
+
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesElapsedCancellationAsPipelineTerminated()
+    {
+        var module = new ElapsedCancellationModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        executionContext.Stopwatch.Start();
+        await Task.Delay(TimeSpan.FromMilliseconds(25));
+        executionContext.Stopwatch.Stop();
+
+        var result = await ExecuteAfterPipelineCancellation(module, executionContext);
+
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesAlwaysRunTimeoutIndependentlyOfPipelineCancellation()
+    {
+        var module = new AlwaysRunTimeoutExceptionModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+
+        await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
+            .Throws<ModuleFailedException>();
+
+        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ClassifiesAlwaysRunElapsedCancellationAsTimeout()
+    {
+        var module = new AlwaysRunElapsedCancellationModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        executionContext.Stopwatch.Start();
+        await Task.Delay(TimeSpan.FromMilliseconds(25));
+        executionContext.Stopwatch.Stop();
+
+        await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
+            .Throws<ModuleFailedException>();
+
+        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
     }
 
     [Test]
@@ -294,5 +402,64 @@ public class ModuleExecutionPipelineTests
             await Assert.That(cacheRepository.WriteCancellationToken)
                 .IsEqualTo(cacheRepository.ReadCancellationToken);
         }
+    }
+
+    private static async Task<ModuleResult<int>> ExecuteAfterPipelineCancellation(
+        Module<int> module,
+        ModuleExecutionContext<int>? executionContext = null)
+    {
+        executionContext ??= new ModuleExecutionContext<int>(module, module.GetType());
+
+        var logger = new Mock<IInternalModuleLogger>();
+        var services = new Mock<IServicesContext>();
+        services.SetupGet(x => x.Options).Returns(new PipelineOptions());
+        var moduleContext = new Mock<IModuleContext>();
+        moduleContext.SetupGet(x => x.Logger).Returns(logger.Object);
+        moduleContext.SetupGet(x => x.Services).Returns(services.Object);
+
+        var resultRepository = new Mock<IModuleResultRepository>();
+        resultRepository.SetupGet(x => x.IsEnabled).Returns(false);
+        var directHookInvoker = new Mock<IDirectHookInvoker>();
+        directHookInvoker
+            .Setup(x => x.InvokeBeforeExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        directHookInvoker
+            .Setup(x => x.InvokeFailedAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<Exception>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        directHookInvoker
+            .Setup(x => x.InvokeAfterExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<ModuleResult<int>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleResult<int>?) null);
+
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        engineCancellationToken.CancelWithException(new InvalidOperationException("Prior module failure"));
+
+        var moduleConditionHandler = new Mock<IModuleConditionHandler>();
+        moduleConditionHandler
+            .Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((false, null));
+        var pipeline = new ModuleExecutionPipeline(
+            resultRepository.Object,
+            engineCancellationToken,
+            directHookInvoker.Object,
+            moduleConditionHandler.Object,
+            OptionsFactory.Create(new PipelineOptions()));
+
+        return await pipeline.ExecuteAsync(
+            module,
+            executionContext,
+            moduleContext.Object,
+            CancellationToken.None);
     }
 }
