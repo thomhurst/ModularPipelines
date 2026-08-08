@@ -50,6 +50,37 @@ public class TrxParsingTests
             .IsEqualTo("at ModularPipelines.TestsForTests.Tests.Fail()");
     }
 
+    [Test]
+    [Arguments("Passed", TestOutcome.Passed)]
+    [Arguments("Failed", TestOutcome.Failed)]
+    [Arguments("Error", TestOutcome.Error)]
+    [Arguments("Timeout", TestOutcome.Timeout)]
+    [Arguments("Aborted", TestOutcome.Aborted)]
+    [Arguments("Inconclusive", TestOutcome.Inconclusive)]
+    [Arguments("PassedButRunAborted", TestOutcome.PassedButRunAborted)]
+    [Arguments("NotRunnable", TestOutcome.NotRunnable)]
+    [Arguments("NotExecuted", TestOutcome.NotExecuted)]
+    [Arguments("Disconnected", TestOutcome.Disconnected)]
+    [Arguments("Warning", TestOutcome.Warning)]
+    [Arguments("Completed", TestOutcome.Completed)]
+    [Arguments("InProgress", TestOutcome.InProgress)]
+    [Arguments("Pending", TestOutcome.Pending)]
+    [Arguments("AdapterSpecificOutcome", TestOutcome.Unknown)]
+    [Arguments("999", TestOutcome.Unknown)]
+    public async Task Parses_Unit_Test_Outcomes_Defensively(string trxOutcome, TestOutcome expectedOutcome)
+    {
+        var contents = await System.IO.File.ReadAllTextAsync(TrxFixturePath);
+        contents = contents.Replace("outcome=\"Passed\"", $"outcome=\"{trxOutcome}\"", StringComparison.Ordinal);
+
+        var result = new TrxParser().ParseTrxContents(contents);
+
+        await Assert.That(result.UnitTestResults).Count().IsEqualTo(4);
+        await Assert.That(result.UnitTestResults.Single(x => x.TestName == "Pass").Outcome)
+            .IsEqualTo(expectedOutcome);
+        await Assert.That(result.UnitTestResults.Single(x => x.TestName == "Fail").Outcome)
+            .IsEqualTo(TestOutcome.Failed);
+    }
+
     private static async Task<DotNetTestResult> ParseFixture()
     {
         var contents = await System.IO.File.ReadAllTextAsync(TrxFixturePath);

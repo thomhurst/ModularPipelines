@@ -226,7 +226,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     {
         return GetNonEmptyLines(testResult.Output?.ErrorInfo?.StackTrace)
             .FirstOrDefault()
-            ?? string.Empty;
+            ?? "No stack trace recorded.";
     }
 
     private static string SummarizeText(string? value, string fallback)
