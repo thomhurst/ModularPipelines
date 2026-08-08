@@ -61,6 +61,24 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
+    public async Task TestPipelineBuilder_DisablesPersistentRunReports()
+    {
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule<TestModuleA>()
+            .BuildAsync();
+        var runReportOptions = pipeline.Services
+            .GetRequiredService<IOptions<PipelineOptions>>()
+            .Value
+            .RunReport;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(runReportOptions.AutoWriteInCi).IsFalse();
+            await Assert.That(runReportOptions.HistoryRetention).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task RegistrationApi_UsesTypedHandlesOnlyForAddModule()
     {
         var addMethods = typeof(PipelineBuilderExtensions)
