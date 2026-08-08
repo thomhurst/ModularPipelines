@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Build;
@@ -117,8 +116,6 @@ if (!string.IsNullOrEmpty(runOnlyCategories))
 {
     builder.RunOnlyCategories(runOnlyCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 }
-
-builder.SetLogLevel(LogLevel.Debug); // Temporarily hardcoded for debugging
 
 await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
