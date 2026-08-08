@@ -16,6 +16,7 @@ namespace ModularPipelines.Engine.Scheduling;
 /// </remarks>
 internal class SchedulerStatusReporter : ISchedulerStatusReporter
 {
+    private const int MaxModuleDetails = 10;
     private static readonly TimeSpan StatusCheckInterval = TimeSpan.FromSeconds(15);
 
     private readonly ILogger<SchedulerStatusReporter> _logger;
@@ -64,15 +65,11 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
                 snapshot = new SchedulerStatusSnapshot(
                     stateQueries.GetStatistics(),
                     includeModuleDetails
-                        ? string.Join(", ", stateQueries.GetPendingModules()
-                            .Select(FormatModuleWithDependencyCount)
-                            .Order(StringComparer.Ordinal))
-                        : string.Empty,
+                        ? FormatModuleDetails(stateQueries.GetPendingModules().Select(FormatModuleWithDependencyCount))
+                        : ModuleDetails.Empty,
                     includeModuleDetails
-                        ? string.Join(", ", stateQueries.GetExecutingModules()
-                            .Select(m => FormatModuleType(m.ModuleType))
-                            .Order(StringComparer.Ordinal))
-                        : string.Empty);
+                        ? FormatModuleDetails(stateQueries.GetExecutingModules().Select(m => FormatModuleType(m.ModuleType)))
+                        : ModuleDetails.Empty);
             }
             finally
             {
@@ -96,15 +93,30 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
             snapshot.Statistics.Completed,
             snapshot.Statistics.Pending);
 
-        if (snapshot.PendingModules.Length > 0)
+        if (snapshot.PendingModules.Display.Length > 0)
         {
-            _logger.LogTrace("Pending modules: {Modules}", snapshot.PendingModules);
+            _logger.LogTrace("Pending modules: {Modules}", snapshot.PendingModules.Display);
         }
 
-        if (snapshot.ExecutingModules.Length > 0)
+        if (snapshot.ExecutingModules.Display.Length > 0)
         {
-            _logger.LogTrace("Executing modules: {Modules}", snapshot.ExecutingModules);
+            _logger.LogTrace("Executing modules: {Modules}", snapshot.ExecutingModules.Display);
         }
+    }
+
+    private static ModuleDetails FormatModuleDetails(IEnumerable<string> modules)
+    {
+        var orderedModules = modules.Order(StringComparer.Ordinal).ToList();
+        var display = string.Join(", ", orderedModules.Take(MaxModuleDetails));
+        var omittedCount = orderedModules.Count - MaxModuleDetails;
+
+        if (omittedCount > 0)
+        {
+            display = $"{display}, ... (+{omittedCount} more)";
+        }
+
+        // Full fingerprint preserves change detection even when changed modules are outside the displayed subset.
+        return new ModuleDetails(string.Join('\n', orderedModules), display);
     }
 
     private static string FormatModuleWithDependencyCount(ModuleState m)
@@ -116,6 +128,11 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
 
     private sealed record SchedulerStatusSnapshot(
         ModuleStateStatistics Statistics,
-        string PendingModules,
-        string ExecutingModules);
+        ModuleDetails PendingModules,
+        ModuleDetails ExecutingModules);
+
+    private sealed record ModuleDetails(string Fingerprint, string Display)
+    {
+        public static ModuleDetails Empty { get; } = new(string.Empty, string.Empty);
+    }
 }

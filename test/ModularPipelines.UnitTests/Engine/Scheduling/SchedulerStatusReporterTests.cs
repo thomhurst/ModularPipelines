@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Engine;
@@ -118,6 +119,31 @@ public class SchedulerStatusReporterTests
         await Assert.That(logger.Messages[0]).DoesNotContain("ExecutingModule");
     }
 
+    [Test]
+    public async Task Trace_Module_Details_Are_Truncated()
+    {
+        var states = new ConcurrentDictionary<Type, ModuleState>();
+        var moduleType = typeof(PendingModule);
+        for (var index = 0; index < 12; index++)
+        {
+            moduleType = typeof(ModuleSlot<>).MakeGenericType(moduleType);
+            var state = CreateModuleState(moduleType, ModuleExecutionState.Pending);
+            state.UnresolvedDependencies.Add(typeof(DependencyModule));
+            states[moduleType] = state;
+        }
+
+        var logger = new RecordingLogger<SchedulerStatusReporter>();
+        var reporter = new SchedulerStatusReporter(logger, new FakeTimeProvider(StartTime));
+        var stateQueries = new ModuleStateQueries(states);
+        using var stateLock = new ReaderWriterLockSlim();
+
+        reporter.LogStatusIfIntervalElapsed(stateQueries, stateLock);
+
+        var details = logger.Messages.Single(message => message.StartsWith("Pending modules:", StringComparison.Ordinal));
+        await Assert.That(Regex.Matches(details, "deps:").Count).IsEqualTo(10);
+        await Assert.That(details).Contains("... (+2 more)");
+    }
+
     private static ModuleState CreateModuleState(Type moduleType, ModuleExecutionState executionState)
     {
         return new ModuleState(new Mock<IModule>().Object, moduleType)
@@ -131,6 +157,8 @@ public class SchedulerStatusReporterTests
     private sealed class PendingModule;
 
     private sealed class DependencyModule;
+
+    private sealed class ModuleSlot<T>;
 
     private sealed class FirstContainer
     {
