@@ -34,6 +34,11 @@ public static class TestPipelineBuilder
                 PrintLogo = false,
                 PrintDependencyChains = false,
             },
+            RunReport = options.RunReport with
+            {
+                AutoWriteInCi = false,
+                HistoryRetention = 0,
+            },
             ThrowOnPipelineFailure = false, // Tests handle failures explicitly
         });
 
