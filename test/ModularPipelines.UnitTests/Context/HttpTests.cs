@@ -581,13 +581,20 @@ public class HttpTests : TestBase
             Timeout = timeout,
         });
 
-        await Task.Delay(timeout + TimeSpan.FromMilliseconds(50));
-
+        var stream = await response.Content.ReadAsStreamAsync();
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await ReadUntilTimeout(stream).WaitAsync(TestHostSettings.DefaultTestTimeout));
+
+        static async Task ReadUntilTimeout(Stream responseStream)
         {
-            var stream = await response.Content.ReadAsStreamAsync();
-            await stream.ReadExactlyAsync(new byte[1]);
-        });
+            while (true)
+            {
+#pragma warning disable CA2022 // Zero-byte read probes timeout cancellation without consuming replay content.
+                responseStream.Read(Span<byte>.Empty);
+#pragma warning restore CA2022
+                await Task.Yield();
+            }
+        }
     }
 
     [Test]

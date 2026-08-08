@@ -59,6 +59,15 @@ public class ModuleTimeoutTests : TestBase
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return TestConstants.TestString;
+        }
+    }
+
+    private class ZeroDefaultTimeoutModule : Module<string>
+    {
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
             await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
             return TestConstants.TestString;
         }
@@ -81,7 +90,8 @@ public class ModuleTimeoutTests : TestBase
                 DefaultModuleTimeout = TimeSpan.FromMilliseconds(10),
             })
             .AddModule<PipelineDefaultTimeoutModule>()
-            .ExecutePipelineAsync());
+            .ExecutePipelineAsync()
+            .WaitAsync(TestHostSettings.DefaultTestTimeout));
 
         var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
@@ -96,7 +106,7 @@ public class ModuleTimeoutTests : TestBase
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
             })
-            .AddModule<PipelineDefaultTimeoutModule>()
+            .AddModule<ZeroDefaultTimeoutModule>()
             .ExecutePipelineAsync()).ThrowsNothing();
     }
 
