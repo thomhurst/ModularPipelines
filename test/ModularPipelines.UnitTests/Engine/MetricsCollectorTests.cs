@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -8,6 +9,10 @@ namespace ModularPipelines.UnitTests.Engine;
 [TUnit.Core.NotInParallel(nameof(MetricsCollectorTests))]
 public class MetricsCollectorTests : TestBase
 {
+    private class MetricsModule<T>
+    {
+    }
+
     public class QuickModule1 : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -113,6 +118,55 @@ public class MetricsCollectorTests : TestBase
     }
 
     [Test]
+    public async Task PipelineMetrics_PreservesStatusCounts()
+    {
+        var collector = new MetricsCollector();
+        var moduleTypes = CreateModuleTypes(68).GetEnumerator();
+        var now = DateTimeOffset.UtcNow;
+
+        RecordCompletedModules(collector, moduleTypes, now, 34, Status.Successful);
+        RecordCompletedModules(collector, moduleTypes, now, 6, Status.Failed);
+        RecordCompletedModules(collector, moduleTypes, now, 5, Status.Skipped);
+        RecordPendingModules(collector, moduleTypes, now, 23);
+
+        var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 4);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.TotalModules).IsEqualTo(68);
+            await Assert.That(metrics.SuccessfulModules).IsEqualTo(34);
+            await Assert.That(metrics.FailedModules).IsEqualTo(6);
+            await Assert.That(metrics.SkippedModules).IsEqualTo(5);
+            await Assert.That(metrics.PendingModules).IsEqualTo(23);
+        }
+    }
+
+    [Test]
+    public async Task PipelineMetrics_DoesNotTreatNonFailureStatusesAsFailed()
+    {
+        var collector = new MetricsCollector();
+        var moduleTypes = CreateModuleTypes(5).GetEnumerator();
+        var now = DateTimeOffset.UtcNow;
+
+        RecordCompletedModules(collector, moduleTypes, now, 1, Status.UsedHistory);
+        RecordCompletedModules(collector, moduleTypes, now, 1, Status.CachedResult);
+        RecordCompletedModules(collector, moduleTypes, now, 1, Status.IgnoredFailure);
+        RecordCompletedModules(collector, moduleTypes, now, 1, Status.Processing);
+        RecordCompletedModules(collector, moduleTypes, now, 1, Status.Unknown);
+
+        var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 4);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.SuccessfulModules).IsEqualTo(2);
+            await Assert.That(metrics.FailedModules).IsEqualTo(0);
+            await Assert.That(metrics.IgnoredFailureModules).IsEqualTo(1);
+            await Assert.That(metrics.ProcessingModules).IsEqualTo(1);
+            await Assert.That(metrics.UnknownModules).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task PipelineMetrics_HasTimingData()
     {
         var result = await TestPipelineBuilder.Create()
@@ -161,5 +215,52 @@ public class MetricsCollectorTests : TestBase
         await Assert.That(timeline.StartTime).IsNotNull();
         await Assert.That(timeline.EndTime).IsNotNull();
         await Assert.That(timeline.ExecutionDuration).IsNotNull();
+    }
+
+    private static IEnumerable<Type> CreateModuleTypes(int count)
+    {
+        var typeArgument = typeof(int);
+        for (var index = 0; index < count; index++)
+        {
+            typeArgument = typeof(MetricsModule<>).MakeGenericType(typeArgument);
+            yield return typeArgument;
+        }
+    }
+
+    private static void RecordCompletedModules(
+        MetricsCollector collector,
+        IEnumerator<Type> moduleTypes,
+        DateTimeOffset now,
+        int count,
+        Status status)
+    {
+        for (var index = 0; index < count; index++)
+        {
+            var moduleType = GetNextModuleType(moduleTypes);
+            collector.RecordModuleReady(moduleType, now, default, default);
+            collector.RecordModuleCompleted(moduleType, now, status == Status.Successful, status == Status.Skipped, status);
+        }
+    }
+
+    private static void RecordPendingModules(
+        MetricsCollector collector,
+        IEnumerator<Type> moduleTypes,
+        DateTimeOffset now,
+        int count)
+    {
+        for (var index = 0; index < count; index++)
+        {
+            collector.RecordModuleReady(GetNextModuleType(moduleTypes), now, default, default);
+        }
+    }
+
+    private static Type GetNextModuleType(IEnumerator<Type> moduleTypes)
+    {
+        if (!moduleTypes.MoveNext())
+        {
+            throw new InvalidOperationException("Expected another module type");
+        }
+
+        return moduleTypes.Current;
     }
 }

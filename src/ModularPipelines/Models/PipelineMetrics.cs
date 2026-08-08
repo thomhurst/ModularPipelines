@@ -72,4 +72,28 @@ public record PipelineMetrics
     /// </summary>
     [JsonInclude]
     public int SkippedModules { get; init; }
+
+    /// <summary>
+    /// Gets the number of modules whose failures were ignored.
+    /// </summary>
+    [JsonInclude]
+    public int IgnoredFailureModules { get; init; }
+
+    /// <summary>
+    /// Gets the number of modules that had not started when the pipeline ended.
+    /// </summary>
+    [JsonInclude]
+    public int PendingModules { get; init; }
+
+    /// <summary>
+    /// Gets the number of modules that were still processing when the pipeline ended.
+    /// </summary>
+    [JsonInclude]
+    public int ProcessingModules { get; init; }
+
+    /// <summary>
+    /// Gets the number of modules whose final status was unknown.
+    /// </summary>
+    [JsonInclude]
+    public int UnknownModules { get; init; }
 }
