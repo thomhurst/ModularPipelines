@@ -475,6 +475,16 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Upload Unit Test Results
+        if: always() && needs.fast-fail.result == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: unit-test-results-${{ matrix.os }}
+          path: |
+            **/TestResults/*.trx
+          if-no-files-found: ignore
+          retention-days: 7
+
   cross-platform-build:
     name: build (${{ matrix.os }})
     needs: fast-fail

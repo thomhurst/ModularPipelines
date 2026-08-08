@@ -32,6 +32,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     private const int MaximumFailuresToDisplay = 10;
     private const int MaximumFailureMessageLength = 500;
     private const int MaximumFailureMessageLines = 3;
+    private const string HangDumpFileName = "hangdump-{pname}-{pid}-{time}.dmp";
     private const string TrxFileName = "test-results.trx";
 
     protected abstract string TestProjectFileName { get; }
@@ -70,6 +71,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                     "--coverage",
                     "--coverage-output-format", "cobertura",
                     "--hangdump",
+                    "--hangdump-filename", HangDumpFileName,
                     "--hangdump-timeout", "20m",
                     "--results-directory", trxFile.Folder!.Path,
                     "--report-trx",
