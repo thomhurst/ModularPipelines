@@ -52,7 +52,14 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var project in projectDependencies.Others)
         {
-            context.Logger.LogInformation("Project {Project} is not a dependency of other projects", project);
+            context.Logger.LogDebug("Project {Project} is not a dependency of other projects", project);
+        }
+
+        if (projectDependencies.Others.Count > 0)
+        {
+            context.Logger.LogInformation(
+                "{Count} projects are not dependencies of other projects",
+                projectDependencies.Others.Count);
         }
     }
 
