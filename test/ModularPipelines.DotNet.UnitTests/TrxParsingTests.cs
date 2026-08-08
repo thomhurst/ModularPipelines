@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Parsers.Trx;
@@ -69,14 +70,19 @@ public class TrxParsingTests
     [Arguments("999", TestOutcome.Unknown)]
     public async Task Parses_Unit_Test_Outcomes_Defensively(string trxOutcome, TestOutcome expectedOutcome)
     {
-        var contents = await System.IO.File.ReadAllTextAsync(TrxFixturePath);
-        contents = contents.Replace("outcome=\"Passed\"", $"outcome=\"{trxOutcome}\"", StringComparison.Ordinal);
+        var document = XDocument.Load(TrxFixturePath);
+        var passResult = document.Descendants()
+            .Single(element => element.Name.LocalName == "UnitTestResult"
+                && element.Attribute("testName")?.Value == "Pass");
+        passResult.SetAttributeValue("outcome", trxOutcome);
 
-        var result = new TrxParser().ParseTrxContents(contents);
+        var result = new TrxParser().ParseTrxContents(document.ToString());
 
         await Assert.That(result.UnitTestResults).Count().IsEqualTo(4);
         await Assert.That(result.UnitTestResults.Single(x => x.TestName == "Pass").Outcome)
             .IsEqualTo(expectedOutcome);
+        await Assert.That(result.UnitTestResults.Single(x => x.TestName == "Pass2").Outcome)
+            .IsEqualTo(TestOutcome.Passed);
         await Assert.That(result.UnitTestResults.Single(x => x.TestName == "Fail").Outcome)
             .IsEqualTo(TestOutcome.Failed);
     }

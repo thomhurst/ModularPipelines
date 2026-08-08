@@ -142,14 +142,19 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
         var testResults = await context.Trx().ParseTrxFile(trxFile);
         var consoleWriter = context.GetService<IConsoleWriter>();
-        PrintFailedTests(consoleWriter, testResults.UnitTestResults);
+        PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);
     }
 
-    private static void PrintFailedTests(IConsoleWriter consoleWriter, IReadOnlyCollection<UnitTestResult> testResults)
+    private static void PrintFailedTests(
+        IConsoleWriter consoleWriter,
+        IReadOnlyCollection<UnitTestResult> testResults,
+        string trxFilePath)
     {
         var failedTests = testResults
-            .Where(result => result.Outcome == TestOutcome.Failed)
+            .Where(result => result.Outcome is not TestOutcome.Passed
+                and not TestOutcome.Completed
+                and not TestOutcome.NotExecuted)
             .ToList();
 
         if (failedTests.Count == 0)
@@ -163,6 +168,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         };
 
         table.AddColumn(new TableColumn("[bold]Test[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Outcome[/]").LeftAligned());
         table.AddColumn(new TableColumn("[bold]Message[/]").LeftAligned());
         table.AddColumn(new TableColumn("[bold]Location[/]").LeftAligned());
 
@@ -170,6 +176,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         {
             table.AddRow(
                 Markup.Escape(failedTest.TestName ?? string.Empty),
+                Markup.Escape(failedTest.Outcome?.ToString() ?? TestOutcome.Unknown.ToString()),
                 Markup.Escape(GetFailureMessage(failedTest)),
                 Markup.Escape(GetFailureLocation(failedTest)));
         }
@@ -181,7 +188,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         {
             consoleWriter.LogToConsole(
                 $"[dim]Showing first {MaximumFailuresToDisplay}; "
-                + $"{failedTests.Count - MaximumFailuresToDisplay} more in {TrxFileName}[/]");
+                + $"{failedTests.Count - MaximumFailuresToDisplay} more in {Markup.Escape(trxFilePath)}[/]");
         }
     }
 
