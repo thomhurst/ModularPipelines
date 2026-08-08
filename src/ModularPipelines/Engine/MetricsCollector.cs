@@ -64,6 +64,10 @@ internal class MetricsCollector : IMetricsCollector
         var successfulCount = 0;
         var failedCount = 0;
         var skippedCount = 0;
+        var ignoredFailureCount = 0;
+        var pendingCount = 0;
+        var processingCount = 0;
+        var unknownCount = 0;
 
         foreach (var data in moduleData)
         {
@@ -72,21 +76,36 @@ internal class MetricsCollector : IMetricsCollector
                 totalModuleExecutionTime += data.EndTime.Value - data.StartTime.Value;
             }
 
-            if (data.WasSkipped)
+            switch (data.Status)
             {
-                skippedCount++;
-            }
-            else if (data.Status == Status.IgnoredFailure)
-            {
-                // Ignored failures don't count as passed or failed
-            }
-            else if (data.WasSuccessful)
-            {
-                successfulCount++;
-            }
-            else
-            {
-                failedCount++;
+                case Status.Successful:
+                case Status.UsedHistory:
+                case Status.CachedResult:
+                    successfulCount++;
+                    break;
+                case Status.Failed:
+                case Status.PipelineTerminated:
+                case Status.TimedOut:
+                case Status.DependencyFailed:
+                    failedCount++;
+                    break;
+                case Status.IgnoredFailure:
+                    ignoredFailureCount++;
+                    break;
+                case Status.Skipped:
+                    skippedCount++;
+                    break;
+                case Status.NotYetStarted:
+                    pendingCount++;
+                    break;
+                case Status.Processing:
+                    processingCount++;
+                    break;
+                case Status.Unknown:
+                    unknownCount++;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(data.Status), data.Status, "Unsupported module status");
             }
         }
 
@@ -120,6 +139,10 @@ internal class MetricsCollector : IMetricsCollector
             SuccessfulModules = successfulCount,
             FailedModules = failedCount,
             SkippedModules = skippedCount,
+            IgnoredFailureModules = ignoredFailureCount,
+            PendingModules = pendingCount,
+            ProcessingModules = processingCount,
+            UnknownModules = unknownCount,
         };
     }
 

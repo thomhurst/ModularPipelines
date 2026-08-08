@@ -75,6 +75,37 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task SummaryLine_SeparatesPendingModulesFromFailures()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [],
+            [],
+            TimeSpan.FromMinutes(18),
+            now,
+            now.AddMinutes(18),
+            new PipelineMetrics
+            {
+                TotalModules = 68,
+                SuccessfulModules = 34,
+                FailedModules = 6,
+                SkippedModules = 5,
+                PendingModules = 23,
+            });
+
+        var summaryLine = SpectreResultsPrinter.CreateSummaryLine(summary);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summaryLine).Contains("34 passed");
+            await Assert.That(summaryLine).Contains("6 failed");
+            await Assert.That(summaryLine).Contains("5 skipped");
+            await Assert.That(summaryLine).Contains("23 pending");
+            await Assert.That(summaryLine).DoesNotContain("29 failed");
+        }
+    }
+
+    [Test]
     public async Task ModulesTable_ShowsPreviousRunDurationDelta()
     {
         var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);

@@ -59,63 +59,47 @@ internal class SpectreResultsPrinter : IResultsPrinter
     internal static Panel CreateMetricsPanel(PipelineMetrics metrics) =>
         CreateMetricsPanelCore(metrics);
 
-    private static void PrintHeader(PipelineSummary pipelineSummary)
+    internal static string CreateSummaryLine(PipelineSummary pipelineSummary)
     {
         var metrics = pipelineSummary.Metrics;
 
-        // Build summary counts
-        var successCount = metrics?.SuccessfulModules ?? pipelineSummary.Modules.Count(m =>
-        {
-            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
-            return timeline?.WasSuccessful == true;
-        });
+        var successCount = metrics?.SuccessfulModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.WasSuccessful);
+        var failedCount = metrics?.FailedModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status is ModuleStatus.Failed
+                or ModuleStatus.TimedOut
+                or ModuleStatus.PipelineTerminated
+                or ModuleStatus.DependencyFailed);
+        var skippedCount = metrics?.SkippedModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.WasSkipped);
+        var ignoredCount = metrics?.IgnoredFailureModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.IgnoredFailure);
+        var pendingCount = metrics?.PendingModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.NotYetStarted);
+        var processingCount = metrics?.ProcessingModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.Processing);
+        var unknownCount = metrics?.UnknownModules
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.Unknown);
 
-        var failedCount = metrics?.FailedModules ?? pipelineSummary.Modules.Count(m =>
-        {
-            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
-            return timeline?.Status == ModuleStatus.Failed || timeline?.Status == ModuleStatus.TimedOut;
-        });
-
-        var skippedCount = metrics?.SkippedModules ?? pipelineSummary.Modules.Count(m =>
-        {
-            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
-            return timeline?.WasSkipped == true;
-        });
-
-        var ignoredCount = pipelineSummary.Modules.Count(m =>
-        {
-            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
-            return timeline?.Status == ModuleStatus.IgnoredFailure;
-        });
-
-        var totalCount = metrics?.TotalModules ?? pipelineSummary.Modules.Count;
-
-        // Build the summary line
         var parts = new List<string>();
 
-        if (successCount > 0)
-        {
-            parts.Add($"[green]{successCount} passed[/]");
-        }
+        AddSummaryCount(parts, successCount, "green", "passed");
+        AddSummaryCount(parts, failedCount, "red", "failed");
+        AddSummaryCount(parts, ignoredCount, "yellow", "ignored");
+        AddSummaryCount(parts, skippedCount, "yellow", "skipped");
+        AddSummaryCount(parts, pendingCount, "grey", "pending");
+        AddSummaryCount(parts, processingCount, "blue", "running");
+        AddSummaryCount(parts, unknownCount, "grey", "unknown");
 
-        if (failedCount > 0)
-        {
-            parts.Add($"[red]{failedCount} failed[/]");
-        }
-
-        if (ignoredCount > 0)
-        {
-            parts.Add($"[yellow]{ignoredCount} ignored[/]");
-        }
-
-        if (skippedCount > 0)
-        {
-            parts.Add($"[yellow]{skippedCount} skipped[/]");
-        }
-
-        var summaryLine = parts.Count > 0
+        var totalCount = metrics?.TotalModules ?? pipelineSummary.Modules.Count;
+        return parts.Count > 0
             ? string.Join("[dim] | [/]", parts)
             : $"[dim]{totalCount} modules[/]";
+    }
+
+    private static void PrintHeader(PipelineSummary pipelineSummary)
+    {
+        var summaryLine = CreateSummaryLine(pipelineSummary);
 
         // Create the header rule
         var headerText = pipelineSummary.Status == ModuleStatus.Successful
@@ -127,6 +111,24 @@ internal class SpectreResultsPrinter : IResultsPrinter
         AnsiConsole.MarkupLine(headerText);
         AnsiConsole.MarkupLine($"[dim]Duration:[/] [bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]  {summaryLine}");
         System.Console.WriteLine();
+    }
+
+    private static void AddSummaryCount(List<string> parts, int count, string color, string label)
+    {
+        if (count > 0)
+        {
+            parts.Add($"[{color}]{count} {label}[/]");
+        }
+    }
+
+    private static int CountModules(PipelineSummary pipelineSummary, Func<ModuleTimeline, bool> predicate)
+    {
+        return pipelineSummary.Modules.Count(module =>
+        {
+            var timeline = pipelineSummary.ModuleTimelines?
+                .FirstOrDefault(candidate => candidate.ModuleName == module.GetType().Name);
+            return timeline is not null && predicate(timeline);
+        });
     }
 
     private static Table CreateModulesTableCore(PipelineSummary pipelineSummary)
