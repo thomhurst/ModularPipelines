@@ -23,19 +23,15 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
 
     public void Log()
     {
-        if (!_logger.IsEnabled(LogLevel.Warning))
+        var debugEnabled = _logger.IsEnabled(LogLevel.Debug);
+        var warningEnabled = _logger.IsEnabled(LogLevel.Warning);
+        if (!debugEnabled && !warningEnabled)
         {
             return;
         }
 
         // Use the centralized helper that works with factory-based registrations
         var registeredServices = ServiceCollectionExtensions.GetRegisteredModuleTypes(_serviceContainerWrapper.ServiceCollection);
-
-        var allDetectedModules = _assemblyLoadedTypesProvider.GetLoadedTypesAssignableTo(typeof(IModule));
-
-        var unregisteredModules = allDetectedModules
-            .Except(registeredServices)
-            .ToList();
 
         var unregisteredDependencies = registeredServices
             .SelectMany(ModuleDependencyResolver.GetDependencies)
@@ -45,14 +41,31 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .Where(depType => !registeredServices.Contains(depType))
             .ToList();
 
-        if (unregisteredModules.Count == 0 && unregisteredDependencies.Count == 0)
+        if (warningEnabled && unregisteredDependencies.Count > 0)
+        {
+            _logger.LogWarning("⚠ Missing Required Module Dependencies:\n{Modules}",
+                string.Join("\n", unregisteredDependencies.Select(static module => $"  • {module.Name}")));
+        }
+
+        if (!debugEnabled)
         {
             return;
         }
 
-        var allUnregistered = unregisteredModules.Concat(unregisteredDependencies).Distinct().ToList();
+        var loadedButUnusedModules = _assemblyLoadedTypesProvider
+            .GetLoadedTypesAssignableTo(typeof(IModule))
+            .Except(registeredServices)
+            .Except(unregisteredDependencies)
+            .Select(static module => module.Name)
+            .Order(StringComparer.Ordinal)
+            .ToList();
 
-        _logger.LogWarning("⚠ Unregistered Modules:\n{Modules}",
-            string.Join("\n", allUnregistered.Select(m => $"  • {m?.Name}")));
+        if (loadedButUnusedModules.Count > 0)
+        {
+            _logger.LogDebug(
+                "Loaded module types not registered ({Count}): {Modules}",
+                loadedButUnusedModules.Count,
+                string.Join(", ", loadedButUnusedModules));
+        }
     }
 }
