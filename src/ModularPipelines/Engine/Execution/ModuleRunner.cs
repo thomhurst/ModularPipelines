@@ -290,7 +290,7 @@ internal class ModuleRunner : IModuleRunner
         }
         else
         {
-            _logger.LogError(exception, "Module {ModuleName} failed", moduleType.Name);
+            LogModuleFailure(moduleType.Name, exception);
         }
 
         var statusOverride = GetStatusOverride(
@@ -339,6 +339,27 @@ internal class ModuleRunner : IModuleRunner
         return isPipelineCancellation
             ? registeredStatus ?? Enums.Status.PipelineTerminated
             : null;
+    }
+
+    private void LogModuleFailure(string moduleName, Exception exception)
+    {
+        switch (exception)
+        {
+            case DependencyFailedException dependencyFailedException:
+                _logger.LogInformation(
+                    "Module {ModuleName} did not run because dependency {FailingModuleName} failed",
+                    moduleName,
+                    dependencyFailedException.FailingModuleName);
+                break;
+            case ModuleFailedException:
+                _logger.LogDebug(
+                    "Module {ModuleName} failure was recorded in its module output",
+                    moduleName);
+                break;
+            default:
+                _logger.LogError(exception, "Module {ModuleName} failed", moduleName);
+                break;
+        }
     }
 
     private async Task UploadProducedArtifactsAsync(

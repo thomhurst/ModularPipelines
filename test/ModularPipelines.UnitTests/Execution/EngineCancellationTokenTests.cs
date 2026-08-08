@@ -313,7 +313,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
+    public async Task StopOnFirstException_Reports_DependencyFailed_For_Dependent_Module()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
@@ -333,9 +333,11 @@ public class EngineCancellationTokenTests : TestBase
 
         // Results should be registered before the exception is thrown, no delay needed
         var module1Result = resultRegistry.GetResult(typeof(Module1));
-        // Module1 depends on BadModule which failed, so Module1 should be marked as PipelineTerminated
         await Assert.That(module1Result).IsNotNull();
-        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+        await Assert.That(module1Result.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
+        await Assert.That(((DependencyFailedException) module1Result.ExceptionOrDefault!).FailingModuleName)
+            .IsEqualTo(nameof(BadModule));
     }
 
     [Test]
