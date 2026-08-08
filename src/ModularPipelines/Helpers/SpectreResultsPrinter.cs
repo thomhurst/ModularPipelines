@@ -19,10 +19,17 @@ internal class SpectreResultsPrinter : IResultsPrinter
     private const int MaxStackFrames = 5;
 
     private readonly IOptions<PipelineOptions> _options;
+    private readonly IBuildSystemCommandWriter _commandWriter;
+    private readonly IBuildSystemFormatter _formatter;
 
-    public SpectreResultsPrinter(IOptions<PipelineOptions> options)
+    public SpectreResultsPrinter(
+        IOptions<PipelineOptions> options,
+        IBuildSystemCommandWriter commandWriter,
+        IBuildSystemFormatterProvider formatterProvider)
     {
         _options = options;
+        _commandWriter = commandWriter;
+        _formatter = formatterProvider.GetFormatter();
     }
 
     public void PrintResults(PipelineSummary pipelineSummary)
@@ -39,7 +46,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Create and print the main results table
         var table = CreateModulesTable(pipelineSummary);
-        AnsiConsole.Write(table);
+        PrintModulesTable(table);
 
         // Print failed module details if pipeline failed
         if (pipelineSummary.Status == ModuleStatus.Failed)
@@ -51,6 +58,36 @@ internal class SpectreResultsPrinter : IResultsPrinter
         PrintMetrics(pipelineSummary);
 
         System.Console.WriteLine();
+    }
+
+    private void PrintModulesTable(Table table)
+    {
+        if (!_formatter.UsesRawCommands)
+        {
+            AnsiConsole.Write(table);
+            return;
+        }
+
+        var startCommand = _formatter.GetStartBlockCommand("Module Results");
+        if (startCommand is null)
+        {
+            AnsiConsole.Write(table);
+            return;
+        }
+
+        _commandWriter.WriteLine(startCommand);
+        try
+        {
+            AnsiConsole.Write(table);
+        }
+        finally
+        {
+            var endCommand = _formatter.GetEndBlockCommand("Module Results");
+            if (endCommand is not null)
+            {
+                _commandWriter.WriteLine(endCommand);
+            }
+        }
     }
 
     internal static Table CreateModulesTable(PipelineSummary pipelineSummary) =>
