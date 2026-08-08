@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
@@ -10,9 +11,13 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         "Microsoft",
         "System",
     ];
+    private static readonly object ReportedErrorMarker = new();
 
     private readonly IBuildSystemFormatter _formatter;
     private readonly IBuildSystemCommandWriter _commandWriter;
+    // Identity deduplicates propagated wrappers without merging independent failures that
+    // share diagnostics. Weak keys let completed failures leave with their exception graph.
+    private readonly ConditionalWeakTable<Exception, object> _reportedErrors = new();
 
     public BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatterProvider formatterProvider,
@@ -33,6 +38,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         new BuildSystemLogIssueLogger(
             _formatter,
             _commandWriter,
+            _reportedErrors,
             IsIssueCategory(categoryName));
 
     public void Dispose()
@@ -47,6 +53,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
         IBuildSystemCommandWriter commandWriter,
+        ConditionalWeakTable<Exception, object> reportedErrors,
         bool isIssueCategory) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
@@ -71,7 +78,16 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             var message = messageFormatter(state, exception);
             if (exception is not null)
             {
-                message = $"{message}{Environment.NewLine}{exception}";
+                var rootException = exception.GetBaseException();
+                if (logLevel is LogLevel.Error or LogLevel.Critical
+                    && !reportedErrors.TryAdd(rootException, ReportedErrorMarker))
+                {
+                    return;
+                }
+
+                message = string.IsNullOrWhiteSpace(message)
+                    ? rootException.Message
+                    : $"{message}: {rootException.Message}";
             }
 
             var command = formatter.GetLogIssueCommand(logLevel, message);
