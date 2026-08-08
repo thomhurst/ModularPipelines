@@ -172,7 +172,7 @@ internal class ModuleRunner : IModuleRunner
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
+                LogModuleFailure(moduleName, ex);
                 var isDependencyFailure = ex is DependencyFailedException;
                 scheduler.MarkModuleCompleted(
                     moduleType,
@@ -197,6 +197,27 @@ internal class ModuleRunner : IModuleRunner
                     throw;
                 }
             }
+        }
+    }
+
+    private void LogModuleFailure(string moduleName, Exception exception)
+    {
+        switch (exception)
+        {
+            case DependencyFailedException dependencyFailedException:
+                _logger.LogInformation(
+                    "Module {ModuleName} did not run because dependency {FailingModuleName} failed",
+                    moduleName,
+                    dependencyFailedException.FailingModuleName);
+                break;
+            case ModuleFailedException:
+                _logger.LogDebug(
+                    "Module {ModuleName} failure was recorded in its module output",
+                    moduleName);
+                break;
+            default:
+                _logger.LogError(exception, "Module {ModuleName} failed", moduleName);
+                break;
         }
     }
 
