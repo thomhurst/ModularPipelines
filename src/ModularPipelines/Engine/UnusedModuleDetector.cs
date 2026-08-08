@@ -41,10 +41,20 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .Where(depType => !registeredServices.Contains(depType))
             .ToList();
 
-        if (warningEnabled && unregisteredDependencies.Count > 0)
+        if (unregisteredDependencies.Count > 0)
         {
-            _logger.LogWarning("⚠ Missing Required Module Dependencies:\n{Modules}",
-                string.Join("\n", unregisteredDependencies.Select(static module => $"  • {module.Name}")));
+            if (warningEnabled)
+            {
+                _logger.LogWarning("⚠ Missing Required Module Dependencies:\n{Modules}",
+                    string.Join("\n", unregisteredDependencies.Select(static module => $"  • {module.Name}")));
+            }
+            else
+            {
+                _logger.LogDebug(
+                    "Missing required module dependencies ({Count}): {Modules}",
+                    unregisteredDependencies.Count,
+                    string.Join(", ", unregisteredDependencies.Select(static module => module.Name)));
+            }
         }
 
         if (!debugEnabled)

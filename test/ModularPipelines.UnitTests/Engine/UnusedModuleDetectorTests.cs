@@ -70,6 +70,28 @@ public class UnusedModuleDetectorTests
     }
 
     [Test]
+    public async Task Missing_Required_Dependencies_Fall_Back_To_Debug_When_Warnings_Are_Disabled()
+    {
+        var logger = new RecordingLogger<UnusedModuleDetector>(level => level == LogLevel.Debug);
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddModule<ModuleWithMissingDependency>();
+        _serviceContainerWrapper.Setup(x => x.ServiceCollection).Returns(serviceCollection);
+        _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(IModule)))
+            .Returns([typeof(ModuleWithMissingDependency)]);
+        var detector = new UnusedModuleDetector(
+            _assemblyLoadedTypesProvider.Object,
+            _serviceContainerWrapper.Object,
+            logger);
+
+        detector.Log();
+
+        var entry = logger.Entries.Single();
+        await Assert.That(entry.Level).IsEqualTo(LogLevel.Debug);
+        await Assert.That(entry.Message).Contains("Missing required module dependencies (1)");
+        await Assert.That(entry.Message).Contains(nameof(Module2));
+    }
+
+    [Test]
     public async Task Log_WhenDiagnosticsDisabled_DoesNotScanAssembliesOrServices()
     {
         var logger = new Mock<ILogger<UnusedModuleDetector>>();
@@ -123,12 +145,19 @@ public class UnusedModuleDetectorTests
 
     private sealed class RecordingLogger<T> : ILogger<T>
     {
+        private readonly Func<LogLevel, bool> _isEnabled;
+
+        public RecordingLogger(Func<LogLevel, bool>? isEnabled = null)
+        {
+            _isEnabled = isEnabled ?? (static level => level != LogLevel.None);
+        }
+
         public List<(LogLevel Level, string Message)> Entries { get; } = [];
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull => null;
 
-        public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
+        public bool IsEnabled(LogLevel logLevel) => _isEnabled(logLevel);
 
         public void Log<TState>(
             LogLevel logLevel,
