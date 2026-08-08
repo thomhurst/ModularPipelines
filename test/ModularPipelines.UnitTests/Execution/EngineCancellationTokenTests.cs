@@ -546,7 +546,7 @@ public class EngineCancellationTokenTests : TestBase
             .Single();
 
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+            async () => await host.RunAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
         var awaitedResult = await ((IInternalModule) pendingModule).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1));
         var registeredResult = resultRegistry.GetResult(typeof(StopOnFirstPendingModule));
