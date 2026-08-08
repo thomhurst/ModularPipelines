@@ -71,7 +71,7 @@ public class TrxParser : ITrxParser
             StartTime = DateTimeOffset.Parse(element.Attribute("startTime")!.Value),
             EndTime = DateTimeOffset.Parse(element.Attribute("endTime")!.Value),
             TestType = element.Attribute("testType")!.Value,
-            Outcome = Enum.Parse<TestOutcome>(element.Attribute("outcome")!.Value),
+            Outcome = ParseTestOutcome(element.Attribute("outcome")?.Value),
             TestListId = element.Attribute("testListId")!.Value,
             RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")!.Value,
             Output = new TestOutput
@@ -85,5 +85,13 @@ public class TrxParser : ITrxParser
                 },
             },
         };
+    }
+
+    private static TestOutcome ParseTestOutcome(string? value)
+    {
+        return Enum.TryParse<TestOutcome>(value, ignoreCase: true, out var outcome)
+               && Enum.IsDefined(outcome)
+            ? outcome
+            : TestOutcome.Unknown;
     }
 }

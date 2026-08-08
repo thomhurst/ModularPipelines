@@ -21,7 +21,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules.UnitTests;
 
 /// <summary>
-/// Runs a unit test project and renders its skipped tests as structured output.
+/// Runs a unit test project and renders its failures and skipped tests as structured output.
 /// </summary>
 [DependsOn<BuildSolutionsModule>]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
@@ -29,6 +29,10 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 [RequiresCapability("linux")]
 public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult>
 {
+    private const int MaximumFailuresToDisplay = 10;
+    private const int MaximumFailureMessageLength = 500;
+    private const int MaximumFailureMessageLines = 3;
+    private const string HangDumpFileName = "hangdump-{pname}-{pid}-{time}.dmp";
     private const string TrxFileName = "test-results.trx";
 
     protected abstract string TestProjectFileName { get; }
@@ -67,6 +71,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                     "--coverage",
                     "--coverage-output-format", "cobertura",
                     "--hangdump",
+                    "--hangdump-filename", HangDumpFileName,
                     "--hangdump-timeout", "20m",
                     "--results-directory", trxFile.Folder!.Path,
                     "--report-trx",
@@ -102,7 +107,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
         finally
         {
-            await PrintSkippedTests(context, trxFile);
+            await PrintTestResults(context, trxFile);
         }
     }
 
@@ -113,22 +118,22 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             .GetFile(TrxFileName);
     }
 
-    private static async Task PrintSkippedTests(IModuleContext context, File trxFile)
+    private static async Task PrintTestResults(IModuleContext context, File trxFile)
     {
         try
         {
-            await PrintSkippedTestsCore(context, trxFile);
+            await PrintTestResultsCore(context, trxFile);
         }
         catch (Exception exception)
         {
             context.Logger.LogWarning(
                 exception,
-                "Unable to render skipped test results from {TrxFile}",
+                "Unable to render test results from {TrxFile}",
                 trxFile.Path);
         }
     }
 
-    private static async Task PrintSkippedTestsCore(IModuleContext context, File trxFile)
+    private static async Task PrintTestResultsCore(IModuleContext context, File trxFile)
     {
         if (!trxFile.Exists)
         {
@@ -136,7 +141,60 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
 
         var testResults = await context.Trx().ParseTrxFile(trxFile);
-        var skippedTests = testResults.UnitTestResults
+        var consoleWriter = context.GetService<IConsoleWriter>();
+        PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
+        PrintSkippedTests(consoleWriter, testResults.UnitTestResults);
+    }
+
+    private static void PrintFailedTests(
+        IConsoleWriter consoleWriter,
+        IReadOnlyCollection<UnitTestResult> testResults,
+        string trxFilePath)
+    {
+        var failedTests = testResults
+            .Where(result => result.Outcome is not TestOutcome.Passed
+                and not TestOutcome.Completed
+                and not TestOutcome.NotExecuted)
+            .ToList();
+
+        if (failedTests.Count == 0)
+        {
+            return;
+        }
+
+        var table = new Table
+        {
+            Border = TableBorder.Rounded,
+        };
+
+        table.AddColumn(new TableColumn("[bold]Test[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Outcome[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Message[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Location[/]").LeftAligned());
+
+        foreach (var failedTest in failedTests.Take(MaximumFailuresToDisplay))
+        {
+            table.AddRow(
+                Markup.Escape(failedTest.TestName ?? string.Empty),
+                Markup.Escape(failedTest.Outcome?.ToString() ?? TestOutcome.Unknown.ToString()),
+                Markup.Escape(GetFailureMessage(failedTest)),
+                Markup.Escape(GetFailureLocation(failedTest)));
+        }
+
+        consoleWriter.LogToConsole($"[red]✗ {failedTests.Count} failed[/]");
+        consoleWriter.Write(table);
+
+        if (failedTests.Count > MaximumFailuresToDisplay)
+        {
+            consoleWriter.LogToConsole(
+                $"[dim]Showing first {MaximumFailuresToDisplay}; "
+                + $"{failedTests.Count - MaximumFailuresToDisplay} more in {Markup.Escape(trxFilePath)}[/]");
+        }
+    }
+
+    private static void PrintSkippedTests(IConsoleWriter consoleWriter, IReadOnlyCollection<UnitTestResult> testResults)
+    {
+        var skippedTests = testResults
             .Where(result => result.Outcome == TestOutcome.NotExecuted)
             .ToList();
 
@@ -160,9 +218,46 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                 Markup.Escape(GetSkipReason(skippedTest)));
         }
 
-        var consoleWriter = context.GetService<IConsoleWriter>();
         consoleWriter.LogToConsole($"[dim]⏭ {skippedTests.Count} skipped[/]");
         consoleWriter.Write(table);
+    }
+
+    private static string GetFailureMessage(UnitTestResult testResult)
+    {
+        var failureText = testResult.Output?.ErrorInfo?.Message
+            ?? testResult.Output?.DebugTrace
+            ?? testResult.Output?.StdOut;
+
+        return SummarizeText(failureText, "No failure message recorded.");
+    }
+
+    private static string GetFailureLocation(UnitTestResult testResult)
+    {
+        return GetNonEmptyLines(testResult.Output?.ErrorInfo?.StackTrace)
+            .FirstOrDefault()
+            ?? "No stack trace recorded.";
+    }
+
+    private static string SummarizeText(string? value, string fallback)
+    {
+        var summary = string.Join(
+            Environment.NewLine,
+            GetNonEmptyLines(value).Take(MaximumFailureMessageLines));
+
+        if (string.IsNullOrEmpty(summary))
+        {
+            return fallback;
+        }
+
+        return summary.Length <= MaximumFailureMessageLength
+            ? summary
+            : $"{summary[..(MaximumFailureMessageLength - 3)]}...";
+    }
+
+    private static IEnumerable<string> GetNonEmptyLines(string? value)
+    {
+        return (value ?? string.Empty)
+            .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 
     private static string GetSkipReason(UnitTestResult testResult)
