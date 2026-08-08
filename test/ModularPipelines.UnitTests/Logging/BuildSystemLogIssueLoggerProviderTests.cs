@@ -68,6 +68,22 @@ public class BuildSystemLogIssueLoggerProviderTests
     }
 
     [Test]
+    public async Task Logger_WritesIndependentErrorsWithIdenticalDiagnostics()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Pipeline");
+
+        logger.LogError(new InvalidOperationException("failure"), "first message");
+        logger.LogError(new InvalidOperationException("failure"), "second message");
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}"
+                + $"##vso[task.logissue type=error;]second message: failure{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task Logger_WritesNothingWhenBuildSystemHasNoIssueCommand()
     {
         using var writer = new StringWriter();
