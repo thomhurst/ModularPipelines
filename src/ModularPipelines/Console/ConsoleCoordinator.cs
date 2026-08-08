@@ -94,7 +94,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             RequestThresholdFlush,
             isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                 OutputLoggerCategories.Pipeline,
-                logLevel));
+                logLevel),
+            // Unattributed logs do not represent pipeline completion status.
+            showSuccessMarker: false);
     }
 
     /// <inheritdoc />

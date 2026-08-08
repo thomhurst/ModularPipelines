@@ -353,6 +353,47 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task CompleteFlush_RendersSuccessMarkerForModuleOutput()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("completed output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests ✓");
+    }
+
+    [Test]
+    public async Task FailedPipelineOutput_DoesNotRenderSuccessMarker()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            "Pipeline",
+            typeof(void),
+            showSuccessMarker: false);
+        buffer.WriteLine("Pipeline Failed");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("Pipeline Failed");
+        await Assert.That(output).DoesNotContain("Pipeline ✓");
+    }
+
+    [Test]
     public async Task IncrementalFlush_DoesNotDrainCompletedModule()
     {
         var writer = new StringWriter();
@@ -445,6 +486,26 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("ModuleOutputBufferTests ✗ (continued)");
         await Assert.That(output).Contains(nameof(InvalidOperationException));
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task CompleteFlush_SuppressesFailureGroupWithoutOutput()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.SetException(new InvalidOperationException("module failure"));
+        buffer.MarkComplete();
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).IsEmpty();
     }
 
     [Test]
