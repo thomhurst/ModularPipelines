@@ -37,6 +37,19 @@ public class TrxParsingTests
             .Count().IsEqualTo(2);
     }
 
+    [Test]
+    public async Task Parses_Failed_Test_Diagnostics()
+    {
+        var result = await ParseFixture();
+
+        var failedTest = result.UnitTestResults.Single(x => x.Outcome == TestOutcome.Failed);
+
+        await Assert.That(failedTest.TestName).IsEqualTo("Fail");
+        await Assert.That(failedTest.Output?.ErrorInfo?.Message).IsEqualTo("This test is meant to fail");
+        await Assert.That(failedTest.Output?.ErrorInfo?.StackTrace)
+            .IsEqualTo("at ModularPipelines.TestsForTests.Tests.Fail()");
+    }
+
     private static async Task<DotNetTestResult> ParseFixture()
     {
         var contents = await System.IO.File.ReadAllTextAsync(TrxFixturePath);
