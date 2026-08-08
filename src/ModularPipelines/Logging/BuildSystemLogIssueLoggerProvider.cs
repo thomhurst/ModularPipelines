@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
@@ -11,11 +11,13 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         "Microsoft",
         "System",
     ];
+    private static readonly object ReportedErrorMarker = new();
 
     private readonly IBuildSystemFormatter _formatter;
     private readonly IBuildSystemCommandWriter _commandWriter;
-    private readonly ConcurrentDictionary<string, byte> _reportedErrors =
-        new(StringComparer.Ordinal);
+    // Identity deduplicates propagated wrappers without merging independent failures that
+    // share diagnostics. Weak keys let completed failures leave with their exception graph.
+    private readonly ConditionalWeakTable<Exception, object> _reportedErrors = new();
 
     public BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatterProvider formatterProvider,
@@ -51,7 +53,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
         IBuildSystemCommandWriter commandWriter,
-        ConcurrentDictionary<string, byte> reportedErrors,
+        ConditionalWeakTable<Exception, object> reportedErrors,
         bool isIssueCategory) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
@@ -76,9 +78,9 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             var message = messageFormatter(state, exception);
             if (exception is not null)
             {
-                var rootException = GetRootException(exception);
+                var rootException = exception.GetBaseException();
                 if (logLevel is LogLevel.Error or LogLevel.Critical
-                    && !reportedErrors.TryAdd(rootException.ToString(), 0))
+                    && !reportedErrors.TryAdd(rootException, ReportedErrorMarker))
                 {
                     return;
                 }
@@ -93,16 +95,6 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             {
                 commandWriter.WriteLine(command);
             }
-        }
-
-        private static Exception GetRootException(Exception exception)
-        {
-            while (exception.InnerException is not null)
-            {
-                exception = exception.InnerException;
-            }
-
-            return exception;
         }
     }
 }
