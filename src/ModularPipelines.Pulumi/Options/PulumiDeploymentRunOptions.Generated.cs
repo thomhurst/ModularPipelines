@@ -71,7 +71,6 @@ public record PulumiDeploymentRunOptions(
     /// <summary>
     /// Git SSH private key path; use --git-auth-password for the password, if needed
     /// </summary>
-    [SecretValue]
     [CliOption("--git-auth-ssh-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? GitAuthSshPrivateKeyPath { get; set; }
 
