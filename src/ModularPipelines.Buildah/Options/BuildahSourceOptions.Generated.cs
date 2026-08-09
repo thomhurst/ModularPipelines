@@ -26,10 +26,4 @@ public record BuildahSourceOptions : BuildahOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    /// <summary>
-    /// The command operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Command { get; set; }
-
 }

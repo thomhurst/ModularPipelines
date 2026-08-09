@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Buildah.Options;
 
@@ -413,8 +414,8 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// pull the image from the registry if newer or not present in store, if false, only pull the image if not present, if always, pull the image even if the named image is present in store, if never, only use the image present in store if available (default "true")
     /// </summary>
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
-    public string? Pull { get; set; }
+    [CliOption("--pull", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Pull { get; set; }
 
     /// <summary>
     /// refrain from announcing build instructions and image read/write progress
