@@ -18,7 +18,9 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "grep")]
-public record KustomizeCfgGrepOptions : KustomizeOptions
+public record KustomizeCfgGrepOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
+) : KustomizeOptions
 {
     /// <summary>
     /// annotate resources with their file origins. (default true)
@@ -50,7 +52,10 @@ public record KustomizeCfgGrepOptions : KustomizeOptions
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
 
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    /// <summary>
+    /// The DIR operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Dir { get; set; }
 
 }

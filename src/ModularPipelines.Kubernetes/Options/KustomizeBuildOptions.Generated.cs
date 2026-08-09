@@ -18,7 +18,9 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
-public record KustomizeBuildOptions : KustomizeOptions
+public record KustomizeBuildOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Dir
+) : KustomizeOptions
 {
     /// <summary>
     /// use the uid and gid of the command executor to run the function in the container

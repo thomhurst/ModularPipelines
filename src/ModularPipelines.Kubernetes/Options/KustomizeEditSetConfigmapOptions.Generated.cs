@@ -18,7 +18,9 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "set", "configmap")]
-public record KustomizeEditSetConfigmapOptions : KustomizeOptions
+public record KustomizeEditSetConfigmapOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KustomizeOptions
 {
     /// <summary>
     /// Specify an existing key and a new value to update a ConfigMap (i.e. mykey=newvalue)
