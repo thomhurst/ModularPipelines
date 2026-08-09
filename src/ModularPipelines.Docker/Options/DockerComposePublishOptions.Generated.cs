@@ -23,12 +23,6 @@ public record DockerComposePublishOptions(
 ) : DockerOptions
 {
     /// <summary>
-    /// Published compose application (includes referenced images)
-    /// </summary>
-    [CliFlag("--app")]
-    public bool? App { get; set; }
-
-    /// <summary>
     /// Execute command in dry run mode
     /// </summary>
     [CliFlag("--dry-run")]
