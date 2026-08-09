@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "pulumi",
-  "toolVersion": "v3.255.0",
+  "toolVersion": "v3.256.0",
   "commandCount": 226,
   "commandTreeSha256": "c23fbb83a37eb69c9cf574d6e85ffad67be77a27cab19c1f4a05c22b31237a9e",
   "commands": [

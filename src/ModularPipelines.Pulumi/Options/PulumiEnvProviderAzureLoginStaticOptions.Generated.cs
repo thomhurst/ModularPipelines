@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -36,7 +37,13 @@ public record PulumiEnvProviderAzureLoginStaticOptions(
     /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
     [CliOption("--draft", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? Draft { get; set; }
+    public CliOptionValue? Draft { get; set; }
+
+    /// <summary>
+    /// also set the Azure environment variables (ARM_CLIENT_ID, etc.) referencing the login outputs
+    /// </summary>
+    [CliFlag("--export-env-vars")]
+    public bool? ExportEnvVars { get; set; }
 
     /// <summary>
     /// help for static

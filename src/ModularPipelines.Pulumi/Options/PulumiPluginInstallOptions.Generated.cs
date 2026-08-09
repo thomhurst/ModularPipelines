@@ -135,9 +135,21 @@ public record PulumiPluginInstallOptions : PulumiOptions
     public int? Verbose { get; set; }
 
     /// <summary>
-    /// The kind name [version] operand.
+    /// The kind operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? KindNameVersion { get; set; }
+    public string? Kind { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// The version operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Version { get; set; }
 
 }
