@@ -195,10 +195,4 @@ public record FluxGetImagesOptions : FluxOptions
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
 
-    /// <summary>
-    /// The command operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Command { get; set; }
-
 }
