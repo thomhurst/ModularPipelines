@@ -44,4 +44,16 @@ public record KustomizeLocalizeOptions : KustomizeOptions
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
 
+    /// <summary>
+    /// The target operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Target { get; set; }
+
+    /// <summary>
+    /// The destination operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Destination { get; set; }
+
 }
