@@ -20549,7 +20549,13 @@ public class RunCommandModule : Module<CommandResult>
 
 `ModularPipelines.Kubernetes` provides strongly typed access to the `kustomize` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `kustomize` executable. Install it separately and ensure `kustomize` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Kubernetes
@@ -20559,23 +20565,10 @@ Resolve the service with `context.Tools.Kustomize`. For projects older than C# 1
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Kubernetes.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Kustomize.BuildAsync(
-            new KustomizeBuildOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var kustomize = context.Tools.Kustomize;
 ```
 
 ## Commands
@@ -20583,11 +20576,13 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `kustomize build` | `KustomizeBuildOptions` |
+| `kustomize cfg` | `KustomizeCfgOptions` |
 | `kustomize cfg cat` | `KustomizeCfgCatOptions` |
 | `kustomize cfg count` | `KustomizeCfgCountOptions` |
 | `kustomize cfg grep` | `KustomizeCfgGrepOptions` |
 | `kustomize cfg tree` | `KustomizeCfgTreeOptions` |
 | `kustomize create` | `KustomizeCreateOptions` |
+| `kustomize edit` | `KustomizeEditOptions` |
 | `kustomize edit add` | `KustomizeEditAddOptions` |
 | `kustomize edit add annotation` | `KustomizeEditAddAnnotationOptions` |
 | `kustomize edit add base` | `KustomizeEditAddBaseOptions` |
@@ -20616,12 +20611,43 @@ public class RunCommandModule : Module<CommandResult>
 | `kustomize edit set buildmetadata` | `KustomizeEditSetBuildmetadataOptions` |
 | `kustomize edit set configmap` | `KustomizeEditSetConfigmapOptions` |
 | `kustomize edit set image` | `KustomizeEditSetImageOptions` |
+| `kustomize edit set image set` | `KustomizeEditSetImageSetOptions` |
+| `kustomize edit set image set set` | `KustomizeEditSetImageSetSetOptions` |
+| `kustomize edit set image set set set` | `KustomizeEditSetImageSetSetSetOptions` |
+| `kustomize edit set image set set set set` | `KustomizeEditSetImageSetSetSetSetOptions` |
+| `kustomize edit set image set set set set set` | `KustomizeEditSetImageSetSetSetSetSetOptions` |
+| `kustomize edit set image set set set set set set` | `KustomizeEditSetImageSetSetSetSetSetSetOptions` |
 | `kustomize edit set label` | `KustomizeEditSetLabelOptions` |
 | `kustomize edit set nameprefix` | `KustomizeEditSetNameprefixOptions` |
+| `kustomize edit set nameprefix set` | `KustomizeEditSetNameprefixSetOptions` |
+| `kustomize edit set nameprefix set set` | `KustomizeEditSetNameprefixSetSetOptions` |
+| `kustomize edit set nameprefix set set set` | `KustomizeEditSetNameprefixSetSetSetOptions` |
+| `kustomize edit set nameprefix set set set set` | `KustomizeEditSetNameprefixSetSetSetSetOptions` |
+| `kustomize edit set nameprefix set set set set set` | `KustomizeEditSetNameprefixSetSetSetSetSetOptions` |
+| `kustomize edit set nameprefix set set set set set set` | `KustomizeEditSetNameprefixSetSetSetSetSetSetOptions` |
 | `kustomize edit set namespace` | `KustomizeEditSetNamespaceOptions` |
+| `kustomize edit set namespace set` | `KustomizeEditSetNamespaceSetOptions` |
+| `kustomize edit set namespace set set` | `KustomizeEditSetNamespaceSetSetOptions` |
+| `kustomize edit set namespace set set set` | `KustomizeEditSetNamespaceSetSetSetOptions` |
+| `kustomize edit set namespace set set set set` | `KustomizeEditSetNamespaceSetSetSetSetOptions` |
+| `kustomize edit set namespace set set set set set` | `KustomizeEditSetNamespaceSetSetSetSetSetOptions` |
+| `kustomize edit set namespace set set set set set set` | `KustomizeEditSetNamespaceSetSetSetSetSetSetOptions` |
 | `kustomize edit set namesuffix` | `KustomizeEditSetNamesuffixOptions` |
+| `kustomize edit set namesuffix set` | `KustomizeEditSetNamesuffixSetOptions` |
+| `kustomize edit set namesuffix set set` | `KustomizeEditSetNamesuffixSetSetOptions` |
+| `kustomize edit set namesuffix set set set` | `KustomizeEditSetNamesuffixSetSetSetOptions` |
+| `kustomize edit set namesuffix set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetOptions` |
+| `kustomize edit set namesuffix set set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetSetOptions` |
+| `kustomize edit set namesuffix set set set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetSetSetOptions` |
 | `kustomize edit set replicas` | `KustomizeEditSetReplicasOptions` |
+| `kustomize edit set replicas set` | `KustomizeEditSetReplicasSetOptions` |
+| `kustomize edit set replicas set set` | `KustomizeEditSetReplicasSetSetOptions` |
+| `kustomize edit set replicas set set set` | `KustomizeEditSetReplicasSetSetSetOptions` |
+| `kustomize edit set replicas set set set set` | `KustomizeEditSetReplicasSetSetSetSetOptions` |
+| `kustomize edit set replicas set set set set set` | `KustomizeEditSetReplicasSetSetSetSetSetOptions` |
+| `kustomize edit set replicas set set set set set set` | `KustomizeEditSetReplicasSetSetSetSetSetSetOptions` |
 | `kustomize edit set secret` | `KustomizeEditSetSecretOptions` |
+| `kustomize fn` | `KustomizeFnOptions` |
 | `kustomize fn run` | `KustomizeFnRunOptions` |
 | `kustomize localize` | `KustomizeLocalizeOptions` |
 
