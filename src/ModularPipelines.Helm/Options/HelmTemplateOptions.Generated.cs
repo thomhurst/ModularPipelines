@@ -79,7 +79,7 @@ public record HelmTemplateOptions : HelmOptions
     /// simulate an install. If --dry-run is set with no option being specified or as '--dry-run=client', it will not attempt cluster connections. Setting '--dry-run=server' allows attempting cluster connections.
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public string? DryRun { get; set; }
+    public CliOptionValue? DryRun { get; set; }
 
     /// <summary>
     /// enable DNS lookups when rendering templates
