@@ -37,7 +37,6 @@ public record SkopeoGenerateSigstoreKeyOptions(
     /// <summary>
     /// Read a passphrase for the private key from PATH
     /// </summary>
-    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 
@@ -45,6 +44,6 @@ public record SkopeoGenerateSigstoreKeyOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? CommandOptions { get; set; }
+    public IEnumerable<string>? CommandOptions { get; set; }
 
 }
