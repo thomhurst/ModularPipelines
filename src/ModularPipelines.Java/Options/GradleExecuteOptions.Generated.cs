@@ -227,6 +227,18 @@ public record GradleExecuteOptions : GradleOptions
     public bool? NoConfigureOnDemand { get; set; }
 
     /// <summary>
+    /// Enables Isolated Projects. Projects are configured in parallel. Implies `--configuration-cache`. [incubating]
+    /// </summary>
+    [CliFlag("--isolated-projects")]
+    public bool? IsolatedProjects { get; set; }
+
+    /// <summary>
+    /// Disables Isolated Projects. [incubating]
+    /// </summary>
+    [CliFlag("--no-isolated-projects")]
+    public bool? NoIsolatedProjects { get; set; }
+
+    /// <summary>
     /// Configures the maximum number of concurrent workers Gradle is allowed to use.
     /// </summary>
     [CliOption("--max-workers")]
