@@ -129,7 +129,6 @@ public record PodmanImagePushOptions(
     /// <summary>
     /// Read a passphrase for signing an image from PATH
     /// </summary>
-    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 
