@@ -169,7 +169,6 @@ public record SkopeoSyncOptions(
     /// <summary>
     /// File that contains a passphrase for the --sign-by key
     /// </summary>
-    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 
@@ -233,6 +232,6 @@ public record SkopeoSyncOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? CommandOptions { get; set; }
+    public IEnumerable<string>? CommandOptions { get; set; }
 
 }
