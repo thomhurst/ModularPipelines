@@ -246,6 +246,11 @@ internal class CoordinatedTextWriter : TextWriter
             return retainedPrefixLength;
         }
 
+        if (_secretObfuscator is not ITrackedSecretObfuscator trackedObfuscator)
+        {
+            return retainedPrefixLength;
+        }
+
         var pending = state.Buffer.ToString();
         if (pending.AsSpan().IndexOfAny(patterns.SearchValues) < 0)
         {
@@ -264,7 +269,6 @@ internal class CoordinatedTextWriter : TextWriter
             var match = FindFirstPattern(pending, patterns, searchIndex);
             if (match.Index < 0)
             {
-                output.Append(pending, outputIndex, pending.Length - outputIndex);
                 break;
             }
 
@@ -287,9 +291,7 @@ internal class CoordinatedTextWriter : TextWriter
             }
 
             var secret = pending.Substring(match.Index, match.Length);
-            var obfuscation = _secretObfuscator is ITrackedSecretObfuscator trackedObfuscator
-                ? trackedObfuscator.ObfuscateWithConsumption(secret, null)
-                : GetFallbackObfuscation(secret);
+            var obfuscation = trackedObfuscator.ObfuscateWithConsumption(secret, null);
             if (obfuscation.ConsumedInputLength == 0)
             {
                 searchIndex = match.Index + 1;
@@ -308,6 +310,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (replaced)
         {
+            output.Append(pending, outputIndex, pending.Length - outputIndex);
             state.Buffer.Clear();
             state.Buffer.Append(output);
         }
@@ -315,15 +318,6 @@ internal class CoordinatedTextWriter : TextWriter
         return retainedPrefixInvalidated
             ? GetPotentialPatternPrefixLength(state.Buffer, patterns.Values)
             : retainedPrefixLength;
-    }
-
-    private SecretObfuscationResult GetFallbackObfuscation(string input)
-    {
-        var output = _secretObfuscator.Obfuscate(input, null);
-        var consumedInputLength = string.Equals(output, input, StringComparison.Ordinal)
-            ? 0
-            : input.Length;
-        return new SecretObfuscationResult(output, consumedInputLength);
     }
 
     private void FlushSafeOutput(LineBufferState state, int retainedLength, bool shouldBuffer)
@@ -473,7 +467,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        var output = state.Buffer.ToString(0, length);
+        var output = ObfuscateCustomOutput(state.Buffer.ToString(0, length));
         state.Buffer.Remove(0, length);
         lock (_outputLock)
         {
@@ -483,6 +477,8 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void WriteCompletedLine(string line, bool shouldBuffer, Type? moduleType)
     {
+        line = ObfuscateCustomOutput(line);
+
         if (shouldBuffer)
         {
             RouteToBuffer(line, moduleType);
@@ -508,7 +504,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        var pending = state.Buffer.ToString(0, length);
+        var pending = ObfuscateCustomOutput(state.Buffer.ToString(0, length));
         state.Buffer.Remove(0, length);
 
         if (shouldBuffer)
@@ -523,6 +519,11 @@ internal class CoordinatedTextWriter : TextWriter
             }
         }
     }
+
+    private string ObfuscateCustomOutput(string output) =>
+        _secretObfuscator is ITrackedSecretObfuscator
+            ? output
+            : _secretObfuscator.Obfuscate(output, null);
 
     /// <inheritdoc />
     public override void Flush()

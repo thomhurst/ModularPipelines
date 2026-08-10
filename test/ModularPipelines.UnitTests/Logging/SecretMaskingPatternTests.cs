@@ -165,10 +165,10 @@ public class SecretMaskingPatternTests
     {
         var provider = new Mock<ISecretProvider>();
         provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
-        var obfuscator = new Mock<ISecretObfuscator>();
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
         obfuscator
-            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
-            .Returns("**********");
+            .Setup(x => x.ObfuscateWithConsumption("split-secret", null))
+            .Returns(new SecretObfuscationResult("**********", "split-secret".Length));
         var realConsole = new StringWriter();
 
         using var writer = new CoordinatedTextWriter(
@@ -181,8 +181,31 @@ public class SecretMaskingPatternTests
         writer.WriteLine("ordinary output");
         writer.WriteLine("split-secret");
 
-        obfuscator.Verify(x => x.Obfuscate("split-secret", null), Times.Once);
-        obfuscator.Verify(x => x.Obfuscate("ordinary output", null), Times.Never);
+        obfuscator.Verify(x => x.ObfuscateWithConsumption("split-secret", null), Times.Once);
+        obfuscator.Verify(x => x.ObfuscateWithConsumption("ordinary output", null), Times.Never);
+    }
+
+    [Test]
+    public async Task CustomObfuscatorProcessesOutputWithoutRegisteredPatterns()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input.Replace("custom-secret", "[masked]", StringComparison.Ordinal));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("before custom-secret after");
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"before [masked] after{Environment.NewLine}");
     }
 
     [Test]
@@ -197,6 +220,11 @@ public class SecretMaskingPatternTests
             .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
             .Returns((string input, object? _) =>
             {
+                if (input != "split-secret")
+                {
+                    return input;
+                }
+
                 firstObfuscationStarted.Set();
                 if (!releaseFirstObfuscation.Wait(TimeSpan.FromSeconds(10)))
                 {
@@ -696,6 +724,25 @@ public class SecretMaskingPatternTests
         writer.Flush();
 
         await Assert.That(realConsole.ToString()).IsEqualTo("abaabb");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_PreservesTailAfterCaseSensitiveFalseMatch()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("a");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("aA");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********A");
     }
 
     [Test]
