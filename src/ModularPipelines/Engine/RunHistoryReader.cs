@@ -33,9 +33,14 @@ internal sealed class RunHistoryReader(
                                cancellationToken)
                            .ConfigureAwait(false))
         {
-            var module = report.Modules.FirstOrDefault(candidate =>
-                string.Equals(candidate.ModuleTypeName, moduleTypeName, StringComparison.Ordinal));
-            if (module is not { DurationMeasured: true } || string.IsNullOrWhiteSpace(report.RunId))
+            var matchingModules = report.Modules
+                .Where(candidate =>
+                    string.Equals(candidate.ModuleTypeName, moduleTypeName, StringComparison.Ordinal))
+                .Take(2)
+                .ToArray();
+            if (matchingModules.Length != 1
+                || matchingModules[0] is not { DurationMeasured: true } module
+                || string.IsNullOrWhiteSpace(report.RunId))
             {
                 continue;
             }

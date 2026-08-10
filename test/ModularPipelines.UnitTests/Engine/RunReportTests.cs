@@ -1050,6 +1050,7 @@ public class RunReportTests
                     RunId = $"run-{index}",
                     PipelineIdentity = "pipeline-a",
                     Status = index % 2 == 0 ? Status.Failed : Status.Successful,
+                    Start = index == 2 ? start.AddMinutes(1) : start.AddMinutes(index),
                     End = start.AddMinutes(index),
                 });
             }
@@ -1073,9 +1074,8 @@ public class RunReportTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(reports).Count().IsEqualTo(2);
+                await Assert.That(reports).Count().IsEqualTo(1);
                 await Assert.That(reports[0].RunId).IsEqualTo("run-4");
-                await Assert.That(reports[1].RunId).IsEqualTo("run-2");
             }
         }
         finally
@@ -1215,6 +1215,7 @@ public class RunReportTests
                 It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Reports(
+                CreateAmbiguousTrendReport("ambiguous", end.AddMinutes(3), moduleTypeName),
                 CreateTrendReport("run-2", end.AddMinutes(2), moduleTypeName, measured: true),
                 CreateTrendReport("", end.AddMinutes(1), moduleTypeName, measured: true),
                 CreateTrendReport("run-0", end, moduleTypeName, measured: false)));
@@ -1225,7 +1226,7 @@ public class RunReportTests
                 RunReport = new RunReportOptions { PipelineIdentity = "pipeline-a" },
             }));
 
-        var samples = await reader.GetModuleDurationTrendAsync(moduleTypeName, 3);
+        var samples = await reader.GetModuleDurationTrendAsync(moduleTypeName, 4);
 
         using (Assert.Multiple())
         {
@@ -1237,7 +1238,7 @@ public class RunReportTests
                 TimeSpan.FromSeconds(2)));
             historyStore.Verify(store => store.GetRunsAsync(
                 It.Is<RunHistoryQuery>(query =>
-                    query.PipelineIdentity == "pipeline-a" && query.MaxRuns == 3),
+                    query.PipelineIdentity == "pipeline-a" && query.MaxRuns == 4),
                 It.IsAny<CancellationToken>()), Times.Once);
         }
     }
@@ -3471,4 +3472,20 @@ public class RunReportTests
                 },
             ],
         };
+
+    private static PipelineRunReport CreateAmbiguousTrendReport(
+        string runId,
+        DateTimeOffset end,
+        string moduleTypeName)
+    {
+        var report = CreateTrendReport(runId, end, moduleTypeName, measured: true);
+        return report with
+        {
+            Modules =
+            [
+                report.Modules[0],
+                report.Modules[0] with { Duration = TimeSpan.FromSeconds(3) },
+            ],
+        };
+    }
 }

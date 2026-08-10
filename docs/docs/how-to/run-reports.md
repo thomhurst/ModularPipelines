@@ -127,6 +127,9 @@ await foreach (var failedRun in historyStore.GetRunsAsync(new RunHistoryQuery
 }
 ```
 
+`Since` is an inclusive cutoff on each run's start time. A run that started before the cutoff is
+excluded even if it completed after the cutoff.
+
 `GetLatestAsync(pipelineIdentity, cancellationToken)` remains available as an extension method over
 `GetRunsAsync`. The registered `IRunHistoryReader` provides measured, attributable module-duration
 samples from the latest runs:

@@ -18,7 +18,7 @@ public sealed record RunHistoryQuery
     public int MaxRuns { get; init; } = 20;
 
     /// <summary>
-    /// Gets the inclusive lower bound for a report's end time.
+    /// Gets the inclusive lower bound for a report's start time.
     /// </summary>
     public DateTimeOffset? Since { get; init; }
 

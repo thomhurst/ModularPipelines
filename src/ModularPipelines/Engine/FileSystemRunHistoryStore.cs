@@ -65,7 +65,7 @@ internal sealed class FileSystemRunHistoryStore(
 
     private static bool MatchesQuery(PipelineRunReport report, RunHistoryQuery query) =>
         string.Equals(report.PipelineIdentity, query.PipelineIdentity, StringComparison.Ordinal)
-        && (!query.Since.HasValue || report.End >= query.Since.Value)
+        && (!query.Since.HasValue || report.Start >= query.Since.Value)
         && (!query.Status.HasValue || report.Status == query.Status.Value);
 
     private async Task<HistoryReadResult> ReadHistoryFileAsync(
