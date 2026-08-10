@@ -41,6 +41,10 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(static method => !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
+        var optionalFacadeOptionTypes = facadeMethods
+            .Where(static method => method.IsOptionsOptional)
+            .Select(static method => method.OptionsType)
+            .ToHashSet(StringComparer.Ordinal);
         var preservedTool = compatibleTool with
         {
             Commands = compatibleTool.Commands
@@ -52,6 +56,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     : command)
                 .Select(command => namedFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveNamedFacade = true }
+                    : command)
+                .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
+                    ? command with { PreserveOptionalOptionsParameter = true }
                     : command)
                 .ToArray(),
         };
@@ -805,7 +812,8 @@ internal static class GeneratedApiCompatibilityPreserver
                                  StringComparison.Ordinal) == true)
                          .Where(method => method.Modifiers.Any(SyntaxKind.PublicKeyword)))
             {
-                var optionsType = method.ParameterList.Parameters.FirstOrDefault()?.Type?.ToString();
+                var optionsParameter = method.ParameterList.Parameters.FirstOrDefault();
+                var optionsType = optionsParameter?.Type?.ToString();
                 var declaringType = method.Ancestors()
                     .OfType<TypeDeclarationSyntax>()
                     .FirstOrDefault()?.Identifier.ValueText;
@@ -816,7 +824,8 @@ internal static class GeneratedApiCompatibilityPreserver
                     methods.Add(new GeneratedFacadeMethod(
                         declaringType,
                         method.Identifier.ValueText,
-                        optionsType.TrimEnd('?')));
+                        optionsType.TrimEnd('?'),
+                        optionsParameter?.Default is not null));
                 }
             }
         }
@@ -920,4 +929,5 @@ internal sealed record GeneratedApiBaseline(
 internal sealed record GeneratedFacadeMethod(
     string DeclaringType,
     string MethodName,
-    string OptionsType);
+    string OptionsType,
+    bool IsOptionsOptional);

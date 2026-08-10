@@ -1288,6 +1288,54 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Optional_Facade_When_Required_Member_Is_Added()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task AddAsync(ToolAddOptions? options = null) => Task.CompletedTask; }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var generatedOptions = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+            var generatedInterface = (await new ServiceInterfaceGenerator().GenerateAsync(preserved)).Single().Content;
+            var generatedImplementation = (await new ServiceImplementationGenerator().GenerateAsync(preserved)).Single().Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generatedOptions).Contains("public ToolAddOptions()");
+                await Assert.That(generatedInterface).Contains("AddAsync(ToolAddOptions? options = null");
+                await Assert.That(generatedImplementation).Contains("options ?? new ToolAddOptions()");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Leaf_Facade_When_It_Gains_Children()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
