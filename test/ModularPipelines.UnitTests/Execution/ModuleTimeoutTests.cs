@@ -274,6 +274,18 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Fault_Completed_Before_Deadline_Is_Not_Claimed_By_Timeout()
+    {
+        var exception = await Assert.ThrowsAsync<TimeoutException>(async () =>
+            await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                _ => Task.FromException<bool>(new TimeoutException("Inner operation timed out.")),
+                TimeSpan.FromMilliseconds(10),
+                CancellationToken.None));
+
+        await Assert.That(exception!.Message).IsEqualTo("Inner operation timed out.");
+    }
+
+    [Test]
     public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
     {
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(

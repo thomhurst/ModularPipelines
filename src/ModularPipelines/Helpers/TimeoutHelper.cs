@@ -113,8 +113,20 @@ internal static class TimeoutHelper
         timeoutCts.CancelAfter(timeout.Value);
 
         var executionTask = taskFactory(timeoutCts.Token);
+        var executionTimedOutTask = executionTask.ContinueWith(
+            static (_, state) =>
+            {
+                var (timeoutToken, externalToken) =
+                    ((CancellationToken TimeoutToken, CancellationToken ExternalToken)) state!;
+                return timeoutToken.IsCancellationRequested
+                       && !externalToken.IsCancellationRequested;
+            },
+            (timeoutCts.Token, cancellationToken),
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
 
-        var winner = await Task.WhenAny(executionTask, cancelledTcs.Task)
+        var winner = await Task.WhenAny(executionTimedOutTask, cancelledTcs.Task)
             .ConfigureAwait(false);
 
         if (winner == cancelledTcs.Task)
@@ -123,23 +135,16 @@ internal static class TimeoutHelper
                 .ConfigureAwait(false);
         }
 
-        var timeoutElapsedWhenExecutionCompleted = timeoutCts.IsCancellationRequested
-                                                   && !cancellationToken.IsCancellationRequested;
-
-        // The execution task won the completion race.
-        try
+        if (await executionTimedOutTask.ConfigureAwait(false))
         {
-            var value = await executionTask.ConfigureAwait(false);
-            return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
-        }
-        catch (OperationCanceledException) when (timeoutElapsedWhenExecutionCompleted)
-        {
-            // The deadline elapsed before the completed task was observed. Any cancellation
-            // from that task therefore counts as a response, including cancellation through
-            // a token linked to the supplied timeout token. This can happen when executionTask
-            // and cancelledTcs.Task complete at nearly the same time and executionTask wins.
+            // Any completion after the deadline counts as a response, including a fault
+            // raised while handling cancellation. The synchronous continuation records the
+            // ordering at task completion instead of when the winner is later observed.
             return TimeoutExecutionResult<T>.TimeoutWithTokenRespected(stopwatch.Elapsed);
         }
+
+        var value = await executionTask.ConfigureAwait(false);
+        return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
     }
 
     private static async Task<TimeoutExecutionResult<T>> ExecuteWithoutTimeoutAsync<T>(
