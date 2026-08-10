@@ -17,10 +17,23 @@ internal static class AtomicFileWriter
                 File.WriteAllTextAsync(temporaryPath, text, token),
             cancellationToken);
 
+    internal static Task WriteAllTextAsync(
+        string path,
+        string contents,
+        Func<string, string, CancellationToken, Task> writeAsync,
+        CancellationToken cancellationToken = default) =>
+        WriteAllTextAsync(
+            path,
+            contents,
+            writeAsync,
+            replacementContentsFactory: null,
+            cancellationToken);
+
     internal static async Task WriteAllTextAsync(
         string path,
         string contents,
         Func<string, string, CancellationToken, Task> writeAsync,
+        Func<string?>? replacementContentsFactory,
         CancellationToken cancellationToken = default)
     {
         var directory = Path.GetDirectoryName(path)
@@ -32,6 +45,12 @@ internal static class AtomicFileWriter
         try
         {
             await writeAsync(temporaryPath, contents, cancellationToken).ConfigureAwait(false);
+            if (replacementContentsFactory?.Invoke() is { } replacementContents)
+            {
+                await writeAsync(temporaryPath, replacementContents, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
             File.Move(temporaryPath, path, overwrite: true);
         }

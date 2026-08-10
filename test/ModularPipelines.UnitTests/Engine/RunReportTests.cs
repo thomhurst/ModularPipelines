@@ -1770,6 +1770,61 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task ReportPersistenceOmitsOutputThatBecomesStaleDuringWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "report.json");
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+        var writeCount = 0;
+
+        try
+        {
+            await reportFactory.WriteWithValidatedOutputExcerptsAsync(
+                path,
+                report,
+                async (temporaryPath, contents, cancellationToken) =>
+                {
+                    await File.WriteAllTextAsync(temporaryPath, contents, cancellationToken);
+                    if (Interlocked.Increment(ref writeCount) == 1)
+                    {
+                        version = 4;
+                    }
+                });
+            var persisted = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(path));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(writeCount).IsEqualTo(2);
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task RunReportOmitsOutputWhenTimedOutEnricherCanRegisterSecretsLater()
     {
         var directory = CreateTemporaryDirectory();
