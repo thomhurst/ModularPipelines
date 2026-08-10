@@ -952,7 +952,8 @@ public abstract partial class CliScraperBase : ICliScraper
                     + "but the parsed model marks it as a presence-only flag.");
             }
 
-            if (HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+            if (!option.IsFlag
+                && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
                 && !option.AcceptsMultipleValues)
             {
                 throw new InvalidOperationException(

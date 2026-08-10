@@ -74,15 +74,53 @@ public class WinGetCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Traversal_Keeps_Boolean_Flags_With_Repeatability_Wording()
+    {
+        const string rootHelp = """
+            Windows Package Manager
+
+            usage: winget [<command>]
+
+            The following commands are available:
+              list   List installed packages
+            """;
+        const string listHelp = """
+            Windows Package Manager
+
+            usage: winget list [<options>]
+
+            The following options are available:
+              --verbose   Enable verbose logging multiple times during troubleshooting
+            """;
+        var scraper = new TestWinGetCliScraper(new StubExecutor(rootHelp, listHelp));
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var verbose = commands.Single().Options.Single(option => option.SwitchName == "--verbose");
+        using (Assert.Multiple())
+        {
+            await Assert.That(verbose.IsFlag).IsTrue();
+            await Assert.That(verbose.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
     private sealed class TestWinGetCliScraper : WinGetCliScraper
     {
-        public TestWinGetCliScraper()
+        public TestWinGetCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<WinGetCliScraper>.Instance)
         {
         }
+
+        public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
 
         public IReadOnlyList<string> Extract(string helpText) =>
             ExtractSubcommands(helpText).ToList();
@@ -92,5 +130,25 @@ public class WinGetCliScraperTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+    }
+
+    private sealed class StubExecutor(string rootHelp, string listHelp) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = arguments == "--help" ? rootHelp : listHelp,
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 }
