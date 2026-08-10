@@ -34,6 +34,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly ModuleDisposer _moduleDisposer;
     private readonly IModuleResultRegistry _resultRegistry;
+    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleRunner> _logger;
     private readonly IDependencyWaiter _dependencyWaiter;
@@ -63,6 +64,7 @@ internal class ModuleRunner : IModuleRunner
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         ModuleDisposer moduleDisposer,
         IModuleResultRegistry resultRegistry,
+        EngineCancellationToken engineCancellationToken,
         IOptions<PipelineOptions> pipelineOptions,
         ILogger<ModuleRunner> logger,
         IDependencyWaiter dependencyWaiter,
@@ -85,6 +87,7 @@ internal class ModuleRunner : IModuleRunner
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         _moduleDisposer = moduleDisposer;
         _resultRegistry = resultRegistry;
+        _engineCancellationToken = engineCancellationToken;
         _pipelineOptions = pipelineOptions;
         _logger = logger;
         _dependencyWaiter = dependencyWaiter;
@@ -125,6 +128,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
+        var limiterCancellationToken = default(CancellationToken);
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
@@ -132,16 +136,6 @@ internal class ModuleRunner : IModuleRunner
         {
             try
             {
-                // Check if the module can proceed with execution
-                // Returns false if constraints (e.g., NotInParallel) prevent execution
-                if (!scheduler.MarkModuleStarted(moduleType))
-                {
-                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
-                    return; // Module will be rescheduled by the scheduler
-                }
-
-                _logger.LogDebug("Starting module {ModuleName}", moduleName);
-
                 if (!skipDependencyWait)
                 {
                     await _dependencyWaiter.WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider).ConfigureAwait(false);
@@ -151,14 +145,50 @@ internal class ModuleRunner : IModuleRunner
                     _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
                 }
 
+                var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
+                        moduleType,
+                        scheduler,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (moduleState.TryStartReadyEvents())
+                {
+                    await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+                    var readyLifecycleContext = CreateLifecycleContext(
+                        moduleState,
+                        scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
+                        scope.ServiceProvider,
+                        cancellationToken);
+                    await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
+                }
+
+                using var limiterCancellationTokenSource = module.Configuration.AlwaysRun
+                    ? null
+                    : CancellationTokenSource.CreateLinkedTokenSource(
+                        cancellationToken,
+                        _engineCancellationToken.Token);
+                limiterCancellationToken = module.Configuration.AlwaysRun
+                    ? _engineCancellationToken.NonFailureCancellationToken
+                    : limiterCancellationTokenSource!.Token;
+                using var semaphoreHandle = await _parallelLimitHandler
+                    .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
+                    .ConfigureAwait(false);
+                using var executionTypeHandle = await _parallelLimitHandler
+                    .AcquireExecutionTypeLimitAsync(moduleState, limiterCancellationToken)
+                    .ConfigureAwait(false);
+
+                // Check constraints again after acquiring execution slots. Keeping the module queued
+                // until this point prevents limiter wait time from being reported as execution time.
+                if (!scheduler.MarkModuleStarted(moduleType))
+                {
+                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
+                    return; // Module will be rescheduled by the scheduler
+                }
+
+                _logger.LogDebug("Starting module {ModuleName}", moduleName);
                 var executionContext = CreateExecutionContext(module, moduleType);
                 ApplyDependencySkip(moduleState, executionContext);
-                executionContext.AllowHistoricalResultWhenSkipped =
-                    !await HasRunnableArtifactConsumerAsync(
-                            moduleType,
-                            scheduler,
-                            cancellationToken)
-                        .ConfigureAwait(false);
+                executionContext.AllowHistoricalResultWhenSkipped = allowHistoricalResultWhenSkipped;
 
                 await ExecuteModuleWithPipeline(
                         moduleState,
@@ -172,32 +202,143 @@ internal class ModuleRunner : IModuleRunner
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
-                var isDependencyFailure = ex is DependencyFailedException;
-                scheduler.MarkModuleCompleted(
-                    moduleType,
-                    false,
+                var handledException = NormalizeLimiterCancellation(
                     ex,
-                    isDependencyFailure ? Enums.Status.DependencyFailed : null);
-
-                if (moduleState.Result == null)
-                {
-                    if (isDependencyFailure)
-                    {
-                        _resultRegistrar.RegisterDependencyFailedResult(module, moduleType, ex);
-                    }
-                    else
-                    {
-                        _resultRegistrar.RegisterTerminatedResult(module, moduleType, ex);
-                    }
-                }
+                    cancellationToken,
+                    limiterCancellationToken);
+                HandleExecutionFailure(moduleState, scheduler, handledException);
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                 {
-                    throw;
+                    if (ReferenceEquals(handledException, ex))
+                    {
+                        throw;
+                    }
+
+                    throw handledException;
                 }
             }
         }
+    }
+
+    private Exception NormalizeLimiterCancellation(
+        Exception exception,
+        CancellationToken workerCancellationToken,
+        CancellationToken limiterCancellationToken)
+    {
+        if (limiterCancellationToken.IsCancellationRequested
+            && exception is OperationCanceledException operationCanceledException
+            && operationCanceledException.CancellationToken == limiterCancellationToken
+            && limiterCancellationToken != workerCancellationToken)
+        {
+            return new OperationCanceledException(
+                operationCanceledException.Message,
+                operationCanceledException,
+                workerCancellationToken);
+        }
+
+        return exception;
+    }
+
+    private async Task InvokeReadyEventAsync(
+        ModuleState moduleState,
+        ModuleLifecycleContext lifecycleContext)
+    {
+        try
+        {
+            await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            var executionContext = CreateExecutionContext(moduleState.Module, moduleState.ModuleType);
+            ApplyDependencySkip(moduleState, executionContext);
+
+            try
+            {
+                await HandleModuleFailureAsync(moduleState, executionContext, lifecycleContext, exception)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
+            }
+
+            throw;
+        }
+    }
+
+    private void HandleExecutionFailure(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        Exception exception)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
+        var isDependencyFailure = exception is DependencyFailedException;
+        var isPipelineCancellation = exception is OperationCanceledException
+                                     && _engineCancellationToken.IsCancelled;
+        var registeredResult = _resultRegistry.GetResult(moduleType);
+        var completionException = GetCompletionException(
+            exception,
+            isPipelineCancellation,
+            registeredResult?.ExceptionOrDefault);
+        if (isPipelineCancellation)
+        {
+            _logger.LogInformation(
+                "Pipeline cancellation stopped module {ModuleName} before execution",
+                moduleType.Name);
+        }
+        else
+        {
+            _logger.LogError(exception, "Module {ModuleName} failed", moduleType.Name);
+        }
+
+        var statusOverride = GetStatusOverride(
+            isDependencyFailure,
+            isPipelineCancellation,
+            registeredResult?.ModuleStatus);
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            false,
+            completionException,
+            statusOverride);
+
+        if (moduleState.Result is not null || registeredResult is not null)
+        {
+            return;
+        }
+
+        if (isDependencyFailure)
+        {
+            _resultRegistrar.RegisterDependencyFailedResult(module, moduleType, exception);
+        }
+        else
+        {
+            _resultRegistrar.RegisterTerminatedResult(module, moduleType, completionException);
+        }
+    }
+
+    private Exception GetCompletionException(
+        Exception exception,
+        bool isPipelineCancellation,
+        Exception? registeredException) =>
+        isPipelineCancellation
+            ? registeredException ?? _engineCancellationToken.OriginalException ?? exception
+            : exception;
+
+    private static Enums.Status? GetStatusOverride(
+        bool isDependencyFailure,
+        bool isPipelineCancellation,
+        Enums.Status? registeredStatus)
+    {
+        if (isDependencyFailure)
+        {
+            return Enums.Status.DependencyFailed;
+        }
+
+        return isPipelineCancellation
+            ? registeredStatus ?? Enums.Status.PipelineTerminated
+            : null;
     }
 
     private async Task UploadProducedArtifactsAsync(
@@ -717,8 +858,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Before module hooks - module is ready (dependencies satisfied)
-        await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+        // Before module hooks - module is starting execution.
         await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
@@ -727,23 +867,11 @@ internal class ModuleRunner : IModuleRunner
                 CancellationToken.None)
             .ConfigureAwait(false);
 
-        using var semaphoreHandle = await _parallelLimitHandler.AcquireParallelLimitAsync(moduleType).ConfigureAwait(false);
-        using var executionTypeHandle = await _parallelLimitHandler.AcquireExecutionTypeLimitAsync(moduleState).ConfigureAwait(false);
-
-        // Track start time for lifecycle events
-        var startTime = DateTimeOffset.UtcNow;
-        var moduleAttributes = _moduleAttributeEventService.GetAttributes(moduleType);
-        var lifecycleContext = new ModuleLifecycleContext(
-            module,
-            moduleType,
-            moduleAttributes,
-            startTime,
+        var lifecycleContext = CreateLifecycleContext(
+            moduleState,
             pipelineContext,
             scopedServiceProvider,
-            cancellationToken)
-        {
-            ReadyTime = moduleState.ReadyTime ?? startTime,
-        };
+            cancellationToken);
 
         try
         {
@@ -763,13 +891,18 @@ internal class ModuleRunner : IModuleRunner
         }
         finally
         {
-            // Store execution context results in module state
-            moduleState.TrySetSkipResult(executionContext.SkipResult);
+            await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
+        }
+    }
 
-            if (!_pipelineOptions.Value.Console.ShowProgress)
-            {
-                await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
-            }
+    private async Task CompleteModuleLifecycleAsync(
+        ModuleState moduleState,
+        ModuleExecutionContext executionContext)
+    {
+        moduleState.TrySetSkipResult(executionContext.SkipResult);
+        if (!_pipelineOptions.Value.Console.ShowProgress)
+        {
+            await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
         }
     }
 
@@ -781,9 +914,6 @@ internal class ModuleRunner : IModuleRunner
         ModuleLifecycleContext lifecycleContext,
         CancellationToken cancellationToken)
     {
-        // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
-        await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
-
         // Invoke OnModuleStart lifecycle event
         await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
 
@@ -820,6 +950,26 @@ internal class ModuleRunner : IModuleRunner
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
             .ConfigureAwait(false);
+    }
+
+    private ModuleLifecycleContext CreateLifecycleContext(
+        ModuleState moduleState,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken)
+    {
+        var startTime = DateTimeOffset.UtcNow;
+        return new ModuleLifecycleContext(
+            moduleState.Module,
+            moduleState.ModuleType,
+            _moduleAttributeEventService.GetAttributes(moduleState.ModuleType),
+            startTime,
+            pipelineContext,
+            scopedServiceProvider,
+            cancellationToken)
+        {
+            ReadyTime = moduleState.ReadyTime ?? startTime,
+        };
     }
 
     private async Task HandleModuleFailureAsync(
