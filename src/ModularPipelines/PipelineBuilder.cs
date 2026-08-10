@@ -183,6 +183,11 @@ public sealed class PipelineBuilder : IDisposable
     /// <exception cref="PipelineValidationException">Thrown when validation fails.</exception>
     public async Task<IPipeline> BuildAsync()
     {
+        if (_commandLineOptions.Command == PipelineCommand.ExportGraph)
+        {
+            return await BuildForDependencyGraphExportAsync().ConfigureAwait(false);
+        }
+
         var validatePipeline = _commandLineOptions.Command != PipelineCommand.Help;
         var (pipeline, validationResult, validationException) =
             await BuildAndValidatePipelineAsync(validatePipeline).ConfigureAwait(false);

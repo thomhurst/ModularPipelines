@@ -237,6 +237,22 @@ public class PipelineCommandLineTests
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class RuntimeOnlyDependencyAttribute : DependsOnBaseAttribute
+    {
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+            throw new InvalidOperationException("Graph export must not evaluate runtime dependency predicates.");
+    }
+
+    [RuntimeOnlyDependency]
+    private sealed class RuntimeOnlyDependencyModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult("runtime-only-dependency");
+    }
+
     [RunIfAll<TrackingCondition>]
     private sealed class ConditionalModule : Module<string>
     {
@@ -944,6 +960,32 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandDoesNotEvaluateRuntimeDependencyPredicatesDuringBuild()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-cli-graph-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "pipeline.json");
+            using var builder = Pipeline.CreateBuilder(["--graph", "json", path]);
+            builder.AddModule<DependencyModule>();
+            builder.AddModule<RuntimeOnlyDependencyModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var graph = await File.ReadAllTextAsync(path);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(summary.Results).IsEmpty();
+                await Assert.That(graph).Contains(nameof(RuntimeOnlyDependencyModule));
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments("--help")]
     [Arguments("-h")]
     public async Task HelpOptionsPrintUsage(string option)
@@ -1215,7 +1257,7 @@ public class PipelineCommandLineTests
     }
 
     [Test]
-    public async Task PlanAsyncEvaluatesOptionalRegistrationChecks()
+    public async Task PlanAsyncDefersOptionalRegistrationChecks()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<RegistrationOnlyOptionalSkipModule>();
@@ -1228,8 +1270,8 @@ public class PipelineCommandLineTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
-            await Assert.That(plannedModule.ShouldSkip).IsTrue();
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsFalse();
+            await Assert.That(plannedModule.ShouldSkip).IsFalse();
         }
     }
 
