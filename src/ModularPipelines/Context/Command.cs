@@ -466,6 +466,15 @@ internal sealed class Command : ICommandContext
 
                 if (ShouldPreserveCallerCancellation(e, failure, callerCancellationToken))
                 {
+                    if (e is OperationCanceledException cancellationException
+                        && cancellationException.CancellationToken != callerCancellationToken)
+                    {
+                        throw new OperationCanceledException(
+                            cancellationException.Message,
+                            cancellationException,
+                            callerCancellationToken);
+                    }
+
                     throw;
                 }
 

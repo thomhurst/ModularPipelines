@@ -549,6 +549,56 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task CallerCancellationPreservesCallerTokenIdentity()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var commandContext = await GetService<ICommandContext>();
+        var readyFile = Path.Combine(
+            TestContext.WorkingDirectory,
+            $"command-cancellation-{Guid.NewGuid():N}.ready");
+        var commandTask = commandContext.ExecuteCommandLineToolAsync(
+            new PowershellScriptOptions(
+                "[IO.File]::WriteAllText($env:MP_COMMAND_CANCELLATION_READY_FILE, 'ready'); "
+                + "Start-Sleep -Seconds 30"),
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_COMMAND_CANCELLATION_READY_FILE"] = readyFile,
+                },
+                GracefulShutdownTimeout = TimeSpan.FromMilliseconds(50),
+            },
+            cancellationToken: cancellationTokenSource.Token);
+
+        try
+        {
+            await Assert.That(await WaitUntilAsync(
+                    () => File.Exists(readyFile),
+                    TimeSpan.FromSeconds(30)))
+                .IsTrue();
+            await cancellationTokenSource.CancelAsync();
+            var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => commandTask);
+
+            await Assert.That(
+                    exception!.CancellationToken == cancellationTokenSource.Token)
+                .IsTrue();
+        }
+        finally
+        {
+            await cancellationTokenSource.CancelAsync();
+            try
+            {
+                await commandTask;
+            }
+            catch (OperationCanceledException) when (cancellationTokenSource.IsCancellationRequested)
+            {
+            }
+
+            File.Delete(readyFile);
+        }
+    }
+
+    [Test]
     public async Task Deferred_Logging_Failure_After_NonZero_Exit_Preserves_Command_Failure()
     {
         var marker = $"throwing-failure-output-{Guid.NewGuid():N}";
