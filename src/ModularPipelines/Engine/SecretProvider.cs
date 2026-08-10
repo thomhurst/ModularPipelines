@@ -173,13 +173,9 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         ArgumentNullException.ThrowIfNull(processOutput);
 
         var existingScope = FindDeferredRegistrationScope();
-        if (existingScope is not null)
+        if (existingScope is not null && _secretEmissionLock.IsReadLockHeld)
         {
-            if (_secretEmissionLock.IsReadLockHeld)
-            {
-                PublishDeferredPatterns(existingScope);
-            }
-
+            PublishDeferredPatterns(existingScope);
             processOutput(state);
             return;
         }
@@ -197,7 +193,18 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             var deferredPatterns = scope.CloseAndTakePatterns();
             CurrentDeferredRegistrationScope.Value = previousScope;
             _secretEmissionLock.ExitReadLock();
-            PublishPatterns(deferredPatterns);
+            PublishOrDeferPatterns(deferredPatterns);
+        }
+    }
+
+    private void PublishOrDeferPatterns(IEnumerable<IReadOnlyList<string>> deferredPatterns)
+    {
+        foreach (var patterns in deferredPatterns)
+        {
+            if (!TryDeferRegistration(patterns))
+            {
+                PublishPatterns(patterns);
+            }
         }
     }
 

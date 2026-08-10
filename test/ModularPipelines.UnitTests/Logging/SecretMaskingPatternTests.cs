@@ -1288,6 +1288,58 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_HoldsLeaseForInheritedWorker()
+    {
+        var provider = CreateProvider(out var nativeMasker);
+        using var workerStarted = new ManualResetEventSlim();
+        using var releaseWorker = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
+        var worker = Task.CompletedTask;
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                worker = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    workerStarted,
+                    started =>
+                    {
+                        started.Set();
+                        if (!releaseWorker.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release worker emission.");
+                        }
+                    }));
+                if (!workerStarted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for worker emission to start.");
+                }
+            });
+
+        var registration = Task.Run(() => provider.AddSecret("late-worker-secret"));
+        try
+        {
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(async () =>
+                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
+                .Throws<TimeoutException>();
+
+            releaseWorker.Set();
+            await Task.WhenAll(worker, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseWorker.Set();
+            await Task.WhenAll(worker, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(provider.Secrets).Contains("late-worker-secret");
+    }
+
+    [Test]
     public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
     {
         var provider = CreateProvider(out _);
