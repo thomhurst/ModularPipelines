@@ -37,6 +37,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly ISecretProvider _secretProvider;
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
+    private readonly object _customObfuscatorLock = new();
     private readonly object _secretPatternsLock = new();
     private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.NoRecursion);
@@ -727,11 +728,20 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
-    private string ObfuscateCustomOutput(string output, long secretPatternsVersion) =>
-        _secretObfuscator is ITrackedSecretObfuscator
-        && _secretProvider.Version == secretPatternsVersion
-            ? output
-            : _secretObfuscator.Obfuscate(output, null);
+    private string ObfuscateCustomOutput(string output, long secretPatternsVersion)
+    {
+        if (_secretObfuscator is ITrackedSecretObfuscator)
+        {
+            return _secretProvider.Version == secretPatternsVersion
+                ? output
+                : _secretObfuscator.Obfuscate(output, null);
+        }
+
+        lock (_customObfuscatorLock)
+        {
+            return _secretObfuscator.Obfuscate(output, null);
+        }
+    }
 
     private void ExecuteWithStableSecrets(Action processOutput)
     {

@@ -239,12 +239,12 @@ public class SecretMaskingPatternTests
             CreateObfuscator(provider),
             provider);
 
-        var firstWrite = Task.Run(() => WriteForModule(typeof(FirstModule), "split-secret"));
+        var firstWrite = Task.Run(() => WriteForModule(writer, typeof(FirstModule), "split-secret"));
         try
         {
             await Assert.That(firstWriteStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
 
-            var secondWrite = Task.Run(() => WriteForModule(typeof(SecondModule), "ordinary output"));
+            var secondWrite = Task.Run(() => WriteForModule(writer, typeof(SecondModule), "ordinary output"));
             await secondWrite.WaitAsync(TimeSpan.FromSeconds(5));
         }
         finally
@@ -255,20 +255,74 @@ public class SecretMaskingPatternTests
 
         secondBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
         firstBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
+    }
 
-        void WriteForModule(Type moduleType, string value)
+    [Test]
+    public async Task DifferentModuleBuffers_SerializeCustomObfuscatorCalls()
+    {
+        var provider = CreateProvider(out _);
+        using var firstObfuscationStarted = new ManualResetEventSlim();
+        using var secondWriteStarted = new ManualResetEventSlim();
+        using var secondObfuscationStarted = new ManualResetEventSlim();
+        using var releaseFirstObfuscation = new ManualResetEventSlim();
+        var callCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (Interlocked.Increment(ref callCount) == 1)
+                {
+                    firstObfuscationStarted.Set();
+                    if (!releaseFirstObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release the first obfuscation.");
+                    }
+                }
+                else
+                {
+                    secondObfuscationStarted.Set();
+                }
+
+                return input;
+            });
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        var secondBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            obfuscator.Object,
+            provider);
+
+        var firstWrite = Task.Run(() => WriteForModule(writer, typeof(FirstModule), "first output"));
+        var secondWrite = Task.CompletedTask;
+        try
         {
-            var previousModule = ModuleLogger.CurrentModuleType.Value;
-            try
+            await Assert.That(firstObfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            secondWrite = Task.Run(() =>
             {
-                ModuleLogger.CurrentModuleType.Value = moduleType;
-                writer.WriteLine(value);
-            }
-            finally
-            {
-                ModuleLogger.CurrentModuleType.Value = previousModule;
-            }
+                secondWriteStarted.Set();
+                WriteForModule(writer, typeof(SecondModule), "second output");
+            });
+            await Assert.That(secondWriteStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            await Assert.That(secondObfuscationStarted.IsSet).IsFalse();
         }
+        finally
+        {
+            releaseFirstObfuscation.Set();
+            await Task.WhenAll(firstWrite, secondWrite);
+        }
+
+        await Assert.That(secondObfuscationStarted.IsSet).IsTrue();
+        obfuscator.Verify(x => x.Obfuscate(It.IsAny<string>(), null), Times.Exactly(2));
+        firstBuffer.Verify(x => x.WriteLine("first output"), Times.Once);
+        secondBuffer.Verify(x => x.WriteLine("second output"), Times.Once);
     }
 
     [Test]
@@ -1029,6 +1083,20 @@ public class SecretMaskingPatternTests
         return new SecretObfuscator(
             provider,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+    }
+
+    private static void WriteForModule(CoordinatedTextWriter writer, Type moduleType, string value)
+    {
+        var previousModule = ModuleLogger.CurrentModuleType.Value;
+        try
+        {
+            ModuleLogger.CurrentModuleType.Value = moduleType;
+            writer.WriteLine(value);
+        }
+        finally
+        {
+            ModuleLogger.CurrentModuleType.Value = previousModule;
+        }
     }
 
     private sealed class BlockingWriteStringWriter(
