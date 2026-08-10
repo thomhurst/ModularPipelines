@@ -162,7 +162,60 @@ public class ModuleLoggerTests
     }
 
     [Test]
-    public async Task Dispose_WaitsForInProgressLogAdmission()
+    public async Task Log_DoesNotSerializeStateObfuscation()
+    {
+        var bothLogsEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLogs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var enteredCount = 0;
+        var buffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
+        var consoleCoordinator = CreateConsoleCoordinator(buffer);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        defaultLogger.Setup(x => x.IsEnabled(LogLevel.Information)).Returns(true);
+        var formattedValuesObfuscator = new Mock<IFormattedLogValuesObfuscator>();
+        formattedValuesObfuscator
+            .Setup(x => x.TryObfuscateValues(It.IsAny<object>()))
+            .Callback(() =>
+            {
+                if (Interlocked.Increment(ref enteredCount) == 2)
+                {
+                    bothLogsEntered.TrySetResult();
+                }
+
+                releaseLogs.Task.GetAwaiter().GetResult();
+            })
+            .Returns((object state) => state);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            formattedValuesObfuscator.Object,
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var firstLogTask = Task.Factory.StartNew(
+            () => logger.LogInformation("first"),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
+        var secondLogTask = Task.Factory.StartNew(
+            () => logger.LogInformation("second"),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
+
+        try
+        {
+            await bothLogsEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        }
+        finally
+        {
+            releaseLogs.TrySetResult();
+        }
+
+        await Task.WhenAll(firstLogTask, secondLogTask);
+        await Assert.That(buffer.HasOutput).IsTrue();
+    }
+
+    [Test]
+    public async Task Dispose_DoesNotWaitForInProgressStateObfuscation()
     {
         var logEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -198,7 +251,7 @@ public class ModuleLoggerTests
         try
         {
             await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
-            await Assert.That(disposeTask.IsCompleted).IsFalse();
+            await disposeTask.WaitAsync(TimeSpan.FromSeconds(1));
         }
         finally
         {
@@ -206,7 +259,7 @@ public class ModuleLoggerTests
         }
 
         await Task.WhenAll(logTask, disposeTask);
-        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(buffer.HasOutput).IsFalse();
         await Assert.That(buffer.IsComplete).IsTrue();
     }
 
