@@ -36,6 +36,21 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string>(nameof(CompletedDependencyModule));
     }
 
+    private class ReadyDependencyModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(ReadyDependencyModule));
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ReadyDependencyModule>]
+    private class NewlyReadyDependentModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(NewlyReadyDependentModule));
+    }
+
     [ModularPipelines.Attributes.NotInParallel]
     private class DeferredConstraintModule : Module<string>
     {
@@ -120,6 +135,30 @@ public class ModuleSchedulerDynamicCycleTests
             Times.Never);
 
         scheduler.MarkModuleCompleted(module.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Test]
+    public async Task RunSchedulerAsync_QueuesDependentWhenDependencyCompletes()
+    {
+        var constraintEvaluator = new Mock<IModuleConstraintEvaluator>();
+        constraintEvaluator
+            .Setup(x => x.CanStartExecution(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()))
+            .Returns(true);
+        using var scheduler = CreateScheduler(constraintEvaluator.Object);
+        scheduler.InitializeModules([new NewlyReadyDependentModule(), new ReadyDependencyModule()]);
+
+        var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
+        var dependency = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(dependency.ModuleType).IsEqualTo(typeof(ReadyDependencyModule));
+        await Assert.That(scheduler.MarkModuleStarted(dependency.ModuleType)).IsTrue();
+        scheduler.MarkModuleCompleted(dependency.ModuleType, success: true);
+
+        var dependent = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(dependent.ModuleType).IsEqualTo(typeof(NewlyReadyDependentModule));
+        await Assert.That(scheduler.MarkModuleStarted(dependent.ModuleType)).IsTrue();
+        scheduler.MarkModuleCompleted(dependent.ModuleType, success: true);
+
         await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
     }
 

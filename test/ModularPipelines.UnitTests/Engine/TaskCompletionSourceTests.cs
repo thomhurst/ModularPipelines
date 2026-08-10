@@ -200,6 +200,7 @@ public class TaskCompletionSourceTests
             moduleStates,
             [],
             [],
+            [],
             new ModuleStateQueries(moduleStates),
             new ReaderWriterLockSlim(),
             new SemaphoreSlim(0),

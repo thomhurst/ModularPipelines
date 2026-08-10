@@ -758,6 +758,7 @@ public class ModuleExecutorLoggingTests
             moduleStates,
             [],
             [],
+            [],
             new ModuleStateQueries(moduleStates),
             new ReaderWriterLockSlim(),
             new SemaphoreSlim(0),

@@ -25,6 +25,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
+    private readonly HashSet<ModuleState> _pendingReadyModules;
     private readonly ModuleStateQueries _stateQueries;
     private readonly ModuleStateCounters _stateCounters;
     private readonly ReaderWriterLockSlim _stateLock;
@@ -41,6 +42,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     /// <param name="moduleStates">Shared dictionary of module states.</param>
     /// <param name="queuedModules">Set of modules currently in the queue.</param>
     /// <param name="executingModules">Set of modules currently executing.</param>
+    /// <param name="pendingReadyModules">Set of pending modules whose dependencies are resolved.</param>
     /// <param name="stateQueries">Query helper for module states.</param>
     /// <param name="stateLock">Shared lock for state access synchronization.</param>
     /// <param name="schedulerNotification">Semaphore to notify scheduler of state changes.</param>
@@ -54,6 +56,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         ConcurrentDictionary<Type, ModuleState> moduleStates,
         HashSet<ModuleState> queuedModules,
         HashSet<ModuleState> executingModules,
+        HashSet<ModuleState> pendingReadyModules,
         ModuleStateQueries stateQueries,
         ReaderWriterLockSlim stateLock,
         SemaphoreSlim schedulerNotification,
@@ -67,6 +70,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         _moduleStates = moduleStates;
         _queuedModules = queuedModules;
         _executingModules = executingModules;
+        _pendingReadyModules = pendingReadyModules;
         _stateQueries = stateQueries;
         _stateCounters = stateCounters ?? CreateCounters(moduleStates);
         _stateLock = stateLock;
@@ -117,11 +121,13 @@ internal class ModuleStateTracker : IModuleStateTracker
                 _stateCounters.Transition(state.State, ModuleExecutionState.Pending);
                 state.State = ModuleExecutionState.Pending;
                 state.QueuedTime = null;
+                _pendingReadyModules.Add(state);
                 needsReschedule = true;
             }
             else
             {
                 _queuedModules.Remove(state);
+                _pendingReadyModules.Remove(state);
                 _stateCounters.Transition(state.State, ModuleExecutionState.Executing);
                 state.State = ModuleExecutionState.Executing;
                 _executingModules.Add(state);
@@ -183,6 +189,7 @@ internal class ModuleStateTracker : IModuleStateTracker
 
             _queuedModules.Remove(state);
             _executingModules.Remove(state);
+            _pendingReadyModules.Remove(state);
             _stateCounters.Transition(state.State, ModuleExecutionState.Completed);
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
@@ -274,6 +281,7 @@ internal class ModuleStateTracker : IModuleStateTracker
                     var originalState = moduleState.State;
                     _queuedModules.Remove(moduleState);
                     _executingModules.Remove(moduleState);
+                    _pendingReadyModules.Remove(moduleState);
                     _stateCounters.Transition(originalState, ModuleExecutionState.Completed);
                     moduleState.State = ModuleExecutionState.Completed;
                     cancelledModules.Add((moduleState, originalState));
@@ -350,6 +358,7 @@ internal class ModuleStateTracker : IModuleStateTracker
             if (dependent.IsReadyToExecute)
             {
                 dependent.ReadyTime = _timeProvider.GetUtcNow();
+                _pendingReadyModules.Add(dependent);
                 updates.Add((dependent, true));
             }
             else
