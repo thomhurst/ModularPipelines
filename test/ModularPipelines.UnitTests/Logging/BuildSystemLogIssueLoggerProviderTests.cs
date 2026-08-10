@@ -114,6 +114,22 @@ public class BuildSystemLogIssueLoggerProviderTests
     }
 
     [Test]
+    public async Task Logger_OriginatingFailureWinsAfterIgnoredDependencyFailure()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+        var exception = new InvalidOperationException("failure");
+
+        logger.LogIgnoredDependencyFailure(exception);
+        logger.LogError(exception, "originating failure");
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]originating failure: failure{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task Logger_WritesIndependentErrorsWithIdenticalDiagnostics()
     {
         using var writer = new StringWriter();

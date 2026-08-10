@@ -38,7 +38,7 @@ internal class DependencyWaiter : IDependencyWaiter
                             ? runtime.GetLogger(scopedServiceProvider)
                             : (IModuleLogger) scopedServiceProvider.GetRequiredService(
                                 typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
-                    depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                    depLogger.LogIgnoredDependencyFailure(e);
                 }
                 catch (Exception e) when (
                     e is not OperationCanceledException)

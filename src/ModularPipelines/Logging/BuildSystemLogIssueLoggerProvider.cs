@@ -70,7 +70,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             Exception? exception,
             Func<TState, Exception?, string> messageFormatter)
         {
-            if (!IsEnabled(logLevel) || ModuleLogEvents.IsStatus(eventId))
+            if (!IsEnabled(logLevel) || ModuleLogEvents.IsBuildIssueSuppressed(eventId))
             {
                 return;
             }
