@@ -237,7 +237,7 @@ internal static class PipelineCommandLineParser
     }
 
     private static bool IsGraphPath(string argument) =>
-        !argument.StartsWith("--", StringComparison.Ordinal)
+        !argument.StartsWith('-')
         && (!argument.Contains('=')
             || argument.Contains(Path.DirectorySeparatorChar)
             || argument.Contains(Path.AltDirectorySeparatorChar));
