@@ -135,6 +135,11 @@ internal static class CommandLineOptionsValidator
                 validationResults);
         }
 
+        if (validationResults.Count > 0)
+        {
+            return;
+        }
+
         var objectContext = new ValidationContext(options, serviceProvider, items: null);
         foreach (var attribute in TypeDescriptor.GetAttributes(options)
                      .OfType<ValidationAttribute>())
@@ -164,9 +169,10 @@ internal static class CommandLineOptionsValidator
         var context = new ValidationContext(options, serviceProvider, items: null);
         foreach (var result in validatableObject.Validate(context))
         {
-            validationResults.Add(result
-                                  ?? throw new InvalidOperationException(
-                                      $"{options.GetType().Name}.Validate returned a null validation result."));
+            if (result is not null)
+            {
+                validationResults.Add(result);
+            }
         }
     }
 
