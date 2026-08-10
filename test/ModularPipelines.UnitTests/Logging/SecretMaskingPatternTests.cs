@@ -1340,6 +1340,62 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_PublishesDeferredSecretsBeforeNextRootEmission()
+    {
+        const string discoveredSecret = "deferred-before-next-emission-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var firstEmissionStarted = new ManualResetEventSlim();
+        using var releaseFirstEmission = new ManualResetEventSlim();
+        using var secondEmissionAttempted = new ManualResetEventSlim();
+        using var secondEmissionStarted = new ManualResetEventSlim();
+
+        var firstEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            firstEmissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseFirstEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release first emission.");
+                }
+            }));
+
+        await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        provider.AddSecret(discoveredSecret);
+
+        string? emittedOutput = null;
+        Task secondEmission;
+        using (ExecutionContext.SuppressFlow())
+        {
+            secondEmission = Task.Run(() =>
+            {
+                secondEmissionAttempted.Set();
+                provider.ExecuteWithStableSecrets(
+                    secondEmissionStarted,
+                    started =>
+                    {
+                        started.Set();
+                        emittedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                    });
+            });
+        }
+
+        try
+        {
+            await Assert.That(secondEmissionAttempted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(secondEmissionStarted.Wait(TimeSpan.FromMilliseconds(250))).IsFalse();
+        }
+        finally
+        {
+            releaseFirstEmission.Set();
+            await Task.WhenAll(firstEmission, secondEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
     public async Task StableSecretEmission_HoldsLeaseForInheritedWorker()
     {
         var provider = CreateProvider(out var nativeMasker);

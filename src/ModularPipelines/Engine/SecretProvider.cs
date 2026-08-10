@@ -209,6 +209,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     {
         lock (_emissionStateLock)
         {
+            while (ownsReadLock && _unscopedDeferredPatterns.Count != 0)
+            {
+                Monitor.Wait(_emissionStateLock);
+            }
+
             if (ownsReadLock)
             {
                 _secretEmissionLock.EnterReadLock();
@@ -242,6 +247,7 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             var patternsToPublish = _unscopedDeferredPatterns.ToArray();
             _unscopedDeferredPatterns.Clear();
             PublishPatterns(patternsToPublish);
+            Monitor.PulseAll(_emissionStateLock);
         }
     }
 
