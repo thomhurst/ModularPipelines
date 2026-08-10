@@ -16,6 +16,11 @@ namespace ModularPipelines.Metadata;
 public static class RuntimeMetadataRegistry
 {
     /// <summary>
+    /// Gets the command metadata schema required by this runtime.
+    /// </summary>
+    public const int CurrentCommandMetadataSchemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
+
+    /// <summary>
     /// Registers command metadata for a type emitted by another source generator.
     /// </summary>
     /// <param name="optionsType">The exact generated options type.</param>
@@ -27,6 +32,22 @@ public static class RuntimeMetadataRegistry
         ArgumentNullException.ThrowIfNull(optionsType);
         ArgumentNullException.ThrowIfNull(model);
         GeneratedCommandMetadata.Register(optionsType, model);
+    }
+
+    /// <summary>
+    /// Registers versioned command metadata for a type emitted by another source generator.
+    /// </summary>
+    /// <param name="optionsType">The exact generated options type.</param>
+    /// <param name="model">The generated command-property model.</param>
+    /// <param name="schemaVersion">The metadata schema used to create <paramref name="model"/>.</param>
+    public static void RegisterCommandOptions(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> model,
+        int schemaVersion)
+    {
+        ArgumentNullException.ThrowIfNull(optionsType);
+        ArgumentNullException.ThrowIfNull(model);
+        GeneratedCommandMetadata.Register(optionsType, model, schemaVersion);
     }
 
     /// <summary>

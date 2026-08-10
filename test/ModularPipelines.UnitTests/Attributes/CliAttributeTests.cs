@@ -231,14 +231,12 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Grouped_Value_Pairs_With_NonSpace_Separator()
     {
-        var options = new TestCliOptionsWithInvalidGroupedPairs
-        {
-            Values = [new("first", "one")],
-        };
+        var options = new TestCliOptionsWithInvalidGroupedPairs();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("must use a space separator");
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidGroupedPairs).FullName}.Values");
     }
 
     [Test]
@@ -259,12 +257,54 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_NonSpace_Separated_Value_Pairs()
     {
-        var options = new TestCliOptionsWithInvalidValuePairFormat
-        {
-            Values = [new CliValuePair("name", "Ada")],
-        };
+        var options = new TestCliOptionsWithInvalidValuePairFormat();
 
         await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidValuePairFormat).FullName}.Values");
+    }
+
+    [Test]
+    public async Task Public_Builder_Rejects_HandBuilt_Grouped_NonSpace_Option()
+    {
+        PropertyCommandLinePart[] model =
+        [
+            new OptionPart(
+                "Values",
+                static _ => new[] { "first", "second" },
+                new CliOptionAttribute("--values")
+                {
+                    Format = OptionFormat.EqualsSeparated,
+                    GroupValues = true,
+                }),
+        ];
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, new object()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+    }
+
+    [Test]
+    public async Task Registered_Metadata_Rejects_Value_Pair_NonSpace_Option()
+    {
+        var optionsType = typeof(RegisteredValuePairOptions<string>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredValuePairOptions<string>.Values),
+                    static options => ((RegisteredValuePairOptions<string>) options).Values,
+                    new CliOptionAttribute("--arg") { Format = OptionFormat.EqualsSeparated }),
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+        var options = new RegisteredValuePairOptions<string>
+        {
+            Values = [new CliValuePair("name", "value")],
+        };
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, options))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("OptionFormat.SpaceSeparated");
     }
@@ -311,11 +351,12 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
     {
-        var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
+        var options = new TestCliOptionsWithInvalidGroupedValues();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("must use a space separator");
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidGroupedValues).FullName}.Values");
     }
 
     [Test]
@@ -510,21 +551,23 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Handwritten_Legacy_Optional_String_Value()
     {
-        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue { Output = "json" };
+        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithHandwrittenLegacyOptionalValue).FullName}.Output");
     }
 
     [Test]
     public async Task Parser_Rejects_Unrelated_Generated_Legacy_Optional_String_Value()
     {
-        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue { Output = "json" };
+        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue).FullName}.Output");
     }
 
     [Test]
@@ -627,6 +670,93 @@ public class CliAttributeTests
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))
             .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Unsupported_Flag_Type_When_Unset()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithInvalidFlagType()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidFlagType).FullName}.Force");
+    }
+
+    [Test]
+    public async Task Reflection_CommandModel_Rejects_Unsupported_Flag_Type()
+    {
+        var optionsType = typeof(ReflectionInvalidFlagOptions<string>);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{optionsType.FullName}.Force");
+    }
+
+    [Test]
+    public async Task Reflection_CommandModel_Rejects_Inherited_Duplicate_Argument_Position()
+    {
+        var optionsType = typeof(ReflectionDuplicateOverrideArgumentOptions<string>);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Duplicate_Argument_Positions_In_Phase()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateArgumentPosition()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
+    }
+
+    [Test]
+    public async Task CommandModel_Preserves_Legacy_Default_Argument_Positions()
+    {
+        var arguments = BuildArguments(new TestCliOptionsWithLegacyDefaultArgumentPositions
+        {
+            First = "first",
+            Second = "second",
+        });
+
+        await Assert.That(string.Join('|', arguments)).IsEqualTo("first|second");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Mixed_Implicit_And_Explicit_Argument_Positions()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithMixedArgumentPositions()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
+    }
+
+    [Test]
+    public async Task CommandModel_Preserves_Shipped_Multi_Operand_Options()
+    {
+        var arguments = BuildArguments(
+            new ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions("curl"));
+
+        await Assert.That(string.Join('|', arguments)).IsEqualTo("--assume-yes|install|curl");
+    }
+
+    [Test]
+    public async Task CommandModel_Allows_Argument_Positions_In_Separate_Scopes()
+    {
+        await Assert.That(() =>
+                new CommandModelProvider().GetCommandModel(typeof(TestCliOptionsWithScopedArgumentPositions)))
+            .ThrowsNothing();
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Terminal_Argument_Positions_Across_Scopes()
+    {
+        await Assert.That(() =>
+                new CommandModelProvider().GetCommandModel(typeof(TestCliOptionsWithScopedTerminalPositions)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Global")
+            .And.HasMessageContaining("Command");
     }
 
     [Test]
@@ -932,6 +1062,91 @@ public class CliAttributeTests
 
         [CliOption("--duplicate")]
         public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithInvalidFlagType : CommandLineToolOptions
+    {
+        [CliFlag("--force")]
+        public string? Force { get; set; }
+    }
+
+    private sealed record ReflectionInvalidFlagOptions<T> : CommandLineToolOptions
+    {
+        [CliFlag("--force")]
+        public T? Force { get; init; }
+    }
+
+    private record ReflectionExplicitArgumentBase<T> : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public virtual string? First { get; init; }
+    }
+
+    private sealed record ReflectionDuplicateOverrideArgumentOptions<T>
+        : ReflectionExplicitArgumentBase<T>
+    {
+        public override string? First { get; init; }
+
+        [CliArgument(0)]
+        public string? Second { get; init; }
+    }
+
+    private sealed record RegisteredValuePairOptions<T> : CommandLineToolOptions
+    {
+        public IReadOnlyList<CliValuePair>? Values { get; init; }
+    }
+
+    internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public string? First { get; set; }
+
+        [CliArgument(0)]
+        public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithLegacyDefaultArgumentPositions : CommandLineToolOptions
+    {
+        [CliArgument]
+        public string? First { get; set; }
+
+        [CliArgument]
+        public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithMixedArgumentPositions : CommandLineToolOptions
+    {
+        [CliArgument]
+        public string? First { get; set; }
+
+        [CliArgument(0)]
+        public string? Second { get; set; }
+    }
+
+    [CliGlobalOptions]
+    internal record TestCliGlobalArgumentOptions : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public string? Global { get; set; }
+    }
+
+    internal record TestCliOptionsWithScopedArgumentPositions : TestCliGlobalArgumentOptions
+    {
+        [CliArgument(0)]
+        public string? Command { get; set; }
+    }
+
+    [CliGlobalOptions]
+    internal record TestCliGlobalTerminalArgumentOptions : CommandLineToolOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
+        public string? Global { get; set; }
+    }
+
+    internal record TestCliOptionsWithScopedTerminalPositions : TestCliGlobalTerminalArgumentOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
+        public string? Command { get; set; }
     }
 
     internal record TestCliOptionsWithEarlyTerminator : CommandLineToolOptions

@@ -8,6 +8,11 @@ namespace ModularPipelines.Helpers.Internal;
 public abstract record PropertyCommandLinePart(string PropertyName, Func<object, object?> Getter)
 {
     /// <summary>
+    /// Gets whether the property's type is supported by its CLI attribute, when known.
+    /// </summary>
+    public bool? IsSupportedPropertyType { get; init; }
+
+    /// <summary>
     /// Gets a value indicating whether the property belongs before command parts.
     /// </summary>
     public bool IsGlobalOption { get; init; }
@@ -26,6 +31,11 @@ public sealed record ArgumentPart(
     Func<object, object?> Getter,
     CliArgumentAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
+    /// <summary>
+    /// Gets a value indicating whether the argument position was explicitly supplied.
+    /// </summary>
+    public bool HasExplicitPosition { get; init; }
+
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
 }
@@ -50,6 +60,11 @@ public sealed record OptionPart(
     Func<object, object?> Getter,
     CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
+    /// <summary>
+    /// Gets a value indicating whether legacy generated string optional values are supported.
+    /// </summary>
+    public bool AllowsLegacyOptionalValues { get; init; }
+
     /// <summary>
     /// Gets the number of separate operands consumed by one manual occurrence of this option.
     /// </summary>

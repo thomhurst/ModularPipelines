@@ -10,6 +10,8 @@ namespace ModularPipelines.Helpers.Internal;
 /// </summary>
 public static class GeneratedCommandMetadata
 {
+    internal const int CurrentSchemaVersion = 2;
+
     private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = [];
     private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = [];
     private static readonly ConditionalWeakTable<Assembly, ExternalCommandMetadata> ExternalModels = [];
@@ -56,14 +58,26 @@ public static class GeneratedCommandMetadata
     }
 
     /// <summary>
-    /// Registers the generated command model for an options type.
+    /// Preserves the schema-1 registration signature emitted by earlier generator versions.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model)
     {
-        RegisterCore(optionsType, model, isComplete: true, isLegacy: false);
+        RegisterCore(optionsType, model, isComplete: true, schemaVersion: 1);
+    }
+
+    /// <summary>
+    /// Registers the generated command model and its metadata schema version.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void Register(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> model,
+        int schemaVersion)
+    {
+        RegisterCore(optionsType, model, isComplete: true, schemaVersion);
     }
 
     /// <summary>
@@ -75,18 +89,18 @@ public static class GeneratedCommandMetadata
         IReadOnlyList<PropertyCommandLinePart> model,
         bool isComplete = true)
     {
-        RegisterCore(optionsType, model, isComplete, isLegacy: true);
+        RegisterCore(optionsType, model, isComplete, schemaVersion: 0);
     }
 
     private static void RegisterCore(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
         bool isComplete,
-        bool isLegacy)
+        int schemaVersion)
     {
         try
         {
-            Models.Add(optionsType, new CommandMetadata(model, isComplete, isLegacy));
+            Models.Add(optionsType, new CommandMetadata(model, isComplete, schemaVersion));
         }
         catch (ArgumentException exception)
         {
@@ -97,8 +111,7 @@ public static class GeneratedCommandMetadata
     }
 
     /// <summary>
-    /// Registers command metadata emitted by a consuming assembly for an external options type.
-    /// Registrations are scoped weakly to the consumer so collectible assemblies are not retained.
+    /// Preserves the schema-1 external registration signature emitted by earlier generator versions.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterExternal(
@@ -106,18 +119,31 @@ public static class GeneratedCommandMetadata
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model)
     {
+        RegisterExternal(consumerAssembly, optionsType, model, schemaVersion: 1);
+    }
+
+    /// <summary>
+    /// Registers versioned command metadata emitted by a consuming assembly for an external options type.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterExternal(
+        Assembly consumerAssembly,
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> model,
+        int schemaVersion)
+    {
         var registrations = ExternalModels.GetValue(
             consumerAssembly,
             static _ => new ExternalCommandMetadata());
         registrations.Models.TryAdd(
             optionsType,
-            new CommandMetadata(model, IsComplete: true, IsLegacy: false));
+            new CommandMetadata(model, IsComplete: true, schemaVersion));
     }
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
     {
         Models.TryGetValue(optionsType, out var directMetadata);
-        if (directMetadata is { IsComplete: true, IsLegacy: false })
+        if (directMetadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
         {
             model = directMetadata.Model;
             return true;
@@ -126,7 +152,7 @@ public static class GeneratedCommandMetadata
         foreach (var registrations in ExternalModels)
         {
             if (registrations.Value.Models.TryGetValue(optionsType, out var metadata)
-                && metadata.IsComplete)
+                && metadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
             {
                 model = metadata.Model;
                 return true;
@@ -161,7 +187,7 @@ public static class GeneratedCommandMetadata
     private sealed record CommandMetadata(
         IReadOnlyList<PropertyCommandLinePart> Model,
         bool IsComplete,
-        bool IsLegacy);
+        int SchemaVersion);
 
     private sealed class ExternalCommandMetadata
     {

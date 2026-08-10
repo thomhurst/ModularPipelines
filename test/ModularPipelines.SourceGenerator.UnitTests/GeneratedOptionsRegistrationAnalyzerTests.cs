@@ -33,7 +33,9 @@ public class GeneratedOptionsRegistrationAnalyzerTests
         {
             public static class RuntimeMetadataRegistry
             {
+                public const int CurrentCommandMetadataSchemaVersion = 2;
                 public static void RegisterCommandOptions(System.Type type, object model) { }
+                public static void RegisterCommandOptions(System.Type type, object model, int schemaVersion) { }
                 public static void RegisterSecrets(System.Type type, object accessors) { }
             }
         }
@@ -127,7 +129,8 @@ public class GeneratedOptionsRegistrationAnalyzerTests
                     {
                         RuntimeMetadataRegistry.RegisterCommandOptions(
                             typeof(PeerCommandOptions),
-                            new object());
+                            new object(),
+                            RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
                         RuntimeMetadataRegistry.RegisterSecrets(
                             typeof(PeerCommandOptions),
                             new object());
@@ -143,6 +146,91 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             });
 
         await Assert.That(diagnostics).IsEmpty();
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Legacy_Peer_Command_Metadata()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "LegacyPeerCommandOptions.cs",
+                """
+                using ModularPipelines.Metadata;
+                using ModularPipelines.Options;
+
+                public sealed class LegacyPeerCommandOptions : CommandLineToolOptions;
+
+                public static class LegacyPeerRegistration
+                {
+                    public static void Add()
+                    {
+                        RuntimeMetadataRegistry.RegisterCommandOptions(
+                            typeof(LegacyPeerCommandOptions),
+                            new object());
+                        RuntimeMetadataRegistry.RegisterSecrets(
+                            typeof(LegacyPeerCommandOptions),
+                            new object());
+                    }
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
+            await Assert.That(diagnostic.GetMessage()).Contains("LegacyPeerCommandOptions");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Stale_Peer_Command_Metadata_Schema()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "StalePeerCommandOptions.cs",
+                """
+                using ModularPipelines.Metadata;
+                using ModularPipelines.Options;
+
+                public sealed class StalePeerCommandOptions : CommandLineToolOptions;
+
+                public static class StalePeerRegistration
+                {
+                    public static void Add()
+                    {
+                        RuntimeMetadataRegistry.RegisterCommandOptions(
+                            typeof(StalePeerCommandOptions),
+                            new object(),
+                            1);
+                        RuntimeMetadataRegistry.RegisterSecrets(
+                            typeof(StalePeerCommandOptions),
+                            new object());
+                    }
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
+            await Assert.That(diagnostic.GetMessage()).Contains("StalePeerCommandOptions");
+        }
     }
 
     [Test]

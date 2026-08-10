@@ -13,8 +13,10 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    private const int RuntimeMetadataSchemaVersion = 1;
+    private const int RuntimeMetadataSchemaVersion = 2;
+    private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
+    private const string GeneratedCodeAttributeFullName = "System.CodeDom.Compiler.GeneratedCodeAttribute";
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string OptionsNamespace = "Microsoft.Extensions.Options";
@@ -821,7 +823,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     false,
                     false,
                     0,
-                    property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
+                    property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                    false,
+                    false,
+                    false));
             }
         }
 
@@ -879,7 +884,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedBool(attribute, "PrependOptionTerminatorIfValueStartsWithDash"),
                 isGlobalOption,
                 0,
-                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                false,
+                false,
+                attribute.ConstructorArguments.Length > 0);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -899,9 +907,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 false,
                 isGlobalOption,
                 0,
-                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                IsSupportedFlagType(property.Type),
+                false,
+                false);
         }
 
+        var allowsLegacyOptionalValues = IsLegacyGeneratedOption(property);
         return new PropertyMetadata(
             property.Name,
             PropertyKind.Option,
@@ -917,8 +929,62 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             false,
             isGlobalOption,
             GetManualOperandCount(property.Type),
-            property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+            property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            IsSupportedOptionalValueType(property.Type, allowsLegacyOptionalValues),
+            allowsLegacyOptionalValues,
+            false);
     }
+
+    private static bool IsSupportedFlagType(ITypeSymbol propertyType)
+    {
+        propertyType = UnwrapNullable(propertyType);
+        return propertyType.SpecialType is SpecialType.System_Boolean or SpecialType.System_Int32;
+    }
+
+    private static bool IsSupportedOptionalValueType(
+        ITypeSymbol propertyType,
+        bool allowsLegacyOptionalValues)
+    {
+        propertyType = UnwrapNullable(propertyType);
+        return IsType(propertyType, CliOptionValueFullName)
+               || IsEnumerableOf(propertyType, CliOptionValueFullName)
+               || (allowsLegacyOptionalValues
+                   && (propertyType.SpecialType == SpecialType.System_String
+                       || IsEnumerableOf(propertyType, "string")));
+    }
+
+    private static bool IsEnumerableOf(ITypeSymbol propertyType, string elementTypeName)
+    {
+        if (propertyType is IArrayTypeSymbol arrayType)
+        {
+            return IsType(arrayType.ElementType, elementTypeName);
+        }
+
+        return propertyType is INamedTypeSymbol namedType
+               && namedType.AllInterfaces
+                   .Append(namedType)
+                   .Any(type => type.OriginalDefinition.SpecialType
+                                == SpecialType.System_Collections_Generic_IEnumerable_T
+                                && IsType(type.TypeArguments[0], elementTypeName));
+    }
+
+    private static bool IsType(ITypeSymbol type, string typeName) =>
+        typeName == "string"
+            ? type.SpecialType == SpecialType.System_String
+            : type.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == typeName;
+
+    private static ITypeSymbol UnwrapNullable(ITypeSymbol propertyType) =>
+        propertyType is INamedTypeSymbol nullableType
+        && nullableType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+        && nullableType.TypeArguments.Length == 1
+            ? nullableType.TypeArguments[0]
+            : propertyType;
+
+    private static bool IsLegacyGeneratedOption(IPropertySymbol property) =>
+        property.ContainingType.GetAttributes().Any(static attribute =>
+            attribute.AttributeClass?.ToDisplayString() == GeneratedCodeAttributeFullName
+            && attribute.ConstructorArguments.FirstOrDefault().Value as string
+                == "ModularPipelines.OptionsGenerator");
 
     private static int GetManualOperandCount(ITypeSymbol propertyType)
     {
@@ -1251,7 +1317,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }},");
                     break;
                 case PropertyKind.Flag:
                     sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.FlagPart(");
@@ -1261,7 +1327,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
                     break;
                 case PropertyKind.Option:
                     sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.OptionPart(");
@@ -1274,12 +1340,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount}, AllowsLegacyOptionalValues = {BooleanLiteral(property.AllowsLegacyOptionalValues)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
                     break;
             }
         }
 
-        sb.AppendLine("            });");
+        sb.AppendLine("            },");
+        sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
     }
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
@@ -2009,7 +2076,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool PrependOptionTerminatorIfValueStartsWithDash,
         bool IsGlobalOption,
         int ManualOperandCount,
-        string AccessorTypeName);
+        string AccessorTypeName,
+        bool IsSupportedPropertyType,
+        bool AllowsLegacyOptionalValues,
+        bool HasExplicitArgumentPosition);
 
     private enum PropertyKind
     {

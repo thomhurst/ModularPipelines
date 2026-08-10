@@ -292,7 +292,10 @@ public class GeneratedRuntimeMetadataTests
             new("Token", static _ => "secret"),
         };
 
-        RuntimeMetadataRegistry.RegisterCommandOptions(type, commandModel);
+        RuntimeMetadataRegistry.RegisterCommandOptions(
+            type,
+            commandModel,
+            RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion);
         RuntimeMetadataRegistry.RegisterSecrets(type, secretAccessors);
 
         using (Assert.Multiple())
@@ -368,11 +371,16 @@ public class GeneratedRuntimeMetadataTests
         var firstModel = new List<PropertyCommandLinePart>();
 
         var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedCommandMetadata.RegisterExternal(consumerAssembly, type, firstModel);
         GeneratedCommandMetadata.RegisterExternal(
             consumerAssembly,
             type,
-            new List<PropertyCommandLinePart>());
+            firstModel,
+            GeneratedCommandMetadata.CurrentSchemaVersion);
+        GeneratedCommandMetadata.RegisterExternal(
+            consumerAssembly,
+            type,
+            new List<PropertyCommandLinePart>(),
+            GeneratedCommandMetadata.CurrentSchemaVersion);
 
         var found = GeneratedCommandMetadata.TryGet(type, out var registeredModel);
         using (Assert.Multiple())
@@ -562,12 +570,13 @@ public class GeneratedRuntimeMetadataTests
         var legacySecretModel = new List<SecretPropertyAccessor>();
         var rescannedSecretModel = new List<SecretPropertyAccessor>();
         var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedCommandMetadata.Register(commandType, legacyCommandModel, isComplete: true);
+        GeneratedCommandMetadata.Register(commandType, legacyCommandModel);
         GeneratedSecretMetadata.Register(secretType, legacySecretModel, isComplete: true);
         GeneratedCommandMetadata.RegisterExternal(
             consumerAssembly,
             commandType,
-            rescannedCommandModel);
+            rescannedCommandModel,
+            GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             secretType,
@@ -621,12 +630,16 @@ public class GeneratedRuntimeMetadataTests
         var currentSecretModel = new List<SecretPropertyAccessor>();
         var rescannedSecretModel = new List<SecretPropertyAccessor>();
         var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
-        GeneratedCommandMetadata.Register(commandType, currentCommandModel);
+        GeneratedCommandMetadata.Register(
+            commandType,
+            currentCommandModel,
+            GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.Register(secretType, currentSecretModel);
         GeneratedCommandMetadata.RegisterExternal(
             consumerAssembly,
             commandType,
-            rescannedCommandModel);
+            rescannedCommandModel,
+            GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.RegisterExternal(
             consumerAssembly,
             secretType,
@@ -724,7 +737,7 @@ public class GeneratedRuntimeMetadataTests
             .CreateType()!;
 
         GeneratedCommandMetadata.RegisterAssembly(assembly);
-        GeneratedCommandMetadata.Register(type, []);
+        GeneratedCommandMetadata.Register(type, [], GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.RegisterAssembly(assembly);
         GeneratedSecretMetadata.Register(type, []);
 
@@ -756,7 +769,8 @@ public class GeneratedRuntimeMetadataTests
         GeneratedCommandMetadata.RegisterExternal(
             assembly,
             sharedOptionsType,
-            [new FlagPart("Value", getter, new CliFlagAttribute("--value"))]);
+            [new FlagPart("Value", getter, new CliFlagAttribute("--value"))],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
         GeneratedSecretMetadata.RegisterExternal(
             assembly,
             sharedOptionsType,

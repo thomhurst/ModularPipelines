@@ -303,6 +303,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
+        ValidateGroupedOptionFormat(optionPart, optionsType);
+
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
             if (optionPart.Attribute.GroupValues)
@@ -318,6 +320,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var valuePairs = GetOptionValuePairs(rawValue);
+        ValidateValuePairOptionFormat(optionPart, valuePairs, optionsType);
+
         if (optionPart.Attribute.GroupValues)
         {
             var groupedValues = valuePairs is null
@@ -333,7 +337,40 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        var values = GetValues(rawValue);
+        AddRequiredOptionValues(args, optionPart, GetValues(rawValue), optionsType);
+    }
+
+    private static void ValidateGroupedOptionFormat(OptionPart optionPart, Type optionsType)
+    {
+        if (optionPart.Attribute.GroupValues
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void ValidateValuePairOptionFormat(
+        OptionPart optionPart,
+        IEnumerable<CliValuePair>? valuePairs,
+        Type optionsType)
+    {
+        if (valuePairs is not null
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"CliValuePair CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void AddRequiredOptionValues(
+        List<string> args,
+        OptionPart optionPart,
+        IReadOnlyCollection<string> values,
+        Type optionsType)
+    {
         if (values.Count == 0)
         {
             return;
@@ -386,7 +423,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         Type optionsType,
         OptionPart optionPart)
     {
-        var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
+        var isLegacyGeneratedOption = optionPart.AllowsLegacyOptionalValues
+                                      || (optionPart.IsSupportedPropertyType is null
+                                          && IsLegacyGeneratedOption(optionsType, optionPart));
         return rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
@@ -472,12 +511,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<string?> values,
         Type optionsType)
     {
-        if (GetSeparator(optionPart.Attribute) != " ")
-        {
-            throw new InvalidOperationException(
-                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
-        }
-
         var renderedValues = values.ToList();
         if (renderedValues.Count == 0)
         {
@@ -509,13 +542,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<CliValuePair> pairs,
         Type optionsType)
     {
-        if (GetSeparator(optionPart.Attribute) != " ")
-        {
-            throw new InvalidOperationException(
-                $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
-                + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
-        }
-
         var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
