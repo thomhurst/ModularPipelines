@@ -320,15 +320,9 @@ internal class CoordinatedTextWriter : TextWriter
             }
 
             var matchEnd = match.Index + match.Length;
-            var isCompleteSelfOverlappingMatch = matchEnd == pending.Length
-                && match.Index < retainedPrefixStart
-                && pending.AsSpan(match.Index, retainedPrefixLength).Equals(
-                    pending.AsSpan(retainedPrefixStart),
-                    StringComparison.OrdinalIgnoreCase);
             if (preservePotentialLongerMatch
                 && retainedPrefixLength > 0
-                && matchEnd > retainedPrefixStart
-                && !isCompleteSelfOverlappingMatch)
+                && matchEnd > retainedPrefixStart)
             {
                 var safeMatchLength = FindLongestPatternEndingAtOrBefore(
                     pending,
@@ -337,11 +331,22 @@ internal class CoordinatedTextWriter : TextWriter
                     retainedPrefixStart);
                 if (safeMatchLength == 0)
                 {
-                    searchIndex = match.Index + 1;
-                    continue;
+                    var hasLaterSafeMatch = HasCompletePatternBetween(
+                        pending,
+                        patterns.Values,
+                        match.Index + 1,
+                        retainedPrefixStart,
+                        trackedObfuscator.PatternComparison);
+                    if (match.Index >= retainedPrefixStart || hasLaterSafeMatch)
+                    {
+                        searchIndex = match.Index + 1;
+                        continue;
+                    }
                 }
-
-                match = (match.Index, safeMatchLength);
+                else
+                {
+                    match = (match.Index, safeMatchLength);
+                }
             }
 
             var secret = pending.Substring(match.Index, match.Length);
@@ -486,6 +491,28 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         return 0;
+    }
+
+    private static bool HasCompletePatternBetween(
+        string input,
+        IReadOnlyList<string> patterns,
+        int startIndex,
+        int endIndex,
+        StringComparison comparison)
+    {
+        for (var index = startIndex; index < endIndex; index++)
+        {
+            var safeInput = input.AsSpan(index, endIndex - index);
+            foreach (var pattern in patterns)
+            {
+                if (safeInput.StartsWith(pattern, comparison))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private int GetPotentialPatternPrefixLength(StringBuilder input, IReadOnlyList<string> patterns)

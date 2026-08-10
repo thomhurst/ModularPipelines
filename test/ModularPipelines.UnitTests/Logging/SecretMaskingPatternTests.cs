@@ -768,6 +768,27 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_MasksCompleteSecretOverlappingAnotherSecretPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abcdef");
+        provider.AddSecret("cdefgh");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcdef");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_MasksCompleteMatchBeforeFalseCaseRetainedPrefix()
     {
         var provider = CreateProvider(out _);
