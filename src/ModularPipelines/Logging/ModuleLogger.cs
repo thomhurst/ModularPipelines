@@ -73,7 +73,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly StringWriter _renderWriter;
     private readonly IAnsiConsole _renderConsole;
 
-    private bool _isDisposed;
+    private volatile bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
     public ModuleLogger(
@@ -112,24 +112,29 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             return;
         }
 
+        if (_isDisposed)
+        {
+            return;
+        }
+
+        var obfuscatedState = state is null
+            ? null
+            : _formattedLogValuesObfuscator.TryObfuscateValues(state);
+        var logEvent = new BufferedLogEvent<TState>(
+            logLevel,
+            eventId,
+            state,
+            obfuscatedState,
+            exception,
+            formatter ?? (static (_, _) => string.Empty),
+            _secretObfuscator);
+
         lock (_disposeLock)
         {
             if (_isDisposed)
             {
                 return;
             }
-
-            var obfuscatedState = state is null
-                ? null
-                : _formattedLogValuesObfuscator.TryObfuscateValues(state);
-            var logEvent = new BufferedLogEvent<TState>(
-                logLevel,
-                eventId,
-                state,
-                obfuscatedState,
-                exception,
-                formatter ?? (static (_, _) => string.Empty),
-                _secretObfuscator);
 
             // Write to buffer for ordered module output during pipeline execution.
             // Output will be flushed to console and loggers when the module completes.
