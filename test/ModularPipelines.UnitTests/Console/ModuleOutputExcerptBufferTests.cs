@@ -1,5 +1,8 @@
 using System.Text;
 using ModularPipelines.Console;
+using ModularPipelines.Engine;
+using ModularPipelines.Options;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
 
@@ -60,5 +63,87 @@ public class ModuleOutputExcerptBufferTests
             await Assert.That(excerpt.StdoutTail).DoesNotContain("�");
             await Assert.That(excerpt.TruncatedBytes).IsEqualTo(5);
         }
+    }
+
+    [Test]
+    public async Task MasksLateRegisteredSecretBeforeSelectingTail()
+    {
+        const string secret = "late-secret";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { MaskValue = "***" }));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 16,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append($"prefix {secret} suffix", ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+        var excerpt = buffer.CreateExcerpt();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt).IsNotNull();
+            await Assert.That(excerpt!.StdoutTail).Contains("***");
+            await Assert.That(excerpt.StdoutTail).DoesNotContain("secret");
+            await Assert.That(Encoding.UTF8.GetByteCount(excerpt.StdoutTail!)).IsLessThanOrEqualTo(16);
+        }
+    }
+
+    [Test]
+    public async Task OmitsExcerptWhenSecretExceedsSafeBoundaryContext()
+    {
+        const string secret = "long-secret";
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 8,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append($"prefix {secret} suffix", ModuleOutputStream.StandardOutput);
+
+        await Assert.That(buffer.CreateExcerpt()).IsNull();
+    }
+
+    [Test]
+    public async Task OmitsExcerptWhenSecretsChangeDuringMasking()
+    {
+        var version = 2L;
+        var snapshotCalls = 0;
+        var snapshot = new SecretSnapshot(version, ["registered-secret"]);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(() =>
+            {
+                if (++snapshotCalls == 2)
+                {
+                    version = 4;
+                }
+
+                return snapshot;
+            });
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 32,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("registered-secret suffix", ModuleOutputStream.StandardOutput);
+
+        await Assert.That(buffer.CreateExcerpt()).IsNull();
     }
 }

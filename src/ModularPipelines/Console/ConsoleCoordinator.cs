@@ -308,7 +308,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 showFailureHeaderWithoutOutput: !_options.Value.Console.PrintResults,
                 outputExcerptMaximumBytes: _options.Value.RunReport.IncludeModuleOutput
                     ? _options.Value.RunReport.MaxOutputBytesPerModule
-                    : 0));
+                    : 0,
+                outputExcerptSecretObfuscator: _secretObfuscator,
+                outputExcerptSecretProvider: _secretProvider));
     }
 
     /// <inheritdoc />

@@ -62,6 +62,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     /// <param name="showFailureHeaderWithoutOutput">Whether a failed empty buffer renders a failure header.</param>
     /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
+    /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
+    /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
@@ -69,7 +71,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         TimeSpan? renderGateTimeout = null,
         Func<LogLevel, bool>? isSpectreEnabled = null,
         bool showFailureHeaderWithoutOutput = false,
-        int outputExcerptMaximumBytes = 0)
+        int outputExcerptMaximumBytes = 0,
+        ISecretObfuscator? outputExcerptSecretObfuscator = null,
+        ISecretProvider? outputExcerptSecretProvider = null)
         : this(
             moduleType.Name,
             moduleType,
@@ -78,7 +82,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             renderGateTimeout,
             isSpectreEnabled,
             showFailureHeaderWithoutOutput,
-            outputExcerptMaximumBytes: outputExcerptMaximumBytes)
+            outputExcerptMaximumBytes: outputExcerptMaximumBytes,
+            outputExcerptSecretObfuscator: outputExcerptSecretObfuscator,
+            outputExcerptSecretProvider: outputExcerptSecretProvider)
     {
     }
 
@@ -95,6 +101,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="showFailureHeaderWithoutOutput">Whether a failed empty buffer renders a failure header.</param>
     /// <param name="showSuccessMarker">Whether successful output groups include a success marker.</param>
     /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
+    /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
+    /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
@@ -104,7 +112,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Func<LogLevel, bool>? isSpectreEnabled = null,
         bool showFailureHeaderWithoutOutput = false,
         bool showSuccessMarker = true,
-        int outputExcerptMaximumBytes = 0)
+        int outputExcerptMaximumBytes = 0,
+        ISecretObfuscator? outputExcerptSecretObfuscator = null,
+        ISecretProvider? outputExcerptSecretProvider = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -116,7 +126,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _showFailureHeaderWithoutOutput = showFailureHeaderWithoutOutput;
         _showSuccessMarker = showSuccessMarker;
         _outputExcerptBuffer = outputExcerptMaximumBytes > 0
-            ? new ModuleOutputExcerptBuffer(outputExcerptMaximumBytes)
+            ? new ModuleOutputExcerptBuffer(
+                outputExcerptMaximumBytes,
+                outputExcerptSecretObfuscator,
+                outputExcerptSecretProvider)
             : null;
     }
 
