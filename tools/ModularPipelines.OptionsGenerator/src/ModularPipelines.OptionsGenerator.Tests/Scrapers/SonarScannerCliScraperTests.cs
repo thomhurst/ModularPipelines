@@ -74,6 +74,18 @@ public class SonarScannerCliScraperTests
         await Assert.That(version).IsNull();
     }
 
+    [Test]
+    public async Task Version_Finds_Stable_Identity_After_Generic_Truncation_Limit()
+    {
+        var output = new string('x', 600) + Environment.NewLine
+                     + "02:49:45.731 INFO SonarScanner CLI 8.0.1.6346";
+        var scraper = new TestSonarScannerCliScraper(new VersionExecutor(output));
+
+        var version = await scraper.GetVersionAsync();
+
+        await Assert.That(version).IsEqualTo("SonarScanner CLI 8.0.1.6346");
+    }
+
     private sealed class TestSonarScannerCliScraper : SonarScannerCliScraper
     {
         public TestSonarScannerCliScraper()

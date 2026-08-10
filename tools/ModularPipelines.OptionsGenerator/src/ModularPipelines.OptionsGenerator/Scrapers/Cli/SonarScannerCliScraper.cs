@@ -37,15 +37,9 @@ public partial class SonarScannerCliScraper : CliScraperBase
 
     protected override string ExecutablePath { get; }
 
-    public override async Task<string?> GetVersionAsync(CancellationToken cancellationToken = default)
+    protected override string? ParseVersionOutput(CliCommandResult result)
     {
-        var output = await base.GetVersionAsync(cancellationToken).ConfigureAwait(false);
-        if (output is null)
-        {
-            return null;
-        }
-
-        var match = SonarScannerVersionPattern().Match(output);
+        var match = SonarScannerVersionPattern().Match(result.CombinedOutput);
         if (match.Success)
         {
             return match.Value;
