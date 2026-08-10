@@ -193,6 +193,14 @@ public class ValidationTests
         }
     }
 
+    private sealed class ThrowingPipelineExceptionValidator : IPipelineValidator
+    {
+        public int Order => int.MaxValue;
+
+        public ValidationResult Validate(IServiceProvider services) =>
+            throw new PipelineException("No modules can be serialized.");
+    }
+
     [Test]
     public async Task PipelineValidatorContractIsAsyncOnly()
     {
@@ -234,6 +242,18 @@ public class ValidationTests
         // Assert
         await Assert.That(result.HasErrors).IsTrue();
         await Assert.That(result.Errors.Any(e => e.Category == ValidationErrorCategory.ModuleConfiguration)).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_DoesNotClassifyUnrelatedPipelineExceptionByMessage()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.Services.AddSingleton<IPipelineValidator, ThrowingPipelineExceptionValidator>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(() => builder.ValidateAsync());
+
+        await Assert.That(exception!.Message).IsEqualTo("No modules can be serialized.");
     }
 
     [Test]

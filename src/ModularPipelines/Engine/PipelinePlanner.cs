@@ -70,7 +70,7 @@ internal sealed class PipelinePlanner
     {
         if (_modules.Count == 0)
         {
-            throw new PipelineException("No modules have been registered");
+            throw new NoModulesRegisteredException();
         }
 
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
