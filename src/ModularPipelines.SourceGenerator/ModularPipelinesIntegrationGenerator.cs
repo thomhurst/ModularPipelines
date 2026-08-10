@@ -245,15 +245,12 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
-        if (generatesExtensionMembers)
+        foreach (var property in uniqueToolProperties)
         {
-            foreach (var property in uniqueToolProperties)
-            {
-                builder.AppendLine(
-                    "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
-                    + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
-                    + $"{Literal(property.TypeName)})]");
-            }
+            builder.AppendLine(
+                "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
+                + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
+                + $"{Literal(property.TypeName)})]");
         }
 
         builder.AppendLine();

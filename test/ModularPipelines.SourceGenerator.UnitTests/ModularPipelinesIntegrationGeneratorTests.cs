@@ -183,6 +183,8 @@ public class ModularPipelinesIntegrationGeneratorTests
             await Assert.That(generatedSource).DoesNotContain("extension(");
             await Assert.That(generatedSource)
                 .Contains("global::GitIntegration.Register(services);");
+            await Assert.That(generatedSource)
+                .Contains("\"ModularPipelines.ToolProperty:Git\", \"global::IGit\"");
         }
     }
 
