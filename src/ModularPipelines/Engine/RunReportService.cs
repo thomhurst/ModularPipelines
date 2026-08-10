@@ -92,7 +92,7 @@ internal sealed class RunReportService(
             await SaveHistoryAsync(historyEnabled, report, cancellationToken).ConfigureAwait(false);
         }
 
-        return report;
+        return reportFactory.RemoveStaleOutputExcerpts(report);
     }
 
     private PipelineRunReport PrepareHistoryReport(PipelineRunReport report)
@@ -290,9 +290,10 @@ internal sealed class RunReportService(
                 {
                     var fullPath = Path.GetFullPath(reportPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                    var persistenceReport = reportFactory.RemoveStaleOutputExcerpts(report);
                     await AtomicFileWriter.WriteAllTextAsync(
                             fullPath,
-                            RunReportJsonSerializer.Serialize(report),
+                            RunReportJsonSerializer.Serialize(persistenceReport),
                             token)
                         .ConfigureAwait(false);
                     logger.LogInformation(
@@ -319,7 +320,9 @@ internal sealed class RunReportService(
         }
 
         await RunTimedPhaseAsync(
-                token => historyStore.SaveAsync(report, token),
+                token => historyStore.SaveAsync(
+                    PrepareHistoryReport(reportFactory.RemoveStaleOutputExcerpts(report)),
+                    token),
                 _historyStoreTimeout,
                 cancellationToken,
                 exception => logger.LogWarning(exception, "Could not save pipeline run history"))
