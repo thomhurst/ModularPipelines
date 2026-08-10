@@ -313,6 +313,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     continue;
                 }
 
+                longForm = NormalizeOptionSwitchName(commandParts, longForm);
+
                 // Skip duplicates
                 if (seenOptions.Contains(longForm))
                 {
@@ -436,6 +438,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Determines whether an option's documented values form a closed set.
     /// </summary>
     protected virtual bool ShouldGenerateEnum(string[] commandParts, string switchName) => true;
+
+    /// <summary>
+    /// Applies tool-specific corrections to an option's canonical switch spelling.
+    /// </summary>
+    protected virtual string NormalizeOptionSwitchName(
+        string[] commandParts,
+        string switchName) => switchName;
 
     /// <summary>
     /// Applies tool-specific corrections when CLI help omits or misreports an option type.
