@@ -87,6 +87,6 @@ public record SkopeoLoginOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? CommandOptions { get; set; }
+    public IEnumerable<string>? CommandOptions { get; set; }
 
 }

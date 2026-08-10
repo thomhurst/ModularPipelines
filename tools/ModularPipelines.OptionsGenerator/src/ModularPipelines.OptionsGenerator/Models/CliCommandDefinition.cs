@@ -93,6 +93,16 @@ public record CliCommandDefinition
     public IReadOnlyList<CliCompatibilityProperty> CompatibilityProperties { get; init; } = [];
 
     /// <summary>
+    /// Secondary constructors retained when the CLI adds required members to the primary constructor.
+    /// </summary>
+    public IReadOnlyList<CliCompatibilityConstructor> CompatibilityConstructors { get; init; } = [];
+
+    /// <summary>
+    /// Whether an existing command-group <c>ExecuteAsync</c> facade must remain generated.
+    /// </summary>
+    public bool PreserveExecuteFacade { get; init; }
+
+    /// <summary>
     /// Public methods retained as obsolete forwarding aliases for compatibility.
     /// </summary>
     public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];
@@ -185,6 +195,27 @@ public record CliCompatibilityProperty
     /// </summary>
     public required string ObsoleteMessage { get; init; }
 }
+
+/// <summary>
+/// Describes a secondary generated constructor retained for source compatibility.
+/// </summary>
+public record CliCompatibilityConstructor
+{
+    /// <summary>
+    /// Parameters exposed by the retained constructor.
+    /// </summary>
+    public required IReadOnlyList<CliCompatibilityConstructorParameter> Parameters { get; init; }
+
+    /// <summary>
+    /// Arguments forwarded to the current primary constructor.
+    /// </summary>
+    public required IReadOnlyList<string> PrimaryConstructorArguments { get; init; }
+}
+
+/// <summary>
+/// Describes a parameter on a retained generated constructor.
+/// </summary>
+public readonly record struct CliCompatibilityConstructorParameter(string PropertyName, string CSharpType);
 
 /// <summary>
 /// Describes an obsolete generated method retained as a forwarding alias.

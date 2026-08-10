@@ -18,13 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "add", "secret")]
-public record KustomizeEditAddSecretOptions : KustomizeOptions
+public record KustomizeEditAddSecretOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KustomizeOptions
 {
     /// <summary>
     /// Disable the name suffix for the secret
     /// </summary>
     [CliFlag("--disableNameSuffixHash")]
-    public bool? Disablenamesuffixhash { get; set; }
+    public bool? DisableNameSuffixHash { get; set; }
 
     /// <summary>
     /// Specify the path to a file to read lines of key=val pairs to create a secret (i.e. a Docker .env file).

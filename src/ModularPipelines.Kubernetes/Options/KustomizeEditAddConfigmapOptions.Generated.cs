@@ -18,7 +18,9 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "add", "configmap")]
-public record KustomizeEditAddConfigmapOptions : KustomizeOptions
+public record KustomizeEditAddConfigmapOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KustomizeOptions
 {
     /// <summary>
     /// Specify the behavior for config map generation, i.e whether to create a new configmap (the default),  to merge with a previously defined one, or to replace an existing one. Merge and replace should be used only  when overriding an existing configmap defined in a base
@@ -30,7 +32,7 @@ public record KustomizeEditAddConfigmapOptions : KustomizeOptions
     /// Disable the name suffix for the configmap
     /// </summary>
     [CliFlag("--disableNameSuffixHash")]
-    public bool? Disablenamesuffixhash { get; set; }
+    public bool? DisableNameSuffixHash { get; set; }
 
     /// <summary>
     /// Specify the path to a file to read lines of key=val pairs to create a configmap (i.e. a Docker .env file).

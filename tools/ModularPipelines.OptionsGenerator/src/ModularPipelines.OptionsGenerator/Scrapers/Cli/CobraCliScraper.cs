@@ -264,7 +264,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var seenOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Flags, Options, and Global Flags sections
@@ -312,15 +312,25 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     continue;
                 }
 
+                var scrapedLongForm = longForm;
                 longForm = NormalizeOptionSwitchName(commandParts, longForm);
 
                 // Skip duplicates
-                if (seenOptions.Contains(longForm))
+                if (seenOptions.TryGetValue(longForm, out var existingScrapedLongForm))
                 {
+                    if (!existingScrapedLongForm.Equals(
+                            scrapedLongForm,
+                            StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new InvalidOperationException(
+                            $"Option switch normalization for '{string.Join(' ', commandParts)}' "
+                            + $"maps both '{existingScrapedLongForm}' and '{scrapedLongForm}' to '{longForm}'.");
+                    }
+
                     continue;
                 }
 
-                seenOptions.Add(longForm);
+                seenOptions.Add(longForm, scrapedLongForm);
 
                 var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)

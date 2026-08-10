@@ -20,7 +20,7 @@ namespace ModularPipelines.Rust.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
 public record CargoAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> DepVersion
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Dep
 ) : CargoOptions
 {
 }

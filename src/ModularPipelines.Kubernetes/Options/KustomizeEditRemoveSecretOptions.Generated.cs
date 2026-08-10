@@ -18,7 +18,9 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "remove", "secret")]
-public record KustomizeEditRemoveSecretOptions : KustomizeOptions
+public record KustomizeEditRemoveSecretOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KustomizeOptions
 {
     /// <summary>
     /// help for secret

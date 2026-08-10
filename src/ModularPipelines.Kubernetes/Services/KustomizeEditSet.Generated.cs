@@ -32,6 +32,21 @@ public class KustomizeEditSet
     #region Commands
 
     /// <summary>
+    /// Sets the value of different fields in kustomization file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        KustomizeEditSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeEditSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Sets one or more commonAnnotations in kustomization.yaml
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -54,11 +69,11 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BuildmetadataAsync(
-        KustomizeEditSetBuildmetadataOptions? options = null,
+        KustomizeEditSetBuildmetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeEditSetBuildmetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -69,11 +84,11 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigmapAsync(
-        KustomizeEditSetConfigmapOptions? options = null,
+        KustomizeEditSetConfigmapOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeEditSetConfigmapOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -174,11 +189,11 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SecretAsync(
-        KustomizeEditSetSecretOptions? options = null,
+        KustomizeEditSetSecretOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeEditSetSecretOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

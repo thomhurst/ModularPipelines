@@ -959,7 +959,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Optional_To_Required_Changes()
+    public async Task ApiCompatibilityPreserver_Preserves_Old_Constructor_When_Member_Becomes_Required()
     {
         var command = Command("ToolNewOptions", "ToolOptions", ["new"]) with
         {
@@ -975,12 +975,49 @@ public class GeneratorHardeningTests
             ],
         };
 
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Name", "string", argumentPosition: 0)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        await Assert.That(generated).Contains("public ToolNewOptions()");
+        await Assert.That(generated).Contains(": this(default!)");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Member_Demoted_To_Optional()
+    {
+        var command = Command("ToolDiffOptions", "ToolOptions", ["diff"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Target",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Target", "string", argumentPosition: 0, isRequired: true)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        await Assert.That(generated).Contains("string Target");
+        await Assert.That(generated).DoesNotContain("public string? Target");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Positional_Operands()
+    {
         var exception = Assert.Throws<InvalidOperationException>(() =>
             GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("Name", "string", argumentPosition: 0)]));
+                Command("ToolInstallOptions", "ToolOptions", ["install"]),
+                [BaselineProperty("Name", "string?", argumentPosition: 1)]));
 
-        await Assert.That(exception.Message).Contains("ToolNewOptions.Name changed from optional to required");
+        await Assert.That(exception.Message).Contains("Name positional argument was removed");
     }
 
     [Test]
@@ -996,11 +1033,11 @@ public class GeneratorHardeningTests
                     isRequired: true)]));
 
         await Assert.That(exception.Message)
-            .Contains("ToolAddOptions.Package was removed from the required constructor");
+            .Contains("ToolAddOptions.Package positional argument was removed");
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Added_Required_Members()
+    public async Task ApiCompatibilityPreserver_Preserves_Parameterless_Constructor_When_Required_Member_Is_Added()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
         {
@@ -1016,11 +1053,152 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(command, []));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, []);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("ToolAddOptions.Package was added to the required constructor");
+        await Assert.That(generated).Contains("public ToolAddOptions()");
+        await Assert.That(generated).Contains(": this(default!)");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Previously_Generated_Secondary_Constructors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions([property: CliArgument(0)] string Package) "
+                + "{ public ToolAddOptions() : this(default!) { } }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var generated = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+
+            await Assert.That(generated).Contains("public ToolAddOptions()");
+            await Assert.That(generated).Contains(": this(default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Execute_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolEditAddOptions.Generated.cs"),
+                "public record ToolEditAddOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolEditAdd.Generated.cs"),
+                "public class ToolEditAdd { public Task ExecuteAsync(ToolEditAddOptions? options = null) => Task.CompletedTask; }");
+            var parent = Command(
+                "ToolEditAddOptions",
+                "ToolOptions",
+                ["edit", "add"],
+                subDomainGroup: "edit");
+            var child = Command(
+                "ToolEditAddSecretOptions",
+                "ToolOptions",
+                ["edit", "add", "secret"],
+                subDomainGroup: "edit");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(parent, child), root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith(
+                    "ToolEditAdd.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            await Assert.That(generated).Contains("Task<CommandResult> ExecuteAsync(");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rekeys_Documentation_Examples_After_Required_Rename()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "CurrentName",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["CurrentName"] = "\"example\"",
+            },
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]);
+
+        await Assert.That(preserved.DocumentationExampleValues.Keys).IsEquivalentTo(["StableName"]);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Required_Rename_Collisions()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "CurrentName",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--stable-name",
+                    PropertyName = "StableName",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]));
+
+        await Assert.That(exception.Message).Contains("would duplicate a member name");
     }
 
     [Test]
