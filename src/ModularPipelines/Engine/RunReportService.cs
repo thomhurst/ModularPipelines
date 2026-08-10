@@ -290,10 +290,9 @@ internal sealed class RunReportService(
                 {
                     var fullPath = Path.GetFullPath(reportPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-                    var persistenceReport = reportFactory.RemoveStaleOutputExcerpts(report);
                     await AtomicFileWriter.WriteAllTextAsync(
                             fullPath,
-                            RunReportJsonSerializer.Serialize(persistenceReport),
+                            reportFactory.SerializeWithValidatedOutputExcerpts(report),
                             token)
                         .ConfigureAwait(false);
                     logger.LogInformation(

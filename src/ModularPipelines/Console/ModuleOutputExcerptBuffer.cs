@@ -216,6 +216,7 @@ internal sealed class ModuleOutputExcerptBuffer(
         var stderrNeeded = maskedStderrBytes;
         var stdoutSuffix = new StringBuilder();
         var stderrSuffix = new StringBuilder();
+        var maskedAvailability = new List<(ModuleOutputStream Stream, int Bytes)>();
 
         for (var chunk = _chunks.Last; chunk is not null; chunk = chunk.Previous)
         {
@@ -226,10 +227,7 @@ internal sealed class ModuleOutputExcerptBuffer(
                 var available = Math.Min(
                     stderrNeeded,
                     Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stderrSuffix.ToString())));
-                stderrBytes = RebalanceStreamBytes(
-                    available,
-                    stderrBytes,
-                    stdoutBytes);
+                maskedAvailability.Add((ModuleOutputStream.StandardError, available));
             }
             else
             {
@@ -237,8 +235,40 @@ internal sealed class ModuleOutputExcerptBuffer(
                 var available = Math.Min(
                     stdoutNeeded,
                     Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stdoutSuffix.ToString())));
+                maskedAvailability.Add((ModuleOutputStream.StandardOutput, available));
+            }
+        }
+
+        var stableStdoutAvailability = stdoutNeeded;
+        var stableStderrAvailability = stderrNeeded;
+        for (var index = maskedAvailability.Count - 1; index >= 0; index--)
+        {
+            var availability = maskedAvailability[index];
+            if (availability.Stream is ModuleOutputStream.StandardError)
+            {
+                stableStderrAvailability = Math.Min(stableStderrAvailability, availability.Bytes);
+                maskedAvailability[index] = (availability.Stream, stableStderrAvailability);
+            }
+            else
+            {
+                stableStdoutAvailability = Math.Min(stableStdoutAvailability, availability.Bytes);
+                maskedAvailability[index] = (availability.Stream, stableStdoutAvailability);
+            }
+        }
+
+        foreach (var availability in maskedAvailability)
+        {
+            if (availability.Stream is ModuleOutputStream.StandardError)
+            {
+                stderrBytes = RebalanceStreamBytes(
+                    availability.Bytes,
+                    stderrBytes,
+                    stdoutBytes);
+            }
+            else
+            {
                 stdoutBytes = RebalanceStreamBytes(
-                    available,
+                    availability.Bytes,
                     stdoutBytes,
                     stderrBytes);
             }

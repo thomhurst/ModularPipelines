@@ -210,6 +210,40 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task ReallocatesFreedMaskedBytesToNewerOtherStreamChunks()
+    {
+        var secret = $"abc{Environment.NewLine}def";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { MaskValue = "*" }));
+        const int maximumBytes = 10;
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("abc", ModuleOutputStream.StandardOutput);
+        buffer.Append("12345678", ModuleOutputStream.StandardError);
+        buffer.Append("def", ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+        var excerpt = buffer.CreateExcerpt()!;
+        var stdoutBytes = Encoding.UTF8.GetByteCount(excerpt.StdoutTail!);
+        var stderrBytes = Encoding.UTF8.GetByteCount(excerpt.StderrTail!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("*" + Environment.NewLine);
+            await Assert.That(stdoutBytes + stderrBytes).IsEqualTo(maximumBytes);
+            await Assert.That(stderrBytes).IsEqualTo(maximumBytes - stdoutBytes);
+        }
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenMaskingContractionReachesTrimmedBoundary()
     {
         const string secret = "late-secret";

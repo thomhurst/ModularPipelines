@@ -304,6 +304,23 @@ internal sealed class PipelineRunReportFactory(
                 .ToArray(),
         };
 
+    internal string SerializeWithValidatedOutputExcerpts(PipelineRunReport report)
+    {
+        var validatedReport = RemoveStaleOutputExcerpts(report);
+        var serializedReport = RunReportJsonSerializer.Serialize(validatedReport);
+        var outputExcerptCount = validatedReport.Modules.Count(static module => module.Output is not null);
+        if (outputExcerptCount == 0)
+        {
+            return serializedReport;
+        }
+
+        var revalidatedReport = RemoveStaleOutputExcerpts(validatedReport);
+        return revalidatedReport.Modules.Count(static module => module.Output is not null)
+               == outputExcerptCount
+            ? serializedReport
+            : RunReportJsonSerializer.Serialize(revalidatedReport);
+    }
+
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
 
     private static string? GetUtf8Tail(string? value, int maximumBytes) =>
