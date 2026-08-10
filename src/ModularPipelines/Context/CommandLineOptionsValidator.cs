@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 
@@ -15,9 +16,12 @@ internal static class CommandLineOptionsValidator
         "Trimming",
         "IL2026",
         Justification = "Command options follow the generated-metadata-or-reflection contract used by CommandModelProvider. Unprocessed reflection fallback assemblies are not trim-safe.")]
-    public static void Validate(CommandLineToolOptions options)
+    public static void Validate(
+        CommandLineToolOptions options,
+        ISecretObfuscator secretObfuscator)
     {
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(secretObfuscator);
 
         var optionsType = options.GetType();
         var metadata = ValidationMetadataCache.GetValue(
@@ -47,9 +51,13 @@ internal static class CommandLineOptionsValidator
         }
         catch (ValidationException exception)
         {
-            throw new CommandOptionsValidationException(
+            var safeFailureMessage = ObfuscateValidationMessage(
                 $"Invalid command-line options: {optionsType.Name}: {exception.Message}",
-                exception);
+                options,
+                secretObfuscator);
+            throw new CommandOptionsValidationException(
+                safeFailureMessage,
+                new ValidationException(safeFailureMessage));
         }
 
         if (validationResults.Count == 0)
@@ -61,10 +69,28 @@ internal static class CommandLineOptionsValidator
             .Select(result => FormatValidationResult(optionsType, result))
             .Order(StringComparer.Ordinal)
             .ToArray();
-        var message = $"Invalid command-line options: {string.Join("; ", errors)}";
+        var message = ObfuscateValidationMessage(
+            $"Invalid command-line options: {string.Join("; ", errors)}",
+            options,
+            secretObfuscator);
         throw new CommandOptionsValidationException(
             message,
             new ValidationException(message));
+    }
+
+    private static string ObfuscateValidationMessage(
+        string message,
+        CommandLineToolOptions options,
+        ISecretObfuscator secretObfuscator)
+    {
+        try
+        {
+            return secretObfuscator.Obfuscate(message, options);
+        }
+        catch (Exception)
+        {
+            return $"Invalid command-line options: {options.GetType().Name}: Validation failed.";
+        }
     }
 
     [UnconditionalSuppressMessage(

@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -24,7 +25,8 @@ internal sealed class CommandLineBuilder(
     IToolResolver toolResolver,
     ICommandPartsProvider commandPartsProvider,
     ICommandModelProvider commandModelProvider,
-    ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
+    ICommandArgumentBuilder commandArgumentBuilder,
+    ISecretObfuscator secretObfuscator) : ICommandLineBuilder
 {
     private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
     [
@@ -41,11 +43,12 @@ internal sealed class CommandLineBuilder(
     private readonly ICommandPartsProvider _commandPartsProvider = commandPartsProvider;
     private readonly ICommandModelProvider _commandModelProvider = commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder = commandArgumentBuilder;
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
 
     /// <inheritdoc />
     public CommandLine Build(CommandLineToolOptions options)
     {
-        CommandLineOptionsValidator.Validate(options);
+        CommandLineOptionsValidator.Validate(options, _secretObfuscator);
 
         // 2. Resolve tool name using _toolResolver
         var tool = _toolResolver.ResolveTool(options)

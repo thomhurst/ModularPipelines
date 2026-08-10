@@ -107,6 +107,28 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Obfuscates_Secret_In_Validation_Failure()
+    {
+        const string secret = "validation-secret-token";
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestSecretValidatedOptions
+        {
+            Token = secret,
+        };
+
+        var exception = await Assert.That(() => builder.Build(options))
+            .Throws<CommandOptionsValidationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("**********");
+            await Assert.That(exception.Message).DoesNotContain(secret);
+            await Assert.That(exception.InnerException!.Message).DoesNotContain(secret);
+            await Assert.That(exception.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
     public async Task Build_Accepts_Valid_DataAnnotation_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1197,6 +1219,19 @@ public class CommandLineBuilderTests : TestBase
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) =>
             throw new ValidationException("Callback validation failed.");
+    }
+
+    [CliTool("tool")]
+    private sealed record TestSecretValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        [CliOption("--token")]
+        [SecretValue]
+        public string Token { get; init; } = string.Empty;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield return new ValidationResult($"Invalid token {Token}", [nameof(Token)]);
+        }
     }
 
     [CliTool("mytool")]
