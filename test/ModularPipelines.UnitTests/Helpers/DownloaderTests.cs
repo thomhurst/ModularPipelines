@@ -72,6 +72,33 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadFileAsync_ResolvesRelativeSavePathAgainstPipelineDirectory()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), "pipeline-working-directory");
+        var savePath = Path.Combine("downloads", "download.bin");
+        var expectedSavePath = Path.Combine(workingDirectory, savePath);
+        var expectedTemporaryPath = Path.Combine(workingDirectory, "downloads", "random.tmp");
+        var fileSystemProvider = new Mock<IFileSystemProvider>();
+        fileSystemProvider.Setup(x => x.GetRandomFileName()).Returns("random.tmp");
+        fileSystemProvider
+            .Setup(x => x.Create(It.IsAny<string>()))
+            .Returns(() => new MemoryStream());
+        var downloader = CreateDownloader(
+            new StringContent("download"),
+            fileSystemProvider.Object,
+            workingDirectory: workingDirectory);
+
+        await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/download"))
+        {
+            SavePath = savePath,
+        });
+
+        fileSystemProvider.Verify(x => x.Create(expectedTemporaryPath), Times.Once());
+        fileSystemProvider.Verify(x => x.MoveFile(expectedTemporaryPath, expectedSavePath, true), Times.Once());
+    }
+
+    [Test]
     public async Task DownloadFileAsync_Derives_Extension_From_Uri_Path()
     {
         var downloader = CreateDownloader(new StringContent("download"));
@@ -161,10 +188,12 @@ public class DownloaderTests : TestBase
     [Test]
     public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
     {
+        var workingDirectory = Path.GetTempPath();
         var destination = Path.Combine(
             "downloads",
             new string('x', 240) + ".bin");
-        var expectedTemporaryPath = Path.Combine("downloads", "random.tmp");
+        var expectedDestination = Path.Combine(workingDirectory, destination);
+        var expectedTemporaryPath = Path.Combine(workingDirectory, "downloads", "random.tmp");
         var fileSystemProvider = new Mock<IFileSystemProvider>();
         fileSystemProvider
             .Setup(x => x.GetRandomFileName())
@@ -174,7 +203,8 @@ public class DownloaderTests : TestBase
             .Returns(() => new MemoryStream());
         var downloader = CreateDownloader(
             new StringContent("download"),
-            fileSystemProvider.Object);
+            fileSystemProvider.Object,
+            workingDirectory: workingDirectory);
 
         await downloader.DownloadFileAsync(new DownloadFileOptions(
             new Uri("https://example.test/download"))
@@ -184,7 +214,7 @@ public class DownloaderTests : TestBase
 
         fileSystemProvider.Verify(x => x.Create(expectedTemporaryPath), Times.Once());
         fileSystemProvider.Verify(
-            x => x.MoveFile(expectedTemporaryPath, destination, true),
+            x => x.MoveFile(expectedTemporaryPath, expectedDestination, true),
             Times.Once());
     }
 
@@ -287,7 +317,8 @@ public class DownloaderTests : TestBase
     private static Downloader CreateDownloader(
         HttpContent content,
         IFileSystemProvider? fileSystemProvider = null,
-        HttpStatusCode statusCode = HttpStatusCode.OK)
+        HttpStatusCode statusCode = HttpStatusCode.OK,
+        string? workingDirectory = null)
     {
         var http = new Mock<IHttpContext>();
         http.Setup(x => x.SendAsync(
@@ -305,7 +336,8 @@ public class DownloaderTests : TestBase
         return new Downloader(
             moduleLoggerProvider.Object,
             http.Object,
-            fileSystemProvider ?? SystemFileSystemProvider.Instance);
+            fileSystemProvider ?? SystemFileSystemProvider.Instance,
+            new PipelineWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory));
     }
 
     private sealed class TrackingStringContent(string content) : StringContent(content)

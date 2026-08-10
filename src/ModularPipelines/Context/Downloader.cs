@@ -14,12 +14,18 @@ internal class Downloader : IDownloaderContext
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttpContext _http;
     private readonly IFileSystemProvider _fileSystemProvider;
+    private readonly PipelineWorkingDirectory _workingDirectory;
 
-    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttpContext http, IFileSystemProvider fileSystemProvider)
+    public Downloader(
+        IModuleLoggerProvider moduleLoggerProvider,
+        IHttpContext http,
+        IFileSystemProvider fileSystemProvider,
+        PipelineWorkingDirectory workingDirectory)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         _http = http;
         _fileSystemProvider = fileSystemProvider;
+        _workingDirectory = workingDirectory;
     }
 
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
@@ -123,24 +129,26 @@ internal class Downloader : IDownloaderContext
             return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri));
         }
 
+        var savePath = _workingDirectory.ResolvePath(options.SavePath);
+
         // Check if the path explicitly ends with a directory separator
         // This is a reliable indicator that the user intends this to be a directory
         if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
         {
-            _fileSystemProvider.CreateDirectory(options.SavePath);
-            return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
+            _fileSystemProvider.CreateDirectory(savePath);
+            return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
         }
 
         // Use extension heuristic as a fallback
         // Note: This can be unreliable for directory names containing dots (e.g., "my.folder")
-        if (Path.HasExtension(options.SavePath))
+        if (Path.HasExtension(savePath))
         {
-            _fileSystemProvider.CreateDirectory(new FileInfo(options.SavePath).Directory!.FullName);
-            return options.SavePath;
+            _fileSystemProvider.CreateDirectory(new FileInfo(savePath).Directory!.FullName);
+            return savePath;
         }
 
-        _fileSystemProvider.CreateDirectory(options.SavePath);
-        return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
+        _fileSystemProvider.CreateDirectory(savePath);
+        return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
     }
 
     private static string GetExtension(Uri downloadUri)
