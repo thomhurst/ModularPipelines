@@ -38,6 +38,7 @@
     <Compile Include="..\..\..\..\src\ModularPipelines\Attributes\CliOptionValueArity.cs" Link="Shared\CliOptionValueArity.cs" />
     <Compile Include="..\..\..\..\src\ModularPipelines\Attributes\CommandLinePhase.cs" Link="Shared\CommandLinePhase.cs" />
     <Compile Include="..\..\..\..\src\ModularPipelines\Helpers\Internal\WindowsCommandResolver.cs" Link="Shared\WindowsCommandResolver.cs" />
+    <Compile Include="..\..\..\..\src\ModularPipelines\Options\AdditionalCommandLineArgument.cs" Link="Shared\AdditionalCommandLineArgument.cs" />
     <Compile Include="..\..\..\..\src\ModularPipelines\Options\CommandLineToolOptions.cs" Link="Shared\CommandLineToolOptions.cs" />
   </ItemGroup>
 
