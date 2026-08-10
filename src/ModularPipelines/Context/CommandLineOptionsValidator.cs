@@ -102,7 +102,8 @@ internal static class CommandLineOptionsValidator
         var properties = optionsType
             .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         var validatedProperties = properties
-            .Where(static property => property.GetIndexParameters().Length == 0)
+            .Where(static property => property.GetMethod is not null
+                                      && property.GetIndexParameters().Length == 0)
             .Select(static property => new ValidatedProperty(
                 property,
                 property.GetCustomAttributes<ValidationAttribute>(inherit: true).ToArray()))

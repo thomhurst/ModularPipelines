@@ -144,6 +144,16 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Ignores_Validated_SetterOnly_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestSetterOnlyValidatedOptions());
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
     public async Task Build_FromGenericOptions_WithRunSettings_AddsDoubleDash()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1231,6 +1241,16 @@ public class CommandLineBuilderTests : TestBase
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             yield return new ValidationResult($"Invalid token {Token}", [nameof(Token)]);
+        }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestSetterOnlyValidatedOptions : CommandLineToolOptions
+    {
+        [Required]
+        public string? Value
+        {
+            set { }
         }
     }
 
