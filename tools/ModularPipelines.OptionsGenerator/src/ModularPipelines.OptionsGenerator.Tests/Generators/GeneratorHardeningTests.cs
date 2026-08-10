@@ -100,6 +100,22 @@ public class GeneratorHardeningTests
             Commands = commands,
         };
 
+    private static GeneratedApiProperty BaselineProperty(
+        string propertyName,
+        string cSharpType,
+        string? switchName = null,
+        int? argumentPosition = null,
+        bool isRequired = false) =>
+        new(
+            propertyName,
+            cSharpType,
+            switchName,
+            argumentPosition,
+            isRequired,
+            false,
+            null,
+            null);
+
     [Test]
     public async Task Command_Facade_Generation_Can_Be_Disabled_Independently_Of_Options()
     {
@@ -787,6 +803,224 @@ public class GeneratorHardeningTests
             await Assert.That(generated).Contains("get => CliArguments;");
             await Assert.That(generated).Contains("set => CliArguments = value;");
         }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Removed_Scraped_Options()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions", ["build"]);
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("RemovedFlag", "bool?", switchName: "--removed-flag")]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
+            await Assert.That(generated).Contains("RemovedFlag is no longer supported");
+            await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Positional_Names()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Dep",
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "DepVersion",
+                "IEnumerable<string>",
+                argumentPosition: 0,
+                isRequired: true)]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("IEnumerable<string> DepVersion");
+            await Assert.That(generated).Contains("public IEnumerable<string> Dep");
+            await Assert.That(generated).Contains("get => DepVersion;");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Scalar_To_Collection_Changes()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--command-options",
+                    PropertyName = "CommandOptions",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.CommandOptions changed type from string? to IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Renamed_Scalar_To_Collection_Changes()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--command-options",
+                    PropertyName = "CommandOptionValues",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("changed type from string? to IEnumerable<string>? while being renamed");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reassigned_Property_Names()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--different",
+                    PropertyName = "CommandOptions",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.CommandOptions changed CLI switch or argument position");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Uses_The_Emitted_Optional_Value_Type()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--progress",
+                    PropertyName = "Progress",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Progress", "string?", switchName: "--progress")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolRunOptions.Progress changed type from string? to CliOptionValue?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Optional_To_Required_Changes()
+    {
+        var command = Command("ToolNewOptions", "ToolOptions", ["new"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Name",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Name", "string", argumentPosition: 0)]));
+
+        await Assert.That(exception.Message).Contains("ToolNewOptions.Name changed from optional to required");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Required_Members()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                Command("ToolAddOptions", "ToolOptions", ["add"]),
+                [BaselineProperty(
+                    "Package",
+                    "string",
+                    argumentPosition: 0,
+                    isRequired: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolAddOptions.Package was removed from the required constructor");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Added_Required_Members()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Package",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(command, []));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolAddOptions.Package was added to the required constructor");
     }
 
     [Test]
