@@ -234,6 +234,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// Read a passphrase for signing an image from PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
 
@@ -303,6 +304,6 @@ public record SkopeoCopyOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
+    public string? CommandOptions { get; set; }
 
 }

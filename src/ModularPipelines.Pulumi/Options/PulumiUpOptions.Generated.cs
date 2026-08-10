@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -25,7 +24,7 @@ public record PulumiUpOptions : PulumiOptions
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
     [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public IEnumerable<CliOptionValue>? AttachDebugger { get; set; }
+    public IEnumerable<string>? AttachDebugger { get; set; }
 
     /// <summary>
     /// Config to use during the update and save to the stack config file
@@ -88,12 +87,6 @@ public record PulumiUpOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Ignore the protect resource option for this operation, allowing protected resources to be deleted or replaced. Use with caution: deleted resources cannot be recovered
-    /// </summary>
-    [CliFlag("--ignore-protect")]
-    public bool? IgnoreProtect { get; set; }
-
-    /// <summary>
     /// Serialize the update diffs, operations, and overall output as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]
@@ -139,7 +132,7 @@ public record PulumiUpOptions : PulumiOptions
     /// Refresh the state of the stack's resources before this update
     /// </summary>
     [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Refresh { get; set; }
+    public string? Refresh { get; set; }
 
     /// <summary>
     /// Specify a single resource URN to replace. Multiple resources can be specified using --replace urn1 --replace urn2. Wildcards (*, **) are also supported
@@ -241,7 +234,7 @@ public record PulumiUpOptions : PulumiOptions
     /// Suppress display of the state permalink
     /// </summary>
     [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? SuppressPermalink { get; set; }
+    public string? SuppressPermalink { get; set; }
 
     /// <summary>
     /// Suppress display of periodic progress dots

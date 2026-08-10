@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -76,12 +75,6 @@ public record PulumiDestroyOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Ignore the protect resource option for this operation, allowing protected resources to be destroyed. Use with caution: deleted resources cannot be recovered
-    /// </summary>
-    [CliFlag("--ignore-protect")]
-    public bool? IgnoreProtect { get; set; }
-
-    /// <summary>
     /// Serialize the destroy diffs, operations, and overall output as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]
@@ -121,7 +114,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// Refresh the state of the stack's resources before this update
     /// </summary>
     [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Refresh { get; set; }
+    public string? Refresh { get; set; }
 
     /// <summary>
     /// Remove the stack and its config file after all resources in the stack have been deleted
@@ -193,7 +186,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// Suppress display of the state permalink
     /// </summary>
     [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? SuppressPermalink { get; set; }
+    public string? SuppressPermalink { get; set; }
 
     /// <summary>
     /// Suppress display of periodic progress dots

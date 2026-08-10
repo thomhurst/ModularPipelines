@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -27,7 +26,7 @@ public record PulumiEnvEditOptions(
     /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
     [CliOption("--draft", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Draft { get; set; }
+    public string? Draft { get; set; }
 
     /// <summary>
     /// the command to use to edit the environment definition
