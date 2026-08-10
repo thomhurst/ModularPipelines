@@ -99,7 +99,7 @@ public class ContextExtensionsTests
     }
 
     [Test]
-    public async Task GenericTool_FromContractsAssembly_UsesOwningIntegrationPackage()
+    public async Task GenericTool_FromContractsAssembly_UsesOwningIntegrationAssembly()
     {
         const string integrationAssemblyName = "Test.Tool.Integration";
         var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
@@ -111,23 +111,24 @@ public class ContextExtensionsTests
         var stringType = typeof(string);
         var typeIdentity =
             $"{genericDefinition.Assembly.GetName().Name}:{genericDefinition.FullName}" +
-            $"[{stringType.Assembly.GetName().Name}:{stringType.FullName}]";
+            $"[framework:{stringType.FullName}]";
         assemblyBuilder.SetCustomAttribute(new CustomAttributeBuilder(
             metadataConstructor,
             ["ModularPipelines.ToolTypeIdentity:GenericTool", typeIdentity]));
 
-        var package = ToolRegistrationExceptionFactory.FindIntegrationPackage(
+        var integrationAssembly = ToolRegistrationExceptionFactory.FindIntegrationAssemblyName(
             typeof(IGenericTool<string>));
         var exception = ToolRegistrationExceptionFactory.Create(
             typeof(IGenericTool<string>),
-            package);
+            integrationAssembly);
 
         using (Assert.Multiple())
         {
-            await Assert.That(package).IsEqualTo(integrationAssemblyName);
-            await Assert.That(exception.Message).Contains(integrationAssemblyName);
+            await Assert.That(integrationAssembly).IsEqualTo(integrationAssemblyName);
             await Assert.That(exception.Message)
-                .DoesNotContain($"Reference the {genericDefinition.Assembly.GetName().Name} package");
+                .Contains($"integration assembly '{integrationAssemblyName}'");
+            await Assert.That(exception.Message)
+                .DoesNotContain(" package");
         }
     }
 

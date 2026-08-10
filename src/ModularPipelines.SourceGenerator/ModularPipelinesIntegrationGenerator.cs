@@ -166,13 +166,19 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         var namespaceName = definition.ContainingNamespace.IsGlobalNamespace
             ? string.Empty
             : $"{definition.ContainingNamespace.ToDisplayString()}.";
-        var identity =
-            $"{definition.ContainingAssembly.Identity.Name}:{namespaceName}{string.Join("+", typeNames)}";
+        var assemblyName = NormalizeAssemblyName(definition.ContainingAssembly.Identity.Name);
+        var identity = $"{assemblyName}:{namespaceName}{string.Join("+", typeNames)}";
         var typeArguments = GetAllTypeArguments(namedType).ToArray();
         return typeArguments.Length == 0
             ? identity
             : $"{identity}[{string.Join(",", typeArguments.Select(argument => GetTypeIdentity(argument, compilation)))}]";
     }
+
+    private static string NormalizeAssemblyName(string assemblyName) =>
+        assemblyName is "System" or "mscorlib" or "netstandard"
+        || assemblyName.StartsWith("System.", StringComparison.Ordinal)
+            ? "framework"
+            : assemblyName;
 
     private static IEnumerable<ITypeSymbol> GetAllTypeArguments(INamedTypeSymbol type)
     {

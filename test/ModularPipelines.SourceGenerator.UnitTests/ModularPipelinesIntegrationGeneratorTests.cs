@@ -151,7 +151,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource)
                 .Contains("\"ModularPipelines.ToolTypeIdentity:Foo\", " +
-                          "\"GeneratorTests:IFoo`1[System.Private.CoreLib:System.String]\"");
+                          "\"GeneratorTests:IFoo`1[framework:System.String]\"");
         }
     }
 

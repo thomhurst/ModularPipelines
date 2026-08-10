@@ -11,7 +11,7 @@ internal sealed class ToolsContext(IServicesContext services) : IToolsContext
         var toolType = typeof(T);
         return services.TryGet<T>() ?? throw ToolRegistrationExceptionFactory.Create(
             toolType,
-            ToolRegistrationExceptionFactory.FindIntegrationPackage(toolType));
+            ToolRegistrationExceptionFactory.FindIntegrationAssemblyName(toolType));
     }
 }
 
@@ -19,7 +19,7 @@ internal static class ToolRegistrationExceptionFactory
 {
     private const string ToolTypeIdentityMetadataPrefix = "ModularPipelines.ToolTypeIdentity:";
 
-    public static string? FindIntegrationPackage(Type serviceType)
+    public static string? FindIntegrationAssemblyName(Type serviceType)
     {
         var typeIdentity = GetTypeIdentity(serviceType);
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -35,11 +35,12 @@ internal static class ToolRegistrationExceptionFactory
         return null;
     }
 
-    public static InvalidOperationException Create(Type toolType, string? integrationPackage)
+    public static InvalidOperationException Create(Type toolType, string? integrationAssemblyName)
     {
-        var registrationGuidance = integrationPackage is null
+        var registrationGuidance = integrationAssemblyName is null
             ? "Call the service collection extension marked with [ModularPipelinesIntegration]. "
-            : $"Reference the {integrationPackage} package and call its service collection extension marked " +
+            : $"Ensure the integration assembly '{integrationAssemblyName}' is referenced and call its " +
+              "service collection extension marked " +
               "with [ModularPipelinesIntegration]. ";
         return new InvalidOperationException(
             $"Tool integration service '{toolType.FullName}' is not registered. " +
@@ -55,7 +56,8 @@ internal static class ToolRegistrationExceptionFactory
         }
 
         var definition = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
-        var identity = $"{definition.Assembly.GetName().Name}:{definition.FullName}";
+        var assemblyName = NormalizeAssemblyName(definition.Assembly.GetName().Name!);
+        var identity = $"{assemblyName}:{definition.FullName}";
         var typeArguments = type.IsGenericType
             ? type.GetGenericArguments()
             : Type.EmptyTypes;
@@ -63,4 +65,10 @@ internal static class ToolRegistrationExceptionFactory
             ? identity
             : $"{identity}[{string.Join(",", typeArguments.Select(GetTypeIdentity))}]";
     }
+
+    private static string NormalizeAssemblyName(string assemblyName) =>
+        assemblyName is "System" or "mscorlib" or "netstandard"
+        || assemblyName.StartsWith("System.", StringComparison.Ordinal)
+            ? "framework"
+            : assemblyName;
 }
