@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ModularPipelines.Engine;
 using ModularPipelines.Logging;
@@ -43,6 +44,8 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ISecretProvider _secretProvider;
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
+    private readonly ConditionalWeakTable<object, Dictionary<LineBufferKey, LineBufferState>>
+        _scopedLineBuffers = [];
     private readonly object _lineBufferLock = new();
     private readonly object _customObfuscatorLock = new();
     private readonly object _secretPatternsLock = new();
@@ -288,18 +291,23 @@ internal class CoordinatedTextWriter : TextWriter
     private LineBufferState GetLineBufferState()
     {
         var moduleType = ModuleLogger.CurrentModuleType.Value;
+        var customObfuscationScope = _customObfuscationScope.Value;
+        var outputWriteScope = GetOutputWriteBufferScope();
+        var primaryScope = (object?) outputWriteScope ?? customObfuscationScope;
         var key = new LineBufferKey(
             moduleType,
             DirectWriteScope.Value,
-            GetCustomObfuscationScopeDepth(),
-            GetOutputWriteScopeDepth());
+            outputWriteScope is null ? null : customObfuscationScope);
 
         lock (_lineBufferLock)
         {
-            if (!_lineBuffers.TryGetValue(key, out var state))
+            var lineBuffers = primaryScope is null
+                ? _lineBuffers
+                : _scopedLineBuffers.GetValue(primaryScope, static _ => []);
+            if (!lineBuffers.TryGetValue(key, out var state))
             {
                 state = new LineBufferState(moduleType);
-                _lineBuffers.Add(key, state);
+                lineBuffers.Add(key, state);
             }
 
             return state;
@@ -810,22 +818,6 @@ internal class CoordinatedTextWriter : TextWriter
 
     private bool IsReentrantOutputWrite() => GetReentrantOutputWriteDepth() > 0;
 
-    private int GetOutputWriteScopeDepth()
-    {
-        var depth = 0;
-        for (var activeOutputWriter = ActiveOutputWriterScope.Value;
-             activeOutputWriter != null;
-             activeOutputWriter = activeOutputWriter.Parent)
-        {
-            if (ReferenceEquals(activeOutputWriter.Writer, this))
-            {
-                depth++;
-            }
-        }
-
-        return depth;
-    }
-
     private int GetReentrantOutputWriteDepth()
     {
         var depth = 0;
@@ -841,6 +833,21 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         return depth;
+    }
+
+    private ActiveOutputWriter? GetOutputWriteBufferScope()
+    {
+        for (var activeOutputWriter = ActiveOutputWriterScope.Value;
+             activeOutputWriter != null;
+             activeOutputWriter = activeOutputWriter.Parent)
+        {
+            if (ReferenceEquals(activeOutputWriter.Writer, this))
+            {
+                return activeOutputWriter;
+            }
+        }
+
+        return null;
     }
 
     private ActiveOutputWriter EnterActiveOutputWriter()
@@ -867,44 +874,16 @@ internal class CoordinatedTextWriter : TextWriter
 
         lock (_customObfuscatorLock)
         {
-            var customObfuscationScope = EnterCustomObfuscationScope();
+            var scope = EnterCustomObfuscationScope();
             try
             {
                 return _secretObfuscator.Obfuscate(output, null);
             }
             finally
             {
-                ExitCustomObfuscationScope(customObfuscationScope);
+                ExitCustomObfuscationScope(scope);
             }
         }
-    }
-
-    private bool IsReentrantCustomObfuscation()
-    {
-        for (var scope = _customObfuscationScope.Value;
-             scope != null;
-             scope = scope.Parent)
-        {
-            if (scope.IsActive)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private int GetCustomObfuscationScopeDepth()
-    {
-        var depth = 0;
-        for (var scope = _customObfuscationScope.Value;
-             scope != null;
-             scope = scope.Parent)
-        {
-            depth++;
-        }
-
-        return depth;
     }
 
     private CustomObfuscationScope EnterCustomObfuscationScope()
@@ -918,6 +897,21 @@ internal class CoordinatedTextWriter : TextWriter
     {
         scope.Deactivate();
         _customObfuscationScope.Value = scope.Parent;
+    }
+
+    private bool IsCustomObfuscationActive()
+    {
+        for (var scope = _customObfuscationScope.Value;
+             scope != null;
+             scope = scope.Parent)
+        {
+            if (scope.IsActive)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
@@ -942,7 +936,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (IsReentrantCustomObfuscation())
+        if (IsCustomObfuscationActive())
         {
             FlushReentrantOutput();
             FlushRealConsole();
@@ -972,13 +966,7 @@ internal class CoordinatedTextWriter : TextWriter
         _flushLock.EnterWriteLock();
         try
         {
-            LineBufferState[] states;
-            lock (_lineBufferLock)
-            {
-                states = _lineBuffers.Values.ToArray();
-            }
-
-            foreach (var state in states)
+            foreach (var state in GetLineBufferStates())
             {
                 lock (state.SyncRoot)
                 {
@@ -1012,13 +1000,7 @@ internal class CoordinatedTextWriter : TextWriter
         _flushLock.EnterWriteLock();
         try
         {
-            LineBufferState[] states;
-            lock (_lineBufferLock)
-            {
-                states = _lineBuffers.Values.ToArray();
-            }
-
-            foreach (var state in states)
+            foreach (var state in GetLineBufferStates())
             {
                 lock (state.SyncRoot)
                 {
@@ -1095,7 +1077,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (IsReentrantCustomObfuscation())
+        if (IsCustomObfuscationActive())
         {
             FlushReentrantOutput();
             await FlushRealConsoleAsync().ConfigureAwait(false);
@@ -1172,6 +1154,15 @@ internal class CoordinatedTextWriter : TextWriter
         public void Deactivate() => Volatile.Write(ref _isActive, 0);
     }
 
+    private LineBufferState[] GetLineBufferStates()
+    {
+        lock (_lineBufferLock)
+        {
+            return _lineBuffers.Values
+                .Concat(_scopedLineBuffers.SelectMany(static entry => entry.Value.Values))
+                .ToArray();
+        }
+    }
     private sealed class CustomObfuscationScope(CustomObfuscationScope? parent)
     {
         private int _isActive = 1;
@@ -1197,8 +1188,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly record struct LineBufferKey(
         Type? ModuleType,
         bool IsDirectWrite,
-        int CustomObfuscationDepth,
-        int ReentrantOutputWriteDepth);
+        CustomObfuscationScope? NestedCustomObfuscationScope);
 
     private sealed record SecretPatterns(
         string[] Values,

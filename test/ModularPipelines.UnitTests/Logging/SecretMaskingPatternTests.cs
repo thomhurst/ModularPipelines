@@ -385,6 +385,54 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task CustomObfuscatorFireAndForgetFlushExpiresReentrancy()
+    {
+        var provider = CreateProvider(out _);
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+        var releaseFlush = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var childFlush = Task.CompletedTask;
+        var started = 0;
+        CoordinatedTextWriter? writer = null;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (Interlocked.Exchange(ref started, 1) == 0)
+                {
+                    childFlush = Task.Run(async () =>
+                    {
+                        await releaseFlush.Task.ConfigureAwait(false);
+                        writer!.Flush();
+                    });
+                }
+
+                return input;
+            });
+
+        using (writer = new CoordinatedTextWriter(
+                   coordinator.Object,
+                   new StringWriter(),
+                   () => true,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.Write("pending");
+            using (CoordinatedTextWriter.BeginDirectWrite())
+            {
+                writer.WriteLine("trigger");
+            }
+
+            releaseFlush.TrySetResult();
+            await childFlush.WaitAsync(TimeSpan.FromSeconds(5));
+
+            outputBuffer.Verify(x => x.WriteLine("pending"), Times.Once);
+        }
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_RefreshesPatternsAfterComparisonChanges()
     {
         var provider = CreateProvider(out _);
@@ -2213,11 +2261,11 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
-    public async Task DirectConsoleWrite_PreservesFireAndForgetBufferIdentityAfterSinkLeaseExpires()
+    public async Task FireAndForgetSinkWritePreservesBufferAcrossLeaseExpiry()
     {
         var provider = CreateProvider(out _);
         provider.AddSecret("secret");
-        var realConsole = new SplitFireAndForgetWriteStringWriter();
+        var realConsole = new SplitWriteAcrossOutputLeaseStringWriter();
 
         using var writer = new CoordinatedTextWriter(
             Mock.Of<IConsoleCoordinator>(),
@@ -2227,57 +2275,13 @@ public class SecretMaskingPatternTests
             provider);
         realConsole.Writer = writer;
 
-        writer.WriteLine("trigger");
+        writer.WriteLine("owner");
         realConsole.ReleaseSuffix();
         await realConsole.ChildTask.WaitAsync(TimeSpan.FromSeconds(5));
+        writer.Flush();
 
         await Assert.That(realConsole.ToString()).IsEqualTo(
-            $"trigger{Environment.NewLine}**********");
-    }
-
-    [Test]
-    public async Task CustomObfuscator_FireAndForgetFlushExpiresReentrancy()
-    {
-        var provider = CreateProvider(out _);
-        provider.AddSecret("secret");
-        var obfuscator = new Mock<ISecretObfuscator>();
-        var releaseChild = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        Task childTask = Task.CompletedTask;
-        CoordinatedTextWriter? writer = null;
-        var hasSpawnedChild = false;
-        obfuscator
-            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
-            .Returns((string input, object? _) =>
-            {
-                if (!hasSpawnedChild)
-                {
-                    hasSpawnedChild = true;
-                    childTask = Task.Run(async () =>
-                    {
-                        await releaseChild.Task.ConfigureAwait(false);
-                        await writer!.FlushAsync().ConfigureAwait(false);
-                    });
-                }
-
-                return input;
-            });
-        var realConsole = new StringWriter();
-
-        using (writer = new CoordinatedTextWriter(
-                   Mock.Of<IConsoleCoordinator>(),
-                   realConsole,
-                   () => false,
-                   obfuscator.Object,
-                   provider))
-        {
-            writer.WriteLine("trigger");
-            writer.Write("sec");
-            releaseChild.TrySetResult();
-            await childTask.WaitAsync(TimeSpan.FromSeconds(5));
-        }
-
-        await Assert.That(realConsole.ToString()).IsEqualTo(
-            $"trigger{Environment.NewLine}sec");
+            $"owner{Environment.NewLine}**********{Environment.NewLine}");
     }
 
     [Test]
@@ -2676,10 +2680,13 @@ public class SecretMaskingPatternTests
         }
     }
 
-    private sealed class SplitFireAndForgetWriteStringWriter : StringWriter
+    private sealed class SplitWriteAcrossOutputLeaseStringWriter : StringWriter
     {
-        private readonly TaskCompletionSource _prefixWritten = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        private readonly TaskCompletionSource _releaseSuffix = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _prefixWritten = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseSuffix = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _started;
 
         public TextWriter? Writer { get; set; }
 
@@ -2689,19 +2696,17 @@ public class SecretMaskingPatternTests
 
         public override void WriteLine(string? value)
         {
-            if (value == "trigger")
+            if (!_started)
             {
+                _started = true;
                 ChildTask = Task.Run(async () =>
                 {
                     Writer!.Write("sec");
                     _prefixWritten.TrySetResult();
                     await _releaseSuffix.Task.ConfigureAwait(false);
-                    Writer.Write("ret");
+                    Writer.WriteLine("ret");
                 });
-                if (!_prefixWritten.Task.Wait(TimeSpan.FromSeconds(5)))
-                {
-                    throw new TimeoutException("Timed out waiting for the split-write prefix.");
-                }
+                _prefixWritten.Task.GetAwaiter().GetResult();
             }
 
             base.WriteLine(value);
