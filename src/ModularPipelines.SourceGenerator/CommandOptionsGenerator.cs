@@ -748,7 +748,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return false;
         }
 
-        var attribute = FindAttribute(property, IsCommandAttribute);
+        var attribute = FindCommandAttribute(property, out var hasConflictingAttributes);
+        if (hasConflictingAttributes)
+        {
+            isIncomplete = true;
+            return true;
+        }
+
         if (attribute is null)
         {
             return false;
@@ -850,6 +856,33 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
+        return null;
+    }
+
+    private static AttributeData? FindCommandAttribute(
+        IPropertySymbol property,
+        out bool hasConflictingAttributes)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            var attributes = current.GetAttributes()
+                .Where(IsCommandAttribute)
+                .Take(2)
+                .ToArray();
+            if (attributes.Length > 1)
+            {
+                hasConflictingAttributes = true;
+                return null;
+            }
+
+            if (attributes.Length == 1)
+            {
+                hasConflictingAttributes = false;
+                return attributes[0];
+            }
+        }
+
+        hasConflictingAttributes = false;
         return null;
     }
 

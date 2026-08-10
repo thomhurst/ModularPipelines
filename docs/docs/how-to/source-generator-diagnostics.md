@@ -30,9 +30,11 @@ stripping the `Module` suffix produces a unique name.
 
 ## MPG0003
 
-An inaccessible property with a CLI attribute prevents complete command metadata
-generation. Make the property and getter accessible to generated code. The build
-fails until every attributed property can be generated.
+An inaccessible property, an invalid attribute argument, or conflicting command
+attributes prevent complete command metadata generation. Make the property and
+getter accessible, and apply only one of `[CliArgument]`, `[CliFlag]`, or
+`[CliOption]` to each property. The build fails until every attributed property can
+be generated unambiguously.
 
 **Severity:** Error
 

@@ -19,6 +19,9 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CliFlagAttribute(string name) : System.Attribute;
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
+            public sealed class CliArgumentAttribute(int position) : System.Attribute;
+
+            [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
@@ -178,6 +181,31 @@ public class IncompleteMetadataDiagnosticTests
             "MPG0003",
             "global::TestOptions");
         await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Value");
+    }
+
+    [Test]
+    public async Task Conflicting_Command_Attributes_Report_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                [ModularPipelines.Attributes.CliArgument(0)]
+                public string Value { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(result, "MPG0003", "global::TestOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("conflicting");
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Value");
+            await Assert.That(result.GeneratedTrees.Single().ToString())
+                .DoesNotContain("(instance).@Value");
+        }
     }
 
     [Test]

@@ -692,6 +692,16 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Reflection_CommandModel_Rejects_Conflicting_Command_Attributes()
+    {
+        var optionsType = typeof(ReflectionConflictingCommandAttributesOptions<string>);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{optionsType.FullName}.Value");
+    }
+
+    [Test]
     public async Task Reflection_CommandModel_Rejects_Inherited_Duplicate_Argument_Position()
     {
         var optionsType = typeof(ReflectionDuplicateOverrideArgumentOptions<string>);
@@ -1074,6 +1084,13 @@ public class CliAttributeTests
     {
         [CliFlag("--force")]
         public T? Force { get; init; }
+    }
+
+    private sealed record ReflectionConflictingCommandAttributesOptions<T> : CommandLineToolOptions
+    {
+        [CliOption("--value")]
+        [CliArgument(0)]
+        public T? Value { get; init; }
     }
 
     private record ReflectionExplicitArgumentBase<T> : CommandLineToolOptions

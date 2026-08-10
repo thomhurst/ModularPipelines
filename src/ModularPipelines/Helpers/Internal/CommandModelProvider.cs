@@ -46,7 +46,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var parts = new List<PropertyCommandLinePart>();
         foreach (var property in GetCommandProperties(type))
         {
-            if (property.GetCustomAttribute<CliArgumentAttribute>() is { } argument)
+            var commandAttribute = GetCommandAttribute(type, property);
+            if (commandAttribute is CliArgumentAttribute argument)
             {
                 parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
                 {
@@ -54,7 +55,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                     HasExplicitPosition = HasExplicitArgumentPosition(property),
                 });
             }
-            else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
+            else if (commandAttribute is CliFlagAttribute flag)
             {
                 parts.Add(new FlagPart(property.Name, property.GetValue, flag)
                 {
@@ -62,7 +63,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                     IsSupportedPropertyType = IsSupportedFlagType(property.PropertyType),
                 });
             }
-            else if (property.GetCustomAttribute<CliOptionAttribute>() is { } option)
+            else if (commandAttribute is CliOptionAttribute option)
             {
                 var allowsLegacyOptionalValues = IsLegacyGeneratedOption(property);
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
@@ -78,6 +79,45 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
 
         return parts;
+    }
+
+    [RequiresUnreferencedCode("Reflection fallback requires CLI attribute metadata.")]
+    private static Attribute? GetCommandAttribute(Type optionsType, PropertyInfo property)
+    {
+        var baseAccessor = property.GetMethod?.GetBaseDefinition();
+        for (var currentType = property.DeclaringType; currentType is not null; currentType = currentType.BaseType)
+        {
+            var declaredProperty = currentType == property.DeclaringType
+                ? property
+                : currentType.GetProperty(
+                    property.Name,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (declaredProperty?.GetMethod?.GetBaseDefinition().Equals(baseAccessor) != true)
+            {
+                continue;
+            }
+
+            var commandAttributes = declaredProperty
+                .GetCustomAttributes(inherit: false)
+                .OfType<Attribute>()
+                .Where(static attribute => attribute is
+                    CliArgumentAttribute or CliFlagAttribute or CliOptionAttribute)
+                .Take(2)
+                .ToArray();
+            if (commandAttributes.Length > 1)
+            {
+                throw new InvalidOperationException(
+                    $"CLI property '{optionsType.FullName}.{property.Name}' cannot declare more than one of "
+                    + $"{nameof(CliArgumentAttribute)}, {nameof(CliFlagAttribute)}, or {nameof(CliOptionAttribute)}.");
+            }
+
+            if (commandAttributes.Length == 1)
+            {
+                return commandAttributes[0];
+            }
+        }
+
+        return null;
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires option value type metadata.")]
