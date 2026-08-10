@@ -233,4 +233,23 @@ public class ModuleTimeoutTests : TestBase
             await Assert.That(result.WasCancellationTokenRespected).IsTrue();
         }
     }
+
+    [Test]
+    public async Task Timeout_Does_Not_Claim_Unrelated_Cancellation_When_Deadline_Elapses()
+    {
+        using var unrelatedCancellation = new CancellationTokenSource();
+        unrelatedCancellation.Cancel();
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                timeoutToken =>
+                {
+                    timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                    return Task.FromCanceled<bool>(unrelatedCancellation.Token);
+                },
+                TimeSpan.FromMilliseconds(10),
+                CancellationToken.None));
+
+        await Assert.That(exception!.CancellationToken).IsEqualTo(unrelatedCancellation.Token);
+    }
 }
