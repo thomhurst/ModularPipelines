@@ -453,6 +453,24 @@ public class CliAttributeTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Parser_Rejects_Bare_Grouped_Optional_Values(bool includeExplicitValue)
+    {
+        var options = new TestCliOptionsWithGroupedOptionalValues
+        {
+            Output = includeExplicitValue
+                ? [CliOptionValue.Bare, "json"]
+                : [CliOptionValue.Bare],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithGroupedOptionalValues).FullName}.Output");
+    }
+
+    [Test]
     public async Task Parser_Rejects_Null_Value_Pair_Operands()
     {
         var repeated = new TestCliOptionsWithValuePairs
