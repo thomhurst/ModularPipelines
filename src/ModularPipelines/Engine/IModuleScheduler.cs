@@ -50,6 +50,7 @@ internal interface IModuleScheduler : IDisposable
 
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing).
+    /// AlwaysRun modules are excluded and are allowed to complete.
     /// This cancels only the scheduler's internal completion sources. Call
     /// <c>RegisterTerminatedResultsForCancelledModules</c> for the returned modules to complete their public result tasks.
     /// </summary>
