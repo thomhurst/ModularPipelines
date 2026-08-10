@@ -241,6 +241,73 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task CustomObfuscatorCanWriteReentrantly()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? writer = null;
+        var isReentrantWrite = false;
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (!isReentrantWrite)
+                {
+                    isReentrantWrite = true;
+                    try
+                    {
+                        writer!.WriteLine("custom diagnostic");
+                    }
+                    finally
+                    {
+                        isReentrantWrite = false;
+                    }
+                }
+
+                return input.Replace("custom-secret", "[masked]", StringComparison.Ordinal);
+            });
+        var realConsole = new StringWriter();
+
+        using (writer = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   realConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.WriteLine("custom-secret");
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"custom diagnostic{Environment.NewLine}[masked]{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RefreshesPatternsAfterComparisonChanges()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var maskingOptions = Microsoft.Extensions.Options.Options.Create(
+            new SecretMaskingOptions());
+        var obfuscator = new SecretObfuscator(provider, maskingOptions);
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator,
+            provider);
+
+        writer.WriteLine("abc");
+        maskingOptions.Value.CaseInsensitive = true;
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"abc{Environment.NewLine}**********{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DifferentModuleBuffers_ProcessConcurrently()
     {
         var provider = CreateProvider(out _);

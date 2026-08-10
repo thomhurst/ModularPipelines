@@ -156,14 +156,14 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         }
     }
 
-    public void ExecuteWithStableSecrets(Action processOutput)
+    public void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
     {
         ArgumentNullException.ThrowIfNull(processOutput);
 
         _secretEmissionLock.EnterReadLock();
         try
         {
-            processOutput();
+            processOutput(state);
         }
         finally
         {
