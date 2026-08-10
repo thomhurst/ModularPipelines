@@ -39,8 +39,9 @@ internal class ServicesContext : IServicesContext
         }
 
         var serviceType = typeof(T);
-        throw ToolRegistrationExceptionFactory.IsToolIntegration(serviceType)
-            ? ToolRegistrationExceptionFactory.Create(serviceType)
+        var integrationPackage = ToolRegistrationExceptionFactory.FindIntegrationPackage(serviceType);
+        throw integrationPackage is not null
+            ? ToolRegistrationExceptionFactory.Create(serviceType, integrationPackage)
             : new InvalidOperationException(
                 $"Service '{serviceType.FullName}' is not registered. " +
                 "Register it with the pipeline service collection before building the pipeline.");

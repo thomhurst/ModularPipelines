@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Reflection.Emit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Cmd;
@@ -93,6 +95,39 @@ public class ContextExtensionsTests
             await Assert.That(exception.Message).Contains("Native AOT");
             await Assert.That(exception.Message).DoesNotContain("Register*Context()");
             await Assert.That(exception.Message).DoesNotContain("No service for type");
+        }
+    }
+
+    [Test]
+    public async Task GenericTool_FromContractsAssembly_UsesOwningIntegrationPackage()
+    {
+        const string integrationAssemblyName = "Test.Tool.Integration";
+        var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName(integrationAssemblyName),
+            AssemblyBuilderAccess.Run);
+        var metadataConstructor = typeof(AssemblyMetadataAttribute).GetConstructor(
+            [typeof(string), typeof(string)])!;
+        var genericDefinition = typeof(IGenericTool<>);
+        var stringType = typeof(string);
+        var typeIdentity =
+            $"{genericDefinition.Assembly.GetName().Name}:{genericDefinition.FullName}" +
+            $"[{stringType.Assembly.GetName().Name}:{stringType.FullName}]";
+        assemblyBuilder.SetCustomAttribute(new CustomAttributeBuilder(
+            metadataConstructor,
+            ["ModularPipelines.ToolTypeIdentity:GenericTool", typeIdentity]));
+
+        var package = ToolRegistrationExceptionFactory.FindIntegrationPackage(
+            typeof(IGenericTool<string>));
+        var exception = ToolRegistrationExceptionFactory.Create(
+            typeof(IGenericTool<string>),
+            package);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(package).IsEqualTo(integrationAssemblyName);
+            await Assert.That(exception.Message).Contains(integrationAssemblyName);
+            await Assert.That(exception.Message)
+                .DoesNotContain($"Reference the {genericDefinition.Assembly.GetName().Name} package");
         }
     }
 
@@ -224,6 +259,10 @@ public class ContextExtensionsTests
     }
 
     private class TestService
+    {
+    }
+
+    private interface IGenericTool<T>
     {
     }
 }

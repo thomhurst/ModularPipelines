@@ -6,35 +6,61 @@ namespace ModularPipelines.Context;
 internal sealed class ToolsContext(IServicesContext services) : IToolsContext
 {
     public T Get<T>()
-        where T : class => services.TryGet<T>() ?? throw ToolRegistrationExceptionFactory.Create(typeof(T));
+        where T : class
+    {
+        var toolType = typeof(T);
+        return services.TryGet<T>() ?? throw ToolRegistrationExceptionFactory.Create(
+            toolType,
+            ToolRegistrationExceptionFactory.FindIntegrationPackage(toolType));
+    }
 }
 
 internal static class ToolRegistrationExceptionFactory
 {
-    private const string ToolPropertyMetadataPrefix = "ModularPipelines.ToolProperty:";
+    private const string ToolTypeIdentityMetadataPrefix = "ModularPipelines.ToolTypeIdentity:";
 
-    public static bool IsToolIntegration(Type serviceType)
+    public static string? FindIntegrationPackage(Type serviceType)
     {
-        if (serviceType.FullName is not { } fullName)
+        var typeIdentity = GetTypeIdentity(serviceType);
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            return false;
+            if (assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Any(attribute =>
+                    attribute.Key.StartsWith(ToolTypeIdentityMetadataPrefix, StringComparison.Ordinal)
+                    && string.Equals(attribute.Value, typeIdentity, StringComparison.Ordinal)))
+            {
+                return assembly.GetName().Name;
+            }
         }
 
-        var metadataTypeName = $"global::{fullName.Replace('+', '.')}";
-        return serviceType.Assembly
-            .GetCustomAttributes<AssemblyMetadataAttribute>()
-            .Any(attribute =>
-                attribute.Key.StartsWith(ToolPropertyMetadataPrefix, StringComparison.Ordinal)
-                && string.Equals(attribute.Value, metadataTypeName, StringComparison.Ordinal));
+        return null;
     }
 
-    public static InvalidOperationException Create(Type toolType)
+    public static InvalidOperationException Create(Type toolType, string? integrationPackage)
     {
-        var assemblyName = toolType.Assembly.GetName().Name;
+        var registrationGuidance = integrationPackage is null
+            ? "Call the service collection extension marked with [ModularPipelinesIntegration]. "
+            : $"Reference the {integrationPackage} package and call its service collection extension marked " +
+              "with [ModularPipelinesIntegration]. ";
         return new InvalidOperationException(
             $"Tool integration service '{toolType.FullName}' is not registered. " +
-            $"Reference the {assemblyName} package and call its service collection extension marked " +
-            "with [ModularPipelinesIntegration]. " +
+            registrationGuidance +
             "When using Native AOT, register tool integrations explicitly.");
+    }
+
+    private static string GetTypeIdentity(Type type)
+    {
+        if (type.IsArray)
+        {
+            return $"{GetTypeIdentity(type.GetElementType()!)}[{new string(',', type.GetArrayRank() - 1)}]";
+        }
+
+        var definition = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+        var identity = $"{definition.Assembly.GetName().Name}:{definition.FullName}";
+        var typeArguments = type.IsGenericType
+            ? type.GetGenericArguments()
+            : Type.EmptyTypes;
+        return typeArguments.Length == 0
+            ? identity
+            : $"{identity}[{string.Join(",", typeArguments.Select(GetTypeIdentity))}]";
     }
 }

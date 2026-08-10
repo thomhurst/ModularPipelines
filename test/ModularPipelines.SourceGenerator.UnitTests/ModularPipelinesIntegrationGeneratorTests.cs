@@ -116,6 +116,42 @@ public class ModularPipelinesIntegrationGeneratorTests
                 .Contains("public global::IGit Git => tools.Get<global::IGit>();");
             await Assert.That(generatedSource)
                 .Contains("\"ModularPipelines.ToolProperty:Git\", \"global::IGit\"");
+            await Assert.That(generatedSource)
+                .Contains("\"ModularPipelines.ToolTypeIdentity:Git\", \"GeneratorTests:IGit\"");
+        }
+    }
+
+    [Test]
+    public async Task Generic_Tool_Accessor_Generates_Runtime_Stable_Type_Identity()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface IFoo<T>
+            {
+            }
+
+            public static class FooIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void AddFoo(IServiceCollection services)
+                {
+                }
+
+                public static IFoo<string> Foo(this IPipelineContext context) => throw null!;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains("\"ModularPipelines.ToolTypeIdentity:Foo\", " +
+                          "\"GeneratorTests:IFoo`1[System.Private.CoreLib:System.String]\"");
         }
     }
 
