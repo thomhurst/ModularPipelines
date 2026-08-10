@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
@@ -340,6 +341,8 @@ public sealed class PipelineBuilder : IDisposable
         _hostBuilder.ConfigureServices((_, services) =>
         {
             DependencyInjectionSetup.Initialize(services);
+            services.Configure<ModuleCacheOptions>(options =>
+                options.WorkingDirectory = _environment.WorkingDirectory);
 
             // Add user-registered services before plugins so plugins can inspect user configuration
             foreach (var descriptor in _services)

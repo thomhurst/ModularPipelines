@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Caching;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -14,9 +16,11 @@ public class PipelineWorkingDirectoryTests
         string Checksum,
         string ZipPath,
         string UnzipPath,
-        string CommandDirectory);
+        string CommandDirectory,
+        string CacheWorkingDirectory);
 
-    private sealed class ObserveWorkingDirectoryModule : Module<WorkingDirectoryObservation>
+    private sealed class ObserveWorkingDirectoryModule(IOptions<ModuleCacheOptions> cacheOptions)
+        : Module<WorkingDirectoryObservation>
     {
         protected internal override async Task<WorkingDirectoryObservation> ExecuteAsync(
             IModuleContext context,
@@ -36,7 +40,8 @@ public class PipelineWorkingDirectoryTests
                 checksum,
                 zip.Path,
                 unzipped.Path,
-                command.WorkingDirectory);
+                command.WorkingDirectory,
+                cacheOptions.Value.WorkingDirectory);
         }
     }
 
@@ -52,6 +57,7 @@ public class PipelineWorkingDirectoryTests
             {
                 WorkingDirectory = workingDirectory.FullName,
             });
+            builder.AddModuleCache<FileSystemModuleCache>();
             builder.AddModule<ObserveWorkingDirectoryModule>();
 
             var summary = await builder.ExecutePipelineAsync();
@@ -71,12 +77,42 @@ public class PipelineWorkingDirectoryTests
                 await Assert.That(observation.UnzipPath)
                     .IsEqualTo(Path.Combine(workingDirectory.FullName, "unzipped"));
                 await Assert.That(observation.CommandDirectory).IsEqualTo(workingDirectory.FullName);
+                await Assert.That(observation.CacheWorkingDirectory).IsEqualTo(workingDirectory.FullName);
                 await Assert.That(Environment.CurrentDirectory).IsEqualTo(processDirectory);
             }
         }
         finally
         {
             workingDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ExplicitModuleCacheWorkingDirectoryOverridesPipelineDirectory()
+    {
+        var pipelineDirectory = Directory.CreateTempSubdirectory("pipeline-working-directory-");
+        var cacheWorkingDirectory = Directory.CreateTempSubdirectory("cache-working-directory-");
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            {
+                WorkingDirectory = pipelineDirectory.FullName,
+            });
+            builder.AddModuleCache<FileSystemModuleCache>(options =>
+                options.WorkingDirectory = cacheWorkingDirectory.FullName);
+            builder.AddModule<ObserveWorkingDirectoryModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var result = await summary.Modules.OfType<ObserveWorkingDirectoryModule>().Single();
+
+            await Assert.That(result.ValueOrDefault!.CacheWorkingDirectory)
+                .IsEqualTo(cacheWorkingDirectory.FullName);
+        }
+        finally
+        {
+            pipelineDirectory.Delete(recursive: true);
+            cacheWorkingDirectory.Delete(recursive: true);
         }
     }
 
