@@ -49,6 +49,31 @@ public class WinGetCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Does_Not_Mark_Boolean_Flags_As_Repeatable_Values()
+    {
+        const string helpText = """
+            List installed packages.
+
+            usage: winget list [<options>]
+
+            The following options are available:
+              --verbose   Enable verbose logging multiple times during troubleshooting
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(
+            ["winget", "list"],
+            helpText);
+        var verbose = command!.Options.Single(option => option.SwitchName == "--verbose");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(verbose.IsFlag).IsTrue();
+            await Assert.That(verbose.AcceptsMultipleValues).IsFalse();
+            await Assert.That(verbose.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
     private sealed class TestWinGetCliScraper : WinGetCliScraper
     {
         public TestWinGetCliScraper()

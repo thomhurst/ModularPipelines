@@ -153,9 +153,6 @@ public static class UsageSynopsisParser
             return UsageSynopsisParseResult.Unmatched(synopsis);
         }
 
-        var arguments = new List<CliPositionalArgument>();
-        var unparsedTokens = new List<string>();
-        var prependOptionTerminatorToNextOperand = false;
         var phase = tokens
             .Take(commandMatch.EndIndex + 1)
             .Any(IsOptionControlToken)
@@ -167,14 +164,30 @@ public static class UsageSynopsisParser
             operandTokens = SkipCommandAliases(operandTokens);
         }
 
-        foreach (var token in TrimTrailingUsageExplanation(
-                     CollapseAlternatives(operandTokens)))
+        var parsedOperands = ParseOperandTokens(operandTokens, phase);
+        return new UsageSynopsisParseResult
         {
-            if (IsOptionControlToken(token))
-            {
-                phase = CommandLinePhase.Passthrough;
-            }
+            Synopsis = synopsis,
+            CommandMatched = true,
+            MatchedCommandPartCount = commandMatch.PartCount,
+            HasOperandTokens = parsedOperands.Arguments.Count > 0
+                               || parsedOperands.UnparsedTokens.Count > 0,
+            PositionalArguments = CliPositionalArgument.MergeDuplicates(parsedOperands.Arguments),
+            UnparsedOperandTokens = parsedOperands.UnparsedTokens,
+        };
+    }
 
+    private static ParsedOperands ParseOperandTokens(
+        IEnumerable<string> operandTokens,
+        CommandLinePhase phase)
+    {
+        var arguments = new List<CliPositionalArgument>();
+        var unparsedTokens = new List<string>();
+        var prependOptionTerminatorToNextOperand = false;
+
+        foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
+        {
+            phase = IsOptionControlToken(token) ? CommandLinePhase.Passthrough : phase;
             if (IsStandaloneOptionTerminator(token))
             {
                 prependOptionTerminatorToNextOperand = true;
@@ -217,16 +230,12 @@ public static class UsageSynopsisParser
             prependOptionTerminatorToNextOperand = false;
         }
 
-        return new UsageSynopsisParseResult
-        {
-            Synopsis = synopsis,
-            CommandMatched = true,
-            MatchedCommandPartCount = commandMatch.PartCount,
-            HasOperandTokens = arguments.Count > 0 || unparsedTokens.Count > 0,
-            PositionalArguments = CliPositionalArgument.MergeDuplicates(arguments),
-            UnparsedOperandTokens = unparsedTokens,
-        };
+        return new ParsedOperands(arguments, unparsedTokens);
     }
+
+    private readonly record struct ParsedOperands(
+        IReadOnlyList<CliPositionalArgument> Arguments,
+        IReadOnlyList<string> UnparsedTokens);
 
     private static IEnumerable<string> SkipCommandAliases(IEnumerable<string> operandTokens)
     {
