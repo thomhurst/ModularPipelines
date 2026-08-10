@@ -29,8 +29,14 @@ internal static class GeneratedApiCompatibilityPreserver
         var compatibleTool = baseline.TryGetValue($"{tool.NamespacePrefix}Options", out var globalBaseline)
             ? PreserveGlobalOptions(tool, globalBaseline.Properties)
             : tool;
-        var executeFacadeOptionTypes = ReadExecuteFacadeOptionTypes(
-            Path.Combine(outputDirectory, tool.OutputDirectory, "Services"));
+        var facadeMethods = ReadFacadeMethods(
+            Path.Combine(outputDirectory, tool.OutputDirectory, "Services"),
+            $"{tool.TargetNamespace}.Services");
+        RejectRemovedCommands(compatibleTool, facadeMethods);
+        var executeFacadeOptionTypes = facadeMethods
+            .Where(static method => method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Select(static method => method.OptionsType)
+            .ToHashSet(StringComparer.Ordinal);
         return compatibleTool with
         {
             Commands = compatibleTool.Commands
@@ -157,27 +163,8 @@ internal static class GeneratedApiCompatibilityPreserver
 
         var replacement = currentProperties.FirstOrDefault(property =>
             HasSameCliIdentity(property, baseline));
-        if (replacement is not null
-            && !replacement.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        if (TryRecordRemovedPropertyViolation(command, baseline, replacement, violations))
         {
-            violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} changed type from "
-                + $"{baseline.CSharpType} to {replacement.CSharpType} "
-                + $"while being renamed to {replacement.PropertyName}");
-            return;
-        }
-
-        if (baseline.ArgumentPosition is not null && replacement is null)
-        {
-            violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} positional argument was removed");
-            return;
-        }
-
-        if (baseline.IsRequired && replacement is null)
-        {
-            violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor");
             return;
         }
 
@@ -192,6 +179,39 @@ internal static class GeneratedApiCompatibilityPreserver
                     ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
                     : $"Use {replacement.PropertyName} instead.",
             });
+    }
+
+    private static bool TryRecordRemovedPropertyViolation(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty? replacement,
+        ICollection<string> violations)
+    {
+        if (replacement is not null
+            && !replacement.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed type from "
+                + $"{baseline.CSharpType} to {replacement.CSharpType} "
+                + $"while being renamed to {replacement.PropertyName}");
+            return true;
+        }
+
+        if (baseline.ArgumentPosition is not null && replacement is null)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} positional argument was removed");
+            return true;
+        }
+
+        if (baseline.IsRequired && replacement is null)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor");
+            return true;
+        }
+
+        return false;
     }
 
     private static void PreserveCompatibilityProperty(
@@ -701,12 +721,47 @@ internal static class GeneratedApiCompatibilityPreserver
                                                 pair.Second.CSharpType,
                                                 StringComparison.Ordinal)));
 
-    private static HashSet<string> ReadExecuteFacadeOptionTypes(string servicesDirectory)
+    private static void RejectRemovedCommands(
+        CliToolDefinition tool,
+        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods)
     {
-        var optionTypes = new HashSet<string>(StringComparer.Ordinal);
+        var currentOptionTypes = tool.Commands
+            .Select(static command => command.ClassName)
+            .Concat(tool.CommandGroupAliases.SelectMany(alias => tool.Commands
+                .Where(command => command.CommandParts.Length > 0
+                                  && command.CommandParts[0].Equals(
+                                      alias.CanonicalCommand,
+                                      StringComparison.OrdinalIgnoreCase))
+                .Select(command => GeneratorUtils.GetAliasedClassName(tool, alias, command.ClassName))))
+            .ToHashSet(StringComparer.Ordinal);
+        var removedOptionTypes = baselineFacadeMethods
+            .Select(static method => method.OptionsType)
+            .Where(optionsType => !currentOptionTypes.Contains(optionsType))
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        if (removedOptionTypes.Length == 0)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Generated API compatibility validation failed for {tool.ToolName}:"
+            + Environment.NewLine
+            + string.Join(
+                Environment.NewLine,
+                removedOptionTypes.Select(optionsType =>
+                    $"- {optionsType} command disappeared from generated facade")));
+    }
+
+    private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
+        string servicesDirectory,
+        string targetNamespace)
+    {
+        var methods = new List<GeneratedFacadeMethod>();
         if (!Directory.Exists(servicesDirectory))
         {
-            return optionTypes;
+            return methods;
         }
 
         foreach (var path in Directory.EnumerateFiles(
@@ -716,20 +771,25 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
             foreach (var method in root.DescendantNodes().OfType<MethodDeclarationSyntax>()
-                         .Where(method => method.Identifier.ValueText.Equals(
-                             "ExecuteAsync",
-                             StringComparison.Ordinal))
+                         .Where(method => method.Ancestors()
+                             .OfType<BaseNamespaceDeclarationSyntax>()
+                             .FirstOrDefault()?.Name.ToString().Equals(
+                                 targetNamespace,
+                                 StringComparison.Ordinal) == true)
                          .Where(method => method.Modifiers.Any(SyntaxKind.PublicKeyword)))
             {
                 var optionsType = method.ParameterList.Parameters.FirstOrDefault()?.Type?.ToString();
-                if (!string.IsNullOrWhiteSpace(optionsType))
+                if (!string.IsNullOrWhiteSpace(optionsType)
+                    && optionsType.TrimEnd('?').EndsWith("Options", StringComparison.Ordinal))
                 {
-                    optionTypes.Add(optionsType.TrimEnd('?'));
+                    methods.Add(new GeneratedFacadeMethod(
+                        method.Identifier.ValueText,
+                        optionsType.TrimEnd('?')));
                 }
             }
         }
 
-        return optionTypes;
+        return methods;
     }
 
     private static List<GeneratedApiProperty> ReadProperties(
@@ -824,3 +884,5 @@ internal sealed record GeneratedApiProperty(
 internal sealed record GeneratedApiBaseline(
     IReadOnlyList<GeneratedApiProperty> Properties,
     IReadOnlyList<CliCompatibilityConstructor> Constructors);
+
+internal sealed record GeneratedFacadeMethod(string MethodName, string OptionsType);
