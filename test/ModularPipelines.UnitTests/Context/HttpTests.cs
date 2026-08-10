@@ -255,7 +255,7 @@ public class HttpTests : TestBase
     public async Task SendAsync_DoesNotTreatCancellationAsSuccessfulEndOfStream(
         bool useBufferedCopy)
     {
-        var timeout = TimeSpan.FromMilliseconds(100);
+        using var cancellationTokenSource = new CancellationTokenSource();
         var contentStream = new BlockingReadStream(
             ignoreAsyncCancellation: true,
             returnEofWhenDisposed: true);
@@ -271,8 +271,8 @@ public class HttpTests : TestBase
         {
             HttpClient = httpClient,
             LoggingType = HttpLoggingType.None,
-            Timeout = timeout,
-        });
+            Timeout = TimeSpan.FromMinutes(1),
+        }, cancellationTokenSource.Token);
 
         Task readTask;
         if (useBufferedCopy)
@@ -284,6 +284,9 @@ public class HttpTests : TestBase
             var stream = await response.Content.ReadAsStreamAsync();
             readTask = stream.ReadAsync(new byte[1]).AsTask();
         }
+
+        await contentStream.ReadStarted.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await cancellationTokenSource.CancelAsync();
 
         await Assert.ThrowsAsync<OperationCanceledException>(
             async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));

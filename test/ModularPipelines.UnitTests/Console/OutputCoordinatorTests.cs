@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
@@ -340,14 +341,19 @@ public class OutputCoordinatorTests
             OutputFlushKind.Complete,
             queuedCancellation.Token);
 
-        await queuedCancellation.CancelAsync();
-        var completedTask = await Task.WhenAny(queuedFlush, Task.Delay(TimeSpan.FromSeconds(1)));
+        try
+        {
+            await queuedCancellation.CancelAsync();
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await queuedFlush.WaitAsync(TestHostSettings.DefaultTestTimeout));
+            await Assert.That(firstFlush.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            firstBuffer.ReleaseFlush.TrySetResult();
+            await firstFlush;
+        }
 
-        firstBuffer.ReleaseFlush.TrySetResult();
-        await firstFlush;
-
-        await Assert.That(completedTask).IsSameReferenceAs(queuedFlush);
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await queuedFlush);
         await Assert.That(queuedBuffer.FlushCount).IsEqualTo(0);
     }
 

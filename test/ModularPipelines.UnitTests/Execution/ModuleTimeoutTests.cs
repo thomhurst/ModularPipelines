@@ -26,22 +26,13 @@ public class ModuleTimeoutTests : TestBase
 
     private class Module_NotUsingCancellationToken : Module<string>
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
-
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromSeconds(1))
             .Build();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _taskCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            }
-            catch (TimeoutException)
-            {
-            }
-
+            await Task.Delay(TimeSpan.FromSeconds(5));
             return TestConstants.TestString;
         }
     }
