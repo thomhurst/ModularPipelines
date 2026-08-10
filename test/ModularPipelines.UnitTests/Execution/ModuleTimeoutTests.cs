@@ -32,7 +32,7 @@ public class ModuleTimeoutTests : TestBase
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(Timeout.InfiniteTimeSpan);
+            await Task.Delay(TimeSpan.FromSeconds(5));
             return TestConstants.TestString;
         }
     }
