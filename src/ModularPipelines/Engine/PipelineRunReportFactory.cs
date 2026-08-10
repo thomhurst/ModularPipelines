@@ -1,15 +1,23 @@
+using System.Text;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
 internal sealed class PipelineRunReportFactory(
     ICommandExecutionCounter commandExecutionCounter,
     ISecretObfuscator secretObfuscator,
-    IModuleOutputExcerptProvider? outputExcerptProvider = null)
+    IModuleOutputExcerptProvider? outputExcerptProvider = null,
+    IOptions<PipelineOptions>? pipelineOptions = null)
 {
+    private static readonly Encoding Utf8 = new UTF8Encoding(
+        encoderShouldEmitUTF8Identifier: false,
+        throwOnInvalidBytes: false);
+
     public PipelineRunReport Create(
         PipelineSummary summary,
         PipelineRunReport? previousReport,
@@ -222,14 +230,37 @@ internal sealed class PipelineRunReportFactory(
     private ModuleOutputExcerpt? CreateOutputExcerpt(Type moduleType)
     {
         var excerpt = outputExcerptProvider?.GetModuleOutputExcerpt(moduleType);
-        return excerpt is null
-            ? null
-            : excerpt with
-            {
-                StdoutTail = ObfuscateOptional(excerpt.StdoutTail),
-                StderrTail = ObfuscateOptional(excerpt.StderrTail),
-            };
+        if (excerpt is null)
+        {
+            return null;
+        }
+
+        var maskedStdout = ObfuscateOptional(excerpt.StdoutTail);
+        var maskedStderr = ObfuscateOptional(excerpt.StderrTail);
+        var maximumBytes = pipelineOptions?.Value.RunReport.MaxOutputBytesPerModule ?? int.MaxValue;
+        var stdoutBudget = Math.Min(GetByteCount(excerpt.StdoutTail), maximumBytes);
+        var stderrBudget = Math.Min(GetByteCount(excerpt.StderrTail), maximumBytes - stdoutBudget);
+        var stdoutTail = GetUtf8Tail(maskedStdout, stdoutBudget);
+        var stderrTail = GetUtf8Tail(maskedStderr, stderrBudget);
+        var additionallyTruncatedBytes = Math.Max(
+            0,
+            GetByteCount(maskedStdout)
+            + GetByteCount(maskedStderr)
+            - GetByteCount(stdoutTail)
+            - GetByteCount(stderrTail));
+
+        return excerpt with
+        {
+            StdoutTail = stdoutTail,
+            StderrTail = stderrTail,
+            TruncatedBytes = excerpt.TruncatedBytes + additionallyTruncatedBytes,
+        };
     }
+
+    private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
+
+    private static string? GetUtf8Tail(string? value, int maximumBytes) =>
+        value is null ? null : ModuleOutputExcerptBuffer.GetUtf8Tail(value, maximumBytes);
 
     private string? ObfuscateOptional(string? value) =>
         value is null ? null : secretObfuscator.Obfuscate(value, null);
