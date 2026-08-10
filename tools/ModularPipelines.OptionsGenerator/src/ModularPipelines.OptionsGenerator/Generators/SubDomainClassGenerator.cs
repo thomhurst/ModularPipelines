@@ -81,6 +81,10 @@ public class SubDomainClassGenerator : ICodeGenerator
         IReadOnlyList<CliCommandGroupAlias> commandGroupAliases,
         CliCommandDefinition? parentCommand = null)
     {
+        parentCommand ??= tool.Commands.FirstOrDefault(command =>
+            command.PreserveExecuteFacade
+            && command.ClassName.Equals($"{node.ClassName}Options", StringComparison.Ordinal));
+
         // Build map of commands that collide with child property names
         // These will become ExecuteAsync() methods on the child classes instead
         var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);

@@ -40,7 +40,6 @@ public record SkopeoStandaloneSignOptions(
     /// <summary>
     /// file that contains a passphrase for the --sign-by key
     /// </summary>
-    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 
@@ -48,6 +47,6 @@ public record SkopeoStandaloneSignOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? CommandOptions { get; set; }
+    public IEnumerable<string>? CommandOptions { get; set; }
 
 }

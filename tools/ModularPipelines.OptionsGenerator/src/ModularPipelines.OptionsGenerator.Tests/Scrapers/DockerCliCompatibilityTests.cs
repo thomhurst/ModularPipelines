@@ -48,6 +48,24 @@ public class DockerCliCompatibilityTests
         await Assert.That(option.ShortForm).IsEqualTo("-T");
     }
 
+    [Test]
+    public async Task Switch_Normalization_Rejects_Distinct_Options_With_One_Canonical_Name()
+    {
+        const string helpText = """
+            Usage: fake run [OPTIONS]
+
+            Options:
+              --current string   Current value
+              --legacy string    Legacy value
+            """;
+
+        await Assert.That(() => new CollidingSwitchScraper().Parse(
+                ["fake", "run"],
+                helpText))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("maps both '--current' and '--legacy'");
+    }
+
     private static CliCommandDefinition CreateCommand(string commandGroup)
     {
         return new CliCommandDefinition
@@ -70,6 +88,35 @@ public class DockerCliCompatibilityTests
                 NullLogger<DockerCliScraper>.Instance)
         {
         }
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
+    }
+
+    private sealed class CollidingSwitchScraper : CobraCliScraper
+    {
+        public CollidingSwitchScraper()
+            : base(
+                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                NullLogger<CollidingSwitchScraper>.Instance)
+        {
+        }
+
+        public override string ToolName => "fake";
+
+        public override string NamespacePrefix => "Fake";
+
+        public override string TargetNamespace => "ModularPipelines.Fake";
+
+        public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        protected override string NormalizeOptionSwitchName(
+            string[] commandParts,
+            string switchName) => "--canonical";
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
