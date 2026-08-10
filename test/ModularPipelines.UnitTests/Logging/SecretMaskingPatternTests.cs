@@ -1184,6 +1184,30 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkFlush()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new ReentrantFlushingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.FlushCount).IsEqualTo(1);
+            await Assert.That(realConsole.ToString()).IsEqualTo(
+                $"ordinary output{Environment.NewLine}");
+        }
+    }
+
+    [Test]
     public async Task StableSecretEmission_AllowsReentrantRegistration()
     {
         const string discoveredSecret = "nested-sink-discovered-secret";
@@ -1333,6 +1357,31 @@ public class SecretMaskingPatternTests
             }
 
             base.WriteLine(value);
+        }
+    }
+
+    private sealed class ReentrantFlushingStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public int FlushCount { get; private set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Flush();
+            }
+
+            base.WriteLine(value);
+        }
+
+        public override void Flush()
+        {
+            FlushCount++;
         }
     }
 

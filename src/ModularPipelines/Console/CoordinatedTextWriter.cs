@@ -835,6 +835,12 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override void Flush()
     {
+        if (IsReentrantOutputWrite())
+        {
+            _realConsole.Flush();
+            return;
+        }
+
         FlushBufferedOutput();
         FlushRealConsole();
     }
@@ -960,6 +966,12 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override async Task FlushAsync()
     {
+        if (IsReentrantOutputWrite())
+        {
+            await _realConsole.FlushAsync().ConfigureAwait(false);
+            return;
+        }
+
         FlushBufferedOutput();
         await FlushRealConsoleAsync().ConfigureAwait(false);
     }
