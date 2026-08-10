@@ -55,13 +55,45 @@ public class KustomizeCliScraperTests
             .And.HasMessageContaining("kustomize edit set image set");
     }
 
-    private sealed class TestKustomizeCliScraper(ICliCommandExecutor executor)
+    [Test]
+    [Arguments("DIR")]
+    [Arguments("[path]")]
+    public async Task Build_Path_Is_Optional(string operandSyntax)
+    {
+        var command = await new TestKustomizeCliScraper().Parse(
+            ["kustomize", "build"],
+            $$"""
+              Build a set of KRM resources using a 'kustomization.yaml' file.
+              If DIR is omitted, '.' is assumed.
+
+              Usage:
+                kustomize build {{operandSyntax}} [flags]
+
+              Flags:
+                    --enable-helm   Enable use of the Helm chart inflator generator.
+              """);
+
+        var directory = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(directory.IsRequired).IsFalse();
+            await Assert.That(directory.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    private sealed class TestKustomizeCliScraper(ICliCommandExecutor? executor = null)
         : KustomizeCliScraper(
-            executor,
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<KustomizeCliScraper>.Instance)
     {
         protected override int MaxParallelism => 1;
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
     }
 
     private sealed class KustomizeHelpExecutor(bool includeBogusChild) : ICliCommandExecutor

@@ -54,11 +54,11 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> BuildAsync(
-        KustomizeBuildOptions options,
+        KustomizeBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeBuildOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
