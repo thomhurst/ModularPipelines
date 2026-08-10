@@ -1,4 +1,5 @@
 using ModularPipelines.Enums;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -43,20 +44,13 @@ internal sealed class PipelineRunReportFactory(
             .Where(static group => group.Count() == 1)
             .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal);
         var timelinesByType = summary.ModuleTimelines?
-            .GroupBy(
+            .ToFirstByKeyDictionary(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
                     ? timeline.ModuleTypeName
-                    : timeline.RuntimeModuleTypeName,
-                StringComparer.Ordinal)
-            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal)
+                    : timeline.RuntimeModuleTypeName)
             ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
         var previousByType = previousReport?.Modules
-            .GroupBy(static module => module.ModuleTypeName, StringComparer.Ordinal)
-            .Where(static group => group.Count() == 1)
-            .ToDictionary(
-                static group => group.Key,
-                static group => group.First(),
-                StringComparer.Ordinal)
+            .ToUniqueByKeyDictionary(static module => module.ModuleTypeName)
             ?? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal);
 
         var modules = summary.Modules

@@ -143,8 +143,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var reportLookup = pipelineSummary.RunReport is null
             ? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal)
             : pipelineSummary.RunReport.Modules
-                .GroupBy(static report => report.ModuleTypeName, StringComparer.Ordinal)
-                .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal);
+                .ToUniqueByKeyDictionary(static report => report.ModuleTypeName);
         var showDeltas = pipelineSummary.RunReport?.TotalDurationDelta.HasValue == true
             || reportLookup.Values.Any(static module => module.DurationDelta.HasValue);
         if (showDeltas)
@@ -157,12 +156,10 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Create a lookup for module timelines by assembly-qualified module type
         var timelineLookup = pipelineSummary.ModuleTimelines?
-            .GroupBy(
+            .ToFirstByKeyDictionary(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
                     ? timeline.ModuleTypeName
-                    : timeline.RuntimeModuleTypeName,
-                StringComparer.Ordinal)
-            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal)
+                    : timeline.RuntimeModuleTypeName)
             ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
 
         // Sort modules: Failed first, then Skipped, then by start time
