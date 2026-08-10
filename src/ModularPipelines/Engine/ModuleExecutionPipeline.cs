@@ -678,12 +678,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Exception = exception;
 
-        // Check for timeout - use the enhanced exception type for detailed logging
+        executionContext.Status = ClassifyException(config, executionContext, exception);
+
+        // Use the enhanced exception type for detailed timeout logging.
         if (exception is ModuleTimeoutException timeoutException)
         {
-            executionContext.Status = Status.TimedOut;
-
-            // Log additional timeout details
             if (!timeoutException.WasCancellationTokenRespected)
             {
                 logger.LogWarning(
@@ -692,29 +691,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     timeoutException.ElapsedTime.ToDisplayString());
             }
         }
-        else if (IsTimeout(config, executionContext, exception))
-        {
-            executionContext.Status = Status.TimedOut;
-        }
-
-        // Check for pipeline cancellation
-        else if (IsPipelineCancelled(exception))
-        {
-            executionContext.Status = Status.PipelineTerminated;
-            logger.LogInformation("Pipeline has been canceled");
-
-            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-            preserveResult(cancelledResult);
-            executionContext.SetTypedResult(cancelledResult);
-            return cancelledResult;
-        }
-        else
-        {
-            executionContext.Status = Status.Failed;
-        }
 
         // Check if we should ignore failures
-        if (config.IgnoreFailuresCondition != null)
+        if (config.IgnoreFailuresCondition != null
+            && (executionContext.Status != Status.PipelineTerminated
+                || exception is ModuleTimeoutException
+                || IsTimeout(config, executionContext, exception)))
         {
             if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
             {
@@ -735,6 +717,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
+        if (executionContext.Status == Status.PipelineTerminated)
+        {
+            logger.LogInformation("Pipeline has been canceled");
+
+            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            preserveResult(cancelledResult);
+            executionContext.SetTypedResult(cancelledResult);
+            return cancelledResult;
+        }
+
         // Create a failed result before cancelling and throwing
         ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
         preserveResult(failedResult);
@@ -751,6 +743,23 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
+    private Status ClassifyException(
+        ModuleConfiguration config,
+        ModuleExecutionContext executionContext,
+        Exception exception)
+    {
+        if (!config.AlwaysRun
+            && _engineCancellationToken.IsCancelled
+            && exception is OperationCanceledException or ModuleTimeoutException)
+        {
+            return Status.PipelineTerminated;
+        }
+
+        return exception is ModuleTimeoutException || IsTimeout(config, executionContext, exception)
+            ? Status.TimedOut
+            : Status.Failed;
+    }
+
     private bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
     {
         var timeout = GetTimeout(config);
@@ -760,13 +769,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         var isTimeoutExceeded = executionContext.Stopwatch.Elapsed >= timeout;
-        return isTimeoutExceeded && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
-    }
-
-    private bool IsPipelineCancelled(Exception exception)
-    {
-        return exception is TaskCanceledException or OperationCanceledException or ModuleTimeoutException
-               && _engineCancellationToken.IsCancelled;
+        return isTimeoutExceeded && exception is OperationCanceledException;
     }
 
     private void CancelPipelineAndThrow(
