@@ -1138,7 +1138,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             {
                 sb.AppendLine(
                     $"    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
-                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties, " +
+                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties | " +
+                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicProperties, " +
                     $"typeof({item.TypeName}))]");
             }
         }

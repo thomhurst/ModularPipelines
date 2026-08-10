@@ -492,7 +492,7 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains(
-                "DynamicallyAccessedMemberTypes.PublicProperties, typeof(global::External.CrossLanguageOptions)");
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
@@ -695,7 +695,36 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_PreValidation_Metadata_Schema()
+    public async Task Trimmed_Host_Preserves_NonPublic_Command_Properties()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            internal sealed class InternalOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                internal string Value { get; } = "";
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 3;");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::InternalOptions)");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rescans_PreNonPublicValidation_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -705,7 +734,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 1;
+                    public const int SchemaVersion = 2;
                 }
             }
 
@@ -731,7 +760,7 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains(
-                "DynamicallyAccessedMemberTypes.PublicProperties, typeof(global::External.LegacyValidationOptions)");
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.LegacyValidationOptions)");
         }
     }
 
