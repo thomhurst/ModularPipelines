@@ -75,12 +75,20 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
                 return;
             }
 
+            if (ModuleLogEvents.IsStatus(eventId))
+            {
+                return;
+            }
+
             var message = messageFormatter(state, exception);
             if (exception is not null)
             {
                 var rootException = exception.GetBaseException();
+                var errorIdentity = rootException is IOriginalExceptionIdentity identity
+                    ? identity.OriginalException.GetBaseException()
+                    : rootException;
                 if (logLevel is LogLevel.Error or LogLevel.Critical
-                    && !reportedErrors.TryAdd(rootException, ReportedErrorMarker))
+                    && !reportedErrors.TryAdd(errorIdentity, ReportedErrorMarker))
                 {
                     return;
                 }

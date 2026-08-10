@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Logging;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -65,6 +67,50 @@ public class BuildSystemLogIssueLoggerProviderTests
         await Assert.That(writer.ToString())
             .IsEqualTo(
                 $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task Logger_WritesOnlyOneErrorAfterBufferedExceptionObfuscation()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+        var exception = new InvalidOperationException("failure");
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input);
+        var firstEvent = CreateBufferedEvent("first message");
+        var secondEvent = CreateBufferedEvent("second message");
+
+        firstEvent.WriteTo(logger);
+        secondEvent.WriteTo(logger);
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}");
+
+        BufferedLogEvent<string> CreateBufferedEvent(string message) =>
+            new(
+                LogLevel.Error,
+                default,
+                message,
+                message,
+                exception,
+                static (state, _) => state,
+                obfuscator.Object);
+    }
+
+    [Test]
+    public async Task Logger_DoesNotWriteIssueForModuleStatusEvent()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+
+        logger.Log(LogLevel.Error, ModuleLogEvents.Status, "Module failed");
+
+        await Assert.That(writer.ToString()).IsEmpty();
     }
 
     [Test]

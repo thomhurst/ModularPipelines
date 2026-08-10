@@ -13,7 +13,12 @@ namespace ModularPipelines.Logging;
 /// <remarks>
 /// Wrapping intentionally replaces the original exception type identity.
 /// </remarks>
-internal sealed class ObfuscatedLogException : Exception
+internal interface IOriginalExceptionIdentity
+{
+    Exception OriginalException { get; }
+}
+
+internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIdentity
 {
     private readonly string? _obfuscatedStackTrace;
     private readonly string _obfuscatedText;
@@ -23,6 +28,7 @@ internal sealed class ObfuscatedLogException : Exception
             GetObfuscatedMessage(exception, secretObfuscator),
             Create(exception.InnerException, secretObfuscator))
     {
+        OriginalException = exception;
         _obfuscatedStackTrace = GetObfuscatedDiagnostic(
             () => exception.StackTrace,
             secretObfuscator);
@@ -38,6 +44,8 @@ internal sealed class ObfuscatedLogException : Exception
                 new ObfuscatedAggregateLogException(aggregateException, secretObfuscator),
             _ => new ObfuscatedLogException(exception, secretObfuscator),
         };
+
+    public Exception OriginalException { get; }
 
     public override string? StackTrace => _obfuscatedStackTrace;
 
@@ -218,7 +226,7 @@ internal sealed class ObfuscatedLogException : Exception
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_idxFirstFreeStackTraceEntry")]
     private static extern ref int GetNativeAotStackTraceCount(Exception exception);
 
-    private sealed class ObfuscatedAggregateLogException : AggregateException
+    private sealed class ObfuscatedAggregateLogException : AggregateException, IOriginalExceptionIdentity
     {
         private readonly string? _obfuscatedStackTrace;
         private readonly string _obfuscatedText;
@@ -230,12 +238,15 @@ internal sealed class ObfuscatedLogException : Exception
                 GetObfuscatedMessage(exception, secretObfuscator),
                 exception.InnerExceptions.Select(inner => Create(inner, secretObfuscator)!))
         {
+            OriginalException = exception;
             _obfuscatedStackTrace = GetObfuscatedDiagnostic(
                 () => exception.StackTrace,
                 secretObfuscator);
             _obfuscatedText = GetObfuscatedText(exception, secretObfuscator);
             CopyDiagnostics(this, exception, secretObfuscator);
         }
+
+        public Exception OriginalException { get; }
 
         public override string? StackTrace => _obfuscatedStackTrace;
 
