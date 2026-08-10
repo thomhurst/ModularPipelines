@@ -94,18 +94,13 @@ internal static class TimeoutHelper
                 .ConfigureAwait(false);
         }
 
-        // Timeout path: create linked token so task can observe both timeout
-        // and external cancellation.
+        // Keep the attempt token separate so signal ordering is recorded before
+        // cancellation is propagated to the executing task.
         using var deadlineCts = new CancellationTokenSource();
-        using var attemptCts = CancellationTokenSource.CreateLinkedTokenSource(
-            cancellationToken,
-            deadlineCts.Token);
+        using var attemptCts = new CancellationTokenSource();
 
-        // Register after linking the attempt token. Cancellation callbacks run in
-        // LIFO order, so these observers record whether execution had already
-        // completed before cancellation propagates to the task.
-        var deadlineState = new CancellationSignalState<T>();
-        var externalCancellationState = new CancellationSignalState<T>();
+        var deadlineState = new CancellationSignalState<T>(attemptCts);
+        var externalCancellationState = new CancellationSignalState<T>(attemptCts);
         using var deadlineRegistration = deadlineCts.Token.Register(
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             deadlineState);
@@ -220,7 +215,7 @@ internal static class TimeoutHelper
         }
     }
 
-    private sealed class CancellationSignalState<T>
+    private sealed class CancellationSignalState<T>(CancellationTokenSource attemptCts)
     {
         public Task<T>? ExecutionTask;
 
@@ -229,7 +224,10 @@ internal static class TimeoutHelper
 
         public void SignalCancellation()
         {
+            // The attempt token is not linked to either source, so this sample is
+            // independent of CancellationTokenSource callback ordering.
             Signal.TrySetResult(Volatile.Read(ref ExecutionTask)?.IsCompleted == true);
+            attemptCts.Cancel();
         }
     }
 }

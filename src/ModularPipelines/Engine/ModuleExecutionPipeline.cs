@@ -806,7 +806,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
     private bool IsPipelineCancelled(Exception exception)
     {
-        return exception is TaskCanceledException or OperationCanceledException or ModuleTimeoutException
+        return exception is OperationCanceledException or ModuleTimeoutException
                && _engineCancellationToken.IsCancelled;
     }
 
