@@ -10,7 +10,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 2;
+    public const int CurrentSchemaVersion = 3;
 
     /// <summary>
     /// Gets the schema version used by this report.
@@ -51,6 +51,11 @@ public sealed record PipelineRunReport
     /// Gets the pipeline wall-clock duration.
     /// </summary>
     public TimeSpan TotalDuration { get; init; }
+
+    /// <summary>
+    /// Gets when the previous retained run used as the delta baseline finished.
+    /// </summary>
+    public DateTimeOffset? PreviousEnd { get; init; }
 
     /// <summary>
     /// Gets the previous retained run's total duration, when available.

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -196,6 +197,13 @@ internal class SpectreResultsPrinter : IResultsPrinter
         }
 
         AddTotalRow(table, pipelineSummary, showDeltas);
+
+        if (showDeltas && pipelineSummary.RunReport?.PreviousEnd is { } previousEnd)
+        {
+            var baseline = previousEnd.ToUniversalTime()
+                .ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture);
+            table.Caption($"[dim]Δ vs run finished {baseline}[/]");
+        }
 
         return table;
     }

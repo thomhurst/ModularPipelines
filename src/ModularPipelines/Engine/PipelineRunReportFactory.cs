@@ -64,10 +64,7 @@ internal sealed class PipelineRunReportFactory(
                 previousByType))
             .ToArray();
         var status = pipelineException is null ? summary.Status : Status.Failed;
-        TimeSpan? previousTotalDuration = status == Status.Successful
-                                          && previousReport?.Status == Status.Successful
-            ? previousReport.TotalDuration
-            : null;
+        var previousTotalDuration = GetPreviousTotalDuration(status, previousReport);
 
         return new PipelineRunReport
         {
@@ -77,6 +74,7 @@ internal sealed class PipelineRunReportFactory(
             Start = summary.Start,
             End = summary.End,
             TotalDuration = summary.TotalDuration,
+            PreviousEnd = GetPreviousEnd(previousReport, previousTotalDuration, modules),
             PreviousTotalDuration = previousTotalDuration,
             TotalDurationDelta = previousTotalDuration is null
                 ? null
@@ -88,6 +86,19 @@ internal sealed class PipelineRunReportFactory(
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
     }
+
+    private static TimeSpan? GetPreviousTotalDuration(Status status, PipelineRunReport? previousReport) =>
+        status == Status.Successful && previousReport?.Status == Status.Successful
+            ? previousReport.TotalDuration
+            : null;
+
+    private static DateTimeOffset? GetPreviousEnd(
+        PipelineRunReport? previousReport,
+        TimeSpan? previousTotalDuration,
+        IReadOnlyCollection<ModuleRunReport> modules) =>
+        previousTotalDuration.HasValue || modules.Any(static module => module.DurationDelta.HasValue)
+            ? previousReport?.End
+            : null;
 
     public PipelineRunReport WithCorrelation(
         PipelineRunReport report,

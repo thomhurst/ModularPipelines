@@ -272,6 +272,7 @@ public class RunReportTests
             {
                 await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNull();
                 await Assert.That(secondReport!.TotalDurationDelta).IsNull();
+                await Assert.That(secondReport.PreviousEnd).IsEqualTo(firstReport!.End);
                 await Assert.That(secondReport.Modules
                         .Single(module => module.Status == Status.Successful)
                         .PreviousDuration)
@@ -303,6 +304,8 @@ public class RunReportTests
             {
                 await Assert.That(firstSummary.RunReport!.PreviousTotalDuration).IsNull();
                 await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNotNull();
+                await Assert.That(secondSummary.RunReport.PreviousEnd)
+                    .IsEqualTo(firstSummary.RunReport.End);
                 await Assert.That(Directory.GetFiles(historyPath, "*.json")).Count().IsEqualTo(2);
             }
         }
@@ -1168,12 +1171,16 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
+        const int expectedCurrentSchemaVersion = 3;
+
         using (Assert.Multiple())
         {
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, 2)).IsTrue();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, 2)).IsTrue();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, 2)).IsFalse();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, 2)).IsFalse();
+            await Assert.That(new PipelineRunReport().SchemaVersion).IsEqualTo(expectedCurrentSchemaVersion);
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 
@@ -1359,6 +1366,40 @@ public class RunReportTests
                 HistoryRetention = 0,
             },
         };
+
+    [Test]
+    public async Task SuccessfulReportWriteLogsFullPath()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "artifacts", "run-report.json");
+        var log = new StringBuilder();
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            new StringLogger<RunReportService>(log));
+
+        try
+        {
+            await service.CompleteAsync(CreateEmptySummary());
+
+            await Assert.That(log.ToString())
+                .Contains($"Run report written to {Path.GetFullPath(reportPath)}");
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
 
     [Test]
     public async Task RunReportEnrichersPopulateObfuscatedCorrelation()

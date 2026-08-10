@@ -252,6 +252,9 @@ internal sealed class RunReportService(
                             RunReportJsonSerializer.Serialize(report),
                             token)
                         .ConfigureAwait(false);
+                    logger.LogInformation(
+                        "Run report written to {RunReportPath}",
+                        fullPath);
                 },
                 ReportWriteTimeout,
                 cancellationToken,

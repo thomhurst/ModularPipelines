@@ -106,6 +106,7 @@ public class SpectreResultsPrinterTests
         {
             RunReport = new PipelineRunReport
             {
+                PreviousEnd = new DateTimeOffset(2026, 7, 27, 11, 58, 0, TimeSpan.Zero),
                 TotalDurationDelta = TimeSpan.FromSeconds(2),
                 Modules =
                 [
@@ -123,6 +124,7 @@ public class SpectreResultsPrinterTests
 
         await Assert.That(output).Contains("Δ previous");
         await Assert.That(output).Contains("+2s");
+        await Assert.That(output).Contains("Δ vs run finished 2026-07-27 11:58 UTC");
     }
 
     [Test]
