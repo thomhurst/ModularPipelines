@@ -412,10 +412,15 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
         }
 
+        if (optionValues.Any(static value => value.IsBare))
+        {
+            throw new InvalidOperationException(
+                $"Grouped optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + $"cannot contain {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)}.");
+        }
+
         args.Add(GetEffectiveName(optionPart.Attribute));
-        args.AddRange(optionValues
-            .Where(static value => !value.IsBare)
-            .Select(static value => value.Value!));
+        args.AddRange(optionValues.Select(static value => value.Value!));
     }
 
     private static IEnumerable<CliOptionValue> GetOptionalValues(
