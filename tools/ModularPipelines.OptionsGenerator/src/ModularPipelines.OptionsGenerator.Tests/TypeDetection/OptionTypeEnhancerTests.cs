@@ -163,7 +163,7 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
-    public async Task EnhanceAsync_Warns_When_Secret_Looking_Option_Is_A_Flag()
+    public async Task EnhanceAsync_Warns_When_Secret_Looking_Option_Is_Boolean()
     {
         var pipeline = new OptionTypeDetectorPipeline(
             [],
@@ -184,7 +184,34 @@ public class OptionTypeEnhancerTests
         {
             await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsFalse();
             await Assert.That(logger.Messages).Contains(message =>
-                message.Contains("was detected as a flag", StringComparison.Ordinal));
+                message.Contains("was detected as boolean", StringComparison.Ordinal));
+        }
+    }
+
+    [Test]
+    public async Task EnhanceAsync_Removes_Inferred_Secret_From_Boolean_Value_Option()
+    {
+        var pipeline = new OptionTypeDetectorPipeline(
+            [],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--xml-raw-token",
+            PropertyName = "XmlRawToken",
+            CSharpType = "bool?",
+            Description = "Enables using RawToken instead of Token.",
+            IsSecret = true,
+        });
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        var option = enhanced.Commands.Single().Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.IsSecret).IsFalse();
+            await Assert.That(option.SecretValueKeys).IsEmpty();
         }
     }
 
