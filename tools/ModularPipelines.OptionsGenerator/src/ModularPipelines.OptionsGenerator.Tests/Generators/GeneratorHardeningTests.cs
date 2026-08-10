@@ -116,6 +116,15 @@ public class GeneratorHardeningTests
             null,
             null);
 
+    private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
+        new()
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = "string",
+            IsRequired = true,
+        };
+
     [Test]
     public async Task Command_Facade_Generation_Can_Be_Disabled_Independently_Of_Options()
     {
@@ -959,7 +968,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Preserves_Old_Constructor_When_Member_Becomes_Required()
+    public async Task ApiCompatibilityPreserver_Rejects_Optional_Member_Becoming_Required()
     {
         var command = Command("ToolNewOptions", "ToolOptions", ["new"]) with
         {
@@ -975,13 +984,85 @@ public class GeneratorHardeningTests
             ],
         };
 
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Name", "string", argumentPosition: 0)]));
+
+        await Assert.That(exception.Message)
+            .Contains("Name changed from optional to required and would remove its public setter");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Constructor_Order()
+    {
+        var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--second",
+                    PropertyName = "Second",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--first",
+                    PropertyName = "First",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+
         var preserved = GeneratedApiCompatibilityPreserver.Preserve(
             command,
-            [BaselineProperty("Name", "string", argumentPosition: 0)]);
+            [
+                BaselineProperty("First", "string", switchName: "--first", isRequired: true),
+                BaselineProperty("Second", "string", switchName: "--second", isRequired: true),
+            ]);
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(generated).Contains("public ToolNewOptions()");
-        await Assert.That(generated).Contains(": this(default!)");
+        await Assert.That(generated.IndexOf("string First", StringComparison.Ordinal))
+            .IsLessThan(generated.IndexOf("string Second", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Old_Deconstruct_Arity()
+    {
+        var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--source",
+                    PropertyName = "Source",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--destination",
+                    PropertyName = "Destination",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Source", "string", switchName: "--source", isRequired: true)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public void Deconstruct(out string Source)");
+            await Assert.That(generated).Contains("Source = this.Source;");
+        }
     }
 
     [Test]
@@ -1091,6 +1172,41 @@ public class GeneratorHardeningTests
 
             await Assert.That(generated).Contains("public ToolAddOptions()");
             await Assert.That(generated).Contains(": this(default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Previously_Generated_Deconstruct_Overloads()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolMoveOptions.Generated.cs"),
+                "public record ToolMoveOptions([property: CliOption(\"--source\")] string Source, "
+                + "[property: CliOption(\"--destination\")] string Destination) "
+                + "{ public ToolMoveOptions(string Source) : this(Source, default!) { } "
+                + "public void Deconstruct(out string Source) { Source = this.Source; } }");
+            var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+            {
+                Options =
+                [
+                    RequiredOption("--source", "Source"),
+                    RequiredOption("--destination", "Destination"),
+                    RequiredOption("--force", "Force"),
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var generated = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+
+            await Assert.That(generated).Contains("public void Deconstruct(out string Source)");
         }
         finally
         {

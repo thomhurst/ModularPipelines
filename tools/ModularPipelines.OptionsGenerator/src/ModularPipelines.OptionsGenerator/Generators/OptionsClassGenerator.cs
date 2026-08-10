@@ -282,6 +282,21 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("    {");
             sb.AppendLine("    }");
             sb.AppendLine();
+
+            if (constructor.PreserveDeconstruct)
+            {
+                var deconstructParameters = constructor.Parameters
+                    .Select(parameter => $"out {parameter.CSharpType} {parameter.PropertyName}");
+                sb.AppendLine($"    public void Deconstruct({string.Join(", ", deconstructParameters)})");
+                sb.AppendLine("    {");
+                foreach (var parameter in constructor.Parameters)
+                {
+                    sb.AppendLine($"        {parameter.PropertyName} = this.{parameter.PropertyName};");
+                }
+
+                sb.AppendLine("    }");
+                sb.AppendLine();
+            }
         }
     }
 
