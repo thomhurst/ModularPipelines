@@ -50,6 +50,7 @@ public class DependencyGraphExporterTests
     private static int _customDependencyPredicateEvaluations;
     private static int _customDependencySelectorConstructions;
     private static int _planningTargetAttributeConstructions;
+    private static int _singleUseConfigurationCalls;
 
     private sealed class ConstructorMutationState
     {
@@ -1777,6 +1778,19 @@ public class DependencyGraphExporterTests
             throw new InvalidOperationException("Deferred condition must not run during planning.");
     }
 
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    private sealed class PlanningAlternativeConditionAttribute(bool result)
+        : Attribute, IGroupedConditionAttribute, IPlanningConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.Any;
+
+        public Type ConditionGroupType => typeof(PlanningAlternativeConditionAttribute);
+
+        public string ConditionNames => nameof(PlanningAlternativeConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
+    }
+
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AsyncPlanningConditionAttribute : RunIfAllAttribute
     {
@@ -1855,6 +1869,35 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("safe-false-any-with-deferred-any");
+    }
+
+    [PlanningAlternativeCondition(false)]
+    [PlanningAlternativeCondition(false)]
+    [DeferredAnyCondition]
+    private sealed class SafeFalseAnyGroupWithDeferredAnyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("safe-false-any-group-with-deferred-any");
+    }
+
+    private sealed class SingleUseConfigurationFactoryModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            if (Interlocked.Increment(ref _singleUseConfigurationCalls) != 1)
+            {
+                throw new InvalidOperationException("Configuration was replayed.");
+            }
+
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("single-use-configuration");
     }
 
     [AddStartupDependency(typeof(DependencyModule))]
@@ -2281,6 +2324,48 @@ public class DependencyGraphExporterTests
                 await Assert.That(_customDependencyAttributeConstructions).IsEqualTo(0);
                 await Assert.That(_customDependencyPredicateEvaluations).IsEqualTo(0);
             }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Builder_Export_Configures_Uninitialized_Factory_Once()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-graph-");
+        try
+        {
+            _singleUseConfigurationCalls = 0;
+            var path = Path.Combine(directory.FullName, "graph.json");
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule(_ => new SingleUseConfigurationFactoryModule());
+
+            await builder.ExportDependencyGraphAsync(DependencyGraphFormat.Json, path);
+
+            await Assert.That(_singleUseConfigurationCalls).IsEqualTo(1);
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Builder_Export_Configures_Uninitialized_Registered_Instance_Once()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-graph-");
+        try
+        {
+            _singleUseConfigurationCalls = 0;
+            var path = Path.Combine(directory.FullName, "graph.json");
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule(new SingleUseConfigurationFactoryModule());
+
+            await builder.ExportDependencyGraphAsync(DependencyGraphFormat.Json, path);
+
+            await Assert.That(_singleUseConfigurationCalls).IsEqualTo(1);
         }
         finally
         {
@@ -2883,6 +2968,21 @@ public class DependencyGraphExporterTests
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeFalseAnyWithDeferredAnyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+    }
+
+    [Test]
+    public async Task Safe_False_Any_Group_Remains_Definitive_With_Deferred_Any()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SafeFalseAnyGroupWithDeferredAnyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
