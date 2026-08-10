@@ -196,6 +196,9 @@ public partial class BrewCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
+        var positionalArguments = DisambiguatePositionalArguments(
+            usage.PositionalArguments,
+            options);
 
         // Extract enums from options
         var enums = options
@@ -215,12 +218,36 @@ public partial class BrewCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = positionalArguments,
             SubDomainGroup = null,
             Enums = enums
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> DisambiguatePositionalArguments(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var usedPropertyNames = options
+            .Select(static option => option.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
+
+        return positionalArguments
+            .Select(argument =>
+            {
+                var propertyName = argument.PropertyName;
+                while (!usedPropertyNames.Add(propertyName))
+                {
+                    propertyName += "Operand";
+                }
+
+                return propertyName == argument.PropertyName
+                    ? argument
+                    : argument with { PropertyName = propertyName };
+            })
+            .ToArray();
     }
 
     /// <summary>

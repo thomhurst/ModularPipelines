@@ -24,10 +24,12 @@ public class BrewCliScraperTests
 
         await Assert.That(command!.PositionalArguments).HasSingleItem();
         var argument = command.PositionalArguments.Single();
+        var formulaOption = command.Options.Single(option => option.SwitchName == "--formula");
         using (Assert.Multiple())
         {
-            await Assert.That(argument.PropertyName).IsEqualTo("Formula");
+            await Assert.That(argument.PropertyName).IsEqualTo("FormulaOperand");
             await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(formulaOption.PropertyName).IsEqualTo("Formula");
         }
     }
 
