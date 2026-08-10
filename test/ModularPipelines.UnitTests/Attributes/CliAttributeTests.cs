@@ -332,6 +332,33 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Schema2_Metadata_Ignores_Legacy_Optional_Compatibility_Flag()
+    {
+        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    AllowsLegacyOptionalValues = true,
+                    IsSupportedPropertyType = false,
+                },
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
     public async Task Parser_Omits_Empty_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = [] };
@@ -1118,6 +1145,8 @@ public class CliAttributeTests
     }
 
     private sealed class Schema1MetadataMarker;
+
+    private sealed class Schema2MetadataMarker;
 
     internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions
     {
