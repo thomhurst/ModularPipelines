@@ -303,7 +303,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 RequestThresholdFlush,
                 isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                     OutputLoggerCategories.ForModule(t),
-                    logLevel)));
+                    logLevel),
+                showFailureHeaderWithoutOutput: !_options.Value.Console.PrintResults));
     }
 
     /// <inheritdoc />

@@ -509,6 +509,31 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task CompleteFlush_RendersSilentFailureWhenResultsAreHidden()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            nameof(ModuleOutputBufferTests),
+            typeof(ModuleOutputBufferTests),
+            showFailureHeaderWithoutOutput: true);
+        buffer.SetException(new InvalidOperationException("module failure"));
+        buffer.MarkComplete();
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✗");
+        await Assert.That(output).Contains(nameof(InvalidOperationException));
+    }
+
+    [Test]
     public async Task LaterFlushes_AreLabelledAsContinued()
     {
         var writer = new StringWriter();
