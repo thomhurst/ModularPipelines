@@ -76,6 +76,24 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Skips_Object_Validation_When_NonPublic_Property_Is_Invalid()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestNonPublicAndObjectValidatedOptions
+        {
+            Retries = 0,
+        };
+
+        CommandLine Build() => builder.Build(options);
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestNonPublicAndObjectValidatedOptions.Name")
+            .And.HasMessageContaining("TestNonPublicAndObjectValidatedOptions.Retries");
+        await Assert.That(options.ValidationCallbackInvoked).IsFalse();
+    }
+
+    [Test]
     public async Task Build_Wraps_ValidationException_From_Callback()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1152,6 +1170,26 @@ public class CommandLineBuilderTests : TestBase
         [Range(0, 3)]
         [CliOption("--retries")]
         internal int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestNonPublicAndObjectValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        [Range(1, 3)]
+        [CliOption("--retries")]
+        internal int Retries { get; init; }
+
+        [Required]
+        [CliOption("--name")]
+        public string? Name { get; init; }
+
+        public bool ValidationCallbackInvoked { get; private set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            ValidationCallbackInvoked = true;
+            yield return new ValidationResult("Callback validation failed.");
+        }
     }
 
     [CliTool("tool")]
