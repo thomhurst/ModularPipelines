@@ -201,6 +201,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 StatusOverride = existingSummary.StatusOverride,
             };
 
+        await _outputCoordinator.FlushConsoleAsync().ConfigureAwait(false);
+
         summary = summary with
         {
             RunReport = await _runReportService.CompleteAsync(
@@ -213,7 +215,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         _outputCoordinator.PrintResults(summary);
 
-        await System.Console.Out.FlushAsync().ConfigureAwait(false);
+        await _outputCoordinator.FlushConsoleAsync().ConfigureAwait(false);
 
         // Flush any buffered exceptions after the results table has been printed
         _outputCoordinator.FlushExceptions();

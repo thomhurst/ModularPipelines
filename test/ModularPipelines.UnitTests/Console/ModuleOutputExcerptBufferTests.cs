@@ -321,4 +321,33 @@ public class ModuleOutputExcerptBufferTests
 
         await Assert.That(buffer.CreateExcerpt()).IsNull();
     }
+
+    [Test]
+    public async Task PreservesExistingMaskDuringExcerptObfuscation()
+    {
+        const string secret = "*";
+        const string maskedOutput = "diagnostic **********";
+        var expected = maskedOutput + Environment.NewLine;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            Encoding.UTF8.GetByteCount(expected),
+            secretObfuscator,
+            secretProvider.Object);
+
+        buffer.Append(maskedOutput, ModuleOutputStream.StandardOutput);
+
+        var excerpt = buffer.CreateExcerpt()!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo(expected);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
 }
