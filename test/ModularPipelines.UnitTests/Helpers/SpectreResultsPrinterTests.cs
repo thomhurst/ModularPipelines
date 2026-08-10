@@ -12,7 +12,7 @@ using ModuleStatus = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[TUnit.Core.NotInParallel(nameof(SpectreResultsPrinterTests))]
+[TUnit.Core.NotInParallel]
 public class SpectreResultsPrinterTests
 {
     private class SkippedModule : Module<bool>
