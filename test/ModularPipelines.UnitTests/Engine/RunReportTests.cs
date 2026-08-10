@@ -3228,14 +3228,16 @@ public class RunReportTests
     }
 
     [Test]
-    public async Task RunReportOptionsRejectNonPositiveOutputLimit()
+    [Arguments(0)]
+    [Arguments(-1)]
+    public async Task RunReportOptionsRejectNonPositiveOutputLimit(int maximumBytes)
     {
         var result = new OptionsValidator().ValidateOptions(new PipelineOptions
         {
             RunReport = new RunReportOptions
             {
                 IncludeModuleOutput = true,
-                MaxOutputBytesPerModule = 0,
+                MaxOutputBytesPerModule = maximumBytes,
             },
         });
 

@@ -176,7 +176,8 @@ internal sealed class ModuleOutputExcerptBuffer(
             stdoutBytes,
             stderrBytes,
             Utf8.GetByteCount(maskedStdout),
-            Utf8.GetByteCount(maskedStderr));
+            Utf8.GetByteCount(maskedStderr),
+            concreteObfuscator);
 
         if (!TryGetSafeMaskedTail(
                 maskedStdout,
@@ -205,7 +206,8 @@ internal sealed class ModuleOutputExcerptBuffer(
         int stdoutBytes,
         int stderrBytes,
         int maskedStdoutBytes,
-        int maskedStderrBytes)
+        int maskedStderrBytes,
+        ISecretObfuscator obfuscator)
     {
         stdoutBytes = Math.Min(stdoutBytes, maskedStdoutBytes);
         stderrBytes = Math.Min(stderrBytes, maskedStderrBytes);
@@ -215,16 +217,18 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         for (var chunk = _chunks.Last; chunk is not null && remaining > 0; chunk = chunk.Previous)
         {
+            var maskedChunkBytes = Utf8.GetByteCount(
+                obfuscator.Obfuscate(Utf8.GetString(chunk.Value.Bytes), null));
             if (chunk.Value.Stream is ModuleOutputStream.StandardError && stderrNeeded > 0)
             {
-                var added = Math.Min(stderrNeeded, remaining);
+                var added = Math.Min(Math.Min(stderrNeeded, maskedChunkBytes), remaining);
                 stderrBytes += added;
                 stderrNeeded -= added;
                 remaining -= added;
             }
             else if (chunk.Value.Stream is ModuleOutputStream.StandardOutput && stdoutNeeded > 0)
             {
-                var added = Math.Min(stdoutNeeded, remaining);
+                var added = Math.Min(Math.Min(stdoutNeeded, maskedChunkBytes), remaining);
                 stdoutBytes += added;
                 stdoutNeeded -= added;
                 remaining -= added;
