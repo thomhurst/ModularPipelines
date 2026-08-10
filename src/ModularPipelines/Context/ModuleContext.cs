@@ -91,6 +91,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
                 "A module cannot depend on its own result.");
         }
 
+        EnsureModuleResultAccessAllowed(moduleType);
         return _internalContext.GetModule<TModule>();
     }
 

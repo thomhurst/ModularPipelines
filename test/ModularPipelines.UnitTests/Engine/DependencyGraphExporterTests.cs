@@ -49,6 +49,7 @@ public class DependencyGraphExporterTests
     private static int _customDependencyAttributeConstructions;
     private static int _customDependencyPredicateEvaluations;
     private static int _customDependencySelectorConstructions;
+    private static int _planningTargetAttributeConstructions;
 
     private sealed class ConstructorMutationState
     {
@@ -201,6 +202,64 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("attribute-presence-consumer");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class StatefulPlanningTargetAttribute : Attribute
+    {
+        public StatefulPlanningTargetAttribute() =>
+            Interlocked.Increment(ref _planningTargetAttributeConstructions);
+    }
+
+    [StatefulPlanningTarget]
+    private sealed class StatefulPlanningTargetModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("stateful-target");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class PlanningAttributeValueSelectorAttribute : PlanningSafeDependsOnBaseAttribute
+    {
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+            context.GetAttribute<StatefulPlanningTargetAttribute>(candidateModule) is not null;
+    }
+
+    [PlanningAttributeValueSelector]
+    private sealed class PlanningAttributeValueConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("attribute-value-consumer");
+    }
+
+    private sealed class OptionalPlanningDependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("optional-dependency");
+    }
+
+    private sealed class OptionalLookupPlanningSkipModule : Module<string>
+    {
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new OptionalLookupPlanningSkipModule();
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(context =>
+                context.GetModuleIfRegistered<OptionalPlanningDependencyModule>() is null
+                    ? SkipDecision.DoNotSkip
+                    : SkipDecision.Skip("Runtime dependency was exposed during planning"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("optional-lookup");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -2200,6 +2259,66 @@ public class DependencyGraphExporterTests
         {
             directory.Delete(recursive: true);
         }
+    }
+
+    [Test]
+    public async Task Builder_Export_Does_Not_Run_Runtime_Dependency_Validation()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-graph-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "graph.json");
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<DependencyModule>();
+            builder.AddModule<RuntimePredicateConsumerModule>();
+            _customDependencyAttributeConstructions = 0;
+            _customDependencyPredicateEvaluations = 0;
+
+            await builder.ExportDependencyGraphAsync(DependencyGraphFormat.Json, path);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(_customDependencyAttributeConstructions).IsEqualTo(0);
+                await Assert.That(_customDependencyPredicateEvaluations).IsEqualTo(0);
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Expose_Runtime_Modules_To_Planning_Skip_Conditions()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<OptionalPlanningDependencyModule>();
+        builder.AddModule<OptionalLookupPlanningSkipModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        using var document = JsonDocument.Parse(
+            await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
+                .RenderAsync(DependencyGraphFormat.Json));
+        var lookupNode = document.RootElement.GetProperty("nodes").EnumerateArray()
+            .Single(node => node.GetProperty("name").GetString()
+                == nameof(OptionalLookupPlanningSkipModule));
+
+        await Assert.That(lookupNode.GetProperty("skipped").ValueKind).IsEqualTo(JsonValueKind.Null);
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Construct_Target_Attribute_Values_During_Planning()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<StatefulPlanningTargetModule>();
+        builder.AddModule<PlanningAttributeValueConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        _planningTargetAttributeConstructions = 0;
+
+        _ = await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
+            .RenderAsync(DependencyGraphFormat.Json);
+
+        await Assert.That(_planningTargetAttributeConstructions).IsEqualTo(0);
     }
 
     [Test]

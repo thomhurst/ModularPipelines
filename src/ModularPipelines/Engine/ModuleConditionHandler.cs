@@ -77,7 +77,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var result = EvaluateCategoryConditions(module, metadataRegistry);
         if (!result.ShouldIgnore
             && IsDistributedMaster()
-            && OperatingSystemConditions.HasImpossibleCombination(GetConditionAttributes(module.GetType()).All))
+            && OperatingSystemConditions.HasImpossibleCombination(module.GetType()))
         {
             result = (true, SkipDecision.Skip("Module requires mutually exclusive operating systems"));
         }

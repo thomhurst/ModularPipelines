@@ -200,6 +200,9 @@ public sealed class PipelineBuilder : IDisposable
         return pipeline!;
     }
 
+    internal Task<IPipeline> BuildForDependencyGraphExportAsync() =>
+        BuildPipelineAsync(initializePipeline: false);
+
     /// <summary>
     /// Validates the pipeline configuration without executing it.
     /// </summary>
