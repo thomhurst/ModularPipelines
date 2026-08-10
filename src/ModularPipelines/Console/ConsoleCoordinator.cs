@@ -299,6 +299,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         return _moduleBuffers.GetOrAdd(
             moduleType,
             t => new ModuleOutputBuffer(
+                t.Name,
                 t,
                 _options.Value.Console.ModuleOutputFlushThreshold,
                 RequestThresholdFlush,
@@ -310,7 +311,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     ? _options.Value.RunReport.MaxOutputBytesPerModule
                     : 0,
                 outputExcerptSecretObfuscator: _secretObfuscator,
-                outputExcerptSecretProvider: _secretProvider));
+                outputExcerptSecretProvider: _secretProvider,
+                outputExcerptLogger: _loggerFactory.CreateLogger<ModuleOutputExcerptBuffer>()));
     }
 
     /// <inheritdoc />

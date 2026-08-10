@@ -103,6 +103,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputExcerptMaximumBytes">Maximum retained UTF-8 bytes for report output, or zero to disable capture.</param>
     /// <param name="outputExcerptSecretObfuscator">Obfuscator used before the final excerpt tail is selected.</param>
     /// <param name="outputExcerptSecretProvider">Provider used to validate late-registered secret boundaries.</param>
+    /// <param name="outputExcerptLogger">Logger for fail-closed excerpt diagnostics.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
@@ -114,7 +115,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         bool showSuccessMarker = true,
         int outputExcerptMaximumBytes = 0,
         ISecretObfuscator? outputExcerptSecretObfuscator = null,
-        ISecretProvider? outputExcerptSecretProvider = null)
+        ISecretProvider? outputExcerptSecretProvider = null,
+        ILogger? outputExcerptLogger = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -129,7 +131,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             ? new ModuleOutputExcerptBuffer(
                 outputExcerptMaximumBytes,
                 outputExcerptSecretObfuscator,
-                outputExcerptSecretProvider)
+                outputExcerptSecretProvider,
+                outputExcerptLogger)
             : null;
     }
 
