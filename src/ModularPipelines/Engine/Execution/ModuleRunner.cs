@@ -204,7 +204,6 @@ internal class ModuleRunner : IModuleRunner
             {
                 var handledException = NormalizeLimiterCancellation(
                     ex,
-                    module.Configuration.AlwaysRun,
                     cancellationToken,
                     limiterCancellationToken);
                 HandleExecutionFailure(moduleState, scheduler, handledException);
@@ -224,13 +223,10 @@ internal class ModuleRunner : IModuleRunner
 
     private Exception NormalizeLimiterCancellation(
         Exception exception,
-        bool alwaysRun,
         CancellationToken workerCancellationToken,
         CancellationToken limiterCancellationToken)
     {
-        if (!alwaysRun
-            && (workerCancellationToken.IsCancellationRequested
-                || _engineCancellationToken.IsCancelled)
+        if (limiterCancellationToken.IsCancellationRequested
             && exception is OperationCanceledException operationCanceledException
             && operationCanceledException.CancellationToken == limiterCancellationToken
             && limiterCancellationToken != workerCancellationToken)

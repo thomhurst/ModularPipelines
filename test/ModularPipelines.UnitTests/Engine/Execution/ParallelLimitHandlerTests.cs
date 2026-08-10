@@ -259,6 +259,47 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
+    public async Task ModuleRunner_AlwaysRunEngineCancellationNormalizesLimiterWaitToWorkerToken()
+    {
+        var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(AlwaysRunTestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns<Type, CancellationToken>(async (_, token) =>
+            {
+                limiterWaitStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return Mock.Of<IDisposable>();
+            });
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<AlwaysRunTestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var engineCancellationToken = host.Services.GetRequiredService<ModularPipelines.Engine.EngineCancellationToken>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var moduleState = new ModuleState(
+            new AlwaysRunTestModule(),
+            typeof(AlwaysRunTestModule));
+        using var workerCancellationTokenSource = new CancellationTokenSource();
+
+        var executionTask = moduleRunner.ExecuteAsync(
+            moduleState,
+            scheduler.Object,
+            workerCancellationTokenSource.Token);
+        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        engineCancellationToken.CancelWithReason("User cancellation");
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+
+        await Assert.That(exception!.CancellationToken)
+            .IsEqualTo(workerCancellationTokenSource.Token);
+    }
+
+    [Test]
     public async Task ModuleRunner_PreservesWorkerTokenForFailureDrivenEngineCancellation()
     {
         var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
