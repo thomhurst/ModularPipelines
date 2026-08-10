@@ -18,7 +18,11 @@ internal class DependencyWaiter : IDependencyWaiter
         "AOT",
         "IL3050",
         Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
-    public async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider)
+    public async Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken workerCancellationToken)
     {
         foreach (var (dependencyType, optional) in moduleState.Dependencies)
         {
@@ -41,7 +45,9 @@ internal class DependencyWaiter : IDependencyWaiter
                     depLogger.LogIgnoredDependencyFailure(e);
                 }
                 catch (Exception e) when (
-                    e is not OperationCanceledException)
+                    e is not OperationCanceledException operationCanceledException
+                    || !workerCancellationToken.CanBeCanceled
+                    || operationCanceledException.CancellationToken != workerCancellationToken)
                 {
                     var dependency = scheduler.GetModuleState(dependencyType)?.Module;
                     if (dependency is null)

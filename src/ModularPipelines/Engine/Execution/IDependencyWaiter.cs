@@ -12,5 +12,10 @@ internal interface IDependencyWaiter
     /// <param name="moduleState">The state of the module waiting for dependencies.</param>
     /// <param name="scheduler">The scheduler to get dependency completion tasks from.</param>
     /// <param name="scopedServiceProvider">The scoped service provider for logging.</param>
-    Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider);
+    /// <param name="workerCancellationToken">The token used to cancel the current worker.</param>
+    Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken workerCancellationToken);
 }

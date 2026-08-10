@@ -329,6 +329,19 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
+    private sealed class IndependentlyCancellingReadyHookReceiver : IModuleEventReceiver
+    {
+        public Task OnModuleReadyAsync(IModuleHookContext context)
+        {
+            if (context.ModuleType == typeof(ReadyHookFailingModule))
+            {
+                throw new OperationCanceledException("Independent ready hook cancellation");
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
     private class StopOnFirstQueuedDependencyModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -498,6 +511,45 @@ public class EngineCancellationTokenTests : TestBase
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         await Assert.That(async () => await host.RunAsync()).Throws<InvalidOperationException>();
+
+        foreach (var dependentType in new[]
+                 {
+                     typeof(ReadyHookDependentModule),
+                     typeof(ReadyHookSiblingDependentModule),
+                 })
+        {
+            var dependentResult = resultRegistry.GetResult(dependentType);
+            await Assert.That(dependentResult).IsNotNull();
+            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
+            await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
+                .IsEqualTo(nameof(ReadyHookFailingModule));
+        }
+    }
+
+    [Test]
+    public async Task StopOnFirstException_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
+            {
+                services.RemoveAll<IModuleResultRegistrar>();
+                services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
+            })
+            .AddModule<ReadyHookFailingModule>()
+            .AddModule<ReadyHookDependentModule>()
+            .AddModule<ReadyHookSiblingDependentModule>()
+            .AddModuleEventReceiver<IndependentlyCancellingReadyHookReceiver>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+        await Assert.That(async () => await host.RunAsync()).Throws<OperationCanceledException>();
 
         foreach (var dependentType in new[]
                  {

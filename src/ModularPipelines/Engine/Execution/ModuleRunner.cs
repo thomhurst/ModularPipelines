@@ -138,7 +138,12 @@ internal class ModuleRunner : IModuleRunner
             {
                 if (!skipDependencyWait)
                 {
-                    await _dependencyWaiter.WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider).ConfigureAwait(false);
+                    await _dependencyWaiter.WaitForDependenciesAsync(
+                            moduleState,
+                            scheduler,
+                            scope.ServiceProvider,
+                            cancellationToken)
+                        .ConfigureAwait(false);
                 }
                 else
                 {
