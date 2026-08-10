@@ -74,6 +74,7 @@ internal sealed class RunReportService(
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
+        report = reportFactory.RemoveStaleOutputExcerpts(report);
 
         if (!cancellationToken.IsCancellationRequested)
         {

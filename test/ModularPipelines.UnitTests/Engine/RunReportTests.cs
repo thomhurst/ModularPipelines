@@ -248,6 +248,17 @@ public class RunReportTests
         }
     }
 
+    private sealed class CallbackRunReportEnricher(Action callback) : IRunReportEnricher
+    {
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            callback();
+            return ValueTask.CompletedTask;
+        }
+    }
+
     [Test]
     public async Task WriteRunReportPersistsSchemaHistoryDeltasAndCommandCounts()
     {
@@ -1615,6 +1626,66 @@ public class RunReportTests
                     .IsEqualTo("https://ci.example/**********-run");
                 await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
                 await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOmitsOutputMadeStaleByEnricherSecretRegistration()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var reportFactory = new PipelineRunReportFactory(
+            commandExecutionCounter,
+            new PassthroughSecretObfuscator(),
+            outputProvider.Object,
+            secretProvider: secretProvider.Object);
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            reportFactory,
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new CallbackRunReportEnricher(() => version = 4)]);
+
+        try
+        {
+            var report = await service.CompleteAsync(summary);
+            var persisted = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
             }
         }
         finally

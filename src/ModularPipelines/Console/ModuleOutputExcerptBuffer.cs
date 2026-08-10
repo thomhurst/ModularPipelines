@@ -160,6 +160,11 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         var caseInsensitive = concreteObfuscator.CaseInsensitive;
         var snapshot = secretProvider.GetSnapshot();
+        if (!concreteObfuscator.CanSafelyPreserveMasks(snapshot.Secrets))
+        {
+            return false;
+        }
+
         var maximumMatchBytes = snapshot.Secrets
             .Where(static secret => !string.IsNullOrEmpty(secret))
             .Select(secret => GetMaximumMatchByteCount(secret, caseInsensitive))

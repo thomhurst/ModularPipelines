@@ -246,6 +246,7 @@ internal sealed class PipelineRunReportFactory(
                 : null;
         }
 
+        var secretPatternsVersion = secretProvider?.Version;
         var maskedStdout = ObfuscateOptional(excerpt.StdoutTail);
         var maskedStderr = ObfuscateOptional(excerpt.StderrTail);
         var maximumBytes = pipelineOptions?.Value.RunReport.MaxOutputBytesPerModule ?? int.MaxValue;
@@ -265,9 +266,34 @@ internal sealed class PipelineRunReportFactory(
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
             TruncatedBytes = excerpt.TruncatedBytes + additionallyTruncatedBytes,
+            SecretPatternsVersion = secretPatternsVersion,
         };
 
-        return finalExcerpt;
+        return secretProvider?.Version == secretPatternsVersion ? finalExcerpt : null;
+    }
+
+    internal PipelineRunReport RemoveStaleOutputExcerpts(PipelineRunReport report)
+    {
+        if (secretProvider is null || report.Modules.All(static module => module.Output is null))
+        {
+            return report;
+        }
+
+        var currentVersion = secretProvider.Version;
+        var modules = report.Modules
+            .Select(module => module.Output?.SecretPatternsVersion == currentVersion
+                ? module
+                : module with { Output = null })
+            .ToArray();
+
+        if (secretProvider.Version != currentVersion)
+        {
+            modules = modules
+                .Select(static module => module with { Output = null })
+                .ToArray();
+        }
+
+        return report with { Modules = modules };
     }
 
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
