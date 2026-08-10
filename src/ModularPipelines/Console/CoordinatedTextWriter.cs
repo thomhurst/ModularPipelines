@@ -38,7 +38,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
     private readonly object _secretPatternsLock = new();
-    private readonly object _outputLock = new();
+    private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.NoRecursion);
     private SecretPatterns _secretPatterns = new([], null);
     private long _secretPatternsVersion = long.MinValue;
@@ -215,10 +215,32 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        var patterns = GetSecretPatterns();
-        var retainedPrefixLength = GetPotentialPatternPrefixLength(state.Buffer, patterns.Values);
-        retainedPrefixLength = ObfuscateCompletePatterns(state, patterns, retainedPrefixLength);
-        FlushSafeOutput(state, retainedPrefixLength, shouldBuffer);
+        var patterns = ObfuscateWithCurrentPatterns(
+            state,
+            preservePotentialLongerMatch: true,
+            out var retainedPrefixLength);
+        FlushSafeOutput(state, retainedPrefixLength, shouldBuffer, patterns.Version);
+    }
+
+    private SecretPatterns ObfuscateWithCurrentPatterns(
+        LineBufferState state,
+        bool preservePotentialLongerMatch,
+        out int retainedPrefixLength)
+    {
+        while (true)
+        {
+            var patterns = GetSecretPatterns();
+            retainedPrefixLength = GetPotentialPatternPrefixLength(state.Buffer, patterns.Values);
+            retainedPrefixLength = ObfuscateCompletePatterns(
+                state,
+                patterns,
+                retainedPrefixLength,
+                preservePotentialLongerMatch);
+            if (_secretProvider.Version == patterns.Version)
+            {
+                return patterns;
+            }
+        }
     }
 
     private LineBufferState GetLineBufferState()
@@ -266,16 +288,22 @@ internal class CoordinatedTextWriter : TextWriter
                 return _secretPatterns;
             }
 
+            var comparison = GetPatternComparison();
+            var comparer = comparison == StringComparison.Ordinal
+                ? StringComparer.Ordinal
+                : StringComparer.OrdinalIgnoreCase;
             var values = (snapshot.Secrets ?? [])
                 .Where(pattern => !string.IsNullOrEmpty(pattern))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Distinct(comparer)
                 .OrderByDescending(pattern => pattern.Length)
                 .ToArray();
             var patterns = new SecretPatterns(
                 values,
                 values.Length == 0
                     ? null
-                    : SearchValues.Create(values, StringComparison.OrdinalIgnoreCase));
+                    : SearchValues.Create(values, comparison),
+                comparison,
+                snapshot.Version);
             Volatile.Write(ref _secretPatterns, patterns);
             Volatile.Write(ref _secretPatternsVersion, snapshot.Version);
             return patterns;
@@ -319,34 +347,17 @@ internal class CoordinatedTextWriter : TextWriter
                 break;
             }
 
-            var matchEnd = match.Index + match.Length;
-            if (preservePotentialLongerMatch
-                && retainedPrefixLength > 0
-                && matchEnd > retainedPrefixStart)
-            {
-                var safeMatchLength = FindLongestPatternEndingAtOrBefore(
+            if (!TrySelectMaskableMatch(
                     pending,
-                    patterns.Values,
-                    match.Index,
-                    retainedPrefixStart);
-                if (safeMatchLength == 0)
-                {
-                    var hasLaterSafeMatch = HasCompletePatternBetween(
-                        pending,
-                        patterns.Values,
-                        match.Index + 1,
-                        retainedPrefixStart,
-                        trackedObfuscator.PatternComparison);
-                    if (match.Index >= retainedPrefixStart || hasLaterSafeMatch)
-                    {
-                        searchIndex = match.Index + 1;
-                        continue;
-                    }
-                }
-                else
-                {
-                    match = (match.Index, safeMatchLength);
-                }
+                    patterns,
+                    preservePotentialLongerMatch,
+                    retainedPrefixInvalidated,
+                    retainedPrefixLength,
+                    retainedPrefixStart,
+                    ref match))
+            {
+                searchIndex = match.Index + 1;
+                continue;
             }
 
             var secret = pending.Substring(match.Index, match.Length);
@@ -379,6 +390,44 @@ internal class CoordinatedTextWriter : TextWriter
             : retainedPrefixLength;
     }
 
+    private static bool TrySelectMaskableMatch(
+        string pending,
+        SecretPatterns patterns,
+        bool preservePotentialLongerMatch,
+        bool retainedPrefixInvalidated,
+        int retainedPrefixLength,
+        int retainedPrefixStart,
+        ref (int Index, int Length) match)
+    {
+        if (!preservePotentialLongerMatch
+            || retainedPrefixInvalidated
+            || retainedPrefixLength == 0
+            || match.Index + match.Length <= retainedPrefixStart)
+        {
+            return true;
+        }
+
+        var safeMatchLength = FindLongestPatternEndingAtOrBefore(
+            pending,
+            patterns.Values,
+            match.Index,
+            retainedPrefixStart,
+            patterns.Comparison);
+        if (safeMatchLength > 0)
+        {
+            match = (match.Index, safeMatchLength);
+            return true;
+        }
+
+        return match.Index < retainedPrefixStart
+               && !HasCompletePatternBetween(
+                   pending,
+                   patterns.Values,
+                   match.Index + 1,
+                   retainedPrefixStart,
+                   patterns.Comparison);
+    }
+
     private static string? GetPendingWithPatternCandidate(
         StringBuilder buffer,
         SearchValues<string> searchValues)
@@ -403,9 +452,17 @@ internal class CoordinatedTextWriter : TextWriter
             : null;
     }
 
-    private void FlushSafeOutput(LineBufferState state, int retainedLength, bool shouldBuffer)
+    private void FlushSafeOutput(
+        LineBufferState state,
+        int retainedLength,
+        bool shouldBuffer,
+        long secretPatternsVersion)
     {
-        FlushSafePrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
+        FlushSafePrefix(
+            state,
+            state.Buffer.Length - retainedLength,
+            shouldBuffer,
+            secretPatternsVersion);
 
         if (state.Buffer.Length == 0)
         {
@@ -413,7 +470,11 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
-    private void FlushSafePrefix(LineBufferState state, int safeLength, bool shouldBuffer)
+    private void FlushSafePrefix(
+        LineBufferState state,
+        int safeLength,
+        bool shouldBuffer,
+        long secretPatternsVersion)
     {
         var consumedLength = 0;
         for (var index = 0; index < safeLength; index++)
@@ -430,7 +491,7 @@ internal class CoordinatedTextWriter : TextWriter
             }
 
             var line = state.Buffer.ToString(consumedLength, lineLength);
-            WriteCompletedLine(line, shouldBuffer, state.ModuleType);
+            WriteCompletedLine(line, shouldBuffer, state.ModuleType, secretPatternsVersion);
             consumedLength = index + 1;
         }
 
@@ -442,7 +503,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (!shouldBuffer)
         {
-            FlushDirectPrefix(state, safeLength);
+            FlushDirectPrefix(state, safeLength, secretPatternsVersion);
         }
     }
 
@@ -461,7 +522,7 @@ internal class CoordinatedTextWriter : TextWriter
         var matchingInput = input.AsSpan(firstIndex);
         foreach (var pattern in patterns.Values)
         {
-            if (matchingInput.StartsWith(pattern, StringComparison.OrdinalIgnoreCase))
+            if (matchingInput.StartsWith(pattern, patterns.Comparison))
             {
                 return (firstIndex, pattern.Length);
             }
@@ -474,7 +535,8 @@ internal class CoordinatedTextWriter : TextWriter
         string input,
         IReadOnlyList<string> patterns,
         int startIndex,
-        int endIndex)
+        int endIndex,
+        StringComparison comparison)
     {
         if (startIndex >= endIndex)
         {
@@ -484,7 +546,7 @@ internal class CoordinatedTextWriter : TextWriter
         var safeInput = input.AsSpan(startIndex, endIndex - startIndex);
         foreach (var pattern in patterns)
         {
-            if (safeInput.StartsWith(pattern, StringComparison.OrdinalIgnoreCase))
+            if (safeInput.StartsWith(pattern, comparison))
             {
                 return pattern.Length;
             }
@@ -571,73 +633,111 @@ internal class CoordinatedTextWriter : TextWriter
             ? trackedObfuscator.PatternComparison
             : StringComparison.OrdinalIgnoreCase;
 
-    private void FlushDirectPrefix(LineBufferState state, int length)
+    private void FlushDirectPrefix(
+        LineBufferState state,
+        int length,
+        long secretPatternsVersion)
     {
         if (length <= 0)
         {
             return;
         }
 
-        var output = ObfuscateCustomOutput(state.Buffer.ToString(0, length));
+        var output = state.Buffer.ToString(0, length);
         state.Buffer.Remove(0, length);
-        lock (_outputLock)
+        _outputLock.Wait();
+        try
         {
-            _realConsole.Write(output);
+            _realConsole.Write(ObfuscateCustomOutput(output, secretPatternsVersion));
+        }
+        finally
+        {
+            _outputLock.Release();
         }
     }
 
-    private void WriteCompletedLine(string line, bool shouldBuffer, Type? moduleType)
+    private void WriteCompletedLine(
+        string line,
+        bool shouldBuffer,
+        Type? moduleType,
+        long secretPatternsVersion)
     {
-        line = ObfuscateCustomOutput(line);
-
         if (shouldBuffer)
         {
-            RouteToBuffer(line, moduleType);
+            RouteToBuffer(
+                ObfuscateCustomOutput(line, secretPatternsVersion),
+                moduleType);
         }
         else
         {
-            lock (_outputLock)
+            _outputLock.Wait();
+            try
             {
-                _realConsole.WriteLine(line);
+                _realConsole.WriteLine(ObfuscateCustomOutput(line, secretPatternsVersion));
+            }
+            finally
+            {
+                _outputLock.Release();
             }
         }
     }
 
-    private void FlushPartialLine(LineBufferState state, bool shouldBuffer)
+    private void FlushPartialLine(
+        LineBufferState state,
+        bool shouldBuffer,
+        long secretPatternsVersion)
     {
-        FlushPartialPrefix(state, state.Buffer.Length, shouldBuffer);
+        FlushPartialPrefix(state, state.Buffer.Length, shouldBuffer, secretPatternsVersion);
     }
 
-    private void FlushPartialPrefix(LineBufferState state, int length, bool shouldBuffer)
+    private void FlushPartialPrefix(
+        LineBufferState state,
+        int length,
+        bool shouldBuffer,
+        long secretPatternsVersion)
     {
         if (length <= 0)
         {
             return;
         }
 
-        var pending = ObfuscateCustomOutput(state.Buffer.ToString(0, length));
+        var pending = state.Buffer.ToString(0, length);
         state.Buffer.Remove(0, length);
 
         if (shouldBuffer)
         {
-            RouteToBuffer(pending, state.ModuleType);
+            RouteToBuffer(
+                ObfuscateCustomOutput(pending, secretPatternsVersion),
+                state.ModuleType);
         }
         else
         {
-            lock (_outputLock)
+            _outputLock.Wait();
+            try
             {
-                _realConsole.Write(pending);
+                _realConsole.Write(ObfuscateCustomOutput(pending, secretPatternsVersion));
+            }
+            finally
+            {
+                _outputLock.Release();
             }
         }
     }
 
-    private string ObfuscateCustomOutput(string output) =>
+    private string ObfuscateCustomOutput(string output, long secretPatternsVersion) =>
         _secretObfuscator is ITrackedSecretObfuscator
+        && _secretProvider.Version == secretPatternsVersion
             ? output
             : _secretObfuscator.Obfuscate(output, null);
 
     /// <inheritdoc />
     public override void Flush()
+    {
+        FlushBufferedOutput();
+        FlushRealConsole();
+    }
+
+    private void FlushBufferedOutput()
     {
         _flushLock.EnterWriteLock();
         try
@@ -648,7 +748,6 @@ internal class CoordinatedTextWriter : TextWriter
                 states = _lineBuffers.Values.ToArray();
             }
 
-            var patterns = GetSecretPatterns();
             foreach (var state in states)
             {
                 lock (state.SyncRoot)
@@ -659,22 +758,18 @@ internal class CoordinatedTextWriter : TextWriter
                     }
 
                     var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
-                    var retainedPrefixLength = GetPotentialPatternPrefixLength(state.Buffer, patterns.Values);
-                    ObfuscateCompletePatterns(
+                    var patterns = ObfuscateWithCurrentPatterns(
                         state,
-                        patterns,
-                        retainedPrefixLength,
-                        preservePotentialLongerMatch: false);
-                    FlushSafePrefix(state, state.Buffer.Length, shouldBuffer);
-                    FlushPartialLine(state, shouldBuffer);
+                        preservePotentialLongerMatch: false,
+                        out _);
+                    FlushSafePrefix(
+                        state,
+                        state.Buffer.Length,
+                        shouldBuffer,
+                        patterns.Version);
+                    FlushPartialLine(state, shouldBuffer, patterns.Version);
                     state.ShouldBuffer = null;
                 }
-            }
-
-            // Always flush real console (needed for Spectre.Console internals)
-            lock (_outputLock)
-            {
-                _realConsole.Flush();
             }
         }
         finally
@@ -687,7 +782,13 @@ internal class CoordinatedTextWriter : TextWriter
     /// Flushes output that cannot be a prefix of a registered secret while retaining
     /// incomplete secret prefixes for subsequent writes.
     /// </summary>
-    internal Task FlushAvailableAsync()
+    internal async Task FlushAvailableAsync()
+    {
+        FlushAvailableOutput();
+        await FlushRealConsoleAsync().ConfigureAwait(false);
+    }
+
+    private void FlushAvailableOutput()
     {
         _flushLock.EnterWriteLock();
         try
@@ -698,7 +799,6 @@ internal class CoordinatedTextWriter : TextWriter
                 states = _lineBuffers.Values.ToArray();
             }
 
-            var patterns = GetSecretPatterns();
             foreach (var state in states)
             {
                 lock (state.SyncRoot)
@@ -709,17 +809,23 @@ internal class CoordinatedTextWriter : TextWriter
                     }
 
                     var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
-                    var retainedLength = GetPotentialPatternPrefixLength(state.Buffer, patterns.Values);
-                    retainedLength = ObfuscateCompletePatterns(
+                    var patterns = ObfuscateWithCurrentPatterns(
                         state,
-                        patterns,
+                        preservePotentialLongerMatch: false,
+                        out var retainedLength);
+                    FlushSafeOutput(
+                        state,
                         retainedLength,
-                        preservePotentialLongerMatch: false);
-                    FlushSafeOutput(state, retainedLength, shouldBuffer);
+                        shouldBuffer,
+                        patterns.Version);
 
                     if (shouldBuffer)
                     {
-                        FlushPartialPrefix(state, state.Buffer.Length - retainedLength, shouldBuffer);
+                        FlushPartialPrefix(
+                            state,
+                            state.Buffer.Length - retainedLength,
+                            shouldBuffer,
+                            patterns.Version);
                     }
 
                     if (state.Buffer.Length == 0)
@@ -728,25 +834,45 @@ internal class CoordinatedTextWriter : TextWriter
                     }
                 }
             }
-
-            lock (_outputLock)
-            {
-                _realConsole.Flush();
-            }
         }
         finally
         {
             _flushLock.ExitWriteLock();
         }
-
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc />
-    public override Task FlushAsync()
+    public override async Task FlushAsync()
     {
-        Flush();
-        return Task.CompletedTask;
+        FlushBufferedOutput();
+        await FlushRealConsoleAsync().ConfigureAwait(false);
+    }
+
+    private void FlushRealConsole()
+    {
+        _outputLock.Wait();
+        try
+        {
+            // Always flush real console (needed for Spectre.Console internals)
+            _realConsole.Flush();
+        }
+        finally
+        {
+            _outputLock.Release();
+        }
+    }
+
+    private async Task FlushRealConsoleAsync()
+    {
+        await _outputLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            await _realConsole.FlushAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            _outputLock.Release();
+        }
     }
 
     /// <inheritdoc />
@@ -782,7 +908,11 @@ internal class CoordinatedTextWriter : TextWriter
 
     private readonly record struct LineBufferKey(Type? ModuleType, bool IsDirectWrite);
 
-    private sealed record SecretPatterns(string[] Values, SearchValues<string>? SearchValues);
+    private sealed record SecretPatterns(
+        string[] Values,
+        SearchValues<string>? SearchValues,
+        StringComparison Comparison = StringComparison.OrdinalIgnoreCase,
+        long Version = long.MinValue);
 
     private sealed class DirectWriteScopeRestorer(bool previousValue) : IDisposable
     {

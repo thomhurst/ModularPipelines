@@ -809,6 +809,130 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_PreservesCaseDistinctPatternsAcrossWrites()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abc");
+        provider.AddSecret("ABC");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("AB");
+        writer.Write("C");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RescansAfterRetainedPrefixIsInvalidated()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("token");
+        provider.AddSecret("secret");
+        provider.AddSecret("okensecretx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("tokensecret");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("********************");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RescansWhenSecretsChangeBeforeEmission()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("known-secret");
+        using var obfuscationStarted = new ManualResetEventSlim();
+        using var releaseObfuscation = new ManualResetEventSlim();
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison).Returns(StringComparison.Ordinal);
+        obfuscator
+            .Setup(candidate => candidate.ObfuscateWithConsumption(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (input == "known-secret")
+                {
+                    obfuscationStarted.Set();
+                    if (!releaseObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release obfuscation.");
+                    }
+                }
+
+                return input is "known-secret" or "dynamic-secret"
+                    ? new SecretObfuscationResult("**********", input.Length)
+                    : new SecretObfuscationResult(input, 0);
+            });
+        obfuscator
+            .Setup(candidate => candidate.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+                input.Replace("dynamic-secret", "**********", StringComparison.Ordinal));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        var write = Task.Run(() => writer.WriteLine("known-secret dynamic-secret"));
+        try
+        {
+            await Assert.That(obfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            provider.AddSecret("dynamic-secret");
+        }
+        finally
+        {
+            releaseObfuscation.Set();
+            await write;
+        }
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"********** **********{Environment.NewLine}");
+        obfuscator.Verify(
+            candidate => candidate.ObfuscateWithConsumption("dynamic-secret", null),
+            Times.Once);
+    }
+
+    [Test]
+    public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new AsyncFlushTrackingWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        await writer.FlushAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.AsyncFlushCount).IsEqualTo(1);
+            await Assert.That(realConsole.SynchronousFlushCount).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -858,5 +982,23 @@ public class SecretMaskingPatternTests
         return new SecretObfuscator(
             provider,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+    }
+
+    private sealed class AsyncFlushTrackingWriter : StringWriter
+    {
+        public int AsyncFlushCount { get; private set; }
+
+        public int SynchronousFlushCount { get; private set; }
+
+        public override void Flush()
+        {
+            SynchronousFlushCount++;
+        }
+
+        public override Task FlushAsync()
+        {
+            AsyncFlushCount++;
+            return Task.CompletedTask;
+        }
     }
 }
