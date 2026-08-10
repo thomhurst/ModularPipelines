@@ -61,6 +61,18 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Skips_Other_Property_Validation_When_Required_Fails()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestRequiredShortCircuitOptions());
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestRequiredShortCircuitOptions.Value");
+    }
+
+    [Test]
     public async Task Build_Rejects_Invalid_NonPublic_Annotated_Property()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1194,6 +1206,20 @@ public class CommandLineBuilderTests : TestBase
         [CliOptionValueRange(1, 3)]
         [CliOption("--level", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Level { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestRequiredShortCircuitOptions : CommandLineToolOptions
+    {
+        [ThrowingValidation]
+        [Required]
+        public string? Value { get; init; }
+    }
+
+    private sealed class ThrowingValidationAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object? value) =>
+            throw new InvalidOperationException("Required validation should short-circuit this attribute.");
     }
 
     [CliTool("tool")]
