@@ -292,7 +292,7 @@ internal class CoordinatedTextWriter : TextWriter
             moduleType,
             DirectWriteScope.Value,
             _customObfuscationDepth.Value,
-            IsReentrantOutputWrite());
+            GetReentrantOutputWriteDepth());
 
         lock (_lineBufferLock)
         {
@@ -770,7 +770,16 @@ internal class CoordinatedTextWriter : TextWriter
     {
         if (IsReentrantOutputWrite())
         {
-            WriteToRealConsoleCore(output, appendNewLine);
+            var reentrantOutputWriter = EnterActiveOutputWriter();
+            try
+            {
+                WriteToRealConsoleCore(output, appendNewLine);
+            }
+            finally
+            {
+                ExitActiveOutputWriter(reentrantOutputWriter);
+            }
+
             return;
         }
 
@@ -799,8 +808,11 @@ internal class CoordinatedTextWriter : TextWriter
         }
     }
 
-    private bool IsReentrantOutputWrite()
+    private bool IsReentrantOutputWrite() => GetReentrantOutputWriteDepth() > 0;
+
+    private int GetReentrantOutputWriteDepth()
     {
+        var depth = 0;
         for (var activeOutputWriter = ActiveOutputWriterScope.Value;
              activeOutputWriter != null;
              activeOutputWriter = activeOutputWriter.Parent)
@@ -808,11 +820,11 @@ internal class CoordinatedTextWriter : TextWriter
             if (activeOutputWriter.IsActive
                 && ReferenceEquals(activeOutputWriter.Writer, this))
             {
-                return true;
+                depth++;
             }
         }
 
-        return false;
+        return depth;
     }
 
     private ActiveOutputWriter EnterActiveOutputWriter()
@@ -1119,7 +1131,7 @@ internal class CoordinatedTextWriter : TextWriter
         Type? ModuleType,
         bool IsDirectWrite,
         int CustomObfuscationDepth,
-        bool IsReentrantOutputWrite);
+        int ReentrantOutputWriteDepth);
 
     private sealed record SecretPatterns(
         string[] Values,

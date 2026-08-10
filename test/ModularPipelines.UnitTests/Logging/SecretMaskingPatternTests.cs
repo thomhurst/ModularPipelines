@@ -1342,6 +1342,28 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_Isolates_Nested_Reentrant_Sink_Writes()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new NestedReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"sink diagnostic 2{Environment.NewLine}"
+            + $"sink diagnostic 1{Environment.NewLine}"
+            + $"ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_MasksSecretRegisteredBeforeReentrantSinkWrite()
     {
         const string discoveredSecret = "nested-sink-discovered-secret";
@@ -2128,6 +2150,31 @@ public class SecretMaskingPatternTests
             {
                 _hasWrittenDiagnostic = true;
                 Writer!.WriteLine("sink diagnostic");
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class NestedReentrantWritingStringWriter : StringWriter
+    {
+        private int _depth;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (_depth < 2)
+            {
+                _depth++;
+                try
+                {
+                    Writer!.WriteLine($"sink diagnostic {_depth}");
+                }
+                finally
+                {
+                    _depth--;
+                }
             }
 
             base.WriteLine(value);
