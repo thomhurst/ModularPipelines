@@ -221,12 +221,12 @@ public static class GeneratedOptionsSmokeTestHarness
 
         if (value is CliValuePair pair)
         {
-            return [optionName, pair.First, pair.Second];
+            return [optionName, pair.First!, pair.Second!];
         }
 
         if (value is IEnumerable<CliValuePair> pairs)
         {
-            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First, pairValue.Second })];
+            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First!, pairValue.Second! })];
         }
 
         var separator = GetSeparator(option.Attribute);

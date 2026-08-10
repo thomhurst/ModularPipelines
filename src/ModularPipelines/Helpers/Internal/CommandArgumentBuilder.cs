@@ -160,7 +160,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             if (argumentPart.Attribute.Required && values.Count == 0)
             {
                 throw new ArgumentException(
-                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null.",
+                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null or empty.",
                     argumentPart.PropertyName);
             }
 
@@ -353,7 +353,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         foreach (var optionValue in GetOptionalValues(rawValue, optionsType, optionPart))
         {
-            AddOptionalValue(args, optionPart, optionValue, optionsType);
+            AddOptionalValue(args, optionPart, optionValue);
         }
     }
 
@@ -373,11 +373,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             throw new InvalidOperationException(
                 $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
-        }
-
-        foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
-        {
-            ValidateOptionalValue(optionValue, optionsType, optionPart);
         }
 
         args.Add(GetEffectiveName(optionPart.Attribute));
@@ -444,8 +439,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddOptionalValue(
         List<string> args,
         OptionPart optionPart,
-        CliOptionValue optionValue,
-        Type optionsType)
+        CliOptionValue optionValue)
     {
         if (optionValue.IsBare)
         {
@@ -453,21 +447,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        ValidateOptionalValue(optionValue, optionsType, optionPart);
         AddOptionValue(args, optionPart, optionValue.Value!);
-    }
-
-    private static void ValidateOptionalValue(
-        CliOptionValue optionValue,
-        Type optionsType,
-        OptionPart optionPart)
-    {
-        if (optionValue.Value is null)
-        {
-            throw new InvalidOperationException(
-                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or an explicit value.");
-        }
     }
 
     private static void AddOptionValue(List<string> args, OptionPart optionPart, string value)
@@ -489,7 +469,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddGroupedOption(
         List<string> args,
         OptionPart optionPart,
-        IEnumerable<string> values,
+        IEnumerable<string?> values,
         Type optionsType)
     {
         if (GetSeparator(optionPart.Attribute) != " ")
@@ -510,7 +490,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         args.Add(GetEffectiveName(optionPart.Attribute));
-        args.AddRange(renderedValues);
+        args.AddRange(renderedValues.Select(static value => value!));
     }
 
     private static IEnumerable<CliValuePair>? GetOptionValuePairs(object rawValue)
@@ -539,14 +519,16 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
-            if (pair.First is null || pair.Second is null)
+            var first = pair.First;
+            var second = pair.Second;
+            if (first is null || second is null)
             {
                 throw CreateNullRequiredValueException(optionsType, optionPart);
             }
 
             args.Add(optionName);
-            args.Add(pair.First);
-            args.Add(pair.Second);
+            args.Add(first);
+            args.Add(second);
         }
     }
 

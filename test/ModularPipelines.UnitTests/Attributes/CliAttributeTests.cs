@@ -416,11 +416,11 @@ public class CliAttributeTests
     {
         var repeated = new TestCliOptionsWithValuePairs
         {
-            Values = [new CliValuePair(null!, "value")],
+            Values = [new CliValuePair(null, "value")],
         };
         var grouped = new TestCliOptionsWithGroupedPairs
         {
-            Values = [new CliValuePair("name", null!)],
+            Values = [new CliValuePair("name", null)],
         };
 
         await Assert.That(() => BuildArguments(repeated))
@@ -671,7 +671,8 @@ public class CliAttributeTests
 
         await Assert.That(() => BuildArguments(options))
             .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestCliOptionsWithRequiredArgument.Chart");
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgument.Chart")
+            .And.HasMessageContaining("cannot be null or empty");
     }
 
     [Test]
@@ -691,7 +692,8 @@ public class CliAttributeTests
 
         await Assert.That(() => BuildArguments(options))
             .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestCliOptionsWithRequiredArgumentCollection.Files");
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgumentCollection.Files")
+            .And.HasMessageContaining("cannot be null or empty");
     }
 
     [Test]
