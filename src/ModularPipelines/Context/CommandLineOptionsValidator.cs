@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
@@ -53,13 +54,7 @@ internal static class CommandLineOptionsValidator
         }
         catch (Exception exception)
         {
-            var safeFailureMessage = ObfuscateValidationMessage(
-                $"Invalid command-line options: {optionsType.Name}: {exception.Message}",
-                options,
-                secretObfuscator);
-            throw new CommandOptionsValidationException(
-                safeFailureMessage,
-                new ValidationException(safeFailureMessage));
+            validationResults.Add(new ValidationResult(exception.Message));
         }
 
         if (validationResults.Count == 0)
@@ -99,9 +94,13 @@ internal static class CommandLineOptionsValidator
         "Trimming",
         "IL2070",
         Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static ValidationMetadata CreateValidationMetadata(Type optionsType)
     {
-        var validatedProperties = GetValidationProperties(optionsType)
+        var validatedProperties = CommandModelProvider.GetOptionProperties(optionsType)
             .Where(static property => property.GetIndexParameters().Length == 0)
             .Select(static property => new ValidatedProperty(
                 property,
@@ -121,33 +120,6 @@ internal static class CommandLineOptionsValidator
                                      typeof(ValidationAttribute),
                                      inherit: true);
         return new ValidationMetadata(requiresValidation, publicProperties, nonPublicProperties);
-    }
-
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2070",
-        Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2075",
-        Justification = "Generated command option type hierarchies retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
-    private static IEnumerable<PropertyInfo> GetValidationProperties(Type optionsType)
-    {
-        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
-        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
-        {
-            foreach (var property in currentType.GetProperties(
-                         BindingFlags.Instance
-                         | BindingFlags.Public
-                         | BindingFlags.NonPublic
-                         | BindingFlags.DeclaredOnly))
-            {
-                if (property.GetMethod is not null && seenPropertyNames.Add(property.Name))
-                {
-                    yield return property;
-                }
-            }
-        }
     }
 
     [UnconditionalSuppressMessage(

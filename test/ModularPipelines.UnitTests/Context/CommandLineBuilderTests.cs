@@ -199,6 +199,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Preserves_Collected_Errors_When_Later_Validation_Throws()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var exception = await Assert.That(() => builder.Build(new TestCollectedAndThrowingOptions()))
+            .Throws<CommandOptionsValidationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message)
+                .Contains("TestCollectedAndThrowingOptions.Retries");
+            await Assert.That(exception.Message)
+                .Contains("Required validation should short-circuit this attribute.");
+        }
+    }
+
+    [Test]
     public async Task Build_Accepts_Valid_DataAnnotation_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1322,6 +1339,16 @@ public class CommandLineBuilderTests : TestBase
         [Range(0, 3)]
         [CliOption("--retries")]
         internal int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestCollectedAndThrowingOptions : CommandLineToolOptions
+    {
+        [Range(1, 3)]
+        internal int Retries { get; init; }
+
+        [ThrowingValidation]
+        public string Value { get; init; } = string.Empty;
     }
 
     [CliTool("tool")]
