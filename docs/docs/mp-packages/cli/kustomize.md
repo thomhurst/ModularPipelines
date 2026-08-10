@@ -69,41 +69,11 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit set buildmetadata` | `KustomizeEditSetBuildmetadataOptions` |
 | `kustomize edit set configmap` | `KustomizeEditSetConfigmapOptions` |
 | `kustomize edit set image` | `KustomizeEditSetImageOptions` |
-| `kustomize edit set image set` | `KustomizeEditSetImageSetOptions` |
-| `kustomize edit set image set set` | `KustomizeEditSetImageSetSetOptions` |
-| `kustomize edit set image set set set` | `KustomizeEditSetImageSetSetSetOptions` |
-| `kustomize edit set image set set set set` | `KustomizeEditSetImageSetSetSetSetOptions` |
-| `kustomize edit set image set set set set set` | `KustomizeEditSetImageSetSetSetSetSetOptions` |
-| `kustomize edit set image set set set set set set` | `KustomizeEditSetImageSetSetSetSetSetSetOptions` |
 | `kustomize edit set label` | `KustomizeEditSetLabelOptions` |
 | `kustomize edit set nameprefix` | `KustomizeEditSetNameprefixOptions` |
-| `kustomize edit set nameprefix set` | `KustomizeEditSetNameprefixSetOptions` |
-| `kustomize edit set nameprefix set set` | `KustomizeEditSetNameprefixSetSetOptions` |
-| `kustomize edit set nameprefix set set set` | `KustomizeEditSetNameprefixSetSetSetOptions` |
-| `kustomize edit set nameprefix set set set set` | `KustomizeEditSetNameprefixSetSetSetSetOptions` |
-| `kustomize edit set nameprefix set set set set set` | `KustomizeEditSetNameprefixSetSetSetSetSetOptions` |
-| `kustomize edit set nameprefix set set set set set set` | `KustomizeEditSetNameprefixSetSetSetSetSetSetOptions` |
 | `kustomize edit set namespace` | `KustomizeEditSetNamespaceOptions` |
-| `kustomize edit set namespace set` | `KustomizeEditSetNamespaceSetOptions` |
-| `kustomize edit set namespace set set` | `KustomizeEditSetNamespaceSetSetOptions` |
-| `kustomize edit set namespace set set set` | `KustomizeEditSetNamespaceSetSetSetOptions` |
-| `kustomize edit set namespace set set set set` | `KustomizeEditSetNamespaceSetSetSetSetOptions` |
-| `kustomize edit set namespace set set set set set` | `KustomizeEditSetNamespaceSetSetSetSetSetOptions` |
-| `kustomize edit set namespace set set set set set set` | `KustomizeEditSetNamespaceSetSetSetSetSetSetOptions` |
 | `kustomize edit set namesuffix` | `KustomizeEditSetNamesuffixOptions` |
-| `kustomize edit set namesuffix set` | `KustomizeEditSetNamesuffixSetOptions` |
-| `kustomize edit set namesuffix set set` | `KustomizeEditSetNamesuffixSetSetOptions` |
-| `kustomize edit set namesuffix set set set` | `KustomizeEditSetNamesuffixSetSetSetOptions` |
-| `kustomize edit set namesuffix set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetOptions` |
-| `kustomize edit set namesuffix set set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetSetOptions` |
-| `kustomize edit set namesuffix set set set set set set` | `KustomizeEditSetNamesuffixSetSetSetSetSetSetOptions` |
 | `kustomize edit set replicas` | `KustomizeEditSetReplicasOptions` |
-| `kustomize edit set replicas set` | `KustomizeEditSetReplicasSetOptions` |
-| `kustomize edit set replicas set set` | `KustomizeEditSetReplicasSetSetOptions` |
-| `kustomize edit set replicas set set set` | `KustomizeEditSetReplicasSetSetSetOptions` |
-| `kustomize edit set replicas set set set set` | `KustomizeEditSetReplicasSetSetSetSetOptions` |
-| `kustomize edit set replicas set set set set set` | `KustomizeEditSetReplicasSetSetSetSetSetOptions` |
-| `kustomize edit set replicas set set set set set set` | `KustomizeEditSetReplicasSetSetSetSetSetSetOptions` |
 | `kustomize edit set secret` | `KustomizeEditSetSecretOptions` |
 | `kustomize fn` | `KustomizeFnOptions` |
 | `kustomize fn run` | `KustomizeFnRunOptions` |

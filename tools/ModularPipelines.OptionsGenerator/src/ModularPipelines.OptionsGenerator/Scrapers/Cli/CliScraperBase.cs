@@ -543,6 +543,7 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var childPath = path.Append(subcommand).ToArray();
+            ValidateChildCommandPath(childPath);
             if (!visitedPaths.TryAdd(string.Join(' ', childPath), 0))
             {
                 continue;
@@ -766,6 +767,13 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Validates a discovered child command path before it is added to the traversal queue.
+    /// </summary>
+    protected virtual void ValidateChildCommandPath(string[] commandPath)
+    {
     }
 
     /// <summary>
