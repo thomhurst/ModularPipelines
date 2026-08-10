@@ -336,6 +336,34 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_RestartsFromOriginalWhenComparisonBecomesOrdinal()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 2
+                ? StringComparison.OrdinalIgnoreCase
+                : StringComparison.Ordinal);
+        obfuscator.Setup(candidate => candidate.ObfuscateWithConsumption("abc", null))
+            .Returns(new SecretObfuscationResult("**********", 3));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"abc{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DifferentModuleBuffers_ProcessConcurrently()
     {
         var provider = CreateProvider(out _);
@@ -1793,6 +1821,26 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FlushAsync_ReentrantFlushDrainsPartialPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialWriteAndAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("sec");
+    }
+
+    [Test]
     public async Task FlushAsync_ExcludesUnrelatedWritesUntilUnderlyingFlushCompletes()
     {
         var provider = CreateProvider(out _);
@@ -2009,6 +2057,25 @@ public class SecretMaskingPatternTests
         }
     }
 
+    private sealed class PartialWriteAndFlushStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Write("sec");
+                Writer.Flush();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
     private sealed class SecretRegisteringReentrantWriter(
         ISecretRegistry secretRegistry,
         string secret) : StringWriter
@@ -2081,6 +2148,23 @@ public class SecretMaskingPatternTests
         }
     }
 
+    private sealed class PartialWriteAndAsyncFlushStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public override async Task FlushAsync()
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Write("sec");
+                await Writer.FlushAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
     private sealed class AsyncFlushTrackingWriter : StringWriter
     {
         public int AsyncFlushCount { get; private set; }
@@ -2097,6 +2181,27 @@ public class SecretMaskingPatternTests
             AsyncFlushCount++;
             return Task.CompletedTask;
         }
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_ReentrantFlushDrainsPartialPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialWriteAndFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"secordinary output{Environment.NewLine}");
     }
 
     private sealed class BlockingAsyncFlushStringWriter : StringWriter

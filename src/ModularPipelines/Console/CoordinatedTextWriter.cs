@@ -259,6 +259,7 @@ internal class CoordinatedTextWriter : TextWriter
         bool preservePotentialLongerMatch,
         out int retainedPrefixLength)
     {
+        string? unmodifiedBuffer = null;
         while (true)
         {
             var patterns = GetSecretPatterns();
@@ -267,11 +268,19 @@ internal class CoordinatedTextWriter : TextWriter
                 state,
                 patterns,
                 retainedPrefixLength,
-                preservePotentialLongerMatch);
+                preservePotentialLongerMatch,
+                out var bufferBeforeObfuscation);
             if (_secretProvider.Version == patterns.Version
                 && GetPatternComparison() == patterns.Comparison)
             {
                 return patterns;
+            }
+
+            unmodifiedBuffer ??= bufferBeforeObfuscation;
+            if (unmodifiedBuffer is not null)
+            {
+                state.Buffer.Clear();
+                state.Buffer.Append(unmodifiedBuffer);
             }
         }
     }
@@ -354,8 +363,10 @@ internal class CoordinatedTextWriter : TextWriter
         LineBufferState state,
         SecretPatterns patterns,
         int retainedPrefixLength,
-        bool preservePotentialLongerMatch = true)
+        bool preservePotentialLongerMatch,
+        out string? bufferBeforeObfuscation)
     {
+        bufferBeforeObfuscation = null;
         if (state.Buffer.Length == 0 || patterns.SearchValues is null)
         {
             return retainedPrefixLength;
@@ -420,6 +431,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (replaced)
         {
+            bufferBeforeObfuscation = pending;
             output.Append(pending, outputIndex, pending.Length - outputIndex);
             state.Buffer.Clear();
             state.Buffer.Append(output);
@@ -857,12 +869,27 @@ internal class CoordinatedTextWriter : TextWriter
     {
         if (IsReentrantOutputWrite())
         {
+            FlushReentrantOutput();
             _realConsole.Flush();
             return;
         }
 
         FlushBufferedOutput();
         FlushRealConsole();
+    }
+
+    private void FlushReentrantOutput()
+    {
+        // The outer write still owns a recursive read lock, so a full flush cannot
+        // upgrade to the write lock. Drain only this reentrant context's state.
+        var state = GetLineBufferState();
+        lock (state.SyncRoot)
+        {
+            if (state.Buffer.Length > 0)
+            {
+                FlushState(state, retainPotentialPrefix: false);
+            }
+        }
     }
 
     private void FlushBufferedOutput()
@@ -988,6 +1015,7 @@ internal class CoordinatedTextWriter : TextWriter
     {
         if (IsReentrantOutputWrite())
         {
+            FlushReentrantOutput();
             await _realConsole.FlushAsync().ConfigureAwait(false);
             return;
         }
