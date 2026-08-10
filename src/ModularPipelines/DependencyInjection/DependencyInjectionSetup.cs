@@ -303,6 +303,7 @@ internal static class DependencyInjectionSetup
             new RunReportPathResolver(
                 serviceProvider.GetRequiredService<PipelineWorkingDirectory>()));
         services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
+        services.TryAddSingleton<IRunHistoryReader, RunHistoryReader>();
     }
 
     /// <summary>
