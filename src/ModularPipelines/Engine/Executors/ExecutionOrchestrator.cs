@@ -201,7 +201,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 StatusOverride = existingSummary.StatusOverride,
             };
 
-        await _outputCoordinator.FlushConsoleAsync().ConfigureAwait(false);
+        await FlushConsoleBestEffortAsync().ConfigureAwait(false);
 
         summary = summary with
         {
@@ -215,7 +215,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         _outputCoordinator.PrintResults(summary);
 
-        await _outputCoordinator.FlushConsoleAsync().ConfigureAwait(false);
+        await FlushConsoleBestEffortAsync().ConfigureAwait(false);
 
         // Flush any buffered exceptions after the results table has been printed
         _outputCoordinator.FlushExceptions();
@@ -233,6 +233,18 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         return summary;
+    }
+
+    private async Task FlushConsoleBestEffortAsync()
+    {
+        try
+        {
+            await _outputCoordinator.FlushConsoleAsync().ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogWarning(exception, "Could not flush pipeline console output");
+        }
     }
 
     private static Exception? GetPipelineReportException(

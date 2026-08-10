@@ -131,6 +131,16 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         return new SecretRegistrationState(cache.Version, cache.SearchValues is not null);
     }
 
+    internal bool CanSafelyPreserveMasks(IReadOnlyList<string> secrets)
+    {
+        var maskValue = GetMaskValue(_maskingOptions.Value);
+        var comparison = CaseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        return secrets.All(secret =>
+            string.IsNullOrEmpty(secret) || !maskValue.Contains(secret, comparison));
+    }
+
     internal SecretCache GetSecretCache(
         object? optionsObject,
         SecretMaskingOptions options,

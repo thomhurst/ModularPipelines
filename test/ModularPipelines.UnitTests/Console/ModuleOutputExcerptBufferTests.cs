@@ -327,7 +327,7 @@ public class ModuleOutputExcerptBufferTests
     [Test]
     public async Task PreservesExistingMaskDuringExcerptObfuscation()
     {
-        const string secret = "*";
+        const string secret = "already-masked-secret";
         const string maskedOutput = "diagnostic **********";
         var expected = maskedOutput + Environment.NewLine;
         var secretProvider = new Mock<ISecretProvider>();
@@ -351,6 +351,29 @@ public class ModuleOutputExcerptBufferTests
             await Assert.That(excerpt.StdoutTail).IsEqualTo(expected);
             await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task OmitsExcerptWhenMaskValueContainsLateSecret()
+    {
+        const string secret = "REDACT";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { MaskValue = "[REDACTED]" }));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 64,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("[REDACTED]", ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+
+        await Assert.That(buffer.CreateExcerpt()).IsNull();
     }
 
     [Test]
