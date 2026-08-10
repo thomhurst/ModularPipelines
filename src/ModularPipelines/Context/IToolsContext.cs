@@ -12,6 +12,9 @@ public interface IToolsContext
     /// </summary>
     /// <typeparam name="T">The tool integration type.</typeparam>
     /// <returns>The registered tool integration.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown with package and registration guidance when the integration is not registered.
+    /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     T Get<T>()
         where T : class;

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Cmd;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Environment;
@@ -46,6 +47,24 @@ public class ContextExtensionsTests
         // Act & Assert
         await Assert.That(() => mockContext.Object.GetService<TestService>())
             .ThrowsExactly<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task GetTool_WhenIntegrationNotRegistered_ShouldSuggestExplicitRegistration()
+    {
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var toolsContext = new ToolsContext(CreateServicesContext(serviceProvider));
+
+        var exception = await Assert.That(() => toolsContext.Get<ICmd>())
+            .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
+            await Assert.That(exception.Message).Contains("RegisterCmdContext()");
+            await Assert.That(exception.Message).Contains("Native AOT");
+            await Assert.That(exception.Message).DoesNotContain("No service for type");
+        }
     }
 
     [Test]
