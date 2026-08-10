@@ -62,6 +62,8 @@ internal sealed class ModuleOutputExcerptBuffer(
             return null;
         }
 
+        var secretPatternsVersion = secretProvider?.Version;
+
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
         foreach (var chunk in _chunks)
@@ -89,11 +91,17 @@ internal sealed class ModuleOutputExcerptBuffer(
             return null;
         }
 
+        if (secretPatternsVersion is { } version && secretProvider?.Version != version)
+        {
+            return null;
+        }
+
         return new ModuleOutputExcerpt
         {
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
             TruncatedBytes = truncatedBytes,
+            SecretPatternsVersion = secretPatternsVersion,
         };
     }
 

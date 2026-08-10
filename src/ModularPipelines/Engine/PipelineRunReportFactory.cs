@@ -12,7 +12,8 @@ internal sealed class PipelineRunReportFactory(
     ICommandExecutionCounter commandExecutionCounter,
     ISecretObfuscator secretObfuscator,
     IModuleOutputExcerptProvider? outputExcerptProvider = null,
-    IOptions<PipelineOptions>? pipelineOptions = null)
+    IOptions<PipelineOptions>? pipelineOptions = null,
+    ISecretProvider? secretProvider = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -235,6 +236,11 @@ internal sealed class PipelineRunReportFactory(
             return null;
         }
 
+        if (!HasCurrentSecretPatterns(excerpt))
+        {
+            return null;
+        }
+
         var maskedStdout = ObfuscateOptional(excerpt.StdoutTail);
         var maskedStderr = ObfuscateOptional(excerpt.StderrTail);
         var maximumBytes = pipelineOptions?.Value.RunReport.MaxOutputBytesPerModule ?? int.MaxValue;
@@ -249,13 +255,19 @@ internal sealed class PipelineRunReportFactory(
             - GetByteCount(stdoutTail)
             - GetByteCount(stderrTail));
 
-        return excerpt with
+        var finalExcerpt = excerpt with
         {
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
             TruncatedBytes = excerpt.TruncatedBytes + additionallyTruncatedBytes,
         };
+
+        return HasCurrentSecretPatterns(excerpt) ? finalExcerpt : null;
     }
+
+    private bool HasCurrentSecretPatterns(ModuleOutputExcerpt excerpt) =>
+        excerpt.SecretPatternsVersion is not { } version
+        || secretProvider?.Version == version;
 
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
 

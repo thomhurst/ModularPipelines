@@ -3368,6 +3368,41 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task RunReportOmitsOutputWhenSecretsChangeDuringFinalMasking()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider
+            .SetupSequence(provider => provider.Version)
+            .Returns(2)
+            .Returns(4);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object)
+            .Create(summary, null, "output-remasking-race");
+
+        await Assert.That(report.Modules.Single().Output).IsNull();
+    }
+
+    [Test]
     public async Task RunReportOptionsRejectNegativeGlobalRetention()
     {
         var result = new OptionsValidator().ValidateOptions(new PipelineOptions

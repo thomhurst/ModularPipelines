@@ -5,6 +5,8 @@ namespace ModularPipelines.Models;
 /// </summary>
 public sealed record ModuleOutputExcerpt
 {
+    internal long? SecretPatternsVersion { get; init; }
+
     /// <summary>
     /// Gets the retained standard-output and informational-log tail.
     /// </summary>
