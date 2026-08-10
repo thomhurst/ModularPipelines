@@ -1130,19 +1130,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
         sb.AppendLine();
-        foreach (var item in uniqueItems)
-        {
-            if (item.IsCommandOptions
-                && item.CanRegisterCommandMetadata
-                && item.CommandMetadata.IsComplete)
-            {
-                sb.AppendLine(
-                    $"    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
-                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties | " +
-                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicProperties, " +
-                    $"typeof({item.TypeName}))]");
-            }
-        }
+        AppendCommandMetadataDependencies(sb, uniqueItems);
 
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
@@ -1189,6 +1177,35 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterIncompleteTypeNames",
             uniqueItems.Where(item => !item.CanRegisterSecretCoverage));
+        AppendRuntimeTypeRegistrations(sb, uniqueItems);
+
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+    }
+
+    private static void AppendCommandMetadataDependencies(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems)
+    {
+        foreach (var item in uniqueItems)
+        {
+            if (item.IsCommandOptions
+                && item.CanRegisterCommandMetadata
+                && item.CommandMetadata.IsComplete)
+            {
+                sb.AppendLine(
+                    $"    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
+                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties | " +
+                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicProperties, " +
+                    $"typeof({item.TypeName}))]");
+            }
+        }
+    }
+
+    private static void AppendRuntimeTypeRegistrations(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems)
+    {
         foreach (var item in uniqueItems)
         {
             if (item.IsCommandOptions
@@ -1204,9 +1221,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 AppendSecretRegistration(sb, item);
             }
         }
-
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
     }
 
     private static void AppendAssemblyRegistration(
