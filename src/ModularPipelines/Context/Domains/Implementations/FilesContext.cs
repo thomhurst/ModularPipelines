@@ -59,6 +59,11 @@ internal class FilesContext(
     public Task<bool> ExistsAsync(string path, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return Task.FromResult(false);
+        }
+
         var resolvedPath = _workingDirectory.ResolvePath(path);
         return Task.FromResult(
             _fileSystemProvider.FileExists(resolvedPath)

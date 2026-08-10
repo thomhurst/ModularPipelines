@@ -135,6 +135,8 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterPipelineContextServices(IServiceCollection services)
     {
+        services.TryAddSingleton(new PipelineWorkingDirectory(Directory.GetCurrentDirectory()));
+
         services
             .AddSingleton<ModuleLookup>()
             .AddScoped<PipelineContext>()
