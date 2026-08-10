@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -228,6 +229,29 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
+    public async Task Build_Uses_TypeDescriptor_Validation_Added_After_First_Build()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestTypeDescriptorValidatedOptions();
+        var provider = new AssociatedMetadataTypeTypeDescriptionProvider(
+            typeof(TestTypeDescriptorValidatedOptions),
+            typeof(TestTypeDescriptorValidationMetadata));
+
+        builder.Build(options);
+        TypeDescriptor.AddProvider(provider, typeof(TestTypeDescriptorValidatedOptions));
+        try
+        {
+            await Assert.That(() => builder.Build(options))
+                .Throws<CommandOptionsValidationException>()
+                .And.HasMessageContaining("TestTypeDescriptorValidatedOptions.Name");
+        }
+        finally
+        {
+            TypeDescriptor.RemoveProvider(provider, typeof(TestTypeDescriptorValidatedOptions));
+        }
     }
 
     [Test]
@@ -1444,6 +1468,18 @@ public class CommandLineBuilderTests : TestBase
         {
             set { }
         }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestTypeDescriptorValidatedOptions : CommandLineToolOptions
+    {
+        public string? Name { get; init; }
+    }
+
+    private sealed class TestTypeDescriptorValidationMetadata
+    {
+        [Required]
+        public string? Name { get; init; }
     }
 
     [CliTool("mytool")]

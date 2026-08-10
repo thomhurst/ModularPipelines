@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -30,26 +31,15 @@ internal static class CommandLineOptionsValidator
         var metadata = ValidationMetadataCache.GetValue(
             optionsType,
             CreateValidationMetadata);
-        if (!metadata.RequiresValidation)
-        {
-            return;
-        }
 
         var validationResults = new List<ValidationResult>();
         try
         {
             ValidateProperties(options, metadata.NonPublicProperties, serviceProvider, validationResults);
+            ValidateTypeDescriptorMetadata(options, serviceProvider, validationResults);
             if (validationResults.Count == 0)
             {
-                Validator.TryValidateObject(
-                    options,
-                    new ValidationContext(options, serviceProvider, items: null),
-                    validationResults,
-                    validateAllProperties: true);
-            }
-            else
-            {
-                ValidateProperties(options, metadata.PublicProperties, serviceProvider, validationResults);
+                ValidateObject(options, serviceProvider, validationResults);
             }
         }
         catch (Exception exception)
@@ -107,19 +97,77 @@ internal static class CommandLineOptionsValidator
                 property.GetCustomAttributes<ValidationAttribute>(inherit: true).ToArray()))
             .Where(static property => property.Attributes.Count > 0)
             .ToArray();
-        var publicProperties = validatedProperties
-            .Where(static property => property.Property.GetMethod is { IsPublic: true })
-            .ToArray();
         var nonPublicProperties = validatedProperties
             .Where(static property => property.Property.GetMethod is not { IsPublic: true })
             .ToArray();
-        var requiresValidation = validatedProperties.Length > 0
-                                 || typeof(IValidatableObject).IsAssignableFrom(optionsType)
-                                 || Attribute.IsDefined(
-                                     optionsType,
-                                     typeof(ValidationAttribute),
-                                     inherit: true);
-        return new ValidationMetadata(requiresValidation, publicProperties, nonPublicProperties);
+        return new ValidationMetadata(nonPublicProperties);
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated command option types retain their public properties and validation attributes. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    private static void ValidateTypeDescriptorMetadata(
+        object options,
+        IServiceProvider serviceProvider,
+        ICollection<ValidationResult> validationResults)
+    {
+        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(options))
+        {
+            var attributes = property.Attributes
+                .OfType<ValidationAttribute>()
+                .ToArray();
+            if (attributes.Length == 0)
+            {
+                continue;
+            }
+
+            var context = new ValidationContext(options, serviceProvider, items: null)
+            {
+                DisplayName = property.DisplayName,
+                MemberName = property.Name,
+            };
+            ValidateAttributes(
+                attributes,
+                property.GetValue(options),
+                context,
+                property.Name,
+                validationResults);
+        }
+
+        var objectContext = new ValidationContext(options, serviceProvider, items: null);
+        foreach (var attribute in TypeDescriptor.GetAttributes(options)
+                     .OfType<ValidationAttribute>())
+        {
+            var result = attribute.GetValidationResult(options, objectContext);
+            if (result != ValidationResult.Success)
+            {
+                validationResults.Add(result!);
+            }
+        }
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated command option types retain the metadata required by IValidatableObject. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    private static void ValidateObject(
+        object options,
+        IServiceProvider serviceProvider,
+        ICollection<ValidationResult> validationResults)
+    {
+        if (options is not IValidatableObject validatableObject)
+        {
+            return;
+        }
+
+        var context = new ValidationContext(options, serviceProvider, items: null);
+        foreach (var result in validatableObject.Validate(context))
+        {
+            validationResults.Add(result
+                                  ?? throw new InvalidOperationException(
+                                      $"{options.GetType().Name}.Validate returned a null validation result."));
+        }
     }
 
     [UnconditionalSuppressMessage(
@@ -140,21 +188,34 @@ internal static class CommandLineOptionsValidator
                 MemberName = property.Property.Name,
             };
             var value = property.Property.GetValue(options);
-            var requiredAttribute = property.Attributes.FirstOrDefault(static attribute => attribute is RequiredAttribute);
-            if (requiredAttribute is not null
-                && !ValidateAttribute(requiredAttribute, value, context, property.Property.Name, validationResults))
-            {
-                continue;
-            }
+            ValidateAttributes(
+                property.Attributes,
+                value,
+                context,
+                property.Property.Name,
+                validationResults);
+        }
+    }
 
-            foreach (var attribute in property.Attributes)
-            {
-                if (ReferenceEquals(attribute, requiredAttribute))
-                {
-                    continue;
-                }
+    private static void ValidateAttributes(
+        IReadOnlyList<ValidationAttribute> attributes,
+        object? value,
+        ValidationContext context,
+        string propertyName,
+        ICollection<ValidationResult> validationResults)
+    {
+        var requiredAttribute = attributes.FirstOrDefault(static attribute => attribute is RequiredAttribute);
+        if (requiredAttribute is not null
+            && !ValidateAttribute(requiredAttribute, value, context, propertyName, validationResults))
+        {
+            return;
+        }
 
-                ValidateAttribute(attribute, value, context, property.Property.Name, validationResults);
+        foreach (var attribute in attributes)
+        {
+            if (!ReferenceEquals(attribute, requiredAttribute))
+            {
+                ValidateAttribute(attribute, value, context, propertyName, validationResults);
             }
         }
     }
@@ -190,8 +251,6 @@ internal static class CommandLineOptionsValidator
     }
 
     private sealed record ValidationMetadata(
-        bool RequiresValidation,
-        IReadOnlyList<ValidatedProperty> PublicProperties,
         IReadOnlyList<ValidatedProperty> NonPublicProperties);
 
     private sealed record ValidatedProperty(
