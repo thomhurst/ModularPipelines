@@ -148,6 +148,42 @@ public class RequireFactoryTests
     }
 
     [Test]
+    public async Task FileSystemRequirementsResolveFromPipelineWorkingDirectory()
+    {
+        var processDirectory = Environment.CurrentDirectory;
+        var workingDirectory = Directory.CreateTempSubdirectory("pipeline-requirements-");
+        await File.WriteAllTextAsync(
+            Path.Combine(workingDirectory.FullName, "appsettings.json"),
+            "{}");
+        Directory.CreateDirectory(Path.Combine(workingDirectory.FullName, "artifacts"));
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            {
+                WorkingDirectory = workingDirectory.FullName,
+            });
+            builder.AddModule<DummyModule>();
+            builder.AddRequirement(Require.FileExists("./appsettings.json"));
+            builder.AddRequirement(Require.DirectoryExists("./artifacts"));
+
+            var summary = await builder.ExecutePipelineAsync();
+            var result = await summary.Modules.OfType<DummyModule>().Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ModuleStatus)
+                    .IsEqualTo(Status.Successful);
+                await Assert.That(Environment.CurrentDirectory).IsEqualTo(processDirectory);
+            }
+        }
+        finally
+        {
+            workingDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DelegateRequirement_Respects_Order()
     {
         var requirement = Require.That(_ => true, "test", order: 5);

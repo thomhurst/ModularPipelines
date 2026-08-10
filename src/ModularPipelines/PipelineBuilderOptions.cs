@@ -30,4 +30,12 @@ public sealed record PipelineBuilderOptions
     /// Gets the content root path.
     /// </summary>
     public string? ContentRootPath { get; init; }
+
+    /// <summary>
+    /// Gets the default working directory for commands and relative file paths.
+    /// </summary>
+    /// <remarks>
+    /// When omitted, the configured content root is used, falling back to the process working directory.
+    /// </remarks>
+    public string? WorkingDirectory { get; init; }
 }

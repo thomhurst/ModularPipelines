@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Requirements;
@@ -116,13 +115,13 @@ public static class Require
     /// services.AddRequirement(Require.FileExists("./appsettings.json"));
     /// </code>
     /// </example>
-    [ExcludeFromCodeCoverage]
     public static IPipelineRequirement FileExists(
         string filePath,
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            _ => File.Exists(filePath),
+            context => !string.IsNullOrWhiteSpace(filePath)
+                       && context.Files.GetFile(filePath).Exists,
             failureReason ?? $"File '{filePath}' must exist",
             order);
 
@@ -138,13 +137,13 @@ public static class Require
     /// services.AddRequirement(Require.DirectoryExists("./artifacts"));
     /// </code>
     /// </example>
-    [ExcludeFromCodeCoverage]
     public static IPipelineRequirement DirectoryExists(
         string directoryPath,
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            _ => Directory.Exists(directoryPath),
+            context => !string.IsNullOrWhiteSpace(directoryPath)
+                       && context.Files.GetFolder(directoryPath).Exists,
             failureReason ?? $"Directory '{directoryPath}' must exist",
             order);
 

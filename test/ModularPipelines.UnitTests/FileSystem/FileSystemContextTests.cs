@@ -8,6 +8,26 @@ namespace ModularPipelines.UnitTests.FileSystem;
 public class FileSystemContextTests : TestBase
 {
     [Test]
+    [Arguments("")]
+    [Arguments(" ")]
+    public async Task GetFile_Throws_For_Blank_Path(string path)
+    {
+        var context = await GetService<IFileSystemContext>();
+
+        await Assert.That(() => context.GetFile(path)).Throws<ArgumentException>();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
+    public async Task GetFolder_Throws_For_Blank_Path(string path)
+    {
+        var context = await GetService<IFileSystemContext>();
+
+        await Assert.That(() => context.GetFolder(path)).Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task Move_File()
     {
         var context = await GetService<IFileSystemContext>();

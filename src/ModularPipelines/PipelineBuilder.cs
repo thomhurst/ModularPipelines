@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
@@ -39,11 +40,6 @@ public sealed class PipelineBuilder : IDisposable
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
-
-    internal PipelineBuilder(string[]? args)
-        : this(new PipelineBuilderOptions { Args = args })
-    {
-    }
 
     internal PipelineBuilder(PipelineBuilderOptions options)
     {
@@ -79,6 +75,7 @@ public sealed class PipelineBuilder : IDisposable
 
         _environment = CreateHostEnvironment(options, args);
         _resources = _environment.Resources;
+        _configuration.SetBasePath(_environment.WorkingDirectory);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
         _hostBuilder.UseContentRoot(_environment.ContentRootPath);
 
@@ -121,6 +118,11 @@ public sealed class PipelineBuilder : IDisposable
     /// Gets the host environment information.
     /// </summary>
     public IHostEnvironment Environment => _environment;
+
+    /// <summary>
+    /// Gets the default working directory for commands and relative file paths.
+    /// </summary>
+    public string WorkingDirectory => _environment.WorkingDirectory;
 
     /// <summary>
     /// Retained for source compatibility. Resources are owned by the built pipeline.
@@ -289,8 +291,13 @@ public sealed class PipelineBuilder : IDisposable
             options.EnvironmentName,
             hostConfiguration[HostDefaults.EnvironmentKey],
             System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-        var contentRootPath = Path.GetFullPath(FirstNonEmpty(
+        var workingDirectory = Path.GetFullPath(FirstNonEmpty(
             Directory.GetCurrentDirectory(),
+            options.WorkingDirectory,
+            options.ContentRootPath,
+            hostConfiguration[HostDefaults.ContentRootKey]));
+        var contentRootPath = Path.GetFullPath(FirstNonEmpty(
+            workingDirectory,
             options.ContentRootPath,
             hostConfiguration[HostDefaults.ContentRootKey]));
         var applicationName = FirstNonEmpty(
@@ -305,6 +312,7 @@ public sealed class PipelineBuilder : IDisposable
             ApplicationName = applicationName,
             EnvironmentName = environmentName,
             ContentRootPath = contentRootPath,
+            WorkingDirectory = workingDirectory,
         };
     }
 
@@ -332,7 +340,10 @@ public sealed class PipelineBuilder : IDisposable
         // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
         _hostBuilder.ConfigureServices((_, services) =>
         {
+            services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
+            services.Configure<ModuleCacheOptions>(options =>
+                options.WorkingDirectory = _environment.WorkingDirectory);
 
             // Add user-registered services before plugins so plugins can inspect user configuration
             foreach (var descriptor in _services)
@@ -539,6 +550,8 @@ public sealed class PipelineBuilder : IDisposable
         public string ApplicationName { get; set; } = string.Empty;
 
         public string ContentRootPath { get; set; } = string.Empty;
+
+        internal string WorkingDirectory { get; init; } = string.Empty;
 
         public IFileProvider ContentRootFileProvider
         {

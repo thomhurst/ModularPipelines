@@ -13,6 +13,11 @@ internal sealed class RunReportPathResolver
     {
     }
 
+    internal RunReportPathResolver(PipelineWorkingDirectory workingDirectory)
+        : this(FindRootDirectory(workingDirectory.Path, workingDirectory.Path))
+    {
+    }
+
     internal RunReportPathResolver(string rootDirectory)
     {
         _rootDirectory = Path.GetFullPath(rootDirectory);

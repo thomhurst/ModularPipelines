@@ -11,11 +11,13 @@ namespace ModularPipelines.Context.Domains.Implementations;
 internal class FilesContext(
     IFileSystemContext fileSystemContext,
     IFileSystemProvider fileSystemProvider,
+    PipelineWorkingDirectory workingDirectory,
     IZipContext zip,
     IChecksumContext checksum) : IFilesContext
 {
     private readonly IFileSystemContext _fileSystemContext = fileSystemContext;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
+    private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     /// <inheritdoc />
     public File GetFile(string path) => _fileSystemContext.GetFile(path);
@@ -28,12 +30,12 @@ internal class FilesContext(
 
     /// <inheritdoc />
     public IEnumerable<File> Glob(string pattern) =>
-        GetFolder(System.Environment.CurrentDirectory).GetFiles(pattern);
+        GetFolder(_workingDirectory.Path).GetFiles(pattern);
 
     /// <inheritdoc />
     public IEnumerable<Folder> GlobFolders(string pattern)
     {
-        var currentDirectory = System.Environment.CurrentDirectory;
+        var currentDirectory = _workingDirectory.Path;
         var matcher = new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(pattern);
 
@@ -47,19 +49,31 @@ internal class FilesContext(
 
     /// <inheritdoc />
     public Task<string> ReadAsync(string path, CancellationToken cancellationToken = default)
-        => _fileSystemProvider.ReadAllTextAsync(path, cancellationToken);
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return _fileSystemProvider.ReadAllTextAsync(_workingDirectory.ResolvePath(path), cancellationToken);
+    }
 
     /// <inheritdoc />
     public Task WriteAsync(string path, string content, CancellationToken cancellationToken = default)
-        => _fileSystemProvider.WriteAllTextAsync(path, content, cancellationToken);
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return _fileSystemProvider.WriteAllTextAsync(_workingDirectory.ResolvePath(path), content, cancellationToken);
+    }
 
     /// <inheritdoc />
     public Task<bool> ExistsAsync(string path, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return Task.FromResult(false);
+        }
+
+        var resolvedPath = _workingDirectory.ResolvePath(path);
         return Task.FromResult(
-            _fileSystemProvider.FileExists(path)
-            || _fileSystemProvider.DirectoryExists(path));
+            _fileSystemProvider.FileExists(resolvedPath)
+            || _fileSystemProvider.DirectoryExists(resolvedPath));
     }
 
     /// <inheritdoc />

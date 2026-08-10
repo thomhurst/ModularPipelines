@@ -135,6 +135,8 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterPipelineContextServices(IServiceCollection services)
     {
+        services.TryAddSingleton(new PipelineWorkingDirectory(Directory.GetCurrentDirectory()));
+
         services
             .AddSingleton<ModuleLookup>()
             .AddScoped<PipelineContext>()
@@ -297,7 +299,9 @@ internal static class DependencyInjectionSetup
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
 
-        services.TryAddSingleton<RunReportPathResolver>();
+        services.TryAddSingleton(static serviceProvider =>
+            new RunReportPathResolver(
+                serviceProvider.GetRequiredService<PipelineWorkingDirectory>()));
         services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
     }
 

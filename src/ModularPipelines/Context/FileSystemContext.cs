@@ -6,23 +6,27 @@ namespace ModularPipelines.Context;
 internal class FileSystemContext : IFileSystemContext
 {
     private readonly IFileSystemProvider _provider;
+    private readonly PipelineWorkingDirectory _workingDirectory;
 
-    public FileSystemContext(IFileSystemProvider provider)
+    public FileSystemContext(
+        IFileSystemProvider provider,
+        PipelineWorkingDirectory workingDirectory)
     {
         _provider = provider;
+        _workingDirectory = workingDirectory;
     }
 
     public void DeleteFile(File file) => file.Delete();
 
     public void DeleteFolder(Folder folder) => folder.Delete();
 
-    public File CopyFile(File file, string destinationFilePath) => file.CopyTo(destinationFilePath);
+    public File CopyFile(File file, string destinationFilePath) => file.CopyTo(ResolvePath(destinationFilePath));
 
-    public Folder CopyFolder(Folder folder, string destinationFolder) => folder.CopyTo(destinationFolder);
+    public Folder CopyFolder(Folder folder, string destinationFolder) => folder.CopyTo(ResolvePath(destinationFolder));
 
-    public void MoveFile(File file, string destinationFilePath) => file.MoveTo(destinationFilePath);
+    public void MoveFile(File file, string destinationFilePath) => file.MoveTo(ResolvePath(destinationFilePath));
 
-    public void MoveFolder(Folder folder, string destinationFolderPath) => folder.MoveTo(destinationFolderPath);
+    public void MoveFolder(Folder folder, string destinationFolderPath) => folder.MoveTo(ResolvePath(destinationFolderPath));
 
     public bool FileExists(File file) => file.Exists;
 
@@ -36,7 +40,11 @@ internal class FileSystemContext : IFileSystemContext
 
     public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;
 
-    public File GetFile(string filePath) => new(filePath, _provider);
+    public File GetFile(string filePath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+        return new File(ResolvePath(filePath), _provider);
+    }
 
     public IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate)
     {
@@ -48,7 +56,11 @@ internal class FileSystemContext : IFileSystemContext
         return rootFolder.GetFolders(predicate);
     }
 
-    public Folder GetFolder(string path) => new(path, _provider);
+    public Folder GetFolder(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return new Folder(ResolvePath(path), _provider);
+    }
 
     public Folder GetFolder(Environment.SpecialFolder specialFolder)
     {
@@ -66,4 +78,6 @@ internal class FileSystemContext : IFileSystemContext
     {
         return _provider.Combine(_provider.GetTempPath(), _provider.GetRandomFileName());
     }
+
+    private string ResolvePath(string path) => _workingDirectory.ResolvePath(path);
 }
