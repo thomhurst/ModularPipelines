@@ -49,7 +49,8 @@ public sealed class CliArgumentAttribute : Attribute
     public bool PrependOptionTerminatorIfValueStartsWithDash { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this argument must have a non-empty value.
+    /// Gets or sets a value indicating whether this argument must be present.
+    /// Empty and whitespace values are rendered literally when present.
     /// </summary>
     public bool Required { get; set; }
 

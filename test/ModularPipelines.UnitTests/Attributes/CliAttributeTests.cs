@@ -280,13 +280,32 @@ public class CliAttributeTests
     [Test]
     [Arguments("")]
     [Arguments("   ")]
-    public async Task Parser_Rejects_Empty_Required_Option_Values(string value)
+    public async Task Parser_Renders_Literal_Required_Option_Values(string value)
     {
         var options = new TestCliOptionsWithOption { Namespace = value };
 
-        await Assert.That(() => BuildArguments(options))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining($"{typeof(TestCliOptionsWithOption).FullName}.Namespace");
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--namespace", value]);
+    }
+
+    [Test]
+    public async Task Parser_Renders_Literal_Grouped_Option_Values()
+    {
+        var options = new TestCliOptionsWithGroupedValues { Values = ["", " "] };
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--values", "", " "]);
+    }
+
+    [Test]
+    public async Task Parser_Renders_Literal_Value_Pair_Operands()
+    {
+        var options = new TestCliOptionsWithValuePairs
+        {
+            Values = [new CliValuePair("", " "), new CliValuePair(" ", "")],
+        };
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(
+            ["--arg", "", " ", "--arg", " ", ""],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -367,6 +386,17 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Renders_Literal_Optional_Values()
+    {
+        var options = new TestCliOptionsWithMultipleOptionalValues
+        {
+            Output = ["", " "],
+        };
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--output=", "--output= "]);
+    }
+
+    [Test]
     public async Task Parser_Groups_Optional_Values_Into_One_Occurrence()
     {
         var options = new TestCliOptionsWithGroupedOptionalValues
@@ -379,6 +409,37 @@ public class CliAttributeTests
         await Assert.That(list).IsEquivalentTo(
             ["--output", "first", "second"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Null_Value_Pair_Operands()
+    {
+        var repeated = new TestCliOptionsWithValuePairs
+        {
+            Values = [new CliValuePair(null, "value")],
+        };
+        var grouped = new TestCliOptionsWithGroupedPairs
+        {
+            Values = [new CliValuePair("name", null)],
+        };
+
+        await Assert.That(() => BuildArguments(repeated))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("cannot contain null values");
+        await Assert.That(() => BuildArguments(grouped))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("cannot contain null values");
+    }
+
+    [Test]
+    public async Task Parser_Groups_Literal_Optional_Values()
+    {
+        var options = new TestCliOptionsWithGroupedOptionalValues
+        {
+            Output = ["", " "],
+        };
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--output", "", " "]);
     }
 
     [Test]
@@ -502,12 +563,15 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliOptionValue_Implicitly_Converts_NonEmpty_Strings()
+    [Arguments("")]
+    [Arguments(" ")]
+    [Arguments("tests.txt")]
+    public async Task CliOptionValue_Implicitly_Converts_NonNull_Strings(string value)
     {
-        CliOptionValue optionValue = "tests.txt";
+        CliOptionValue optionValue = value;
 
         await Assert.That(optionValue.IsBare).IsFalse();
-        await Assert.That(optionValue.Value).IsEqualTo("tests.txt");
+        await Assert.That(optionValue.Value).IsEqualTo(value);
     }
 
     [Test]
@@ -607,17 +671,18 @@ public class CliAttributeTests
 
         await Assert.That(() => BuildArguments(options))
             .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestCliOptionsWithRequiredArgument.Chart");
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgument.Chart")
+            .And.HasMessageContaining("cannot be null or empty");
     }
 
     [Test]
-    public async Task Parser_Rejects_Blank_Required_CliArgument()
+    [Arguments("")]
+    [Arguments("   ")]
+    public async Task Parser_Renders_Literal_Required_CliArgument(string value)
     {
-        var options = new TestCliOptionsWithRequiredArgument { Chart = "   " };
+        var options = new TestCliOptionsWithRequiredArgument { Chart = value };
 
-        await Assert.That(() => BuildArguments(options))
-            .Throws<ArgumentException>()
-            .And.HasMessageContaining("cannot be null or empty");
+        await Assert.That(BuildArguments(options)).IsEquivalentTo([value]);
     }
 
     [Test]
@@ -627,7 +692,8 @@ public class CliAttributeTests
 
         await Assert.That(() => BuildArguments(options))
             .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestCliOptionsWithRequiredArgumentCollection.Files");
+            .And.HasMessageContaining("TestCliOptionsWithRequiredArgumentCollection.Files")
+            .And.HasMessageContaining("cannot be null or empty");
     }
 
     [Test]

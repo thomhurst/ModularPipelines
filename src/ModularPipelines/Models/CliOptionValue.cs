@@ -29,10 +29,9 @@ public sealed record CliOptionValue
     public bool IsBare { get; }
 
     /// <summary>
-    /// Creates an option value from a non-empty string, or preserves a null value so the option is omitted.
+    /// Creates an explicit option value from a string, or preserves a null value so the option is omitted.
     /// </summary>
     /// <param name="value">The value to render.</param>
-    /// <exception cref="ArgumentException"><paramref name="value"/> is empty or whitespace.</exception>
     [return: NotNullIfNotNull(nameof(value))]
     public static implicit operator CliOptionValue?(string? value)
     {
@@ -41,7 +40,6 @@ public sealed record CliOptionValue
             return null;
         }
 
-        ArgumentException.ThrowIfNullOrWhiteSpace(value);
         return new CliOptionValue(value, isBare: false);
     }
 }

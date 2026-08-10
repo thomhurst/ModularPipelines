@@ -52,7 +52,7 @@ public sealed class CliOptionAttribute(string name) : Attribute
     /// Gets or sets whether this option requires a value.
     /// For <see cref="CliOptionValueArity.Optional"/>, a null property omits the option,
     /// <see cref="ModularPipelines.Models.CliOptionValue.Bare"/> renders the bare option, and a value renders
-    /// the option with that value.
+    /// the option with that value. Non-null string values are rendered literally, including empty and whitespace values.
     /// </summary>
     public CliOptionValueArity ValueArity { get; set; } = CliOptionValueArity.Required;
 
