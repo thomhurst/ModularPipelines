@@ -251,8 +251,8 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var expected = new[]
         {
             "Global:Ready",
-            "Global:Start",
             "Attribute:Ready",
+            "Global:Start",
             "Attribute:Start",
             "Module:Before",
             "Module:Execute",

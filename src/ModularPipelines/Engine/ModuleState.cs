@@ -47,7 +47,7 @@ internal enum ModuleExecutionState
 internal class ModuleState
 {
     private ImmutableDictionary<Type, bool> _dependencies = ImmutableDictionary<Type, bool>.Empty;
-    private int _globalReadyEventStarted;
+    private int _readyEventsStarted;
     private SkipDecision _skipResult = SkipDecision.DoNotSkip;
 
     public ModuleState(IModule module, Type moduleType)
@@ -149,10 +149,10 @@ internal class ModuleState
     public DateTimeOffset? ReadyTime { get; set; }
 
     /// <summary>
-    /// Atomically records that the global ready event has started.
+    /// Atomically records that the ready events have started.
     /// </summary>
     /// <returns><see langword="true"/> only for the first caller.</returns>
-    public bool TryStartGlobalReadyEvent() => Interlocked.Exchange(ref _globalReadyEventStarted, 1) == 0;
+    public bool TryStartReadyEvents() => Interlocked.Exchange(ref _readyEventsStarted, 1) == 0;
 
     /// <summary>
     /// Gets a value indicating whether checks if this module is ready to execute (all dependencies resolved and constraints satisfied)

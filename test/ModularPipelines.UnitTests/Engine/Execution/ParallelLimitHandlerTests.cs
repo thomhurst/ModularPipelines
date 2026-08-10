@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -65,13 +66,14 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
-    public async Task ModuleRunner_FiresReadyOnceBeforeLimitsAndMarksStartedAfter()
+    public async Task ModuleRunner_FiresGlobalAndAttributeReadyOnceBeforeLimitsAndMarksStartedAfter()
     {
+        TrackingReadyAttribute.Reset();
         var limitWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLimitWait = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
-            .Setup(x => x.AcquireParallelLimitAsync(typeof(TestModule), It.IsAny<CancellationToken>()))
+            .Setup(x => x.AcquireParallelLimitAsync(typeof(ReadyTestModule), It.IsAny<CancellationToken>()))
             .Callback(() => limitWaitObserved.TrySetResult())
             .Returns(releaseLimitWait.Task);
         parallelLimitHandler
@@ -83,16 +85,16 @@ public class ParallelLimitHandlerTests
             .Returns(Task.CompletedTask);
 
         var builder = TestPipelineBuilder.Create()
-            .AddModule<TestModule>();
+            .AddModule<ReadyTestModule>();
         builder.Services.AddSingleton(parallelLimitHandler.Object);
         builder.Services.AddSingleton(receiver.Object);
         await using var host = await builder.BuildAsync();
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
         scheduler
-            .Setup(x => x.MarkModuleStarted(typeof(TestModule)))
+            .Setup(x => x.MarkModuleStarted(typeof(ReadyTestModule)))
             .Returns(false);
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var moduleState = new ModuleState(new ReadyTestModule(), typeof(ReadyTestModule));
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
@@ -101,17 +103,19 @@ public class ParallelLimitHandlerTests
         await limitWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
 
         receiver.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
-        scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Never);
+        await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
+        scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Never);
 
         releaseLimitWait.TrySetResult(Mock.Of<IDisposable>());
         await executionTask;
 
-        scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Once);
+        scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Once);
 
         await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
 
         receiver.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
-        scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Exactly(2));
+        await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
+        scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Exactly(2));
     }
 
     [Test]
@@ -219,6 +223,25 @@ public class ParallelLimitHandlerTests
             CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
+        }
+    }
+
+    [TrackingReady]
+    private sealed class ReadyTestModule : TestModule;
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class TrackingReadyAttribute : Attribute, IModuleReadyHandler
+    {
+        private static int _invocationCount;
+
+        public static int InvocationCount => Volatile.Read(ref _invocationCount);
+
+        public static void Reset() => Volatile.Write(ref _invocationCount, 0);
+
+        public Task OnModuleReadyAsync(IModuleHookContext context)
+        {
+            Interlocked.Increment(ref _invocationCount);
+            return Task.CompletedTask;
         }
     }
 

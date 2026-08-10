@@ -150,9 +150,15 @@ internal class ModuleRunner : IModuleRunner
                             cancellationToken)
                         .ConfigureAwait(false);
 
-                if (moduleState.TryStartGlobalReadyEvent())
+                if (moduleState.TryStartReadyEvents())
                 {
                     await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+                    var readyLifecycleContext = CreateLifecycleContext(
+                        moduleState,
+                        scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
+                        scope.ServiceProvider,
+                        cancellationToken);
+                    await _lifecycleEventInvoker.InvokeReadyEventAsync(readyLifecycleContext).ConfigureAwait(false);
                 }
 
                 var limiterCancellationToken = module.Configuration.AlwaysRun
@@ -741,20 +747,11 @@ internal class ModuleRunner : IModuleRunner
                 CancellationToken.None)
             .ConfigureAwait(false);
 
-        // Track start time for lifecycle events
-        var startTime = DateTimeOffset.UtcNow;
-        var moduleAttributes = _moduleAttributeEventService.GetAttributes(moduleType);
-        var lifecycleContext = new ModuleLifecycleContext(
-            module,
-            moduleType,
-            moduleAttributes,
-            startTime,
+        var lifecycleContext = CreateLifecycleContext(
+            moduleState,
             pipelineContext,
             scopedServiceProvider,
-            cancellationToken)
-        {
-            ReadyTime = moduleState.ReadyTime ?? startTime,
-        };
+            cancellationToken);
 
         try
         {
@@ -792,9 +789,6 @@ internal class ModuleRunner : IModuleRunner
         ModuleLifecycleContext lifecycleContext,
         CancellationToken cancellationToken)
     {
-        // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
-        await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
-
         // Invoke OnModuleStart lifecycle event
         await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
 
@@ -831,6 +825,26 @@ internal class ModuleRunner : IModuleRunner
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
             .ConfigureAwait(false);
+    }
+
+    private ModuleLifecycleContext CreateLifecycleContext(
+        ModuleState moduleState,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken)
+    {
+        var startTime = DateTimeOffset.UtcNow;
+        return new ModuleLifecycleContext(
+            moduleState.Module,
+            moduleState.ModuleType,
+            _moduleAttributeEventService.GetAttributes(moduleState.ModuleType),
+            startTime,
+            pipelineContext,
+            scopedServiceProvider,
+            cancellationToken)
+        {
+            ReadyTime = moduleState.ReadyTime ?? startTime,
+        };
     }
 
     private async Task HandleModuleFailureAsync(
