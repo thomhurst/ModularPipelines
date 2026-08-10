@@ -27,6 +27,9 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string ToolPropertyMetadataPrefix =
         "ModularPipelines.ToolProperty:";
 
+    private const string ToolTypeIdentityMetadataPrefix =
+        "ModularPipelines.ToolTypeIdentity:";
+
     private static readonly ImmutableHashSet<string> ShadowedToolPropertyNames =
     [
         "Equals",
@@ -102,13 +105,15 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             new IntegrationRegistration(
                 method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 method.Name),
-            GetToolProperties(method.ContainingType),
+            GetToolProperties(method.ContainingType, context.SemanticModel.Compilation),
             GetGeneratedTypeName(context.SemanticModel.Compilation.AssemblyName),
             method.ToDisplayString(),
             location);
     }
 
-    private static EquatableArray<ToolProperty> GetToolProperties(INamedTypeSymbol type)
+    private static EquatableArray<ToolProperty> GetToolProperties(
+        INamedTypeSymbol type,
+        Compilation compilation)
     {
         return type.GetMembers()
             .OfType<IMethodSymbol>()
@@ -122,13 +127,73 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 && method.Parameters[0].Type.ToDisplayString() == PipelineContextFullName
                 && method.ReturnType.IsReferenceType
                 && IsPubliclyAccessible(method.ReturnType))
-            .Select(static method => new ToolProperty(
+            .Select(method => new ToolProperty(
                 method.Name,
                 method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                GetTypeIdentity(method.ReturnType, compilation),
                 method.ToDisplayString(),
                 method.Locations.FirstOrDefault(),
                 method.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
             .ToImmutableArray();
+    }
+
+    private static string GetTypeIdentity(ITypeSymbol type, Compilation compilation)
+    {
+        if (type.TypeKind == TypeKind.Dynamic)
+        {
+            return GetTypeIdentity(
+                compilation.GetSpecialType(SpecialType.System_Object),
+                compilation);
+        }
+
+        if (type is IArrayTypeSymbol arrayType)
+        {
+            return $"{GetTypeIdentity(arrayType.ElementType, compilation)}[{new string(',', arrayType.Rank - 1)}]";
+        }
+
+        if (type is not INamedTypeSymbol namedType)
+        {
+            return type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        }
+
+        var definition = namedType.OriginalDefinition;
+        var typeNames = new Stack<string>();
+        for (var current = definition; current is not null; current = current.ContainingType)
+        {
+            typeNames.Push(current.MetadataName);
+        }
+
+        var namespaceName = definition.ContainingNamespace.IsGlobalNamespace
+            ? string.Empty
+            : $"{definition.ContainingNamespace.ToDisplayString()}.";
+        var assemblyName = NormalizeAssemblyName(definition.ContainingAssembly.Identity.Name);
+        var identity = $"{assemblyName}:{namespaceName}{string.Join("+", typeNames)}";
+        var typeArguments = GetAllTypeArguments(namedType).ToArray();
+        return typeArguments.Length == 0
+            ? identity
+            : $"{identity}[{string.Join(",", typeArguments.Select(argument => GetTypeIdentity(argument, compilation)))}]";
+    }
+
+    private static string NormalizeAssemblyName(string assemblyName) =>
+        assemblyName is "System" or "mscorlib" or "netstandard"
+        || assemblyName.StartsWith("System.", StringComparison.Ordinal)
+            ? "framework"
+            : assemblyName;
+
+    private static IEnumerable<ITypeSymbol> GetAllTypeArguments(INamedTypeSymbol type)
+    {
+        if (type.ContainingType is { } containingType)
+        {
+            foreach (var typeArgument in GetAllTypeArguments(containingType))
+            {
+                yield return typeArgument;
+            }
+        }
+
+        foreach (var typeArgument in type.TypeArguments)
+        {
+            yield return typeArgument;
+        }
     }
 
     private static EquatableArray<ReferencedToolProperty> GetReferencedToolProperties(
@@ -245,15 +310,16 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
-        if (generatesExtensionMembers)
+        foreach (var property in uniqueToolProperties)
         {
-            foreach (var property in uniqueToolProperties)
-            {
-                builder.AppendLine(
-                    "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
-                    + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
-                    + $"{Literal(property.TypeName)})]");
-            }
+            builder.AppendLine(
+                "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
+                + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
+                + $"{Literal(property.TypeName)})]");
+            builder.AppendLine(
+                "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
+                + $"{Literal(ToolTypeIdentityMetadataPrefix + property.Name)}, "
+                + $"{Literal(property.TypeIdentity)})]");
         }
 
         builder.AppendLine();
@@ -362,6 +428,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             .Concat(referencedToolProperties.Select(static property => new ToolProperty(
                 property.Name,
                 property.TypeName,
+                TypeIdentity: property.TypeName,
                 MethodName: property.Name,
                 Location: null,
                 property.SourceId)))
@@ -501,6 +568,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private sealed record ToolProperty(
         string Name,
         string TypeName,
+        string TypeIdentity,
         string MethodName,
         Location? Location,
         string SourceId);

@@ -1,5 +1,9 @@
+using System.Reflection;
+using System.Reflection.Emit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Cmd;
+using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Environment;
@@ -44,8 +48,88 @@ public class ContextExtensionsTests
         mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act & Assert
-        await Assert.That(() => mockContext.Object.GetService<TestService>())
+        var exception = await Assert.That(() => mockContext.Object.GetService<TestService>())
             .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Register it with the pipeline service collection");
+            await Assert.That(exception.Message).DoesNotContain("ModularPipelinesIntegration");
+            await Assert.That(exception.Message).DoesNotContain("Native AOT");
+        }
+    }
+
+    [Test]
+    public async Task Cmd_WhenIntegrationNotRegistered_ShouldSuggestAttributedRegistration()
+    {
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var servicesContext = CreateServicesContext(serviceProvider);
+        var mockContext = new Mock<IPipelineContext>();
+        mockContext.Setup(c => c.Services).Returns(servicesContext);
+
+        var exception = await Assert.That(() => mockContext.Object.Cmd())
+            .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
+            await Assert.That(exception.Message).Contains("[ModularPipelinesIntegration]");
+            await Assert.That(exception.Message).Contains("Native AOT");
+            await Assert.That(exception.Message).DoesNotContain("Register*Context()");
+        }
+    }
+
+    [Test]
+    public async Task GetTool_WhenIntegrationNotRegistered_ShouldSuggestExplicitRegistration()
+    {
+        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var toolsContext = new ToolsContext(CreateServicesContext(serviceProvider));
+
+        var exception = await Assert.That(() => toolsContext.Get<ICmd>())
+            .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
+            await Assert.That(exception.Message).Contains("[ModularPipelinesIntegration]");
+            await Assert.That(exception.Message).Contains("Native AOT");
+            await Assert.That(exception.Message).DoesNotContain("Register*Context()");
+            await Assert.That(exception.Message).DoesNotContain("No service for type");
+        }
+    }
+
+    [Test]
+    public async Task GenericTool_FromContractsAssembly_UsesOwningIntegrationAssembly()
+    {
+        const string integrationAssemblyName = "Test.Tool.Integration";
+        var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName(integrationAssemblyName),
+            AssemblyBuilderAccess.Run);
+        var metadataConstructor = typeof(AssemblyMetadataAttribute).GetConstructor(
+            [typeof(string), typeof(string)])!;
+        var genericDefinition = typeof(IGenericTool<>);
+        var stringType = typeof(string);
+        var typeIdentity =
+            $"{genericDefinition.Assembly.GetName().Name}:{genericDefinition.FullName}" +
+            $"[framework:{stringType.FullName}]";
+        assemblyBuilder.SetCustomAttribute(new CustomAttributeBuilder(
+            metadataConstructor,
+            ["ModularPipelines.ToolTypeIdentity:GenericTool", typeIdentity]));
+
+        var integrationAssembly = ToolRegistrationExceptionFactory.FindIntegrationAssemblyName(
+            typeof(IGenericTool<string>));
+        var exception = ToolRegistrationExceptionFactory.Create(
+            typeof(IGenericTool<string>),
+            integrationAssembly);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(integrationAssembly).IsEqualTo(integrationAssemblyName);
+            await Assert.That(exception.Message)
+                .Contains($"integration assembly '{integrationAssemblyName}'");
+            await Assert.That(exception.Message)
+                .DoesNotContain(" package");
+        }
     }
 
     [Test]
@@ -176,6 +260,10 @@ public class ContextExtensionsTests
     }
 
     private class TestService
+    {
+    }
+
+    private interface IGenericTool<T>
     {
     }
 }

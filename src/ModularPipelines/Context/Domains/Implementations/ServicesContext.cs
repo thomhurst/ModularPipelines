@@ -30,7 +30,23 @@ internal class ServicesContext : IServicesContext
     }
 
     /// <inheritdoc />
-    public T Get<T>() where T : class => _serviceProvider.GetRequiredService<T>();
+    public T Get<T>() where T : class
+    {
+        var service = _serviceProvider.GetService<T>();
+        if (service is not null)
+        {
+            return service;
+        }
+
+        var serviceType = typeof(T);
+        var integrationAssemblyName =
+            ToolRegistrationExceptionFactory.FindIntegrationAssemblyName(serviceType);
+        throw integrationAssemblyName is not null
+            ? ToolRegistrationExceptionFactory.Create(serviceType, integrationAssemblyName)
+            : new InvalidOperationException(
+                $"Service '{serviceType.FullName}' is not registered. " +
+                "Register it with the pipeline service collection before building the pipeline.");
+    }
 
     /// <inheritdoc />
     public T? TryGet<T>() where T : class => _serviceProvider.GetService<T>();
