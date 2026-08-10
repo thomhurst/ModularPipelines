@@ -210,6 +210,37 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task CustomObfuscatorCanRegisterDiscoveredSecret()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                provider.AddSecret("discovered-secret");
+                return input;
+            });
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.Secrets).Contains("discovered-secret");
+            await Assert.That(realConsole.ToString())
+                .IsEqualTo($"ordinary output{Environment.NewLine}");
+        }
+    }
+
+    [Test]
     public async Task DifferentModuleBuffers_ProcessConcurrently()
     {
         var provider = CreateProvider(out _);

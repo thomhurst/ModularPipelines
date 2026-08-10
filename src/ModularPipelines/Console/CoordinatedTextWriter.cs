@@ -745,7 +745,8 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void ExecuteWithStableSecrets(Action processOutput)
     {
-        if (_secretProvider is ISecretEmissionGuard emissionGuard)
+        if (_secretObfuscator is ITrackedSecretObfuscator
+            && _secretProvider is ISecretEmissionGuard emissionGuard)
         {
             emissionGuard.ExecuteWithStableSecrets(processOutput);
             return;
