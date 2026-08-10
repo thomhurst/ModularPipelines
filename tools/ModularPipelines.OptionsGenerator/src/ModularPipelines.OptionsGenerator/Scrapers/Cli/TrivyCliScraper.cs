@@ -122,7 +122,7 @@ public partial class TrivyCliScraper : CobraCliScraper
             {
                 CSharpType = "IEnumerable<string>?",
                 Phase = CommandLinePhase.Passthrough,
-                PositionIndex = 1,
+                PositionIndex = 0,
             },
         ];
     }
@@ -148,13 +148,31 @@ public partial class TrivyCliScraper : CobraCliScraper
                 [RequiredArgument("Source")],
             ["registry", "login"] or ["registry", "logout"] =>
                 [RequiredArgument("Server")],
+            ["module"] or ["plugin"] or ["registry"] or ["vex"] or ["vex", "repo"] =>
+                [OptionalArgument("Command") with { Description = "The command operand." }],
             _ => positionalArguments,
         };
 
     protected override string NormalizeOptionDescription(string description)
     {
-        var normalizedDescription = UserHomeDirectoryPattern().Replace(description, "<home>");
+        var normalizedDescription = NormalizeHomePathSeparators(
+            UserHomeDirectoryPattern().Replace(description, "<home>"));
         return TrivyCacheDirectoryPattern().Replace(normalizedDescription, "<cache>/trivy");
+    }
+
+    private static string NormalizeHomePathSeparators(string description)
+    {
+        const string homePlaceholder = "<home>";
+        var homeEnd = description.IndexOf(homePlaceholder, StringComparison.Ordinal);
+        if (homeEnd < 0)
+        {
+            return description;
+        }
+
+        homeEnd += homePlaceholder.Length;
+        return string.Concat(
+            description.AsSpan(0, homeEnd),
+            PathSeparatorPattern().Replace(description[homeEnd..], "/"));
     }
 
     private static CliPositionalArgument RequiredArgument(string propertyName) => new()
@@ -177,4 +195,7 @@ public partial class TrivyCliScraper : CobraCliScraper
 
     [GeneratedRegex(@"(?i)<home>(?:[\\/]+AppData[\\/]+Local|[\\/]+\.cache|[\\/]+Library[\\/]+Caches)[\\/]+trivy")]
     private static partial Regex TrivyCacheDirectoryPattern();
+
+    [GeneratedRegex(@"[\\/]+")]
+    private static partial Regex PathSeparatorPattern();
 }

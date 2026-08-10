@@ -145,6 +145,6 @@ public class CosignCliScraperTests
             IReadOnlyList<CliPositionalArgument> positionalArguments) =>
             ApplyPositionalArgumentFixes(commandParts, positionalArguments);
 
-        public bool IsSecret(string propertyName, bool isFlag) => IsSecretOption(propertyName, isFlag);
+        public bool IsSecret(string propertyName, bool isFlag) => IsSecretOption(propertyName, isFlag, string.Empty);
     }
 }
