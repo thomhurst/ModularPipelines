@@ -81,6 +81,18 @@ public class TrivyCliScraperTests
     }
 
     [Test]
+    public async Task Home_Directory_Path_Is_Normalized_Across_Platforms()
+    {
+        var scraper = new TestTrivyCliScraper();
+
+        var description = scraper.NormalizeDescription(
+            @"module directory (default ""C:\Users\runneradmin\.trivy\modules"")");
+
+        await Assert.That(description)
+            .IsEqualTo("module directory (default \"<home>/.trivy/modules\")");
+    }
+
+    [Test]
     public async Task Image_Help_Parses_Target_Types_And_Secrets()
     {
         const string helpText = """
@@ -115,6 +127,25 @@ public class TrivyCliScraperTests
         await Assert.That(command.Options.Single(x => x.SwitchName == "--timeout").CSharpType)
             .IsEqualTo("string?");
         await Assert.That(command.Options.Single(x => x.SwitchName == "--password").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Secret_Config_Path_Is_Not_Classified_As_Secret()
+    {
+        const string helpText = """
+            Scan a container image
+
+            Usage:
+              trivy image [flags] IMAGE_NAME
+
+            Secret Flags
+                  --secret-config string   specify a path to config file for secret scanning
+            """;
+
+        var command = await new TestTrivyCliScraper().Parse(["trivy", "image"], helpText);
+        var secretConfig = command!.Options.Single(x => x.SwitchName == "--secret-config");
+
+        await Assert.That(secretConfig.IsSecret).IsFalse();
     }
 
     [Test]
@@ -160,7 +191,7 @@ public class TrivyCliScraperTests
         await Assert.That(positionals[1].PropertyName).IsEqualTo("PluginArguments");
         await Assert.That(positionals[1].CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(positionals[1].IsRequired).IsFalse();
-        await Assert.That(positionals[1].PositionIndex).IsEqualTo(1);
+        await Assert.That(positionals[1].PositionIndex).IsEqualTo(0);
         await Assert.That(positionals[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
@@ -182,6 +213,27 @@ public class TrivyCliScraperTests
 
         await Assert.That(positional.PropertyName).IsEqualTo("RepoNames");
         await Assert.That(positional.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(positional.IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Vex_Command_Preserves_Optional_Command_Operand()
+    {
+        const string helpText = """
+            [EXPERIMENTAL] VEX utilities
+
+            Usage:
+              trivy vex [command]
+
+            Available Commands:
+              repo        Manage VEX repositories
+            """;
+
+        var command = await new TestTrivyCliScraper().Parse(["trivy", "vex"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        await Assert.That(positional.PropertyName).IsEqualTo("Command");
+        await Assert.That(positional.CSharpType).IsEqualTo("string?");
         await Assert.That(positional.IsRequired).IsFalse();
     }
 
