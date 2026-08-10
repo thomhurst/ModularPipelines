@@ -46,7 +46,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 }
                 catch (Exception e) when (
                     e is not OperationCanceledException operationCanceledException
-                    || !workerCancellationToken.CanBeCanceled
+                    || !workerCancellationToken.IsCancellationRequested
                     || operationCanceledException.CancellationToken != workerCancellationToken)
                 {
                     var dependency = scheduler.GetModuleState(dependencyType)?.Module;

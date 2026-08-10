@@ -528,6 +528,18 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task Uncancelled_Worker_Token_Is_Not_Expected_Cancellation()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var exception = new OperationCanceledException(cancellationTokenSource.Token);
+
+        await Assert.That(ModuleExecutor.IsExpectedWorkerCancellation(
+                exception,
+                cancellationTokenSource.Token))
+            .IsFalse();
+    }
+
+    [Test]
     public async Task StopOnFirstException_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
     {
         var builder = TestPipelineBuilder.Create()

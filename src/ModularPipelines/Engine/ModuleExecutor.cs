@@ -317,11 +317,12 @@ internal class ModuleExecutor : IModuleExecutor
 
     // Engine-linked module cancellation is converted to a PipelineTerminated result
     // by ModuleExecutionPipeline. Only worker-token cancellation can reach this layer.
-    private static bool IsExpectedWorkerCancellation(
+    internal static bool IsExpectedWorkerCancellation(
         Exception exception,
         CancellationToken workerCancellationToken)
     {
         return exception is OperationCanceledException operationCanceledException
+               && workerCancellationToken.IsCancellationRequested
                && operationCanceledException.CancellationToken == workerCancellationToken;
     }
 
