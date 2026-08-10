@@ -306,6 +306,34 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task ReallocatesUtf8BoundaryWasteToOlderOtherStream()
+    {
+        var maximumBytes = Encoding.UTF8.GetByteCount(Environment.NewLine) + 3;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(0);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(0, []));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("A", ModuleOutputStream.StandardOutput);
+        buffer.Append("🙂", ModuleOutputStream.StandardError);
+
+        var excerpt = buffer.CreateExcerpt()!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("A" + Environment.NewLine);
+            await Assert.That(excerpt.StderrTail).IsEqualTo(Environment.NewLine);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(4);
+        }
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenCaseInsensitiveMatchCanExceedBoundaryContext()
     {
         const string secret = "SSSS";

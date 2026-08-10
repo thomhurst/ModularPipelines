@@ -74,7 +74,7 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         var stdoutValue = stdout.ToString();
         var stderrValue = stderr.ToString();
-        var (stdoutBytes, stderrBytes) = GetFinalStreamByteLimits();
+        var (stdoutBytes, stderrBytes) = GetFinalStreamByteLimits(stdoutValue, stderrValue);
         var truncatedBytes = GetTruncatedByteCount(
             stdoutValue,
             stderrValue,
@@ -178,8 +178,8 @@ internal sealed class ModuleOutputExcerptBuffer(
         var maskedStdout = concreteObfuscator.ObfuscatePreservingMasks(stdout);
         var maskedStderr = concreteObfuscator.ObfuscatePreservingMasks(stderr);
         (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
-            Utf8.GetByteCount(maskedStdout),
-            Utf8.GetByteCount(maskedStderr),
+            maskedStdout,
+            maskedStderr,
             concreteObfuscator);
 
         if (!TryGetSafeMaskedTail(
@@ -206,10 +206,12 @@ internal sealed class ModuleOutputExcerptBuffer(
     }
 
     private (int StdoutBytes, int StderrBytes) RebalanceMaskedStreamByteLimits(
-        int maskedStdoutBytes,
-        int maskedStderrBytes,
+        string maskedStdout,
+        string maskedStderr,
         SecretObfuscator obfuscator)
     {
+        var maskedStdoutBytes = Utf8.GetByteCount(maskedStdout);
+        var maskedStderrBytes = Utf8.GetByteCount(maskedStderr);
         var stdoutBytes = 0;
         var stderrBytes = 0;
         var stdoutNeeded = maskedStdoutBytes;
@@ -264,6 +266,7 @@ internal sealed class ModuleOutputExcerptBuffer(
                     availability.Bytes,
                     stderrBytes,
                     stdoutBytes);
+                stderrBytes = GetUtf8TailByteCount(maskedStderr, stderrBytes);
             }
             else
             {
@@ -271,6 +274,7 @@ internal sealed class ModuleOutputExcerptBuffer(
                     availability.Bytes,
                     stdoutBytes,
                     stderrBytes);
+                stdoutBytes = GetUtf8TailByteCount(maskedStdout, stdoutBytes);
             }
         }
 
@@ -307,28 +311,35 @@ internal sealed class ModuleOutputExcerptBuffer(
         return discardedMaskedBytes >= maximumMatchBytes;
     }
 
-    private (int StdoutBytes, int StderrBytes) GetFinalStreamByteLimits()
+    private (int StdoutBytes, int StderrBytes) GetFinalStreamByteLimits(
+        string stdout,
+        string stderr)
     {
         var stdoutBytes = 0;
         var stderrBytes = 0;
-        var remaining = maximumBytes;
-        for (var chunk = _chunks.Last; chunk is not null && remaining > 0; chunk = chunk.Previous)
+        for (var chunk = _chunks.Last;
+             chunk is not null && stdoutBytes + stderrBytes < maximumBytes;
+             chunk = chunk.Previous)
         {
+            var remaining = maximumBytes - stdoutBytes - stderrBytes;
             var retained = Math.Min(chunk.Value.Bytes.Length, remaining);
             if (chunk.Value.Stream is ModuleOutputStream.StandardError)
             {
                 stderrBytes += retained;
+                stderrBytes = GetUtf8TailByteCount(stderr, stderrBytes);
             }
             else
             {
                 stdoutBytes += retained;
+                stdoutBytes = GetUtf8TailByteCount(stdout, stdoutBytes);
             }
-
-            remaining -= retained;
         }
 
         return (stdoutBytes, stderrBytes);
     }
+
+    private static int GetUtf8TailByteCount(string value, int maximumTailBytes) =>
+        Utf8.GetByteCount(GetUtf8Tail(value, maximumTailBytes) ?? string.Empty);
 
     internal static string? GetUtf8Tail(string value, int maximumTailBytes)
     {
