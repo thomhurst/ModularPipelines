@@ -215,11 +215,14 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        var patterns = ObfuscateWithCurrentPatterns(
-            state,
-            preservePotentialLongerMatch: true,
-            out var retainedPrefixLength);
-        FlushSafeOutput(state, retainedPrefixLength, shouldBuffer, patterns.Version);
+        ExecuteWithStableSecrets(() =>
+        {
+            var patterns = ObfuscateWithCurrentPatterns(
+                state,
+                preservePotentialLongerMatch: true,
+                out var retainedPrefixLength);
+            FlushSafeOutput(state, retainedPrefixLength, shouldBuffer, patterns.Version);
+        });
     }
 
     private SecretPatterns ObfuscateWithCurrentPatterns(
@@ -730,6 +733,17 @@ internal class CoordinatedTextWriter : TextWriter
             ? output
             : _secretObfuscator.Obfuscate(output, null);
 
+    private void ExecuteWithStableSecrets(Action processOutput)
+    {
+        if (_secretProvider is ISecretEmissionGuard emissionGuard)
+        {
+            emissionGuard.ExecuteWithStableSecrets(processOutput);
+            return;
+        }
+
+        processOutput();
+    }
+
     /// <inheritdoc />
     public override void Flush()
     {
@@ -757,18 +771,7 @@ internal class CoordinatedTextWriter : TextWriter
                         continue;
                     }
 
-                    var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
-                    var patterns = ObfuscateWithCurrentPatterns(
-                        state,
-                        preservePotentialLongerMatch: false,
-                        out _);
-                    FlushSafePrefix(
-                        state,
-                        state.Buffer.Length,
-                        shouldBuffer,
-                        patterns.Version);
-                    FlushPartialLine(state, shouldBuffer, patterns.Version);
-                    state.ShouldBuffer = null;
+                    FlushBufferedState(state);
                 }
             }
         }
@@ -776,6 +779,25 @@ internal class CoordinatedTextWriter : TextWriter
         {
             _flushLock.ExitWriteLock();
         }
+    }
+
+    private void FlushBufferedState(LineBufferState state)
+    {
+        ExecuteWithStableSecrets(() =>
+        {
+            var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
+            var patterns = ObfuscateWithCurrentPatterns(
+                state,
+                preservePotentialLongerMatch: false,
+                out _);
+            FlushSafePrefix(
+                state,
+                state.Buffer.Length,
+                shouldBuffer,
+                patterns.Version);
+            FlushPartialLine(state, shouldBuffer, patterns.Version);
+            state.ShouldBuffer = null;
+        });
     }
 
     /// <summary>
@@ -808,30 +830,7 @@ internal class CoordinatedTextWriter : TextWriter
                         continue;
                     }
 
-                    var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
-                    var patterns = ObfuscateWithCurrentPatterns(
-                        state,
-                        preservePotentialLongerMatch: false,
-                        out var retainedLength);
-                    FlushSafeOutput(
-                        state,
-                        retainedLength,
-                        shouldBuffer,
-                        patterns.Version);
-
-                    if (shouldBuffer)
-                    {
-                        FlushPartialPrefix(
-                            state,
-                            state.Buffer.Length - retainedLength,
-                            shouldBuffer,
-                            patterns.Version);
-                    }
-
-                    if (state.Buffer.Length == 0)
-                    {
-                        state.ShouldBuffer = null;
-                    }
+                    FlushAvailableState(state);
                 }
             }
         }
@@ -839,6 +838,37 @@ internal class CoordinatedTextWriter : TextWriter
         {
             _flushLock.ExitWriteLock();
         }
+    }
+
+    private void FlushAvailableState(LineBufferState state)
+    {
+        ExecuteWithStableSecrets(() =>
+        {
+            var shouldBuffer = state.ShouldBuffer ?? ShouldBuffer();
+            var patterns = ObfuscateWithCurrentPatterns(
+                state,
+                preservePotentialLongerMatch: false,
+                out var retainedLength);
+            FlushSafeOutput(
+                state,
+                retainedLength,
+                shouldBuffer,
+                patterns.Version);
+
+            if (shouldBuffer)
+            {
+                FlushPartialPrefix(
+                    state,
+                    state.Buffer.Length - retainedLength,
+                    shouldBuffer,
+                    patterns.Version);
+            }
+
+            if (state.Buffer.Length == 0)
+            {
+                state.ShouldBuffer = null;
+            }
+        });
     }
 
     /// <inheritdoc />

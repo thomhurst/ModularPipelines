@@ -32,7 +32,7 @@ namespace ModularPipelines.Engine;
 /// </list>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
+internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRegistry, IInitializer
 {
     private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
     private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
@@ -47,6 +47,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
     private readonly object _initLock = new();
     private readonly object _secretsLock = new();
+    private readonly ReaderWriterLockSlim _secretEmissionLock = new();
 
     private long _version;
     private volatile bool _initialized;
@@ -104,22 +105,30 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             return;
         }
 
-        lock (_secretsLock)
+        _secretEmissionLock.EnterWriteLock();
+        try
         {
-            if (patterns.All(_secrets.Contains))
+            lock (_secretsLock)
             {
-                return;
-            }
+                if (patterns.All(_secrets.Contains))
+                {
+                    return;
+                }
 
-            // Odd versions mark an in-progress publication so readers cannot reuse
-            // a cache while the matching secret collection is being updated.
-            Interlocked.Increment(ref _version);
-            foreach (var pattern in patterns)
-            {
-                _secrets.Add(pattern);
-            }
+                // Odd versions mark an in-progress publication so readers cannot reuse
+                // a cache while the matching secret collection is being updated.
+                Interlocked.Increment(ref _version);
+                foreach (var pattern in patterns)
+                {
+                    _secrets.Add(pattern);
+                }
 
-            Interlocked.Increment(ref _version);
+                Interlocked.Increment(ref _version);
+            }
+        }
+        finally
+        {
+            _secretEmissionLock.ExitWriteLock();
         }
     }
 
@@ -144,6 +153,21 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         lock (_secretsLock)
         {
             return new SecretSnapshot(Version, _secrets.ToArray());
+        }
+    }
+
+    public void ExecuteWithStableSecrets(Action processOutput)
+    {
+        ArgumentNullException.ThrowIfNull(processOutput);
+
+        _secretEmissionLock.EnterReadLock();
+        try
+        {
+            processOutput();
+        }
+        finally
+        {
+            _secretEmissionLock.ExitReadLock();
         }
     }
 

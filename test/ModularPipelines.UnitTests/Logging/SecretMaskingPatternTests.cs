@@ -212,29 +212,21 @@ public class SecretMaskingPatternTests
     [Test]
     public async Task DifferentModuleBuffers_ProcessConcurrently()
     {
-        var provider = new Mock<ISecretProvider>();
-        provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
-        using var firstObfuscationStarted = new ManualResetEventSlim();
-        using var releaseFirstObfuscation = new ManualResetEventSlim();
-        var obfuscator = new Mock<ISecretObfuscator>();
-        obfuscator
-            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
-            .Returns((string input, object? _) =>
+        var provider = CreateProvider(out _);
+        provider.AddSecret("split-secret");
+        using var firstWriteStarted = new ManualResetEventSlim();
+        using var releaseFirstWrite = new ManualResetEventSlim();
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        firstBuffer
+            .Setup(x => x.WriteLine("**********"))
+            .Callback(() =>
             {
-                if (input != "split-secret")
-                {
-                    return input;
-                }
-
-                firstObfuscationStarted.Set();
-                if (!releaseFirstObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                firstWriteStarted.Set();
+                if (!releaseFirstWrite.Wait(TimeSpan.FromSeconds(10)))
                 {
                     throw new TimeoutException("Timed out waiting to release the first module write.");
                 }
-
-                return "**********";
             });
-        var firstBuffer = new Mock<IModuleOutputBuffer>();
         var secondBuffer = new Mock<IModuleOutputBuffer>();
         var coordinator = new Mock<IConsoleCoordinator>();
         coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
@@ -244,20 +236,20 @@ public class SecretMaskingPatternTests
             coordinator.Object,
             new StringWriter(),
             () => true,
-            obfuscator.Object,
-            provider.Object);
+            CreateObfuscator(provider),
+            provider);
 
         var firstWrite = Task.Run(() => WriteForModule(typeof(FirstModule), "split-secret"));
         try
         {
-            await Assert.That(firstObfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(firstWriteStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
 
             var secondWrite = Task.Run(() => WriteForModule(typeof(SecondModule), "ordinary output"));
             await secondWrite.WaitAsync(TimeSpan.FromSeconds(5));
         }
         finally
         {
-            releaseFirstObfuscation.Set();
+            releaseFirstWrite.Set();
             await firstWrite;
         }
 
@@ -853,12 +845,16 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
-    public async Task DirectConsoleWrite_RescansWhenSecretsChangeBeforeEmission()
+    public async Task DirectConsoleWrite_SerializesRegistrationDuringMasking()
     {
-        var provider = CreateProvider(out _);
+        var provider = CreateProvider(out var nativeMasker);
         provider.AddSecret("known-secret");
         using var obfuscationStarted = new ManualResetEventSlim();
         using var releaseObfuscation = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
         var obfuscator = new Mock<ITrackedSecretObfuscator>();
         obfuscator.SetupGet(candidate => candidate.PatternComparison).Returns(StringComparison.Ordinal);
         obfuscator
@@ -892,22 +888,73 @@ public class SecretMaskingPatternTests
             provider);
 
         var write = Task.Run(() => writer.WriteLine("known-secret dynamic-secret"));
+        var registration = Task.CompletedTask;
         try
         {
             await Assert.That(obfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            provider.AddSecret("dynamic-secret");
+            registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(async () =>
+                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
+                .Throws<TimeoutException>();
+
+            releaseObfuscation.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
         }
         finally
         {
             releaseObfuscation.Set();
-            await write;
+            await Task.WhenAll(write, registration);
         }
 
         await Assert.That(realConsole.ToString())
-            .IsEqualTo($"********** **********{Environment.NewLine}");
+            .IsEqualTo($"********** dynamic-secret{Environment.NewLine}");
         obfuscator.Verify(
             candidate => candidate.ObfuscateWithConsumption("dynamic-secret", null),
-            Times.Once);
+            Times.Never);
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_LinearizesWithSecretRegistration()
+    {
+        var provider = CreateProvider(out var nativeMasker);
+        using var writeStarted = new ManualResetEventSlim();
+        using var releaseWrite = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
+        var realConsole = new BlockingWriteStringWriter(writeStarted, releaseWrite);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        var write = Task.Run(() => writer.WriteLine("dynamic-secret"));
+        var registration = Task.CompletedTask;
+        try
+        {
+            await Assert.That(writeStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(async () =>
+                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
+                .Throws<TimeoutException>();
+
+            releaseWrite.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseWrite.Set();
+            await Task.WhenAll(write, registration);
+        }
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"dynamic-secret{Environment.NewLine}");
     }
 
     [Test]
@@ -982,6 +1029,22 @@ public class SecretMaskingPatternTests
         return new SecretObfuscator(
             provider,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+    }
+
+    private sealed class BlockingWriteStringWriter(
+        ManualResetEventSlim writeStarted,
+        ManualResetEventSlim releaseWrite) : StringWriter
+    {
+        public override void WriteLine(string? value)
+        {
+            writeStarted.Set();
+            if (!releaseWrite.Wait(TimeSpan.FromSeconds(10)))
+            {
+                throw new TimeoutException("Timed out waiting to release the console write.");
+            }
+
+            base.WriteLine(value);
+        }
     }
 
     private sealed class AsyncFlushTrackingWriter : StringWriter
