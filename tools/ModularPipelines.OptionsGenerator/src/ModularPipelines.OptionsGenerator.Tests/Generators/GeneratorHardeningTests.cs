@@ -1288,6 +1288,56 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Leaf_Facade_When_It_Gains_Children()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupChildOptions.Generated.cs"),
+                "public record ToolGroupChildOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroup.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolGroup { public Task ChildAsync(ToolGroupChildOptions? options = null) => Task.CompletedTask; }");
+            var child = Command(
+                "ToolGroupChildOptions",
+                "ToolOptions",
+                ["group", "child"],
+                subDomainGroup: "group");
+            var grandchild = Command(
+                "ToolGroupChildSubOptions",
+                "ToolOptions",
+                ["group", "child", "sub"],
+                subDomainGroup: "group");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(child, grandchild),
+                root);
+            var generated = await new SubDomainClassGenerator().GenerateAsync(preserved);
+            var groupFacade = generated.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolGroup.Generated.cs", StringComparison.Ordinal));
+            var childFacade = generated.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolGroupChild.Generated.cs", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(groupFacade.Content)
+                    .Contains("Task<CommandResult> ChildAsync(");
+                await Assert.That(childFacade.Content)
+                    .Contains("Task<CommandResult> ExecuteAsync(");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
