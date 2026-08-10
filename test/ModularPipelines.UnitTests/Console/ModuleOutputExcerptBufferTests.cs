@@ -122,6 +122,36 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task PreservesChunkRecencyWhenLateMasksExpand()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, ["a"]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 30,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("a", ModuleOutputStream.StandardOutput);
+        buffer.Append("a", ModuleOutputStream.StandardError);
+        buffer.Append("a", ModuleOutputStream.StandardOutput);
+
+        var excerpt = buffer.CreateExcerpt()!;
+        var maskedChunk = "**********" + Environment.NewLine;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StderrTail).IsEqualTo(maskedChunk);
+            await Assert.That(excerpt.StdoutTail).EndsWith(maskedChunk);
+            await Assert.That(Encoding.UTF8.GetByteCount(excerpt.StdoutTail!)).IsEqualTo(18);
+        }
+    }
+
+    [Test]
     public async Task DoesNotCountLateMaskContractionAsTruncation()
     {
         const string secret = "late-secret";
