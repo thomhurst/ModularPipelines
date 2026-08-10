@@ -1228,7 +1228,8 @@ public class GeneratorHardeningTests
                 "public record ToolEditAddOptions;");
             await File.WriteAllTextAsync(
                 Path.Combine(packageDirectory, "Services", "ToolEditAdd.Generated.cs"),
-                "public class ToolEditAdd { public Task ExecuteAsync(ToolEditAddOptions? options = null) => Task.CompletedTask; }");
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolEditAdd { public Task ExecuteAsync(ToolEditAddOptions? options = null) => Task.CompletedTask; }");
             var parent = Command(
                 "ToolEditAddOptions",
                 "ToolOptions",
@@ -1248,6 +1249,80 @@ public class GeneratorHardeningTests
                 .Content;
 
             await Assert.That(generated).Contains("Task<CommandResult> ExecuteAsync(");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Command_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolRemovedOptions.Generated.cs"),
+                "public record ToolRemovedOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task RemovedAsync(ToolRemovedOptions? options = null) => Task.CompletedTask; }");
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(
+                    Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                    root));
+
+            await Assert.That(exception.Message)
+                .Contains("ToolRemovedOptions command disappeared from generated facade");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Accepts_Current_Command_Group_Alias_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolBuilder.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolBuilder { public Task BakeAsync(ToolBuilderBakeOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx")) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            await Assert.That(preserved.Commands).HasSingleItem();
         }
         finally
         {
