@@ -257,7 +257,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <inheritdoc />
-    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
+    public IReadOnlyList<IModule> CancelPendingModules()
     {
         List<(ModuleState State, ModuleExecutionState OriginalState)> cancelledModules;
 
@@ -288,10 +288,6 @@ internal class ModuleStateTracker : IModuleStateTracker
         foreach (var (moduleState, _) in cancelledModules)
         {
             moduleState.CompletionSource.TrySetCanceled();
-            if (cancelModuleResultAwaiters)
-            {
-                ModuleCompletionSourceCanceller.Cancel(moduleState.Module, moduleState.ModuleType);
-            }
         }
 
         // Logging outside lock

@@ -30,7 +30,7 @@ public class DistributedModuleExecutorTests
         var scheduler = new Mock<IModuleScheduler>();
         var resultRegistrar = new Mock<IModuleResultRegistrar>();
         scheduler
-            .Setup(x => x.CancelPendingModules(false))
+            .Setup(x => x.CancelPendingModules())
             .Returns(cancelledModules);
 
         DistributedModuleExecutor.CompleteCancelledModules(

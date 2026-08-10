@@ -216,21 +216,19 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Cancels all modules that are queued or pending (not yet executing)
-    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
+    /// Cancels all modules that are queued or pending (not yet executing).
+    /// This cancels only the scheduler's internal completion sources. Call
+    /// <c>RegisterTerminatedResultsForCancelledModules</c> for the returned modules to complete their public result tasks.
     /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
     /// </summary>
-    /// <param name="cancelModuleResultAwaiters">
-    /// Whether to cancel typed module result awaiters immediately.
-    /// </param>
-    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
+    public IReadOnlyList<IModule> CancelPendingModules()
     {
         if (IsDisposed)
         {
             return [];
         }
 
-        return _stateTracker.CancelPendingModules(cancelModuleResultAwaiters);
+        return _stateTracker.CancelPendingModules();
     }
 
     public void Dispose()

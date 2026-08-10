@@ -100,21 +100,6 @@ public class GeneratedModuleMetadataTests
     }
 
     [Test]
-    public async Task Generated_Runtime_Cancels_Typed_Completion_Source()
-    {
-        var module = new GeneratedMetadataDependencyModule();
-
-        var found = GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime);
-        runtime.CancelCompletionSource(module);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(found).IsTrue();
-            await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
-        }
-    }
-
-    [Test]
     public async Task Generated_Runtime_Resolves_Unbuffered_Output_Logger()
     {
         var services = new ServiceCollection();
