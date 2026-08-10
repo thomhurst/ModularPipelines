@@ -134,6 +134,29 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Skips_Type_Validation_When_Property_Is_Invalid()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestPropertyFirstValidatedOptions();
+
+        await Assert.That(() => builder.Build(options))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestPropertyFirstValidatedOptions.Name")
+            .And.HasMessageContaining("TestPropertyFirstValidatedOptions.Retries");
+        await Assert.That(options.TypeValidationInvoked).IsFalse();
+    }
+
+    [Test]
+    public async Task Build_Accepts_ValidationResult_Success_From_Object_Validation()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestSuccessfulObjectValidatedOptions());
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
     public async Task Build_Provides_Scoped_Services_To_Validation_Contexts()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1403,6 +1426,40 @@ public class CommandLineBuilderTests : TestBase
         {
             ValidationCallbackInvoked = true;
             yield return new ValidationResult("Callback validation failed.");
+        }
+    }
+
+    [TypeValidationTracker]
+    [CliTool("tool")]
+    private sealed record TestPropertyFirstValidatedOptions : CommandLineToolOptions
+    {
+        [Required]
+        public string? Name { get; init; }
+
+        [Range(1, 3)]
+        internal int Retries { get; init; }
+
+        public bool TypeValidationInvoked { get; private set; }
+
+        public void MarkTypeValidationInvoked() => TypeValidationInvoked = true;
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class TypeValidationTrackerAttribute : ValidationAttribute
+    {
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            ((TestPropertyFirstValidatedOptions)value!).MarkTypeValidationInvoked();
+            return new ValidationResult("Type validation should be skipped.");
+        }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestSuccessfulObjectValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield return ValidationResult.Success!;
         }
     }
 
