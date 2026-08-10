@@ -376,7 +376,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Direct_Metadata_Revalidates_Legacy_Optional_Marker()
+    public async Task Schema2_Direct_Metadata_Rejects_Legacy_Optional_Marker_Without_Reflection()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>);
         GeneratedCommandMetadata.Register(

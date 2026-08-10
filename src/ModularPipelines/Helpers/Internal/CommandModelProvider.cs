@@ -234,8 +234,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
-            case FlagPart flag
-                when !HasSupportedPropertyType(optionsType, flag, IsSupportedFlagType):
+            case FlagPart flag when flag.IsSupportedPropertyType is not true:
                 throw new InvalidOperationException(
                     $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
             case OptionPart { Attribute.GroupValues: true } groupedOption
@@ -247,37 +246,13 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
             case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
-                when !HasSupportedPropertyType(
-                    optionsType,
-                    option,
-                    IsSupportedOptionalValueType,
-                    trustKnownResult: schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
-                                      || !option.AllowsLegacyOptionalValues):
+                when option.IsSupportedPropertyType is not true
+                     || (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
+                         && option.AllowsLegacyOptionalValues):
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");
         }
-    }
-
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "Legacy metadata getters preserve the referenced option properties; "
-                        + "reflection is used only when the support marker is absent or stale.")]
-    private static bool HasSupportedPropertyType(
-        Type optionsType,
-        PropertyCommandLinePart part,
-        Func<Type, bool> isSupported,
-        bool trustKnownResult = true)
-    {
-        if (trustKnownResult && part.IsSupportedPropertyType is { } knownResult)
-        {
-            return knownResult;
-        }
-
-        return GetCommandProperties(optionsType)
-                   .FirstOrDefault(property => property.Name == part.PropertyName) is { } property
-               && isSupported(property.PropertyType);
     }
 
     private static void ValidateUniqueSwitches(
