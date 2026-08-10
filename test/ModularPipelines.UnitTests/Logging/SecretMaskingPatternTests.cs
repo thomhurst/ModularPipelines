@@ -1793,6 +1793,43 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FlushAsync_ExcludesUnrelatedWritesUntilUnderlyingFlushCompletes()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        var flushTask = writer.FlushAsync();
+        await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+
+        Task writeTask;
+        using (ExecutionContext.SuppressFlow())
+        {
+            writeTask = Task.Run(() => writer.WriteLine("after flush"));
+        }
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await Assert.That(writeTask.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await Task.WhenAll(flushTask, writeTask).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"after flush{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -2020,6 +2057,22 @@ public class SecretMaskingPatternTests
         {
             AsyncFlushCount++;
             return Task.CompletedTask;
+        }
+    }
+
+    private sealed class BlockingAsyncFlushStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _flushStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseFlush = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task FlushStarted => _flushStarted.Task;
+
+        public void ReleaseFlush() => _releaseFlush.TrySetResult();
+
+        public override async Task FlushAsync()
+        {
+            _flushStarted.TrySetResult();
+            await _releaseFlush.Task.ConfigureAwait(false);
         }
     }
 }
