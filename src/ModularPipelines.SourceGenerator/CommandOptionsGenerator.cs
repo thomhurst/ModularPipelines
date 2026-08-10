@@ -15,6 +15,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
     private const int RuntimeMetadataSchemaVersion = 2;
     private const int CommandMetadataSchemaVersion = 3;
+    private const int SecretMetadataSchemaVersion = 1;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
 
@@ -1129,6 +1130,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
         sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
         sb.AppendLine();
+        foreach (var item in uniqueItems)
+        {
+            if (item.IsCommandOptions
+                && item.CanRegisterCommandMetadata
+                && item.CommandMetadata.IsComplete)
+            {
+                sb.AppendLine(
+                    $"    [global::System.Diagnostics.CodeAnalysis.DynamicDependency(" +
+                    $"global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties, " +
+                    $"typeof({item.TypeName}))]");
+            }
+        }
+
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
         sb.AppendLine("    internal static void Register()");
@@ -1506,9 +1520,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                                                "CommandSchemaVersion")
                                            ?? runtimeMetadataSchemaVersion;
         var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
-                                               && !Equals(
-                                                   runtimeMetadataSchemaVersion,
-                                                   RuntimeMetadataSchemaVersion);
+                                               && !SupportsSecretMetadataSchema(
+                                                   runtimeMetadataSchemaVersion);
         var hasCurrentCommandMetadata = Equals(
             commandMetadataSchemaVersion,
             CommandMetadataSchemaVersion);
@@ -1642,6 +1655,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .OfType<IFieldSymbol>()
             .FirstOrDefault(static field => field.HasConstantValue)?
             .ConstantValue;
+
+    private static bool SupportsSecretMetadataSchema(object? schemaVersion) =>
+        schemaVersion is int version && version >= SecretMetadataSchemaVersion;
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
         INamedTypeSymbol type,
