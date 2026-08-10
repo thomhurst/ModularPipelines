@@ -51,9 +51,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
                 {
                     IsGlobalOption = IsGlobalOption(property),
-                    HasExplicitPosition = property.CustomAttributes.Any(static attribute =>
-                        attribute.AttributeType == typeof(CliArgumentAttribute)
-                        && attribute.ConstructorArguments.Count > 0),
+                    HasExplicitPosition = HasExplicitArgumentPosition(property),
                 });
             }
             else if (property.GetCustomAttribute<CliFlagAttribute>() is { } flag)
@@ -143,6 +141,33 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 && declaredProperty?.GetMethod?.GetBaseDefinition().Equals(baseAccessor) == true)
             {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
+    private static bool HasExplicitArgumentPosition(PropertyInfo property)
+    {
+        var baseAccessor = property.GetMethod?.GetBaseDefinition();
+        for (var currentType = property.DeclaringType; currentType is not null; currentType = currentType.BaseType)
+        {
+            var declaredProperty = currentType == property.DeclaringType
+                ? property
+                : currentType.GetProperty(
+                    property.Name,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (declaredProperty?.GetMethod?.GetBaseDefinition().Equals(baseAccessor) != true)
+            {
+                continue;
+            }
+
+            var argument = declaredProperty.CustomAttributes.FirstOrDefault(static attribute =>
+                attribute.AttributeType == typeof(CliArgumentAttribute));
+            if (argument is not null)
+            {
+                return argument.ConstructorArguments.Count > 0;
             }
         }
 

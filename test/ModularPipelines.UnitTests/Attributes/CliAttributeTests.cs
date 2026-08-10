@@ -266,6 +266,49 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Public_Builder_Rejects_HandBuilt_Grouped_NonSpace_Option()
+    {
+        PropertyCommandLinePart[] model =
+        [
+            new OptionPart(
+                "Values",
+                static _ => new[] { "first", "second" },
+                new CliOptionAttribute("--values")
+                {
+                    Format = OptionFormat.EqualsSeparated,
+                    GroupValues = true,
+                }),
+        ];
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, new object()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+    }
+
+    [Test]
+    public async Task Registered_Metadata_Rejects_Value_Pair_NonSpace_Option()
+    {
+        var optionsType = typeof(RegisteredValuePairOptions<string>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredValuePairOptions<string>.Values),
+                    static options => ((RegisteredValuePairOptions<string>) options).Values,
+                    new CliOptionAttribute("--arg") { Format = OptionFormat.EqualsSeparated }),
+            ]);
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+        var options = new RegisteredValuePairOptions<string>
+        {
+            Values = [new CliValuePair("name", "value")],
+        };
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+    }
+
+    [Test]
     public async Task Parser_Omits_Empty_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = [] };
@@ -648,6 +691,17 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Reflection_CommandModel_Rejects_Inherited_Duplicate_Argument_Position()
+    {
+        var optionsType = typeof(ReflectionDuplicateOverrideArgumentOptions<string>);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Duplicate_Argument_Positions_In_Phase()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateArgumentPosition()))
@@ -1010,6 +1064,26 @@ public class CliAttributeTests
     {
         [CliFlag("--force")]
         public T? Force { get; init; }
+    }
+
+    private record ReflectionExplicitArgumentBase<T> : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public virtual string? First { get; init; }
+    }
+
+    private sealed record ReflectionDuplicateOverrideArgumentOptions<T>
+        : ReflectionExplicitArgumentBase<T>
+    {
+        public override string? First { get; init; }
+
+        [CliArgument(0)]
+        public string? Second { get; init; }
+    }
+
+    private sealed record RegisteredValuePairOptions<T> : CommandLineToolOptions
+    {
+        public IReadOnlyList<CliValuePair>? Values { get; init; }
     }
 
     internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions

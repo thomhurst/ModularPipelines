@@ -303,6 +303,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
+        if (optionPart.Attribute.GroupValues
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
             if (optionPart.Attribute.GroupValues)
@@ -318,6 +326,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var valuePairs = GetOptionValuePairs(rawValue);
+        if (valuePairs is not null
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"CliValuePair CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+
         if (optionPart.Attribute.GroupValues)
         {
             var groupedValues = valuePairs is null
