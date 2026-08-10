@@ -191,6 +191,49 @@ public class GeneratedOptionsRegistrationAnalyzerTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rejects_Stale_Peer_Command_Metadata_Schema()
+    {
+        var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(
+            new CommandOptionsGenerator(),
+            new PeerSourceGenerator(
+                "StalePeerCommandOptions.cs",
+                """
+                using ModularPipelines.Metadata;
+                using ModularPipelines.Options;
+
+                public sealed class StalePeerCommandOptions : CommandLineToolOptions;
+
+                public static class StalePeerRegistration
+                {
+                    public static void Add()
+                    {
+                        RuntimeMetadataRegistry.RegisterCommandOptions(
+                            typeof(StalePeerCommandOptions),
+                            new object(),
+                            1);
+                        RuntimeMetadataRegistry.RegisterSecrets(
+                            typeof(StalePeerCommandOptions),
+                            new object());
+                    }
+                }
+                """),
+            new GeneratedOptionsRegistrationAnalyzer(),
+            Infrastructure,
+            "public sealed class Host;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
+            await Assert.That(diagnostic.GetMessage()).Contains("StalePeerCommandOptions");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rejects_Direct_Peer_Generated_Command_Options()
     {
         var diagnostics = await GeneratorTestHarness.RunWithPeerGeneratorAndAnalyzer(

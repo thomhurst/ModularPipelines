@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace ModularPipelines.SourceGenerator;
 
@@ -269,10 +270,37 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
         {
             "RegisterCommandOptions" when method.Parameters.Length == 3
                                           && method.Parameters[2].Type.SpecialType
-                                          == SpecialType.System_Int32 => MetadataCoverage.CommandOptions,
+                                          == SpecialType.System_Int32
+                                          && HasCurrentCommandMetadataSchemaVersion(
+                                              context,
+                                              invocation,
+                                              method) => MetadataCoverage.CommandOptions,
             "RegisterSecrets" => MetadataCoverage.Secrets,
             _ => MetadataCoverage.None,
         };
+    }
+
+    private static bool HasCurrentCommandMetadataSchemaVersion(
+        SyntaxNodeAnalysisContext context,
+        InvocationExpressionSyntax invocation,
+        IMethodSymbol method)
+    {
+        if (context.SemanticModel.GetOperation(invocation, context.CancellationToken)
+                is not IInvocationOperation invocationOperation
+            || invocationOperation.Arguments.FirstOrDefault(
+                static argument => argument.Parameter?.Ordinal == 2) is not { } schemaArgument
+            || !schemaArgument.Value.ConstantValue.HasValue
+            || schemaArgument.Value.ConstantValue.Value is not int registeredSchemaVersion)
+        {
+            return false;
+        }
+
+        return method.ContainingType
+                   .GetMembers("CurrentCommandMetadataSchemaVersion")
+                   .OfType<IFieldSymbol>()
+                   .FirstOrDefault(static field => field.HasConstantValue)
+                   ?.ConstantValue is int currentSchemaVersion
+               && registeredSchemaVersion == currentSchemaVersion;
     }
 
     private static MetadataCoverage GetRequiredCoverage(ITypeSymbol type) =>
