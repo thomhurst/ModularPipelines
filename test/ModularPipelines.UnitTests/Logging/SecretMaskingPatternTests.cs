@@ -1144,6 +1144,21 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_AllowsReentrantRegistration()
+    {
+        const string discoveredSecret = "nested-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider => outerProvider.ExecuteWithStableSecrets(
+                outerProvider,
+                innerProvider => innerProvider.AddSecret(discoveredSecret)));
+
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
     public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
     {
         var provider = CreateProvider(out _);
