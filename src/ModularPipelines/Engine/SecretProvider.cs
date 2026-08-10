@@ -34,6 +34,9 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRegistry, IInitializer
 {
+    [ThreadStatic]
+    private static DeferredRegistrationScope? _deferredRegistrationScope;
+
     private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
     private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
 
@@ -105,6 +108,16 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             return;
         }
 
+        if (TryDeferRegistration(patterns))
+        {
+            return;
+        }
+
+        PublishPatterns(patterns);
+    }
+
+    private void PublishPatterns(IReadOnlyList<string> patterns)
+    {
         _secretEmissionLock.EnterWriteLock();
         try
         {
@@ -161,14 +174,36 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         ArgumentNullException.ThrowIfNull(processOutput);
 
         _secretEmissionLock.EnterReadLock();
+        var previousScope = _deferredRegistrationScope;
+        var scope = new DeferredRegistrationScope(this, previousScope);
+        _deferredRegistrationScope = scope;
         try
         {
             processOutput(state);
         }
         finally
         {
+            _deferredRegistrationScope = previousScope;
             _secretEmissionLock.ExitReadLock();
+            foreach (var patterns in scope.Patterns)
+            {
+                PublishPatterns(patterns);
+            }
         }
+    }
+
+    private bool TryDeferRegistration(IReadOnlyList<string> patterns)
+    {
+        for (var scope = _deferredRegistrationScope; scope is not null; scope = scope.Parent)
+        {
+            if (ReferenceEquals(scope.Provider, this))
+            {
+                scope.Patterns.Add(patterns);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     [UnconditionalSuppressMessage(
@@ -532,4 +567,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     private sealed record SecretAttributeReference(bool Value);
 
     private sealed record ReflectionAccessors(IReadOnlyList<SecretPropertyAccessor> Value);
+
+    private sealed record DeferredRegistrationScope(
+        SecretProvider Provider,
+        DeferredRegistrationScope? Parent)
+    {
+        public List<IReadOnlyList<string>> Patterns { get; } = [];
+    }
 }

@@ -1120,6 +1120,30 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_AllowsSinkToRegisterSecret()
+    {
+        const string discoveredSecret = "sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringStringWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.ToString())
+                .IsEqualTo($"ordinary output{Environment.NewLine}");
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
     public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
     {
         var provider = CreateProvider(out _);
@@ -1224,6 +1248,17 @@ public class SecretMaskingPatternTests
                 throw new TimeoutException("Timed out waiting to release the console write.");
             }
 
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class SecretRegisteringStringWriter(
+        ISecretRegistry secretRegistry,
+        string secret) : StringWriter
+    {
+        public override void WriteLine(string? value)
+        {
+            secretRegistry.AddSecret(secret);
             base.WriteLine(value);
         }
     }
