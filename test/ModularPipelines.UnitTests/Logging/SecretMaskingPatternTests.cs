@@ -1035,7 +1035,7 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
-    public async Task DirectConsoleWrite_SerializesRegistrationDuringMasking()
+    public async Task DirectConsoleWrite_DefersRegistrationDuringMasking()
     {
         var provider = CreateProvider(out var nativeMasker);
         provider.AddSecret("known-secret");
@@ -1084,9 +1084,8 @@ public class SecretMaskingPatternTests
             await Assert.That(obfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
             registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
             await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            await Assert.That(async () =>
-                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
-                .Throws<TimeoutException>();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("dynamic-secret");
 
             releaseObfuscation.Set();
             await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
@@ -1099,13 +1098,14 @@ public class SecretMaskingPatternTests
 
         await Assert.That(realConsole.ToString())
             .IsEqualTo($"********** dynamic-secret{Environment.NewLine}");
+        await Assert.That(provider.Secrets).Contains("dynamic-secret");
         obfuscator.Verify(
             candidate => candidate.ObfuscateWithConsumption("dynamic-secret", null),
             Times.Never);
     }
 
     [Test]
-    public async Task DirectConsoleWrite_LinearizesWithSecretRegistration()
+    public async Task DirectConsoleWrite_DefersRegistrationUntilWriteCompletes()
     {
         var provider = CreateProvider(out var nativeMasker);
         using var writeStarted = new ManualResetEventSlim();
@@ -1130,9 +1130,8 @@ public class SecretMaskingPatternTests
             await Assert.That(writeStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
             registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
             await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            await Assert.That(async () =>
-                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
-                .Throws<TimeoutException>();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("dynamic-secret");
 
             releaseWrite.Set();
             await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
@@ -1145,6 +1144,7 @@ public class SecretMaskingPatternTests
 
         await Assert.That(realConsole.ToString())
             .IsEqualTo($"dynamic-secret{Environment.NewLine}");
+        await Assert.That(provider.Secrets).Contains("dynamic-secret");
     }
 
     [Test]
@@ -1288,6 +1288,58 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_AllowsUnflowedRegistrationBeforeInheritedEmission()
+    {
+        const string discoveredSecret = "unflowed-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                var inheritedEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    outerProvider,
+                    static _ => { }));
+                if (!inheritedEmission.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited emission.");
+                }
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
     public async Task StableSecretEmission_HoldsLeaseForInheritedWorker()
     {
         var provider = CreateProvider(out var nativeMasker);
@@ -1323,9 +1375,8 @@ public class SecretMaskingPatternTests
         try
         {
             await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            await Assert.That(async () =>
-                    await registration.WaitAsync(TimeSpan.FromMilliseconds(500)))
-                .Throws<TimeoutException>();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("late-worker-secret");
 
             releaseWorker.Set();
             await Task.WhenAll(worker, registration).WaitAsync(TimeSpan.FromSeconds(5));

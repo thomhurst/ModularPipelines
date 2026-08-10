@@ -49,9 +49,12 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
     private readonly object _initLock = new();
     private readonly object _secretsLock = new();
+    private readonly object _emissionStateLock = new();
     private readonly ReaderWriterLockSlim _secretEmissionLock = new();
+    private readonly List<IReadOnlyList<string>> _unscopedDeferredPatterns = [];
 
     private long _version;
+    private int _activeEmissionCount;
     private volatile bool _initialized;
 
     /// <inheritdoc />
@@ -108,6 +111,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         }
 
         if (TryDeferRegistration(patterns))
+        {
+            return;
+        }
+
+        if (TryDeferUnscopedRegistration(patterns))
         {
             return;
         }
@@ -180,7 +188,8 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             return;
         }
 
-        _secretEmissionLock.EnterReadLock();
+        var ownsReadLock = existingScope is null;
+        EnterStableEmission(ownsReadLock);
         var previousScope = CurrentDeferredRegistrationScope.Value;
         var scope = new DeferredRegistrationScope(this, previousScope);
         CurrentDeferredRegistrationScope.Value = scope;
@@ -192,19 +201,61 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         {
             var deferredPatterns = scope.CloseAndTakePatterns();
             CurrentDeferredRegistrationScope.Value = previousScope;
-            _secretEmissionLock.ExitReadLock();
-            PublishOrDeferPatterns(deferredPatterns);
+            ExitStableEmission(ownsReadLock, deferredPatterns);
         }
     }
 
-    private void PublishOrDeferPatterns(IEnumerable<IReadOnlyList<string>> deferredPatterns)
+    private void EnterStableEmission(bool ownsReadLock)
     {
-        foreach (var patterns in deferredPatterns)
+        lock (_emissionStateLock)
         {
-            if (!TryDeferRegistration(patterns))
+            if (ownsReadLock)
             {
-                PublishPatterns(patterns);
+                _secretEmissionLock.EnterReadLock();
             }
+
+            _activeEmissionCount++;
+        }
+    }
+
+    private void ExitStableEmission(
+        bool ownsReadLock,
+        IReadOnlyList<IReadOnlyList<string>> deferredPatterns)
+    {
+        if (ownsReadLock)
+        {
+            _secretEmissionLock.ExitReadLock();
+        }
+
+        var unclaimedPatterns = deferredPatterns
+            .Where(patterns => !TryDeferRegistration(patterns))
+            .ToArray();
+        lock (_emissionStateLock)
+        {
+            _unscopedDeferredPatterns.AddRange(unclaimedPatterns);
+            _activeEmissionCount--;
+            if (_activeEmissionCount != 0)
+            {
+                return;
+            }
+
+            var patternsToPublish = _unscopedDeferredPatterns.ToArray();
+            _unscopedDeferredPatterns.Clear();
+            PublishPatterns(patternsToPublish);
+        }
+    }
+
+    private bool TryDeferUnscopedRegistration(IReadOnlyList<string> patterns)
+    {
+        lock (_emissionStateLock)
+        {
+            if (_activeEmissionCount == 0)
+            {
+                return false;
+            }
+
+            _unscopedDeferredPatterns.Add(patterns);
+            return true;
         }
     }
 
