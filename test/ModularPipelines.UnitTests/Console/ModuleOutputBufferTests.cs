@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
@@ -803,7 +804,12 @@ public class ModuleOutputBufferTests
     public async Task Flush_CancellationInterruptsRenderGateWait()
     {
         var writer = new StringWriter();
-        var loggerControl = new SynchronousLoggerControl(writer);
+        var renderGateWaitStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            RenderGateWaitStarted = renderGateWaitStarted,
+        };
         var buffer = CreateBufferWithStructuredLog();
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -816,18 +822,23 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
-        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        using var cancellationTokenSource = new CancellationTokenSource();
         try
         {
+            var flush = buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                cancellationToken: cancellationTokenSource.Token);
+
+            await renderGateWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await cancellationTokenSource.CancelAsync();
+
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                await buffer.FlushToAsync(
-                    writer,
-                    new GitHubActionsFormatter(),
-                    loggerControl,
-                    loggerControl,
-                    OutputFlushKind.Complete,
-                    cancellationToken: cancellationTokenSource.Token));
+                await flush.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
         finally
         {
@@ -1090,6 +1101,8 @@ public class ModuleOutputBufferTests
 
         public Exception? LogExceptionAfterWrite { get; set; }
 
+        public TaskCompletionSource? RenderGateWaitStarted { get; init; }
+
         public int LogCallCount { get; private set; }
 
         public IDisposable? BeginScope<TState>(TState state)
@@ -1168,6 +1181,7 @@ public class ModuleOutputBufferTests
             TimeSpan timeout,
             CancellationToken cancellationToken = default)
         {
+            RenderGateWaitStarted?.TrySetResult();
             var deadline = DateTime.UtcNow + timeout;
             while (DateTime.UtcNow < deadline)
             {
