@@ -36,13 +36,9 @@ internal sealed class FileSystemRunHistoryStore(
         }
 
         var incompatibleSchemaLogged = false;
-        var files = Directory
-            .EnumerateFiles(
-                directory,
-                $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
-                SearchOption.TopDirectoryOnly)
-            .OrderByDescending(GetHistoryTimestamp)
-            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal);
+        var files = GetHistoryFilesNewestFirst(
+            directory,
+            $"{GetPipelineFilePrefix(pipelineIdentity)}*.json");
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -177,10 +173,7 @@ internal sealed class FileSystemRunHistoryStore(
         {
             return;
         }
-        var staleFiles = Directory
-            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
-            .OrderByDescending(GetHistoryTimestamp)
-            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
+        var staleFiles = GetHistoryFilesNewestFirst(directory, searchPattern)
             .Skip(retention)
             .ToArray();
         foreach (var staleFile in staleFiles)
@@ -196,6 +189,14 @@ internal sealed class FileSystemRunHistoryStore(
             }
         }
     }
+
+    private static IEnumerable<string> GetHistoryFilesNewestFirst(
+        string directory,
+        string searchPattern) =>
+        Directory
+            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+            .OrderByDescending(GetHistoryTimestamp)
+            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal);
 
     private static DateTime GetHistoryTimestamp(string path)
     {
