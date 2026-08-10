@@ -69,6 +69,48 @@ public partial class BrewCliScraper : CliScraperBase
         return await base.IsAvailableAsync(cancellationToken);
     }
 
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
+    {
+        var helpText = await base.GetHelpTextAsync(commandPath, cancellationToken);
+        if (commandPath.Length != 1
+            || string.IsNullOrWhiteSpace(helpText)
+            || CommandSectionPattern().IsMatch(helpText))
+        {
+            return helpText;
+        }
+
+        var commandInventory = await Executor.ExecuteAsync(
+            ExecutablePath,
+            "commands --quiet",
+            cancellationToken);
+        if (!commandInventory.Success)
+        {
+            Logger.LogWarning(
+                "Could not query the complete Homebrew command inventory; brew commands --quiet exited with {ExitCode}",
+                commandInventory.ExitCode);
+            return helpText;
+        }
+
+        var commands = commandInventory.CombinedOutput
+            .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(static command => BrewCommandNamePattern().IsMatch(command))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (commands.Length == 0)
+        {
+            Logger.LogWarning("brew commands --quiet returned no parseable commands");
+            return helpText;
+        }
+
+        var commandSection = string.Join(
+            Environment.NewLine,
+            commands.Select(static command => $"  {command}  Discovered by brew commands --quiet."));
+        return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}Commands:{Environment.NewLine}{commandSection}";
+    }
+
     /// <summary>
     /// Extracts subcommand names from Homebrew help text.
     /// </summary>
@@ -426,6 +468,9 @@ public partial class BrewCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*brew\s+(?<name>[\w-]+)", RegexOptions.Multiline)]
     private static partial Regex BrewCommandLinePattern();
+
+    [GeneratedRegex(@"^[a-z0-9][a-z0-9+_.-]*$", RegexOptions.IgnoreCase)]
+    private static partial Regex BrewCommandNamePattern();
 
     /// <summary>
     /// Matches Homebrew-style option lines:

@@ -76,7 +76,11 @@ internal static partial class EnumDefinitionStabilizer
         {
             if (incomingByCliValue.TryGetValue(existingValue.CliValue, out var incomingValue))
             {
-                stabilizedValues.Add(incomingValue with { NumericValue = existingValue.NumericValue });
+                stabilizedValues.Add(incomingValue with
+                {
+                    MemberName = existingValue.MemberName,
+                    NumericValue = existingValue.NumericValue,
+                });
             }
         }
 
@@ -140,8 +144,9 @@ internal static partial class EnumDefinitionStabilizer
                 ? int.Parse(match.Groups["number"].Value, System.Globalization.CultureInfo.InvariantCulture)
                 : nextNumericValue;
             var cliValue = Regex.Unescape(match.Groups["cliValue"].Value);
+            var memberName = match.Groups["member"].Value;
 
-            values.Add(new ExistingEnumValue(cliValue, numericValue));
+            values.Add(new ExistingEnumValue(cliValue, memberName, numericValue));
             nextNumericValue = checked(numericValue + 1);
         }
 
@@ -172,5 +177,5 @@ internal static partial class EnumDefinitionStabilizer
         """\[(?:EnumValue|Description)\("(?<cliValue>(?:\\.|[^"\\])*)"\)\]\s*(?<member>[\p{L}_][\p{L}\p{Nd}_]*)(?:\s*=\s*(?<number>-?\d+))?\s*(?:,|})""")]
     private static partial Regex ExistingEnumValuePattern();
 
-    private sealed record ExistingEnumValue(string CliValue, int NumericValue);
+    private sealed record ExistingEnumValue(string CliValue, string MemberName, int NumericValue);
 }

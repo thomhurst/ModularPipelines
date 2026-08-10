@@ -380,6 +380,13 @@ public static class UsageSynopsisParser
         }
 
         synopsis = remainder.TrimStart(':', ' ', '\t');
+        if (!remainder.StartsWith(':')
+            && synopsis.StartsWith("example ", StringComparison.OrdinalIgnoreCase))
+        {
+            synopsis = "";
+            return false;
+        }
+
         return true;
     }
 

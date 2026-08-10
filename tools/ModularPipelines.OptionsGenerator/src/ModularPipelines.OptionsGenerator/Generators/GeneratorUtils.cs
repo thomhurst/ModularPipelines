@@ -636,15 +636,25 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
         }
 
-        sb.AppendLine($"{indent}Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+        AppendDefaultServiceMethod(sb, methodName, command, indent);
 
         foreach (var compatibilityMethod in GetCompatibilityMethods(command, methodName))
         {
             sb.AppendLine();
             sb.AppendLine(
                 $"{indent}[Obsolete({FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-            sb.AppendLine($"{indent}Task<CommandResult> {compatibilityMethod.MethodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
+            AppendDefaultServiceMethod(sb, compatibilityMethod.MethodName, command, indent);
         }
+    }
+
+    private static void AppendDefaultServiceMethod(
+        StringBuilder sb,
+        string methodName,
+        CliCommandDefinition command,
+        string indent)
+    {
+        sb.AppendLine($"{indent}Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default)");
+        sb.AppendLine($"{indent}    => throw new System.NotSupportedException();");
     }
 
     /// <summary>

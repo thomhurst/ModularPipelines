@@ -10,6 +10,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Ignores_Azure_Usage_Examples()
+    {
+        const string helpText = """
+            Command
+                az redis force-reboot : Reboot specified Redis node(s).
+                    Usage example - az redis force-reboot --name testCacheName --resource-group
+                    testResourceGroup --reboot-type {AllNodes, PrimaryNode, SecondaryNode} [--shard-id].
+            """;
+
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["az", "redis", "force-reboot"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.HasExtractedSynopses).IsFalse();
+            await Assert.That(result.HasOperandTokens).IsFalse();
+            await Assert.That(result.PositionalArguments).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task Ignores_Comma_Separated_Command_Alias()
     {
         var result = UsageSynopsisParser.Parse(

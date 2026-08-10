@@ -8,6 +8,21 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class BrewCliScraperTests
 {
     [Test]
+    public async Task Traversal_Uses_Complete_Quiet_Command_Inventory()
+    {
+        var scraper = new TestBrewCliScraper(new CommandInventoryExecutor());
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(static command => command.FullCommand))
+            .IsEquivalentTo(["brew alpha", "brew beta", "brew update"]);
+    }
+
+    [Test]
     public async Task Preserves_Positional_Operands_From_Usage()
     {
         const string helpText = """
@@ -35,18 +50,46 @@ public class BrewCliScraperTests
 
     private sealed class TestBrewCliScraper : BrewCliScraper
     {
-        public TestBrewCliScraper()
+        public TestBrewCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<BrewCliScraper>.Instance)
         {
         }
+
+        public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+    }
+
+    private sealed class CommandInventoryExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = arguments switch
+                {
+                    "--help" => "Example usage:\n  brew update",
+                    "commands --quiet" => "alpha  beta\n",
+                    _ => $"Usage: brew {arguments[..^7]} [options]\n\n  --verbose  Show details.",
+                },
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 }
