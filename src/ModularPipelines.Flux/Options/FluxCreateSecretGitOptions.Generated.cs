@@ -50,7 +50,6 @@ public record FluxCreateSecretGitOptions : FluxOptions
     /// <summary>
     /// path to a passwordless private key file used for authenticating to the Git SSH server
     /// </summary>
-    [SecretValue]
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
