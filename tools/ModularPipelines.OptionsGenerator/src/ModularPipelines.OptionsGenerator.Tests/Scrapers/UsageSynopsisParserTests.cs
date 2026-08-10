@@ -10,6 +10,56 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Ignores_Azure_Usage_Examples()
+    {
+        const string helpText = """
+            Command
+                az redis force-reboot : Reboot specified Redis node(s).
+                    Usage example - az redis force-reboot --name testCacheName --resource-group
+                    testResourceGroup --reboot-type {AllNodes, PrimaryNode, SecondaryNode} [--shard-id].
+            """;
+
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["az", "redis", "force-reboot"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.HasExtractedSynopses).IsFalse();
+            await Assert.That(result.HasOperandTokens).IsFalse();
+            await Assert.That(result.PositionalArguments).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Ignores_Comma_Separated_Command_Alias()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: brew update, up [options]",
+            ["brew", "update"]);
+        var resultWithOperand = UsageSynopsisParser.Parse(
+            "Usage: tool remove, rm <TARGET>",
+            ["tool", "remove"]);
+        var resultWithMultipleAliases = UsageSynopsisParser.Parse(
+            "Usage: brew uninstall, remove, rm [options] formula|cask [...]",
+            ["brew", "uninstall"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).IsEmpty();
+            await Assert.That(result.HasOperandTokens).IsFalse();
+            await Assert.That(resultWithOperand.PositionalArguments).HasSingleItem();
+            await Assert.That(resultWithOperand.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Target");
+            await Assert.That(resultWithMultipleAliases.PositionalArguments).HasSingleItem();
+            await Assert.That(resultWithMultipleAliases.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Formula");
+            await Assert.That(resultWithMultipleAliases.PositionalArguments.Single().IsVariadic)
+                .IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Retains_Compound_Endpoint_Placeholders_As_Single_Operands()
     {
         var copy = UsageSynopsisParser.Parse(
@@ -38,11 +88,20 @@ public class UsageSynopsisParserTests
         var parsed = UsageSynopsisParser.Parse(
             "Usage: docker buildx [OPTIONS] COMMAND",
             ["docker", "buildx"]);
+        var nested = UsageSynopsisParser.Parse(
+            "Usage: winget source [<command>] [<options>]",
+            ["winget", "source"]);
 
         var result = UsageSynopsisParser.RemoveCommandGroupPlaceholders(parsed);
+        var nestedResult = UsageSynopsisParser.RemoveCommandGroupPlaceholders(nested);
 
-        await Assert.That(result.PositionalArguments).IsEmpty();
-        await Assert.That(result.HasOperandTokens).IsFalse();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).IsEmpty();
+            await Assert.That(result.HasOperandTokens).IsFalse();
+            await Assert.That(nestedResult.PositionalArguments).IsEmpty();
+            await Assert.That(nestedResult.HasOperandTokens).IsFalse();
+        }
     }
 
     [Test]
@@ -581,6 +640,114 @@ public class UsageSynopsisParserTests
         await Assert.That(command.ValidateOperandCoverage)
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("no CliPositionalArgument");
+    }
+
+    [Test]
+    public async Task Model_Accepts_Usage_Operand_Covered_By_Named_Option()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: winget search [[-q] <query>] [<options>]",
+            ["winget", "search"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "winget search",
+            CommandParts = ["search"],
+            ClassName = "WingetSearchOptions",
+            ParentClassName = "WingetOptions",
+            ToolNamespacePrefix = "Winget",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--query",
+                    ShortForm = "-q",
+                    PropertyName = "Query",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        await Assert.That(usage.PositionalArguments.Single().PropertyName)
+            .IsEqualTo("Query");
+        await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+            .IsEqualTo("-q");
+    }
+
+    [Test]
+    public async Task Model_Rejects_Standalone_Operand_Sharing_Named_Option_Property()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool run [--output OUTPUT] OUTPUT",
+            ["tool", "run"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "tool run",
+            CommandParts = ["run"],
+            ClassName = "ToolRunOptions",
+            ParentClassName = "ToolOptions",
+            ToolNamespacePrefix = "Tool",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        void Validate() => command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        await Assert.That(Validate)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("no CliPositionalArgument");
+    }
+
+    [Test]
+    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool run [--output] OUTPUT",
+            ["tool", "run"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "tool run",
+            CommandParts = ["run"],
+            ClassName = "ToolRunOptions",
+            ParentClassName = "ToolOptions",
+            ToolNamespacePrefix = "Tool",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        void Validate() => command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+            await Assert.That(Validate)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("no CliPositionalArgument");
+        }
     }
 
     private static OperandFixture Fixture(

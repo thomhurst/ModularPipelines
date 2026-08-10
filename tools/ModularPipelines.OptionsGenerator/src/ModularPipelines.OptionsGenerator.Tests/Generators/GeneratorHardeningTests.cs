@@ -950,6 +950,20 @@ public class GeneratorHardeningTests
         await Assert.That(generated)
             .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
+        await Assert.That(generated)
+            .Contains("    => throw new System.NotSupportedException();");
+    }
+
+    [Test]
+    public async Task ServiceInterfaceGenerator_Emits_Default_Command_Implementations()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"]));
+
+        var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("Task<CommandResult> RunAsync(");
+        await Assert.That(generated)
+            .Contains("    => throw new System.NotSupportedException();");
     }
 
     #endregion

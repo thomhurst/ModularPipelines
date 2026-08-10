@@ -473,7 +473,8 @@ public abstract partial class CliScraperBase : ICliScraper
 
         command.ValidateOperandCoverage(
             usage.HasOperandTokens,
-            usage.Synopsis);
+            usage.Synopsis,
+            usage.PositionalArguments);
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
     }
 
@@ -890,7 +891,7 @@ public abstract partial class CliScraperBase : ICliScraper
         string switchName,
         string description)
     {
-        if (RepeatableValuePattern().IsMatch(description))
+        if (DescriptionDeclaresRepeatableOption(description))
         {
             return true;
         }
@@ -924,6 +925,12 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
+    /// Returns whether an option description identifies a repeatable value.
+    /// </summary>
+    protected static bool DescriptionDeclaresRepeatableOption(string description) =>
+        RepeatableValuePattern().IsMatch(description);
+
+    /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
     /// The adapter only recognizes one tool-specific declaration line; traversal,
     /// documentation boundaries, group classification, and flattening stay shared.
@@ -945,7 +952,8 @@ public abstract partial class CliScraperBase : ICliScraper
                     + "but the parsed model marks it as a presence-only flag.");
             }
 
-            if (HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+            if (!option.IsFlag
+                && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
                 && !option.AcceptsMultipleValues)
             {
                 throw new InvalidOperationException(

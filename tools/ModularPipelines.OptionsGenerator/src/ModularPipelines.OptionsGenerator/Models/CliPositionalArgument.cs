@@ -19,6 +19,10 @@ public record CliPositionalArgument
                 var collection = group.FirstOrDefault(argument =>
                     argument.CSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal));
                 var type = (collection ?? first).CSharpType.TrimEnd('?');
+                var associatedOptionSwitches = group
+                    .Select(argument => argument.AssociatedOptionSwitch)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
 
                 return first with
                 {
@@ -30,6 +34,9 @@ public record CliPositionalArgument
                         argument.PrependOptionTerminator),
                     PrependOptionTerminatorIfValueStartsWithDash = group.Any(argument =>
                         argument.PrependOptionTerminatorIfValueStartsWithDash),
+                    AssociatedOptionSwitch = associatedOptionSwitches.Count == 1
+                        ? associatedOptionSwitches[0]
+                        : null,
                 };
             })
             .OrderBy(argument => argument.PositionIndex)
@@ -60,6 +67,11 @@ public record CliPositionalArgument
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }
+
+    /// <summary>
+    /// Option switch that syntactically owns this placeholder in the usage synopsis.
+    /// </summary>
+    public string? AssociatedOptionSwitch { get; init; }
 
     /// <summary>
     /// Rendering phase relative to flags and options. Generated operands default to

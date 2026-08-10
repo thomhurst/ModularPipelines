@@ -153,21 +153,41 @@ public static class UsageSynopsisParser
             return UsageSynopsisParseResult.Unmatched(synopsis);
         }
 
-        var arguments = new List<CliPositionalArgument>();
-        var unparsedTokens = new List<string>();
-        var prependOptionTerminatorToNextOperand = false;
         var phase = tokens
             .Take(commandMatch.EndIndex + 1)
             .Any(IsOptionControlToken)
                 ? CommandLinePhase.Passthrough
                 : CommandLinePhase.EarlyOperand;
-        foreach (var token in TrimTrailingUsageExplanation(
-                     CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1))))
+        var operandTokens = tokens.Skip(commandMatch.EndIndex + 1);
+        if (tokens[commandMatch.EndIndex].TrimEnd().EndsWith(','))
         {
-            if (IsOptionControlToken(token))
-            {
-                phase = CommandLinePhase.Passthrough;
-            }
+            operandTokens = SkipCommandAliases(operandTokens);
+        }
+
+        var parsedOperands = ParseOperandTokens(operandTokens, phase);
+        return new UsageSynopsisParseResult
+        {
+            Synopsis = synopsis,
+            CommandMatched = true,
+            MatchedCommandPartCount = commandMatch.PartCount,
+            HasOperandTokens = parsedOperands.Arguments.Count > 0
+                               || parsedOperands.UnparsedTokens.Count > 0,
+            PositionalArguments = CliPositionalArgument.MergeDuplicates(parsedOperands.Arguments),
+            UnparsedOperandTokens = parsedOperands.UnparsedTokens,
+        };
+    }
+
+    private static ParsedOperands ParseOperandTokens(
+        IEnumerable<string> operandTokens,
+        CommandLinePhase phase)
+    {
+        var arguments = new List<CliPositionalArgument>();
+        var unparsedTokens = new List<string>();
+        var prependOptionTerminatorToNextOperand = false;
+
+        foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
+        {
+            phase = IsOptionControlToken(token) ? CommandLinePhase.Passthrough : phase;
 
             if (IsStandaloneOptionTerminator(token))
             {
@@ -178,8 +198,12 @@ public static class UsageSynopsisParser
             var groupedBehindOptionTerminator =
                 TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
             var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
-            if (TryApplyStandaloneRepeat(operandToken, arguments)
-                || IsNonOperandSyntax(operandToken))
+            if (TryApplyStandaloneRepeat(operandToken, arguments))
+            {
+                continue;
+            }
+
+            if (IsNonOperandSyntax(operandToken))
             {
                 continue;
             }
@@ -211,15 +235,28 @@ public static class UsageSynopsisParser
             prependOptionTerminatorToNextOperand = false;
         }
 
-        return new UsageSynopsisParseResult
+        return new ParsedOperands(arguments, unparsedTokens);
+    }
+
+    private readonly record struct ParsedOperands(
+        IReadOnlyList<CliPositionalArgument> Arguments,
+        IReadOnlyList<string> UnparsedTokens);
+
+    private static IEnumerable<string> SkipCommandAliases(IEnumerable<string> operandTokens)
+    {
+        using var enumerator = operandTokens.GetEnumerator();
+        while (enumerator.MoveNext())
         {
-            Synopsis = synopsis,
-            CommandMatched = true,
-            MatchedCommandPartCount = commandMatch.PartCount,
-            HasOperandTokens = arguments.Count > 0 || unparsedTokens.Count > 0,
-            PositionalArguments = CliPositionalArgument.MergeDuplicates(arguments),
-            UnparsedOperandTokens = unparsedTokens,
-        };
+            if (!enumerator.Current.TrimEnd().EndsWith(','))
+            {
+                break;
+            }
+        }
+
+        while (enumerator.MoveNext())
+        {
+            yield return enumerator.Current;
+        }
     }
 
     private static bool HasSameScore(
@@ -348,6 +385,13 @@ public static class UsageSynopsisParser
         }
 
         synopsis = remainder.TrimStart(':', ' ', '\t');
+        if (!remainder.StartsWith(':')
+            && synopsis.StartsWith("example ", StringComparison.OrdinalIgnoreCase))
+        {
+            synopsis = "";
+            return false;
+        }
+
         return true;
     }
 
@@ -539,8 +583,25 @@ public static class UsageSynopsisParser
         }
 
         var parsedArguments = new List<CliPositionalArgument>();
+        string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
         {
+            var isOptionSwitch = TryGetOptionSwitch(nestedToken, out var optionSwitch);
+            if (isOptionSwitch)
+            {
+                associatedOptionSwitch = optionSwitch;
+            }
+
+            if (IsNonOperandSyntax(nestedToken))
+            {
+                if (!isOptionSwitch)
+                {
+                    associatedOptionSwitch = null;
+                }
+
+                continue;
+            }
+
             var argument = ParseOperand(
                 nestedToken,
                 positionIndex + parsedArguments.Count,
@@ -554,7 +615,9 @@ public static class UsageSynopsisParser
             {
                 CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
                 IsRequired = false,
+                AssociatedOptionSwitch = associatedOptionSwitch,
             });
+            associatedOptionSwitch = null;
         }
 
         arguments = parsedArguments;
@@ -726,7 +789,7 @@ public static class UsageSynopsisParser
 
     private static bool IsControlToken(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || ControlTokens.Contains(content)
@@ -735,7 +798,7 @@ public static class UsageSynopsisParser
 
     private static bool IsNonOperandSyntax(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || OptionControlTokens.Contains(content)
@@ -744,9 +807,37 @@ public static class UsageSynopsisParser
 
     private static bool IsOptionControlToken(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return content.StartsWith('-')
                || OptionControlTokens.Contains(content);
+    }
+
+    private static bool TryGetOptionSwitch(string token, out string optionSwitch)
+    {
+        var content = TrimControlWrappers(token);
+        var endIndex = content.IndexOfAny([' ', '\t', '=']);
+        optionSwitch = content.TrimEnd(',', ':');
+        if (optionSwitch.Length > 1
+            && endIndex < 0
+            && optionSwitch.StartsWith('-')
+            && optionSwitch != "--")
+        {
+            return true;
+        }
+
+        optionSwitch = "";
+        return false;
+    }
+
+    private static string TrimControlWrappers(string token)
+    {
+        var content = token.Trim();
+        while (IsWrapped(content))
+        {
+            content = TrimWrapper(content).Trim();
+        }
+
+        return content;
     }
 
     private static string NormalizeLiteral(string token) =>

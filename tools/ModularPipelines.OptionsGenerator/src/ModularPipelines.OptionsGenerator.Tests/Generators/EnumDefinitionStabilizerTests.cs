@@ -101,6 +101,37 @@ public class EnumDefinitionStabilizerTests
     }
 
     [Test]
+    public async Task Stabilize_Preserves_Existing_Member_Name_For_Same_Cli_Value()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            """
+            public enum FakeVisibility
+            {
+                [EnumValue("controllerManager")]
+                Controllermanager
+            }
+            """);
+
+        try
+        {
+            var stabilized = EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("controllerManager")),
+                outputRoot);
+
+            await Assert.That(stabilized.AllEnums.Single().Values.Single().MemberName)
+                .IsEqualTo("Controllermanager");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Stabilize_Rejects_Suspicious_Prose_Values()
     {
         var tool = Tool(Value("them"), Value("accepts"));
@@ -109,6 +140,38 @@ public class EnumDefinitionStabilizerTests
         await Assert.That(Stabilize)
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("suspicious prose value");
+    }
+
+    [Test]
+    public async Task Stabilize_Rejects_Preserved_Member_Name_Colliding_With_New_Value()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            """
+            public enum FakeVisibility
+            {
+                [EnumValue("legacy")]
+                FutureValue
+            }
+            """);
+
+        try
+        {
+            void Stabilize() => EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("legacy"), Value("future-value")),
+                outputRoot);
+
+            await Assert.That(Stabilize)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("duplicate member name 'FutureValue' after stabilization");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
     }
 
     private static CliToolDefinition Tool(params CliEnumValue[] values)

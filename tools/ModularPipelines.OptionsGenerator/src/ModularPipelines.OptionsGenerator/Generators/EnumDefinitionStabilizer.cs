@@ -76,7 +76,11 @@ internal static partial class EnumDefinitionStabilizer
         {
             if (incomingByCliValue.TryGetValue(existingValue.CliValue, out var incomingValue))
             {
-                stabilizedValues.Add(incomingValue with { NumericValue = existingValue.NumericValue });
+                stabilizedValues.Add(incomingValue with
+                {
+                    MemberName = existingValue.MemberName,
+                    NumericValue = existingValue.NumericValue,
+                });
             }
         }
 
@@ -106,6 +110,7 @@ internal static partial class EnumDefinitionStabilizer
             }
         }
 
+        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
         return definition with { Values = stabilizedValues };
     }
 
@@ -129,6 +134,20 @@ internal static partial class EnumDefinitionStabilizer
         }
     }
 
+    private static void ValidateUniqueMemberNames(
+        string enumName,
+        IReadOnlyList<CliEnumValue> values)
+    {
+        var duplicateMemberName = values
+            .GroupBy(value => value.MemberName, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateMemberName is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{enumName}' contains duplicate member name '{duplicateMemberName.Key}' after stabilization.");
+        }
+    }
+
     private static IReadOnlyList<ExistingEnumValue> ParseExistingValues(string content)
     {
         var values = new List<ExistingEnumValue>();
@@ -140,8 +159,9 @@ internal static partial class EnumDefinitionStabilizer
                 ? int.Parse(match.Groups["number"].Value, System.Globalization.CultureInfo.InvariantCulture)
                 : nextNumericValue;
             var cliValue = Regex.Unescape(match.Groups["cliValue"].Value);
+            var memberName = match.Groups["member"].Value;
 
-            values.Add(new ExistingEnumValue(cliValue, numericValue));
+            values.Add(new ExistingEnumValue(cliValue, memberName, numericValue));
             nextNumericValue = checked(numericValue + 1);
         }
 
@@ -172,5 +192,5 @@ internal static partial class EnumDefinitionStabilizer
         """\[(?:EnumValue|Description)\("(?<cliValue>(?:\\.|[^"\\])*)"\)\]\s*(?<member>[\p{L}_][\p{L}\p{Nd}_]*)(?:\s*=\s*(?<number>-?\d+))?\s*(?:,|})""")]
     private static partial Regex ExistingEnumValuePattern();
 
-    private sealed record ExistingEnumValue(string CliValue, int NumericValue);
+    private sealed record ExistingEnumValue(string CliValue, string MemberName, int NumericValue);
 }
