@@ -212,31 +212,49 @@ internal sealed class ModuleOutputExcerptBuffer(
     {
         var stdoutBytes = 0;
         var stderrBytes = 0;
-        var remaining = maximumBytes;
         var stdoutNeeded = maskedStdoutBytes;
         var stderrNeeded = maskedStderrBytes;
+        var stdoutSuffix = new StringBuilder();
+        var stderrSuffix = new StringBuilder();
 
-        for (var chunk = _chunks.Last; chunk is not null && remaining > 0; chunk = chunk.Previous)
+        for (var chunk = _chunks.Last; chunk is not null; chunk = chunk.Previous)
         {
-            var maskedChunkBytes = Utf8.GetByteCount(
-                obfuscator.ObfuscatePreservingMasks(Utf8.GetString(chunk.Value.Bytes)));
-            if (chunk.Value.Stream is ModuleOutputStream.StandardError && stderrNeeded > 0)
+            var chunkText = Utf8.GetString(chunk.Value.Bytes);
+            if (chunk.Value.Stream is ModuleOutputStream.StandardError)
             {
-                var added = Math.Min(Math.Min(stderrNeeded, maskedChunkBytes), remaining);
-                stderrBytes += added;
-                stderrNeeded -= added;
-                remaining -= added;
+                stderrSuffix.Insert(0, chunkText);
+                var available = Math.Min(
+                    stderrNeeded,
+                    Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stderrSuffix.ToString())));
+                stderrBytes = RebalanceStreamBytes(
+                    available,
+                    stderrBytes,
+                    stdoutBytes);
             }
-            else if (chunk.Value.Stream is ModuleOutputStream.StandardOutput && stdoutNeeded > 0)
+            else
             {
-                var added = Math.Min(Math.Min(stdoutNeeded, maskedChunkBytes), remaining);
-                stdoutBytes += added;
-                stdoutNeeded -= added;
-                remaining -= added;
+                stdoutSuffix.Insert(0, chunkText);
+                var available = Math.Min(
+                    stdoutNeeded,
+                    Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stdoutSuffix.ToString())));
+                stdoutBytes = RebalanceStreamBytes(
+                    available,
+                    stdoutBytes,
+                    stderrBytes);
             }
         }
 
         return (stdoutBytes, stderrBytes);
+    }
+
+    private int RebalanceStreamBytes(
+        int availableBytes,
+        int allocatedBytes,
+        int otherStreamBytes)
+    {
+        allocatedBytes = Math.Min(allocatedBytes, availableBytes);
+        var remaining = Math.Max(0, maximumBytes - allocatedBytes - otherStreamBytes);
+        return allocatedBytes + Math.Min(availableBytes - allocatedBytes, remaining);
     }
 
     private static bool TryGetSafeMaskedTail(

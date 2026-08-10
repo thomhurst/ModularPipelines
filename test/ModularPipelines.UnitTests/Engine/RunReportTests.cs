@@ -236,6 +236,36 @@ public class RunReportTests
             new(_completion.Task);
     }
 
+    private sealed class DelayedSecretRegisteringRunReportEnricher(Action registerSecret)
+        : IRunReportEnricher
+    {
+        private readonly TaskCompletionSource _release = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _started = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task Completion { get; private set; } = Task.CompletedTask;
+
+        public Task Started => _started.Task;
+
+        public void Release() => _release.TrySetResult();
+
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            Completion = CompleteAsync();
+            _started.TrySetResult();
+            return new ValueTask(Completion);
+        }
+
+        private async Task CompleteAsync()
+        {
+            await _release.Task.ConfigureAwait(false);
+            registerSecret();
+        }
+    }
+
     private sealed class CommandCountingRunReportEnricher(
         ICommandExecutionCounter commandExecutionCounter) : IRunReportEnricher
     {
@@ -1690,6 +1720,74 @@ public class RunReportTests
         }
         finally
         {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOmitsOutputWhenTimedOutEnricherCanRegisterSecretsLater()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var enricher = new DelayedSecretRegisteringRunReportEnricher(() => version = 4);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            enricherTimeout: TimeSpan.FromMilliseconds(25),
+            runReportEnrichers: [enricher]);
+
+        try
+        {
+            var completion = service.CompleteAsync(summary);
+            await enricher.Started.WaitAsync(TimeSpan.FromSeconds(2));
+            var report = await completion.WaitAsync(TimeSpan.FromSeconds(2));
+            var persisted = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            enricher.Release();
+            await enricher.Completion.WaitAsync(TimeSpan.FromSeconds(2));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
+                await Assert.That(version).IsEqualTo(4);
+            }
+        }
+        finally
+        {
+            enricher.Release();
             Directory.Delete(directory, recursive: true);
         }
     }

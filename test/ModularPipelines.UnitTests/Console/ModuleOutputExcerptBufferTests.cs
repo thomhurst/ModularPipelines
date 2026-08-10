@@ -399,4 +399,33 @@ public class ModuleOutputExcerptBufferTests
         await Assert.That(excerpt.StdoutTail).IsEqualTo(
             $"**********{Environment.NewLine}");
     }
+
+    [Test]
+    public async Task RebalancesExpandedMaskAcrossAppendBoundaries()
+    {
+        var secret = $"abc{Environment.NewLine}def";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var expected = $"**********{Environment.NewLine}";
+        var buffer = new ModuleOutputExcerptBuffer(
+            Encoding.UTF8.GetByteCount(expected),
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("abc", ModuleOutputStream.StandardOutput);
+        buffer.Append("def", ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+
+        var excerpt = buffer.CreateExcerpt()!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo(expected);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
 }
