@@ -264,6 +264,122 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task DisposeAsync_LogsObfuscatedModuleFailureWhenBufferedOutputFlushFails()
+    {
+        var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                moduleOutputBuffer,
+                typeof(ModuleLoggerTests),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new IOException("flush failed"));
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        var moduleException = new InvalidOperationException("module secret-value");
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value?.Replace("secret-value", "**********") ?? string.Empty);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object);
+        logger.SetException(moduleException);
+
+        await logger.DisposeAsync();
+
+        defaultLogger.Verify(x => x.Log(
+            LogLevel.Error,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
+            It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public async Task DisposeAsync_LogsIndependentCancellationAsFlushFailure()
+    {
+        var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        var providerCancellation = new OperationCanceledException("provider cancelled");
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                moduleOutputBuffer,
+                typeof(ModuleLoggerTests),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(providerCancellation);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object);
+
+        await logger.DisposeAsync();
+
+        defaultLogger.Verify(x => x.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("Failed to flush module output", StringComparison.Ordinal)),
+            providerCancellation,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public async Task DeferredFlushFailure_LogsObfuscatedModuleFailureAfterDisposal()
+    {
+        var moduleOutputBuffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                moduleOutputBuffer,
+                typeof(ModuleLoggerTests),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        var moduleException = new InvalidOperationException("module secret-value");
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) =>
+                value?.Replace("secret-value", "**********") ?? string.Empty);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object);
+        logger.SetException(moduleException);
+
+        await logger.DisposeAsync();
+        moduleOutputBuffer.ReportDeferredFlushFailure(new IOException("deferred flush failed"));
+
+        defaultLogger.Verify(x => x.Log(
+            LogLevel.Error,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
+            It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    private static bool IsObfuscatedCopyOf(Exception? exception, Exception originalException)
+    {
+        return exception is IOriginalExceptionIdentity identity
+               && ReferenceEquals(identity.OriginalException, originalException)
+               && exception.ToString().Contains("**********", StringComparison.Ordinal)
+               && !exception.ToString().Contains("secret-value", StringComparison.Ordinal);
+    }
+
+    [Test]
     public async Task Write_ReusesClearedRenderer()
     {
         var renderedLines = new List<string>();

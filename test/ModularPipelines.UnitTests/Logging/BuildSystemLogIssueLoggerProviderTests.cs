@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Logging;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -36,7 +38,7 @@ public class BuildSystemLogIssueLoggerProviderTests
     }
 
     [Test]
-    public async Task Logger_IncludesExceptionDetailsInIssueCommand()
+    public async Task Logger_IncludesConciseExceptionMessageInIssueCommand()
     {
         using var writer = new StringWriter();
         using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
@@ -45,12 +47,102 @@ public class BuildSystemLogIssueLoggerProviderTests
 
         logger.LogError(exception, "message");
 
-        var escapedNewLine = Environment.NewLine
-            .Replace("\r", "%0D", StringComparison.Ordinal)
-            .Replace("\n", "%0A", StringComparison.Ordinal);
         await Assert.That(writer.ToString())
             .IsEqualTo(
-                $"##vso[task.logissue type=error;]message{escapedNewLine}{exception}{Environment.NewLine}");
+                $"##vso[task.logissue type=error;]message: failure{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task Logger_WritesOnlyOneErrorForRepeatedRootException()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var moduleLogger = provider.CreateLogger("Example.Module");
+        var runnerLogger = provider.CreateLogger("Example.Runner");
+        var rootException = new InvalidOperationException("failure");
+
+        moduleLogger.LogError(new Exception("first wrapper", rootException), "first message");
+        runnerLogger.LogError(new Exception("second wrapper", rootException), "second message");
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task Logger_WritesOnlyOneErrorAfterBufferedExceptionObfuscation()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+        var exception = new InvalidOperationException("failure");
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input);
+        var firstEvent = CreateBufferedEvent("first message");
+        var secondEvent = CreateBufferedEvent("second message");
+
+        firstEvent.WriteTo(logger);
+        secondEvent.WriteTo(logger);
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}");
+
+        BufferedLogEvent<string> CreateBufferedEvent(string message) =>
+            new(
+                LogLevel.Error,
+                default,
+                message,
+                message,
+                exception,
+                static (state, _) => state,
+                obfuscator.Object);
+    }
+
+    [Test]
+    public async Task Logger_DoesNotWriteIssueForModuleStatusEvent()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+
+        logger.Log(LogLevel.Error, ModuleLogEvents.Status, "Module failed");
+
+        await Assert.That(writer.ToString()).IsEmpty();
+    }
+
+    [Test]
+    public async Task Logger_OriginatingFailureWinsAfterIgnoredDependencyFailure()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Module");
+        var exception = new InvalidOperationException("failure");
+
+        logger.LogIgnoredDependencyFailure(exception);
+        logger.LogError(exception, "originating failure");
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]originating failure: failure{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task Logger_WritesIndependentErrorsWithIdenticalDiagnostics()
+    {
+        using var writer = new StringWriter();
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer);
+        var logger = provider.CreateLogger("Example.Pipeline");
+
+        logger.LogError(new InvalidOperationException("failure"), "first message");
+        logger.LogError(new InvalidOperationException("failure"), "second message");
+
+        await Assert.That(writer.ToString())
+            .IsEqualTo(
+                $"##vso[task.logissue type=error;]first message: failure{Environment.NewLine}"
+                + $"##vso[task.logissue type=error;]second message: failure{Environment.NewLine}");
     }
 
     [Test]

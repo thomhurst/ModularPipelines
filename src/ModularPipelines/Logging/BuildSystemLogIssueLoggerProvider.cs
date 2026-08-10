@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
@@ -10,9 +11,13 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         "Microsoft",
         "System",
     ];
+    private static readonly object ReportedErrorMarker = new();
 
     private readonly IBuildSystemFormatter _formatter;
     private readonly IBuildSystemCommandWriter _commandWriter;
+    // Identity deduplicates propagated wrappers without merging independent failures that
+    // share diagnostics. Weak keys let completed failures leave with their exception graph.
+    private readonly ConditionalWeakTable<Exception, object> _reportedErrors = new();
 
     public BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatterProvider formatterProvider,
@@ -33,6 +38,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         new BuildSystemLogIssueLogger(
             _formatter,
             _commandWriter,
+            _reportedErrors,
             IsIssueCategory(categoryName));
 
     public void Dispose()
@@ -47,6 +53,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
         IBuildSystemCommandWriter commandWriter,
+        ConditionalWeakTable<Exception, object> reportedErrors,
         bool isIssueCategory) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
@@ -63,15 +70,15 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             Exception? exception,
             Func<TState, Exception?, string> messageFormatter)
         {
-            if (!IsEnabled(logLevel))
+            if (!IsEnabled(logLevel) || ModuleLogEvents.IsBuildIssueSuppressed(eventId))
             {
                 return;
             }
 
-            var message = messageFormatter(state, exception);
-            if (exception is not null)
+            var message = FormatIssueMessage(logLevel, messageFormatter(state, exception), exception);
+            if (message is null)
             {
-                message = $"{message}{Environment.NewLine}{exception}";
+                return;
             }
 
             var command = formatter.GetLogIssueCommand(logLevel, message);
@@ -79,6 +86,31 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             {
                 commandWriter.WriteLine(command);
             }
+        }
+
+        private string? FormatIssueMessage(
+            LogLevel logLevel,
+            string message,
+            Exception? exception)
+        {
+            if (exception is null)
+            {
+                return message;
+            }
+
+            var rootException = exception.GetBaseException();
+            var errorIdentity = rootException is IOriginalExceptionIdentity identity
+                ? identity.OriginalException
+                : rootException;
+            if (logLevel is LogLevel.Error or LogLevel.Critical
+                && !reportedErrors.TryAdd(errorIdentity, ReportedErrorMarker))
+            {
+                return null;
+            }
+
+            return string.IsNullOrWhiteSpace(message)
+                ? rootException.Message
+                : $"{message}: {rootException.Message}";
         }
     }
 }

@@ -157,17 +157,21 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     .ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
         {
-            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
+            var unflushedOutputs = toFlush.Skip(nextOutputIndex).ToArray();
+            ReportDeferredFlushFailure(unflushedOutputs, exception);
+            RequeueDeferredOutputs(unflushedOutputs);
 
             throw;
         }
-        catch
+        catch (Exception exception)
         {
             // Preserve the current buffer too. Its own render cursor retains the
             // failed item, preferring a possible duplicate over lost diagnostics.
-            RequeueDeferredOutputs(toFlush.Skip(nextOutputIndex));
+            var unflushedOutputs = toFlush.Skip(nextOutputIndex).ToArray();
+            ReportDeferredFlushFailure(unflushedOutputs, exception);
+            RequeueDeferredOutputs(unflushedOutputs);
 
             throw;
         }
@@ -345,6 +349,16 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         lock (_deferredLock)
         {
             _deferredOutputs.InsertRange(0, outputs);
+        }
+    }
+
+    private static void ReportDeferredFlushFailure(
+        IEnumerable<DeferredModuleOutput> outputs,
+        Exception exception)
+    {
+        foreach (var output in outputs)
+        {
+            output.Buffer.ReportDeferredFlushFailure(exception);
         }
     }
 

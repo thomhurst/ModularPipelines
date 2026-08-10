@@ -190,27 +190,61 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
         if (shouldFlush)
         {
+            if (_exception is not null)
+            {
+                _buffer.SetDeferredFlushFailureHandler(LogFlushFailure);
+            }
+
             // Flush output asynchronously without blocking
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             try
             {
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 await _outputCoordinator.OnModuleCompletedAsync(_buffer, typeof(T), cts.Token).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (cts.IsCancellationRequested)
             {
-                // Timeout occurred - log warning, output may be lost
-                _defaultLogger.LogWarning(
-                    "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
-                    typeof(T).Name);
+                LogFlushTimeout();
             }
             catch (Exception ex)
             {
-                // Best effort - don't fail disposal, but log the issue
-                _defaultLogger.LogWarning(ex, "Failed to flush module output during disposal for {ModuleType}", typeof(T).Name);
+                LogFlushFailure(ex);
             }
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    private void LogFlushTimeout()
+    {
+        if (_exception is not null)
+        {
+            _defaultLogger.LogError(
+                ObfuscatedLogException.Create(_exception, _secretObfuscator),
+                "Module {ModuleType} failed and its buffered output timed out after 30 seconds",
+                typeof(T).Name);
+            return;
+        }
+
+        _defaultLogger.LogWarning(
+            "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
+            typeof(T).Name);
+    }
+
+    private void LogFlushFailure(Exception flushException)
+    {
+        if (_exception is not null)
+        {
+            _defaultLogger.LogError(
+                ObfuscatedLogException.Create(_exception, _secretObfuscator),
+                "Module {ModuleType} failed and its buffered output could not be flushed",
+                typeof(T).Name);
+            return;
+        }
+
+        _defaultLogger.LogWarning(
+            flushException,
+            "Failed to flush module output during disposal for {ModuleType}",
+            typeof(T).Name);
     }
 
     public override void LogToConsole(string value)

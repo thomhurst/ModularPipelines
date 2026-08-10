@@ -87,6 +87,8 @@ public class OutputCoordinatorTests
         await coordinator.FlushDeferredAsync();
 
         await Assert.That(firstBuffer.FlushCount).IsEqualTo(2);
+        await Assert.That(firstBuffer.DeferredFlushFailure?.Message)
+            .IsEqualTo("simulated deferred flush failure");
         await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
     }
 
@@ -623,6 +625,8 @@ public class OutputCoordinatorTests
 
         public int FlushCount { get; private set; }
 
+        public Exception? DeferredFlushFailure { get; private set; }
+
         public bool HasOutput => true;
 
         public bool IsComplete { get; private set; }
@@ -649,6 +653,11 @@ public class OutputCoordinatorTests
 
         public void SetException(Exception exception)
         {
+        }
+
+        public void ReportDeferredFlushFailure(Exception deferredFlushFailure)
+        {
+            DeferredFlushFailure = deferredFlushFailure;
         }
 
         public Task FlushToAsync(

@@ -780,7 +780,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         ((IInternalModuleLogger) logger).SetException(exception);
 
-        var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
+        var moduleFailedException = new ModuleFailedException(
+            executionContext.ModuleType,
+            exception,
+            wasLogged: true);
 
         if (moduleContext.Services.Options.ExecutionMode == ExecutionMode.StopOnFirstException)
         {
@@ -858,6 +861,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             _ => LogLevel.Error,
         };
 
-        logger.Log(logLevel, message);
+        logger.LogStatus(logLevel, message);
     }
 }

@@ -138,7 +138,12 @@ internal class ModuleRunner : IModuleRunner
             {
                 if (!skipDependencyWait)
                 {
-                    await _dependencyWaiter.WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider).ConfigureAwait(false);
+                    await _dependencyWaiter.WaitForDependenciesAsync(
+                            moduleState,
+                            scheduler,
+                            scope.ServiceProvider,
+                            cancellationToken)
+                        .ConfigureAwait(false);
                 }
                 else
                 {
@@ -206,7 +211,11 @@ internal class ModuleRunner : IModuleRunner
                     ex,
                     cancellationToken,
                     limiterCancellationToken);
-                HandleExecutionFailure(moduleState, scheduler, handledException);
+                HandleExecutionFailure(
+                    moduleState,
+                    scheduler,
+                    handledException,
+                    cancellationToken);
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                 {
@@ -221,7 +230,7 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private Exception NormalizeLimiterCancellation(
+    internal static Exception NormalizeLimiterCancellation(
         Exception exception,
         CancellationToken workerCancellationToken,
         CancellationToken limiterCancellationToken)
@@ -231,7 +240,7 @@ internal class ModuleRunner : IModuleRunner
             && operationCanceledException.CancellationToken == limiterCancellationToken
             && limiterCancellationToken != workerCancellationToken)
         {
-            return new OperationCanceledException(
+            return new NormalizedWorkerCancellationException(
                 operationCanceledException.Message,
                 operationCanceledException,
                 workerCancellationToken);
@@ -270,13 +279,16 @@ internal class ModuleRunner : IModuleRunner
     private void HandleExecutionFailure(
         ModuleState moduleState,
         IModuleScheduler scheduler,
-        Exception exception)
+        Exception exception,
+        CancellationToken workerCancellationToken)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
         var isDependencyFailure = exception is DependencyFailedException;
-        var isPipelineCancellation = exception is OperationCanceledException
-                                     && _engineCancellationToken.IsCancelled;
+        var isPipelineCancellation = IsPipelineCancellation(
+            exception,
+            workerCancellationToken,
+            _engineCancellationToken.IsCancelled);
         var registeredResult = _resultRegistry.GetResult(moduleType);
         var completionException = GetCompletionException(
             exception,
@@ -290,7 +302,7 @@ internal class ModuleRunner : IModuleRunner
         }
         else
         {
-            _logger.LogError(exception, "Module {ModuleName} failed", moduleType.Name);
+            LogModuleFailure(_logger, moduleType.Name, exception);
         }
 
         var statusOverride = GetStatusOverride(
@@ -318,6 +330,14 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
+    internal static bool IsPipelineCancellation(
+        Exception exception,
+        CancellationToken workerCancellationToken,
+        bool isEngineCancelled) =>
+        exception is OperationCanceledException
+        && (isEngineCancelled
+            || WorkerCancellationClassifier.IsExpected(exception, workerCancellationToken));
+
     private Exception GetCompletionException(
         Exception exception,
         bool isPipelineCancellation,
@@ -339,6 +359,30 @@ internal class ModuleRunner : IModuleRunner
         return isPipelineCancellation
             ? registeredStatus ?? Enums.Status.PipelineTerminated
             : null;
+    }
+
+    internal static void LogModuleFailure(
+        ILogger logger,
+        string moduleName,
+        Exception exception)
+    {
+        switch (exception)
+        {
+            case DependencyFailedException dependencyFailedException:
+                logger.LogInformation(
+                    "Module {ModuleName} did not run because dependency {FailingModuleName} failed",
+                    moduleName,
+                    dependencyFailedException.FailingModuleName);
+                break;
+            case ModuleFailedException { WasLogged: true }:
+                logger.LogDebug(
+                    "Module {ModuleName} failure was recorded in its module output",
+                    moduleName);
+                break;
+            default:
+                logger.LogError(exception, "Module {ModuleName} failed", moduleName);
+                break;
+        }
     }
 
     private async Task UploadProducedArtifactsAsync(
@@ -1178,3 +1222,9 @@ internal class ModuleRunner : IModuleRunner
         return (IModuleLogger) serviceProvider.GetRequiredService(loggerType);
     }
 }
+
+internal sealed class NormalizedWorkerCancellationException(
+    string? message,
+    OperationCanceledException innerException,
+    CancellationToken workerCancellationToken)
+    : OperationCanceledException(message, innerException, workerCancellationToken);
