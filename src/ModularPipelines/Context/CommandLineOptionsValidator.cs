@@ -101,11 +101,8 @@ internal static class CommandLineOptionsValidator
         Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static ValidationMetadata CreateValidationMetadata(Type optionsType)
     {
-        var properties = optionsType
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        var validatedProperties = properties
-            .Where(static property => property.GetMethod is not null
-                                      && property.GetIndexParameters().Length == 0)
+        var validatedProperties = GetValidationProperties(optionsType)
+            .Where(static property => property.GetIndexParameters().Length == 0)
             .Select(static property => new ValidatedProperty(
                 property,
                 property.GetCustomAttributes<ValidationAttribute>(inherit: true).ToArray()))
@@ -124,6 +121,33 @@ internal static class CommandLineOptionsValidator
                                      typeof(ValidationAttribute),
                                      inherit: true);
         return new ValidationMetadata(requiresValidation, publicProperties, nonPublicProperties);
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Generated command option type hierarchies retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    private static IEnumerable<PropertyInfo> GetValidationProperties(Type optionsType)
+    {
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
+        {
+            foreach (var property in currentType.GetProperties(
+                         BindingFlags.Instance
+                         | BindingFlags.Public
+                         | BindingFlags.NonPublic
+                         | BindingFlags.DeclaredOnly))
+            {
+                if (property.GetMethod is not null && seenPropertyNames.Add(property.Name))
+                {
+                    yield return property;
+                }
+            }
+        }
     }
 
     [UnconditionalSuppressMessage(
