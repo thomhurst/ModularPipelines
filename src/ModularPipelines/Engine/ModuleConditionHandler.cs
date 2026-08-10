@@ -456,12 +456,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        if (hasDeferredConditions)
-        {
-            return new PlanningConditionEvaluation(null, IsResolved: false);
-        }
-
-        var isResolved = true;
+        var isResolved = !hasDeferredConditions;
         var evaluatedGroups = new HashSet<Type>();
         foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
         {
