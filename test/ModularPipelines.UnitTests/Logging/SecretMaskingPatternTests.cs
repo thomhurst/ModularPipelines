@@ -1144,6 +1144,46 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_AppliesSinkSecretBeforeNextLine()
+    {
+        const string discoveredSecret = "sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringStringWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine($"ordinary output{Environment.NewLine}{discoveredSecret}");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new ReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"sink diagnostic{Environment.NewLine}ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task StableSecretEmission_AllowsReentrantRegistration()
     {
         const string discoveredSecret = "nested-sink-discovered-secret";
@@ -1274,6 +1314,24 @@ public class SecretMaskingPatternTests
         public override void WriteLine(string? value)
         {
             secretRegistry.AddSecret(secret);
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class ReentrantWritingStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("sink diagnostic");
+            }
+
             base.WriteLine(value);
         }
     }

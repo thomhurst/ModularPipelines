@@ -34,6 +34,9 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class CoordinatedTextWriter : TextWriter
 {
+    [ThreadStatic]
+    private static HashSet<CoordinatedTextWriter>? _activeOutputWriters;
+
     private static readonly AsyncLocal<bool> DirectWriteScope = new();
     private static readonly AsyncLocal<int> CustomObfuscationDepth = new();
 
@@ -203,17 +206,31 @@ internal class CoordinatedTextWriter : TextWriter
     private void WriteCore(LineBufferState state, ReadOnlySpan<char> value, bool appendNewLine)
     {
         var shouldBuffer = GetBufferMode(state, ShouldBuffer());
-        state.Buffer.Append(value);
+        var consumedLength = 0;
+        while (consumedLength < value.Length)
+        {
+            var newlineIndex = value[consumedLength..].IndexOf('\n');
+            if (newlineIndex < 0)
+            {
+                break;
+            }
+
+            var segmentLength = newlineIndex + 1;
+            state.Buffer.Append(value.Slice(consumedLength, segmentLength));
+            consumedLength += segmentLength;
+            ProcessPendingOutput(state, shouldBuffer, shouldProcess: true);
+        }
+
+        state.Buffer.Append(value[consumedLength..]);
 
         if (appendNewLine)
         {
             state.Buffer.Append(Environment.NewLine);
+            ProcessPendingOutput(state, shouldBuffer, shouldProcess: true);
+            return;
         }
 
-        ProcessPendingOutput(
-            state,
-            shouldBuffer,
-            shouldProcess: appendNewLine || value.Contains('\n'));
+        ProcessPendingOutput(state, shouldBuffer, shouldProcess: false);
     }
 
     private void ProcessPendingOutput(LineBufferState state, bool shouldBuffer, bool shouldProcess)
@@ -266,7 +283,8 @@ internal class CoordinatedTextWriter : TextWriter
         var key = new LineBufferKey(
             moduleType,
             DirectWriteScope.Value,
-            CustomObfuscationDepth.Value);
+            CustomObfuscationDepth.Value,
+            IsReentrantOutputWrite());
 
         lock (_lineBufferLock)
         {
@@ -739,23 +757,44 @@ internal class CoordinatedTextWriter : TextWriter
 
     private void WriteToRealConsole(string output, bool appendNewLine)
     {
+        if (IsReentrantOutputWrite())
+        {
+            WriteToRealConsoleCore(output, appendNewLine);
+            return;
+        }
+
         _outputLock.Wait();
+        var activeOutputWriters = _activeOutputWriters ??= [];
+        activeOutputWriters.Add(this);
         try
         {
-            if (appendNewLine)
-            {
-                _realConsole.WriteLine(output);
-            }
-            else
-            {
-                _realConsole.Write(output);
-            }
+            WriteToRealConsoleCore(output, appendNewLine);
         }
         finally
         {
+            activeOutputWriters.Remove(this);
+            if (activeOutputWriters.Count == 0)
+            {
+                _activeOutputWriters = null;
+            }
+
             _outputLock.Release();
         }
     }
+
+    private void WriteToRealConsoleCore(string output, bool appendNewLine)
+    {
+        if (appendNewLine)
+        {
+            _realConsole.WriteLine(output);
+        }
+        else
+        {
+            _realConsole.Write(output);
+        }
+    }
+
+    private bool IsReentrantOutputWrite() => _activeOutputWriters?.Contains(this) is true;
 
     private string ObfuscateCustomOutput(string output, long secretPatternsVersion)
     {
@@ -986,7 +1025,8 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly record struct LineBufferKey(
         Type? ModuleType,
         bool IsDirectWrite,
-        int CustomObfuscationDepth);
+        int CustomObfuscationDepth,
+        bool IsReentrantOutputWrite);
 
     private sealed record SecretPatterns(
         string[] Values,
