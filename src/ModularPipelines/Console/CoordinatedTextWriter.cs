@@ -874,6 +874,13 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
+        if (CustomObfuscationDepth.Value > 0)
+        {
+            FlushReentrantOutput();
+            FlushRealConsole();
+            return;
+        }
+
         FlushBufferedOutput();
         FlushRealConsole();
     }
@@ -1017,6 +1024,13 @@ internal class CoordinatedTextWriter : TextWriter
         {
             FlushReentrantOutput();
             await _realConsole.FlushAsync().ConfigureAwait(false);
+            return;
+        }
+
+        if (CustomObfuscationDepth.Value > 0)
+        {
+            FlushReentrantOutput();
+            await FlushRealConsoleAsync().ConfigureAwait(false);
             return;
         }
 

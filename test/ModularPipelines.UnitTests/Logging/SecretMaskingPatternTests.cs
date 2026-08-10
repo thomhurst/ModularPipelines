@@ -283,6 +283,57 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CustomObfuscatorCanFlushReentrantly(bool useAsyncFlush)
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? writer = null;
+        var isReentrantFlush = false;
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (!isReentrantFlush)
+                {
+                    isReentrantFlush = true;
+                    try
+                    {
+                        if (useAsyncFlush)
+                        {
+                            writer!.FlushAsync().GetAwaiter().GetResult();
+                        }
+                        else
+                        {
+                            writer!.Flush();
+                        }
+                    }
+                    finally
+                    {
+                        isReentrantFlush = false;
+                    }
+                }
+
+                return input;
+            });
+        var realConsole = new StringWriter();
+
+        using (writer = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   realConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.WriteLine("ordinary output");
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_RefreshesPatternsAfterComparisonChanges()
     {
         var provider = CreateProvider(out _);
