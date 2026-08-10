@@ -277,6 +277,28 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Completion_With_Asynchronous_Continuations_Before_Deadline_Is_Not_Claimed_By_Timeout()
+    {
+        var completion = new TaskCompletionSource<bool>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            _ => completion.Task,
+            TimeSpan.FromSeconds(1),
+            CancellationToken.None);
+
+        completion.SetResult(true);
+
+        var result = await execution;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsFalse();
+            await Assert.That(result.Value).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
     {
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(

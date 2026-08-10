@@ -96,51 +96,48 @@ internal static class TimeoutHelper
 
         // Timeout path: create linked token so task can observe both timeout
         // and external cancellation.
-        using var timeoutCts = CancellationTokenSource
-            .CreateLinkedTokenSource(cancellationToken);
+        using var deadlineCts = new CancellationTokenSource();
+        using var attemptCts = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken,
+            deadlineCts.Token);
 
-        // Set up cancellation detection BEFORE scheduling timeout to avoid race
-        // condition where timeout fires before registration completes
-        // (with very small timeouts)
-        var cancelledTcs = new TaskCompletionSource<T>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        using var registration = timeoutCts.Token.Register(
-            static state => ((TaskCompletionSource<T>) state!)
-                .TrySetCanceled(),
-            cancelledTcs);
+        // Register after linking the attempt token. Cancellation callbacks run in
+        // LIFO order, so these observers record whether execution had already
+        // completed before cancellation propagates to the task.
+        var deadlineState = new CancellationSignalState<T>();
+        var externalCancellationState = new CancellationSignalState<T>();
+        using var deadlineRegistration = deadlineCts.Token.Register(
+            static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
+            deadlineState);
+        using var externalCancellationRegistration = cancellationToken.Register(
+            static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
+            externalCancellationState);
 
         // Now schedule the timeout - registration is guaranteed to catch it
-        timeoutCts.CancelAfter(timeout.Value);
+        deadlineCts.CancelAfter(timeout.Value);
 
-        var executionTask = taskFactory(timeoutCts.Token);
-        var executionTimedOutTask = executionTask.ContinueWith(
-            static (_, state) =>
-            {
-                var (timeoutToken, externalToken) =
-                    ((CancellationToken TimeoutToken, CancellationToken ExternalToken)) state!;
-                return timeoutToken.IsCancellationRequested
-                       && !externalToken.IsCancellationRequested;
-            },
-            (timeoutCts.Token, cancellationToken),
-            CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously,
-            TaskScheduler.Default);
+        var executionTask = taskFactory(attemptCts.Token);
+        Volatile.Write(ref deadlineState.ExecutionTask, executionTask);
+        Volatile.Write(ref externalCancellationState.ExecutionTask, executionTask);
 
-        var winner = await Task.WhenAny(executionTimedOutTask, cancelledTcs.Task)
+        await Task.WhenAny(
+                executionTask,
+                deadlineState.Signal.Task,
+                externalCancellationState.Signal.Task)
             .ConfigureAwait(false);
 
-        if (winner == cancelledTcs.Task)
+        if (externalCancellationState.Signal.Task.IsCompletedSuccessfully
+            && !await externalCancellationState.Signal.Task.ConfigureAwait(false))
+        {
+            TaskObservation.ObserveFault(executionTask);
+            throw new OperationCanceledException(cancellationToken);
+        }
+
+        if (deadlineState.Signal.Task.IsCompletedSuccessfully
+            && !await deadlineState.Signal.Task.ConfigureAwait(false))
         {
             return await CreateTimeoutResultAsync(executionTask, cancellationToken, stopwatch)
                 .ConfigureAwait(false);
-        }
-
-        if (await executionTimedOutTask.ConfigureAwait(false))
-        {
-            // Any completion after the deadline counts as a response, including a fault
-            // raised while handling cancellation. The synchronous continuation records the
-            // ordering at task completion instead of when the winner is later observed.
-            return TimeoutExecutionResult<T>.TimeoutWithTokenRespected(stopwatch.Elapsed);
         }
 
         var value = await executionTask.ConfigureAwait(false);
@@ -220,6 +217,19 @@ internal static class TimeoutHelper
         catch (Exception)
         {
             return true;
+        }
+    }
+
+    private sealed class CancellationSignalState<T>
+    {
+        public Task<T>? ExecutionTask;
+
+        public TaskCompletionSource<bool> Signal { get; } = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void SignalCancellation()
+        {
+            Signal.TrySetResult(Volatile.Read(ref ExecutionTask)?.IsCompleted == true);
         }
     }
 }
