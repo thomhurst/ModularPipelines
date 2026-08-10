@@ -301,6 +301,38 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task DisposeAsync_LogsIndependentCancellationAsFlushFailure()
+    {
+        var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        var providerCancellation = new OperationCanceledException("provider cancelled");
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                moduleOutputBuffer,
+                typeof(ModuleLoggerTests),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(providerCancellation);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object);
+
+        await logger.DisposeAsync();
+
+        defaultLogger.Verify(x => x.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("Failed to flush module output", StringComparison.Ordinal)),
+            providerCancellation,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
     public async Task DeferredFlushFailure_LogsObfuscatedModuleFailureAfterDisposal()
     {
         var moduleOutputBuffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));

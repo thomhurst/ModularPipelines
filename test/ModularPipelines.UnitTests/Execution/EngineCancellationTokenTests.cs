@@ -257,11 +257,13 @@ public class EngineCancellationTokenTests : TestBase
         protected override bool Result => true;
     }
 
-    private sealed class CoordinatedModuleResultRegistrar : IModuleResultRegistrar
+    private sealed class CoordinatedModuleResultRegistrar : IModuleResultRegistrar, IDisposable
     {
         private readonly ModuleResultRegistrar _inner;
         private readonly HashSet<Type> _registeredDependentTypes = [];
         private readonly ManualResetEventSlim _allDependentsRegistered = new();
+
+        public void Dispose() => _allDependentsRegistered.Dispose();
 
         public CoordinatedModuleResultRegistrar(
             IModuleResultRegistry resultRegistry,

@@ -196,12 +196,12 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             // Flush output asynchronously without blocking
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             try
             {
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 await _outputCoordinator.OnModuleCompletedAsync(_buffer, typeof(T), cts.Token).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (cts.IsCancellationRequested)
             {
                 LogFlushTimeout();
             }
