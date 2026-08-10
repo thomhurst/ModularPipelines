@@ -868,8 +868,8 @@ For a module that runs successfully, the phases are:
 
 1. Dependencies become ready.
 2. Global `IModuleEventReceiver.OnModuleReadyAsync` receivers run concurrently.
-3. Global `IModuleEventReceiver.OnModuleStartAsync` receivers run concurrently.
-4. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
+3. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
+4. Global `IModuleEventReceiver.OnModuleStartAsync` receivers run concurrently.
 5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
 6. The module skip condition is evaluated.
 7. `Module<T>.OnBeforeExecuteAsync` runs once.
@@ -3956,8 +3956,8 @@ run sequentially in priority order.
 The order for a successful module is:
 
 1. Global `OnModuleReadyAsync`
-2. Global `OnModuleStartAsync`
-3. Attribute `IModuleReadyHandler`
+2. Attribute `IModuleReadyHandler`
+3. Global `OnModuleStartAsync`
 4. Attribute `IModuleStartHandler`
 5. Module `OnBeforeExecuteAsync`
 6. Module `ExecuteAsync` with its retry policy
