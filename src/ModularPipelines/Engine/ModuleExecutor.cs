@@ -322,8 +322,9 @@ internal class ModuleExecutor : IModuleExecutor
         CancellationToken workerCancellationToken)
     {
         return exception is OperationCanceledException operationCanceledException
-               && workerCancellationToken.IsCancellationRequested
-               && operationCanceledException.CancellationToken == workerCancellationToken;
+               && operationCanceledException.CancellationToken == workerCancellationToken
+               && (workerCancellationToken.IsCancellationRequested
+                   || exception is NormalizedWorkerCancellationException);
     }
 
     private static Exception GetPipelineException(Exception exception)

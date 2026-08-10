@@ -295,6 +295,11 @@ public class EngineCancellationTokenTests : TestBase
             Exception exception)
         {
             _inner.RegisterTerminatedResultsForCancelledModules(modules, exception);
+
+            foreach (var module in modules)
+            {
+                RecordDependent(module.GetType());
+            }
         }
 
         private void RecordDependent(Type moduleType)
@@ -537,6 +542,26 @@ public class EngineCancellationTokenTests : TestBase
                 exception,
                 cancellationTokenSource.Token))
             .IsFalse();
+    }
+
+    [Test]
+    public async Task EngineLinked_Limiter_Cancellation_Is_Expected_Before_Worker_Cancellation()
+    {
+        using var workerCancellationTokenSource = new CancellationTokenSource();
+        using var limiterCancellationTokenSource = new CancellationTokenSource();
+        limiterCancellationTokenSource.Cancel();
+        var limiterCancellation = new OperationCanceledException(
+            limiterCancellationTokenSource.Token);
+
+        var normalizedCancellation = ModuleRunner.NormalizeLimiterCancellation(
+            limiterCancellation,
+            workerCancellationTokenSource.Token,
+            limiterCancellationTokenSource.Token);
+
+        await Assert.That(ModuleExecutor.IsExpectedWorkerCancellation(
+                normalizedCancellation,
+                workerCancellationTokenSource.Token))
+            .IsTrue();
     }
 
     [Test]

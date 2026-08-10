@@ -226,7 +226,7 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private Exception NormalizeLimiterCancellation(
+    internal static Exception NormalizeLimiterCancellation(
         Exception exception,
         CancellationToken workerCancellationToken,
         CancellationToken limiterCancellationToken)
@@ -236,7 +236,7 @@ internal class ModuleRunner : IModuleRunner
             && operationCanceledException.CancellationToken == limiterCancellationToken
             && limiterCancellationToken != workerCancellationToken)
         {
-            return new OperationCanceledException(
+            return new NormalizedWorkerCancellationException(
                 operationCanceledException.Message,
                 operationCanceledException,
                 workerCancellationToken);
@@ -1207,3 +1207,9 @@ internal class ModuleRunner : IModuleRunner
         return (IModuleLogger) serviceProvider.GetRequiredService(loggerType);
     }
 }
+
+internal sealed class NormalizedWorkerCancellationException(
+    string? message,
+    OperationCanceledException innerException,
+    CancellationToken workerCancellationToken)
+    : OperationCanceledException(message, innerException, workerCancellationToken);
