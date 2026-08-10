@@ -1171,12 +1171,16 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
+        const int expectedCurrentSchemaVersion = 3;
+
         using (Assert.Multiple())
         {
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, 2)).IsTrue();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, 2)).IsTrue();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, 2)).IsFalse();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, 2)).IsFalse();
+            await Assert.That(new PipelineRunReport().SchemaVersion).IsEqualTo(expectedCurrentSchemaVersion);
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 

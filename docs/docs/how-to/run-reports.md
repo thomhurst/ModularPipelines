@@ -38,9 +38,10 @@ The current schema version is available as `PipelineRunReport.CurrentSchemaVersi
 report is also exposed through `PipelineSummary.RunReport`.
 After a successful write, an information log records the report's resolved path.
 
-Each schema-v2 report has a unique `RunId` plus `RunCorrelation` metadata for the machine and
-detected build system. Registering the Git or GitHub integration also adds the available commit,
-branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
+Each schema-v3 report has a unique `RunId`, `RunCorrelation` metadata for the machine and detected
+build system, and the previous run's finish time when it supplies a duration-delta baseline.
+Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL.
+Correlation strings pass through secret obfuscation before persistence.
 
 When report writing is enabled, add application-specific metadata through a bounded
 `IRunReportEnricher`:
