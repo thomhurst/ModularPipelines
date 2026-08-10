@@ -28,6 +28,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
     private readonly ISchedulerStatusReporter _statusReporter;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
+    private readonly HashSet<ModuleState> _pendingReadyModules;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
@@ -63,6 +64,7 @@ internal class ModuleScheduler : IModuleScheduler
         _constraintEvaluator = constraintEvaluator;
         _statusReporter = statusReporter;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        _pendingReadyModules = new HashSet<ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
@@ -84,6 +86,7 @@ internal class ModuleScheduler : IModuleScheduler
             _moduleStates,
             _queuedModules,
             _executingModules,
+            _pendingReadyModules,
             _stateQueries,
             _stateLock,
             _schedulerNotification,
@@ -117,6 +120,14 @@ internal class ModuleScheduler : IModuleScheduler
         {
             ConfigureScheduling(state);
             ConfigureDependencies(state, availableModuleTypes);
+            if (state.IsReadyToExecute)
+            {
+                _pendingReadyModules.Add(state);
+            }
+            else
+            {
+                _pendingReadyModules.Remove(state);
+            }
         }
 
         _logger.LogDebug(
@@ -511,18 +522,19 @@ internal class ModuleScheduler : IModuleScheduler
         try
         {
             // Sort by priority descending so higher priority modules are queued first
-            var potentiallyReadyModules = _moduleStates.Values
-                .Where(m => m.IsReadyToExecute)
+            var potentiallyReadyModules = _pendingReadyModules
                 .OrderByDescending(m => (int) m.Priority)
                 .ToArray();
 
             // Constraint-free pipelines need no active-module scan or pairwise evaluation.
             // When constraints exist, keep one list and append modules queued in this cycle.
-            var activeModules = _hasSchedulingConstraints
-                ? _moduleStates.Values
-                    .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
-                    .ToList()
-                : null;
+            List<ModuleState>? activeModules = null;
+            if (_hasSchedulingConstraints)
+            {
+                activeModules = new List<ModuleState>(_queuedModules.Count + _executingModules.Count);
+                activeModules.AddRange(_queuedModules);
+                activeModules.AddRange(_executingModules);
+            }
 
             modulesToQueue = new List<ModuleState>();
             metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionType, DateTimeOffset)>();
@@ -544,6 +556,7 @@ internal class ModuleScheduler : IModuleScheduler
                 _stateCounters.Transition(moduleState.State, ModuleExecutionState.Queued);
                 moduleState.State = ModuleExecutionState.Queued;
                 moduleState.QueuedTime = now;
+                _pendingReadyModules.Remove(moduleState);
                 _queuedModules.Add(moduleState);
 
                 activeModules?.Add(moduleState);
