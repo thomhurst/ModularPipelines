@@ -29,6 +29,14 @@ internal sealed class Command : ICommandContext
     // Win32 ERROR_FILE_NOT_FOUND and Unix ENOENT both use native error code 2.
     private const int FileNotFoundNativeErrorCode = 2;
 
+    private sealed record PreparedCommandInvocation(
+        CommandLine CommandLine,
+        CommandLineToolOptions ToolOptions,
+        CommandExecutionOptions ExecutionOptions,
+        string RawCommandInput,
+        string WorkingDirectory,
+        IReadOnlyDictionary<string, string?> RawEnvironmentVariables);
+
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;
     private readonly IEnumerable<ICommandInterceptor> _commandInterceptors;
@@ -78,18 +86,14 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
-        var commandMetadata = new CommandResult(
-            command,
-            obfuscatedCommandInput,
-            GetPublicEnvironmentVariables(command, execOpts));
-        var invocation = new CommandInvocation(
+        var rawEnvironmentVariables = GetRawEnvironmentVariables(command);
+        var invocation = new PreparedCommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
             execOpts,
-            commandMetadata.CommandInput,
-            commandMetadata.WorkingDirectory,
-            commandMetadata.EnvironmentVariables);
+            commandInput,
+            command.WorkingDirPath,
+            rawEnvironmentVariables);
 
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
@@ -178,7 +182,7 @@ internal sealed class Command : ICommandContext
     }
 
     private async Task<CommandResult> ExecuteCommandCoreAsync(
-        CommandInvocation invocation,
+        PreparedCommandInvocation invocation,
         CliWrap.Command command,
         string commandInput,
         CommandLineToolOptions options,
@@ -193,7 +197,6 @@ internal sealed class Command : ICommandContext
         var intercepted = await TryInterceptAsync(
                 invocation,
                 command,
-                invocation.CommandInput,
                 options,
                 executionOptions,
                 inputToLog,
@@ -205,13 +208,20 @@ internal sealed class Command : ICommandContext
         }
 
         return executionOptions.InternalDryRun
-            ? ExecuteDryRun(command, commandInput, options, executionOptions, inputToLog)
+            ? ExecuteDryRun(
+                command,
+                commandInput,
+                options,
+                executionOptions,
+                inputToLog,
+                invocation.RawEnvironmentVariables)
             : await Of(
                     command,
                     commandInput,
                     options,
                     executionOptions,
                     inputToLog,
+                    invocation.RawEnvironmentVariables,
                     executionCancellationToken,
                     callerCancellationToken,
                     timeoutCancellationToken)
@@ -234,18 +244,26 @@ internal sealed class Command : ICommandContext
     }
 
     private async Task<CommandResult?> TryInterceptAsync(
-        CommandInvocation invocation,
+        PreparedCommandInvocation invocation,
         CliWrap.Command command,
-        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog,
         CancellationToken cancellationToken)
     {
+        CommandInvocation? publicInvocation = null;
+        var publicInvocationSecretVersion = long.MinValue;
         foreach (var interceptor in _commandInterceptors)
         {
+            if (publicInvocation is null
+                || publicInvocationSecretVersion != _secretProvider.Version)
+            {
+                (publicInvocation, publicInvocationSecretVersion) =
+                    CreatePublicInvocation(invocation, executionOptions);
+            }
+
             var intercepted = await interceptor
-                .InterceptAsync(invocation, cancellationToken)
+                .InterceptAsync(publicInvocation, cancellationToken)
                 .ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
             if (intercepted is null)
@@ -256,7 +274,7 @@ internal sealed class Command : ICommandContext
             var result = ApplyCommandMetadata(
                 intercepted,
                 command,
-                commandInput,
+                invocation,
                 executionOptions);
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
@@ -269,6 +287,7 @@ internal sealed class Command : ICommandContext
                     result.Duration,
                     result.StandardOutput,
                     result.StandardError,
+                    invocation.RawEnvironmentVariables,
                     result.StartTime,
                     result.EndTime));
             }
@@ -279,12 +298,58 @@ internal sealed class Command : ICommandContext
         return null;
     }
 
+    private (CommandInvocation Invocation, long SecretVersion) CreatePublicInvocation(
+        PreparedCommandInvocation invocation,
+        CommandExecutionOptions executionOptions)
+    {
+        var (commandInput, environmentVariables, secretVersion) =
+            CreatePublicCommandMetadata(invocation, executionOptions);
+
+        return (new CommandInvocation(
+            invocation.CommandLine,
+            invocation.ToolOptions,
+            invocation.ExecutionOptions,
+            commandInput,
+            invocation.WorkingDirectory,
+            environmentVariables), secretVersion);
+    }
+
+    private (string CommandInput, IReadOnlyDictionary<string, string?> EnvironmentVariables, long SecretVersion)
+        CreatePublicCommandMetadata(
+            PreparedCommandInvocation invocation,
+            CommandExecutionOptions executionOptions)
+    {
+        while (true)
+        {
+            var versionBefore = _secretProvider.Version;
+            if ((versionBefore & 1) != 0)
+            {
+                Thread.Yield();
+                continue;
+            }
+
+            var commandInput = _secretObfuscator.Obfuscate(
+                invocation.RawCommandInput,
+                executionOptions);
+            var environmentVariables = ObfuscateEnvironmentVariables(
+                invocation.RawEnvironmentVariables,
+                executionOptions);
+            if (_secretProvider.Version != versionBefore)
+            {
+                continue;
+            }
+
+            return (commandInput, environmentVariables, versionBefore);
+        }
+    }
+
     private CommandResult ExecuteDryRun(
         CliWrap.Command command,
         string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
-        Lazy<string> inputToLog)
+        Lazy<string> inputToLog,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
     {
         _commandLogger.Log(
             options: options,
@@ -299,24 +364,23 @@ internal sealed class Command : ICommandContext
         return new CommandResult(
             command,
             _secretObfuscator.Obfuscate(commandInput, executionOptions),
-            GetPublicEnvironmentVariables(command, executionOptions));
+            ObfuscateEnvironmentVariables(rawEnvironmentVariables, executionOptions));
     }
 
     private CommandResult ApplyCommandMetadata(
         CommandResult result,
         CliWrap.Command command,
-        string commandInput,
+        PreparedCommandInvocation invocation,
         CommandExecutionOptions executionOptions)
     {
-        var metadata = new CommandResult(
-            command,
-            commandInput,
-            GetPublicEnvironmentVariables(command, executionOptions));
+        var (commandInput, environmentVariables, _) =
+            CreatePublicCommandMetadata(invocation, executionOptions);
+
         return result with
         {
-            CommandInput = metadata.CommandInput,
-            WorkingDirectory = metadata.WorkingDirectory,
-            EnvironmentVariables = metadata.EnvironmentVariables,
+            CommandInput = commandInput,
+            WorkingDirectory = command.WorkingDirPath,
+            EnvironmentVariables = environmentVariables,
         };
     }
 
@@ -343,6 +407,7 @@ internal sealed class Command : ICommandContext
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
         Lazy<string> lazyInputToLog,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
@@ -444,7 +509,8 @@ internal sealed class Command : ICommandContext
                         e.ExitCode,
                         stopwatch.Elapsed,
                         standardOutput,
-                        standardError),
+                        standardError,
+                        rawEnvironmentVariables),
                     failure);
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
@@ -486,6 +552,7 @@ internal sealed class Command : ICommandContext
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
+                    rawEnvironmentVariables,
                     callerCancellationToken,
                     timeoutCancellationToken);
             }
@@ -496,7 +563,8 @@ internal sealed class Command : ICommandContext
                 execOpts,
                 commandInput,
                 standardOutput,
-                standardError);
+                standardError,
+                rawEnvironmentVariables);
 
             loggingFailures.Capture(
                 () => LogCommandCompletion(
@@ -530,7 +598,7 @@ internal sealed class Command : ICommandContext
                 _secretObfuscator.Obfuscate(commandInput, execOpts),
                 standardOutput,
                 standardError,
-                GetPublicEnvironmentVariables(command, execOpts));
+                ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts));
         }
     }
 
@@ -553,6 +621,7 @@ internal sealed class Command : ICommandContext
         TimeSpan duration,
         string standardOutput,
         string standardError,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         CancellationToken cancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
     {
@@ -570,7 +639,8 @@ internal sealed class Command : ICommandContext
             -1,
             duration,
             standardOutput,
-            standardError);
+            standardError,
+            rawEnvironmentVariables);
         return IsExecutableNotFound(executionFailure)
             ? new ToolNotFoundException(
                 _secretObfuscator.Obfuscate(command.TargetFilePath, execOpts),
@@ -610,6 +680,7 @@ internal sealed class Command : ICommandContext
         TimeSpan duration,
         string standardOutput,
         string standardError,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         DateTimeOffset? startTime = null,
         DateTimeOffset? endTime = null)
     {
@@ -620,25 +691,37 @@ internal sealed class Command : ICommandContext
             workingDirectory: command.WorkingDirPath,
             standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
             standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
-            environmentVariables: GetPublicEnvironmentVariables(command, execOpts),
+            environmentVariables: ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts),
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
     }
 
-    private Dictionary<string, string?> GetPublicEnvironmentVariables(
-        CliWrap.Command command,
-        CommandExecutionOptions execOpts)
+    private static Dictionary<string, string?> GetRawEnvironmentVariables(CliWrap.Command command)
     {
         return command.EnvironmentVariables
             .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
             .ToDictionary(
                 pair => pair.Key,
-                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                pair => pair.Value,
                 OperatingSystem.IsWindows()
                     ? StringComparer.OrdinalIgnoreCase
                     : StringComparer.Ordinal);
+    }
+
+    private Dictionary<string, string?> ObfuscateEnvironmentVariables(
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
+        CommandExecutionOptions executionOptions)
+    {
+        return rawEnvironmentVariables.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value is null
+                ? null
+                : _secretObfuscator.Obfuscate(pair.Value, executionOptions),
+            OperatingSystem.IsWindows()
+                ? StringComparer.OrdinalIgnoreCase
+                : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(
@@ -647,7 +730,8 @@ internal sealed class Command : ICommandContext
         CommandExecutionOptions execOpts,
         string input,
         string standardOutput,
-        string standardError)
+        string standardError,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
     {
         return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
             ? CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
@@ -658,6 +742,7 @@ internal sealed class Command : ICommandContext
                 result.RunTime,
                 standardOutput,
                 standardError,
+                rawEnvironmentVariables,
                 result.StartTime,
                 result.ExitTime))
             : null;

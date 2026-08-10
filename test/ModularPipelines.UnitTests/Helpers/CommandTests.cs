@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
@@ -11,11 +12,60 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
 public class CommandTests : TestBase
 {
+    private sealed class RegisterEnvironmentSecretInterceptor(ISecretRegistry secretRegistry)
+        : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default)
+        {
+            secretRegistry.AddSecret(invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"]!);
+            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+        }
+    }
+
+    private sealed class StubCommandInterceptor(CommandResult? result) : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default) =>
+            ValueTask.FromResult(result);
+    }
+
+    private sealed class RegisterEnvironmentSecretAndContinueInterceptor(
+        ISecretRegistry secretRegistry) : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default)
+        {
+            secretRegistry.AddSecret(invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"]!);
+            return ValueTask.FromResult<CommandResult?>(null);
+        }
+    }
+
+    private sealed class CaptureInvocationInterceptor : ICommandInterceptor
+    {
+        public string? EnvironmentValue { get; private set; }
+
+        public string? CommandInput { get; private set; }
+
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default)
+        {
+            EnvironmentValue = invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"];
+            CommandInput = invocation.CommandInput;
+            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+        }
+    }
+
     [Test]
     public async Task Command_Execution_Default_Timeout_Is_Thirty_Minutes()
     {
@@ -219,6 +269,149 @@ public class CommandTests : TestBase
     [RequiresTool("pwsh")]
     public Task Successful_Command_Exposes_Obfuscated_Environment_Variables() =>
         AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: false);
+
+    [Test]
+    public async Task Command_ObfuscatesEnvironmentVariablesOncePerInvocation()
+    {
+        const string environmentValue = "unique-environment-value";
+        var environmentObfuscationCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) =>
+            {
+                if (input == environmentValue)
+                {
+                    Interlocked.Increment(ref environmentObfuscationCount);
+                }
+
+                return input ?? string.Empty;
+            });
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.RemoveAll<ISecretObfuscator>();
+            services.AddSingleton<ISecretObfuscator>(obfuscator.Object);
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                InternalDryRun = true,
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_TEST_VALUE"] = environmentValue,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(environmentObfuscationCount).IsEqualTo(1);
+            await Assert.That(result.EnvironmentVariables["MP_TEST_VALUE"])
+                .IsEqualTo(environmentValue);
+        }
+    }
+
+    [Test]
+    public async Task Command_ReobfuscatesEnvironmentVariablesAfterDynamicSecretRegistration()
+    {
+        const string secret = "dynamically-registered-environment-secret";
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.AddSingleton<ICommandInterceptor, RegisterEnvironmentSecretInterceptor>());
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_DYNAMIC_SECRET"] = secret,
+                },
+            });
+
+        await Assert.That(result.EnvironmentVariables["MP_DYNAMIC_SECRET"])
+            .IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task Command_ObfuscatesEnvironmentVariablesOnceForAllInterceptors()
+    {
+        const string environmentValue = "multi-interceptor-environment-value";
+        var environmentObfuscationCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) =>
+            {
+                if (input == environmentValue)
+                {
+                    Interlocked.Increment(ref environmentObfuscationCount);
+                }
+
+                return input ?? string.Empty;
+            });
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.RemoveAll<ISecretObfuscator>();
+            services.AddSingleton<ISecretObfuscator>(obfuscator.Object);
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(null));
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(CommandResult.Ok()));
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_TEST_VALUE"] = environmentValue,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            // One public interceptor snapshot, then one fresh result snapshot.
+            await Assert.That(environmentObfuscationCount).IsEqualTo(2);
+            await Assert.That(result.EnvironmentVariables["MP_TEST_VALUE"])
+                .IsEqualTo(environmentValue);
+        }
+    }
+
+    [Test]
+    public async Task Command_RefreshesInterceptorMetadataAfterSecretRegistration()
+    {
+        const string secret = "interceptor-registered-environment-secret";
+        var captureInterceptor = new CaptureInvocationInterceptor();
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.AddSingleton<
+                ICommandInterceptor,
+                RegisterEnvironmentSecretAndContinueInterceptor>();
+            services.AddSingleton<ICommandInterceptor>(captureInterceptor);
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused")
+            {
+                Arguments = [secret],
+            },
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_DYNAMIC_SECRET"] = secret,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(captureInterceptor.EnvironmentValue).IsEqualTo("**********");
+            await Assert.That(captureInterceptor.CommandInput).DoesNotContain(secret);
+            await Assert.That(result.CommandInput).DoesNotContain(secret);
+            await Assert.That(result.EnvironmentVariables["MP_DYNAMIC_SECRET"])
+                .IsEqualTo("**********");
+        }
+    }
 
     private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
