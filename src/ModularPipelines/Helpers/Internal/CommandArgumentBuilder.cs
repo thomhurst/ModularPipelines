@@ -303,13 +303,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
-        if (optionPart.Attribute.GroupValues
-            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
-        {
-            throw new InvalidOperationException(
-                $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + "must use OptionFormat.SpaceSeparated.");
-        }
+        ValidateGroupedOptionFormat(optionPart, optionsType);
 
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
@@ -326,13 +320,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var valuePairs = GetOptionValuePairs(rawValue);
-        if (valuePairs is not null
-            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
-        {
-            throw new InvalidOperationException(
-                $"CliValuePair CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + "must use OptionFormat.SpaceSeparated.");
-        }
+        ValidateValuePairOptionFormat(optionPart, valuePairs, optionsType);
 
         if (optionPart.Attribute.GroupValues)
         {
@@ -349,7 +337,40 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        var values = GetValues(rawValue);
+        AddRequiredOptionValues(args, optionPart, GetValues(rawValue), optionsType);
+    }
+
+    private static void ValidateGroupedOptionFormat(OptionPart optionPart, Type optionsType)
+    {
+        if (optionPart.Attribute.GroupValues
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void ValidateValuePairOptionFormat(
+        OptionPart optionPart,
+        IEnumerable<CliValuePair>? valuePairs,
+        Type optionsType)
+    {
+        if (valuePairs is not null
+            && optionPart.Attribute.Format != OptionFormat.SpaceSeparated)
+        {
+            throw new InvalidOperationException(
+                $"CliValuePair CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void AddRequiredOptionValues(
+        List<string> args,
+        OptionPart optionPart,
+        IReadOnlyCollection<string> values,
+        Type optionsType)
+    {
         if (values.Count == 0)
         {
             return;
