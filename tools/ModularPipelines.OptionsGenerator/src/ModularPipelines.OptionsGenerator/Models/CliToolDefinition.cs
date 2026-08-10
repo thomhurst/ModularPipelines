@@ -76,6 +76,11 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions { get; init; } = [];
 
     /// <summary>
+    /// Public global properties retained for source and binary compatibility but excluded from CLI rendering.
+    /// </summary>
+    public IReadOnlyList<CliCompatibilityProperty> GlobalCompatibilityProperties { get; init; } = [];
+
+    /// <summary>
     /// Returns the validated, deterministic union of scraped and supplemental global options.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> GetGlobalOptions() =>

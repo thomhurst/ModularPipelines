@@ -18,8 +18,17 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "cat")]
-public record KustomizeCfgCatOptions : KustomizeOptions
+public record KustomizeCfgCatOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Dir
+) : KustomizeOptions
 {
+    /// <summary>
+    /// Creates compatibility options without the newly required directory operand.
+    /// </summary>
+    public KustomizeCfgCatOptions() : this(string.Empty)
+    {
+    }
+
     /// <summary>
     /// annotate resources with their file origins.
     /// </summary>

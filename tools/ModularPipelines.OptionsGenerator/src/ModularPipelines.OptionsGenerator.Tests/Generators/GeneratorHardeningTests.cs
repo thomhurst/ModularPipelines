@@ -1024,6 +1024,85 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Removed_Global_Options()
+    {
+        var preserved = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+            Tool(Command("ToolRunOptions", "ToolOptions", ["run"])),
+            [BaselineProperty("LegacyFlag", "bool?", switchName: "--legacy-flag")]);
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(preserved)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public virtual bool? LegacyFlag { get; set; }");
+            await Assert.That(generated).Contains("LegacyFlag is no longer supported");
+            await Assert.That(generated).DoesNotContain("CliFlag(\"--legacy-flag\")");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Validates_Supplemental_Global_Options()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            SupplementalGlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--progress",
+                    PropertyName = "Progress",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+                tool,
+                [BaselineProperty("Progress", "CliOptionValue?", switchName: "--progress")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolOptions.Progress changed type from CliOptionValue? to string?");
+    }
+
+    [Test]
+    public async Task Global_Compatibility_Targets_Follow_Inherited_Property_Renames()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+            GlobalCompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyArguments",
+                    CSharpType = "IEnumerable<string>?",
+                    ForwardToPropertyName = "Arguments",
+                    ObsoleteMessage = "Use Arguments instead.",
+                },
+            ],
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(resolved)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public virtual IEnumerable<string>? CliArguments");
+            await Assert.That(generated).Contains("get => CliArguments;");
+            await Assert.That(generated).Contains("set => CliArguments = value;");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Marks_Secret_Positional_Arguments()
     {
         var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with

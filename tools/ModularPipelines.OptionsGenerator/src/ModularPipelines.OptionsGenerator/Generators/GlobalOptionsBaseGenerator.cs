@@ -86,6 +86,19 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
+        foreach (var compatibilityProperty in tool.GlobalCompatibilityProperties)
+        {
+            var newModifier = InheritedPropertyCollisionResolver.IsInheritedPropertyName(
+                compatibilityProperty.PropertyName)
+                ? "new "
+                : string.Empty;
+            GeneratorUtils.GenerateCompatibilityProperty(
+                sb,
+                compatibilityProperty,
+                $"{newModifier}virtual ");
+            sb.AppendLine();
+        }
+
         sb.AppendLine("}");
 
         return sb.ToString();
