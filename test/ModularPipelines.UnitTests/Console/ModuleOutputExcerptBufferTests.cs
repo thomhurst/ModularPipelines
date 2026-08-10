@@ -96,6 +96,31 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task OmitsExcerptWhenMaskingContractionReachesTrimmedBoundary()
+    {
+        const string secret = "late-secret";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { MaskValue = "***" }));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 16,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append(
+            $"AAAA{secret}{secret}{secret}",
+            ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+
+        await Assert.That(buffer.CreateExcerpt()).IsNull();
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenSecretExceedsSafeBoundaryContext()
     {
         const string secret = "long-secret";
