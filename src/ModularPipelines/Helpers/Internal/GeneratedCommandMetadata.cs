@@ -142,10 +142,19 @@ public static class GeneratedCommandMetadata
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
     {
+        return TryGet(optionsType, out model, out _);
+    }
+
+    internal static bool TryGet(
+        Type optionsType,
+        out IReadOnlyList<PropertyCommandLinePart> model,
+        out int schemaVersion)
+    {
         Models.TryGetValue(optionsType, out var directMetadata);
         if (directMetadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
         {
             model = directMetadata.Model;
+            schemaVersion = directMetadata.SchemaVersion;
             return true;
         }
 
@@ -155,6 +164,7 @@ public static class GeneratedCommandMetadata
                 && metadata is { IsComplete: true, SchemaVersion: CurrentSchemaVersion })
             {
                 model = metadata.Model;
+                schemaVersion = metadata.SchemaVersion;
                 return true;
             }
         }
@@ -162,10 +172,12 @@ public static class GeneratedCommandMetadata
         if (directMetadata is { IsComplete: true })
         {
             model = directMetadata.Model;
+            schemaVersion = directMetadata.SchemaVersion;
             return true;
         }
 
         model = Array.Empty<PropertyCommandLinePart>();
+        schemaVersion = 0;
         return false;
     }
 

@@ -21,7 +21,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         return _cache.GetValue(optionsType, static type =>
         {
-            if (!GeneratedCommandMetadata.TryGet(type, out var model))
+            if (!GeneratedCommandMetadata.TryGet(type, out var model, out var schemaVersion))
             {
                 if (GeneratedCommandMetadata.IsGeneratedMetadataRequired(type.Assembly)
                     || !RuntimeFeature.IsDynamicCodeSupported
@@ -32,9 +32,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 }
 
                 model = BuildModel(type);
+                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
+            }
+            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
+                     && !RuntimeFeature.IsDynamicCodeSupported)
+            {
+                throw new MissingCommandMetadataException(type);
             }
 
-            ValidateModel(type, model);
+            ValidateModel(type, model, schemaVersion);
             return new CommandModel(model);
         }).Value;
     }
@@ -184,14 +190,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
 
     private static void ValidateModel(
         Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> parts)
+        IReadOnlyList<PropertyCommandLinePart> parts,
+        int schemaVersion)
     {
         ValidateUniqueSwitches(optionsType, parts);
         ValidateUniqueArgumentPositions(optionsType, parts);
 
         foreach (var part in parts)
         {
-            ValidateProperty(optionsType, part);
+            ValidateProperty(optionsType, part, schemaVersion);
         }
     }
 
@@ -219,7 +226,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
     }
 
-    private static void ValidateProperty(Type optionsType, PropertyCommandLinePart part)
+    private static void ValidateProperty(
+        Type optionsType,
+        PropertyCommandLinePart part,
+        int schemaVersion)
     {
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
@@ -237,7 +247,12 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
             case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
-                when !HasSupportedPropertyType(optionsType, option, IsSupportedOptionalValueType):
+                when !HasSupportedPropertyType(
+                    optionsType,
+                    option,
+                    IsSupportedOptionalValueType,
+                    trustKnownResult: schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
+                                      || !option.AllowsLegacyOptionalValues):
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");
@@ -247,14 +262,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Schema-1 metadata getters preserve the referenced option properties; "
-                        + "reflection is used only when the support marker is absent.")]
+        Justification = "Legacy metadata getters preserve the referenced option properties; "
+                        + "reflection is used only when the support marker is absent or stale.")]
     private static bool HasSupportedPropertyType(
         Type optionsType,
         PropertyCommandLinePart part,
-        Func<Type, bool> isSupported)
+        Func<Type, bool> isSupported,
+        bool trustKnownResult = true)
     {
-        if (part.IsSupportedPropertyType is { } knownResult)
+        if (trustKnownResult && part.IsSupportedPropertyType is { } knownResult)
         {
             return knownResult;
         }
