@@ -108,6 +108,11 @@ public record CliCommandDefinition
     public bool PreserveNamedFacade { get; init; }
 
     /// <summary>
+    /// Whether an existing facade allowed its options argument to be omitted.
+    /// </summary>
+    public bool PreserveOptionalOptionsParameter { get; init; }
+
+    /// <summary>
     /// Public methods retained as obsolete forwarding aliases for compatibility.
     /// </summary>
     public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];

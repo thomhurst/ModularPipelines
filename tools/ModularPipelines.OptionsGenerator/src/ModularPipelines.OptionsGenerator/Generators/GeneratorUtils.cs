@@ -629,9 +629,19 @@ public static partial class GeneratorUtils
     /// </summary>
     public static string BuildOptionsParameter(CliCommandDefinition command)
     {
-        return HasRequiredParameters(command)
+        return RequiresOptionsParameter(command)
             ? $"{command.ClassName} options"
             : $"{command.ClassName}? options = null";
+    }
+
+    /// <summary>
+    /// Whether callers must supply the generated options object.
+    /// </summary>
+    public static bool RequiresOptionsParameter(CliCommandDefinition command)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        return HasRequiredParameters(command) && !command.PreserveOptionalOptionsParameter;
     }
 
     /// <summary>
@@ -697,7 +707,7 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(command);
         methodName = EnsureAsyncSuffix(methodName);
 
-        var hasRequiredParams = HasRequiredParameters(command);
+        var requiresOptions = RequiresOptionsParameter(command);
 
         // XML documentation
         if (includeXmlDoc && !string.IsNullOrEmpty(command.Description))
@@ -719,7 +729,7 @@ public static partial class GeneratorUtils
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
-        if (hasRequiredParams)
+        if (requiresOptions)
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
         }
