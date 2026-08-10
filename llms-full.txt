@@ -5247,10 +5247,12 @@ storage location when a pipeline is launched from different working directories.
 
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed
 report is also exposed through `PipelineSummary.RunReport`.
+After a successful write, an information log records the report's resolved path.
 
-Each schema-v2 report has a unique `RunId` plus `RunCorrelation` metadata for the machine and
-detected build system. Registering the Git or GitHub integration also adds the available commit,
-branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
+Each schema-v3 report has a unique `RunId`, `RunCorrelation` metadata for the machine and detected
+build system, and the previous run's finish time when it supplies a duration-delta baseline.
+Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL.
+Correlation strings pass through secret obfuscation before persistence.
 
 When report writing is enabled, add application-specific metadata through a bounded
 `IRunReportEnricher`:
@@ -5282,7 +5284,8 @@ CI runs, even when JSON report writing is disabled. It retains the latest 20 rep
 newest compatible report to calculate module and total-duration deltas. When a previous duration
 exists, the final results table includes a `Δ previous` column. Deltas compare only successful
 runs and successful module executions, so failed or timed-out durations do not create false
-regressions on a later run.
+regressions on a later run. A footer below the table identifies the baseline run by its UTC finish
+time.
 
 Add the default history directory to `.gitignore` if you do not want to commit local run data:
 
