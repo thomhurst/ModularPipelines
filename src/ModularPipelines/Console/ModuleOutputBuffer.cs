@@ -36,6 +36,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly TimeSpan _renderGateTimeout;
     private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
+    private readonly bool _showFailureHeaderWithoutOutput;
+    private readonly bool _showSuccessMarker;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
@@ -56,19 +58,22 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
+    /// <param name="showFailureHeaderWithoutOutput">Whether a failed empty buffer renders a failure header.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
         TimeSpan? renderGateTimeout = null,
-        Func<LogLevel, bool>? isSpectreEnabled = null)
+        Func<LogLevel, bool>? isSpectreEnabled = null,
+        bool showFailureHeaderWithoutOutput = false)
         : this(
             moduleType.Name,
             moduleType,
             outputFlushThreshold,
             requestIncrementalFlush,
             renderGateTimeout,
-            isSpectreEnabled)
+            isSpectreEnabled,
+            showFailureHeaderWithoutOutput)
     {
     }
 
@@ -82,13 +87,17 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
+    /// <param name="showFailureHeaderWithoutOutput">Whether a failed empty buffer renders a failure header.</param>
+    /// <param name="showSuccessMarker">Whether successful output groups include a success marker.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
         TimeSpan? renderGateTimeout = null,
-        Func<LogLevel, bool>? isSpectreEnabled = null)
+        Func<LogLevel, bool>? isSpectreEnabled = null,
+        bool showFailureHeaderWithoutOutput = false,
+        bool showSuccessMarker = true)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -97,6 +106,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _requestIncrementalFlush = requestIncrementalFlush;
         _renderGateTimeout = renderGateTimeout ?? DefaultRenderGateTimeout;
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
+        _showFailureHeaderWithoutOutput = showFailureHeaderWithoutOutput;
+        _showSuccessMarker = showSuccessMarker;
     }
 
     /// <inheritdoc />
@@ -178,7 +189,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return _outputs.Count > 0
                        || _structuredDeliveryRetries.Count > 0
                        || _isIncrementalFlushInProgress
-                       || (_exception is not null && !_hasRenderedCompletionHeader);
+                       || (_exception is not null
+                           && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
+                           && !_hasRenderedCompletionHeader);
             }
         }
     }
@@ -318,6 +331,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             var needsExceptionHeader = flushKind is OutputFlushKind.Complete
                                        && _exception is not null
+                                       && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
                                        && !_hasRenderedCompletionHeader;
             if (_outputs.Count == 0
                 && _structuredDeliveryRetries.Count == 0
@@ -645,9 +659,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2717{continuationText} ({durationText}) - {exception.GetType().Name}";
         }
 
-        return flushKind is OutputFlushKind.Complete
+        if (flushKind is OutputFlushKind.Incremental)
+        {
+            return $"{_moduleName} \u2026{continuationText} ({durationText})";
+        }
+
+        return _showSuccessMarker
             ? $"{_moduleName} \u2713{continuationText} ({durationText})"
-            : $"{_moduleName} \u2026{continuationText} ({durationText})";
+            : $"{_moduleName}{continuationText} ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)
