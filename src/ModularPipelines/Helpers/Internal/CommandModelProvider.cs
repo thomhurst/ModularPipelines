@@ -98,10 +98,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             }
 
             var commandAttributes = declaredProperty
-                .GetCustomAttributes(inherit: false)
-                .OfType<Attribute>()
-                .Where(static attribute => attribute is
-                    CliArgumentAttribute or CliFlagAttribute or CliOptionAttribute)
+                .GetCustomAttributes<CliArgumentAttribute>(inherit: false)
+                .Cast<Attribute>()
+                .Concat(declaredProperty.GetCustomAttributes<CliFlagAttribute>(inherit: false))
+                .Concat(declaredProperty.GetCustomAttributes<CliOptionAttribute>(inherit: false))
                 .Take(2)
                 .ToArray();
             if (commandAttributes.Length > 1)
