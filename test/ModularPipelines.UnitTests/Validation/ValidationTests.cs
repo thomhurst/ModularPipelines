@@ -519,6 +519,24 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateAsync_WithNegativeAlwaysRunProgressTimeout_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            AlwaysRunProgressTimeout = TimeSpan.FromSeconds(-1),
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("AlwaysRunProgressTimeout"))).IsTrue();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithNegativeModuleOutputFlushInterval_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();

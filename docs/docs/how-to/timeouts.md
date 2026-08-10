@@ -22,6 +22,21 @@ builder.ConfigurePipelineOptions(options => options with
 
 You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
 
+`AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a
+constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even
+when ordinary module timeouts are disabled. Configure it independently when needed:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    AlwaysRunProgressTimeout = TimeSpan.FromMinutes(1),
+});
+```
+
+Set `AlwaysRunProgressTimeout` to `TimeSpan.Zero` only when an unlimited teardown wait is intentional.
+The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget
+for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
+
 ## Using ModuleConfiguration
 
 ```csharp
