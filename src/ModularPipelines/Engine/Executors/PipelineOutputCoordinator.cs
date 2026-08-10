@@ -80,6 +80,18 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     }
 
     /// <inheritdoc />
+    public async Task FlushConsoleAsync()
+    {
+        var output = System.Console.Out;
+        var error = System.Console.Error;
+        await output.FlushAsync().ConfigureAwait(false);
+        if (!ReferenceEquals(error, output))
+        {
+            await error.FlushAsync().ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc />
     public void PrintResults(PipelineSummary pipelineSummary)
     {
         _consolePrinter.PrintResults(pipelineSummary);

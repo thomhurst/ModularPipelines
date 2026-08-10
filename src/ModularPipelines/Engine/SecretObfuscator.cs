@@ -64,7 +64,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
         var options = _maskingOptions.Value;
         // Ensure mask value is never empty to avoid removing secrets without masking
-        var maskValue = string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
+        var maskValue = GetMaskValue(options);
         var caseInsensitive = options.CaseInsensitive;
 
         var secretCache = GetSecretCache(optionsObject, options, caseInsensitive);
@@ -80,6 +80,29 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             secretCache.SearchValues,
             maskValue,
             caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+    }
+
+    internal string ObfuscatePreservingMasks(string input)
+    {
+        var maskValue = GetMaskValue(_maskingOptions.Value);
+        var maskIndex = input.IndexOf(maskValue, StringComparison.Ordinal);
+        if (maskIndex < 0)
+        {
+            return Obfuscate(input, null);
+        }
+
+        var result = new StringBuilder(input.Length);
+        var inputOffset = 0;
+        while (maskIndex >= 0)
+        {
+            result.Append(Obfuscate(input[inputOffset..maskIndex], null));
+            result.Append(maskValue);
+            inputOffset = maskIndex + maskValue.Length;
+            maskIndex = input.IndexOf(maskValue, inputOffset, StringComparison.Ordinal);
+        }
+
+        result.Append(Obfuscate(input[inputOffset..], null));
+        return result.ToString();
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -175,6 +198,9 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             return newCache;
         }
     }
+
+    private static string GetMaskValue(SecretMaskingOptions options) =>
+        string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
 
     private static SecretCache CreateSecretCache(
         IEnumerable<string> secrets,

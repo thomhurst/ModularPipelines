@@ -170,8 +170,8 @@ internal sealed class ModuleOutputExcerptBuffer(
             return false;
         }
 
-        var maskedStdout = secretObfuscator.Obfuscate(stdout, null);
-        var maskedStderr = secretObfuscator.Obfuscate(stderr, null);
+        var maskedStdout = concreteObfuscator.ObfuscatePreservingMasks(stdout);
+        var maskedStderr = concreteObfuscator.ObfuscatePreservingMasks(stderr);
         (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
             Utf8.GetByteCount(maskedStdout),
             Utf8.GetByteCount(maskedStderr),
@@ -203,7 +203,7 @@ internal sealed class ModuleOutputExcerptBuffer(
     private (int StdoutBytes, int StderrBytes) RebalanceMaskedStreamByteLimits(
         int maskedStdoutBytes,
         int maskedStderrBytes,
-        ISecretObfuscator obfuscator)
+        SecretObfuscator obfuscator)
     {
         var stdoutBytes = 0;
         var stderrBytes = 0;
@@ -214,7 +214,7 @@ internal sealed class ModuleOutputExcerptBuffer(
         for (var chunk = _chunks.Last; chunk is not null && remaining > 0; chunk = chunk.Previous)
         {
             var maskedChunkBytes = Utf8.GetByteCount(
-                obfuscator.Obfuscate(Utf8.GetString(chunk.Value.Bytes), null));
+                obfuscator.ObfuscatePreservingMasks(Utf8.GetString(chunk.Value.Bytes)));
             if (chunk.Value.Stream is ModuleOutputStream.StandardError && stderrNeeded > 0)
             {
                 var added = Math.Min(Math.Min(stderrNeeded, maskedChunkBytes), remaining);
