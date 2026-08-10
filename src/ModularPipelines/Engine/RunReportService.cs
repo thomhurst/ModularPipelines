@@ -64,17 +64,20 @@ internal sealed class RunReportService(
             pipelineIdentity,
             runId,
             pipelineException);
-        report = await EnrichReportAsync(
+        var enrichment = await EnrichReportAsync(
                 report,
                 pipelineIdentity,
                 reportPath is not null || historyEnabled)
             .ConfigureAwait(false);
+        report = enrichment.Report;
         report = report with
         {
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
-        report = reportFactory.RemoveStaleOutputExcerpts(report);
+        report = enrichment.HasIncompleteEnricher
+            ? reportFactory.RemoveOutputExcerpts(report)
+            : reportFactory.RemoveStaleOutputExcerpts(report);
 
         if (!cancellationToken.IsCancellationRequested)
         {
@@ -155,7 +158,7 @@ internal sealed class RunReportService(
         }
     }
 
-    private async Task<PipelineRunReport> EnrichReportAsync(
+    private async Task<EnrichedRunReport> EnrichReportAsync(
         PipelineRunReport report,
         string pipelineIdentity,
         bool invokeEnrichers)
@@ -165,25 +168,31 @@ internal sealed class RunReportService(
             pipelineIdentity,
             Environment.MachineName,
             buildSystemDetector.Current);
+        var hasIncompleteEnricher = false;
         if (invokeEnrichers)
         {
-            context = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+            var enrichment = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+            context = enrichment.Context;
+            hasIncompleteEnricher = enrichment.HasIncompleteEnricher;
         }
 
         try
         {
-            return reportFactory.WithCorrelation(report, context);
+            return new EnrichedRunReport(
+                reportFactory.WithCorrelation(report, context),
+                hasIncompleteEnricher);
         }
         catch (Exception exception)
         {
             logger.LogWarning(exception, "Could not obfuscate pipeline run correlation metadata");
-            return report;
+            return new EnrichedRunReport(report, hasIncompleteEnricher);
         }
     }
 
-    private async Task<RunReportEnrichmentContext> InvokeEnrichersAsync(
+    private async Task<RunReportEnrichment> InvokeEnrichersAsync(
         RunReportEnrichmentContext context)
     {
+        var hasIncompleteEnricher = false;
         foreach (var enricher in _runReportEnrichers)
         {
             using var timeout = new CancellationTokenSource(_enricherTimeout);
@@ -198,6 +207,7 @@ internal sealed class RunReportService(
             }
             catch (OperationCanceledException) when (timeout.IsCancellationRequested)
             {
+                hasIncompleteEnricher = true;
                 logger.LogWarning(
                     "Timed out enriching pipeline run report using {EnricherType} after {Timeout}",
                     enricher.GetType().FullName,
@@ -212,8 +222,16 @@ internal sealed class RunReportService(
             }
         }
 
-        return context;
+        return new RunReportEnrichment(context, hasIncompleteEnricher);
     }
+
+    private sealed record RunReportEnrichment(
+        RunReportEnrichmentContext Context,
+        bool HasIncompleteEnricher);
+
+    private sealed record EnrichedRunReport(
+        PipelineRunReport Report,
+        bool HasIncompleteEnricher);
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)
     {

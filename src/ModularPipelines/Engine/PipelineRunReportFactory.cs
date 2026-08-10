@@ -296,6 +296,14 @@ internal sealed class PipelineRunReportFactory(
         return report with { Modules = modules };
     }
 
+    internal PipelineRunReport RemoveOutputExcerpts(PipelineRunReport report) =>
+        report with
+        {
+            Modules = report.Modules
+                .Select(static module => module with { Output = null })
+                .ToArray(),
+        };
+
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
 
     private static string? GetUtf8Tail(string? value, int maximumBytes) =>
