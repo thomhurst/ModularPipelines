@@ -31,12 +31,19 @@ internal static class CommandLineOptionsValidator
         var validationResults = new List<ValidationResult>();
         try
         {
-            Validator.TryValidateObject(
-                options,
-                new ValidationContext(options),
-                validationResults,
-                validateAllProperties: true);
-            ValidateNonPublicProperties(options, metadata, validationResults);
+            ValidateProperties(options, metadata.NonPublicProperties, validationResults);
+            if (validationResults.Count == 0)
+            {
+                Validator.TryValidateObject(
+                    options,
+                    new ValidationContext(options),
+                    validationResults,
+                    validateAllProperties: true);
+            }
+            else
+            {
+                ValidateProperties(options, metadata.PublicProperties, validationResults);
+            }
         }
         catch (ValidationException exception)
         {
@@ -68,40 +75,38 @@ internal static class CommandLineOptionsValidator
     {
         var properties = optionsType
             .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        var nonPublicProperties = properties
-            .Where(static property =>
-                property.GetMethod is { IsPublic: false }
-                && property.GetIndexParameters().Length == 0)
+        var validatedProperties = properties
+            .Where(static property => property.GetIndexParameters().Length == 0)
             .Select(static property => new ValidatedProperty(
                 property,
                 property.GetCustomAttributes<ValidationAttribute>(inherit: true).ToArray()))
             .Where(static property => property.Attributes.Count > 0)
             .ToArray();
-        var requiresValidation = nonPublicProperties.Length > 0
+        var publicProperties = validatedProperties
+            .Where(static property => property.Property.GetMethod is { IsPublic: true })
+            .ToArray();
+        var nonPublicProperties = validatedProperties
+            .Where(static property => property.Property.GetMethod is not { IsPublic: true })
+            .ToArray();
+        var requiresValidation = validatedProperties.Length > 0
                                  || typeof(IValidatableObject).IsAssignableFrom(optionsType)
                                  || Attribute.IsDefined(
                                      optionsType,
                                      typeof(ValidationAttribute),
-                                     inherit: true)
-                                 || properties.Any(static property =>
-                                     property.GetMethod is { IsPublic: true }
-                                     && Attribute.IsDefined(
-                                         property,
-                                         typeof(ValidationAttribute),
-                                         inherit: true));
-        return new ValidationMetadata(requiresValidation, nonPublicProperties);
+                                     inherit: true);
+        return new ValidationMetadata(requiresValidation, publicProperties, nonPublicProperties);
     }
 
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
         Justification = "Schema-3 generated metadata preserves non-public properties and their validation attributes. Unprocessed reflection fallback assemblies are not trim-safe.")]
-    private static void ValidateNonPublicProperties(
+    private static void ValidateProperties(
         object options,
-        ValidationMetadata metadata,
+        IReadOnlyList<ValidatedProperty> properties,
         ICollection<ValidationResult> validationResults)
     {
-        foreach (var property in metadata.NonPublicProperties)
+        foreach (var property in properties)
         {
             var context = new ValidationContext(options)
             {
@@ -137,6 +142,7 @@ internal static class CommandLineOptionsValidator
 
     private sealed record ValidationMetadata(
         bool RequiresValidation,
+        IReadOnlyList<ValidatedProperty> PublicProperties,
         IReadOnlyList<ValidatedProperty> NonPublicProperties);
 
     private sealed record ValidatedProperty(
