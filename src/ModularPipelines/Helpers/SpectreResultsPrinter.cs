@@ -124,12 +124,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
     private static int CountModules(PipelineSummary pipelineSummary, Func<ModuleTimeline, bool> predicate)
     {
-        return pipelineSummary.Modules.Count(module =>
-        {
-            var timeline = pipelineSummary.ModuleTimelines?
-                .FirstOrDefault(candidate => candidate.ModuleName == module.GetType().Name);
-            return timeline is not null && predicate(timeline);
-        });
+        return pipelineSummary.ModuleTimelines?.Count(predicate) ?? 0;
     }
 
     private static Table CreateModulesTableCore(PipelineSummary pipelineSummary)

@@ -116,6 +116,14 @@ internal class ModuleScheduler : IModuleScheduler
         foreach (var state in _moduleStates.Values)
         {
             ConfigureScheduling(state);
+            _metricsCollector.RecordModuleInitialized(
+                state.ModuleType,
+                state.Priority,
+                state.ExecutionType);
+        }
+
+        foreach (var state in _moduleStates.Values)
+        {
             ConfigureDependencies(state, availableModuleTypes);
         }
 

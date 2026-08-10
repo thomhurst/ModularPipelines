@@ -28,7 +28,8 @@ public class ModuleSchedulerConfigurationTests
     [Test]
     public async Task InitializeModules_PreservesDirectModuleSchedulingAttributes()
     {
-        var scheduler = CreateScheduler();
+        var metricsCollector = new Mock<IMetricsCollector>();
+        var scheduler = CreateScheduler(metricsCollector.Object);
 
         scheduler.InitializeModules([new DirectAttributedModule()]);
 
@@ -37,9 +38,13 @@ public class ModuleSchedulerConfigurationTests
         await Assert.That(state!.RequiredLockKeys).IsEquivalentTo(["direct-lock"]);
         await Assert.That(state.Priority).IsEqualTo(ModulePriority.Critical);
         await Assert.That(state.ExecutionType).IsEqualTo(ExecutionType.IoIntensive);
+        metricsCollector.Verify(x => x.RecordModuleInitialized(
+            typeof(DirectAttributedModule),
+            ModulePriority.Critical,
+            ExecutionType.IoIntensive), Times.Once);
     }
 
-    private static ModuleScheduler CreateScheduler()
+    private static ModuleScheduler CreateScheduler(IMetricsCollector metricsCollector)
     {
         return new ModuleScheduler(
             NullLogger.Instance,
@@ -47,7 +52,7 @@ public class ModuleSchedulerConfigurationTests
             Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
             new ModuleDependencyRegistry(),
             new ModuleMetadataRegistry(new ModuleAttributeEventService()),
-            Mock.Of<IMetricsCollector>(),
+            metricsCollector,
             Mock.Of<IModuleConstraintEvaluator>(),
             Mock.Of<ISchedulerStatusReporter>());
     }

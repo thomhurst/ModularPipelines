@@ -167,6 +167,39 @@ public class MetricsCollectorTests : TestBase
     }
 
     [Test]
+    public async Task PipelineMetrics_CountsInitializedModulesAsPending()
+    {
+        var collector = new MetricsCollector();
+        var now = DateTimeOffset.UtcNow;
+        collector.RecordModuleInitialized(typeof(QuickModule1), default, default);
+
+        var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 1);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.TotalModules).IsEqualTo(1);
+            await Assert.That(metrics.PendingModules).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task PipelineMetrics_CountsStartedModulesAsProcessing()
+    {
+        var collector = new MetricsCollector();
+        var now = DateTimeOffset.UtcNow;
+        collector.RecordModuleInitialized(typeof(QuickModule1), default, default);
+        collector.RecordModuleStarted(typeof(QuickModule1), now);
+
+        var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 1);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.PendingModules).IsEqualTo(0);
+            await Assert.That(metrics.ProcessingModules).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task PipelineMetrics_HasTimingData()
     {
         var result = await TestPipelineBuilder.Create()

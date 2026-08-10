@@ -114,6 +114,40 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task SummaryLine_CountsDuplicateModuleTimelinesOnceEach()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [new SkippedModule(), new SkippedModule()],
+            [],
+            TimeSpan.Zero,
+            now,
+            now,
+            moduleTimelines:
+            [
+                new ModuleTimeline
+                {
+                    ModuleName = nameof(SkippedModule),
+                    Status = ModuleStatus.Failed,
+                },
+                new ModuleTimeline
+                {
+                    ModuleName = nameof(SkippedModule),
+                    Status = ModuleStatus.Skipped,
+                    WasSkipped = true,
+                },
+            ]);
+
+        var summaryLine = SpectreResultsPrinter.CreateSummaryLine(summary);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summaryLine).Contains("1 failed");
+            await Assert.That(summaryLine).Contains("1 skipped");
+        }
+    }
+
+    [Test]
     public async Task ModulesTable_ShowsPreviousRunDurationDelta()
     {
         var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);

@@ -20,6 +20,13 @@ internal class MetricsCollector : IMetricsCollector
 
     public DateTimeOffset? GetPipelineStartTime() => _pipelineStartTime;
 
+    public void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionType executionType)
+    {
+        var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
+        data.Priority = priority;
+        data.ExecutionType = executionType;
+    }
+
     public void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionType executionType)
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
@@ -38,6 +45,7 @@ internal class MetricsCollector : IMetricsCollector
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.StartTime = time;
+        data.Status = Status.Processing;
     }
 
     public void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, Status status)
