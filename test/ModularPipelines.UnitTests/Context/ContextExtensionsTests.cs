@@ -45,7 +45,7 @@ public class ContextExtensionsTests
         mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act & Assert
-        var exception = await Assert.That(() => mockContext.Object.GetService<string>())
+        var exception = await Assert.That(() => mockContext.Object.GetService<TestService>())
             .ThrowsExactly<InvalidOperationException>();
 
         using (Assert.Multiple())
