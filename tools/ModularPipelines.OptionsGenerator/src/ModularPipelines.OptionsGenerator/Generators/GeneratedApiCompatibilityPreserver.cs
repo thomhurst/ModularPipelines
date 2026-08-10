@@ -33,12 +33,15 @@ internal static class GeneratedApiCompatibilityPreserver
             Path.Combine(outputDirectory, tool.OutputDirectory, "Services"),
             $"{tool.TargetNamespace}.Services",
             tool.NamespacePrefix);
-        RejectRemovedCommands(compatibleTool, facadeMethods);
         var executeFacadeOptionTypes = facadeMethods
             .Where(static method => method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
-        return compatibleTool with
+        var namedFacadeOptionTypes = facadeMethods
+            .Where(static method => !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Select(static method => method.OptionsType)
+            .ToHashSet(StringComparer.Ordinal);
+        var preservedTool = compatibleTool with
         {
             Commands = compatibleTool.Commands
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
@@ -47,8 +50,13 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(command => executeFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveExecuteFacade = true }
                     : command)
+                .Select(command => namedFacadeOptionTypes.Contains(command.ClassName)
+                    ? command with { PreserveNamedFacade = true }
+                    : command)
                 .ToArray(),
         };
+        RejectRemovedFacadeMethods(preservedTool, facadeMethods);
+        return preservedTool;
     }
 
     internal static CliToolDefinition PreserveGlobalOptions(
@@ -722,26 +730,19 @@ internal static class GeneratedApiCompatibilityPreserver
                                                 pair.Second.CSharpType,
                                                 StringComparison.Ordinal)));
 
-    private static void RejectRemovedCommands(
+    private static void RejectRemovedFacadeMethods(
         CliToolDefinition tool,
         IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods)
     {
-        var currentOptionTypes = tool.Commands
-            .Select(static command => command.ClassName)
-            .Concat(tool.CommandGroupAliases.SelectMany(alias => tool.Commands
-                .Where(command => command.CommandParts.Length > 0
-                                  && command.CommandParts[0].Equals(
-                                      alias.CanonicalCommand,
-                                      StringComparison.OrdinalIgnoreCase))
-                .Select(command => GeneratorUtils.GetAliasedClassName(tool, alias, command.ClassName))))
-            .ToHashSet(StringComparer.Ordinal);
-        var removedOptionTypes = baselineFacadeMethods
-            .Select(static method => method.OptionsType)
-            .Where(optionsType => !currentOptionTypes.Contains(optionsType))
-            .Distinct(StringComparer.Ordinal)
-            .Order(StringComparer.Ordinal)
+        var currentFacadeMethods = GenerateFacadeMethods(tool).ToHashSet();
+        var removedMethods = baselineFacadeMethods
+            .Where(method => !currentFacadeMethods.Contains(method))
+            .Distinct()
+            .OrderBy(static method => method.DeclaringType, StringComparer.Ordinal)
+            .ThenBy(static method => method.MethodName, StringComparer.Ordinal)
+            .ThenBy(static method => method.OptionsType, StringComparer.Ordinal)
             .ToArray();
-        if (removedOptionTypes.Length == 0)
+        if (removedMethods.Length == 0)
         {
             return;
         }
@@ -751,8 +752,23 @@ internal static class GeneratedApiCompatibilityPreserver
             + Environment.NewLine
             + string.Join(
                 Environment.NewLine,
-                removedOptionTypes.Select(optionsType =>
-                    $"- {optionsType} command disappeared from generated facade")));
+                removedMethods.Select(method =>
+                    $"- {method.DeclaringType}.{method.MethodName}({method.OptionsType}): "
+                    + $"{method.OptionsType} command disappeared from generated facade")));
+    }
+
+    private static IReadOnlyList<GeneratedFacadeMethod> GenerateFacadeMethods(CliToolDefinition tool)
+    {
+        var generatedFiles = new List<GeneratedFile>();
+        generatedFiles.AddRange(
+            new ServiceInterfaceGenerator().GenerateAsync(tool).GetAwaiter().GetResult());
+        generatedFiles.AddRange(
+            new ServiceImplementationGenerator().GenerateAsync(tool).GetAwaiter().GetResult());
+        generatedFiles.AddRange(
+            new SubDomainClassGenerator().GenerateAsync(tool).GetAwaiter().GetResult());
+        return ReadFacadeMethods(
+            generatedFiles.Select(static file => file.Content),
+            $"{tool.TargetNamespace}.Services");
     }
 
     private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
@@ -760,18 +776,27 @@ internal static class GeneratedApiCompatibilityPreserver
         string targetNamespace,
         string namespacePrefix)
     {
-        var methods = new List<GeneratedFacadeMethod>();
         if (!Directory.Exists(servicesDirectory))
         {
-            return methods;
+            return [];
         }
 
-        foreach (var path in Directory.EnumerateFiles(
-                     servicesDirectory,
-                     $"{namespacePrefix}*.Generated.cs",
-                     SearchOption.TopDirectoryOnly))
+        var sources = Directory.EnumerateFiles(
+                servicesDirectory,
+                $"{namespacePrefix}*.Generated.cs",
+                SearchOption.TopDirectoryOnly)
+            .Select(File.ReadAllText);
+        return ReadFacadeMethods(sources, targetNamespace);
+    }
+
+    private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
+        IEnumerable<string> sources,
+        string targetNamespace)
+    {
+        var methods = new List<GeneratedFacadeMethod>();
+        foreach (var source in sources)
         {
-            var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
+            var root = CSharpSyntaxTree.ParseText(source).GetRoot();
             foreach (var method in root.DescendantNodes().OfType<MethodDeclarationSyntax>()
                          .Where(method => method.Ancestors()
                              .OfType<BaseNamespaceDeclarationSyntax>()
@@ -781,10 +806,15 @@ internal static class GeneratedApiCompatibilityPreserver
                          .Where(method => method.Modifiers.Any(SyntaxKind.PublicKeyword)))
             {
                 var optionsType = method.ParameterList.Parameters.FirstOrDefault()?.Type?.ToString();
-                if (!string.IsNullOrWhiteSpace(optionsType)
+                var declaringType = method.Ancestors()
+                    .OfType<TypeDeclarationSyntax>()
+                    .FirstOrDefault()?.Identifier.ValueText;
+                if (!string.IsNullOrWhiteSpace(declaringType)
+                    && !string.IsNullOrWhiteSpace(optionsType)
                     && optionsType.TrimEnd('?').EndsWith("Options", StringComparison.Ordinal))
                 {
                     methods.Add(new GeneratedFacadeMethod(
+                        declaringType,
                         method.Identifier.ValueText,
                         optionsType.TrimEnd('?')));
                 }
@@ -887,4 +917,7 @@ internal sealed record GeneratedApiBaseline(
     IReadOnlyList<GeneratedApiProperty> Properties,
     IReadOnlyList<CliCompatibilityConstructor> Constructors);
 
-internal sealed record GeneratedFacadeMethod(string MethodName, string OptionsType);
+internal sealed record GeneratedFacadeMethod(
+    string DeclaringType,
+    string MethodName,
+    string OptionsType);

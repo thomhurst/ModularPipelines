@@ -1007,7 +1007,8 @@ public static partial class GeneratorUtils
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
-            .Where(c => !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
+            .Where(c => c.PreserveNamedFacade
+                        || !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 
         // Distinct commands can normalize to the same method name (e.g. "build-server"

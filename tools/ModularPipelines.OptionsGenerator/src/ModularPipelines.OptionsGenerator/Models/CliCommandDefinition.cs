@@ -103,6 +103,11 @@ public record CliCommandDefinition
     public bool PreserveExecuteFacade { get; init; }
 
     /// <summary>
+    /// Whether an existing named command facade must remain when the command gains children.
+    /// </summary>
+    public bool PreserveNamedFacade { get; init; }
+
+    /// <summary>
     /// Public methods retained as obsolete forwarding aliases for compatibility.
     /// </summary>
     public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];
