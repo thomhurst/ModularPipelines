@@ -512,6 +512,17 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Unset_Generated_Legacy_Optional_Values()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithLegacyScalarOptionalValue()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithLegacyMultipleOptionalValues()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
     public async Task Parser_Rejects_Generated_Legacy_Scalar_Optional_String_Value()
     {
         var options = new TestCliOptionsWithLegacyScalarOptionalValue { Output = "json" };

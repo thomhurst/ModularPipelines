@@ -1,4 +1,3 @@
-using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -64,15 +63,11 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             }
             else if (property.GetCustomAttribute<CliOptionAttribute>() is { } option)
             {
-                var allowsLegacyOptionalValues = IsLegacyGeneratedOption(property);
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
                 {
                     IsGlobalOption = IsGlobalOption(property),
                     ManualOperandCount = GetManualOperandCount(property.PropertyType),
-                    AllowsLegacyOptionalValues = allowsLegacyOptionalValues,
-                    IsSupportedPropertyType = IsSupportedOptionalValueType(
-                        property.PropertyType,
-                        allowsLegacyOptionalValues),
+                    IsSupportedPropertyType = IsSupportedOptionalValueType(property.PropertyType),
                 });
             }
         }
@@ -180,21 +175,12 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         return propertyType == typeof(bool) || propertyType == typeof(int);
     }
 
-    private static bool IsSupportedOptionalValueType(
-        Type propertyType,
-        bool allowsLegacyOptionalValues)
+    private static bool IsSupportedOptionalValueType(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
         return propertyType == typeof(ModularPipelines.Models.CliOptionValue)
-               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>))
-               || (allowsLegacyOptionalValues
-                   && (propertyType == typeof(string)
-                       || propertyType.IsAssignableTo(typeof(IEnumerable<string>))));
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>));
     }
-
-    private static bool IsLegacyGeneratedOption(PropertyInfo property) =>
-        property.DeclaringType?.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
-        == "ModularPipelines.OptionsGenerator";
 
     private static void ValidateModel(
         Type optionsType,

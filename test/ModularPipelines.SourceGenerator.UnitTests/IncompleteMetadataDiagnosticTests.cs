@@ -12,8 +12,17 @@ public class IncompleteMetadataDiagnosticTests
 
         namespace ModularPipelines.Attributes
         {
+            public enum CliOptionValueArity
+            {
+                Required,
+                Optional,
+            }
+
             [System.AttributeUsage(System.AttributeTargets.Property)]
-            public sealed class CliOptionAttribute(string name) : System.Attribute;
+            public sealed class CliOptionAttribute(string name) : System.Attribute
+            {
+                public CliOptionValueArity ValueArity { get; set; }
+            }
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class CliFlagAttribute(string name) : System.Attribute;
@@ -158,6 +167,33 @@ public class IncompleteMetadataDiagnosticTests
             }
         }
         """;
+
+    [Test]
+    public async Task Generated_Legacy_Optional_Value_Metadata_Is_Unsupported()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            [System.CodeDom.Compiler.GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+            public sealed class LegacyOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption(
+                    "--output",
+                    ValueArity = ModularPipelines.Attributes.CliOptionValueArity.Optional)]
+                public string? Output { get; set; }
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("IsSupportedPropertyType = false");
+            await Assert.That(generatedSource).DoesNotContain("AllowsLegacyOptionalValues");
+        }
+    }
 
     [Test]
     public async Task Inaccessible_Command_Property_Reports_Diagnostic()

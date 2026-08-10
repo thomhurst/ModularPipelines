@@ -61,11 +61,6 @@ public sealed record OptionPart(
     CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
     /// <summary>
-    /// Gets a value indicating whether legacy generated string optional values are supported.
-    /// </summary>
-    public bool AllowsLegacyOptionalValues { get; init; }
-
-    /// <summary>
     /// Gets the number of separate operands consumed by one manual occurrence of this option.
     /// </summary>
     public int ManualOperandCount { get; init; } = -1;
