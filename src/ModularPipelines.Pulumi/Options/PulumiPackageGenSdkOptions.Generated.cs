@@ -53,12 +53,6 @@ public record PulumiPackageGenSdkOptions(
     public string? Out { get; set; }
 
     /// <summary>
-    /// A URL to download the plugin from. When set, the provider argument is used as the plugin name directly and no package resolution is performed.
-    /// </summary>
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
-    public string? Server { get; set; }
-
-    /// <summary>
     /// The provider plugin version to generate the SDK for
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]

@@ -18,9 +18,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "set", "secret")]
-public record KustomizeEditSetSecretOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KustomizeOptions
+public record KustomizeEditSetSecretOptions : KustomizeOptions
 {
     /// <summary>
     /// Specify an existing key and a new value to update a Secret (i.e. mykey=newvalue)

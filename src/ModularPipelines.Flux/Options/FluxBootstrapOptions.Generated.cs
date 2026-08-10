@@ -122,6 +122,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// <summary>
     /// path to a private key file used for authenticating to the Git SSH server
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
@@ -368,5 +369,11 @@ public record FluxBootstrapOptions : FluxOptions
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
 
 }

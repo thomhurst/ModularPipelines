@@ -19,8 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "diff")]
 public record PulumiEnvDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrProjectNameOrEnvironmentNameVersion
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
 ) : PulumiOptions
 {
     /// <summary>
@@ -130,5 +129,11 @@ public record PulumiEnvDiffOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [[org-name Or ][&lt;project-name&gt; Or ]&lt;environment-name&gt;]@&lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OrgNameOrProjectNameOrEnvironmentNameVersion { get; set; }
 
 }
