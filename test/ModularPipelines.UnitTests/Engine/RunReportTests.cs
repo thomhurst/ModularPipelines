@@ -1825,6 +1825,53 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task ReportPersistenceOmitsOutputThatBecomesStaleDuringPublication()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "report.json");
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        secretProvider
+            .Setup(provider => provider.TryExecuteIfVersionCurrent(2, It.IsAny<Action>()))
+            .Returns<long, Action>((_, _) =>
+            {
+                version = 4;
+                return false;
+            });
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+
+        try
+        {
+            await reportFactory.WriteWithValidatedOutputExcerptsAsync(path, report);
+            var persisted = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(path));
+
+            await Assert.That(persisted!.Modules.Single().Output).IsNull();
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task RunReportOmitsOutputWhenTimedOutEnricherCanRegisterSecretsLater()
     {
         var directory = CreateTemporaryDirectory();

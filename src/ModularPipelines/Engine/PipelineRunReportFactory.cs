@@ -333,6 +333,9 @@ internal sealed class PipelineRunReportFactory(
                   && secretProvider?.Version != version
                 ? RunReportJsonSerializer.Serialize(RemoveOutputExcerpts(report))
                 : null,
+            serialization.SecretPatternsVersion is { } version
+                ? action => secretProvider?.TryExecuteIfVersionCurrent(version, action) == true
+                : null,
             cancellationToken);
     }
 
