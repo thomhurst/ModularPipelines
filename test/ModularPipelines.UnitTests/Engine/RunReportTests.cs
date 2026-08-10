@@ -931,7 +931,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -976,7 +977,8 @@ public class RunReportTests
                     HistoryRetention = 2,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1058,7 +1060,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -1155,7 +1158,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -1200,7 +1204,8 @@ public class RunReportTests
                     GlobalHistoryRetention = 1,
                 },
             }),
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
         var legacyFile = Path.Combine(
             directory,
             "modularpipelines-run-legacy-202608021300000000000-00000000000000000000000000000000.json");
@@ -1415,7 +1420,8 @@ public class RunReportTests
                     HistoryRetention = 2,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1471,7 +1477,8 @@ public class RunReportTests
                     HistoryRetention = 4,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1576,7 +1583,11 @@ public class RunReportTests
                     HistoryRetention = historyRetention,
                 },
             }),
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
+
+    private static PipelineRunReportFactory CreateReportFactory() =>
+        new(new CommandExecutionCounter(), new PassthroughSecretObfuscator());
 
     private static PipelineOptions CreateReportingOptions(string reportPath) =>
         new()
@@ -1722,6 +1733,40 @@ public class RunReportTests
         {
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    [Test]
+    public async Task ReportSerializationOmitsOutputThatBecomesStaleDuringSerialization()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupSequence(provider => provider.Version)
+            .Returns(2)
+            .Returns(2)
+            .Returns(4)
+            .Returns(4);
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+
+        var serialized = reportFactory.SerializeWithValidatedOutputExcerpts(report);
+        var persisted = RunReportJsonSerializer.Deserialize(serialized);
+
+        await Assert.That(persisted!.Modules.Single().Output).IsNull();
     }
 
     [Test]
@@ -2208,6 +2253,7 @@ public class RunReportTests
                 },
             }),
             NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory(),
             new RunReportPathResolver(directory));
 
         try
