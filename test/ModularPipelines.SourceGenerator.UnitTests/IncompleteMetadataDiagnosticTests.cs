@@ -12,8 +12,17 @@ public class IncompleteMetadataDiagnosticTests
 
         namespace ModularPipelines.Attributes
         {
+            public enum CliOptionValueArity
+            {
+                Required,
+                Optional,
+            }
+
             [System.AttributeUsage(System.AttributeTargets.Property)]
-            public sealed class CliOptionAttribute(string name) : System.Attribute;
+            public sealed class CliOptionAttribute(string name) : System.Attribute
+            {
+                public CliOptionValueArity ValueArity { get; set; }
+            }
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class CliFlagAttribute(string name) : System.Attribute;
@@ -161,6 +170,33 @@ public class IncompleteMetadataDiagnosticTests
             }
         }
         """;
+
+    [Test]
+    public async Task Generated_Legacy_Optional_Value_Metadata_Is_Unsupported()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            [System.CodeDom.Compiler.GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+            public sealed class LegacyOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption(
+                    "--output",
+                    ValueArity = ModularPipelines.Attributes.CliOptionValueArity.Optional)]
+                public string? Output { get; set; }
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("IsSupportedPropertyType = false");
+            await Assert.That(generatedSource).DoesNotContain("AllowsLegacyOptionalValues");
+        }
+    }
 
     [Test]
     public async Task Inaccessible_Command_Property_Reports_Diagnostic()
@@ -562,6 +598,56 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rescans_Legacy_Command_Without_Invalidating_Secret_Metadata()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 2;
+                }
+            }
+
+            namespace External
+            {
+                public class LegacyOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    protected string Token { get; } = "";
+
+                    [ModularPipelines.Attributes.CliOption("--output")]
+                    public string Output { get; } = "";
+                }
+            }
+            """,
+            """
+            public sealed class Consumer
+            {
+                public External.LegacyOptions Options { get; } = new();
+            }
+            """,
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedCommandMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions)");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Trusts_Current_Metadata_Marker()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
@@ -573,6 +659,7 @@ public class IncompleteMetadataDiagnosticTests
                 internal static class RuntimeMetadataRegistration
                 {
                     public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 
@@ -617,6 +704,7 @@ public class IncompleteMetadataDiagnosticTests
                 internal static class RuntimeMetadataRegistration
                 {
                     public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 
@@ -663,6 +751,7 @@ public class IncompleteMetadataDiagnosticTests
                 internal static class RuntimeMetadataRegistration
                 {
                     public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 

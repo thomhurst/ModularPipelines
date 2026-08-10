@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helpers.Internal;
@@ -61,8 +62,10 @@ public sealed record OptionPart(
     CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
     /// <summary>
-    /// Gets a value indicating whether legacy generated string optional values are supported.
+    /// Gets the legacy optional-value compatibility marker.
+    /// Retained for binary compatibility with schema-2 generated metadata; ignored by validation.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public bool AllowsLegacyOptionalValues { get; init; }
 
     /// <summary>

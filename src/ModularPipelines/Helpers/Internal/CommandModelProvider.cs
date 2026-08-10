@@ -1,4 +1,3 @@
-using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -22,7 +21,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         return _cache.GetValue(optionsType, static type =>
         {
-            if (!GeneratedCommandMetadata.TryGet(type, out var model))
+            if (!GeneratedCommandMetadata.TryGet(type, out var model, out var schemaVersion))
             {
                 if (GeneratedCommandMetadata.IsGeneratedMetadataRequired(type.Assembly)
                     || !RuntimeFeature.IsDynamicCodeSupported
@@ -33,9 +32,15 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 }
 
                 model = BuildModel(type);
+                schemaVersion = GeneratedCommandMetadata.CurrentSchemaVersion;
+            }
+            else if (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
+                     && !RuntimeFeature.IsDynamicCodeSupported)
+            {
+                throw new MissingCommandMetadataException(type);
             }
 
-            ValidateModel(type, model);
+            ValidateModel(type, model, schemaVersion);
             return new CommandModel(model);
         }).Value;
     }
@@ -65,15 +70,11 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             }
             else if (commandAttribute is CliOptionAttribute option)
             {
-                var allowsLegacyOptionalValues = IsLegacyGeneratedOption(property);
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
                 {
                     IsGlobalOption = IsGlobalOption(property),
                     ManualOperandCount = GetManualOperandCount(property.PropertyType),
-                    AllowsLegacyOptionalValues = allowsLegacyOptionalValues,
-                    IsSupportedPropertyType = IsSupportedOptionalValueType(
-                        property.PropertyType,
-                        allowsLegacyOptionalValues),
+                    IsSupportedPropertyType = IsSupportedOptionalValueType(property.PropertyType),
                 });
             }
         }
@@ -220,32 +221,24 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         return propertyType == typeof(bool) || propertyType == typeof(int);
     }
 
-    private static bool IsSupportedOptionalValueType(
-        Type propertyType,
-        bool allowsLegacyOptionalValues)
+    private static bool IsSupportedOptionalValueType(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
         return propertyType == typeof(ModularPipelines.Models.CliOptionValue)
-               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>))
-               || (allowsLegacyOptionalValues
-                   && (propertyType == typeof(string)
-                       || propertyType.IsAssignableTo(typeof(IEnumerable<string>))));
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>));
     }
-
-    private static bool IsLegacyGeneratedOption(PropertyInfo property) =>
-        property.DeclaringType?.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
-        == "ModularPipelines.OptionsGenerator";
 
     private static void ValidateModel(
         Type optionsType,
-        IReadOnlyList<PropertyCommandLinePart> parts)
+        IReadOnlyList<PropertyCommandLinePart> parts,
+        int schemaVersion)
     {
         ValidateUniqueSwitches(optionsType, parts);
         ValidateUniqueArgumentPositions(optionsType, parts);
 
         foreach (var part in parts)
         {
-            ValidateProperty(optionsType, part);
+            ValidateProperty(optionsType, part, schemaVersion);
         }
     }
 
@@ -273,12 +266,18 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
     }
 
-    private static void ValidateProperty(Type optionsType, PropertyCommandLinePart part)
+    private static void ValidateProperty(
+        Type optionsType,
+        PropertyCommandLinePart part,
+        int schemaVersion)
     {
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
-            case FlagPart { IsSupportedPropertyType: false }:
+            case FlagPart flag
+                when flag.IsSupportedPropertyType is false
+                     || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
+                         && flag.IsSupportedPropertyType is null):
                 throw new InvalidOperationException(
                     $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
             case OptionPart { Attribute.GroupValues: true } groupedOption
@@ -289,11 +288,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 when valuePairOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
-            case OptionPart
-            {
-                Attribute.ValueArity: CliOptionValueArity.Optional,
-                IsSupportedPropertyType: false,
-            }:
+            case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
+                when option.IsSupportedPropertyType is not true:
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");

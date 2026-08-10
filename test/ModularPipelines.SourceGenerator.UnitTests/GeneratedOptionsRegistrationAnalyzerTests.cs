@@ -33,7 +33,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
         {
             public static class RuntimeMetadataRegistry
             {
-                public const int CurrentCommandMetadataSchemaVersion = 2;
+                public const int CurrentCommandMetadataSchemaVersion = 3;
                 public static void RegisterCommandOptions(System.Type type, object model) { }
                 public static void RegisterCommandOptions(System.Type type, object model, int schemaVersion) { }
                 public static void RegisterSecrets(System.Type type, object accessors) { }

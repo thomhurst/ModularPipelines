@@ -310,6 +310,160 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Schema1_Metadata_Rejects_Unset_Legacy_Optional_String()
+    {
+        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema1MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    }),
+            ]);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
+    public async Task Schema3_Metadata_Supersedes_Legacy_Schema2_Optional_Marker()
+    {
+        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    AllowsLegacyOptionalValues = true,
+                    IsSupportedPropertyType = true,
+                },
+            ],
+            schemaVersion: 2);
+        GeneratedCommandMetadata.RegisterExternal(
+            typeof(CliAttributeTests).Assembly,
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    IsSupportedPropertyType = false,
+                },
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
+    public async Task Schema2_Metadata_Defers_Ambiguous_Legacy_Optional_Validation_Until_Rendering()
+    {
+        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    AllowsLegacyOptionalValues = true,
+                    IsSupportedPropertyType = true,
+                },
+            ],
+            schemaVersion: 2);
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(
+                model,
+                new RegisteredLegacyOptionalOptions<Schema2JitMetadataMarker>
+                {
+                    Output = "json",
+                }))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
+    public async Task Schema2_Metadata_Accepts_Supported_Optional_Type()
+    {
+        var optionsType = typeof(RegisteredCurrentOptionalOptions<Schema2CurrentOptionalMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredCurrentOptionalOptions<Schema2CurrentOptionalMarker>.Output),
+                    static options =>
+                        ((RegisteredCurrentOptionalOptions<Schema2CurrentOptionalMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    AllowsLegacyOptionalValues = true,
+                    IsSupportedPropertyType = true,
+                },
+            ],
+            schemaVersion: 2);
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+        var arguments = new CommandArgumentBuilder().BuildArguments(
+            model,
+            new RegisteredCurrentOptionalOptions<Schema2CurrentOptionalMarker>
+            {
+                Output = "json",
+            });
+
+        await Assert.That(arguments).IsEquivalentTo(["--output", "json"]);
+    }
+
+    [Test]
+    public async Task Schema1_Metadata_Accepts_Unknown_Supported_Flag_Type()
+    {
+        var optionsType = typeof(RegisteredFlagOptions<Schema1FlagMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new FlagPart(
+                    nameof(RegisteredFlagOptions<Schema1FlagMarker>.Force),
+                    static options => ((RegisteredFlagOptions<Schema1FlagMarker>) options).Force,
+                    new CliFlagAttribute("--force")),
+            ]);
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+        var arguments = new CommandArgumentBuilder().BuildArguments(
+            model,
+            new RegisteredFlagOptions<Schema1FlagMarker> { Force = true });
+
+        await Assert.That(arguments).IsEquivalentTo(["--force"]);
+    }
+
+    [Test]
     public async Task Parser_Omits_Empty_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = [] };
@@ -517,53 +671,47 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Preserves_Legacy_Multiple_Optional_String_Values()
+    public async Task Parser_Rejects_Generated_Legacy_Optional_String_Collection()
     {
         var options = new TestCliOptionsWithLegacyMultipleOptionalValues
         {
-            Output = [string.Empty, "json"],
+            Output = ["json"],
         };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(
-            ["--output", "--output=json"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
-    public async Task Parser_Skips_Null_Legacy_Repeatable_Optional_Values()
+    public async Task Parser_Rejects_Unset_Generated_Legacy_Optional_Values()
     {
-        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
-        {
-            Output = [string.Empty, null!, "json"],
-        };
-
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(
-            ["--output", "--output=json"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithLegacyScalarOptionalValue()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithLegacyMultipleOptionalValues()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
-    public async Task Parser_Preserves_Legacy_Scalar_Optional_String_Value()
+    public async Task Parser_Rejects_Generated_Legacy_Scalar_Optional_String_Value()
     {
         var options = new TestCliOptionsWithLegacyScalarOptionalValue { Output = "json" };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
-    public async Task Parser_Preserves_Legacy_Optional_Value_From_Generated_Base_Type()
+    public async Task Parser_Rejects_Legacy_Optional_Value_From_Generated_Base_Type()
     {
         var options = new TestCliOptionsDerivedFromLegacyGeneratedOptions { Output = "json" };
 
-        var list = BuildArguments(options);
-
-        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
     }
 
     [Test]
@@ -1156,6 +1304,31 @@ public class CliAttributeTests
     {
         public IReadOnlyList<CliValuePair>? Values { get; init; }
     }
+
+    private sealed record RegisteredLegacyOptionalOptions<T> : CommandLineToolOptions
+    {
+        public string? Output { get; init; }
+    }
+
+    private sealed record RegisteredCurrentOptionalOptions<T> : CommandLineToolOptions
+    {
+        public CliOptionValue? Output { get; init; }
+    }
+
+    private sealed record RegisteredFlagOptions<T> : CommandLineToolOptions
+    {
+        public bool Force { get; init; }
+    }
+
+    private sealed class Schema1MetadataMarker;
+
+    private sealed class Schema2MetadataMarker;
+
+    private sealed class Schema2JitMetadataMarker;
+
+    private sealed class Schema2CurrentOptionalMarker;
+
+    private sealed class Schema1FlagMarker;
 
     internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions
     {
