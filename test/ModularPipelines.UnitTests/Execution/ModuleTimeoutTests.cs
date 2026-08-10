@@ -226,22 +226,42 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Timeout_Does_Not_Claim_Unrelated_Cancellation_When_Deadline_Elapses()
+    public async Task Timeout_Does_Not_Claim_Unrelated_Cancellation_Before_Deadline()
     {
         using var unrelatedCancellation = new CancellationTokenSource();
         unrelatedCancellation.Cancel();
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-                timeoutToken =>
-                {
-                    timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
-                    return Task.FromCanceled<bool>(unrelatedCancellation.Token);
-                },
-                TimeSpan.FromMilliseconds(10),
+                _ => Task.FromCanceled<bool>(unrelatedCancellation.Token),
+                TimeSpan.FromSeconds(1),
                 CancellationToken.None));
 
         await Assert.That(exception!.CancellationToken).IsEqualTo(unrelatedCancellation.Token);
+    }
+
+    [Test]
+    public async Task Timeout_Claims_Cancellation_Through_Linked_Attempt_Token()
+    {
+        using var unrelatedCancellation = new CancellationTokenSource();
+
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            timeoutToken =>
+            {
+                using var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+                    timeoutToken,
+                    unrelatedCancellation.Token);
+                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                return Task.FromCanceled<bool>(linkedCancellation.Token);
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
     }
 
     [Test]
