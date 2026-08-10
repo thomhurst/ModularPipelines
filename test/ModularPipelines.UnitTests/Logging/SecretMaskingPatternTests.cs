@@ -1724,6 +1724,50 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_ReusesUnscopedRegistrationContext()
+    {
+        var provider = CreateProvider(out _);
+        using var emissionStarted = new ManualResetEventSlim();
+        using var releaseEmission = new ManualResetEventSlim();
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            emissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the emission.");
+                }
+            }));
+
+        try
+        {
+            await Assert.That(emissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            Task<int> registration;
+            using (ExecutionContext.SuppressFlow())
+            {
+                registration = Task.Run(() =>
+                {
+                    for (var index = 0; index < 100; index++)
+                    {
+                        provider.AddSecret($"unscoped-secret-{index}");
+                    }
+
+                    return GetUnscopedRegistrationContextDepth();
+                });
+            }
+
+            await Assert.That(await registration.WaitAsync(TimeSpan.FromSeconds(5))).IsEqualTo(1);
+        }
+        finally
+        {
+            releaseEmission.Set();
+            await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+    }
+
+    [Test]
     public async Task StableSecretEmission_RefreshesNestedSnapshotAfterUnflowedRegistration()
     {
         const string discoveredSecret = "unflowed-before-nested-emission-secret";
@@ -2192,6 +2236,28 @@ public class SecretMaskingPatternTests
 
         await Assert.That(realConsole.ToString()).IsEqualTo($"**********{Environment.NewLine}");
         outputBuffer.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
+    }
+
+    private static int GetUnscopedRegistrationContextDepth()
+    {
+        var contextHolder = typeof(SecretProvider)
+            .GetField(
+                "CurrentUnscopedRegistrationContext",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(null)!;
+        var currentContext = contextHolder.GetType()
+            .GetProperty("Value")!
+            .GetValue(contextHolder);
+        var depth = 0;
+        while (currentContext is not null)
+        {
+            depth++;
+            currentContext = currentContext.GetType()
+                .GetProperty("Parent")!
+                .GetValue(currentContext);
+        }
+
+        return depth;
     }
 
     private static SecretProvider CreateProvider(

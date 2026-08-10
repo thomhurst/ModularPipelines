@@ -372,12 +372,33 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
             _deferredPatternsPendingPublication.Add(patterns);
             UpdateDeferredMaskingSnapshot([patterns]);
-            CurrentUnscopedRegistrationContext.Value = new UnscopedRegistrationContext(
-                this,
-                _deferredRegistrationBatch,
-                CurrentUnscopedRegistrationContext.Value);
+            CurrentUnscopedRegistrationContext.Value = UpsertUnscopedRegistrationContext(
+                CurrentUnscopedRegistrationContext.Value,
+                _deferredRegistrationBatch);
             return true;
         }
+    }
+
+    private UnscopedRegistrationContext UpsertUnscopedRegistrationContext(
+        UnscopedRegistrationContext? context,
+        long batch)
+    {
+        if (context is null)
+        {
+            return new UnscopedRegistrationContext(this, batch, null);
+        }
+
+        if (ReferenceEquals(context.Provider, this))
+        {
+            return context.Batch == batch
+                ? context
+                : context with { Batch = batch };
+        }
+
+        var updatedParent = UpsertUnscopedRegistrationContext(context.Parent, batch);
+        return ReferenceEquals(updatedParent, context.Parent)
+            ? context
+            : context with { Parent = updatedParent };
     }
 
     private long GetMaskingSnapshotVersion()
