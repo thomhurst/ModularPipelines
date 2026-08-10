@@ -18,6 +18,18 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class CommandTests : TestBase
 {
+    private sealed class RegisterEnvironmentSecretInterceptor(ISecretRegistry secretRegistry)
+        : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default)
+        {
+            secretRegistry.AddSecret(invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"]!);
+            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+        }
+    }
+
     [Test]
     public async Task Command_Execution_Default_Timeout_Is_Thirty_Minutes()
     {
@@ -262,6 +274,27 @@ public class CommandTests : TestBase
             await Assert.That(result.EnvironmentVariables["MP_TEST_VALUE"])
                 .IsEqualTo(environmentValue);
         }
+    }
+
+    [Test]
+    public async Task Command_ReobfuscatesEnvironmentVariablesAfterDynamicSecretRegistration()
+    {
+        const string secret = "dynamically-registered-environment-secret";
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.AddSingleton<ICommandInterceptor, RegisterEnvironmentSecretInterceptor>());
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_DYNAMIC_SECRET"] = secret,
+                },
+            });
+
+        await Assert.That(result.EnvironmentVariables["MP_DYNAMIC_SECRET"])
+            .IsEqualTo("**********");
     }
 
     private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)

@@ -71,18 +71,14 @@ internal sealed class Command : ICommandContext
         cancellationToken.ThrowIfCancellationRequested();
 
         var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
-        var publicEnvironmentVariables = GetPublicEnvironmentVariables(command, execOpts);
-        var commandMetadata = new CommandResult(
-            command,
-            obfuscatedCommandInput,
-            publicEnvironmentVariables);
+        var rawEnvironmentVariables = GetRawEnvironmentVariables(command);
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
             execOpts,
-            commandMetadata.CommandInput,
-            commandMetadata.WorkingDirectory,
-            commandMetadata.EnvironmentVariables);
+            obfuscatedCommandInput,
+            command.WorkingDirPath,
+            rawEnvironmentVariables);
 
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
@@ -244,8 +240,14 @@ internal sealed class Command : ICommandContext
     {
         foreach (var interceptor in _commandInterceptors)
         {
+            var publicInvocation = invocation with
+            {
+                EnvironmentVariables = ObfuscateEnvironmentVariables(
+                    invocation.EnvironmentVariables,
+                    executionOptions),
+            };
             var intercepted = await interceptor
-                .InterceptAsync(invocation, cancellationToken)
+                .InterceptAsync(publicInvocation, cancellationToken)
                 .ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
             if (intercepted is null)
@@ -257,6 +259,7 @@ internal sealed class Command : ICommandContext
                 intercepted,
                 command,
                 commandInput,
+                executionOptions,
                 invocation.EnvironmentVariables);
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
@@ -286,7 +289,7 @@ internal sealed class Command : ICommandContext
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables)
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
     {
         _commandLogger.Log(
             options: options,
@@ -301,24 +304,21 @@ internal sealed class Command : ICommandContext
         return new CommandResult(
             command,
             _secretObfuscator.Obfuscate(commandInput, executionOptions),
-            publicEnvironmentVariables);
+            ObfuscateEnvironmentVariables(rawEnvironmentVariables, executionOptions));
     }
 
     private CommandResult ApplyCommandMetadata(
         CommandResult result,
         CliWrap.Command command,
         string commandInput,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables)
+        CommandExecutionOptions executionOptions,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
     {
-        var metadata = new CommandResult(
-            command,
-            commandInput,
-            publicEnvironmentVariables);
         return result with
         {
-            CommandInput = metadata.CommandInput,
-            WorkingDirectory = metadata.WorkingDirectory,
-            EnvironmentVariables = metadata.EnvironmentVariables,
+            CommandInput = commandInput,
+            WorkingDirectory = command.WorkingDirPath,
+            EnvironmentVariables = ObfuscateEnvironmentVariables(rawEnvironmentVariables, executionOptions),
         };
     }
 
@@ -345,7 +345,7 @@ internal sealed class Command : ICommandContext
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
         Lazy<string> lazyInputToLog,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
@@ -448,7 +448,7 @@ internal sealed class Command : ICommandContext
                         stopwatch.Elapsed,
                         standardOutput,
                         standardError,
-                        publicEnvironmentVariables),
+                        rawEnvironmentVariables),
                     failure);
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
@@ -490,7 +490,7 @@ internal sealed class Command : ICommandContext
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
-                    publicEnvironmentVariables,
+                    rawEnvironmentVariables,
                     callerCancellationToken,
                     timeoutCancellationToken);
             }
@@ -502,7 +502,7 @@ internal sealed class Command : ICommandContext
                 commandInput,
                 standardOutput,
                 standardError,
-                publicEnvironmentVariables);
+                rawEnvironmentVariables);
 
             loggingFailures.Capture(
                 () => LogCommandCompletion(
@@ -536,7 +536,7 @@ internal sealed class Command : ICommandContext
                 _secretObfuscator.Obfuscate(commandInput, execOpts),
                 standardOutput,
                 standardError,
-                publicEnvironmentVariables);
+                ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts));
         }
     }
 
@@ -559,7 +559,7 @@ internal sealed class Command : ICommandContext
         TimeSpan duration,
         string standardOutput,
         string standardError,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         CancellationToken cancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
     {
@@ -578,7 +578,7 @@ internal sealed class Command : ICommandContext
             duration,
             standardOutput,
             standardError,
-            publicEnvironmentVariables);
+            rawEnvironmentVariables);
         return IsExecutableNotFound(executionFailure)
             ? new ToolNotFoundException(
                 _secretObfuscator.Obfuscate(command.TargetFilePath, execOpts),
@@ -618,7 +618,7 @@ internal sealed class Command : ICommandContext
         TimeSpan duration,
         string standardOutput,
         string standardError,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables,
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         DateTimeOffset? startTime = null,
         DateTimeOffset? endTime = null)
     {
@@ -629,25 +629,37 @@ internal sealed class Command : ICommandContext
             workingDirectory: command.WorkingDirPath,
             standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
             standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
-            environmentVariables: publicEnvironmentVariables,
+            environmentVariables: ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts),
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
     }
 
-    private Dictionary<string, string?> GetPublicEnvironmentVariables(
-        CliWrap.Command command,
-        CommandExecutionOptions execOpts)
+    private static Dictionary<string, string?> GetRawEnvironmentVariables(CliWrap.Command command)
     {
         return command.EnvironmentVariables
             .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
             .ToDictionary(
                 pair => pair.Key,
-                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                pair => pair.Value,
                 OperatingSystem.IsWindows()
                     ? StringComparer.OrdinalIgnoreCase
                     : StringComparer.Ordinal);
+    }
+
+    private Dictionary<string, string?> ObfuscateEnvironmentVariables(
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
+        CommandExecutionOptions executionOptions)
+    {
+        return rawEnvironmentVariables.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value is null
+                ? null
+                : _secretObfuscator.Obfuscate(pair.Value, executionOptions),
+            OperatingSystem.IsWindows()
+                ? StringComparer.OrdinalIgnoreCase
+                : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(
@@ -657,7 +669,7 @@ internal sealed class Command : ICommandContext
         string input,
         string standardOutput,
         string standardError,
-        IReadOnlyDictionary<string, string?> publicEnvironmentVariables)
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
     {
         return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
             ? CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
@@ -668,7 +680,7 @@ internal sealed class Command : ICommandContext
                 result.RunTime,
                 standardOutput,
                 standardError,
-                publicEnvironmentVariables,
+                rawEnvironmentVariables,
                 result.StartTime,
                 result.ExitTime))
             : null;
