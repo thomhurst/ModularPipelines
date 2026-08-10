@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
@@ -199,6 +200,57 @@ public class ParallelLimitHandlerTests
             await Assert.That(registeredResult).IsSameReferenceAs(awaitedResult);
             await Assert.That(awaitedResult.ExceptionOrDefault).IsSameReferenceAs(originalException);
         }
+    }
+
+    [Test]
+    public async Task ModuleRunner_EngineCancellationStopsLimiterWaitAsPipelineTerminated()
+    {
+        var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns<Type, CancellationToken>(async (_, token) =>
+            {
+                limiterWaitStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return Mock.Of<IDisposable>();
+            });
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        var logger = new Mock<ILogger<ModuleRunner>>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        builder.Services.AddSingleton(logger.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var engineCancellationToken = host.Services.GetRequiredService<ModularPipelines.Engine.EngineCancellationToken>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+
+        var executionTask = moduleRunner.ExecuteAsync(
+            moduleState,
+            scheduler.Object,
+            CancellationToken.None);
+        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        engineCancellationToken.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+        scheduler.Verify(x => x.MarkModuleCompleted(
+            typeof(TestModule),
+            false,
+            It.IsAny<OperationCanceledException>(),
+            Status.PipelineTerminated), Times.Once);
+        await Assert.That(resultRegistry.GetResult(typeof(TestModule))!.ModuleStatus)
+            .IsEqualTo(Status.PipelineTerminated);
+        logger.Verify(x => x.Log(
+            LogLevel.Error,
+            It.IsAny<EventId>(),
+            It.IsAny<It.IsAnyType>(),
+            It.IsAny<Exception?>(),
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
     }
 
     private static ParallelLimitHandler CreateHandler(PipelineOptions options)

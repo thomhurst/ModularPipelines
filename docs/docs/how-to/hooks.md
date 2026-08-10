@@ -135,8 +135,8 @@ run sequentially in priority order.
 The order for a successful module is:
 
 1. Global `OnModuleReadyAsync`
-2. Global `OnModuleStartAsync`
-3. Attribute `IModuleReadyHandler`
+2. Attribute `IModuleReadyHandler`
+3. Global `OnModuleStartAsync`
 4. Attribute `IModuleStartHandler`
 5. Module `OnBeforeExecuteAsync`
 6. Module `ExecuteAsync` with its retry policy
