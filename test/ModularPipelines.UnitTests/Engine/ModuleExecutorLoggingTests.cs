@@ -277,6 +277,7 @@ public class ModuleExecutorLoggingTests
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
         scheduler
             .Setup(x => x.GetModuleState(It.IsAny<Type>()))
             .Returns((Type moduleType) => moduleStates[moduleType]);
