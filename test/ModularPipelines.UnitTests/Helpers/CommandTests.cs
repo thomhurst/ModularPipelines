@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
@@ -11,6 +12,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -219,6 +221,48 @@ public class CommandTests : TestBase
     [RequiresTool("pwsh")]
     public Task Successful_Command_Exposes_Obfuscated_Environment_Variables() =>
         AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: false);
+
+    [Test]
+    public async Task Command_ObfuscatesEnvironmentVariablesOncePerInvocation()
+    {
+        const string environmentValue = "unique-environment-value";
+        var environmentObfuscationCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) =>
+            {
+                if (input == environmentValue)
+                {
+                    Interlocked.Increment(ref environmentObfuscationCount);
+                }
+
+                return input ?? string.Empty;
+            });
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.RemoveAll<ISecretObfuscator>();
+            services.AddSingleton<ISecretObfuscator>(obfuscator.Object);
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                InternalDryRun = true,
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_TEST_VALUE"] = environmentValue,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(environmentObfuscationCount).IsEqualTo(1);
+            await Assert.That(result.EnvironmentVariables["MP_TEST_VALUE"])
+                .IsEqualTo(environmentValue);
+        }
+    }
 
     private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
