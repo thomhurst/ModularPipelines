@@ -209,7 +209,7 @@ public class ModuleExecutionPipelineTests
     }
 
     [Test]
-    public async Task ExecuteAsync_ClassifiesAlwaysRunElapsedCancellationAsTimeout()
+    public async Task ExecuteAsync_DoesNotClassifyAlwaysRunElapsedCancellationAsTimeout()
     {
         var module = new AlwaysRunElapsedCancellationModule();
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
@@ -220,7 +220,7 @@ public class ModuleExecutionPipelineTests
         await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
             .Throws<ModuleFailedException>();
 
-        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
+        await Assert.That(executionContext.Status).IsEqualTo(Status.Failed);
     }
 
     [Test]
