@@ -61,6 +61,34 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Invalid_NonPublic_Annotated_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestNonPublicValidatedOptions
+        {
+            Retries = 4,
+        });
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestNonPublicValidatedOptions.Retries");
+    }
+
+    [Test]
+    public async Task Build_Wraps_ValidationException_From_Callback()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var exception = await Assert.That(() => builder.Build(new TestThrowingValidatedOptions()))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("Callback validation failed.");
+        await Assert.That(exception!.InnerException)
+            .IsTypeOf<ValidationException>()
+            .And.HasMessageContaining("Callback validation failed.");
+    }
+
+    [Test]
     public async Task Build_Accepts_Valid_DataAnnotation_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1116,6 +1144,21 @@ public class CommandLineBuilderTests : TestBase
         [CliOptionValueRange(1, 3)]
         [CliOption("--level", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Level { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestNonPublicValidatedOptions : CommandLineToolOptions
+    {
+        [Range(0, 3)]
+        [CliOption("--retries")]
+        internal int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestThrowingValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) =>
+            throw new ValidationException("Callback validation failed.");
     }
 
     [CliTool("mytool")]

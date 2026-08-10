@@ -97,6 +97,7 @@ internal sealed class Command : ICommandContext
             throw;
         }
 
+        _commandExecutionCounter.Record(AmbientModuleContext.CurrentModuleType);
         var (command, commandInput, tool, parsedArgs) = commandDetails;
 
         cancellationToken.ThrowIfCancellationRequested();

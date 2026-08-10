@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
@@ -113,6 +115,18 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task Invalid_Command_Options_Do_Not_Increment_Command_Count()
+    {
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        var counter = pipeline.Services.GetRequiredService<ICommandExecutionCounter>();
+
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() =>
+            command.ExecuteCommandLineToolAsync(new InvalidCountedCommandOptions()));
+
+        await Assert.That(counter.TotalCount).IsEqualTo(0);
+    }
+
+    [Test]
     [RequiresTool("pwsh")]
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {
@@ -142,6 +156,14 @@ public class CommandTests : TestBase
                 },
                 cancellationToken: cancellationToken);
         }
+    }
+
+    [CliTool("tool")]
+    private sealed record InvalidCountedCommandOptions : CommandLineToolOptions
+    {
+        [Range(1, 1)]
+        [CliOption("--value")]
+        public int Value { get; init; }
     }
 
     private class CommandEchoTimeoutModule : Module<string>
