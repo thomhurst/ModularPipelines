@@ -74,7 +74,6 @@ internal sealed class Command : ICommandContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        _commandExecutionCounter.Record(AmbientModuleContext.CurrentModuleType);
         var execOpts = (executionOptions ?? new CommandExecutionOptions()) with
         {
             WorkingDirectory = executionOptions?.WorkingDirectory is { } workingDirectory
