@@ -117,6 +117,28 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task OmitsExcerptWhenCaseInsensitiveMatchCanExceedBoundaryContext()
+    {
+        const string secret = "SSSS";
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { CaseInsensitive = true }));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 4,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("prefixſſſſ", ModuleOutputStream.StandardOutput);
+
+        await Assert.That(buffer.CreateExcerpt()).IsNull();
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenSecretsChangeDuringMasking()
     {
         var version = 2L;

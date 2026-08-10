@@ -41,6 +41,8 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 
+    internal bool CaseInsensitive => _maskingOptions.Value.CaseInsensitive;
+
     public SecretObfuscator(
         ISecretProvider secretProvider,
         IOptions<SecretMaskingOptions> maskingOptions)

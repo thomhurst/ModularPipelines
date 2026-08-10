@@ -96,17 +96,18 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         // Custom or incomplete masking dependencies do not expose enough information
         // to prove that a bounded context is safe.
-        if (secretObfuscator is not SecretObfuscator || secretProvider is null)
+        if (secretObfuscator is not SecretObfuscator concreteObfuscator || secretProvider is null)
         {
             stdoutTail = null;
             stderrTail = null;
             return false;
         }
 
+        var caseInsensitive = concreteObfuscator.CaseInsensitive;
         var snapshot = secretProvider.GetSnapshot();
         if (snapshot.Secrets
             .Where(static secret => !string.IsNullOrEmpty(secret))
-            .Any(secret => Utf8.GetByteCount(secret) > maximumBytes))
+            .Any(secret => GetMaximumMatchByteCount(secret, caseInsensitive) > maximumBytes))
         {
             stdoutTail = null;
             stderrTail = null;
@@ -118,7 +119,8 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         // If registration changed during masking, a new secret may cross the retained
         // boundary. Omit the excerpt rather than risk returning a partial secret.
-        return secretProvider.Version == snapshot.Version;
+        return secretProvider.Version == snapshot.Version
+               && concreteObfuscator.CaseInsensitive == caseInsensitive;
     }
 
     private (int StdoutBytes, int StderrBytes) GetFinalStreamByteLimits()
@@ -192,6 +194,32 @@ internal sealed class ModuleOutputExcerptBuffer(
     }
 
     private static bool IsUtf8ContinuationByte(byte value) => (value & 0xC0) == 0x80;
+
+    private static int GetMaximumMatchByteCount(string secret, bool caseInsensitive)
+    {
+        if (!caseInsensitive)
+        {
+            return Utf8.GetByteCount(secret);
+        }
+
+        var maximumBytes = 0L;
+        for (var index = 0; index < secret.Length; index++)
+        {
+            if (char.IsHighSurrogate(secret[index])
+                && index + 1 < secret.Length
+                && char.IsLowSurrogate(secret[index + 1]))
+            {
+                maximumBytes += 4;
+                index++;
+            }
+            else
+            {
+                maximumBytes += 3;
+            }
+        }
+
+        return maximumBytes > int.MaxValue ? int.MaxValue : (int) maximumBytes;
+    }
 
     private readonly record struct OutputChunk(ModuleOutputStream Stream, byte[] Bytes);
 }
