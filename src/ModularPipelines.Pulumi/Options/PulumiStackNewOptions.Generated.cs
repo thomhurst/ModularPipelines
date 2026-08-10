@@ -18,9 +18,7 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "new")]
-public record PulumiStackNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrStackName
-) : PulumiOptions
+public record PulumiStackNewOptions : PulumiOptions
 {
     /// <summary>
     /// The name of the stack to copy existing config from
@@ -141,5 +139,11 @@ public record PulumiStackNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [org-name Or ]&lt;stack-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OrgNameOrStackName { get; set; }
 
 }

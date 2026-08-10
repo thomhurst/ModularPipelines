@@ -36,12 +36,6 @@ public record PulumiPackageGetMappingOptions(
     public string? Out { get; set; }
 
     /// <summary>
-    /// A URL to download the plugin from. When set, the provider argument is used as the plugin name directly and no package resolution is performed.
-    /// </summary>
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
-    public string? Server { get; set; }
-
-    /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]

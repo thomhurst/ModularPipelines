@@ -18,9 +18,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "add", "buildmetadata")]
-public record KustomizeEditAddBuildmetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Metadata
-) : KustomizeOptions
+public record KustomizeEditAddBuildmetadataOptions : KustomizeOptions
 {
     /// <summary>
     /// help for buildmetadata

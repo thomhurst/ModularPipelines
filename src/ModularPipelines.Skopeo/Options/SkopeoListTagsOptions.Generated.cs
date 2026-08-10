@@ -88,6 +88,6 @@ public record SkopeoListTagsOptions(
     /// The command options operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
+    public string? CommandOptions { get; set; }
 
 }

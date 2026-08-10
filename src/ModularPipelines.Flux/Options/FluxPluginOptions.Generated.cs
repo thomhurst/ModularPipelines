@@ -165,4 +165,10 @@ public record FluxPluginOptions : FluxOptions
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
 
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
