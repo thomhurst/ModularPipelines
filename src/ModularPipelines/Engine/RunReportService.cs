@@ -290,9 +290,9 @@ internal sealed class RunReportService(
                 {
                     var fullPath = Path.GetFullPath(reportPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-                    await AtomicFileWriter.WriteAllTextAsync(
+                    await reportFactory.WriteWithValidatedOutputExcerptsAsync(
                             fullPath,
-                            reportFactory.SerializeWithValidatedOutputExcerpts(report),
+                            report,
                             token)
                         .ConfigureAwait(false);
                     logger.LogInformation(

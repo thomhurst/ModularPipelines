@@ -304,22 +304,61 @@ internal sealed class PipelineRunReportFactory(
                 .ToArray(),
         };
 
-    internal string SerializeWithValidatedOutputExcerpts(PipelineRunReport report)
+    internal string SerializeWithValidatedOutputExcerpts(PipelineRunReport report) =>
+        CreateValidatedSerialization(report).Contents;
+
+    internal Task WriteWithValidatedOutputExcerptsAsync(
+        string path,
+        PipelineRunReport report,
+        CancellationToken cancellationToken = default) =>
+        WriteWithValidatedOutputExcerptsAsync(
+            path,
+            report,
+            static (temporaryPath, contents, token) =>
+                File.WriteAllTextAsync(temporaryPath, contents, token),
+            cancellationToken);
+
+    internal Task WriteWithValidatedOutputExcerptsAsync(
+        string path,
+        PipelineRunReport report,
+        Func<string, string, CancellationToken, Task> writeAsync,
+        CancellationToken cancellationToken = default)
+    {
+        var serialization = CreateValidatedSerialization(report);
+        return AtomicFileWriter.WriteAllTextAsync(
+            path,
+            serialization.Contents,
+            writeAsync,
+            () => serialization.SecretPatternsVersion is { } version
+                  && secretProvider?.Version != version
+                ? RunReportJsonSerializer.Serialize(RemoveOutputExcerpts(report))
+                : null,
+            cancellationToken);
+    }
+
+    private ValidatedSerialization CreateValidatedSerialization(PipelineRunReport report)
     {
         var validatedReport = RemoveStaleOutputExcerpts(report);
         var serializedReport = RunReportJsonSerializer.Serialize(validatedReport);
         var outputExcerptCount = validatedReport.Modules.Count(static module => module.Output is not null);
         if (outputExcerptCount == 0)
         {
-            return serializedReport;
+            return new ValidatedSerialization(serializedReport, null);
         }
 
         var revalidatedReport = RemoveStaleOutputExcerpts(validatedReport);
-        return revalidatedReport.Modules.Count(static module => module.Output is not null)
-               == outputExcerptCount
-            ? serializedReport
-            : RunReportJsonSerializer.Serialize(revalidatedReport);
+        var excerptsRemainCurrent = revalidatedReport.Modules.Count(static module => module.Output is not null)
+                                    == outputExcerptCount;
+        return new ValidatedSerialization(
+            excerptsRemainCurrent
+                ? serializedReport
+                : RunReportJsonSerializer.Serialize(revalidatedReport),
+            revalidatedReport.Modules
+                .Select(static module => module.Output?.SecretPatternsVersion)
+                .FirstOrDefault(static version => version is not null));
     }
+
+    private sealed record ValidatedSerialization(string Contents, long? SecretPatternsVersion);
 
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
 
