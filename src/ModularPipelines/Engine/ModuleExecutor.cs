@@ -389,6 +389,11 @@ internal class ModuleExecutor : IModuleExecutor
                 return false;
             }
 
+            if (moduleState.Module.Configuration.AlwaysRun)
+            {
+                return false;
+            }
+
             return moduleState.Dependencies.Keys.Any(dependencyType =>
                 dependencyType == failedModuleType
                 || HasDependencyPath(dependencyType));

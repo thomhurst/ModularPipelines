@@ -35,6 +35,22 @@ public class EngineCancellationTokenTests : TestBase
         protected override bool Result => true;
     }
 
+    [ModularPipelines.Attributes.DependsOn<BadModule>]
+    private class AlwaysRunBarrierModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+    }
+
+    [ModularPipelines.Attributes.DependsOn<AlwaysRunBarrierModule>]
+    private class ModuleBehindAlwaysRunBarrier : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
     private class LongRunningModule : Module<bool>
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
@@ -339,6 +355,35 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(module1Result.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
         await Assert.That(((DependencyFailedException) module1Result.ExceptionOrDefault!).FailingModuleName)
             .IsEqualTo(nameof(BadModule));
+    }
+
+    [Test]
+    public async Task StopOnFirstException_DoesNotPropagateDependencyFailureAcrossAlwaysRunModule()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<BadModule>()
+            .AddModule<AlwaysRunBarrierModule>()
+            .AddModule<ModuleBehindAlwaysRunBarrier>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
+        });
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+        await Assert.That(async () => await host.RunAsync()).Throws<ModuleFailedException>();
+
+        var alwaysRunResult = resultRegistry.GetResult(typeof(AlwaysRunBarrierModule));
+        var downstreamResult = resultRegistry.GetResult(typeof(ModuleBehindAlwaysRunBarrier));
+        using (Assert.Multiple())
+        {
+            await Assert.That(alwaysRunResult).IsNotNull();
+            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(downstreamResult).IsNotNull();
+            await Assert.That(downstreamResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        }
     }
 
     [Test]
