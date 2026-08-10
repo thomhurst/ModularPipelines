@@ -224,7 +224,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
-            case FlagPart { IsSupportedPropertyType: false }:
+            case FlagPart flag
+                when !HasSupportedPropertyType(optionsType, flag, IsSupportedFlagType):
                 throw new InvalidOperationException(
                     $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
             case OptionPart { Attribute.GroupValues: true } groupedOption
@@ -235,15 +236,32 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 when valuePairOption.Attribute.Format != OptionFormat.SpaceSeparated:
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
-            case OptionPart
-            {
-                Attribute.ValueArity: CliOptionValueArity.Optional,
-                IsSupportedPropertyType: false,
-            }:
+            case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
+                when !HasSupportedPropertyType(optionsType, option, IsSupportedOptionalValueType):
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");
         }
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Schema-1 metadata getters preserve the referenced option properties; "
+                        + "reflection is used only when the support marker is absent.")]
+    private static bool HasSupportedPropertyType(
+        Type optionsType,
+        PropertyCommandLinePart part,
+        Func<Type, bool> isSupported)
+    {
+        if (part.IsSupportedPropertyType is { } knownResult)
+        {
+            return knownResult;
+        }
+
+        return GetCommandProperties(optionsType)
+                   .FirstOrDefault(property => property.Name == part.PropertyName) is { } property
+               && isSupported(property.PropertyType);
     }
 
     private static void ValidateUniqueSwitches(

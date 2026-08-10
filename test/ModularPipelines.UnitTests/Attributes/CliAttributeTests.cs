@@ -310,6 +310,28 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Schema1_Metadata_Rejects_Unset_Legacy_Optional_String()
+    {
+        var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>);
+        GeneratedCommandMetadata.Register(
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema1MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema1MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    }),
+            ]);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
     public async Task Parser_Omits_Empty_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = [] };
@@ -1089,6 +1111,13 @@ public class CliAttributeTests
     {
         public IReadOnlyList<CliValuePair>? Values { get; init; }
     }
+
+    private sealed record RegisteredLegacyOptionalOptions<T> : CommandLineToolOptions
+    {
+        public string? Output { get; init; }
+    }
+
+    private sealed class Schema1MetadataMarker;
 
     internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions
     {
