@@ -130,11 +130,15 @@ public record CliCommandDefinition
     /// </summary>
     /// <param name="hasOperandTakingUsage">Whether the shared usage parser found operands.</param>
     /// <param name="usageSynopsis">The usage synopsis inspected by the shared parser.</param>
+    /// <param name="usagePositionalArguments">Operands parsed from the inspected synopsis.</param>
     public void ValidateOperandCoverage(
         bool hasOperandTakingUsage,
-        string? usageSynopsis)
+        string? usageSynopsis,
+        IReadOnlyList<CliPositionalArgument>? usagePositionalArguments = null)
     {
-        if (!hasOperandTakingUsage || PositionalArguments.Count > 0)
+        if (!hasOperandTakingUsage
+            || PositionalArguments.Count > 0
+            || AreUsageOperandsCoveredByOptions(usagePositionalArguments))
         {
             return;
         }
@@ -143,6 +147,14 @@ public record CliCommandDefinition
             $"{FullCommand} declares positional operands in usage '{usageSynopsis}', " +
             "but no CliPositionalArgument values were generated.");
     }
+
+    private bool AreUsageOperandsCoveredByOptions(
+        IReadOnlyList<CliPositionalArgument>? usagePositionalArguments) =>
+        usagePositionalArguments is { Count: > 0 }
+        && usagePositionalArguments.All(argument => Options.Any(option =>
+            option.PropertyName.Equals(
+                argument.PropertyName,
+                StringComparison.OrdinalIgnoreCase)));
 }
 
 /// <summary>

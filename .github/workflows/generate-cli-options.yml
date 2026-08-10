@@ -861,6 +861,7 @@ jobs:
             --output-dir "$env:GITHUB_WORKSPACE" `
             --change-manifest "$env:RUNNER_TEMP/generated-paths.txt" `
             @coverageArgs 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log")
+          $generatorOutput | Write-Host
 
           if ($LASTEXITCODE -ne 0) {
             throw "Generator failed for ${{ matrix.tool }}"

@@ -473,7 +473,8 @@ public abstract partial class CliScraperBase : ICliScraper
 
         command.ValidateOperandCoverage(
             usage.HasOperandTokens,
-            usage.Synopsis);
+            usage.Synopsis,
+            usage.PositionalArguments);
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
     }
 
@@ -890,7 +891,7 @@ public abstract partial class CliScraperBase : ICliScraper
         string switchName,
         string description)
     {
-        if (RepeatableValuePattern().IsMatch(description))
+        if (DescriptionDeclaresRepeatableOption(description))
         {
             return true;
         }
@@ -922,6 +923,12 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return false;
     }
+
+    /// <summary>
+    /// Returns whether an option description identifies a repeatable value.
+    /// </summary>
+    protected static bool DescriptionDeclaresRepeatableOption(string description) =>
+        RepeatableValuePattern().IsMatch(description);
 
     /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.

@@ -169,6 +169,18 @@ public partial class BrewCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    /// <inheritdoc />
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -203,7 +215,7 @@ public partial class BrewCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
             SubDomainGroup = null,
             Enums = enums
         };

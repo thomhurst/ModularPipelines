@@ -161,8 +161,14 @@ public static class UsageSynopsisParser
             .Any(IsOptionControlToken)
                 ? CommandLinePhase.Passthrough
                 : CommandLinePhase.EarlyOperand;
+        var operandTokens = tokens.Skip(commandMatch.EndIndex + 1);
+        if (tokens[commandMatch.EndIndex].TrimEnd().EndsWith(','))
+        {
+            operandTokens = operandTokens.Skip(1);
+        }
+
         foreach (var token in TrimTrailingUsageExplanation(
-                     CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1))))
+                     CollapseAlternatives(operandTokens)))
         {
             if (IsOptionControlToken(token))
             {
@@ -541,6 +547,11 @@ public static class UsageSynopsisParser
         var parsedArguments = new List<CliPositionalArgument>();
         foreach (var nestedToken in nestedTokens)
         {
+            if (IsNonOperandSyntax(nestedToken))
+            {
+                continue;
+            }
+
             var argument = ParseOperand(
                 nestedToken,
                 positionIndex + parsedArguments.Count,
@@ -726,7 +737,7 @@ public static class UsageSynopsisParser
 
     private static bool IsControlToken(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || ControlTokens.Contains(content)
@@ -735,7 +746,7 @@ public static class UsageSynopsisParser
 
     private static bool IsNonOperandSyntax(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || OptionControlTokens.Contains(content)
@@ -744,9 +755,20 @@ public static class UsageSynopsisParser
 
     private static bool IsOptionControlToken(string token)
     {
-        var content = TrimWrapper(token).Trim();
+        var content = TrimControlWrappers(token);
         return content.StartsWith('-')
                || OptionControlTokens.Contains(content);
+    }
+
+    private static string TrimControlWrappers(string token)
+    {
+        var content = token.Trim();
+        while (IsWrapped(content))
+        {
+            content = TrimWrapper(content).Trim();
+        }
+
+        return content;
     }
 
     private static string NormalizeLiteral(string token) =>

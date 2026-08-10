@@ -362,7 +362,12 @@ public partial class WinGetCliScraper : CliScraperBase
         // WinGet options are generally strings or booleans
         // Boolean flags typically have descriptions like "Enable...", "Disable...", etc.
         var isFlag = IsBooleanDescription(description);
-        var csharpType = isFlag ? "bool?" : "string?";
+        var acceptsMultipleValues = DescriptionDeclaresRepeatableOption(description);
+        var csharpType = isFlag
+            ? "bool?"
+            : acceptsMultipleValues
+                ? "IEnumerable<string>?"
+                : "string?";
 
         return new CliOptionDefinition
         {
@@ -373,7 +378,7 @@ public partial class WinGetCliScraper : CliScraperBase
             Description = description,
             IsFlag = isFlag,
             IsRequired = false,
-            AcceptsMultipleValues = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
             IsKeyValue = false,
             IsNumeric = false,
             ValueSeparator = isFlag ? " " : " ",
@@ -473,7 +478,7 @@ public partial class WinGetCliScraper : CliScraperBase
     /// - "The following commands are available:"
     /// - "The following administrative commands are available:"
     /// </summary>
-    [GeneratedRegex(@"The following\s+(?:\w+\s+)?commands are available:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"The following\s+(?:\w+\s+)?(?:sub-)?commands are available:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex CommandSectionPattern();
 
     /// <summary>
