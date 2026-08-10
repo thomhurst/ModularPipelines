@@ -13,7 +13,8 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    private const int RuntimeMetadataSchemaVersion = 3;
+    private const int RuntimeMetadataSchemaVersion = 2;
+    private const int CommandMetadataSchemaVersion = 3;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
 
@@ -1093,6 +1094,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
+        sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
         sb.AppendLine();
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
@@ -1329,7 +1331,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         sb.AppendLine("            },");
-        sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
+        sb.AppendLine($"            {CommandMetadataSchemaVersion});");
     }
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
@@ -1466,13 +1468,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             RuntimeMetadataRegistrationFullName);
         var runtimeMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
             runtimeMetadataRegistration);
+        var commandMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
+                                               runtimeMetadataRegistration,
+                                               "CommandSchemaVersion")
+                                           ?? runtimeMetadataSchemaVersion;
         var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
                                                && !Equals(
                                                    runtimeMetadataSchemaVersion,
                                                    RuntimeMetadataSchemaVersion);
-        var hasCurrentRuntimeMetadata = Equals(
-            runtimeMetadataSchemaVersion,
-            RuntimeMetadataSchemaVersion);
+        var hasCurrentCommandMetadata = Equals(
+            commandMetadataSchemaVersion,
+            CommandMetadataSchemaVersion);
         return GetTypes(assembly.GlobalNamespace)
             .Select(type => GetExternalTypeCandidate(
                 type,
@@ -1481,7 +1487,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 usedOptionsTypes,
                 incompleteTypeNames,
                 requiresSecretReflectionFallback,
-                hasCurrentRuntimeMetadata))
+                hasCurrentCommandMetadata))
             .OfType<TypeMetadataCandidate>();
     }
 
@@ -1492,11 +1498,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         ISet<OptionsTypeIdentity> usedOptionsTypes,
         ISet<string> incompleteTypeNames,
         bool requiresSecretReflectionFallback,
-        bool hasCurrentRuntimeMetadata)
+        bool hasCurrentCommandMetadata)
     {
         var metadataName = GetMetadataName(type);
         var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
-        var requiresRescan = !hasCurrentRuntimeMetadata
+        var requiresRescan = !hasCurrentCommandMetadata
                              || incompleteTypeNames.Contains(metadataName)
                              || isObservedOptionsType;
         if (!requiresRescan && !includeAllRuntimeMetadata)
@@ -1595,9 +1601,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                        || metadata.UseTypeForEmptySecretCoverage));
     }
 
-    private static object? GetRuntimeMetadataSchemaVersion(INamedTypeSymbol? registration) =>
+    private static object? GetRuntimeMetadataSchemaVersion(
+        INamedTypeSymbol? registration,
+        string fieldName = "SchemaVersion") =>
         registration?
-            .GetMembers("SchemaVersion")
+            .GetMembers(fieldName)
             .OfType<IFieldSymbol>()
             .FirstOrDefault(static field => field.HasConstantValue)?
             .ConstantValue;

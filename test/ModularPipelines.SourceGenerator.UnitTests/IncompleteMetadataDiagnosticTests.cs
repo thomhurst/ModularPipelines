@@ -570,6 +570,56 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rescans_Legacy_Command_Without_Invalidating_Secret_Metadata()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 2;
+                }
+            }
+
+            namespace External
+            {
+                public class LegacyOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    protected string Token { get; } = "";
+
+                    [ModularPipelines.Attributes.CliOption("--output")]
+                    public string Output { get; } = "";
+                }
+            }
+            """,
+            """
+            public sealed class Consumer
+            {
+                public External.LegacyOptions Options { get; } = new();
+            }
+            """,
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedCommandMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.LegacyOptions)");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Trusts_Current_Metadata_Marker()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
@@ -580,7 +630,8 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 3;
+                    public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 
@@ -624,7 +675,8 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 3;
+                    public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 
@@ -670,7 +722,8 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 3;
+                    public const int SchemaVersion = 2;
+                    public const int CommandSchemaVersion = 3;
                 }
             }
 
