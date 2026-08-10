@@ -177,7 +177,7 @@ internal static class CommandLineOptionsValidator
 
             foreach (var attribute in property.Attributes)
             {
-                if (attribute is RequiredAttribute)
+                if (ReferenceEquals(attribute, requiredAttribute))
                 {
                     continue;
                 }
