@@ -65,7 +65,7 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
-    public async Task ModuleRunner_AcquiresLimitsBeforeMarkingModuleStarted()
+    public async Task ModuleRunner_FiresReadyOnceBeforeLimitsAndMarksStartedAfter()
     {
         var limitWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLimitWait = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -77,10 +77,15 @@ public class ParallelLimitHandlerTests
         parallelLimitHandler
             .Setup(x => x.AcquireExecutionTypeLimitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Mock.Of<IDisposable>());
+        var receiver = new Mock<IModuleEventReceiver>();
+        receiver
+            .Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
+            .Returns(Task.CompletedTask);
 
         var builder = TestPipelineBuilder.Create()
             .AddModule<TestModule>();
         builder.Services.AddSingleton(parallelLimitHandler.Object);
+        builder.Services.AddSingleton(receiver.Object);
         await using var host = await builder.BuildAsync();
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var scheduler = new Mock<IModuleScheduler>();
@@ -95,12 +100,18 @@ public class ParallelLimitHandlerTests
             CancellationToken.None);
         await limitWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
 
+        receiver.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
         scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Never);
 
         releaseLimitWait.TrySetResult(Mock.Of<IDisposable>());
         await executionTask;
 
         scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Once);
+
+        await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
+
+        receiver.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
+        scheduler.Verify(x => x.MarkModuleStarted(typeof(TestModule)), Times.Exactly(2));
     }
 
     [Test]

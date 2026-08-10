@@ -150,6 +150,11 @@ internal class ModuleRunner : IModuleRunner
                             cancellationToken)
                         .ConfigureAwait(false);
 
+                if (moduleState.TryStartGlobalReadyEvent())
+                {
+                    await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+                }
+
                 var limiterCancellationToken = module.Configuration.AlwaysRun
                     ? executionContext.ModuleCancellationTokenSource.Token
                     : cancellationToken;
@@ -727,8 +732,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Before module hooks - module is ready (dependencies satisfied)
-        await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+        // Before module hooks - module is starting execution.
         await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
