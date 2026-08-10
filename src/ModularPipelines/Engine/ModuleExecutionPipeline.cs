@@ -693,7 +693,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Check if we should ignore failures
-        if (config.IgnoreFailuresCondition != null)
+        if (config.IgnoreFailuresCondition != null
+            && (executionContext.Status != Status.PipelineTerminated
+                || exception is ModuleTimeoutException
+                || IsTimeout(config, executionContext, exception)))
         {
             if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
             {

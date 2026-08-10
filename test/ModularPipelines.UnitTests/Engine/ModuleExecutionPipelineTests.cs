@@ -98,6 +98,20 @@ public class ModuleExecutionPipelineTests
         }
     }
 
+    private sealed class IgnoredCancellationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromException<int>(new OperationCanceledException());
+        }
+    }
+
     private sealed class AlwaysRunTimeoutExceptionModule : Module<int>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
@@ -156,6 +170,16 @@ public class ModuleExecutionPipelineTests
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
 
         var result = await ExecuteAfterPipelineCancellation(module, executionContext);
+
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_DoesNotIgnorePipelineCancellationWithoutTimeout()
+    {
+        var module = new IgnoredCancellationModule();
+
+        var result = await ExecuteAfterPipelineCancellation(module);
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
     }
