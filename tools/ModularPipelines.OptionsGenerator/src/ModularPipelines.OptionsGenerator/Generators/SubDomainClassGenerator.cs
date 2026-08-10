@@ -415,7 +415,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             tool,
             alias,
             command.ClassName);
-        return GeneratorUtils.HasRequiredParameters(command)
+        return GeneratorUtils.RequiresOptionsParameter(command)
             ? $"{aliasOptionsClassName} options"
             : $"{aliasOptionsClassName}? options = null";
     }
