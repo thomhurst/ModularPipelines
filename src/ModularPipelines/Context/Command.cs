@@ -33,7 +33,7 @@ internal sealed class Command : ICommandContext
         CommandLine CommandLine,
         CommandLineToolOptions ToolOptions,
         CommandExecutionOptions ExecutionOptions,
-        string CommandInput,
+        string RawCommandInput,
         string WorkingDirectory,
         IReadOnlyDictionary<string, string?> RawEnvironmentVariables);
 
@@ -78,13 +78,12 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
         var rawEnvironmentVariables = GetRawEnvironmentVariables(command);
         var invocation = new PreparedCommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
             execOpts,
-            obfuscatedCommandInput,
+            commandInput,
             command.WorkingDirPath,
             rawEnvironmentVariables);
 
@@ -190,7 +189,6 @@ internal sealed class Command : ICommandContext
         var intercepted = await TryInterceptAsync(
                 invocation,
                 command,
-                invocation.CommandInput,
                 options,
                 executionOptions,
                 inputToLog,
@@ -240,7 +238,6 @@ internal sealed class Command : ICommandContext
     private async Task<CommandResult?> TryInterceptAsync(
         PreparedCommandInvocation invocation,
         CliWrap.Command command,
-        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog,
@@ -269,9 +266,8 @@ internal sealed class Command : ICommandContext
             var result = ApplyCommandMetadata(
                 intercepted,
                 command,
-                commandInput,
-                executionOptions,
-                invocation.RawEnvironmentVariables);
+                invocation,
+                executionOptions);
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -298,6 +294,23 @@ internal sealed class Command : ICommandContext
         PreparedCommandInvocation invocation,
         CommandExecutionOptions executionOptions)
     {
+        var (commandInput, environmentVariables, secretVersion) =
+            CreatePublicCommandMetadata(invocation, executionOptions);
+
+        return (new CommandInvocation(
+            invocation.CommandLine,
+            invocation.ToolOptions,
+            invocation.ExecutionOptions,
+            commandInput,
+            invocation.WorkingDirectory,
+            environmentVariables), secretVersion);
+    }
+
+    private (string CommandInput, IReadOnlyDictionary<string, string?> EnvironmentVariables, long SecretVersion)
+        CreatePublicCommandMetadata(
+            PreparedCommandInvocation invocation,
+            CommandExecutionOptions executionOptions)
+    {
         while (true)
         {
             var versionBefore = _secretProvider.Version;
@@ -307,6 +320,9 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
+            var commandInput = _secretObfuscator.Obfuscate(
+                invocation.RawCommandInput,
+                executionOptions);
             var environmentVariables = ObfuscateEnvironmentVariables(
                 invocation.RawEnvironmentVariables,
                 executionOptions);
@@ -315,13 +331,7 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
-            return (new CommandInvocation(
-                invocation.CommandLine,
-                invocation.ToolOptions,
-                invocation.ExecutionOptions,
-                invocation.CommandInput,
-                invocation.WorkingDirectory,
-                environmentVariables), versionBefore);
+            return (commandInput, environmentVariables, versionBefore);
         }
     }
 
@@ -352,15 +362,17 @@ internal sealed class Command : ICommandContext
     private CommandResult ApplyCommandMetadata(
         CommandResult result,
         CliWrap.Command command,
-        string commandInput,
-        CommandExecutionOptions executionOptions,
-        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
+        PreparedCommandInvocation invocation,
+        CommandExecutionOptions executionOptions)
     {
+        var (commandInput, environmentVariables, _) =
+            CreatePublicCommandMetadata(invocation, executionOptions);
+
         return result with
         {
             CommandInput = commandInput,
             WorkingDirectory = command.WorkingDirPath,
-            EnvironmentVariables = ObfuscateEnvironmentVariables(rawEnvironmentVariables, executionOptions),
+            EnvironmentVariables = environmentVariables,
         };
     }
 
