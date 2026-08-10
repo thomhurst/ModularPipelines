@@ -7,6 +7,7 @@ using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -237,6 +238,30 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
+    private class ReadyHookFailingModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ReadyHookFailingModule>]
+    private class ReadyHookDependentModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class ThrowingReadyHookReceiver : IModuleEventReceiver
+    {
+        public Task OnModuleReadyAsync(IModuleHookContext context)
+        {
+            if (context.ModuleType == typeof(ReadyHookFailingModule))
+            {
+                throw new InvalidOperationException("Ready hook failure");
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
     private class StopOnFirstQueuedDependencyModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -355,6 +380,32 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(module1Result.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
         await Assert.That(((DependencyFailedException) module1Result.ExceptionOrDefault!).FailingModuleName)
             .IsEqualTo(nameof(BadModule));
+    }
+
+    [Test]
+    public async Task StopOnFirstException_Reports_DependencyFailed_When_ReadyHookThrows()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ReadyHookFailingModule>()
+            .AddModule<ReadyHookDependentModule>()
+            .AddModuleEventReceiver<ThrowingReadyHookReceiver>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
+        });
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+        await Assert.That(async () => await host.RunAsync()).Throws<InvalidOperationException>();
+
+        var dependentResult = resultRegistry.GetResult(typeof(ReadyHookDependentModule));
+        await Assert.That(dependentResult).IsNotNull();
+        await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+        await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
+        await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
+            .IsEqualTo(nameof(ReadyHookFailingModule));
     }
 
     [Test]
