@@ -34,8 +34,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public int Order => int.MaxValue;
 
-    public bool HasSecrets =>
-        GetRegisteredSecretCache(_maskingOptions.Value.CaseInsensitive).SearchValues is not null;
+    public bool HasSecrets => GetRegistrationState().HasSecrets;
 
     public SecretObfuscator(
         ISecretProvider secretProvider,
@@ -79,6 +78,12 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             secretCache.SearchValues,
             maskValue,
             caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+    }
+
+    internal SecretRegistrationState GetRegistrationState()
+    {
+        var cache = GetRegisteredSecretCache(_maskingOptions.Value.CaseInsensitive);
+        return new SecretRegistrationState(cache.Version, cache.SearchValues is not null);
     }
 
     internal SecretCache GetSecretCache(
@@ -260,4 +265,6 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         string[] Secrets,
         IReadOnlySet<string> ExactSecrets,
         SearchValues<string>? SearchValues);
+
+    internal readonly record struct SecretRegistrationState(long Version, bool HasSecrets);
 }

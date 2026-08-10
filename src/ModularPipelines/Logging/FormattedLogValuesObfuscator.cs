@@ -31,11 +31,34 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 
     public object TryObfuscateValues(object state)
     {
-        var hasSecrets = _secretObfuscator.HasSecrets;
+        // HasSecrets is only a hint; custom obfuscators may still apply policy-based masking.
+        if (_secretObfuscator is not SecretObfuscator builtInObfuscator)
+        {
+            return TryObfuscateValues(state, skipOrdinaryValues: false);
+        }
 
+        var registrationState = builtInObfuscator.GetRegistrationState();
+        var skipOrdinaryValues = !registrationState.HasSecrets;
+        var obfuscatedState = TryObfuscateValues(state, skipOrdinaryValues);
+
+        if (!skipOrdinaryValues)
+        {
+            return obfuscatedState;
+        }
+
+        // A secret may be registered while the zero-secret fast path traverses the state.
+        var currentRegistrationState = builtInObfuscator.GetRegistrationState();
+        return currentRegistrationState.Version != registrationState.Version
+               && currentRegistrationState.HasSecrets
+            ? TryObfuscateValues(state, skipOrdinaryValues: false)
+            : obfuscatedState;
+    }
+
+    private object TryObfuscateValues(object state, bool skipOrdinaryValues)
+    {
         if (state is not IReadOnlyList<KeyValuePair<string, object?>> values)
         {
-            return hasSecrets ? ObfuscateValue(state) : state;
+            return skipOrdinaryValues ? state : ObfuscateValue(state);
         }
 
         KeyValuePair<string, object?>[]? obfuscatedValues = null;
@@ -53,7 +76,7 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
             {
                 obfuscatedValue = preObfuscatedValue.Value;
             }
-            else if (hasSecrets)
+            else if (!skipOrdinaryValues)
             {
                 obfuscatedValue = ObfuscateValue(property.Value);
             }

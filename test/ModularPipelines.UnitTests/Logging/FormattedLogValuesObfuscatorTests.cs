@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Logging;
+using ModularPipelines.Options;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
@@ -10,17 +11,72 @@ public class FormattedLogValuesObfuscatorTests
     [Test]
     public async Task TryObfuscateValues_DoesNotInspectStateWhenNoSecretsAreRegistered()
     {
-        var state = new ThrowingToStringState();
-        var secretObfuscator = new Mock<ISecretObfuscator>();
-        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(false);
+        var state = new CountingToStringState();
+        var secretObfuscator = CreateBuiltInObfuscator();
 
-        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator)
             .TryObfuscateValues(state);
 
         await Assert.That(obfuscatedState).IsSameReferenceAs(state);
-        secretObfuscator.Verify(
-            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
-            Times.Never);
+        await Assert.That(state.ToStringCalls).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task TryObfuscateValues_PreservesCustomMaskingWhenHintIsFalse()
+    {
+        const string secret = "policy-secret";
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(false);
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) =>
+                (value ?? string.Empty).Replace(secret, "********", StringComparison.Ordinal));
+        var state = new[]
+        {
+            new KeyValuePair<string, object?>("PolicyValue", secret),
+        };
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues(state);
+        var value = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)[0].Value;
+
+        await Assert.That(value).IsEqualTo("********");
+    }
+
+    [Test]
+    public async Task TryObfuscateValues_RetriesWhenSecretIsRegisteredDuringFastPath()
+    {
+        const string secret = "dynamic-secret";
+        var version = 0L;
+        IReadOnlyList<string> secrets = [];
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(x => x.Version).Returns(() => version);
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(() => new SecretSnapshot(version, secrets));
+        var secretObfuscator = CreateBuiltInObfuscator(secretProvider.Object);
+        var values = new[] { new KeyValuePair<string, object?>("Value", secret) };
+        var registered = false;
+        var state = new Mock<IReadOnlyList<KeyValuePair<string, object?>>>();
+        state.SetupGet(x => x.Count).Returns(() =>
+        {
+            if (!registered)
+            {
+                registered = true;
+                secrets = [secret];
+                version += 2;
+            }
+
+            return values.Length;
+        });
+        state.Setup(x => x[0]).Returns(values[0]);
+        state.Setup(x => x.GetEnumerator())
+            .Returns(() => ((IEnumerable<KeyValuePair<string, object?>>) values).GetEnumerator());
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator)
+            .TryObfuscateValues(state.Object);
+        var value = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)[0].Value;
+
+        await Assert.That(value).IsEqualTo("**********");
     }
 
     [Test]
@@ -193,5 +249,27 @@ public class FormattedLogValuesObfuscatorTests
     private sealed class ThrowingToStringState
     {
         public override string ToString() => throw new InvalidOperationException("Cannot format state.");
+    }
+
+    private sealed class CountingToStringState
+    {
+        public int ToStringCalls { get; private set; }
+
+        public override string ToString()
+        {
+            ToStringCalls++;
+            return "state";
+        }
+    }
+
+    private static SecretObfuscator CreateBuiltInObfuscator(ISecretProvider? secretProvider = null)
+    {
+        secretProvider ??= Mock.Of<ISecretProvider>(provider =>
+            provider.Version == 0 &&
+            provider.GetSnapshot() == new SecretSnapshot(0, Array.Empty<string>()));
+
+        return new SecretObfuscator(
+            secretProvider,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
     }
 }
