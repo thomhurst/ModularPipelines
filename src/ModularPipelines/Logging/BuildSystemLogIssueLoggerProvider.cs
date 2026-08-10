@@ -70,32 +70,15 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             Exception? exception,
             Func<TState, Exception?, string> messageFormatter)
         {
-            if (!IsEnabled(logLevel))
+            if (!IsEnabled(logLevel) || ModuleLogEvents.IsStatus(eventId))
             {
                 return;
             }
 
-            if (ModuleLogEvents.IsStatus(eventId))
+            var message = FormatIssueMessage(logLevel, messageFormatter(state, exception), exception);
+            if (message is null)
             {
                 return;
-            }
-
-            var message = messageFormatter(state, exception);
-            if (exception is not null)
-            {
-                var rootException = exception.GetBaseException();
-                var errorIdentity = rootException is IOriginalExceptionIdentity identity
-                    ? identity.OriginalException.GetBaseException()
-                    : rootException;
-                if (logLevel is LogLevel.Error or LogLevel.Critical
-                    && !reportedErrors.TryAdd(errorIdentity, ReportedErrorMarker))
-                {
-                    return;
-                }
-
-                message = string.IsNullOrWhiteSpace(message)
-                    ? rootException.Message
-                    : $"{message}: {rootException.Message}";
             }
 
             var command = formatter.GetLogIssueCommand(logLevel, message);
@@ -103,6 +86,31 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             {
                 commandWriter.WriteLine(command);
             }
+        }
+
+        private string? FormatIssueMessage(
+            LogLevel logLevel,
+            string message,
+            Exception? exception)
+        {
+            if (exception is null)
+            {
+                return message;
+            }
+
+            var rootException = exception.GetBaseException();
+            var errorIdentity = rootException is IOriginalExceptionIdentity identity
+                ? identity.OriginalException.GetBaseException()
+                : rootException;
+            if (logLevel is LogLevel.Error or LogLevel.Critical
+                && !reportedErrors.TryAdd(errorIdentity, ReportedErrorMarker))
+            {
+                return null;
+            }
+
+            return string.IsNullOrWhiteSpace(message)
+                ? rootException.Message
+                : $"{message}: {rootException.Message}";
         }
     }
 }
