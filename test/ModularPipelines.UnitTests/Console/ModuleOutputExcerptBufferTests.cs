@@ -490,4 +490,33 @@ public class ModuleOutputExcerptBufferTests
             await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
         }
     }
+
+    [Test]
+    public async Task CoalescesManySmallWritesBeforeMaskedSuffixAnalysis()
+    {
+        const int maximumBytes = 8192;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(0);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(0, []));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes,
+            secretObfuscator,
+            secretProvider.Object);
+
+        for (var index = 0; index < maximumBytes * 2; index++)
+        {
+            buffer.Append("x", ModuleOutputStream.StandardOutput);
+        }
+
+        var excerpt = buffer.CreateExcerpt()!;
+
+        await Assert.That(Encoding.UTF8.GetByteCount(excerpt.StdoutTail!))
+            .IsLessThanOrEqualTo(maximumBytes);
+        await Assert.That(excerpt.StdoutTail).EndsWith("x" + Environment.NewLine);
+    }
 }

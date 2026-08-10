@@ -944,10 +944,25 @@ internal sealed class BufferedLogEvent<TState>(
 
     private static ModuleOutputStream GetStream(object? state)
     {
-        if (state is IEnumerable<KeyValuePair<string, object?>> properties
-            && properties.Any(static property => property.Key == "CommandError"))
+        if (state is not IReadOnlyList<KeyValuePair<string, object?>> properties)
         {
-            return ModuleOutputStream.StandardError;
+            return ModuleOutputStream.StandardOutput;
+        }
+
+        try
+        {
+            for (var index = 0; index < properties.Count; index++)
+            {
+                if (properties[index].Key == "CommandError")
+                {
+                    return ModuleOutputStream.StandardError;
+                }
+            }
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            // Structured state is user-controlled. Classification is best-effort and
+            // must not make an otherwise valid logging call fail.
         }
 
         return ModuleOutputStream.StandardOutput;
