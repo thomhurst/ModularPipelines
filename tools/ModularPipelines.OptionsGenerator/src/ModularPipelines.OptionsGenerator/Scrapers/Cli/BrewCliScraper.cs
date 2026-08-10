@@ -93,7 +93,14 @@ public partial class BrewCliScraper : CliScraperBase
             return helpText;
         }
 
-        var commands = commandInventory.CombinedOutput
+        if (!string.IsNullOrWhiteSpace(commandInventory.StandardError))
+        {
+            Logger.LogWarning(
+                "brew commands --quiet reported diagnostics: {StandardError}",
+                commandInventory.StandardError.Trim());
+        }
+
+        var commands = commandInventory.StandardOutput
             .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Where(static command => BrewCommandNamePattern().IsMatch(command))
             .Distinct(StringComparer.OrdinalIgnoreCase)

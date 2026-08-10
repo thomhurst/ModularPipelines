@@ -91,7 +91,9 @@ public class BrewCliScraperTests
                     "commands --quiet" => "alpha  beta  foo+bar  baz.qux\n",
                     _ => $"Usage: brew {arguments[..^7]} [options]\n\n  --verbose  Show details.",
                 },
-                StandardError = string.Empty,
+                StandardError = arguments == "commands --quiet"
+                    ? "warning stale diagnostic"
+                    : string.Empty,
             });
 
         public Task<bool> IsAvailableAsync(
