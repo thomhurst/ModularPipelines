@@ -193,31 +193,35 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         }
         finally
         {
-            var deferredPatterns = scope.CloseAndTakePatterns();
             CurrentDeferredRegistrationScope.Value = previousScope;
-            ExitStableEmission(ownsReadLock, deferredPatterns);
+            ExitStableEmission(ownsReadLock, scope);
         }
     }
 
     private SecretSnapshot GetNestedMaskingSnapshot(DeferredRegistrationScope existingScope)
     {
-        var existingSnapshot = existingScope.Snapshot;
-        var secrets = existingSnapshot.Secrets.ToHashSet(StringComparer.Ordinal);
-        var existingCount = secrets.Count;
-        secrets.UnionWith(GetMaskingSnapshot().Secrets);
-        for (var scope = existingScope; scope is not null; scope = scope.Parent)
+        // Scope draining moves patterns into the deferred snapshot under this lock.
+        // Hold it across both reads so every pattern is observed in one source.
+        lock (_emissionStateLock)
         {
-            if (ReferenceEquals(scope.Provider, this))
+            var existingSnapshot = existingScope.Snapshot;
+            var secrets = existingSnapshot.Secrets.ToHashSet(StringComparer.Ordinal);
+            var existingCount = secrets.Count;
+            secrets.UnionWith((_deferredMaskingSnapshot ?? GetPublishedSnapshot()).Secrets);
+            for (var scope = existingScope; scope is not null; scope = scope.Parent)
             {
-                scope.AddPatternsTo(secrets);
+                if (ReferenceEquals(scope.Provider, this))
+                {
+                    scope.AddPatternsTo(secrets);
+                }
             }
-        }
 
-        return secrets.Count == existingCount
-            ? existingSnapshot
-            : new SecretSnapshot(
-                Interlocked.Decrement(ref _nextDeferredSnapshotVersion),
-                secrets.ToArray());
+            return secrets.Count == existingCount
+                ? existingSnapshot
+                : new SecretSnapshot(
+                    Interlocked.Decrement(ref _nextDeferredSnapshotVersion),
+                    secrets.ToArray());
+        }
     }
 
     private void EnterStableEmission(
@@ -244,18 +248,13 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private void ExitStableEmission(
         bool ownsReadLock,
-        IReadOnlyList<IReadOnlyList<string>> deferredPatterns)
+        DeferredRegistrationScope scope)
     {
-        if (ownsReadLock)
-        {
-            _secretEmissionLock.ExitReadLock();
-        }
-
-        var unclaimedPatterns = deferredPatterns
-            .Where(patterns => !TryDeferRegistration(patterns))
-            .ToArray();
         lock (_emissionStateLock)
         {
+            var unclaimedPatterns = scope.CloseAndTakePatterns()
+                .Where(patterns => !TryDeferRegistration(patterns))
+                .ToArray();
             if (unclaimedPatterns.Length > 0
                 && _deferredPatternsPendingPublication.Count == 0)
             {
@@ -268,6 +267,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
                 UpdateDeferredMaskingSnapshot(unclaimedPatterns);
             }
             _activeEmissionCount--;
+            if (ownsReadLock)
+            {
+                _secretEmissionLock.ExitReadLock();
+            }
+
             if (_activeEmissionCount != 0)
             {
                 return;
