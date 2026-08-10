@@ -214,7 +214,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         if (_exception is not null)
         {
             _defaultLogger.LogError(
-                _exception,
+                ObfuscatedLogException.Create(_exception, _secretObfuscator),
                 "Module {ModuleType} failed and its buffered output timed out after 30 seconds",
                 typeof(T).Name);
             return;
@@ -230,7 +230,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         if (_exception is not null)
         {
             _defaultLogger.LogError(
-                _exception,
+                ObfuscatedLogException.Create(_exception, _secretObfuscator),
                 "Module {ModuleType} failed and its buffered output could not be flushed",
                 typeof(T).Name);
             return;

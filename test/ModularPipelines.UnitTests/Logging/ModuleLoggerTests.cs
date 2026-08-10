@@ -264,7 +264,7 @@ public class ModuleLoggerTests
     }
 
     [Test]
-    public async Task DisposeAsync_LogsModuleFailureWhenBufferedOutputFlushFails()
+    public async Task DisposeAsync_LogsObfuscatedModuleFailureWhenBufferedOutputFlushFails()
     {
         var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
         var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
@@ -276,10 +276,14 @@ public class ModuleLoggerTests
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(new IOException("flush failed"));
         var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
-        var moduleException = new InvalidOperationException("module failed");
+        var moduleException = new InvalidOperationException("module secret-value");
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value?.Replace("secret-value", "**********") ?? string.Empty);
         var logger = new ModuleLogger<ModuleLoggerTests>(
             defaultLogger.Object,
-            Mock.Of<ISecretObfuscator>(),
+            secretObfuscator.Object,
             Mock.Of<IFormattedLogValuesObfuscator>(),
             consoleCoordinator.Object,
             outputCoordinator.Object);
@@ -292,8 +296,16 @@ public class ModuleLoggerTests
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
                 state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
-            moduleException,
+            It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    private static bool IsObfuscatedCopyOf(Exception? exception, Exception originalException)
+    {
+        return exception is IOriginalExceptionIdentity identity
+               && ReferenceEquals(identity.OriginalException, originalException)
+               && exception.ToString().Contains("**********", StringComparison.Ordinal)
+               && !exception.ToString().Contains("secret-value", StringComparison.Ordinal);
     }
 
     [Test]
