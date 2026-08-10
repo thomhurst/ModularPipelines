@@ -247,17 +247,16 @@ internal sealed class Command : ICommandContext
         CancellationToken cancellationToken)
     {
         CommandInvocation? publicInvocation = null;
+        var publicInvocationSecretVersion = long.MinValue;
         foreach (var interceptor in _commandInterceptors)
         {
-            publicInvocation ??= new CommandInvocation(
-                invocation.CommandLine,
-                invocation.ToolOptions,
-                invocation.ExecutionOptions,
-                invocation.CommandInput,
-                invocation.WorkingDirectory,
-                ObfuscateEnvironmentVariables(
-                    invocation.RawEnvironmentVariables,
-                    executionOptions));
+            if (publicInvocation is null
+                || publicInvocationSecretVersion != _secretProvider.Version)
+            {
+                (publicInvocation, publicInvocationSecretVersion) =
+                    CreatePublicInvocation(invocation, executionOptions);
+            }
+
             var intercepted = await interceptor
                 .InterceptAsync(publicInvocation, cancellationToken)
                 .ConfigureAwait(false);
@@ -293,6 +292,37 @@ internal sealed class Command : ICommandContext
         }
 
         return null;
+    }
+
+    private (CommandInvocation Invocation, long SecretVersion) CreatePublicInvocation(
+        PreparedCommandInvocation invocation,
+        CommandExecutionOptions executionOptions)
+    {
+        while (true)
+        {
+            var versionBefore = _secretProvider.Version;
+            if ((versionBefore & 1) != 0)
+            {
+                Thread.Yield();
+                continue;
+            }
+
+            var environmentVariables = ObfuscateEnvironmentVariables(
+                invocation.RawEnvironmentVariables,
+                executionOptions);
+            if (_secretProvider.Version != versionBefore)
+            {
+                continue;
+            }
+
+            return (new CommandInvocation(
+                invocation.CommandLine,
+                invocation.ToolOptions,
+                invocation.ExecutionOptions,
+                invocation.CommandInput,
+                invocation.WorkingDirectory,
+                environmentVariables), versionBefore);
+        }
     }
 
     private CommandResult ExecuteDryRun(
