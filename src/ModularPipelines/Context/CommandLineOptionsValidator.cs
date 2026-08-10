@@ -49,7 +49,7 @@ internal static class CommandLineOptionsValidator
                 ValidateProperties(options, metadata.PublicProperties, validationResults);
             }
         }
-        catch (ValidationException exception)
+        catch (Exception exception)
         {
             var safeFailureMessage = ObfuscateValidationMessage(
                 $"Invalid command-line options: {optionsType.Name}: {exception.Message}",

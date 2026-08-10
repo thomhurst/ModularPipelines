@@ -141,6 +141,27 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Sanitizes_NonValidationException_From_Callback()
+    {
+        const string secret = "throwing-validation-secret-token";
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var exception = await Assert.That(() => builder.Build(new TestThrowingSecretValidatedOptions
+            {
+                Token = secret,
+            }))
+            .Throws<CommandOptionsValidationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("**********");
+            await Assert.That(exception.Message).DoesNotContain(secret);
+            await Assert.That(exception.InnerException).IsTypeOf<ValidationException>();
+            await Assert.That(exception.ToString()).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
     public async Task Build_Accepts_Valid_DataAnnotation_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1268,6 +1289,17 @@ public class CommandLineBuilderTests : TestBase
         {
             yield return new ValidationResult($"Invalid token {Token}", [nameof(Token)]);
         }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestThrowingSecretValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        [CliOption("--token")]
+        [SecretValue]
+        public string Token { get; init; } = string.Empty;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) =>
+            throw new InvalidOperationException($"Invalid token {Token}");
     }
 
     [CliTool("tool")]
