@@ -88,6 +88,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Invalid_Inherited_NonPublic_Annotated_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestDerivedNonPublicValidatedOptions
+        {
+            Retries = 4,
+        });
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestDerivedNonPublicValidatedOptions.Retries");
+    }
+
+    [Test]
     public async Task Build_Skips_Object_Validation_When_NonPublic_Property_Is_Invalid()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1260,6 +1275,17 @@ public class CommandLineBuilderTests : TestBase
         [CliOption("--retries")]
         internal int Retries { get; init; }
     }
+
+    [CliTool("tool")]
+    private abstract record TestInheritedNonPublicValidatedOptionsBase : CommandLineToolOptions
+    {
+        [Range(0, 3)]
+        [CliOption("--retries")]
+        internal int Retries { get; init; }
+    }
+
+    private sealed record TestDerivedNonPublicValidatedOptions
+        : TestInheritedNonPublicValidatedOptionsBase;
 
     [CliTool("tool")]
     private sealed record TestNonPublicAndObjectValidatedOptions : CommandLineToolOptions, IValidatableObject
