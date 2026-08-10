@@ -29,6 +29,14 @@ internal sealed class Command : ICommandContext
     // Win32 ERROR_FILE_NOT_FOUND and Unix ENOENT both use native error code 2.
     private const int FileNotFoundNativeErrorCode = 2;
 
+    private sealed record PreparedCommandInvocation(
+        CommandLine CommandLine,
+        CommandLineToolOptions ToolOptions,
+        CommandExecutionOptions ExecutionOptions,
+        string CommandInput,
+        string WorkingDirectory,
+        IReadOnlyDictionary<string, string?> RawEnvironmentVariables);
+
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;
     private readonly IEnumerable<ICommandInterceptor> _commandInterceptors;
@@ -72,7 +80,7 @@ internal sealed class Command : ICommandContext
 
         var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
         var rawEnvironmentVariables = GetRawEnvironmentVariables(command);
-        var invocation = new CommandInvocation(
+        var invocation = new PreparedCommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
             execOpts,
@@ -167,7 +175,7 @@ internal sealed class Command : ICommandContext
     }
 
     private async Task<CommandResult> ExecuteCommandCoreAsync(
-        CommandInvocation invocation,
+        PreparedCommandInvocation invocation,
         CliWrap.Command command,
         string commandInput,
         CommandLineToolOptions options,
@@ -200,14 +208,14 @@ internal sealed class Command : ICommandContext
                 options,
                 executionOptions,
                 inputToLog,
-                invocation.EnvironmentVariables)
+                invocation.RawEnvironmentVariables)
             : await Of(
                     command,
                     commandInput,
                     options,
                     executionOptions,
                     inputToLog,
-                    invocation.EnvironmentVariables,
+                    invocation.RawEnvironmentVariables,
                     executionCancellationToken,
                     callerCancellationToken,
                     timeoutCancellationToken)
@@ -230,7 +238,7 @@ internal sealed class Command : ICommandContext
     }
 
     private async Task<CommandResult?> TryInterceptAsync(
-        CommandInvocation invocation,
+        PreparedCommandInvocation invocation,
         CliWrap.Command command,
         string commandInput,
         CommandLineToolOptions options,
@@ -238,14 +246,18 @@ internal sealed class Command : ICommandContext
         Lazy<string> inputToLog,
         CancellationToken cancellationToken)
     {
+        CommandInvocation? publicInvocation = null;
         foreach (var interceptor in _commandInterceptors)
         {
-            var publicInvocation = invocation with
-            {
-                EnvironmentVariables = ObfuscateEnvironmentVariables(
-                    invocation.EnvironmentVariables,
-                    executionOptions),
-            };
+            publicInvocation ??= new CommandInvocation(
+                invocation.CommandLine,
+                invocation.ToolOptions,
+                invocation.ExecutionOptions,
+                invocation.CommandInput,
+                invocation.WorkingDirectory,
+                ObfuscateEnvironmentVariables(
+                    invocation.RawEnvironmentVariables,
+                    executionOptions));
             var intercepted = await interceptor
                 .InterceptAsync(publicInvocation, cancellationToken)
                 .ConfigureAwait(false);
@@ -260,7 +272,7 @@ internal sealed class Command : ICommandContext
                 command,
                 commandInput,
                 executionOptions,
-                invocation.EnvironmentVariables);
+                invocation.RawEnvironmentVariables);
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -272,7 +284,7 @@ internal sealed class Command : ICommandContext
                     result.Duration,
                     result.StandardOutput,
                     result.StandardError,
-                    invocation.EnvironmentVariables,
+                    invocation.RawEnvironmentVariables,
                     result.StartTime,
                     result.EndTime));
             }

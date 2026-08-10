@@ -30,6 +30,14 @@ public class CommandTests : TestBase
         }
     }
 
+    private sealed class StubCommandInterceptor(CommandResult? result) : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default) =>
+            ValueTask.FromResult(result);
+    }
+
     [Test]
     public async Task Command_Execution_Default_Timeout_Is_Thirty_Minutes()
     {
@@ -295,6 +303,50 @@ public class CommandTests : TestBase
 
         await Assert.That(result.EnvironmentVariables["MP_DYNAMIC_SECRET"])
             .IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task Command_ObfuscatesEnvironmentVariablesOnceForAllInterceptors()
+    {
+        const string environmentValue = "multi-interceptor-environment-value";
+        var environmentObfuscationCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) =>
+            {
+                if (input == environmentValue)
+                {
+                    Interlocked.Increment(ref environmentObfuscationCount);
+                }
+
+                return input ?? string.Empty;
+            });
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.RemoveAll<ISecretObfuscator>();
+            services.AddSingleton<ISecretObfuscator>(obfuscator.Object);
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(null));
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(CommandResult.Ok()));
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("unused"),
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_TEST_VALUE"] = environmentValue,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            // One public interceptor snapshot, then one fresh result snapshot.
+            await Assert.That(environmentObfuscationCount).IsEqualTo(2);
+            await Assert.That(result.EnvironmentVariables["MP_TEST_VALUE"])
+                .IsEqualTo(environmentValue);
+        }
     }
 
     private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
