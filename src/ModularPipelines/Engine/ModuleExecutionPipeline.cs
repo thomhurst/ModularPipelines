@@ -475,10 +475,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         LogTimeoutConfiguration(config, timeout, moduleContext.Logger);
 
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
-        using var retryCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
         // Get resilience shield if applicable
         var resilienceShield = GetResilienceShield(config, moduleContext);
+        using var retryCancellationTokenSource = resilienceShield is null
+            ? null
+            : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var policyExecutionState = new PolicyExecutionState();
 
         // Keep timeout enforcement inside the resilience shield so each attempt gets a fresh budget
@@ -498,13 +500,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             result = resilienceShield != null
                 ? await resilienceShield.ExecuteAsync(
                     async shieldToken => await ExecuteModuleAttempt(shieldToken).ConfigureAwait(false),
-                    retryCancellationTokenSource.Token).ConfigureAwait(false)
+                    retryCancellationTokenSource!.Token).ConfigureAwait(false)
                 : await ExecuteModuleAttempt(cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (policyExecutionState.AbandonedAttemptTimeout is not null
                                                  && !cancellationToken.IsCancellationRequested)
         {
-            throw policyExecutionState.AbandonedAttemptTimeout;
+            return ThrowPreservingStack<T>(policyExecutionState.AbandonedAttemptTimeout);
         }
         finally
         {
@@ -515,7 +517,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
         {
-            throw abandonedAttemptTimeout;
+            return ThrowPreservingStack<T>(abandonedAttemptTimeout);
         }
 
         return result;
@@ -545,10 +547,15 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         TimeSpan timeout,
-        CancellationTokenSource retryCancellationTokenSource,
+        CancellationTokenSource? retryCancellationTokenSource,
         PolicyExecutionState policyExecutionState,
         CancellationToken cancellationToken)
     {
+        if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
+        {
+            return ThrowPreservingStack<T>(abandonedAttemptTimeout);
+        }
+
         policyExecutionState.RecordAttempt();
 
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
@@ -573,10 +580,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             policyExecutionState.AbandonedAttemptTimeout = timeoutException;
             // Let wrapped policies observe the failure, but cancel their retry delay because
             // re-entering this module while the abandoned attempt is active is unsafe.
-            retryCancellationTokenSource.Cancel();
+            retryCancellationTokenSource?.Cancel();
         }
 
         throw timeoutException;
+    }
+
+    private static T ThrowPreservingStack<T>(Exception exception)
+    {
+        System.Runtime.ExceptionServices.ExceptionDispatchInfo
+            .Capture(exception)
+            .Throw();
+        throw new System.Diagnostics.UnreachableException();
     }
 
     private TimeSpan GetTimeout(ModuleConfiguration config)
