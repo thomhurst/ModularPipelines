@@ -124,6 +124,7 @@ public class ModuleOutputExcerptBufferTests
     [Test]
     public async Task PreservesChunkRecencyWhenLateMasksExpand()
     {
+        const int maximumBytes = 30;
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(provider => provider.Version).Returns(2);
         secretProvider
@@ -133,7 +134,7 @@ public class ModuleOutputExcerptBufferTests
             secretProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
         var buffer = new ModuleOutputExcerptBuffer(
-            maximumBytes: 30,
+            maximumBytes,
             secretObfuscator,
             secretProvider.Object);
         buffer.Append("a", ModuleOutputStream.StandardOutput);
@@ -142,12 +143,13 @@ public class ModuleOutputExcerptBufferTests
 
         var excerpt = buffer.CreateExcerpt()!;
         var maskedChunk = "**********" + Environment.NewLine;
+        var remainingStdoutBytes = maximumBytes - Encoding.UTF8.GetByteCount(maskedChunk);
 
         using (Assert.Multiple())
         {
             await Assert.That(excerpt.StderrTail).IsEqualTo(maskedChunk);
             await Assert.That(excerpt.StdoutTail).EndsWith(maskedChunk);
-            await Assert.That(Encoding.UTF8.GetByteCount(excerpt.StdoutTail!)).IsEqualTo(18);
+            await Assert.That(Encoding.UTF8.GetByteCount(excerpt.StdoutTail!)).IsEqualTo(remainingStdoutBytes);
         }
     }
 
