@@ -211,7 +211,11 @@ internal class ModuleRunner : IModuleRunner
                     ex,
                     cancellationToken,
                     limiterCancellationToken);
-                HandleExecutionFailure(moduleState, scheduler, handledException);
+                HandleExecutionFailure(
+                    moduleState,
+                    scheduler,
+                    handledException,
+                    cancellationToken);
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                 {
@@ -275,13 +279,16 @@ internal class ModuleRunner : IModuleRunner
     private void HandleExecutionFailure(
         ModuleState moduleState,
         IModuleScheduler scheduler,
-        Exception exception)
+        Exception exception,
+        CancellationToken workerCancellationToken)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
         var isDependencyFailure = exception is DependencyFailedException;
-        var isPipelineCancellation = exception is OperationCanceledException
-                                     && _engineCancellationToken.IsCancelled;
+        var isPipelineCancellation = IsPipelineCancellation(
+            exception,
+            workerCancellationToken,
+            _engineCancellationToken.IsCancelled);
         var registeredResult = _resultRegistry.GetResult(moduleType);
         var completionException = GetCompletionException(
             exception,
@@ -322,6 +329,14 @@ internal class ModuleRunner : IModuleRunner
             _resultRegistrar.RegisterTerminatedResult(module, moduleType, completionException);
         }
     }
+
+    internal static bool IsPipelineCancellation(
+        Exception exception,
+        CancellationToken workerCancellationToken,
+        bool isEngineCancelled) =>
+        exception is OperationCanceledException
+        && (isEngineCancelled
+            || WorkerCancellationClassifier.IsExpected(exception, workerCancellationToken));
 
     private Exception GetCompletionException(
         Exception exception,

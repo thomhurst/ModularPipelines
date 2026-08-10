@@ -565,6 +565,26 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task Normalized_Limiter_Cancellation_Is_Treated_As_Pipeline_Cancellation()
+    {
+        using var workerCancellationTokenSource = new CancellationTokenSource();
+        using var limiterCancellationTokenSource = new CancellationTokenSource();
+        limiterCancellationTokenSource.Cancel();
+        var limiterCancellation = new OperationCanceledException(
+            limiterCancellationTokenSource.Token);
+        var normalizedCancellation = ModuleRunner.NormalizeLimiterCancellation(
+            limiterCancellation,
+            workerCancellationTokenSource.Token,
+            limiterCancellationTokenSource.Token);
+
+        await Assert.That(ModuleRunner.IsPipelineCancellation(
+                normalizedCancellation,
+                workerCancellationTokenSource.Token,
+                isEngineCancelled: false))
+            .IsTrue();
+    }
+
+    [Test]
     public async Task StopOnFirstException_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
     {
         var builder = TestPipelineBuilder.Create()
