@@ -210,6 +210,11 @@ public record CliCompatibilityConstructor
     /// Arguments forwarded to the current primary constructor.
     /// </summary>
     public required IReadOnlyList<string> PrimaryConstructorArguments { get; init; }
+
+    /// <summary>
+    /// Whether to retain the deconstruction shape synthesized by the former primary constructor.
+    /// </summary>
+    public bool PreserveDeconstruct { get; init; }
 }
 
 /// <summary>

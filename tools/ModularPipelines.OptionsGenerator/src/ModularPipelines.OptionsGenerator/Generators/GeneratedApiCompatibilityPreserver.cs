@@ -94,6 +94,7 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties,
             renamedProperties,
             violations);
+        RestoreRequiredMemberOrder(baselineProperties, positionalArguments, options);
 
         var currentProperties = GetCurrentProperties(positionalArguments, options);
         foreach (var baseline in baselineProperties)
@@ -223,6 +224,12 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed from required to optional");
+        }
+        else if (!baseline.IsRequired && current.IsRequired)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed from optional to required "
+                + "and would remove its public setter");
         }
         else if (!HasSameCliIdentity(current, baseline))
         {
@@ -386,6 +393,47 @@ internal static class GeneratedApiCompatibilityPreserver
                 ObsoleteMessage = $"Use {forwardToPropertyName} instead.",
             });
 
+    private static void RestoreRequiredMemberOrder(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options)
+    {
+        var baselineOrder = baselineProperties
+            .Where(static property => property.IsRequired && !property.IsCompatibility)
+            .Select((property, index) => (property.PropertyName, index))
+            .ToDictionary(pair => pair.PropertyName, pair => pair.index, StringComparer.Ordinal);
+        RestoreRequiredMemberOrder(
+            positionalArguments,
+            static argument => argument.IsRequired,
+            static argument => argument.PropertyName,
+            baselineOrder);
+        RestoreRequiredMemberOrder(
+            options,
+            static option => option.IsRequired,
+            static option => option.PropertyName,
+            baselineOrder);
+    }
+
+    private static void RestoreRequiredMemberOrder<T>(
+        T[] members,
+        Func<T, bool> isRequired,
+        Func<T, string> getPropertyName,
+        IReadOnlyDictionary<string, int> baselineOrder)
+    {
+        var orderedRequired = members
+            .Where(isRequired)
+            .OrderBy(member => baselineOrder.GetValueOrDefault(getPropertyName(member), int.MaxValue))
+            .ToArray();
+        var requiredIndex = 0;
+        for (var index = 0; index < members.Length; index++)
+        {
+            if (isRequired(members[index]))
+            {
+                members[index] = orderedRequired[requiredIndex++];
+            }
+        }
+    }
+
     private static void AddCompatibilityProperty(
         ICollection<CliCompatibilityProperty> compatibilityProperties,
         CliCompatibilityProperty property)
@@ -423,7 +471,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var baselineRequired = baselineProperties
             .Where(static property => property.IsRequired && !property.IsCompatibility)
             .ToArray();
-        if (HasSameConstructorSignature(baselineRequired, currentRequired))
+        if (HasSameConstructorContract(baselineRequired, currentRequired))
         {
             return;
         }
@@ -446,6 +494,7 @@ internal static class GeneratedApiCompatibilityPreserver
             {
                 Parameters = baselineParameters,
                 PrimaryConstructorArguments = primaryArguments,
+                PreserveDeconstruct = baselineParameters.Length > 0,
             },
             currentRequired);
     }
@@ -455,15 +504,41 @@ internal static class GeneratedApiCompatibilityPreserver
         CliCompatibilityConstructor constructor,
         IReadOnlyList<GeneratedApiProperty> currentRequired)
     {
-        if (HasSameConstructorSignature(constructor.Parameters, currentRequired)
-            || constructors.Any(existing => HasSameConstructorSignature(
-                existing.Parameters,
-                constructor.Parameters)))
+        if (HasSameConstructorSignature(constructor.Parameters, currentRequired))
         {
             return;
         }
 
+        var existing = constructors.FirstOrDefault(candidate => HasSameConstructorSignature(
+            candidate.Parameters,
+            constructor.Parameters));
+        if (existing is not null)
+        {
+            if (constructor.PreserveDeconstruct && !existing.PreserveDeconstruct)
+            {
+                constructors.Remove(existing);
+                constructors.Add(existing with { PreserveDeconstruct = true });
+            }
+
+            return;
+        }
+
         constructors.Add(constructor);
+    }
+
+    private static bool HasSameConstructorContract<TLeft, TRight>(
+        IReadOnlyList<TLeft> left,
+        IReadOnlyList<TRight> right)
+        where TLeft : notnull
+        where TRight : notnull
+    {
+        if (left.Count != right.Count)
+        {
+            return false;
+        }
+
+        return left.Select(GetConstructorParameterContract)
+            .SequenceEqual(right.Select(GetConstructorParameterContract));
     }
 
     private static bool HasSameConstructorSignature<TLeft, TRight>(
@@ -488,6 +563,15 @@ internal static class GeneratedApiCompatibilityPreserver
         _ => throw new ArgumentOutOfRangeException(nameof(parameter)),
     };
 
+    private static (string PropertyName, string CSharpType) GetConstructorParameterContract<T>(T parameter) =>
+        parameter switch
+        {
+            GeneratedApiProperty property => (property.PropertyName, property.CSharpType),
+            CliCompatibilityConstructorParameter compatibilityParameter =>
+                (compatibilityParameter.PropertyName, compatibilityParameter.CSharpType),
+            _ => throw new ArgumentOutOfRangeException(nameof(parameter)),
+        };
+
     private static IReadOnlyDictionary<string, string> RenameDocumentationExampleValues(
         IReadOnlyDictionary<string, string> values,
         Dictionary<string, string> renamedProperties)
@@ -506,8 +590,8 @@ internal static class GeneratedApiCompatibilityPreserver
     private static GeneratedApiProperty[] GetCurrentProperties(
         IEnumerable<CliPositionalArgument> positionalArguments,
         IEnumerable<CliOptionDefinition> options) =>
-        positionalArguments.Select(ToGeneratedProperty)
-            .Concat(options.Select(ToGeneratedProperty))
+        options.Select(ToGeneratedProperty)
+            .Concat(positionalArguments.Select(ToGeneratedProperty))
             .ToArray();
 
     private static GeneratedApiProperty ToGeneratedProperty(CliPositionalArgument argument) =>
@@ -577,18 +661,45 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(constructor => constructor.Modifiers.Any(SyntaxKind.PublicKeyword))
             .Where(constructor => constructor.Initializer?.IsKind(
                 SyntaxKind.ThisConstructorInitializer) == true)
-            .Select(constructor => new CliCompatibilityConstructor
-            {
-                Parameters = constructor.ParameterList.Parameters
-                    .Select(parameter => new CliCompatibilityConstructorParameter(
-                        parameter.Identifier.ValueText,
-                        parameter.Type?.ToString() ?? string.Empty))
-                    .ToArray(),
-                PrimaryConstructorArguments = constructor.Initializer!.ArgumentList.Arguments
-                    .Select(argument => argument.Expression.ToString())
-                    .ToArray(),
-            })
+            .Select(constructor => ReadCompatibilityConstructor(declaration, constructor))
             .ToArray();
+
+    private static CliCompatibilityConstructor ReadCompatibilityConstructor(
+        RecordDeclarationSyntax declaration,
+        ConstructorDeclarationSyntax constructor)
+    {
+        var parameters = constructor.ParameterList.Parameters
+            .Select(parameter => new CliCompatibilityConstructorParameter(
+                parameter.Identifier.ValueText,
+                parameter.Type?.ToString() ?? string.Empty))
+            .ToArray();
+        return new CliCompatibilityConstructor
+        {
+            Parameters = parameters,
+            PrimaryConstructorArguments = constructor.Initializer!.ArgumentList.Arguments
+                .Select(argument => argument.Expression.ToString())
+                .ToArray(),
+            PreserveDeconstruct = HasMatchingDeconstruct(declaration, parameters),
+        };
+    }
+
+    private static bool HasMatchingDeconstruct(
+        RecordDeclarationSyntax declaration,
+        IReadOnlyList<CliCompatibilityConstructorParameter> parameters) =>
+        declaration.Members
+            .OfType<MethodDeclarationSyntax>()
+            .Where(method => method.Identifier.ValueText.Equals("Deconstruct", StringComparison.Ordinal))
+            .Where(method => method.Modifiers.Any(SyntaxKind.PublicKeyword))
+            .Any(method => method.ParameterList.Parameters.Count == parameters.Count
+                           && method.ParameterList.Parameters
+                               .Zip(parameters)
+                               .All(pair => pair.First.Modifiers.Any(SyntaxKind.OutKeyword)
+                                            && pair.First.Identifier.ValueText.Equals(
+                                                pair.Second.PropertyName,
+                                                StringComparison.Ordinal)
+                                            && (pair.First.Type?.ToString() ?? string.Empty).Equals(
+                                                pair.Second.CSharpType,
+                                                StringComparison.Ordinal)));
 
     private static HashSet<string> ReadExecuteFacadeOptionTypes(string servicesDirectory)
     {
