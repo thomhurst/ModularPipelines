@@ -141,11 +141,9 @@ internal class SpectreResultsPrinter : IResultsPrinter
         table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
         table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
         var reportLookup = pipelineSummary.RunReport is null
-            ? new Dictionary<Type, ModuleRunReport>()
-            : pipelineSummary.Modules
-                .Zip(pipelineSummary.RunReport.Modules)
-                .GroupBy(static pair => pair.First.GetType())
-                .ToDictionary(static group => group.Key, static group => group.First().Second);
+            ? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal)
+            : pipelineSummary.RunReport.Modules
+                .ToUniqueByKeyDictionary(static report => report.ModuleTypeName);
         var showDeltas = pipelineSummary.RunReport?.TotalDurationDelta.HasValue == true
             || reportLookup.Values.Any(static module => module.DurationDelta.HasValue);
         if (showDeltas)
@@ -158,12 +156,10 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Create a lookup for module timelines by assembly-qualified module type
         var timelineLookup = pipelineSummary.ModuleTimelines?
-            .GroupBy(
+            .ToFirstByKeyDictionary(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
                     ? timeline.ModuleTypeName
-                    : timeline.RuntimeModuleTypeName,
-                StringComparer.Ordinal)
-            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal)
+                    : timeline.RuntimeModuleTypeName)
             ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
 
         // Sort modules: Failed first, then Skipped, then by start time
@@ -208,7 +204,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         Table table,
         object module,
         Dictionary<string, ModuleTimeline> timelineLookup,
-        IReadOnlyDictionary<Type, ModuleRunReport> reportLookup,
+        IReadOnlyDictionary<string, ModuleRunReport> reportLookup,
         bool showDeltas)
     {
         var moduleName = module.GetType().Name;
@@ -249,7 +245,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         };
         if (showDeltas)
         {
-            cells.Add(reportLookup.TryGetValue(module.GetType(), out var report)
+            cells.Add(reportLookup.TryGetValue(ModuleTypeIdentifier.Get(module.GetType()), out var report)
                 ? FormatDelta(report.DurationDelta)
                 : "[dim]-[/]");
         }

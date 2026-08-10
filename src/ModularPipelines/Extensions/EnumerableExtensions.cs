@@ -58,4 +58,23 @@ public static class EnumerableExtensions
 
         return results;
     }
+
+    internal static Dictionary<string, T> ToFirstByKeyDictionary<T>(
+        this IEnumerable<T> source,
+        Func<T, string> keySelector)
+    {
+        return source
+            .GroupBy(keySelector, StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal);
+    }
+
+    internal static Dictionary<string, T> ToUniqueByKeyDictionary<T>(
+        this IEnumerable<T> source,
+        Func<T, string> keySelector)
+    {
+        return source
+            .GroupBy(keySelector, StringComparer.Ordinal)
+            .Where(static group => group.Count() == 1)
+            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal);
+    }
 }

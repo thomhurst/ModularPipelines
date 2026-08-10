@@ -19,6 +19,14 @@ public class SpectreResultsPrinterTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
+    private sealed class FirstModule : SkippedModule
+    {
+    }
+
+    private sealed class SecondModule : SkippedModule
+    {
+    }
+
     [Test]
     public async Task ModulesTable_IsCompactWithoutBlankSeparator_AndLabelsSkippedModules()
     {
@@ -142,6 +150,93 @@ public class SpectreResultsPrinterTests
         {
             await Assert.That(output).Contains("Δ previous");
             await Assert.That(output).Contains("+2s");
+        }
+    }
+
+    [Test]
+    public async Task ModulesTable_MatchesDurationDeltasByModuleType()
+    {
+        var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);
+        var firstModule = new FirstModule();
+        var secondModule = new SecondModule();
+        var summary = new PipelineSummary(
+            [firstModule, secondModule],
+            [],
+            TimeSpan.FromSeconds(5),
+            start,
+            start.AddSeconds(5)) with
+        {
+            RunReport = new PipelineRunReport
+            {
+                Modules =
+                [
+                    new ModuleRunReport
+                    {
+                        ModuleName = nameof(SecondModule),
+                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SecondModule)),
+                        DurationDelta = TimeSpan.FromSeconds(2),
+                    },
+                    new ModuleRunReport
+                    {
+                        ModuleName = nameof(FirstModule),
+                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        DurationDelta = TimeSpan.FromSeconds(1),
+                    },
+                ],
+            },
+        };
+
+        var output = RenderToString(SpectreResultsPrinter.CreateModulesTable(summary));
+        var lines = output.Split(Environment.NewLine);
+        var firstModuleLine = lines.Single(line => line.Contains(nameof(FirstModule), StringComparison.Ordinal));
+        var secondModuleLine = lines.Single(line => line.Contains(nameof(SecondModule), StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(firstModuleLine).Contains("+1s");
+            await Assert.That(secondModuleLine).Contains("+2s");
+        }
+    }
+
+    [Test]
+    public async Task ModulesTable_DoesNotApplyAmbiguousTypeDeltas()
+    {
+        var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);
+        var summary = new PipelineSummary(
+            [new FirstModule(), new FirstModule()],
+            [],
+            TimeSpan.FromSeconds(5),
+            start,
+            start.AddSeconds(5)) with
+        {
+            RunReport = new PipelineRunReport
+            {
+                TotalDurationDelta = TimeSpan.FromSeconds(3),
+                Modules =
+                [
+                    new ModuleRunReport
+                    {
+                        ModuleName = nameof(FirstModule),
+                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        DurationDelta = TimeSpan.FromSeconds(1),
+                    },
+                    new ModuleRunReport
+                    {
+                        ModuleName = nameof(FirstModule),
+                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        DurationDelta = TimeSpan.FromSeconds(2),
+                    },
+                ],
+            },
+        };
+
+        var output = RenderToString(SpectreResultsPrinter.CreateModulesTable(summary));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).Contains("Δ previous");
+            await Assert.That(output).DoesNotContain("+1s");
+            await Assert.That(output).DoesNotContain("+2s");
         }
     }
 
