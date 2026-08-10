@@ -1288,6 +1288,39 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCurrentOptions.Generated.cs"),
+                "public record ToolCurrentOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task CurrentAsync(ToolCurrentOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Other.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Other { public Task RemovedAsync(OtherRemovedOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            await Assert.That(preserved.Commands).HasSingleItem();
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Accepts_Current_Command_Group_Alias_Facades()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
