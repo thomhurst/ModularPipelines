@@ -145,12 +145,15 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
-    public async Task Log_PreservesOriginalExceptionWhenNoSecretsAreRegistered()
+    public async Task Log_WrapsExceptionWhenNoSecretsAreRegistered()
     {
         var underlyingLogger = new RecordingLogger();
         var originalException = new InvalidOperationException("Failure");
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator.SetupGet(x => x.HasSecrets).Returns(false);
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value ?? string.Empty);
         var pipelineLevelLogger = new PipelineLevelLogger(
             underlyingLogger,
             secretObfuscator.Object,
@@ -158,10 +161,7 @@ public class PipelineLevelLoggerTests
 
         pipelineLevelLogger.LogError(originalException, "Failure");
 
-        await Assert.That(underlyingLogger.Exception).IsSameReferenceAs(originalException);
-        secretObfuscator.Verify(
-            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
-            Times.Never);
+        await Assert.That(underlyingLogger.Exception).IsNotSameReferenceAs(originalException);
     }
 
     [Test]
@@ -220,10 +220,45 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_GuardsHostileExceptionDiagnosticsWithoutSecrets()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger, hasSecrets: false);
+
+        await Assert.That(
+                () => pipelineLevelLogger.LogError(new ThrowingDiagnosticException(), "Failure"))
+            .ThrowsNothing();
+
+        await Assert.That(underlyingLogger.Exception?.Message)
+            .IsEqualTo(LoggingConstants.SecretMask);
+    }
+
+    [Test]
     public async Task Log_GuardsHostileStructuredTraversal()
     {
         var underlyingLogger = new RecordingLogger();
         var pipelineLevelLogger = CreateLogger(underlyingLogger);
+
+        await Assert.That(() => pipelineLevelLogger.Log(
+                LogLevel.Information,
+                new EventId(3, "HostileState"),
+                new ThrowingCountStructuredState(),
+                null,
+                static (_, _) => throw new InvalidOperationException("Cannot format state.")))
+            .ThrowsNothing();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(underlyingLogger.State).IsEqualTo(LoggingConstants.SecretMask);
+            await Assert.That(underlyingLogger.Message).IsEqualTo(LoggingConstants.SecretMask);
+        }
+    }
+
+    [Test]
+    public async Task Log_GuardsHostileStructuredTraversalWithoutSecrets()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger, hasSecrets: false);
 
         await Assert.That(() => pipelineLevelLogger.Log(
                 LogLevel.Information,
@@ -335,10 +370,11 @@ public class PipelineLevelLoggerTests
 
     private static PipelineLevelLogger CreateLogger(
         ILogger logger,
-        Func<string?, string>? obfuscate = null)
+        Func<string?, string>? obfuscate = null,
+        bool hasSecrets = true)
     {
         var secretObfuscator = new Mock<ISecretObfuscator>();
-        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(true);
+        secretObfuscator.SetupGet(x => x.HasSecrets).Returns(hasSecrets);
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => obfuscate?.Invoke(value) ?? value ?? string.Empty);

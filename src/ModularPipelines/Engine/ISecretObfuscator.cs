@@ -9,8 +9,8 @@ public interface ISecretObfuscator
     /// Gets whether any secrets are currently registered for global masking.
     /// </summary>
     /// <remarks>
-    /// The conservative default preserves masking for custom implementations that do not
-    /// expose their registration state.
+    /// This is a performance hint only. Callers must not use it to bypass safety or masking
+    /// behavior that custom implementations may provide.
     /// </remarks>
     bool HasSecrets => true;
 

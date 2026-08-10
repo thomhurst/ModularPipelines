@@ -31,15 +31,13 @@ internal sealed class ObfuscatedLogException : Exception
     }
 
     public static Exception? Create(Exception? exception, ISecretObfuscator secretObfuscator)
-        => exception is null || !secretObfuscator.HasSecrets
-            ? exception
-            : exception switch
-            {
-                null => null,
-                AggregateException aggregateException =>
-                    new ObfuscatedAggregateLogException(aggregateException, secretObfuscator),
-                _ => new ObfuscatedLogException(exception, secretObfuscator),
-            };
+        => exception switch
+        {
+            null => null,
+            AggregateException aggregateException =>
+                new ObfuscatedAggregateLogException(aggregateException, secretObfuscator),
+            _ => new ObfuscatedLogException(exception, secretObfuscator),
+        };
 
     public override string? StackTrace => _obfuscatedStackTrace;
 
