@@ -332,7 +332,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Metadata_Ignores_Legacy_Optional_Compatibility_Flag()
+    public async Task Schema2_Metadata_Revalidates_Legacy_Optional_Compatibility_Flag()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>);
         GeneratedCommandMetadata.Register(
@@ -348,7 +348,7 @@ public class CliAttributeTests
                     })
                 {
                     AllowsLegacyOptionalValues = true,
-                    IsSupportedPropertyType = false,
+                    IsSupportedPropertyType = true,
                 },
             ],
             GeneratedCommandMetadata.CurrentSchemaVersion);
