@@ -47,6 +47,24 @@ public class PipelineOutputCoordinatorTests
     }
 
     [Test]
+    public async Task FlushWriters_FlushesErrorAfterOutputFailure()
+    {
+        var outputException = new IOException("output flush failed");
+        var output = new FlushTrackingWriter(outputException);
+        var error = new FlushTrackingWriter();
+
+        var exception = await Assert.ThrowsAsync<IOException>(() =>
+            PipelineOutputCoordinator.FlushWritersAsync(output, error));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception).IsSameReferenceAs(outputException);
+            await Assert.That(output.FlushCount).IsEqualTo(1);
+            await Assert.That(error.FlushCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Dispose_SchedulesBuffersCreatedByRetainedWriteFlush()
     {
         var events = new List<string>();
@@ -281,6 +299,19 @@ public class PipelineOutputCoordinatorTests
         {
             events.Add("progress");
             return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class FlushTrackingWriter(Exception? exception = null) : StringWriter
+    {
+        public int FlushCount { get; private set; }
+
+        public override Task FlushAsync()
+        {
+            FlushCount++;
+            return exception is null
+                ? Task.CompletedTask
+                : Task.FromException(exception);
         }
     }
 }
