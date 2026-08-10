@@ -538,7 +538,7 @@ public class EngineCancellationTokenTests : TestBase
         using var cancellationTokenSource = new CancellationTokenSource();
         var exception = new OperationCanceledException(cancellationTokenSource.Token);
 
-        await Assert.That(ModuleExecutor.IsExpectedWorkerCancellation(
+        await Assert.That(WorkerCancellationClassifier.IsExpected(
                 exception,
                 cancellationTokenSource.Token))
             .IsFalse();
@@ -558,7 +558,7 @@ public class EngineCancellationTokenTests : TestBase
             workerCancellationTokenSource.Token,
             limiterCancellationTokenSource.Token);
 
-        await Assert.That(ModuleExecutor.IsExpectedWorkerCancellation(
+        await Assert.That(WorkerCancellationClassifier.IsExpected(
                 normalizedCancellation,
                 workerCancellationTokenSource.Token))
             .IsTrue();

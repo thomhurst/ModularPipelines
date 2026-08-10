@@ -275,7 +275,7 @@ internal class ModuleExecutor : IModuleExecutor
                         var pipelineException = GetPipelineException(ex);
                         var isFirstFailure = false;
 
-                        if (!IsExpectedWorkerCancellation(ex, ct)
+                        if (!WorkerCancellationClassifier.IsExpected(ex, ct)
                             && recordedWorkerExceptions.TryAdd(pipelineException, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(pipelineException);
@@ -313,18 +313,6 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return firstFailure;
-    }
-
-    // Engine-linked module cancellation is converted to a PipelineTerminated result
-    // by ModuleExecutionPipeline. Only worker-token cancellation can reach this layer.
-    internal static bool IsExpectedWorkerCancellation(
-        Exception exception,
-        CancellationToken workerCancellationToken)
-    {
-        return exception is OperationCanceledException operationCanceledException
-               && operationCanceledException.CancellationToken == workerCancellationToken
-               && (workerCancellationToken.IsCancellationRequested
-                   || exception is NormalizedWorkerCancellationException);
     }
 
     private static Exception GetPipelineException(Exception exception)
