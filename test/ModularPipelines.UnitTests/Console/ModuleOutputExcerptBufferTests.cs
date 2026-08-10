@@ -9,6 +9,24 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputExcerptBufferTests
 {
     [Test]
+    public async Task Unterminated_Output_Does_Not_Add_Newline_At_Byte_Cap()
+    {
+        var buffer = new ModuleOutputExcerptBuffer(maximumBytes: 1);
+
+        buffer.Append(
+            "A",
+            ModuleOutputStream.StandardOutput,
+            appendNewLine: false);
+        var excerpt = buffer.CreateExcerpt()!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("A");
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task SeparatesStandardOutputAndStandardError()
     {
         var buffer = new ModuleOutputExcerptBuffer(1024);

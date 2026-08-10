@@ -22,9 +22,13 @@ internal sealed class ModuleOutputExcerptBuffer(
     private long _totalStderrBytes;
     private int _retainedBytes;
 
-    public void Append(string value, ModuleOutputStream stream)
+    public void Append(
+        string value,
+        ModuleOutputStream stream,
+        bool appendNewLine = true)
     {
-        var appendedBytes = (long) Utf8.GetByteCount(value) + NewLineBytes.Length;
+        var lineTerminatorByteCount = appendNewLine ? NewLineBytes.Length : 0;
+        var appendedBytes = (long) Utf8.GetByteCount(value) + lineTerminatorByteCount;
         _totalBytes += appendedBytes;
         if (stream is ModuleOutputStream.StandardError)
         {
@@ -47,9 +51,12 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         var retainedValue = value.AsSpan(start);
         var valueByteCount = Utf8.GetByteCount(retainedValue);
-        var bytes = new byte[valueByteCount + NewLineBytes.Length];
+        var bytes = new byte[valueByteCount + lineTerminatorByteCount];
         Utf8.GetBytes(retainedValue, bytes);
-        NewLineBytes.CopyTo(bytes, valueByteCount);
+        if (appendNewLine)
+        {
+            NewLineBytes.CopyTo(bytes, valueByteCount);
+        }
         _chunks.AddLast(new OutputChunk(stream, bytes));
         _retainedBytes += bytes.Length;
         TrimToLimit(_retentionBytes);

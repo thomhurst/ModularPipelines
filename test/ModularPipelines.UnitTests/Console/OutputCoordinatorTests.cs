@@ -45,7 +45,7 @@ public class OutputCoordinatorTests
 
         await Assert.That(directOutput.ToString()).Contains("replayed log");
         await Assert.That(directOutput.ToString()).DoesNotContain("partial");
-        bufferedOutput.Verify(x => x.WriteLine("partial"), Times.Once);
+        bufferedOutput.Verify(x => x.Write("partial"), Times.Once);
     }
 
     [Test]
