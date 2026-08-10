@@ -680,16 +680,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Status = ClassifyException(config, executionContext, exception);
 
-        if (executionContext.Status == Status.PipelineTerminated)
-        {
-            logger.LogInformation("Pipeline has been canceled");
-
-            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-            preserveResult(cancelledResult);
-            executionContext.SetTypedResult(cancelledResult);
-            return cancelledResult;
-        }
-
         // Use the enhanced exception type for detailed timeout logging.
         if (exception is ModuleTimeoutException timeoutException)
         {
@@ -722,6 +712,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     .ConfigureAwait(false);
                 return ignoredResult;
             }
+        }
+
+        if (executionContext.Status == Status.PipelineTerminated)
+        {
+            logger.LogInformation("Pipeline has been canceled");
+
+            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            preserveResult(cancelledResult);
+            executionContext.SetTypedResult(cancelledResult);
+            return cancelledResult;
         }
 
         // Create a failed result before cancelling and throwing
