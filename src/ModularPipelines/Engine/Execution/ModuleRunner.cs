@@ -128,6 +128,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
+        var limiterCancellationToken = default(CancellationToken);
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
@@ -166,7 +167,7 @@ internal class ModuleRunner : IModuleRunner
                     : CancellationTokenSource.CreateLinkedTokenSource(
                         cancellationToken,
                         _engineCancellationToken.Token);
-                var limiterCancellationToken = module.Configuration.AlwaysRun
+                limiterCancellationToken = module.Configuration.AlwaysRun
                     ? _engineCancellationToken.NonFailureCancellationToken
                     : limiterCancellationTokenSource!.Token;
                 using var semaphoreHandle = await _parallelLimitHandler
@@ -201,14 +202,45 @@ internal class ModuleRunner : IModuleRunner
             }
             catch (Exception ex)
             {
-                HandleExecutionFailure(moduleState, scheduler, ex);
+                var handledException = NormalizeLimiterCancellation(
+                    ex,
+                    module.Configuration.AlwaysRun,
+                    cancellationToken,
+                    limiterCancellationToken);
+                HandleExecutionFailure(moduleState, scheduler, handledException);
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                 {
-                    throw;
+                    if (ReferenceEquals(handledException, ex))
+                    {
+                        throw;
+                    }
+
+                    throw handledException;
                 }
             }
         }
+    }
+
+    private static Exception NormalizeLimiterCancellation(
+        Exception exception,
+        bool alwaysRun,
+        CancellationToken workerCancellationToken,
+        CancellationToken limiterCancellationToken)
+    {
+        if (!alwaysRun
+            && workerCancellationToken.IsCancellationRequested
+            && exception is OperationCanceledException operationCanceledException
+            && operationCanceledException.CancellationToken == limiterCancellationToken
+            && limiterCancellationToken != workerCancellationToken)
+        {
+            return new OperationCanceledException(
+                operationCanceledException.Message,
+                operationCanceledException,
+                workerCancellationToken);
+        }
+
+        return exception;
     }
 
     private void HandleExecutionFailure(

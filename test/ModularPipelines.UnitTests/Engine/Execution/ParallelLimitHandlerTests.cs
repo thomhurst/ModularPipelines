@@ -253,6 +253,44 @@ public class ParallelLimitHandlerTests
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
     }
 
+    [Test]
+    public async Task ModuleRunner_PreservesWorkerTokenForCancelledLinkedLimiterWait()
+    {
+        var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns<Type, CancellationToken>(async (_, token) =>
+            {
+                limiterWaitStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return Mock.Of<IDisposable>();
+            });
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        using var workerCancellationTokenSource = new CancellationTokenSource();
+
+        var executionTask = moduleRunner.ExecuteAsync(
+            moduleState,
+            scheduler.Object,
+            workerCancellationTokenSource.Token);
+        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        workerCancellationTokenSource.Cancel();
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+
+        await Assert.That(exception!.CancellationToken)
+            .IsEqualTo(workerCancellationTokenSource.Token);
+    }
+
     private static ParallelLimitHandler CreateHandler(PipelineOptions options)
     {
         return new ParallelLimitHandler(
