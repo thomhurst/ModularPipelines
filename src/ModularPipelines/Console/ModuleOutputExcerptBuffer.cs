@@ -70,10 +70,17 @@ internal sealed class ModuleOutputExcerptBuffer(
                 .Append(Utf8.GetString(chunk.Bytes));
         }
 
+        var stdoutValue = stdout.ToString();
+        var stderrValue = stderr.ToString();
         var (stdoutBytes, stderrBytes) = GetFinalStreamByteLimits();
+        var truncatedBytes = GetTruncatedByteCount(
+            stdoutValue,
+            stderrValue,
+            stdoutBytes,
+            stderrBytes);
         if (!TryCreateTails(
-                stdout.ToString(),
-                stderr.ToString(),
+                stdoutValue,
+                stderrValue,
                 stdoutBytes,
                 stderrBytes,
                 out var stdoutTail,
@@ -86,13 +93,20 @@ internal sealed class ModuleOutputExcerptBuffer(
         {
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
-            TruncatedBytes = Math.Max(
-                0,
-                _totalBytes
-                - Utf8.GetByteCount(stdoutTail ?? string.Empty)
-                - Utf8.GetByteCount(stderrTail ?? string.Empty)),
+            TruncatedBytes = truncatedBytes,
         };
     }
+
+    private long GetTruncatedByteCount(
+        string stdout,
+        string stderr,
+        int stdoutBytes,
+        int stderrBytes) =>
+        Math.Max(
+            0,
+            _totalBytes
+            - Utf8.GetByteCount(GetUtf8Tail(stdout, stdoutBytes) ?? string.Empty)
+            - Utf8.GetByteCount(GetUtf8Tail(stderr, stderrBytes) ?? string.Empty));
 
     private bool TryCreateTails(
         string stdout,
@@ -109,12 +123,30 @@ internal sealed class ModuleOutputExcerptBuffer(
             return true;
         }
 
+        return TryCreateMaskedTails(
+            stdout,
+            stderr,
+            stdoutBytes,
+            stderrBytes,
+            out stdoutTail,
+            out stderrTail);
+    }
+
+    private bool TryCreateMaskedTails(
+        string stdout,
+        string stderr,
+        int stdoutBytes,
+        int stderrBytes,
+        out string? stdoutTail,
+        out string? stderrTail)
+    {
+        stdoutTail = null;
+        stderrTail = null;
+
         // Custom or incomplete masking dependencies do not expose enough information
         // to prove that a bounded context is safe.
         if (secretObfuscator is not SecretObfuscator concreteObfuscator || secretProvider is null)
         {
-            stdoutTail = null;
-            stderrTail = null;
             return false;
         }
 
@@ -127,26 +159,31 @@ internal sealed class ModuleOutputExcerptBuffer(
             .Max();
         if (maximumMatchBytes > maximumBytes)
         {
-            stdoutTail = null;
-            stderrTail = null;
             return false;
         }
 
+        var maskedStdout = secretObfuscator.Obfuscate(stdout, null);
+        var maskedStderr = secretObfuscator.Obfuscate(stderr, null);
+        (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
+            stdoutBytes,
+            stderrBytes,
+            Utf8.GetByteCount(maskedStdout),
+            Utf8.GetByteCount(maskedStderr));
+
         if (!TryGetSafeMaskedTail(
-                secretObfuscator.Obfuscate(stdout, null),
+                maskedStdout,
                 stdoutBytes,
                 _totalStdoutBytes > Utf8.GetByteCount(stdout),
                 maximumMatchBytes,
                 out stdoutTail)
             || !TryGetSafeMaskedTail(
-                secretObfuscator.Obfuscate(stderr, null),
+                maskedStderr,
                 stderrBytes,
                 _totalStderrBytes > Utf8.GetByteCount(stderr),
                 maximumMatchBytes,
                 out stderrTail))
         {
-            stdoutTail = null;
-            stderrTail = null;
+            stdoutTail = stderrTail = null;
             return false;
         }
 
@@ -154,6 +191,39 @@ internal sealed class ModuleOutputExcerptBuffer(
         // boundary. Omit the excerpt rather than risk returning a partial secret.
         return secretProvider.Version == snapshot.Version
                && concreteObfuscator.CaseInsensitive == caseInsensitive;
+    }
+
+    private (int StdoutBytes, int StderrBytes) RebalanceMaskedStreamByteLimits(
+        int stdoutBytes,
+        int stderrBytes,
+        int maskedStdoutBytes,
+        int maskedStderrBytes)
+    {
+        stdoutBytes = Math.Min(stdoutBytes, maskedStdoutBytes);
+        stderrBytes = Math.Min(stderrBytes, maskedStderrBytes);
+        var remaining = maximumBytes - stdoutBytes - stderrBytes;
+        var stdoutNeeded = maskedStdoutBytes - stdoutBytes;
+        var stderrNeeded = maskedStderrBytes - stderrBytes;
+
+        for (var chunk = _chunks.Last; chunk is not null && remaining > 0; chunk = chunk.Previous)
+        {
+            if (chunk.Value.Stream is ModuleOutputStream.StandardError && stderrNeeded > 0)
+            {
+                var added = Math.Min(stderrNeeded, remaining);
+                stderrBytes += added;
+                stderrNeeded -= added;
+                remaining -= added;
+            }
+            else if (chunk.Value.Stream is ModuleOutputStream.StandardOutput && stdoutNeeded > 0)
+            {
+                var added = Math.Min(stdoutNeeded, remaining);
+                stdoutBytes += added;
+                stdoutNeeded -= added;
+                remaining -= added;
+            }
+        }
+
+        return (stdoutBytes, stderrBytes);
     }
 
     private static bool TryGetSafeMaskedTail(

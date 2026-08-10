@@ -96,6 +96,60 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task RecomputesTailBudgetAfterLateMaskExpansion()
+    {
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 8192,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("a", ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, ["a"]);
+        var excerpt = buffer.CreateExcerpt()!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("**********" + Environment.NewLine);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task DoesNotCountLateMaskContractionAsTruncation()
+    {
+        const string secret = "late-secret";
+        var snapshot = new SecretSnapshot(0, []);
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => snapshot.Version);
+        secretProvider.Setup(provider => provider.GetSnapshot()).Returns(() => snapshot);
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(
+                new SecretMaskingOptions { MaskValue = "***" }));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 64,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append(secret, ModuleOutputStream.StandardOutput);
+
+        snapshot = new SecretSnapshot(2, [secret]);
+        var excerpt = buffer.CreateExcerpt()!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("***" + Environment.NewLine);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenMaskingContractionReachesTrimmedBoundary()
     {
         const string secret = "late-secret";
