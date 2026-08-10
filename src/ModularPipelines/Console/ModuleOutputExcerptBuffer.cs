@@ -18,11 +18,22 @@ internal sealed class ModuleOutputExcerptBuffer(
         ? int.MaxValue
         : maximumBytes * 2;
     private long _totalBytes;
+    private long _totalStdoutBytes;
+    private long _totalStderrBytes;
     private int _retainedBytes;
 
     public void Append(string value, ModuleOutputStream stream)
     {
-        _totalBytes += (long) Utf8.GetByteCount(value) + NewLineBytes.Length;
+        var appendedBytes = (long) Utf8.GetByteCount(value) + NewLineBytes.Length;
+        _totalBytes += appendedBytes;
+        if (stream is ModuleOutputStream.StandardError)
+        {
+            _totalStderrBytes += appendedBytes;
+        }
+        else
+        {
+            _totalStdoutBytes += appendedBytes;
+        }
 
         // One UTF-16 code unit always produces at least one UTF-8 byte. Keep one extra output
         // window so late-registered secrets can be masked before the final tail is selected.
@@ -109,22 +120,60 @@ internal sealed class ModuleOutputExcerptBuffer(
 
         var caseInsensitive = concreteObfuscator.CaseInsensitive;
         var snapshot = secretProvider.GetSnapshot();
-        if (snapshot.Secrets
+        var maximumMatchBytes = snapshot.Secrets
             .Where(static secret => !string.IsNullOrEmpty(secret))
-            .Any(secret => GetMaximumMatchByteCount(secret, caseInsensitive) > maximumBytes))
+            .Select(secret => GetMaximumMatchByteCount(secret, caseInsensitive))
+            .DefaultIfEmpty()
+            .Max();
+        if (maximumMatchBytes > maximumBytes)
         {
             stdoutTail = null;
             stderrTail = null;
             return false;
         }
 
-        stdoutTail = GetUtf8Tail(secretObfuscator.Obfuscate(stdout, null), stdoutBytes);
-        stderrTail = GetUtf8Tail(secretObfuscator.Obfuscate(stderr, null), stderrBytes);
+        if (!TryGetSafeMaskedTail(
+                secretObfuscator.Obfuscate(stdout, null),
+                stdoutBytes,
+                _totalStdoutBytes > Utf8.GetByteCount(stdout),
+                maximumMatchBytes,
+                out stdoutTail)
+            || !TryGetSafeMaskedTail(
+                secretObfuscator.Obfuscate(stderr, null),
+                stderrBytes,
+                _totalStderrBytes > Utf8.GetByteCount(stderr),
+                maximumMatchBytes,
+                out stderrTail))
+        {
+            stdoutTail = null;
+            stderrTail = null;
+            return false;
+        }
 
         // If registration changed during masking, a new secret may cross the retained
         // boundary. Omit the excerpt rather than risk returning a partial secret.
         return secretProvider.Version == snapshot.Version
                && concreteObfuscator.CaseInsensitive == caseInsensitive;
+    }
+
+    private static bool TryGetSafeMaskedTail(
+        string maskedOutput,
+        int maximumTailBytes,
+        bool rawPrefixWasTrimmed,
+        int maximumMatchBytes,
+        out string? tail)
+    {
+        tail = GetUtf8Tail(maskedOutput, maximumTailBytes);
+        if (!rawPrefixWasTrimmed || maximumTailBytes == 0)
+        {
+            return true;
+        }
+
+        // Mask contraction must not pull the selected tail within one possible
+        // cross-boundary match of the discarded raw prefix.
+        var discardedMaskedBytes = Utf8.GetByteCount(maskedOutput)
+                                   - Utf8.GetByteCount(tail ?? string.Empty);
+        return discardedMaskedBytes >= maximumMatchBytes;
     }
 
     private (int StdoutBytes, int StderrBytes) GetFinalStreamByteLimits()
