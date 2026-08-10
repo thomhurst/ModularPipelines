@@ -142,6 +142,38 @@ public class EnumDefinitionStabilizerTests
             .And.HasMessageContaining("suspicious prose value");
     }
 
+    [Test]
+    public async Task Stabilize_Rejects_Preserved_Member_Name_Colliding_With_New_Value()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            """
+            public enum FakeVisibility
+            {
+                [EnumValue("legacy")]
+                FutureValue
+            }
+            """);
+
+        try
+        {
+            void Stabilize() => EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("legacy"), Value("future-value")),
+                outputRoot);
+
+            await Assert.That(Stabilize)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("duplicate member name 'FutureValue' after stabilization");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
     private static CliToolDefinition Tool(params CliEnumValue[] values)
     {
         var definition = new CliEnumDefinition

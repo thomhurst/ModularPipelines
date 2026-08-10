@@ -19,7 +19,14 @@ public class BrewCliScraperTests
         }
 
         await Assert.That(commands.Select(static command => command.FullCommand))
-            .IsEquivalentTo(["brew alpha", "brew beta", "brew update"]);
+            .IsEquivalentTo(
+            [
+                "brew alpha",
+                "brew baz.qux",
+                "brew beta",
+                "brew foo+bar",
+                "brew update",
+            ]);
     }
 
     [Test]
@@ -81,7 +88,7 @@ public class BrewCliScraperTests
                 StandardOutput = arguments switch
                 {
                     "--help" => "Example usage:\n  brew update",
-                    "commands --quiet" => "alpha  beta\n",
+                    "commands --quiet" => "alpha  beta  foo+bar  baz.qux\n",
                     _ => $"Usage: brew {arguments[..^7]} [options]\n\n  --verbose  Show details.",
                 },
                 StandardError = string.Empty,

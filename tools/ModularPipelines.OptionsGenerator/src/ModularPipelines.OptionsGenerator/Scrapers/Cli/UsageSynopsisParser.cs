@@ -184,22 +184,40 @@ public static class UsageSynopsisParser
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
+        string? associatedOptionSwitch = null;
 
         foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
         {
             phase = IsOptionControlToken(token) ? CommandLinePhase.Passthrough : phase;
+            var isOptionSwitch = TryGetOptionSwitch(token, out var optionSwitch);
+            if (isOptionSwitch)
+            {
+                associatedOptionSwitch = optionSwitch;
+            }
+
             if (IsStandaloneOptionTerminator(token))
             {
                 prependOptionTerminatorToNextOperand = true;
+                associatedOptionSwitch = null;
                 continue;
             }
 
             var groupedBehindOptionTerminator =
                 TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
             var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
-            if (TryApplyStandaloneRepeat(operandToken, arguments)
-                || IsNonOperandSyntax(operandToken))
+            if (TryApplyStandaloneRepeat(operandToken, arguments))
             {
+                associatedOptionSwitch = null;
+                continue;
+            }
+
+            if (IsNonOperandSyntax(operandToken))
+            {
+                if (!isOptionSwitch)
+                {
+                    associatedOptionSwitch = null;
+                }
+
                 continue;
             }
 
@@ -211,6 +229,7 @@ public static class UsageSynopsisParser
             {
                 arguments.AddRange(nestedArguments);
                 prependOptionTerminatorToNextOperand = false;
+                associatedOptionSwitch = null;
                 continue;
             }
 
@@ -226,8 +245,10 @@ public static class UsageSynopsisParser
                 argument = argument with { PrependOptionTerminator = true };
             }
 
+            argument = argument with { AssociatedOptionSwitch = associatedOptionSwitch };
             arguments.Add(argument);
             prependOptionTerminatorToNextOperand = false;
+            associatedOptionSwitch = null;
         }
 
         return new ParsedOperands(arguments, unparsedTokens);
@@ -578,10 +599,22 @@ public static class UsageSynopsisParser
         }
 
         var parsedArguments = new List<CliPositionalArgument>();
+        string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
         {
+            var isOptionSwitch = TryGetOptionSwitch(nestedToken, out var optionSwitch);
+            if (isOptionSwitch)
+            {
+                associatedOptionSwitch = optionSwitch;
+            }
+
             if (IsNonOperandSyntax(nestedToken))
             {
+                if (!isOptionSwitch)
+                {
+                    associatedOptionSwitch = null;
+                }
+
                 continue;
             }
 
@@ -598,7 +631,9 @@ public static class UsageSynopsisParser
             {
                 CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
                 IsRequired = false,
+                AssociatedOptionSwitch = associatedOptionSwitch,
             });
+            associatedOptionSwitch = null;
         }
 
         arguments = parsedArguments;
@@ -791,6 +826,23 @@ public static class UsageSynopsisParser
         var content = TrimControlWrappers(token);
         return content.StartsWith('-')
                || OptionControlTokens.Contains(content);
+    }
+
+    private static bool TryGetOptionSwitch(string token, out string optionSwitch)
+    {
+        var content = TrimControlWrappers(token);
+        var endIndex = content.IndexOfAny([' ', '\t', '=']);
+        optionSwitch = content.TrimEnd(',', ':');
+        if (optionSwitch.Length > 1
+            && endIndex < 0
+            && optionSwitch.StartsWith('-')
+            && optionSwitch != "--")
+        {
+            return true;
+        }
+
+        optionSwitch = "";
+        return false;
     }
 
     private static string TrimControlWrappers(string token)

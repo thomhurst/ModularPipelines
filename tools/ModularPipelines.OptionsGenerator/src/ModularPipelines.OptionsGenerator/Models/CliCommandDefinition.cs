@@ -152,9 +152,12 @@ public record CliCommandDefinition
         IReadOnlyList<CliPositionalArgument>? usagePositionalArguments) =>
         usagePositionalArguments is { Count: > 0 }
         && usagePositionalArguments.All(argument => Options.Any(option =>
-            option.PropertyName.Equals(
-                argument.PropertyName,
-                StringComparison.OrdinalIgnoreCase)));
+            option.PropertyName.Equals(argument.PropertyName, StringComparison.OrdinalIgnoreCase)
+            && argument.AssociatedOptionSwitch is not null
+            && (option.SwitchName.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase)
+                || option.ShortForm?.Equals(
+                    argument.AssociatedOptionSwitch,
+                    StringComparison.OrdinalIgnoreCase) == true)));
 }
 
 /// <summary>

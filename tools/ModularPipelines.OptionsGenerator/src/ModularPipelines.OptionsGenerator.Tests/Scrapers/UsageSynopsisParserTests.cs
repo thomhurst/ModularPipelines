@@ -674,6 +674,42 @@ public class UsageSynopsisParserTests
 
         await Assert.That(usage.PositionalArguments.Single().PropertyName)
             .IsEqualTo("Query");
+        await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+            .IsEqualTo("-q");
+    }
+
+    [Test]
+    public async Task Model_Rejects_Standalone_Operand_Sharing_Named_Option_Property()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool run [--output OUTPUT] OUTPUT",
+            ["tool", "run"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "tool run",
+            CommandParts = ["run"],
+            ClassName = "ToolRunOptions",
+            ParentClassName = "ToolOptions",
+            ToolNamespacePrefix = "Tool",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        void Validate() => command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        await Assert.That(Validate)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("no CliPositionalArgument");
     }
 
     private static OperandFixture Fixture(

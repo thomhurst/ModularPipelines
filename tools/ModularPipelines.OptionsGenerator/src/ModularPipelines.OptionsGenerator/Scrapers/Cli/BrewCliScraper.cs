@@ -460,13 +460,13 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Matches command lines: "  command             description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?<name>[a-z0-9][a-z0-9+_.-]*)\s{2,}", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex CommandLinePattern();
 
     /// <summary>
     /// Matches "brew commandname" lines in example usage.
     /// </summary>
-    [GeneratedRegex(@"^\s*brew\s+(?<name>[\w-]+)", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*brew\s+(?<name>[a-z0-9][a-z0-9+_.-]*)", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex BrewCommandLinePattern();
 
     [GeneratedRegex(@"^[a-z0-9][a-z0-9+_.-]*$", RegexOptions.IgnoreCase)]

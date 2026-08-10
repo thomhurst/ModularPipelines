@@ -110,6 +110,7 @@ internal static partial class EnumDefinitionStabilizer
             }
         }
 
+        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
         return definition with { Values = stabilizedValues };
     }
 
@@ -130,6 +131,20 @@ internal static partial class EnumDefinitionStabilizer
         {
             throw new InvalidOperationException(
                 $"Enum '{definition.EnumName}' contains suspicious prose value '{suspiciousValue.CliValue}'.");
+        }
+    }
+
+    private static void ValidateUniqueMemberNames(
+        string enumName,
+        IReadOnlyList<CliEnumValue> values)
+    {
+        var duplicateMemberName = values
+            .GroupBy(value => value.MemberName, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateMemberName is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{enumName}' contains duplicate member name '{duplicateMemberName.Key}' after stabilization.");
         }
     }
 
