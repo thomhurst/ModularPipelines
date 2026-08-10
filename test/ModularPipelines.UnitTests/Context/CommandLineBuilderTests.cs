@@ -73,6 +73,18 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Evaluates_Remaining_Required_Validators()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestMultipleRequiredOptions());
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("Second required validator failed.");
+    }
+
+    [Test]
     public async Task Build_Rejects_Invalid_NonPublic_Annotated_Property()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1260,6 +1272,42 @@ public class CommandLineBuilderTests : TestBase
         [ThrowingValidation]
         [Required]
         public string? Value { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestMultipleRequiredOptions : CommandLineToolOptions
+    {
+        [CountingRequired]
+        [CountingRequired]
+        internal object Value { get; init; } = new();
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    private sealed class CountingRequiredAttribute : RequiredAttribute
+    {
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<object, InvocationCount>
+            InvocationCounts = [];
+
+        public CountingRequiredAttribute()
+        {
+            ErrorMessage = "Second required validator failed.";
+        }
+
+        public override bool IsValid(object? value)
+        {
+            if (value is null)
+            {
+                return false;
+            }
+
+            var count = InvocationCounts.GetValue(value, static _ => new InvocationCount());
+            return Interlocked.Increment(ref count.Value) == 1;
+        }
+
+        private sealed class InvocationCount
+        {
+            public int Value;
+        }
     }
 
     private sealed class ThrowingValidationAttribute : ValidationAttribute
