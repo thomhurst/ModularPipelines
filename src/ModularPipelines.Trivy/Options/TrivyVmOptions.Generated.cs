@@ -406,7 +406,6 @@ public record TrivyVmOptions(
     /// <summary>
     /// specify a path to config file for secret scanning (default "trivy-secret.yaml")
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-config", Format = OptionFormat.EqualsSeparated)]
     public string? SecretConfig { get; set; }
 

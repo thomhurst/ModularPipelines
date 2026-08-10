@@ -387,7 +387,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                         ? CliOptionValueArity.Optional
                         : CliOptionValueArity.Required,
                     EnumDefinition = enumDef,
-                    IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag)
+                    IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag, description)
                 });
             }
         }
@@ -441,8 +441,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Determines whether a tool option value must be masked in command logs.
     /// </summary>
-    protected virtual bool IsSecretOption(string propertyName, bool isFlag) =>
-        GeneratorUtils.IsSecretOption(propertyName, isFlag);
+    protected virtual bool IsSecretOption(
+        string propertyName,
+        bool isFlag,
+        string description) =>
+        GeneratorUtils.IsSecretOption(propertyName, isFlag, description);
 
     /// <summary>
     /// Determines whether an option's documented values form a closed set.
