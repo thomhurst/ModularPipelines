@@ -184,21 +184,14 @@ public static class UsageSynopsisParser
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
-        string? associatedOptionSwitch = null;
 
         foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
         {
             phase = IsOptionControlToken(token) ? CommandLinePhase.Passthrough : phase;
-            var isOptionSwitch = TryGetOptionSwitch(token, out var optionSwitch);
-            if (isOptionSwitch)
-            {
-                associatedOptionSwitch = optionSwitch;
-            }
 
             if (IsStandaloneOptionTerminator(token))
             {
                 prependOptionTerminatorToNextOperand = true;
-                associatedOptionSwitch = null;
                 continue;
             }
 
@@ -207,17 +200,11 @@ public static class UsageSynopsisParser
             var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
             if (TryApplyStandaloneRepeat(operandToken, arguments))
             {
-                associatedOptionSwitch = null;
                 continue;
             }
 
             if (IsNonOperandSyntax(operandToken))
             {
-                if (!isOptionSwitch)
-                {
-                    associatedOptionSwitch = null;
-                }
-
                 continue;
             }
 
@@ -229,7 +216,6 @@ public static class UsageSynopsisParser
             {
                 arguments.AddRange(nestedArguments);
                 prependOptionTerminatorToNextOperand = false;
-                associatedOptionSwitch = null;
                 continue;
             }
 
@@ -245,10 +231,8 @@ public static class UsageSynopsisParser
                 argument = argument with { PrependOptionTerminator = true };
             }
 
-            argument = argument with { AssociatedOptionSwitch = associatedOptionSwitch };
             arguments.Add(argument);
             prependOptionTerminatorToNextOperand = false;
-            associatedOptionSwitch = null;
         }
 
         return new ParsedOperands(arguments, unparsedTokens);

@@ -712,6 +712,44 @@ public class UsageSynopsisParserTests
             .And.HasMessageContaining("no CliPositionalArgument");
     }
 
+    [Test]
+    public async Task Model_Rejects_Operand_After_SameNamed_Boolean_Option()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: tool run [--output] OUTPUT",
+            ["tool", "run"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "tool run",
+            CommandParts = ["run"],
+            ClassName = "ToolRunOptions",
+            ParentClassName = "ToolOptions",
+            ToolNamespacePrefix = "Tool",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        void Validate() => command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+            await Assert.That(Validate)
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("no CliPositionalArgument");
+        }
+    }
+
     private static OperandFixture Fixture(
         string tool,
         string helpText,
