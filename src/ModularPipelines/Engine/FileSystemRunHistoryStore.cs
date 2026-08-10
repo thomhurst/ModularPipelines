@@ -35,29 +35,45 @@ internal sealed class FileSystemRunHistoryStore(
             return null;
         }
 
-        PipelineRunReport? latestReport = null;
         var incompatibleSchemaLogged = false;
-        foreach (var file in Directory.EnumerateFiles(
-                     directory,
-                     $"{GetPipelineFilePrefix(pipelineIdentity)}*.json",
-                     SearchOption.TopDirectoryOnly))
+        var files = GetHistoryFilesNewestFirst(
+            directory,
+            $"{GetPipelineFilePrefix(pipelineIdentity)}*.json");
+        foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
             try
             {
-                var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
-                if (!TryDeserializeCompatibleReport(json, ref incompatibleSchemaLogged, out var report))
+                await using var stream = new FileStream(
+                    file,
+                    new FileStreamOptions
+                    {
+                        Access = FileAccess.Read,
+                        Mode = FileMode.Open,
+                        Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+                        Share = FileShare.Read | FileShare.Delete,
+                    });
+                var (report, incompatibleSchemaVersion) = await ReadReportAsync(stream, cancellationToken)
+                    .ConfigureAwait(false);
+                if (incompatibleSchemaVersion is { } schemaVersion)
                 {
+                    if (!incompatibleSchemaLogged)
+                    {
+                        logger.LogWarning(
+                            "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
+                            schemaVersion,
+                            MinimumCompatibleSchemaVersion,
+                            PipelineRunReport.CurrentSchemaVersion);
+                        incompatibleSchemaLogged = true;
+                    }
+
                     continue;
                 }
 
-                if (string.Equals(
-                        report.PipelineIdentity,
-                        pipelineIdentity,
-                        StringComparison.Ordinal)
-                    && (latestReport is null || report.End > latestReport.End))
+                if (report is not null
+                    && string.Equals(report.PipelineIdentity, pipelineIdentity, StringComparison.Ordinal))
                 {
-                    latestReport = report;
+                    return report;
                 }
             }
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
@@ -66,41 +82,26 @@ internal sealed class FileSystemRunHistoryStore(
             }
         }
 
-        return latestReport;
+        return null;
     }
 
-    private bool TryDeserializeCompatibleReport(
-        string json,
-        ref bool incompatibleSchemaLogged,
-        out PipelineRunReport report)
+    private static async Task<(PipelineRunReport? Report, int? IncompatibleSchemaVersion)> ReadReportAsync(
+        Stream stream,
+        CancellationToken cancellationToken)
     {
-        using var document = JsonDocument.Parse(json);
+        using var document = await JsonDocument.ParseAsync(
+                stream,
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
         var schemaVersion = ReadSchemaVersion(document.RootElement);
         if (!IsSchemaVersionCompatible(schemaVersion))
         {
-            if (!incompatibleSchemaLogged)
-            {
-                logger.LogWarning(
-                    "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
-                    schemaVersion,
-                    MinimumCompatibleSchemaVersion,
-                    PipelineRunReport.CurrentSchemaVersion);
-                incompatibleSchemaLogged = true;
-            }
-
-            report = null!;
-            return false;
+            return (null, schemaVersion);
         }
 
-        var deserializedReport = RunReportJsonSerializer.Deserialize(json);
-        if (deserializedReport is null)
-        {
-            report = null!;
-            return false;
-        }
-
-        report = deserializedReport;
-        return true;
+        return (
+            document.RootElement.Deserialize(RunReportJsonContext.Default.PipelineRunReport),
+            null);
     }
 
     private static int ReadSchemaVersion(JsonElement root)
@@ -172,10 +173,7 @@ internal sealed class FileSystemRunHistoryStore(
         {
             return;
         }
-        var staleFiles = Directory
-            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
-            .OrderByDescending(GetHistoryTimestamp)
-            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal)
+        var staleFiles = GetHistoryFilesNewestFirst(directory, searchPattern)
             .Skip(retention)
             .ToArray();
         foreach (var staleFile in staleFiles)
@@ -191,6 +189,14 @@ internal sealed class FileSystemRunHistoryStore(
             }
         }
     }
+
+    private static IEnumerable<string> GetHistoryFilesNewestFirst(
+        string directory,
+        string searchPattern) =>
+        Directory
+            .EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+            .OrderByDescending(GetHistoryTimestamp)
+            .ThenByDescending(static file => Path.GetFileName(file), StringComparer.Ordinal);
 
     private static DateTime GetHistoryTimestamp(string path)
     {
