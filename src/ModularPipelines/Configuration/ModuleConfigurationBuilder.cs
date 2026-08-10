@@ -325,10 +325,13 @@ public sealed class ModuleConfigurationBuilder
     #region WithTimeout
 
     /// <summary>
-    /// Sets the timeout duration for module execution.
+    /// Sets the timeout duration for each module execution attempt.
     /// </summary>
-    /// <param name="timeout">The maximum duration allowed for module execution.</param>
+    /// <param name="timeout">The maximum duration allowed for each execution attempt.</param>
     /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// When retries are configured, the timeout restarts for every attempt and does not include retry delays.
+    /// </remarks>
     public ModuleConfigurationBuilder WithTimeout(TimeSpan timeout)
     {
         _timeout = timeout;
@@ -349,6 +352,7 @@ public sealed class ModuleConfigurationBuilder
     /// <remarks>
     /// Each delay uses equal jitter between half and all of its exponential-backoff ceiling.
     /// A null <paramref name="shouldRetry"/> retries every exception handled by the retry engine.
+    /// A configured module timeout applies separately to each attempt and does not include these delays.
     /// </remarks>
     public ModuleConfigurationBuilder WithRetry(
         int count,
