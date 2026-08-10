@@ -269,7 +269,6 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// enables using RawToken method instead Token. Commonly disables namespace translations. See https://pkg.go.dev/encoding/xml#Decoder.RawToken for details. (default true)
     /// </summary>
-    [SecretValue]
     [CliOption("--xml-raw-token", Format = OptionFormat.EqualsSeparated)]
     public bool? XmlRawToken { get; set; }
 

@@ -226,19 +226,24 @@ public class OptionTypeEnhancer
                              || hasSecretKeyword;
         var requestsSecret = secretValueKeys.Count > 0
                              || (explicitlySecret ?? inferredSecret);
+        var isBoolean = option.IsFlag
+                        || string.Equals(
+                            option.CSharpType.TrimEnd('?'),
+                            "bool",
+                            StringComparison.Ordinal);
 
-        if (option.IsFlag && requestsSecret)
+        if (isBoolean && requestsSecret)
         {
             _logger.LogWarning(
-                "Secret-looking option {Command} {Option} was detected as a flag and cannot be masked",
+                "Secret-looking option {Command} {Option} was detected as boolean and cannot be masked",
                 command.FullCommand,
                 option.SwitchName);
         }
 
         return option with
         {
-            IsSecret = !option.IsFlag && requestsSecret,
-            SecretValueKeys = secretValueKeys,
+            IsSecret = !isBoolean && requestsSecret,
+            SecretValueKeys = isBoolean ? [] : secretValueKeys,
         };
     }
 
