@@ -15,7 +15,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
     private const int RuntimeMetadataSchemaVersion = 2;
     private const int CommandMetadataSchemaVersion = 3;
-    private const int SecretMetadataSchemaVersion = 1;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
 
@@ -1534,9 +1533,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                                                runtimeMetadataRegistration,
                                                "CommandSchemaVersion")
                                            ?? runtimeMetadataSchemaVersion;
+        var hasCurrentSecretMetadata = Equals(
+            runtimeMetadataSchemaVersion,
+            RuntimeMetadataSchemaVersion);
         var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
-                                               && !SupportsSecretMetadataSchema(
-                                                   runtimeMetadataSchemaVersion);
+                                               && !hasCurrentSecretMetadata;
         var hasCurrentCommandMetadata = Equals(
             commandMetadataSchemaVersion,
             CommandMetadataSchemaVersion);
@@ -1548,6 +1549,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 usedOptionsTypes,
                 incompleteTypeNames,
                 requiresSecretReflectionFallback,
+                hasCurrentSecretMetadata,
                 hasCurrentCommandMetadata))
             .OfType<TypeMetadataCandidate>();
     }
@@ -1559,12 +1561,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         ISet<OptionsTypeIdentity> usedOptionsTypes,
         ISet<string> incompleteTypeNames,
         bool requiresSecretReflectionFallback,
+        bool hasCurrentSecretMetadata,
         bool hasCurrentCommandMetadata)
     {
         var metadataName = GetMetadataName(type);
         var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
+        var hasIncompleteMetadata = incompleteTypeNames.Contains(metadataName);
         var requiresRescan = !hasCurrentCommandMetadata
-                             || incompleteTypeNames.Contains(metadataName)
+                             || hasIncompleteMetadata
                              || isObservedOptionsType;
         if (!requiresRescan && !includeAllRuntimeMetadata)
         {
@@ -1576,7 +1580,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             compilation,
             includeAllRuntimeMetadata,
             isObservedOptionsType,
-            incompleteTypeNames.Contains(metadataName));
+            hasIncompleteMetadata);
+
+        if (hasCurrentSecretMetadata && !hasIncompleteMetadata)
+        {
+            candidate = UseExistingSecretMetadata(candidate);
+        }
 
         if (!requiresRescan && !CanRegenerateExternalRuntimeMetadata(candidate))
         {
@@ -1587,6 +1596,26 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             candidate,
             requiresSecretReflectionFallback,
             isObservedOptionsType);
+    }
+
+    private static TypeMetadataCandidate? UseExistingSecretMetadata(
+        TypeMetadataCandidate? candidate)
+    {
+        if (candidate?.Metadata is not { } metadata)
+        {
+            return candidate;
+        }
+
+        return candidate with
+        {
+            Metadata = metadata with
+            {
+                CanRegisterSecretCoverage = true,
+                UseTypeForEmptySecretCoverage = false,
+                UseExternalTypeNameForEmptySecretCoverage = true,
+                SecretMetadata = PropertyCollection.Empty,
+            },
+        };
     }
 
     private static TypeMetadataCandidate? GetExternalTypeCandidate(
@@ -1670,9 +1699,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .OfType<IFieldSymbol>()
             .FirstOrDefault(static field => field.HasConstantValue)?
             .ConstantValue;
-
-    private static bool SupportsSecretMetadataSchema(object? schemaVersion) =>
-        schemaVersion is int version && version >= SecretMetadataSchemaVersion;
 
     private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
         INamedTypeSymbol type,

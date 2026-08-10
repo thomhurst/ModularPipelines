@@ -491,9 +491,9 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("typeof(global::External.CrossLanguageOptions)");
-            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 3;");
-            await Assert.That(generatedSource).Contains("            2);");
-            await Assert.That(generatedSource).DoesNotContain("            3);");
+            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 2;");
+            await Assert.That(generatedSource).Contains("public const int CommandSchemaVersion = 3;");
+            await Assert.That(generatedSource).Contains("            3);");
             await Assert.That(generatedSource).Contains(
                 "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains("OptionPart");
@@ -720,7 +720,8 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 3;");
+            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 2;");
+            await Assert.That(generatedSource).Contains("public const int CommandSchemaVersion = 3;");
             await Assert.That(generatedSource).Contains(
                 "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::InternalOptions)");
         }
