@@ -1000,6 +1000,9 @@ public class PipelineCommandLineTests
             .Contains("ModularPipelines command-line options:")
             .And.Contains("--skip-module")
             .And.Contains("--");
+        await Assert.That(PipelineCommandLineHelp.Usage)
+            .Contains("--graph <mermaid|dot|json> [path]")
+            .And.Contains("--graph-path <path>");
     }
 
     [Test]
@@ -1293,6 +1296,17 @@ public class PipelineCommandLineTests
             await Assert.That(options.GraphPath).IsEqualTo("dependency-graph.json");
             await Assert.That(options.HostArguments).IsEquivalentTo(["Feature:Enabled=true"]);
         }
+    }
+
+    [Test]
+    public async Task GraphCommandDoesNotConsumeShortHelpAsPath()
+    {
+        var exception = await Assert.That(() =>
+                PipelineCommandLineParser.Parse(["--graph", "json", "-h"]))
+            .Throws<ArgumentException>();
+
+        await Assert.That(exception!.Message)
+            .Contains("'-h' cannot be combined with another pipeline command");
     }
 
     [Test]
