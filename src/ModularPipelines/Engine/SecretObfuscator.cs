@@ -101,25 +101,28 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
     internal string ObfuscatePreservingMasks(string input)
     {
-        var maskValue = GetMaskValue(_maskingOptions.Value);
-        var maskIndex = input.IndexOf(maskValue, StringComparison.Ordinal);
-        if (maskIndex < 0)
+        if (string.IsNullOrEmpty(input))
         {
-            return Obfuscate(input, null);
+            return string.Empty;
         }
 
-        var result = new StringBuilder(input.Length);
-        var inputOffset = 0;
-        while (maskIndex >= 0)
+        var options = _maskingOptions.Value;
+        var maskValue = GetMaskValue(options);
+        var caseInsensitive = options.CaseInsensitive;
+        var secretCache = GetSecretCache(null, options, caseInsensitive);
+        if (secretCache.SearchValues is null
+            || !input.AsSpan().ContainsAny(secretCache.SearchValues))
         {
-            result.Append(Obfuscate(input[inputOffset..maskIndex], null));
-            result.Append(maskValue);
-            inputOffset = maskIndex + maskValue.Length;
-            maskIndex = input.IndexOf(maskValue, inputOffset, StringComparison.Ordinal);
+            return input;
         }
 
-        result.Append(Obfuscate(input[inputOffset..], null));
-        return result.ToString();
+        return ObfuscateMatches(
+            input,
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            maskValue,
+            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal,
+            preserveExistingMasks: true);
     }
 
     internal SecretRegistrationState GetRegistrationState()
@@ -250,8 +253,13 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         IReadOnlyList<string> secrets,
         SearchValues<string> searchValues,
         string maskValue,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool preserveExistingMasks = false)
     {
+        var existingMaskRanges = preserveExistingMasks
+            ? GetMaskRanges(input, maskValue)
+            : [];
+        var maskRangeIndex = 0;
         var result = new StringBuilder(input.Length);
         var inputOffset = 0;
         while (inputOffset < input.Length)
@@ -282,6 +290,17 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
                 throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
             }
 
+            if (IsContainedInExistingMask(
+                    existingMaskRanges,
+                    ref maskRangeIndex,
+                    matchIndex,
+                    matchedSecret.Length))
+            {
+                result.Append(input, matchIndex, matchedSecret.Length);
+                inputOffset = matchIndex + matchedSecret.Length;
+                continue;
+            }
+
             result.Append(maskValue);
             inputOffset = matchIndex + matchedSecret.Length;
         }
@@ -289,6 +308,44 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         result.Append(input, inputOffset, input.Length - inputOffset);
 
         return new SecretObfuscationResult(result.ToString(), inputOffset);
+    }
+
+    private static bool IsContainedInExistingMask(
+        IReadOnlyList<(int Start, int End)> ranges,
+        ref int rangeIndex,
+        int matchIndex,
+        int matchLength)
+    {
+        while (rangeIndex < ranges.Count && ranges[rangeIndex].End <= matchIndex)
+        {
+            rangeIndex++;
+        }
+
+        var matchEnd = matchIndex + matchLength;
+        for (var index = rangeIndex;
+             index < ranges.Count && ranges[index].Start <= matchIndex;
+             index++)
+        {
+            if (matchEnd <= ranges[index].End)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IReadOnlyList<(int Start, int End)> GetMaskRanges(string input, string maskValue)
+    {
+        var ranges = new List<(int Start, int End)>();
+        for (var index = input.IndexOf(maskValue, StringComparison.Ordinal);
+             index >= 0;
+             index = input.IndexOf(maskValue, index + 1, StringComparison.Ordinal))
+        {
+            ranges.Add((index, index + maskValue.Length));
+        }
+
+        return ranges;
     }
 
     private sealed class OptionsSecretCache
