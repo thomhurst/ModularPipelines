@@ -1346,7 +1346,7 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
-        const int expectedCurrentSchemaVersion = 3;
+        const int expectedCurrentSchemaVersion = 4;
 
         using (Assert.Multiple())
         {
@@ -1354,8 +1354,9 @@ public class RunReportTests
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(5, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 
@@ -3317,6 +3318,52 @@ public class RunReportTests
         {
             await Assert.That(report.Modules.Single().Output!.StdoutTail).IsEqualTo("***");
             await Assert.That(report.Modules.Single().Output!.StderrTail).IsEqualTo("***");
+        }
+    }
+
+    [Test]
+    public async Task RunReportRemaskingPreservesSharedOutputByteLimit()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "secret",
+                StderrTail = "secret",
+                TruncatedBytes = 5,
+            });
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("secret", "[MASKED]") ?? string.Empty);
+        var options = Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 12 },
+        });
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object,
+                options)
+            .Create(summary, null, "output-remasking-limit");
+        var output = report.Modules.Single().Output!;
+        var retainedBytes = Encoding.UTF8.GetByteCount(output.StdoutTail ?? string.Empty)
+                            + Encoding.UTF8.GetByteCount(output.StderrTail ?? string.Empty);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(retainedBytes).IsLessThanOrEqualTo(12);
+            await Assert.That(output.TruncatedBytes).IsEqualTo(9);
         }
     }
 

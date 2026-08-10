@@ -117,6 +117,22 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task CountsUtf8BoundaryBytesAsTruncated()
+    {
+        var maximumBytes = Encoding.UTF8.GetByteCount(Environment.NewLine) + 1;
+        var buffer = new ModuleOutputExcerptBuffer(maximumBytes);
+
+        buffer.Append("🙂", ModuleOutputStream.StandardOutput);
+
+        var excerpt = buffer.CreateExcerpt()!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo(Environment.NewLine);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(4);
+        }
+    }
+
+    [Test]
     public async Task OmitsExcerptWhenCaseInsensitiveMatchCanExceedBoundaryContext()
     {
         const string secret = "SSSS";

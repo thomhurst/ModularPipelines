@@ -75,7 +75,11 @@ internal sealed class ModuleOutputExcerptBuffer(
         {
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
-            TruncatedBytes = Math.Max(0, _totalBytes - maximumBytes),
+            TruncatedBytes = Math.Max(
+                0,
+                _totalBytes
+                - Utf8.GetByteCount(stdoutTail ?? string.Empty)
+                - Utf8.GetByteCount(stderrTail ?? string.Empty)),
         };
     }
 
@@ -146,7 +150,7 @@ internal sealed class ModuleOutputExcerptBuffer(
         return (stdoutBytes, stderrBytes);
     }
 
-    private static string? GetUtf8Tail(string value, int maximumTailBytes)
+    internal static string? GetUtf8Tail(string value, int maximumTailBytes)
     {
         if (maximumTailBytes == 0 || value.Length == 0)
         {
