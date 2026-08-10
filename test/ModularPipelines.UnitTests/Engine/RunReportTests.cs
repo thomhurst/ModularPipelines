@@ -1793,6 +1793,75 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task CustomHistoryStoreDoesNotReceiveOutputExcerpts()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        PipelineRunReport? savedReport = null;
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(EmptyReports());
+        historyStore.Setup(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<PipelineRunReport, CancellationToken>((report, _) =>
+            {
+                version = 4;
+                savedReport = report;
+            })
+            .Returns(Task.CompletedTask);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance);
+
+        var report = await service.CompleteAsync(summary);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Modules.Single().Output).IsNotNull();
+            await Assert.That(savedReport!.Modules.Single().Output).IsNull();
+        }
+    }
+
+    [Test]
     public async Task HistoryPersistenceInvokesRunReportEnrichersWithoutReportFile()
     {
         PipelineRunReport? savedReport = null;

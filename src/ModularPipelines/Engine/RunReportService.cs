@@ -92,6 +92,24 @@ internal sealed class RunReportService(
         return report;
     }
 
+    private PipelineRunReport PrepareHistoryReport(PipelineRunReport report)
+    {
+        if (historyStore is FileSystemRunHistoryStore
+            || report.Modules.All(static module => module.Output is null))
+        {
+            return report;
+        }
+
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug(
+                "Omitting module output excerpts from custom run history store {HistoryStoreType}",
+                historyStore.GetType().FullName);
+        }
+
+        return reportFactory.RemoveOutputExcerpts(report);
+    }
+
     private async Task SynchronizeDistributedMetricsAsync(
         bool isDistributedWorker,
         PipelineSummary summary,
@@ -297,6 +315,7 @@ internal sealed class RunReportService(
             return;
         }
 
+        report = PrepareHistoryReport(report);
         await RunTimedPhaseAsync(
                 token => historyStore.SaveAsync(report, token),
                 _historyStoreTimeout,
