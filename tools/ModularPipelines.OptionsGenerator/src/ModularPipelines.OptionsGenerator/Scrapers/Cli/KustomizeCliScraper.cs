@@ -64,6 +64,22 @@ public partial class KustomizeCliScraper : CobraCliScraper
             ? [$"{string.Join(" ", commandPath)} <metadata>"]
             : base.GetAdditionalUsageSynopses(commandPath, helpText);
 
+    protected override void ValidateChildCommandPath(string[] commandPath)
+    {
+        var repeatedSegment = commandPath
+            .Skip(1)
+            .GroupBy(segment => segment, StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (repeatedSegment is null)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Repeated command-path segment '{repeatedSegment.Key}' discovered in "
+            + $"{string.Join(' ', commandPath)}.");
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
