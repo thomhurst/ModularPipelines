@@ -252,4 +252,26 @@ public class ModuleTimeoutTests : TestBase
 
         await Assert.That(exception!.CancellationToken).IsEqualTo(unrelatedCancellation.Token);
     }
+
+    [Test]
+    public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
+    {
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            timeoutToken =>
+            {
+                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                var completion = new TaskCompletionSource<bool>(
+                    TaskCreationOptions.RunContinuationsAsynchronously);
+                completion.TrySetCanceled();
+                return completion.Task;
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
+    }
 }
