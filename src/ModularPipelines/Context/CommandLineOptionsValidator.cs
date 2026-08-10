@@ -141,19 +141,42 @@ internal static class CommandLineOptionsValidator
                 MemberName = property.Property.Name,
             };
             var value = property.Property.GetValue(options);
+            var requiredAttribute = property.Attributes.FirstOrDefault(static attribute => attribute is RequiredAttribute);
+            if (requiredAttribute is not null
+                && !ValidateAttribute(requiredAttribute, value, context, property.Property.Name, validationResults))
+            {
+                continue;
+            }
+
             foreach (var attribute in property.Attributes)
             {
-                var result = attribute.GetValidationResult(value, context);
-                if (result == ValidationResult.Success)
+                if (attribute is RequiredAttribute)
                 {
                     continue;
                 }
 
-                validationResults.Add(result!.MemberNames.Any()
-                    ? result
-                    : new ValidationResult(result.ErrorMessage, [property.Property.Name]));
+                ValidateAttribute(attribute, value, context, property.Property.Name, validationResults);
             }
         }
+    }
+
+    private static bool ValidateAttribute(
+        ValidationAttribute attribute,
+        object? value,
+        ValidationContext context,
+        string propertyName,
+        ICollection<ValidationResult> validationResults)
+    {
+        var result = attribute.GetValidationResult(value, context);
+        if (result == ValidationResult.Success)
+        {
+            return true;
+        }
+
+        validationResults.Add(result!.MemberNames.Any()
+            ? result
+            : new ValidationResult(result.ErrorMessage, [propertyName]));
+        return false;
     }
 
     private static string FormatValidationResult(Type optionsType, ValidationResult result)
