@@ -340,6 +340,7 @@ public sealed class PipelineBuilder : IDisposable
         // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
         _hostBuilder.ConfigureServices((_, services) =>
         {
+            services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
             services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = _environment.WorkingDirectory);
@@ -358,7 +359,6 @@ public sealed class PipelineBuilder : IDisposable
 
             services
                 .AddSingleton(_commandLineOptions)
-                .AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory))
                 .AddSingleton(_options)
                 .AddTransient<IOptionsFactory<PipelineOptions>, PipelineOptionsFactory>();
 

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
@@ -17,9 +18,14 @@ public class PipelineWorkingDirectoryTests
         string ZipPath,
         string UnzipPath,
         string CommandDirectory,
-        string CacheWorkingDirectory);
+        string CacheWorkingDirectory,
+        string RunReportPath,
+        int WorkingDirectoryRegistrationCount);
 
-    private sealed class ObserveWorkingDirectoryModule(IOptions<ModuleCacheOptions> cacheOptions)
+    private sealed class ObserveWorkingDirectoryModule(
+        IOptions<ModuleCacheOptions> cacheOptions,
+        RunReportPathResolver runReportPathResolver,
+        IEnumerable<PipelineWorkingDirectory> workingDirectories)
         : Module<WorkingDirectoryObservation>
     {
         protected internal override async Task<WorkingDirectoryObservation> ExecuteAsync(
@@ -41,7 +47,9 @@ public class PipelineWorkingDirectoryTests
                 zip.Path,
                 unzipped.Path,
                 command.WorkingDirectory,
-                cacheOptions.Value.WorkingDirectory);
+                cacheOptions.Value.WorkingDirectory,
+                runReportPathResolver.Resolve(Path.Combine("artifacts", "run-report.json")),
+                workingDirectories.Count());
         }
     }
 
@@ -78,6 +86,9 @@ public class PipelineWorkingDirectoryTests
                     .IsEqualTo(Path.Combine(workingDirectory.FullName, "unzipped"));
                 await Assert.That(observation.CommandDirectory).IsEqualTo(workingDirectory.FullName);
                 await Assert.That(observation.CacheWorkingDirectory).IsEqualTo(workingDirectory.FullName);
+                await Assert.That(observation.RunReportPath)
+                    .IsEqualTo(Path.Combine(workingDirectory.FullName, "artifacts", "run-report.json"));
+                await Assert.That(observation.WorkingDirectoryRegistrationCount).IsEqualTo(1);
                 await Assert.That(Environment.CurrentDirectory).IsEqualTo(processDirectory);
             }
         }

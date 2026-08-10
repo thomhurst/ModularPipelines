@@ -299,7 +299,9 @@ internal static class DependencyInjectionSetup
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
 
-        services.TryAddSingleton<RunReportPathResolver>();
+        services.TryAddSingleton(static serviceProvider =>
+            new RunReportPathResolver(
+                serviceProvider.GetRequiredService<PipelineWorkingDirectory>()));
         services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
     }
 
