@@ -1396,6 +1396,64 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_DefersReentrantPublicationUntilInheritedWorkerCompletes()
+    {
+        const string discoveredSecret = "inherited-worker-deferred-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var childScanned = new ManualResetEventSlim();
+        using var releaseChild = new ManualResetEventSlim();
+        using var nestedEmissionAttempted = new ManualResetEventSlim();
+        Task childEmission = Task.CompletedTask;
+        string? emittedOutput = null;
+
+        var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                childEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    outerProvider,
+                    _ =>
+                    {
+                        var scannedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                        childScanned.Set();
+                        if (!releaseChild.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release inherited worker.");
+                        }
+
+                        emittedOutput = scannedOutput;
+                    }));
+                if (!childScanned.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited worker scan.");
+                }
+
+                outerProvider.AddSecret(discoveredSecret);
+                nestedEmissionAttempted.Set();
+                outerProvider.ExecuteWithStableSecrets(outerProvider, static _ => { });
+            }));
+
+        try
+        {
+            await Assert.That(nestedEmissionAttempted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(outerEmission.Wait(TimeSpan.FromMilliseconds(250))).IsFalse();
+            await Assert.That(provider.Secrets).DoesNotContain(discoveredSecret);
+        }
+        finally
+        {
+            releaseChild.Set();
+            await Task.WhenAll(outerEmission, childEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(emittedOutput).IsEqualTo(discoveredSecret);
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
     public async Task StableSecretEmission_HoldsLeaseForInheritedWorker()
     {
         var provider = CreateProvider(out var nativeMasker);

@@ -272,15 +272,18 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             return;
         }
 
-        _secretEmissionLock.ExitReadLock();
-        try
+        scope.ExecuteAfterDescendantsComplete(() =>
         {
-            PublishDeferredPatternsWithoutReadLock(scope);
-        }
-        finally
-        {
-            _secretEmissionLock.EnterReadLock();
-        }
+            _secretEmissionLock.ExitReadLock();
+            try
+            {
+                PublishDeferredPatternsWithoutReadLock(scope);
+            }
+            finally
+            {
+                _secretEmissionLock.EnterReadLock();
+            }
+        });
     }
 
     private void PublishDeferredPatternsWithoutReadLock(DeferredRegistrationScope scope)
@@ -684,13 +687,30 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private sealed record ReflectionAccessors(IReadOnlyList<SecretPropertyAccessor> Value);
 
-    private sealed record DeferredRegistrationScope(
-        SecretProvider Provider,
-        DeferredRegistrationScope? Parent)
+    private sealed class DeferredRegistrationScope
     {
         private readonly object _syncRoot = new();
         private readonly List<IReadOnlyList<string>> _patterns = [];
+        private readonly DeferredRegistrationScope[] _trackedAncestors;
+        private int _activeDescendantCount;
         private bool _isOpen = true;
+
+        public SecretProvider Provider { get; }
+
+        public DeferredRegistrationScope? Parent { get; }
+
+        public DeferredRegistrationScope(
+            SecretProvider provider,
+            DeferredRegistrationScope? parent)
+        {
+            Provider = provider;
+            Parent = parent;
+            _trackedAncestors = GetTrackedAncestors(provider, parent);
+            foreach (var ancestor in _trackedAncestors)
+            {
+                ancestor.RegisterDescendant();
+            }
+        }
 
         public bool IsOpen
         {
@@ -738,10 +758,31 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
         public IReadOnlyList<IReadOnlyList<string>> CloseAndTakePatterns()
         {
+            IReadOnlyList<IReadOnlyList<string>> patterns;
             lock (_syncRoot)
             {
                 _isOpen = false;
-                return TakePatternsUnderLock();
+                patterns = TakePatternsUnderLock();
+            }
+
+            foreach (var ancestor in _trackedAncestors)
+            {
+                ancestor.UnregisterDescendant();
+            }
+
+            return patterns;
+        }
+
+        public void ExecuteAfterDescendantsComplete(Action action)
+        {
+            lock (_syncRoot)
+            {
+                while (_activeDescendantCount != 0)
+                {
+                    Monitor.Wait(_syncRoot);
+                }
+
+                action();
             }
         }
 
@@ -750,6 +791,42 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             var patterns = _patterns.ToArray();
             _patterns.Clear();
             return patterns;
+        }
+
+        private void RegisterDescendant()
+        {
+            lock (_syncRoot)
+            {
+                _activeDescendantCount++;
+            }
+        }
+
+        private void UnregisterDescendant()
+        {
+            lock (_syncRoot)
+            {
+                _activeDescendantCount--;
+                if (_activeDescendantCount == 0)
+                {
+                    Monitor.PulseAll(_syncRoot);
+                }
+            }
+        }
+
+        private static DeferredRegistrationScope[] GetTrackedAncestors(
+            SecretProvider provider,
+            DeferredRegistrationScope? parent)
+        {
+            var ancestors = new List<DeferredRegistrationScope>();
+            for (var ancestor = parent; ancestor is not null; ancestor = ancestor.Parent)
+            {
+                if (ReferenceEquals(ancestor.Provider, provider))
+                {
+                    ancestors.Add(ancestor);
+                }
+            }
+
+            return ancestors.ToArray();
         }
     }
 }
