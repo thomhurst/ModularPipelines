@@ -236,9 +236,14 @@ internal sealed class PipelineRunReportFactory(
             return null;
         }
 
-        if (!HasCurrentSecretPatterns(excerpt))
+        if (excerpt.SecretPatternsVersion is { } version)
         {
-            return null;
+            var currentVersion = secretProvider?.Version;
+            // Detect a pattern change while the already-masked excerpt is handed off.
+            return currentVersion == version
+                   && secretProvider?.Version == currentVersion
+                ? excerpt
+                : null;
         }
 
         var maskedStdout = ObfuscateOptional(excerpt.StdoutTail);
@@ -262,12 +267,8 @@ internal sealed class PipelineRunReportFactory(
             TruncatedBytes = excerpt.TruncatedBytes + additionallyTruncatedBytes,
         };
 
-        return HasCurrentSecretPatterns(excerpt) ? finalExcerpt : null;
+        return finalExcerpt;
     }
-
-    private bool HasCurrentSecretPatterns(ModuleOutputExcerpt excerpt) =>
-        excerpt.SecretPatternsVersion is not { } version
-        || secretProvider?.Version == version;
 
     private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
 

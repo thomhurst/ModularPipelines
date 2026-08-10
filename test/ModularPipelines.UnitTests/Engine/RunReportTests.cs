@@ -3324,6 +3324,45 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task RunReportDoesNotRemaskCurrentVersionExcerpt()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "X**********",
+                TruncatedBytes = 0,
+                SecretPatternsVersion = 2,
+            });
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        var obfuscator = new Mock<ISecretObfuscator>(MockBehavior.Strict);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object,
+                secretProvider: secretProvider.Object)
+            .Create(summary, null, "current-version-output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Modules.Single().Output!.StdoutTail)
+                .IsEqualTo("X**********");
+            await Assert.That(report.Modules.Single().Output!.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task RunReportRemaskingPreservesSharedOutputByteLimit()
     {
         var module = new SuccessfulModule();
