@@ -166,6 +166,7 @@ public class SecretMaskingPatternTests
         var provider = new Mock<ISecretProvider>();
         provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
         var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(x => x.PatternComparison).Returns(StringComparison.Ordinal);
         obfuscator
             .Setup(x => x.ObfuscateWithConsumption("split-secret", null))
             .Returns(new SecretObfuscationResult("**********", "split-secret".Length));
@@ -261,6 +262,7 @@ public class SecretMaskingPatternTests
         }
 
         secondBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
+        firstBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
 
         void WriteForModule(Type moduleType, string value)
         {
@@ -763,6 +765,26 @@ public class SecretMaskingPatternTests
         writer.Flush();
 
         await Assert.That(realConsole.ToString()).IsEqualTo("ABC********************");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksCompleteMatchBeforeFalseCaseRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("AAAA");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("AAAAAa");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********Aa");
     }
 
     [Test]

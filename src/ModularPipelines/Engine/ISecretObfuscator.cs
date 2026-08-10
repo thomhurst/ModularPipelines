@@ -25,7 +25,17 @@ public interface ISecretObfuscator
 
 internal interface ITrackedSecretObfuscator : ISecretObfuscator
 {
+    StringComparison PatternComparison { get; }
+
     SecretObfuscationResult ObfuscateWithConsumption(string? input, object? optionsObject);
 }
 
+/// <summary>
+/// Describes tracked obfuscation output and how much source input it consumed.
+/// </summary>
+/// <param name="Output">The obfuscated output.</param>
+/// <param name="ConsumedInputLength">
+/// The number of input characters replaced in <paramref name="Output"/>. The remaining input
+/// characters appear unchanged at the end of <paramref name="Output"/>.
+/// </param>
 internal readonly record struct SecretObfuscationResult(string Output, int ConsumedInputLength);
