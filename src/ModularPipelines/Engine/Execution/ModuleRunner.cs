@@ -282,6 +282,11 @@ internal class ModuleRunner : IModuleRunner
         var isPipelineCancellation = exception is OperationCanceledException
                                      && _engineCancellationToken.IsCancelled;
         var registeredResult = _resultRegistry.GetResult(moduleType);
+        var completionException = isPipelineCancellation
+            ? registeredResult?.ExceptionOrDefault
+              ?? _engineCancellationToken.OriginalException
+              ?? exception
+            : exception;
         if (isPipelineCancellation)
         {
             _logger.LogInformation(
@@ -301,7 +306,7 @@ internal class ModuleRunner : IModuleRunner
         scheduler.MarkModuleCompleted(
             moduleType,
             false,
-            exception,
+            completionException,
             statusOverride);
 
         if (moduleState.Result is not null || registeredResult is not null)
@@ -315,7 +320,7 @@ internal class ModuleRunner : IModuleRunner
         }
         else
         {
-            _resultRegistrar.RegisterTerminatedResult(module, moduleType, exception);
+            _resultRegistrar.RegisterTerminatedResult(module, moduleType, completionException);
         }
     }
 

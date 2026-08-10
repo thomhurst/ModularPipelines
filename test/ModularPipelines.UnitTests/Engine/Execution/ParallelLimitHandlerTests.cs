@@ -277,21 +277,37 @@ public class ParallelLimitHandlerTests
         await using var host = await builder.BuildAsync();
         var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
         var engineCancellationToken = host.Services.GetRequiredService<ModularPipelines.Engine.EngineCancellationToken>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var scheduler = new Mock<IModuleScheduler>();
-        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        var module = new TestModule();
+        var moduleState = new ModuleState(module, typeof(TestModule));
         using var workerCancellationTokenSource = new CancellationTokenSource();
+        var originalException = new InvalidOperationException("Primary module failure");
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
             scheduler.Object,
             workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
-        engineCancellationToken.CancelWithException(new InvalidOperationException("Primary module failure"));
+        engineCancellationToken.CancelWithException(originalException);
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+        var registeredResult = resultRegistry.GetResult(typeof(TestModule));
+        var awaitedResult = await module;
 
-        await Assert.That(exception!.CancellationToken)
-            .IsEqualTo(workerCancellationTokenSource.Token);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.CancellationToken)
+                .IsEqualTo(workerCancellationTokenSource.Token);
+            await Assert.That(registeredResult).IsSameReferenceAs(awaitedResult);
+            await Assert.That(awaitedResult.ExceptionOrDefault).IsSameReferenceAs(originalException);
+        }
+
+        scheduler.Verify(x => x.MarkModuleCompleted(
+            typeof(TestModule),
+            false,
+            originalException,
+            Status.PipelineTerminated), Times.Once);
     }
 
     [Test]
