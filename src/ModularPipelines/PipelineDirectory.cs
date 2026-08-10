@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Distributed.Serialization;
 
 namespace ModularPipelines;
 
@@ -27,7 +28,7 @@ public static class PipelineDirectory
     /// <returns>The absolute Git repository root.</returns>
     /// <exception cref="InvalidOperationException">A Git repository root cannot be located.</exception>
     public static string FindGitRoot([CallerFilePath] string sourceFilePath = "") =>
-        FindAncestor(GetSearchDirectory(sourceFilePath), IsGitRoot)
+        GitRootFinder.Find(GetSearchDirectory(sourceFilePath))
         ?? throw new InvalidOperationException("Could not locate a Git repository root.");
 
     internal static string? TryFindPipelineProject(string sourceFilePath)
@@ -78,8 +79,4 @@ public static class PipelineDirectory
         && Directory.Exists(directory)
         && File.Exists(Path.Combine(directory, "appsettings.json"))
         && Directory.EnumerateFiles(directory, "*.csproj").Any();
-
-    private static bool IsGitRoot(string directory) =>
-        Directory.Exists(Path.Combine(directory, ".git"))
-        || File.Exists(Path.Combine(directory, ".git"));
 }

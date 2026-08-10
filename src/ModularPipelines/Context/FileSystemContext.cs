@@ -40,7 +40,11 @@ internal class FileSystemContext : IFileSystemContext
 
     public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;
 
-    public File GetFile(string filePath) => new(ResolvePath(filePath), _provider);
+    public File GetFile(string filePath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+        return new File(ResolvePath(filePath), _provider);
+    }
 
     public IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate)
     {
@@ -52,7 +56,11 @@ internal class FileSystemContext : IFileSystemContext
         return rootFolder.GetFolders(predicate);
     }
 
-    public Folder GetFolder(string path) => new(ResolvePath(path), _provider);
+    public Folder GetFolder(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return new Folder(ResolvePath(path), _provider);
+    }
 
     public Folder GetFolder(Environment.SpecialFolder specialFolder)
     {

@@ -49,11 +49,17 @@ internal class FilesContext(
 
     /// <inheritdoc />
     public Task<string> ReadAsync(string path, CancellationToken cancellationToken = default)
-        => _fileSystemProvider.ReadAllTextAsync(_workingDirectory.ResolvePath(path), cancellationToken);
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return _fileSystemProvider.ReadAllTextAsync(_workingDirectory.ResolvePath(path), cancellationToken);
+    }
 
     /// <inheritdoc />
     public Task WriteAsync(string path, string content, CancellationToken cancellationToken = default)
-        => _fileSystemProvider.WriteAllTextAsync(_workingDirectory.ResolvePath(path), content, cancellationToken);
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return _fileSystemProvider.WriteAllTextAsync(_workingDirectory.ResolvePath(path), content, cancellationToken);
+    }
 
     /// <inheritdoc />
     public Task<bool> ExistsAsync(string path, CancellationToken cancellationToken = default)

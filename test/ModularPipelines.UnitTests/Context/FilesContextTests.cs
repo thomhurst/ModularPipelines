@@ -11,15 +11,38 @@ public class FilesContextTests
     [Test]
     [Arguments("")]
     [Arguments(" ")]
+    public async Task ReadAsync_Throws_For_Blank_Path(string path)
+    {
+        var context = CreateContext();
+
+        await Assert.ThrowsAsync<ArgumentException>(() => context.ReadAsync(path));
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
+    public async Task WriteAsync_Throws_For_Blank_Path(string path)
+    {
+        var context = CreateContext();
+
+        await Assert.ThrowsAsync<ArgumentException>(() => context.WriteAsync(path, "content"));
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
     public async Task ExistsAsync_Returns_False_For_Blank_Path(string path)
     {
-        var context = new FilesContext(
+        var context = CreateContext();
+
+        await Assert.That(await context.ExistsAsync(path)).IsFalse();
+    }
+
+    private static FilesContext CreateContext() =>
+        new(
             Mock.Of<IFileSystemContext>(),
             Mock.Of<IFileSystemProvider>(),
             new PipelineWorkingDirectory(TestContext.OutputDirectory!),
             Mock.Of<IZipContext>(),
             Mock.Of<IChecksumContext>());
-
-        await Assert.That(await context.ExistsAsync(path)).IsFalse();
-    }
 }
