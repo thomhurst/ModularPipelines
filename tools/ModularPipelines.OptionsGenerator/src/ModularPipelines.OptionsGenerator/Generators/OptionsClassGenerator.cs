@@ -52,6 +52,8 @@ public class OptionsClassGenerator : ICodeGenerator
             tool,
             alias,
             command.ClassName);
+        var compatibilityConstructors = command.AliasCompatibilityConstructors
+            .GetValueOrDefault(aliasClassName, []);
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
             .Where(option => option.EnumDefinition is not null
@@ -78,7 +80,9 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        if (enumOptions.Length == 0 && requiredParameters.Count == 0)
+        if (enumOptions.Length == 0
+            && requiredParameters.Count == 0
+            && compatibilityConstructors.Count == 0)
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
         }
@@ -92,6 +96,10 @@ public class OptionsClassGenerator : ICodeGenerator
                 requiredParameters,
                 tool,
                 alias);
+            GenerateCompatibilityConstructors(
+                sb,
+                aliasClassName,
+                compatibilityConstructors);
             foreach (var option in enumOptions)
             {
                 GenerateCompatibilityEnumProperty(sb, option, tool, alias);
@@ -123,7 +131,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         var parameterDeclarations = requiredParameters.Select(parameter =>
-            $"        {GetCompatibilityParameterType(parameter, tool, alias)} {parameter.PropertyName}");
+            $"        {GeneratorUtils.GetAliasedRequiredConstructorParameterType(parameter, tool, alias)} {parameter.PropertyName}");
         var baseArguments = requiredParameters.Select(parameter =>
             GetCompatibilityBaseArgument(parameter, parameter.PropertyName));
         sb.AppendLine($"    public {aliasClassName}(");
@@ -133,22 +141,6 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         sb.AppendLine("    }");
         sb.AppendLine();
-    }
-
-    private static string GetCompatibilityParameterType(
-        GeneratorUtils.RequiredConstructorParameter parameter,
-        CliToolDefinition tool,
-        CliCommandGroupAlias alias)
-    {
-        var type = parameter.CSharpType.TrimEnd('?');
-        var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
-        if (canonicalEnumName is null)
-        {
-            return type;
-        }
-
-        var aliasEnumName = GeneratorUtils.GetAliasedClassName(tool, alias, canonicalEnumName);
-        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
     }
 
     private static string GetCompatibilityBaseArgument(
@@ -262,7 +254,10 @@ public class OptionsClassGenerator : ICodeGenerator
         var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
 
         sb.AppendLine("{");
-        GenerateCompatibilityConstructors(sb, command);
+        GenerateCompatibilityConstructors(
+            sb,
+            command.ClassName,
+            command.CompatibilityConstructors);
         GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
         sb.AppendLine("}");
 
@@ -271,13 +266,14 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateCompatibilityConstructors(
         StringBuilder sb,
-        CliCommandDefinition command)
+        string className,
+        IReadOnlyList<CliCompatibilityConstructor> constructors)
     {
-        foreach (var constructor in command.CompatibilityConstructors)
+        foreach (var constructor in constructors)
         {
             var parameters = constructor.Parameters
                 .Select(parameter => $"{parameter.CSharpType} {parameter.PropertyName}");
-            sb.AppendLine($"    public {command.ClassName}({string.Join(", ", parameters)})");
+            sb.AppendLine($"    public {className}({string.Join(", ", parameters)})");
             sb.AppendLine($"        : this({string.Join(", ", constructor.PrimaryConstructorArguments)})");
             sb.AppendLine("    {");
             sb.AppendLine("    }");

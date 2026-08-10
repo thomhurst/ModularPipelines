@@ -98,6 +98,12 @@ public record CliCommandDefinition
     public IReadOnlyList<CliCompatibilityConstructor> CompatibilityConstructors { get; init; } = [];
 
     /// <summary>
+    /// Secondary constructors retained on command-group alias option records, keyed by alias class name.
+    /// </summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<CliCompatibilityConstructor>> AliasCompatibilityConstructors
+    { get; init; } = new Dictionary<string, IReadOnlyList<CliCompatibilityConstructor>>(StringComparer.Ordinal);
+
+    /// <summary>
     /// Whether an existing command-group <c>ExecuteAsync</c> facade must remain generated.
     /// </summary>
     public bool PreserveExecuteFacade { get; init; }

@@ -1462,6 +1462,113 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Alias_Constructors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions([property: CliOption(\"--source\")] string Source);");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions "
+                + "{ public ToolBuilderBakeOptions(string Source) : base(Source) { } }");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx") with
+            {
+                Options =
+                [
+                    RequiredOption("--source", "Source"),
+                    RequiredOption("--destination", "Destination"),
+                ],
+            };
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generatedAlias = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolBuilderBakeOptions.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            await Assert.That(generatedAlias)
+                .Contains("public ToolBuilderBakeOptions(string Source)");
+            await Assert.That(generatedAlias)
+                .Contains(": this(Source, default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Parameterless_Command_Group_Alias_Constructor()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions;");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx") with
+            {
+                Options = [RequiredOption("--source", "Source")],
+            };
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generatedAlias = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolBuilderBakeOptions.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            await Assert.That(generatedAlias).Contains("public ToolBuilderBakeOptions()");
+            await Assert.That(generatedAlias).Contains(": this(default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Rekeys_Documentation_Examples_After_Required_Rename()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
