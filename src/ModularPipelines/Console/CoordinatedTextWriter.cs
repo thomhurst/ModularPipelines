@@ -772,12 +772,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
         finally
         {
-            activeOutputWriters.Remove(this);
-            if (activeOutputWriters.Count == 0)
-            {
-                _activeOutputWriters = null;
-            }
-
+            RemoveActiveOutputWriter(activeOutputWriters);
             _outputLock.Release();
         }
     }
@@ -979,6 +974,8 @@ internal class CoordinatedTextWriter : TextWriter
     private void FlushRealConsole()
     {
         _outputLock.Wait();
+        var activeOutputWriters = _activeOutputWriters ??= [];
+        activeOutputWriters.Add(this);
         try
         {
             // Always flush real console (needed for Spectre.Console internals)
@@ -986,6 +983,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
         finally
         {
+            RemoveActiveOutputWriter(activeOutputWriters);
             _outputLock.Release();
         }
     }
@@ -993,13 +991,37 @@ internal class CoordinatedTextWriter : TextWriter
     private async Task FlushRealConsoleAsync()
     {
         await _outputLock.WaitAsync().ConfigureAwait(false);
+        var activeOutputWriters = _activeOutputWriters ??= [];
+        activeOutputWriters.Add(this);
         try
         {
-            await _realConsole.FlushAsync().ConfigureAwait(false);
+            Task flushTask;
+            try
+            {
+                flushTask = _realConsole.FlushAsync();
+            }
+            finally
+            {
+                // Thread-static reentrancy only covers callbacks made synchronously
+                // while the underlying asynchronous flush is invoked.
+                RemoveActiveOutputWriter(activeOutputWriters);
+            }
+
+            await flushTask.ConfigureAwait(false);
         }
         finally
         {
             _outputLock.Release();
+        }
+    }
+
+    private void RemoveActiveOutputWriter(HashSet<CoordinatedTextWriter> activeOutputWriters)
+    {
+        activeOutputWriters.Remove(this);
+        if (activeOutputWriters.Count == 0
+            && ReferenceEquals(_activeOutputWriters, activeOutputWriters))
+        {
+            _activeOutputWriters = null;
         }
     }
 

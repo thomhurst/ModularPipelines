@@ -1184,6 +1184,27 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_MasksSecretRegisteredBeforeReentrantSinkWrite()
+    {
+        const string discoveredSecret = "nested-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringReentrantWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_AllowsReentrantSinkFlush()
     {
         var provider = CreateProvider(out _);
@@ -1242,6 +1263,46 @@ public class SecretMaskingPatternTests
             await Assert.That(realConsole.AsyncFlushCount).IsEqualTo(1);
             await Assert.That(realConsole.SynchronousFlushCount).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task Flush_AllowsReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new WritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_AllowsSynchronousReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new WritingOnAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
     }
 
     [Test]
@@ -1382,6 +1443,61 @@ public class SecretMaskingPatternTests
         public override void Flush()
         {
             FlushCount++;
+        }
+    }
+
+    private sealed class SecretRegisteringReentrantWriter(
+        ISecretRegistry secretRegistry,
+        string secret) : StringWriter
+    {
+        private bool _hasWrittenSecret;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenSecret)
+            {
+                _hasWrittenSecret = true;
+                secretRegistry.AddSecret(secret);
+                Writer!.WriteLine(secret);
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class WritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void Flush()
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
+        }
+    }
+
+    private sealed class WritingOnAsyncFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override Task FlushAsync()
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
+
+            return Task.CompletedTask;
         }
     }
 
