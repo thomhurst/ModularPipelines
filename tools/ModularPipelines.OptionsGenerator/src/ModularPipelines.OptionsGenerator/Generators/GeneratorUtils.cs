@@ -1170,6 +1170,22 @@ public static partial class GeneratorUtils
             + canonicalClassName[canonicalPrefix.Length..];
     }
 
+    internal static string GetAliasedRequiredConstructorParameterType(
+        RequiredConstructorParameter parameter,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var type = parameter.CSharpType.TrimEnd('?');
+        var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
+        if (canonicalEnumName is null)
+        {
+            return type;
+        }
+
+        var aliasEnumName = GetAliasedClassName(tool, alias, canonicalEnumName);
+        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
+    }
+
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
         command.CommandGroupIdentifierOverride
         ?? GenerateMethodNameFromCommandParts(command.CommandParts);

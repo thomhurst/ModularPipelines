@@ -51,6 +51,10 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
                     ? Preserve(command, commandBaseline.Properties, commandBaseline.Constructors)
                     : command)
+                .Select(command => PreserveAliasConstructors(
+                    compatibleTool,
+                    command,
+                    baseline))
                 .Select(command => executeFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveExecuteFacade = true }
                     : command)
@@ -64,6 +68,61 @@ internal static class GeneratedApiCompatibilityPreserver
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
+    }
+
+    private static CliCommandDefinition PreserveAliasConstructors(
+        CliToolDefinition tool,
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+    {
+        if (command.CommandParts.Length == 0)
+        {
+            return command;
+        }
+
+        var constructorsByAlias = command.AliasCompatibilityConstructors
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
+        foreach (var alias in tool.CommandGroupAliases.Where(alias =>
+                     command.CommandParts[0].Equals(
+                         alias.CanonicalCommand,
+                         StringComparison.OrdinalIgnoreCase)))
+        {
+            var aliasClassName = GeneratorUtils.GetAliasedClassName(tool, alias, command.ClassName);
+            if (!baseline.TryGetValue(aliasClassName, out var aliasBaseline))
+            {
+                continue;
+            }
+
+            var compatibilityConstructors = constructorsByAlias
+                .GetValueOrDefault(aliasClassName, [])
+                .ToList();
+            var currentRequired = GeneratorUtils.GetRequiredConstructorParameters(command)
+                .Select(parameter => new GeneratedApiProperty(
+                    parameter.PropertyName,
+                    GeneratorUtils.GetAliasedRequiredConstructorParameterType(parameter, tool, alias),
+                    null,
+                    null,
+                    true,
+                    false,
+                    null,
+                    null))
+                .ToArray();
+            PreserveCompatibilityConstructors(
+                aliasBaseline.Properties,
+                aliasBaseline.Constructors,
+                currentRequired,
+                compatibilityConstructors);
+            if (compatibilityConstructors.Count == 0)
+            {
+                constructorsByAlias.Remove(aliasClassName);
+            }
+            else
+            {
+                constructorsByAlias[aliasClassName] = compatibilityConstructors;
+            }
+        }
+
+        return command with { AliasCompatibilityConstructors = constructorsByAlias };
     }
 
     internal static CliToolDefinition PreserveGlobalOptions(
@@ -488,12 +547,22 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         IReadOnlyList<CliOptionDefinition> options,
+        List<CliCompatibilityConstructor> compatibilityConstructors) =>
+        PreserveCompatibilityConstructors(
+            baselineProperties,
+            baselineConstructors,
+            GetCurrentProperties(positionalArguments, options)
+                .Where(static property => property.IsRequired)
+                .ToArray(),
+            compatibilityConstructors);
+
+    private static void PreserveCompatibilityConstructors(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliCompatibilityConstructor> baselineConstructors,
+        IReadOnlyList<GeneratedApiProperty> currentRequired,
         List<CliCompatibilityConstructor> compatibilityConstructors)
     {
-        var currentRequired = GetCurrentProperties(positionalArguments, options)
-            .Where(static property => property.IsRequired)
-            .ToArray();
-        if (currentRequired.Length == 0)
+        if (currentRequired.Count == 0)
         {
             compatibilityConstructors.Clear();
             return;
@@ -846,6 +915,27 @@ internal static class GeneratedApiCompatibilityPreserver
                     parameter.AttributeLists,
                     isRequired: true,
                     accessorList: null)));
+        }
+        else
+        {
+            var baseConstructor = declaration.Members
+                .OfType<ConstructorDeclarationSyntax>()
+                .FirstOrDefault(constructor =>
+                    constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
+                    && constructor.Initializer?.IsKind(SyntaxKind.BaseConstructorInitializer) == true);
+            if (baseConstructor is not null)
+            {
+                properties.AddRange(baseConstructor.ParameterList.Parameters.Select(parameter =>
+                    new GeneratedApiProperty(
+                        parameter.Identifier.ValueText,
+                        parameter.Type?.ToString() ?? string.Empty,
+                        null,
+                        null,
+                        true,
+                        false,
+                        null,
+                        null)));
+            }
         }
 
         properties.AddRange(declaration.Members
