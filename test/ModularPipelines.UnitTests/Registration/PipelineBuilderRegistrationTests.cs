@@ -49,19 +49,16 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task AddModule_ReturnsTypedRegistrationConvertibleToBuilder()
+    public async Task AddModule_ReturnsSameBuilder()
     {
         var builder = TestPipelineBuilder.Create();
 
         var result = builder.AddModule<TestModuleA>();
-        PipelineBuilder convertedBuilder = result;
-
-        await Assert.That(result).IsTypeOf<ModuleRegistration<TestModuleA>>();
-        await Assert.That(convertedBuilder).IsSameReferenceAs(builder);
+        await Assert.That(result).IsSameReferenceAs(builder);
     }
 
     [Test]
-    public async Task RegistrationApi_UsesTypedHandlesOnlyForAddModule()
+    public async Task RegistrationApi_ReturnsPipelineBuilderForChaining()
     {
         var addMethods = typeof(PipelineBuilderExtensions)
             .GetMethods()
@@ -73,9 +70,7 @@ public class PipelineBuilderRegistrationTests
         var otherAddMethods = addMethods.Except(addModuleMethods).ToList();
 
         await Assert.That(addModuleMethods.Count).IsEqualTo(3);
-        await Assert.That(addModuleMethods.All(method =>
-            method.ReturnType.IsGenericType
-            && method.ReturnType.GetGenericTypeDefinition() == typeof(ModuleRegistration<>))).IsTrue();
+        await Assert.That(addModuleMethods.All(method => method.ReturnType == typeof(PipelineBuilder))).IsTrue();
         await Assert.That(otherAddMethods.All(method => method.ReturnType == typeof(PipelineBuilder))).IsTrue();
         await Assert.That(typeof(PipelineBuilderExtensions).GetMethods()
             .Any(method => method.Name is "WithTags" or "WithCategory")).IsFalse();

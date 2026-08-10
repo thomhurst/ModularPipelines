@@ -15,7 +15,7 @@ public class ModuleEventMetadataGeneratorTests
             public abstract class Module<T> : IModule;
         }
 
-        namespace ModularPipelines.Extensions
+        namespace ModularPipelines
         {
             public static class PipelineBuilderExtensions
             {
@@ -57,7 +57,7 @@ public class ModuleEventMetadataGeneratorTests
             """
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 [System.AttributeUsage(System.AttributeTargets.Class)]
                 public sealed class MarkerAttribute : System.Attribute;
@@ -95,7 +95,7 @@ public class ModuleEventMetadataGeneratorTests
             """
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
 
@@ -197,7 +197,7 @@ public class ModuleEventMetadataGeneratorTests
             """
             namespace Consumer
             {
-                using ModularPipelines.Extensions;
+                using ModularPipelines;
 
                 [System.AttributeUsage(System.AttributeTargets.Class)]
                 public sealed class MarkerAttribute : System.Attribute;
