@@ -222,18 +222,29 @@ internal class CoordinatedTextWriter : TextWriter
     /// <summary>
     /// Routes a message to the appropriate buffer based on current module context.
     /// </summary>
-    private void RouteToBuffer(string message, Type? moduleType)
+    private void RouteToBuffer(string message, Type? moduleType, bool appendNewLine)
     {
         var buffer = moduleType is not null
             ? _coordinator.GetModuleBuffer(moduleType)
             : _coordinator.GetUnattributedBuffer();
         if (_isError)
         {
-            buffer.WriteErrorLine(message);
+            if (appendNewLine)
+            {
+                buffer.WriteErrorLine(message);
+            }
+            else
+            {
+                buffer.WriteError(message);
+            }
+        }
+        else if (appendNewLine)
+        {
+            buffer.WriteLine(message);
         }
         else
         {
-            buffer.WriteLine(message);
+            buffer.Write(message);
         }
     }
 
@@ -764,7 +775,8 @@ internal class CoordinatedTextWriter : TextWriter
         {
             RouteToBuffer(
                 ObfuscateCustomOutput(line, secretPatterns),
-                moduleType);
+                moduleType,
+                appendNewLine: true);
         }
         else
         {
@@ -800,7 +812,8 @@ internal class CoordinatedTextWriter : TextWriter
         {
             RouteToBuffer(
                 ObfuscateCustomOutput(pending, secretPatterns),
-                state.ModuleType);
+                state.ModuleType,
+                appendNewLine: false);
         }
         else
         {

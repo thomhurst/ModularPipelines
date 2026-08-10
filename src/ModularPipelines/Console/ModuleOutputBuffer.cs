@@ -143,10 +143,32 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public void Write(string message)
+    {
+        AddOutput(
+            BufferedOutput.FromString(
+                message,
+                ModuleOutputStream.StandardOutput,
+                appendNewLine: false),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
     public void WriteErrorLine(string message)
     {
         AddOutput(
             BufferedOutput.FromString(message, ModuleOutputStream.StandardError),
+            allowAfterCompletion: true);
+    }
+
+    /// <inheritdoc />
+    public void WriteError(string message)
+    {
+        AddOutput(
+            BufferedOutput.FromString(
+                message,
+                ModuleOutputStream.StandardError,
+                appendNewLine: false),
             allowAfterCompletion: true);
     }
 
@@ -393,7 +415,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (output.IsString)
             {
-                _outputExcerptBuffer.Append(output.StringValue!, output.Stream);
+                _outputExcerptBuffer.Append(
+                    output.StringValue!,
+                    output.Stream,
+                    output.AppendNewLine);
                 return;
             }
 
@@ -607,7 +632,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
             else if (output.IsString)
             {
-                WriteDirect(directConsole, console, output.StringValue);
+                WriteDirect(
+                    directConsole,
+                    console,
+                    output.StringValue,
+                    output.AppendNewLine);
             }
             else if (output.LogEvent is { } logEvent)
             {
@@ -789,7 +818,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private static void WriteDirect(
         IAnsiConsole directConsole,
         TextWriter console,
-        string? value)
+        string? value,
+        bool appendNewLine = true)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -798,12 +828,26 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         try
         {
-            directConsole.MarkupLine(value);
+            if (appendNewLine)
+            {
+                directConsole.MarkupLine(value);
+            }
+            else
+            {
+                directConsole.Markup(value);
+            }
         }
         catch (Exception)
         {
             // CI workflow commands and arbitrary output can contain brackets that are not Spectre markup.
-            console.WriteLine(value);
+            if (appendNewLine)
+            {
+                console.WriteLine(value);
+            }
+            else
+            {
+                console.Write(value);
+            }
         }
     }
 
@@ -851,12 +895,18 @@ internal readonly struct BufferedOutput
     public ModuleOutputStream Stream { get; private init; }
 
     /// <summary>
+    /// Gets a value indicating whether a line terminator follows the string output.
+    /// </summary>
+    public bool AppendNewLine { get; private init; }
+
+    /// <summary>
     /// Creates a buffered output from a string.
     /// </summary>
     public static BufferedOutput FromString(
         string value,
-        ModuleOutputStream stream = ModuleOutputStream.StandardOutput) =>
-        new() { StringValue = value, Stream = stream };
+        ModuleOutputStream stream = ModuleOutputStream.StandardOutput,
+        bool appendNewLine = true) =>
+        new() { StringValue = value, Stream = stream, AppendNewLine = appendNewLine };
 
     /// <summary>
     /// Creates a buffered output from a raw build-system command.
