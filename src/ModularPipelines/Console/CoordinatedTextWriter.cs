@@ -36,7 +36,6 @@ internal class CoordinatedTextWriter : TextWriter
 {
     private static readonly AsyncLocal<ActiveOutputWriter?> ActiveOutputWriterScope = new();
     private static readonly AsyncLocal<bool> DirectWriteScope = new();
-    private static readonly AsyncLocal<int> CustomObfuscationDepth = new();
 
     private readonly IConsoleCoordinator _coordinator;
     private readonly TextWriter _realConsole;
@@ -47,6 +46,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly object _lineBufferLock = new();
     private readonly object _customObfuscatorLock = new();
     private readonly object _secretPatternsLock = new();
+    private readonly AsyncLocal<int> _customObfuscationDepth = new();
     private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.SupportsRecursion);
     private SecretPatterns _secretPatterns = new([], null);
@@ -291,7 +291,7 @@ internal class CoordinatedTextWriter : TextWriter
         var key = new LineBufferKey(
             moduleType,
             DirectWriteScope.Value,
-            CustomObfuscationDepth.Value,
+            _customObfuscationDepth.Value,
             IsReentrantOutputWrite());
 
         lock (_lineBufferLock)
@@ -839,15 +839,15 @@ internal class CoordinatedTextWriter : TextWriter
 
         lock (_customObfuscatorLock)
         {
-            var previousDepth = CustomObfuscationDepth.Value;
-            CustomObfuscationDepth.Value = previousDepth + 1;
+            var previousDepth = _customObfuscationDepth.Value;
+            _customObfuscationDepth.Value = previousDepth + 1;
             try
             {
                 return _secretObfuscator.Obfuscate(output, null);
             }
             finally
             {
-                CustomObfuscationDepth.Value = previousDepth;
+                _customObfuscationDepth.Value = previousDepth;
             }
         }
     }
@@ -874,7 +874,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (CustomObfuscationDepth.Value > 0)
+        if (_customObfuscationDepth.Value > 0)
         {
             FlushReentrantOutput();
             FlushRealConsole();
@@ -1027,7 +1027,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (CustomObfuscationDepth.Value > 0)
+        if (_customObfuscationDepth.Value > 0)
         {
             FlushReentrantOutput();
             await FlushRealConsoleAsync().ConfigureAwait(false);

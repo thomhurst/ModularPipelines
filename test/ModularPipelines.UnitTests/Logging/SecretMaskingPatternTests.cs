@@ -334,6 +334,57 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CustomObfuscatorFlushesOtherWriterNormally(bool useAsyncFlush)
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? errorWriter = null;
+        string? errorDuringCallback = null;
+        var errorConsole = new StringWriter();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (input == "stdout output")
+                {
+                    if (useAsyncFlush)
+                    {
+                        errorWriter!.FlushAsync().GetAwaiter().GetResult();
+                    }
+                    else
+                    {
+                        errorWriter!.Flush();
+                    }
+
+                    errorDuringCallback = errorConsole.ToString();
+                }
+
+                return input;
+            });
+
+        using (errorWriter = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   errorConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        using (var outputWriter = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   new StringWriter(),
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            errorWriter.Write("stderr prefix");
+            outputWriter.WriteLine("stdout output");
+        }
+
+        await Assert.That(errorDuringCallback).IsEqualTo("stderr prefix");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_RefreshesPatternsAfterComparisonChanges()
     {
         var provider = CreateProvider(out _);
