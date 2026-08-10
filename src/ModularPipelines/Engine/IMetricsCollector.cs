@@ -19,6 +19,11 @@ internal interface IMetricsCollector
     DateTimeOffset? GetPipelineStartTime();
 
     /// <summary>
+    /// Registers a module before dependency scheduling begins.
+    /// </summary>
+    void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionType executionType);
+
+    /// <summary>
     /// Records when a module becomes ready (all dependencies satisfied).
     /// </summary>
     void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionType executionType);
