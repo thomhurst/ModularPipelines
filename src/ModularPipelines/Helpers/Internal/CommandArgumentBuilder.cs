@@ -412,11 +412,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
         }
 
-        foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
-        {
-            ValidateOptionalValue(optionValue, optionsType, optionPart);
-        }
-
         args.Add(GetEffectiveName(optionPart.Attribute));
         args.AddRange(optionValues
             .Where(static value => !value.IsBare)
