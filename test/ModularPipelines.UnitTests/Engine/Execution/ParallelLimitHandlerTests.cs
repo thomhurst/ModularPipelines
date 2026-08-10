@@ -159,6 +159,44 @@ public class ParallelLimitHandlerTests
         }
     }
 
+    [Test]
+    public async Task ModuleRunner_DoesNotReplaceResultRegisteredBeforeLimiterCancellation()
+    {
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.FromException<IDisposable>(new OperationCanceledException()));
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var resultRegistrar = host.Services.GetRequiredService<IModuleResultRegistrar>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var module = new TestModule();
+        var moduleState = new ModuleState(module, typeof(TestModule));
+        var originalException = new InvalidOperationException("Original pipeline failure");
+        resultRegistrar.RegisterTerminatedResult(module, typeof(TestModule), originalException);
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            moduleRunner.ExecuteAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None));
+
+        var registeredResult = resultRegistry.GetResult(typeof(TestModule));
+        var awaitedResult = await module;
+        using (Assert.Multiple())
+        {
+            await Assert.That(registeredResult).IsSameReferenceAs(awaitedResult);
+            await Assert.That(awaitedResult.ExceptionOrDefault).IsSameReferenceAs(originalException);
+        }
+    }
+
     private static ParallelLimitHandler CreateHandler(PipelineOptions options)
     {
         return new ParallelLimitHandler(

@@ -195,7 +195,7 @@ internal class ModuleRunner : IModuleRunner
                     ex,
                     isDependencyFailure ? Enums.Status.DependencyFailed : null);
 
-                if (moduleState.Result == null)
+                if (moduleState.Result == null && _resultRegistry.GetResult(moduleType) == null)
                 {
                     if (isDependencyFailure)
                     {
