@@ -262,10 +262,27 @@ public class OptionsClassGenerator : ICodeGenerator
         var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
 
         sb.AppendLine("{");
+        GenerateCompatibilityConstructors(sb, command);
         GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    private static void GenerateCompatibilityConstructors(
+        StringBuilder sb,
+        CliCommandDefinition command)
+    {
+        foreach (var constructor in command.CompatibilityConstructors)
+        {
+            var parameters = constructor.Parameters
+                .Select(parameter => $"{parameter.CSharpType} {parameter.PropertyName}");
+            sb.AppendLine($"    public {command.ClassName}({string.Join(", ", parameters)})");
+            sb.AppendLine($"        : this({string.Join(", ", constructor.PrimaryConstructorArguments)})");
+            sb.AppendLine("    {");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
     }
 
     private static void GenerateUsings(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
