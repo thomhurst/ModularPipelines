@@ -46,7 +46,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly object _lineBufferLock = new();
     private readonly object _customObfuscatorLock = new();
     private readonly object _secretPatternsLock = new();
-    private readonly AsyncLocal<int> _customObfuscationDepth = new();
+    private readonly AsyncLocal<CustomObfuscationScope?> _customObfuscationScope = new();
     private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.SupportsRecursion);
     private SecretPatterns _secretPatterns = new([], null);
@@ -291,8 +291,8 @@ internal class CoordinatedTextWriter : TextWriter
         var key = new LineBufferKey(
             moduleType,
             DirectWriteScope.Value,
-            _customObfuscationDepth.Value,
-            GetReentrantOutputWriteDepth());
+            GetCustomObfuscationScopeDepth(),
+            GetOutputWriteScopeDepth());
 
         lock (_lineBufferLock)
         {
@@ -810,6 +810,22 @@ internal class CoordinatedTextWriter : TextWriter
 
     private bool IsReentrantOutputWrite() => GetReentrantOutputWriteDepth() > 0;
 
+    private int GetOutputWriteScopeDepth()
+    {
+        var depth = 0;
+        for (var activeOutputWriter = ActiveOutputWriterScope.Value;
+             activeOutputWriter != null;
+             activeOutputWriter = activeOutputWriter.Parent)
+        {
+            if (ReferenceEquals(activeOutputWriter.Writer, this))
+            {
+                depth++;
+            }
+        }
+
+        return depth;
+    }
+
     private int GetReentrantOutputWriteDepth()
     {
         var depth = 0;
@@ -851,17 +867,57 @@ internal class CoordinatedTextWriter : TextWriter
 
         lock (_customObfuscatorLock)
         {
-            var previousDepth = _customObfuscationDepth.Value;
-            _customObfuscationDepth.Value = previousDepth + 1;
+            var customObfuscationScope = EnterCustomObfuscationScope();
             try
             {
                 return _secretObfuscator.Obfuscate(output, null);
             }
             finally
             {
-                _customObfuscationDepth.Value = previousDepth;
+                ExitCustomObfuscationScope(customObfuscationScope);
             }
         }
+    }
+
+    private bool IsReentrantCustomObfuscation()
+    {
+        for (var scope = _customObfuscationScope.Value;
+             scope != null;
+             scope = scope.Parent)
+        {
+            if (scope.IsActive)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int GetCustomObfuscationScopeDepth()
+    {
+        var depth = 0;
+        for (var scope = _customObfuscationScope.Value;
+             scope != null;
+             scope = scope.Parent)
+        {
+            depth++;
+        }
+
+        return depth;
+    }
+
+    private CustomObfuscationScope EnterCustomObfuscationScope()
+    {
+        var scope = new CustomObfuscationScope(_customObfuscationScope.Value);
+        _customObfuscationScope.Value = scope;
+        return scope;
+    }
+
+    private void ExitCustomObfuscationScope(CustomObfuscationScope scope)
+    {
+        scope.Deactivate();
+        _customObfuscationScope.Value = scope.Parent;
     }
 
     private void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput)
@@ -886,7 +942,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (_customObfuscationDepth.Value > 0)
+        if (IsReentrantCustomObfuscation())
         {
             FlushReentrantOutput();
             FlushRealConsole();
@@ -1039,7 +1095,7 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        if (_customObfuscationDepth.Value > 0)
+        if (IsReentrantCustomObfuscation())
         {
             FlushReentrantOutput();
             await FlushRealConsoleAsync().ConfigureAwait(false);
@@ -1110,6 +1166,17 @@ internal class CoordinatedTextWriter : TextWriter
         public CoordinatedTextWriter Writer { get; } = writer;
 
         public ActiveOutputWriter? Parent { get; } = parent;
+
+        public bool IsActive => Volatile.Read(ref _isActive) != 0;
+
+        public void Deactivate() => Volatile.Write(ref _isActive, 0);
+    }
+
+    private sealed class CustomObfuscationScope(CustomObfuscationScope? parent)
+    {
+        private int _isActive = 1;
+
+        public CustomObfuscationScope? Parent { get; } = parent;
 
         public bool IsActive => Volatile.Read(ref _isActive) != 0;
 

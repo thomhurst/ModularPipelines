@@ -2213,6 +2213,74 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_PreservesFireAndForgetBufferIdentityAfterSinkLeaseExpires()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new SplitFireAndForgetWriteStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("trigger");
+        realConsole.ReleaseSuffix();
+        await realConsole.ChildTask.WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"trigger{Environment.NewLine}**********");
+    }
+
+    [Test]
+    public async Task CustomObfuscator_FireAndForgetFlushExpiresReentrancy()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var obfuscator = new Mock<ISecretObfuscator>();
+        var releaseChild = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        Task childTask = Task.CompletedTask;
+        CoordinatedTextWriter? writer = null;
+        var hasSpawnedChild = false;
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (!hasSpawnedChild)
+                {
+                    hasSpawnedChild = true;
+                    childTask = Task.Run(async () =>
+                    {
+                        await releaseChild.Task.ConfigureAwait(false);
+                        await writer!.FlushAsync().ConfigureAwait(false);
+                    });
+                }
+
+                return input;
+            });
+        var realConsole = new StringWriter();
+
+        using (writer = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   realConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.WriteLine("trigger");
+            writer.Write("sec");
+            releaseChild.TrySetResult();
+            await childTask.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"trigger{Environment.NewLine}sec");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -2602,6 +2670,38 @@ public class SecretMaskingPatternTests
             else if (value == "child")
             {
                 _childEntered.TrySetResult();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class SplitFireAndForgetWriteStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _prefixWritten = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseSuffix = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TextWriter? Writer { get; set; }
+
+        public Task ChildTask { get; private set; } = Task.CompletedTask;
+
+        public void ReleaseSuffix() => _releaseSuffix.TrySetResult();
+
+        public override void WriteLine(string? value)
+        {
+            if (value == "trigger")
+            {
+                ChildTask = Task.Run(async () =>
+                {
+                    Writer!.Write("sec");
+                    _prefixWritten.TrySetResult();
+                    await _releaseSuffix.Task.ConfigureAwait(false);
+                    Writer.Write("ret");
+                });
+                if (!_prefixWritten.Task.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for the split-write prefix.");
+                }
             }
 
             base.WriteLine(value);
