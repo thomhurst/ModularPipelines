@@ -78,6 +78,9 @@ internal sealed class RunReportService(
         report = enrichment.HasIncompleteEnricher
             ? reportFactory.RemoveOutputExcerpts(report)
             : reportFactory.RemoveStaleOutputExcerpts(report);
+        report = historyEnabled
+            ? PrepareHistoryReport(report)
+            : report;
 
         if (!cancellationToken.IsCancellationRequested)
         {
@@ -315,7 +318,6 @@ internal sealed class RunReportService(
             return;
         }
 
-        report = PrepareHistoryReport(report);
         await RunTimedPhaseAsync(
                 token => historyStore.SaveAsync(report, token),
                 _historyStoreTimeout,

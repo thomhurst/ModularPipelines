@@ -1793,8 +1793,10 @@ public class RunReportTests
     }
 
     [Test]
-    public async Task CustomHistoryStoreDoesNotReceiveOutputExcerpts()
+    public async Task CustomHistoryStoreOmitsOutputExcerptsFromAllReports()
     {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
         var module = new SuccessfulModule();
         var start = DateTimeOffset.UtcNow;
         var summary = new PipelineSummary(
@@ -1843,6 +1845,7 @@ public class RunReportTests
                 RunReport = new RunReportOptions
                 {
                     AutoWriteInCi = false,
+                    ReportPath = reportPath,
                     HistoryRetention = 1,
                 },
             }),
@@ -1852,12 +1855,22 @@ public class RunReportTests
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
 
-        var report = await service.CompleteAsync(summary);
-
-        using (Assert.Multiple())
+        try
         {
-            await Assert.That(report.Modules.Single().Output).IsNotNull();
-            await Assert.That(savedReport!.Modules.Single().Output).IsNull();
+            var report = await service.CompleteAsync(summary);
+            var persistedReport = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(savedReport!.Modules.Single().Output).IsNull();
+                await Assert.That(persistedReport!.Modules.Single().Output).IsNull();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
         }
     }
 
