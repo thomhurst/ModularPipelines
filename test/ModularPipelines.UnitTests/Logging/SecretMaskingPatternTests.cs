@@ -651,6 +651,27 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_RescansPartiallyObfuscatedCandidates()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABCDEF");
+        provider.AddSecret("abc");
+        provider.AddSecret("defx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcdefx");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("********************");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);

@@ -294,10 +294,13 @@ internal class CoordinatedTextWriter : TextWriter
                 continue;
             }
 
+            var unchangedSuffixLength = GetUnchangedSuffixLength(secret, obfuscatedSecret);
+            var consumedLength = match.Length - unchangedSuffixLength;
+            var obfuscatedLength = obfuscatedSecret.Length - unchangedSuffixLength;
             output.Append(pending, outputIndex, match.Index - outputIndex);
-            output.Append(obfuscatedSecret);
-            retainedPrefixInvalidated |= match.Index + match.Length > retainedPrefixStart;
-            outputIndex = match.Index + match.Length;
+            output.Append(obfuscatedSecret, 0, obfuscatedLength);
+            retainedPrefixInvalidated |= match.Index + consumedLength > retainedPrefixStart;
+            outputIndex = match.Index + consumedLength;
             searchIndex = outputIndex;
             replaced = true;
         }
@@ -311,6 +314,19 @@ internal class CoordinatedTextWriter : TextWriter
         return retainedPrefixInvalidated
             ? GetPotentialPatternPrefixLength(state.Buffer, patterns.Values)
             : retainedPrefixLength;
+    }
+
+    private static int GetUnchangedSuffixLength(string input, string obfuscated)
+    {
+        var maximumLength = Math.Min(input.Length, obfuscated.Length);
+        var suffixLength = 0;
+        while (suffixLength < maximumLength
+               && input[^(suffixLength + 1)] == obfuscated[^(suffixLength + 1)])
+        {
+            suffixLength++;
+        }
+
+        return suffixLength == input.Length ? 0 : suffixLength;
     }
 
     private void FlushSafeOutput(LineBufferState state, int retainedLength, bool shouldBuffer)
