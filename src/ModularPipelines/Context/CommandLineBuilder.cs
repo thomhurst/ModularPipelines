@@ -47,16 +47,16 @@ internal sealed class CommandLineBuilder(
     {
         CommandLineOptionsValidator.Validate(options);
 
-        // 1. Resolve tool name using _toolResolver
+        // 2. Resolve tool name using _toolResolver
         var tool = _toolResolver.ResolveTool(options)
             ?? throw new InvalidOperationException(
                 $"Could not resolve tool name for {options.GetType().Name}. " +
                 "Specify tool via [CliTool] attribute or constructor parameter.");
 
-        // 2. Get static or runtime-computed command parts.
+        // 3. Get static or runtime-computed command parts.
         var commandParts = _commandPartsProvider.GetRawCommandParts(options);
 
-        // 3. Build arguments from properties using the command model. Properties declared
+        // 4. Build arguments from properties using the command model. Properties declared
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
@@ -153,19 +153,19 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator);
 
-        // 4. Combine: global args + command parts (subcommands) + property args
+        // 5. Combine: global args + command parts (subcommands) + property args
         // with any hoisted manual options before an emitted option terminator.
         var allArgs = new List<string>(globalArgs);
         allArgs.AddRange(commandParts);
         allArgs.AddRange(propertyArgs);
 
-        // 5. Add any manual arguments passed via options.Arguments
+        // 6. Add any manual arguments passed via options.Arguments
         allArgs.AddRange(manualArgs);
 
-        // 6. Render RunSettings as option-terminated pass-through arguments.
+        // 7. Render RunSettings as option-terminated pass-through arguments.
         allArgs.AddRange(runSettingsArgs);
 
-        // 7. A terminal option must not follow any rendered or manually supplied option terminator.
+        // 8. A terminal option must not follow any rendered or manually supplied option terminator.
         if ((terminalAdditionalArgs.Count > 0 || terminalOptionArgs.Count > 0)
             && emittedOptionTerminator)
         {
