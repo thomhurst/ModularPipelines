@@ -631,6 +631,26 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_HonorsCaseSensitiveOverlappingSecrets()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        provider.AddSecret("bcx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcx");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("a**********");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);

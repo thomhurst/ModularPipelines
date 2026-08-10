@@ -286,9 +286,16 @@ internal class CoordinatedTextWriter : TextWriter
                 match = (match.Index, safeMatchLength);
             }
 
-            output.Append(pending, outputIndex, match.Index - outputIndex);
             var secret = pending.Substring(match.Index, match.Length);
-            output.Append(_secretObfuscator.Obfuscate(secret, null));
+            var obfuscatedSecret = _secretObfuscator.Obfuscate(secret, null);
+            if (string.Equals(obfuscatedSecret, secret, StringComparison.Ordinal))
+            {
+                searchIndex = match.Index + 1;
+                continue;
+            }
+
+            output.Append(pending, outputIndex, match.Index - outputIndex);
+            output.Append(obfuscatedSecret);
             retainedPrefixInvalidated |= match.Index + match.Length > retainedPrefixStart;
             outputIndex = match.Index + match.Length;
             searchIndex = outputIndex;
