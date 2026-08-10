@@ -65,13 +65,24 @@ public class ModuleExecutionPipelineTests
 
     private sealed class TimeoutExceptionModule : Module<int>
     {
-        protected internal override Task<int> ExecuteAsync(
+        private readonly TaskCompletionSource _executionStarted =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _throwTimeout =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task ExecutionStarted => _executionStarted.Task;
+
+        public void ThrowTimeout() => _throwTimeout.TrySetResult();
+
+        protected internal override async Task<int> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromException<int>(new ModuleTimeoutException(
+            _executionStarted.TrySetResult();
+            await _throwTimeout.Task.ConfigureAwait(false);
+            throw new ModuleTimeoutException(
                 GetType(),
-                TimeSpan.FromSeconds(1)));
+                TimeSpan.FromSeconds(1));
         }
     }
 
@@ -123,7 +134,11 @@ public class ModuleExecutionPipelineTests
     [Test]
     public async Task ExecuteAsync_ClassifiesLateTimeoutAsPipelineTerminated()
     {
-        var result = await ExecuteAfterPipelineCancellation(new TimeoutExceptionModule());
+        var module = new TimeoutExceptionModule();
+        var result = await ExecuteAfterPipelineCancellation(
+            module,
+            executionStarted: module.ExecutionStarted,
+            releaseExecution: module.ThrowTimeout);
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
     }
@@ -406,7 +421,9 @@ public class ModuleExecutionPipelineTests
 
     private static async Task<ModuleResult<int>> ExecuteAfterPipelineCancellation(
         Module<int> module,
-        ModuleExecutionContext<int>? executionContext = null)
+        ModuleExecutionContext<int>? executionContext = null,
+        Task? executionStarted = null,
+        Action? releaseExecution = null)
     {
         executionContext ??= new ModuleExecutionContext<int>(module, module.GetType());
 
@@ -443,7 +460,6 @@ public class ModuleExecutionPipelineTests
 
         using var engineCancellationToken =
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
-        engineCancellationToken.CancelWithException(new InvalidOperationException("Prior module failure"));
 
         var moduleConditionHandler = new Mock<IModuleConditionHandler>();
         moduleConditionHandler
@@ -456,10 +472,30 @@ public class ModuleExecutionPipelineTests
             moduleConditionHandler.Object,
             OptionsFactory.Create(new PipelineOptions()));
 
-        return await pipeline.ExecuteAsync(
+        if (executionStarted is null)
+        {
+            engineCancellationToken.CancelWithException(new InvalidOperationException("Prior module failure"));
+        }
+
+        var executionTask = pipeline.ExecuteAsync(
             module,
             executionContext,
             moduleContext.Object,
             CancellationToken.None);
+
+        if (executionStarted is not null)
+        {
+            try
+            {
+                await executionStarted.WaitAsync(TimeSpan.FromSeconds(5));
+                engineCancellationToken.CancelWithException(new InvalidOperationException("Prior module failure"));
+            }
+            finally
+            {
+                releaseExecution?.Invoke();
+            }
+        }
+
+        return await executionTask;
     }
 }
