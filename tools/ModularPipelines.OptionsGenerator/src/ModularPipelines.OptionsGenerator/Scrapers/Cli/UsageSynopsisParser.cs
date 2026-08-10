@@ -164,7 +164,7 @@ public static class UsageSynopsisParser
         var operandTokens = tokens.Skip(commandMatch.EndIndex + 1);
         if (tokens[commandMatch.EndIndex].TrimEnd().EndsWith(','))
         {
-            operandTokens = operandTokens.Skip(1);
+            operandTokens = SkipCommandAliases(operandTokens);
         }
 
         foreach (var token in TrimTrailingUsageExplanation(
@@ -226,6 +226,23 @@ public static class UsageSynopsisParser
             PositionalArguments = CliPositionalArgument.MergeDuplicates(arguments),
             UnparsedOperandTokens = unparsedTokens,
         };
+    }
+
+    private static IEnumerable<string> SkipCommandAliases(IEnumerable<string> operandTokens)
+    {
+        using var enumerator = operandTokens.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            if (!enumerator.Current.TrimEnd().EndsWith(','))
+            {
+                break;
+            }
+        }
+
+        while (enumerator.MoveNext())
+        {
+            yield return enumerator.Current;
+        }
     }
 
     private static bool HasSameScore(

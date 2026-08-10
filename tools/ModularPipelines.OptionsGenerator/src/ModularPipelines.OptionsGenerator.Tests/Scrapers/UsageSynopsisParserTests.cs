@@ -18,6 +18,9 @@ public class UsageSynopsisParserTests
         var resultWithOperand = UsageSynopsisParser.Parse(
             "Usage: tool remove, rm <TARGET>",
             ["tool", "remove"]);
+        var resultWithMultipleAliases = UsageSynopsisParser.Parse(
+            "Usage: brew uninstall, remove, rm [options] formula|cask [...]",
+            ["brew", "uninstall"]);
 
         using (Assert.Multiple())
         {
@@ -26,6 +29,11 @@ public class UsageSynopsisParserTests
             await Assert.That(resultWithOperand.PositionalArguments).HasSingleItem();
             await Assert.That(resultWithOperand.PositionalArguments.Single().PropertyName)
                 .IsEqualTo("Target");
+            await Assert.That(resultWithMultipleAliases.PositionalArguments).HasSingleItem();
+            await Assert.That(resultWithMultipleAliases.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Formula");
+            await Assert.That(resultWithMultipleAliases.PositionalArguments.Single().IsVariadic)
+                .IsTrue();
         }
     }
 
