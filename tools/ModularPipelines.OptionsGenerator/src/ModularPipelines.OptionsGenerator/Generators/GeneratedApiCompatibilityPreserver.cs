@@ -19,13 +19,42 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         var baseline = ReadBaseline(optionsDirectory);
-        return tool with
+        var compatibleTool = baseline.TryGetValue($"{tool.NamespacePrefix}Options", out var globalProperties)
+            ? PreserveGlobalOptions(tool, globalProperties)
+            : tool;
+        return compatibleTool with
         {
-            Commands = tool.Commands
+            Commands = compatibleTool.Commands
                 .Select(command => baseline.TryGetValue(command.ClassName, out var properties)
                     ? Preserve(command, properties)
                     : command)
                 .ToArray(),
+        };
+    }
+
+    internal static CliToolDefinition PreserveGlobalOptions(
+        CliToolDefinition tool,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties)
+    {
+        var globalClassName = $"{tool.NamespacePrefix}Options";
+        var preserved = Preserve(
+            new CliCommandDefinition
+            {
+                FullCommand = tool.ToolName,
+                CommandParts = [],
+                ClassName = globalClassName,
+                ParentClassName = "CommandLineToolOptions",
+                ToolNamespacePrefix = tool.NamespacePrefix,
+                Options = tool.GetGlobalOptions(),
+                CompatibilityProperties = tool.GlobalCompatibilityProperties,
+            },
+            baselineProperties);
+
+        return tool with
+        {
+            GlobalOptions = preserved.Options,
+            SupplementalGlobalOptions = [],
+            GlobalCompatibilityProperties = preserved.CompatibilityProperties,
         };
     }
 

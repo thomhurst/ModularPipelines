@@ -21,6 +21,26 @@ public static partial class GeneratorUtils
         @"C:\Users\runneradmin",
     ];
 
+    internal static void GenerateCompatibilityProperty(
+        StringBuilder sb,
+        CliCompatibilityProperty property,
+        string modifiers = "")
+    {
+        sb.AppendLine($"    [Obsolete({FormatStringLiteral(property.ObsoleteMessage)})]");
+
+        if (property.ForwardToPropertyName is null)
+        {
+            sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
+            return;
+        }
+
+        sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName}");
+        sb.AppendLine("    {");
+        sb.AppendLine($"        get => {property.ForwardToPropertyName};");
+        sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
+        sb.AppendLine("    }");
+    }
+
     internal readonly record struct RequiredConstructorParameter(
         string PropertyName,
         string CSharpType,
