@@ -57,6 +57,35 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Recognized_Manual_Option_Before_Passthrough_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--compact"],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --compact -- -1");
+    }
+
+    [Test]
+    public async Task Build_Preserves_Manual_Arguments_After_Ordinary_Passthrough_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestPositionalOptions
+        {
+            Arguments = ["--custom-flag"],
+            ConfigPath = "config.json",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("processor config.json --custom-flag");
+    }
+
+    [Test]
     public async Task Build_Rejects_Terminal_Options_With_RunSettings()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -277,18 +306,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_RunSettings_Terminator_Precedes_Terminal_Argument()
+    public async Task Build_Rejects_RunSettings_When_Terminal_Argument_Emits_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new TestTerminalOptions
+        CommandLine Build() => builder.Build(new TestTerminalOptions
         {
             RunSettings = ["--filter", "Category=Unit"],
             TerminalArgument = "-x",
         });
 
-        await Assert.That(result.ToString())
-            .IsEqualTo("jq -- --filter Category=Unit -x");
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("RunSettings");
     }
 
     [Test]
@@ -304,6 +334,21 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
+    public async Task Build_Manual_Terminator_Is_Reused_For_Terminal_Argument()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "input"],
+            ArgumentsContainOptionTerminator = true,
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- input -x");
     }
 
     [Test]
@@ -707,17 +752,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Property_Terminator_Is_Reused_For_RunSettings()
+    public async Task Build_Rejects_RunSettings_When_Passthrough_Argument_Emits_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var result = builder.Build(new TestTerminalOptions
+        CommandLine Build() => builder.Build(new TestTerminalOptions
         {
             Filter = "-1",
             RunSettings = ["extra"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("RunSettings");
     }
 
     [Test]
@@ -1127,7 +1174,7 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("jq")]
     private record TestLegacyEndOfOptionsOptions : CommandLineToolOptions
     {
-        [CliFlag("--", Phase = (CommandLinePhase)2)]
+        [CliFlag("--", Phase = (CommandLinePhase) 2)]
         public bool? EndOfOptions { get; set; }
 
         [CliArgument(0, PrependOptionTerminatorIfValueStartsWithDash = true)]

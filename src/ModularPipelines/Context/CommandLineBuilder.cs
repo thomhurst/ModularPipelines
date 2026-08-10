@@ -91,18 +91,25 @@ internal sealed class CommandLineBuilder(
             commandSpecificModel,
             terminatorEmittedBeforeProperties);
 
+        var modelEmittedOptionTerminator = emittedOptionTerminator;
+        var terminalArgumentTerminatorState = emittedOptionTerminator
+                                              || options.ArgumentsContainOptionTerminator;
+        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
+            [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
+            options,
+            ref terminalArgumentTerminatorState,
+            out var terminalArgumentOptionTerminatorIndex);
+        modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
+
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
-        var pendingTerminatorState = emittedOptionTerminator
+        var pendingTerminatorState = modelEmittedOptionTerminator
                                      || options.ArgumentsContainOptionTerminator;
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
             ref pendingTerminatorState);
-        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
-            [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
-            options,
-            ref pendingTerminatorState);
+        ValidateRunSettingsTerminator(modelEmittedOptionTerminator, runSettingsArgs);
         var terminalAdditionalArgs = GetAdditionalArguments(
                 additionalArguments,
                 CommandLinePhase.Terminal)
@@ -123,7 +130,7 @@ internal sealed class CommandLineBuilder(
             manualArgs,
             extractedManualOptions,
             terminatorEmittedBeforeProperties,
-            emittedOptionTerminator,
+            modelEmittedOptionTerminator,
             hasOptionTerminator);
         var hasRenderedCommandOptions = ContainsRecognizedManualOption(
             propertyArgs,
@@ -170,6 +177,18 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static void ValidateRunSettingsTerminator(
+        bool modelEmittedOptionTerminator,
+        IReadOnlyCollection<string> runSettingsArgs)
+    {
+        if (modelEmittedOptionTerminator && runSettingsArgs.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(CommandLineToolOptions.RunSettings)} cannot be combined with a structured "
+                + "argument that emits an end-of-options marker. Remove one of the '--' sources.");
+        }
     }
 
     private List<string> BuildNonTerminalArguments(
