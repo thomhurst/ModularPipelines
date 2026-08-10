@@ -20,6 +20,7 @@ internal interface IOriginalExceptionIdentity
 
 internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIdentity
 {
+    private readonly Exception _originalException;
     private readonly string? _obfuscatedStackTrace;
     private readonly string _obfuscatedText;
 
@@ -28,7 +29,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             GetObfuscatedMessage(exception, secretObfuscator),
             Create(exception.InnerException, secretObfuscator))
     {
-        OriginalException = exception;
+        _originalException = exception;
         _obfuscatedStackTrace = GetObfuscatedDiagnostic(
             () => exception.StackTrace,
             secretObfuscator);
@@ -45,7 +46,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             _ => new ObfuscatedLogException(exception, secretObfuscator),
         };
 
-    public Exception OriginalException { get; }
+    Exception IOriginalExceptionIdentity.OriginalException => _originalException;
 
     public override string? StackTrace => _obfuscatedStackTrace;
 
@@ -228,6 +229,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
 
     private sealed class ObfuscatedAggregateLogException : AggregateException, IOriginalExceptionIdentity
     {
+        private readonly Exception _originalException;
         private readonly string? _obfuscatedStackTrace;
         private readonly string _obfuscatedText;
 
@@ -238,7 +240,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
                 GetObfuscatedMessage(exception, secretObfuscator),
                 exception.InnerExceptions.Select(inner => Create(inner, secretObfuscator)!))
         {
-            OriginalException = exception;
+            _originalException = exception;
             _obfuscatedStackTrace = GetObfuscatedDiagnostic(
                 () => exception.StackTrace,
                 secretObfuscator);
@@ -246,7 +248,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             CopyDiagnostics(this, exception, secretObfuscator);
         }
 
-        public Exception OriginalException { get; }
+        Exception IOriginalExceptionIdentity.OriginalException => _originalException;
 
         public override string? StackTrace => _obfuscatedStackTrace;
 

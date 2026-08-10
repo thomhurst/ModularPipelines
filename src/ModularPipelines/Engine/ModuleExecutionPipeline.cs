@@ -861,6 +861,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             _ => LogLevel.Error,
         };
 
-        logger.Log(logLevel, ModuleLogEvents.Status, message);
+        logger.LogStatus(logLevel, message);
     }
 }

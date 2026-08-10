@@ -100,7 +100,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
 
             var rootException = exception.GetBaseException();
             var errorIdentity = rootException is IOriginalExceptionIdentity identity
-                ? identity.OriginalException.GetBaseException()
+                ? identity.OriginalException
                 : rootException;
             if (logLevel is LogLevel.Error or LogLevel.Critical
                 && !reportedErrors.TryAdd(errorIdentity, ReportedErrorMarker))

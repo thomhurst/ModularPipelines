@@ -185,7 +185,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             AwaitingTerminatedModuleStarted.TrySetResult();
             var result = await context.GetModule<TerminatedBeforeExecutionModule>();
-            return result.ModuleStatus == Status.PipelineTerminated;
+            return result.ModuleStatus == Status.DependencyFailed;
         }
     }
 
@@ -323,13 +323,14 @@ public class EngineCancellationTokenTests : TestBase
         builder.ConfigurePipelineOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
         });
 
         var host = await builder.BuildAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
-        await Assert.That(async () => await host.RunAsync()).ThrowsException();
+        await Assert.That(async () => await host.RunAsync()).Throws<ModuleFailedException>();
 
         // Results should be registered before the exception is thrown, no delay needed
         var module1Result = resultRegistry.GetResult(typeof(Module1));

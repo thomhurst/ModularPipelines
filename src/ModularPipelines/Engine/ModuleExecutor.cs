@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -190,7 +191,8 @@ internal class ModuleExecutor : IModuleExecutor
         {
             var cancelledModules =
                 scheduler.CancelPendingModules();
-            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+            RegisterCancelledModuleResults(
+                scheduler,
                 cancelledModules,
                 exception);
             throw;
@@ -218,7 +220,7 @@ internal class ModuleExecutor : IModuleExecutor
         // Register PipelineTerminated results for modules that were cancelled before they started
         if (firstException != null)
         {
-            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(modules, firstException);
+            RegisterCancelledModuleResults(scheduler, modules, firstException);
         }
 
         ThrowWorkerExceptionsIfPresent(firstException);
@@ -265,22 +267,27 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
+                        var pipelineException = GetPipelineException(ex);
                         var isFirstFailure = false;
 
                         if (!IsExpectedWorkerCancellation(ex, ct)
-                            && recordedWorkerExceptions.TryAdd(ex, 0))
+                            && recordedWorkerExceptions.TryAdd(pipelineException, 0))
                         {
-                            _secondaryExceptionContainer.RegisterException(ex);
-                            isFirstFailure = Interlocked.CompareExchange(ref firstException, ex, null) == null;
+                            _secondaryExceptionContainer.RegisterException(pipelineException);
+                            isFirstFailure = Interlocked.CompareExchange(
+                                ref firstException,
+                                pipelineException,
+                                null) == null;
                         }
 
                         if (isFirstFailure)
                         {
                             var cancelledModules =
                                 scheduler.CancelPendingModules();
-                            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+                            RegisterCancelledModuleResults(
+                                scheduler,
                                 cancelledModules,
-                                ex);
+                                pipelineException);
                         }
 
                         EnsureCancellation(cancellationTokenSource);
@@ -307,6 +314,85 @@ internal class ModuleExecutor : IModuleExecutor
     {
         return exception is OperationCanceledException operationCanceledException
                && operationCanceledException.CancellationToken == workerCancellationToken;
+    }
+
+    private static Exception GetPipelineException(Exception exception)
+    {
+        while (exception is DependencyFailedException { InnerException: { } innerException })
+        {
+            exception = innerException;
+        }
+
+        return exception;
+    }
+
+    private void RegisterCancelledModuleResults(
+        IModuleScheduler scheduler,
+        IReadOnlyList<IModule> modules,
+        Exception exception)
+    {
+        var moduleFailure = FindModuleFailure(exception);
+        if (moduleFailure is null
+            || scheduler.GetModuleState(moduleFailure.ModuleType)?.Module is not { } failedModule)
+        {
+            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(modules, exception);
+            return;
+        }
+
+        foreach (var module in modules)
+        {
+            if (module.Configuration.AlwaysRun
+                || _resultRegistry.GetResult(module.GetType()) is not null)
+            {
+                continue;
+            }
+
+            var moduleType = module.GetType();
+            if (DependsOnFailedModule(scheduler, moduleType, moduleFailure.ModuleType))
+            {
+                _resultRegistrar.RegisterDependencyFailedResult(
+                    module,
+                    moduleType,
+                    new DependencyFailedException(exception, failedModule));
+            }
+            else
+            {
+                _resultRegistrar.RegisterTerminatedResult(module, moduleType, exception);
+            }
+        }
+    }
+
+    private static ModuleFailedException? FindModuleFailure(Exception exception) =>
+        exception switch
+        {
+            ModuleFailedException moduleFailure => moduleFailure,
+            AggregateException aggregateException => aggregateException.InnerExceptions
+                .Select(FindModuleFailure)
+                .FirstOrDefault(moduleFailure => moduleFailure is not null),
+            { InnerException: { } innerException } => FindModuleFailure(innerException),
+            _ => null,
+        };
+
+    private static bool DependsOnFailedModule(
+        IModuleScheduler scheduler,
+        Type moduleType,
+        Type failedModuleType)
+    {
+        var visitedModules = new HashSet<Type>();
+        return HasDependencyPath(moduleType);
+
+        bool HasDependencyPath(Type candidateType)
+        {
+            if (!visitedModules.Add(candidateType)
+                || scheduler.GetModuleState(candidateType) is not { } moduleState)
+            {
+                return false;
+            }
+
+            return moduleState.Dependencies.Keys.Any(dependencyType =>
+                dependencyType == failedModuleType
+                || HasDependencyPath(dependencyType));
+        }
     }
 
     private void HandleWaitForAllWorkerFailure(
