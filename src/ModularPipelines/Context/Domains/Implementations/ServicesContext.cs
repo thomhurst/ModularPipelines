@@ -50,10 +50,9 @@ internal class ServicesContext : IServicesContext
 
         if (assemblyName?.StartsWith(packagePrefix, StringComparison.Ordinal) == true)
         {
-            var integrationName = assemblyName[packagePrefix.Length..];
             return new InvalidOperationException(
                 $"Tool integration service '{serviceType.FullName}' is not registered. " +
-                $"Reference the {assemblyName} package and ensure Register{integrationName}Context() runs. " +
+                $"Reference the {assemblyName} package and call its Register*Context() service collection extension. " +
                 "When using Native AOT, register tool integrations explicitly.");
         }
 

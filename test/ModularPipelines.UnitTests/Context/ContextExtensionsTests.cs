@@ -45,8 +45,15 @@ public class ContextExtensionsTests
         mockContext.Setup(c => c.Services).Returns(servicesContext);
 
         // Act & Assert
-        await Assert.That(() => mockContext.Object.GetService<TestService>())
+        var exception = await Assert.That(() => mockContext.Object.GetService<string>())
             .ThrowsExactly<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Register it with the pipeline service collection");
+            await Assert.That(exception.Message).DoesNotContain("Register*Context()");
+            await Assert.That(exception.Message).DoesNotContain("Native AOT");
+        }
     }
 
     [Test]
@@ -61,7 +68,7 @@ public class ContextExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
-            await Assert.That(exception.Message).Contains("RegisterCmdContext()");
+            await Assert.That(exception.Message).Contains("Register*Context()");
             await Assert.That(exception.Message).Contains("Native AOT");
             await Assert.That(exception.Message).DoesNotContain("No service for type");
         }
