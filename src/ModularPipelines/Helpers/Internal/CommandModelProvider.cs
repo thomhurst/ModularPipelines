@@ -188,10 +188,11 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> parts)
     {
-        var positions = new Dictionary<(bool IsGlobalOption, CommandLinePhase Phase, int Position), string>();
+        var positions = new Dictionary<(bool IsGlobalScope, CommandLinePhase Phase, int Position), string>();
         foreach (var argument in parts.OfType<ArgumentPart>().Where(static argument => argument.HasExplicitPosition))
         {
-            var key = (argument.IsGlobalOption, argument.Phase, argument.Attribute.Position);
+            var isGlobalScope = argument.Phase != CommandLinePhase.Terminal && argument.IsGlobalOption;
+            var key = (isGlobalScope, argument.Phase, argument.Attribute.Position);
             if (positions.TryGetValue(key, out var existingProperty))
             {
                 throw new InvalidOperationException(

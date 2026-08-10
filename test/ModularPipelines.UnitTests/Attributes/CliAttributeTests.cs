@@ -686,6 +686,16 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Rejects_Terminal_Argument_Positions_Across_Scopes()
+    {
+        await Assert.That(() =>
+                new CommandModelProvider().GetCommandModel(typeof(TestCliOptionsWithScopedTerminalPositions)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Global")
+            .And.HasMessageContaining("Command");
+    }
+
+    [Test]
     public async Task Parser_Handles_CliArgument_After_Options()
     {
         var options = new TestCliOptionsWithArgumentAfterOptions
@@ -1030,6 +1040,19 @@ public class CliAttributeTests
     internal record TestCliOptionsWithScopedArgumentPositions : TestCliGlobalArgumentOptions
     {
         [CliArgument(0)]
+        public string? Command { get; set; }
+    }
+
+    [CliGlobalOptions]
+    internal record TestCliGlobalTerminalArgumentOptions : CommandLineToolOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
+        public string? Global { get; set; }
+    }
+
+    internal record TestCliOptionsWithScopedTerminalPositions : TestCliGlobalTerminalArgumentOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
         public string? Command { get; set; }
     }
 
