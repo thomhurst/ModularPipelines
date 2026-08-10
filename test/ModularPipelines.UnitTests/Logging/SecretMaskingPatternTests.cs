@@ -1424,6 +1424,134 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_ExposesScopedRegistrationToDirectMasking()
+    {
+        const string discoveredSecret = "scoped-direct-masking-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? maskedOutput = null;
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            scopedProvider =>
+            {
+                scopedProvider.AddSecret(discoveredSecret);
+                maskedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+            });
+
+        await Assert.That(maskedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_UsesEvenDeferredSnapshotVersions()
+    {
+        const string discoveredSecret = "even-deferred-version-secret";
+        var provider = CreateProvider(out _);
+        using var emissionStarted = new ManualResetEventSlim();
+        using var releaseEmission = new ManualResetEventSlim();
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            emissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the emission.");
+                }
+            }));
+
+        long deferredVersion;
+        try
+        {
+            await Assert.That(emissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            provider.AddSecret(discoveredSecret);
+            deferredVersion = provider.Version;
+        }
+        finally
+        {
+            releaseEmission.Set();
+            await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(deferredVersion).IsLessThan(0);
+            await Assert.That(deferredVersion & 1).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_DoesNotHoldStateLockWhileWaitingForReaderLock()
+    {
+        var provider = CreateProvider(out _);
+        var emissionLock = (ReaderWriterLockSlim) typeof(SecretProvider)
+            .GetField(
+                "_secretEmissionLock",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(provider)!;
+        using var firstEmissionStarted = new ManualResetEventSlim();
+        using var releaseFirstEmission = new ManualResetEventSlim();
+        using var writerAcquired = new ManualResetEventSlim();
+        using var releaseWriter = new ManualResetEventSlim();
+        using var contenderStarted = new ManualResetEventSlim();
+
+        var firstEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            firstEmissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseFirstEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the first emission.");
+                }
+            }));
+
+        await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        var queuedWriter = Task.Run(() =>
+        {
+            emissionLock.EnterWriteLock();
+            try
+            {
+                writerAcquired.Set();
+                if (!releaseWriter.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the queued writer.");
+                }
+            }
+            finally
+            {
+                emissionLock.ExitWriteLock();
+            }
+        });
+
+        await Assert.That(SpinWait.SpinUntil(
+            () => emissionLock.WaitingWriteCount > 0,
+            TimeSpan.FromSeconds(5))).IsTrue();
+        var contender = Task.Run(() => provider.ExecuteWithStableSecrets(
+            contenderStarted,
+            started => started.Set()));
+
+        try
+        {
+            await Assert.That(SpinWait.SpinUntil(
+                () => emissionLock.WaitingReadCount > 0,
+                TimeSpan.FromSeconds(5))).IsTrue();
+            releaseFirstEmission.Set();
+            await Assert.That(writerAcquired.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            releaseWriter.Set();
+            await Task.WhenAll(firstEmission, queuedWriter, contender)
+                .WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(contenderStarted.IsSet).IsTrue();
+        }
+        finally
+        {
+            releaseFirstEmission.Set();
+            releaseWriter.Set();
+        }
+    }
+
+    [Test]
     public async Task StableSecretEmission_AllowsCrossThreadRegistration()
     {
         const string discoveredSecret = "cross-thread-sink-discovered-secret";
