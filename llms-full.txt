@@ -4354,7 +4354,8 @@ builder.AddModuleCache<FileSystemModuleCache>(options =>
 });
 ```
 
-The file limit prevents unexpectedly broad globs. File hashes use a persistent modification-time and size index; changed files are hashed concurrently.
+The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on
+every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.
 
 ## Transfer artifacts between modules
 
