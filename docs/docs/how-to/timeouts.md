@@ -34,6 +34,8 @@ builder.ConfigurePipelineOptions(options => options with
 ```
 
 Set `AlwaysRunProgressTimeout` to `TimeSpan.Zero` only when an unlimited teardown wait is intentional.
+The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget
+for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
 
 ## Using ModuleConfiguration
 
