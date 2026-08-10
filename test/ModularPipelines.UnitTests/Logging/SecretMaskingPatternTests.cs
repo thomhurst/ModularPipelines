@@ -746,6 +746,26 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_MasksSelfOverlappingMatchBeforeRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abcabc");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("ABCabcabcabcabc");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("ABC********************");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);

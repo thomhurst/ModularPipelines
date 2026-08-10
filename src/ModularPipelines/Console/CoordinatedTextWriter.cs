@@ -272,9 +272,16 @@ internal class CoordinatedTextWriter : TextWriter
                 break;
             }
 
+            var matchEnd = match.Index + match.Length;
+            var isCompleteSelfOverlappingMatch = matchEnd == pending.Length
+                && match.Index < retainedPrefixStart
+                && pending.AsSpan(match.Index, retainedPrefixLength).Equals(
+                    pending.AsSpan(retainedPrefixStart),
+                    StringComparison.OrdinalIgnoreCase);
             if (preservePotentialLongerMatch
                 && retainedPrefixLength > 0
-                && match.Index + match.Length > retainedPrefixStart)
+                && matchEnd > retainedPrefixStart
+                && !isCompleteSelfOverlappingMatch)
             {
                 var safeMatchLength = FindLongestPatternEndingAtOrBefore(
                     pending,
