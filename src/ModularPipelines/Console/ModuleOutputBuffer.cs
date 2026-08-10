@@ -40,6 +40,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly bool _showSuccessMarker;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
+    private Action<Exception>? _deferredFlushFailureHandler;
     private bool _isComplete;
     private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
@@ -140,6 +141,35 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             _exception = exception;
             _hasRenderedCompletionHeader = false;
+        }
+    }
+
+    /// <inheritdoc />
+    public void SetDeferredFlushFailureHandler(Action<Exception> handler)
+    {
+        lock (_lock)
+        {
+            _deferredFlushFailureHandler = handler;
+        }
+    }
+
+    /// <inheritdoc />
+    public void ReportDeferredFlushFailure(Exception exception)
+    {
+        Action<Exception>? handler;
+        lock (_lock)
+        {
+            handler = _deferredFlushFailureHandler;
+            _deferredFlushFailureHandler = null;
+        }
+
+        try
+        {
+            handler?.Invoke(exception);
+        }
+        catch
+        {
+            // A diagnostic fallback must not replace the output failure.
         }
     }
 
@@ -550,6 +580,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 _hasRenderedIncrementalOutput = false;
                 _hasRenderedCompletionHeader = true;
+                _deferredFlushFailureHandler = null;
             }
             else
             {

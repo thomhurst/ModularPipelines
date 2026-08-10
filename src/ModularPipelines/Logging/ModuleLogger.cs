@@ -190,6 +190,11 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
         if (shouldFlush)
         {
+            if (_exception is not null)
+            {
+                _buffer.SetDeferredFlushFailureHandler(LogFlushFailure);
+            }
+
             // Flush output asynchronously without blocking
             try
             {

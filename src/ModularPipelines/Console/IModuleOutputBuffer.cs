@@ -57,6 +57,22 @@ internal interface IModuleOutputBuffer
     void SetException(Exception exception);
 
     /// <summary>
+    /// Registers a one-shot fallback for a deferred completion flush failure.
+    /// </summary>
+    /// <param name="handler">Receives the output flush exception.</param>
+    void SetDeferredFlushFailureHandler(Action<Exception> handler)
+    {
+    }
+
+    /// <summary>
+    /// Reports that deferred completion output could not be flushed.
+    /// </summary>
+    /// <param name="exception">The output flush exception.</param>
+    void ReportDeferredFlushFailure(Exception exception)
+    {
+    }
+
+    /// <summary>
     /// Gets a value indicating whether there is any output to flush.
     /// </summary>
     bool HasOutput { get; }
