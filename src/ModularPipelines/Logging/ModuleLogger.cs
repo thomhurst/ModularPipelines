@@ -198,19 +198,48 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
             catch (OperationCanceledException)
             {
-                // Timeout occurred - log warning, output may be lost
-                _defaultLogger.LogWarning(
-                    "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
-                    typeof(T).Name);
+                LogFlushTimeout();
             }
             catch (Exception ex)
             {
-                // Best effort - don't fail disposal, but log the issue
-                _defaultLogger.LogWarning(ex, "Failed to flush module output during disposal for {ModuleType}", typeof(T).Name);
+                LogFlushFailure(ex);
             }
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    private void LogFlushTimeout()
+    {
+        if (_exception is not null)
+        {
+            _defaultLogger.LogError(
+                _exception,
+                "Module {ModuleType} failed and its buffered output timed out after 30 seconds",
+                typeof(T).Name);
+            return;
+        }
+
+        _defaultLogger.LogWarning(
+            "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
+            typeof(T).Name);
+    }
+
+    private void LogFlushFailure(Exception flushException)
+    {
+        if (_exception is not null)
+        {
+            _defaultLogger.LogError(
+                _exception,
+                "Module {ModuleType} failed and its buffered output could not be flushed",
+                typeof(T).Name);
+            return;
+        }
+
+        _defaultLogger.LogWarning(
+            flushException,
+            "Failed to flush module output during disposal for {ModuleType}",
+            typeof(T).Name);
     }
 
     public override void LogToConsole(string value)

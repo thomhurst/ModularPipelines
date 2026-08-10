@@ -264,6 +264,39 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task DisposeAsync_LogsModuleFailureWhenBufferedOutputFlushFails()
+    {
+        var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.OnModuleCompletedAsync(
+                moduleOutputBuffer,
+                typeof(ModuleLoggerTests),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new IOException("flush failed"));
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        var moduleException = new InvalidOperationException("module failed");
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            outputCoordinator.Object);
+        logger.SetException(moduleException);
+
+        await logger.DisposeAsync();
+
+        defaultLogger.Verify(x => x.Log(
+            LogLevel.Error,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) =>
+                state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
+            moduleException,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
     public async Task Write_ReusesClearedRenderer()
     {
         var renderedLines = new List<string>();
