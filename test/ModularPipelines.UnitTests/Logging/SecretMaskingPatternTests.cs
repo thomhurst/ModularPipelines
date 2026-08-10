@@ -308,6 +308,34 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_RetriesWhenComparisonChangesDuringScan()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 2
+                ? StringComparison.Ordinal
+                : StringComparison.OrdinalIgnoreCase);
+        obfuscator.Setup(candidate => candidate.ObfuscateWithConsumption("abc", null))
+            .Returns(new SecretObfuscationResult("**********", 3));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DifferentModuleBuffers_ProcessConcurrently()
     {
         var provider = CreateProvider(out _);
@@ -348,7 +376,7 @@ public class SecretMaskingPatternTests
         finally
         {
             releaseFirstWrite.Set();
-            await firstWrite;
+            await firstWrite.WaitAsync(TimeSpan.FromSeconds(5));
         }
 
         secondBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
@@ -1306,6 +1334,26 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FlushAsync_AllowsReentrantSinkWriteAfterAwait()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new AsyncWritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -1498,6 +1546,23 @@ public class SecretMaskingPatternTests
             }
 
             return Task.CompletedTask;
+        }
+    }
+
+    private sealed class AsyncWritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override async Task FlushAsync()
+        {
+            await Task.Yield();
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
         }
     }
 

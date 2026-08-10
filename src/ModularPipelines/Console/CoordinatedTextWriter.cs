@@ -270,7 +270,8 @@ internal class CoordinatedTextWriter : TextWriter
                 patterns,
                 retainedPrefixLength,
                 preservePotentialLongerMatch);
-            if (_secretProvider.Version == patterns.Version)
+            if (_secretProvider.Version == patterns.Version
+                && GetPatternComparison() == patterns.Comparison)
             {
                 return patterns;
             }
@@ -993,26 +994,18 @@ internal class CoordinatedTextWriter : TextWriter
         await _outputLock.WaitAsync().ConfigureAwait(false);
         var activeOutputWriters = _activeOutputWriters ??= [];
         activeOutputWriters.Add(this);
+        Task flushTask;
         try
         {
-            Task flushTask;
-            try
-            {
-                flushTask = _realConsole.FlushAsync();
-            }
-            finally
-            {
-                // Thread-static reentrancy only covers callbacks made synchronously
-                // while the underlying asynchronous flush is invoked.
-                RemoveActiveOutputWriter(activeOutputWriters);
-            }
-
-            await flushTask.ConfigureAwait(false);
+            flushTask = _realConsole.FlushAsync();
         }
         finally
         {
+            RemoveActiveOutputWriter(activeOutputWriters);
             _outputLock.Release();
         }
+
+        await flushTask.ConfigureAwait(false);
     }
 
     private void RemoveActiveOutputWriter(HashSet<CoordinatedTextWriter> activeOutputWriters)
