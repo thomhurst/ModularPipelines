@@ -519,4 +519,38 @@ public class ModuleOutputExcerptBufferTests
             .IsLessThanOrEqualTo(maximumBytes);
         await Assert.That(excerpt.StdoutTail).EndsWith("x" + Environment.NewLine);
     }
+
+    [Test]
+    public async Task HandlesManyAlternatingWritesWithOneMaskedScanPerStream()
+    {
+        const int maximumBytes = 8192;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, ["never-matches"]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes,
+            secretObfuscator,
+            secretProvider.Object);
+
+        for (var index = 0; index < maximumBytes * 2; index++)
+        {
+            var stream = index % 2 == 0
+                ? ModuleOutputStream.StandardOutput
+                : ModuleOutputStream.StandardError;
+            buffer.Append("x", stream);
+        }
+
+        var excerpt = buffer.CreateExcerpt()!;
+        var retainedBytes = Encoding.UTF8.GetByteCount(excerpt.StdoutTail!)
+                            + Encoding.UTF8.GetByteCount(excerpt.StderrTail!);
+
+        await Assert.That(retainedBytes).IsLessThanOrEqualTo(maximumBytes);
+        await Assert.That(excerpt.StdoutTail).EndsWith("x" + Environment.NewLine);
+        await Assert.That(excerpt.StderrTail).EndsWith("x" + Environment.NewLine);
+    }
 }
