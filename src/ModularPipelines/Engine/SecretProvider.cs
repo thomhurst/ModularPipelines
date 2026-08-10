@@ -34,8 +34,7 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRegistry, IInitializer
 {
-    [ThreadStatic]
-    private static DeferredRegistrationScope? _deferredRegistrationScope;
+    private static readonly AsyncLocal<DeferredRegistrationScope?> CurrentDeferredRegistrationScope = new();
 
     private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
     private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
@@ -176,30 +175,35 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         var existingScope = FindDeferredRegistrationScope();
         if (existingScope is not null)
         {
-            PublishDeferredPatterns(existingScope);
+            if (_secretEmissionLock.IsReadLockHeld)
+            {
+                PublishDeferredPatterns(existingScope);
+            }
+
             processOutput(state);
             return;
         }
 
         _secretEmissionLock.EnterReadLock();
-        var previousScope = _deferredRegistrationScope;
+        var previousScope = CurrentDeferredRegistrationScope.Value;
         var scope = new DeferredRegistrationScope(this, previousScope);
-        _deferredRegistrationScope = scope;
+        CurrentDeferredRegistrationScope.Value = scope;
         try
         {
             processOutput(state);
         }
         finally
         {
-            _deferredRegistrationScope = previousScope;
+            var deferredPatterns = scope.CloseAndTakePatterns();
+            CurrentDeferredRegistrationScope.Value = previousScope;
             _secretEmissionLock.ExitReadLock();
-            PublishDeferredPatternsWithoutReadLock(scope);
+            PublishPatterns(deferredPatterns);
         }
     }
 
     private void PublishDeferredPatterns(DeferredRegistrationScope scope)
     {
-        if (scope.Patterns.Count == 0)
+        if (!scope.HasPatterns)
         {
             return;
         }
@@ -217,8 +221,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private void PublishDeferredPatternsWithoutReadLock(DeferredRegistrationScope scope)
     {
-        var deferredPatterns = scope.Patterns.ToArray();
-        scope.Patterns.Clear();
+        PublishPatterns(scope.TakePatterns());
+    }
+
+    private void PublishPatterns(IEnumerable<IReadOnlyList<string>> deferredPatterns)
+    {
         foreach (var patterns in deferredPatterns)
         {
             PublishPatterns(patterns);
@@ -227,21 +234,22 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private bool TryDeferRegistration(IReadOnlyList<string> patterns)
     {
-        var scope = FindDeferredRegistrationScope();
-        if (scope is null)
+        for (var scope = CurrentDeferredRegistrationScope.Value; scope is not null; scope = scope.Parent)
         {
-            return false;
+            if (ReferenceEquals(scope.Provider, this) && scope.TryAddPatterns(patterns))
+            {
+                return true;
+            }
         }
 
-        scope.Patterns.Add(patterns);
-        return true;
+        return false;
     }
 
     private DeferredRegistrationScope? FindDeferredRegistrationScope()
     {
-        for (var scope = _deferredRegistrationScope; scope is not null; scope = scope.Parent)
+        for (var scope = CurrentDeferredRegistrationScope.Value; scope is not null; scope = scope.Parent)
         {
-            if (ReferenceEquals(scope.Provider, this))
+            if (ReferenceEquals(scope.Provider, this) && scope.IsOpen)
             {
                 return scope;
             }
@@ -616,6 +624,68 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         SecretProvider Provider,
         DeferredRegistrationScope? Parent)
     {
-        public List<IReadOnlyList<string>> Patterns { get; } = [];
+        private readonly object _syncRoot = new();
+        private readonly List<IReadOnlyList<string>> _patterns = [];
+        private bool _isOpen = true;
+
+        public bool IsOpen
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _isOpen;
+                }
+            }
+        }
+
+        public bool HasPatterns
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _patterns.Count > 0;
+                }
+            }
+        }
+
+        public bool TryAddPatterns(IReadOnlyList<string> patterns)
+        {
+            lock (_syncRoot)
+            {
+                if (!_isOpen)
+                {
+                    return false;
+                }
+
+                _patterns.Add(patterns);
+                return true;
+            }
+        }
+
+        public IReadOnlyList<IReadOnlyList<string>> TakePatterns()
+        {
+            lock (_syncRoot)
+            {
+                return TakePatternsUnderLock();
+            }
+        }
+
+        public IReadOnlyList<IReadOnlyList<string>> CloseAndTakePatterns()
+        {
+            lock (_syncRoot)
+            {
+                _isOpen = false;
+                return TakePatternsUnderLock();
+            }
+        }
+
+        private IReadOnlyList<IReadOnlyList<string>> TakePatternsUnderLock()
+        {
+            var patterns = _patterns.ToArray();
+            _patterns.Clear();
+            return patterns;
+        }
     }
 }

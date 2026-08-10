@@ -1272,6 +1272,22 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_AllowsCrossThreadRegistration()
+    {
+        const string discoveredSecret = "cross-thread-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider => Task.Run(() => outerProvider.AddSecret(discoveredSecret))
+                .GetAwaiter()
+                .GetResult()));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
     public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
     {
         var provider = CreateProvider(out _);
