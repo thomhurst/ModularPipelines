@@ -234,7 +234,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         var propertyName = $"{optionsType.FullName ?? optionsType.Name}.{part.PropertyName}";
         switch (part)
         {
-            case FlagPart flag when flag.IsSupportedPropertyType is not true:
+            case FlagPart flag
+                when flag.IsSupportedPropertyType is false
+                     || (schemaVersion >= GeneratedCommandMetadata.CurrentSchemaVersion
+                         && flag.IsSupportedPropertyType is null):
                 throw new InvalidOperationException(
                     $"CLI flag property '{propertyName}' must use bool, bool?, int, or int?.");
             case OptionPart { Attribute.GroupValues: true } groupedOption
@@ -246,9 +249,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 throw new InvalidOperationException(
                     $"CliValuePair CLI option property '{propertyName}' must use OptionFormat.SpaceSeparated.");
             case OptionPart { Attribute.ValueArity: CliOptionValueArity.Optional } option
-                when option.IsSupportedPropertyType is not true
-                     || (schemaVersion < GeneratedCommandMetadata.CurrentSchemaVersion
-                         && option.AllowsLegacyOptionalValues):
+                when option.IsSupportedPropertyType is not true:
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
                     + "CliOptionValue or IEnumerable<CliOptionValue>.");
