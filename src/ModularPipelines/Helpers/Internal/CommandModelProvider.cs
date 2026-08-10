@@ -49,7 +49,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
-        foreach (var property in GetCommandProperties(type))
+        foreach (var property in GetOptionProperties(type))
         {
             var commandAttribute = GetCommandAttribute(type, property);
             if (commandAttribute is CliArgumentAttribute argument)
@@ -138,13 +138,13 @@ internal sealed class CommandModelProvider : ICommandModelProvider
 
     [RequiresUnreferencedCode("Legacy generated metadata requires option property metadata.")]
     internal static int GetManualOperandCount(Type optionsType, string propertyName) =>
-        GetCommandProperties(optionsType)
+        GetOptionProperties(optionsType)
             .FirstOrDefault(property => property.Name == propertyName) is { } property
             ? GetManualOperandCount(property.PropertyType)
             : 1;
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
-    private static IEnumerable<PropertyInfo> GetCommandProperties(Type optionsType)
+    internal static IEnumerable<PropertyInfo> GetOptionProperties(Type optionsType)
     {
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
         for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)

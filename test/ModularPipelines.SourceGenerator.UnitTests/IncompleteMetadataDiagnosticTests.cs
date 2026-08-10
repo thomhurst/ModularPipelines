@@ -728,6 +728,40 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Preserves_Properties_When_Command_Metadata_Is_Incomplete()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            internal sealed class InternalOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [System.ComponentModel.DataAnnotations.Range(1, 3)]
+                internal int Retries { get; } = 1;
+
+                [ModularPipelines.Attributes.CliOption("--value")]
+                [ModularPipelines.Attributes.CliArgument(0)]
+                public string Value { get; } = "";
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Single().Id).IsEqualTo("MPG0003");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::InternalOptions)");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::InternalOptions)");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rescans_PreNonPublicValidation_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
@@ -1337,6 +1371,8 @@ public class IncompleteMetadataDiagnosticTests
             "MPG0004",
             "global::Secrets");
         await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Token");
+        await Assert.That(result.GeneratedTrees.Single().ToString()).Contains(
+            "[assembly: global::ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(\"Secrets\")]");
     }
 
     [Test]
