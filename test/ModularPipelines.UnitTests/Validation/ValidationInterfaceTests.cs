@@ -32,7 +32,7 @@ public class ValidationInterfaceTests
     }
 
     [Test]
-    public async Task IPipelineValidator_ShouldHaveOrderAndValidateMembers()
+    public async Task IPipelineValidator_ShouldHaveOrderAndValidateAsyncMembers()
     {
         var validatorType = typeof(IPipelineValidator);
 
@@ -40,11 +40,7 @@ public class ValidationInterfaceTests
         await Assert.That(orderProperty).IsNotNull()
             .Because("IPipelineValidator should have Order property");
 
-        var validateMethod = validatorType.GetMethod("Validate");
-        await Assert.That(validateMethod).IsNotNull()
-            .Because("IPipelineValidator should have Validate method");
-
-        var validateAsyncMethod = validatorType.GetMethod("ValidateAsync");
+        var validateAsyncMethod = validatorType.GetMethod(nameof(IPipelineValidator.ValidateAsync));
         await Assert.That(validateAsyncMethod).IsNotNull()
             .Because("IPipelineValidator should have ValidateAsync method");
     }

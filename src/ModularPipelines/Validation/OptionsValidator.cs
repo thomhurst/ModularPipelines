@@ -15,17 +15,17 @@ internal class OptionsValidator : IOptionsValidator
     public int Order => 100;
 
     /// <inheritdoc />
-    public ValidationResult Validate(IServiceProvider services)
+    public Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         var optionsSnapshot = services.GetService<IOptions<PipelineOptions>>();
         if (optionsSnapshot?.Value == null)
         {
-            return ValidationResult.Success();
+            return Task.FromResult(ValidationResult.Success());
         }
 
-        return ValidateOptions(
+        return Task.FromResult(ValidateOptions(
             optionsSnapshot.Value,
-            GetRegisteredCategories(services));
+            GetRegisteredCategories(services)));
     }
 
     /// <inheritdoc />

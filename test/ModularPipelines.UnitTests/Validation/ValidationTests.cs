@@ -18,7 +18,8 @@ public class ValidationTests
     {
         public int Order => 0;
 
-        public ValidationResult Validate(IServiceProvider services) => ValidationResult.Success();
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+            Task.FromResult(ValidationResult.Success());
 
         public ValidationResult ValidateOptions(PipelineOptions options) =>
             ValidationResult.WithError(new ValidationError(
@@ -182,15 +183,26 @@ public class ValidationTests
 
         public bool IsDisposed { get; private set; }
 
-        public ValidationResult Validate(IServiceProvider services)
-        {
-            throw new InvalidOperationException("Custom validation failed.");
-        }
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+            Task.FromException<ValidationResult>(new InvalidOperationException("Custom validation failed."));
 
         public ValueTask DisposeAsync()
         {
             IsDisposed = true;
             return ValueTask.CompletedTask;
+        }
+    }
+
+    [Test]
+    public async Task PipelineValidatorContractIsAsyncOnly()
+    {
+        var methods = typeof(IPipelineValidator).GetMethods();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(methods.Any(method => method.Name == "Validate")).IsFalse();
+            await Assert.That(methods.Single(method => method.Name == nameof(IPipelineValidator.ValidateAsync)).ReturnType)
+                .IsEqualTo(typeof(Task<ValidationResult>));
         }
     }
 

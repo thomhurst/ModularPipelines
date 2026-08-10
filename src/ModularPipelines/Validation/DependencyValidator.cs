@@ -16,22 +16,6 @@ internal class DependencyValidator : IDependencyValidator
     public int Order => 200;
 
     /// <inheritdoc />
-    public ValidationResult Validate(IServiceProvider services)
-    {
-        var result = ValidateDependencies(services, services.GetServices<IModule>());
-        if (!result.HasErrors)
-        {
-            return result;
-        }
-
-        var runnableModules = services.GetRequiredService<ModuleRetriever>()
-            .GetRunnableModulesForValidation()
-            .GetAwaiter()
-            .GetResult();
-        return ValidateDependencies(services, runnableModules);
-    }
-
-    /// <inheritdoc />
     public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
     {
         var result = ValidateDependencies(services, services.GetServices<IModule>());
