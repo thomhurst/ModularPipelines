@@ -1,10 +1,12 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
@@ -249,6 +251,69 @@ public class EngineCancellationTokenTests : TestBase
         protected override bool Result => true;
     }
 
+    [ModularPipelines.Attributes.DependsOn<ReadyHookFailingModule>]
+    private class ReadyHookSiblingDependentModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class CoordinatedModuleResultRegistrar : IModuleResultRegistrar
+    {
+        private readonly ModuleResultRegistrar _inner;
+        private readonly HashSet<Type> _registeredDependentTypes = [];
+        private readonly ManualResetEventSlim _allDependentsRegistered = new();
+
+        public CoordinatedModuleResultRegistrar(
+            IModuleResultRegistry resultRegistry,
+            Microsoft.Extensions.Logging.ILogger<ModuleResultRegistrar> logger)
+        {
+            _inner = new ModuleResultRegistrar(resultRegistry, logger);
+        }
+
+        public void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
+        {
+            _inner.RegisterTerminatedResult(module, moduleType, exception);
+            RecordDependent(moduleType);
+
+            if (moduleType == typeof(ReadyHookFailingModule)
+                && !_allDependentsRegistered.Wait(TestHostSettings.DefaultTestTimeout))
+            {
+                throw new TimeoutException("Dependent failure workers did not win the coordinated race.");
+            }
+        }
+
+        public void RegisterDependencyFailedResult(IModule module, Type moduleType, Exception exception)
+        {
+            _inner.RegisterDependencyFailedResult(module, moduleType, exception);
+            RecordDependent(moduleType);
+        }
+
+        public void RegisterTerminatedResultsForCancelledModules(
+            IReadOnlyList<IModule> modules,
+            Exception exception)
+        {
+            _inner.RegisterTerminatedResultsForCancelledModules(modules, exception);
+        }
+
+        private void RecordDependent(Type moduleType)
+        {
+            if (moduleType != typeof(ReadyHookDependentModule)
+                && moduleType != typeof(ReadyHookSiblingDependentModule))
+            {
+                return;
+            }
+
+            lock (_registeredDependentTypes)
+            {
+                _registeredDependentTypes.Add(moduleType);
+                if (_registeredDependentTypes.Count == 2)
+                {
+                    _allDependentsRegistered.Set();
+                }
+            }
+        }
+    }
+
     private sealed class ThrowingReadyHookReceiver : IModuleEventReceiver
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
@@ -406,6 +471,45 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
         await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
             .IsEqualTo(nameof(ReadyHookFailingModule));
+    }
+
+    [Test]
+    public async Task StopOnFirstException_Preserves_Raw_ReadyHook_Failure_When_Dependent_Reports_First()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
+            {
+                services.RemoveAll<IModuleResultRegistrar>();
+                services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
+            })
+            .AddModule<ReadyHookFailingModule>()
+            .AddModule<ReadyHookDependentModule>()
+            .AddModule<ReadyHookSiblingDependentModule>()
+            .AddModuleEventReceiver<ThrowingReadyHookReceiver>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+        await Assert.That(async () => await host.RunAsync()).Throws<InvalidOperationException>();
+
+        foreach (var dependentType in new[]
+                 {
+                     typeof(ReadyHookDependentModule),
+                     typeof(ReadyHookSiblingDependentModule),
+                 })
+        {
+            var dependentResult = resultRegistry.GetResult(dependentType);
+            await Assert.That(dependentResult).IsNotNull();
+            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
+            await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
+                .IsEqualTo(nameof(ReadyHookFailingModule));
+        }
     }
 
     [Test]

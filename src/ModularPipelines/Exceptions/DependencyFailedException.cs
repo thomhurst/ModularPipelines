@@ -39,6 +39,8 @@ namespace ModularPipelines.Exceptions;
 /// <seealso cref="ModuleNotRegisteredException"/>
 public class DependencyFailedException : PipelineException
 {
+    internal Type FailingModuleType { get; }
+
     /// <summary>
     /// Gets the name of the module that failed, causing this dependency failure.
     /// </summary>
@@ -50,27 +52,37 @@ public class DependencyFailedException : PipelineException
     /// </summary>
     /// <param name="exception">The exception that caused the dependency to fail.</param>
     /// <param name="module">The module that failed.</param>
-    public DependencyFailedException(Exception exception, IModule module) : base($"The dependency {GetInnerMostFailingModule(module, exception)} has failed.", exception)
+    public DependencyFailedException(Exception exception, IModule module)
+        : this(exception, GetInnerMostFailingModule(module, exception))
     {
-        FailingModuleName = GetInnerMostFailingModule(module, exception);
     }
 
-    private static string GetInnerMostFailingModule(IModule rootModule, Exception rootException)
+    private DependencyFailedException(Exception exception, (string Name, Type Type) failingModule)
+        : base($"The dependency {failingModule.Name} has failed.", exception)
     {
-        var module = rootModule.GetType().Name;
+        FailingModuleName = failingModule.Name;
+        FailingModuleType = failingModule.Type;
+    }
 
+    private static (string Name, Type Type) GetInnerMostFailingModule(
+        IModule rootModule,
+        Exception rootException)
+    {
+        var moduleType = rootModule.GetType();
+        var moduleName = moduleType.Name;
         var exception = rootException;
 
         while (exception != null)
         {
             if (exception is DependencyFailedException dependencyFailedException)
             {
-                module = dependencyFailedException.FailingModuleName;
+                moduleName = dependencyFailedException.FailingModuleName;
+                moduleType = dependencyFailedException.FailingModuleType;
             }
 
             exception = exception.InnerException;
         }
 
-        return module;
+        return (moduleName, moduleType);
     }
 }

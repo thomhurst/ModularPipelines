@@ -271,6 +271,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
+                        var failedModuleType = FindFailedModuleType(ex) ?? moduleState.ModuleType;
                         var pipelineException = GetPipelineException(ex);
                         var isFirstFailure = false;
 
@@ -280,7 +281,7 @@ internal class ModuleExecutor : IModuleExecutor
                             _secondaryExceptionContainer.RegisterException(pipelineException);
                             var workerFailure = new WorkerFailure(
                                 pipelineException,
-                                FindModuleFailure(pipelineException)?.ModuleType ?? moduleState.ModuleType);
+                                failedModuleType);
                             isFirstFailure = Interlocked.CompareExchange(
                                 ref firstFailure,
                                 workerFailure,
@@ -340,7 +341,7 @@ internal class ModuleExecutor : IModuleExecutor
         Exception exception,
         Type? failedModuleType = null)
     {
-        failedModuleType = FindModuleFailure(exception)?.ModuleType ?? failedModuleType;
+        failedModuleType = FindFailedModuleType(exception) ?? failedModuleType;
         if (failedModuleType is null
             || scheduler.GetModuleState(failedModuleType)?.Module is not { } failedModule)
         {
@@ -371,14 +372,15 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private static ModuleFailedException? FindModuleFailure(Exception exception) =>
+    private static Type? FindFailedModuleType(Exception exception) =>
         exception switch
         {
-            ModuleFailedException moduleFailure => moduleFailure,
+            ModuleFailedException moduleFailure => moduleFailure.ModuleType,
+            DependencyFailedException dependencyFailure => dependencyFailure.FailingModuleType,
             AggregateException aggregateException => aggregateException.InnerExceptions
-                .Select(FindModuleFailure)
-                .FirstOrDefault(moduleFailure => moduleFailure is not null),
-            { InnerException: { } innerException } => FindModuleFailure(innerException),
+                .Select(FindFailedModuleType)
+                .FirstOrDefault(moduleType => moduleType is not null),
+            { InnerException: { } innerException } => FindFailedModuleType(innerException),
             _ => null,
         };
 
