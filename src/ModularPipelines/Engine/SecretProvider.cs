@@ -35,6 +35,7 @@ namespace ModularPipelines.Engine;
 internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRegistry, IInitializer
 {
     private static readonly AsyncLocal<DeferredRegistrationScope?> CurrentDeferredRegistrationScope = new();
+    private static readonly AsyncLocal<UnscopedRegistrationContext?> CurrentUnscopedRegistrationContext = new();
 
     private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
     private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
@@ -51,14 +52,20 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     private readonly object _secretsLock = new();
     private readonly object _emissionStateLock = new();
     private readonly ReaderWriterLockSlim _secretEmissionLock = new();
-    private readonly List<IReadOnlyList<string>> _unscopedDeferredPatterns = [];
+    private readonly List<IReadOnlyList<string>> _deferredPatternsPendingPublication = [];
 
     private long _version;
+    private long _nextDeferredSnapshotVersion;
+    private long _deferredRegistrationBatch;
     private int _activeEmissionCount;
+    // Direct redactors and a registering worker's next emission must see deferred
+    // patterns immediately. Existing emissions keep the snapshot captured by their scope.
+    private SecretSnapshot? _deferredMaskingSnapshot;
     private volatile bool _initialized;
 
     /// <inheritdoc />
-    public long Version => Volatile.Read(ref _version);
+    public long Version => FindDeferredRegistrationScope()?.Snapshot.Version
+                           ?? GetMaskingSnapshotVersion();
 
     /// <summary>
     /// Gets all registered secrets.
@@ -68,7 +75,7 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     /// Secrets added during enumeration will not be included in the current iteration.
     /// Each enumeration creates a new snapshot.
     /// </remarks>
-    public IEnumerable<string> Secrets => GetSnapshot().Secrets;
+    public IEnumerable<string> Secrets => GetPublishedSnapshot().Secrets;
 
     public SecretProvider(
         IOptionsProvider optionsProvider,
@@ -128,23 +135,7 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         _secretEmissionLock.EnterWriteLock();
         try
         {
-            lock (_secretsLock)
-            {
-                if (patterns.All(_secrets.Contains))
-                {
-                    return;
-                }
-
-                // Odd versions mark an in-progress publication so readers cannot reuse
-                // a cache while the matching secret collection is being updated.
-                Interlocked.Increment(ref _version);
-                foreach (var pattern in patterns)
-                {
-                    _secrets.Add(pattern);
-                }
-
-                Interlocked.Increment(ref _version);
-            }
+            PublishPatternsWithoutEmissionLock(patterns);
         }
         finally
         {
@@ -170,9 +161,14 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     /// <inheritdoc />
     public SecretSnapshot GetSnapshot()
     {
+        return FindDeferredRegistrationScope()?.Snapshot ?? GetMaskingSnapshot();
+    }
+
+    private SecretSnapshot GetPublishedSnapshot()
+    {
         lock (_secretsLock)
         {
-            return new SecretSnapshot(Version, _secrets.ToArray());
+            return new SecretSnapshot(Volatile.Read(ref _version), _secrets.ToArray());
         }
     }
 
@@ -189,9 +185,12 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         }
 
         var ownsReadLock = existingScope is null;
-        EnterStableEmission(ownsReadLock);
+        EnterStableEmission(ownsReadLock, GetUnscopedRegistrationBatch());
         var previousScope = CurrentDeferredRegistrationScope.Value;
-        var scope = new DeferredRegistrationScope(this, previousScope);
+        var scope = new DeferredRegistrationScope(
+            this,
+            previousScope,
+            existingScope?.Snapshot ?? GetMaskingSnapshot());
         CurrentDeferredRegistrationScope.Value = scope;
         try
         {
@@ -205,11 +204,15 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         }
     }
 
-    private void EnterStableEmission(bool ownsReadLock)
+    private void EnterStableEmission(
+        bool ownsReadLock,
+        long? unscopedRegistrationBatch)
     {
         lock (_emissionStateLock)
         {
-            while (ownsReadLock && _unscopedDeferredPatterns.Count != 0)
+            while (ownsReadLock
+                   && unscopedRegistrationBatch != _deferredRegistrationBatch
+                   && _deferredPatternsPendingPublication.Count != 0)
             {
                 Monitor.Wait(_emissionStateLock);
             }
@@ -237,16 +240,27 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             .ToArray();
         lock (_emissionStateLock)
         {
-            _unscopedDeferredPatterns.AddRange(unclaimedPatterns);
+            if (unclaimedPatterns.Length > 0
+                && _deferredPatternsPendingPublication.Count == 0)
+            {
+                _deferredRegistrationBatch++;
+            }
+
+            _deferredPatternsPendingPublication.AddRange(unclaimedPatterns);
+            if (unclaimedPatterns.Length > 0)
+            {
+                UpdateDeferredMaskingSnapshot(unclaimedPatterns);
+            }
             _activeEmissionCount--;
             if (_activeEmissionCount != 0)
             {
                 return;
             }
 
-            var patternsToPublish = _unscopedDeferredPatterns.ToArray();
-            _unscopedDeferredPatterns.Clear();
+            var patternsToPublish = _deferredPatternsPendingPublication.ToArray();
+            _deferredPatternsPendingPublication.Clear();
             PublishPatterns(patternsToPublish);
+            _deferredMaskingSnapshot = null;
             Monitor.PulseAll(_emissionStateLock);
         }
     }
@@ -260,8 +274,83 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
                 return false;
             }
 
-            _unscopedDeferredPatterns.Add(patterns);
+            if (_deferredPatternsPendingPublication.Count == 0)
+            {
+                _deferredRegistrationBatch++;
+            }
+
+            _deferredPatternsPendingPublication.Add(patterns);
+            UpdateDeferredMaskingSnapshot([patterns]);
+            CurrentUnscopedRegistrationContext.Value = new UnscopedRegistrationContext(
+                this,
+                _deferredRegistrationBatch,
+                CurrentUnscopedRegistrationContext.Value);
             return true;
+        }
+    }
+
+    private long GetMaskingSnapshotVersion()
+    {
+        lock (_emissionStateLock)
+        {
+            return _deferredMaskingSnapshot?.Version ?? Volatile.Read(ref _version);
+        }
+    }
+
+    private SecretSnapshot GetMaskingSnapshot()
+    {
+        lock (_emissionStateLock)
+        {
+            return _deferredMaskingSnapshot ?? GetPublishedSnapshot();
+        }
+    }
+
+    private void UpdateDeferredMaskingSnapshot(
+        IEnumerable<IReadOnlyList<string>> deferredPatterns)
+    {
+        var currentSecrets = _deferredMaskingSnapshot?.Secrets ?? GetPublishedSnapshot().Secrets;
+        var combinedSecrets = currentSecrets
+            .Concat(deferredPatterns.SelectMany(static patterns => patterns))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        _deferredMaskingSnapshot = new SecretSnapshot(
+            Interlocked.Decrement(ref _nextDeferredSnapshotVersion),
+            combinedSecrets);
+    }
+
+    private long? GetUnscopedRegistrationBatch()
+    {
+        for (var context = CurrentUnscopedRegistrationContext.Value;
+             context is not null;
+             context = context.Parent)
+        {
+            if (ReferenceEquals(context.Provider, this))
+            {
+                return context.Batch;
+            }
+        }
+
+        return null;
+    }
+
+    private void PublishPatternsWithoutEmissionLock(IReadOnlyList<string> patterns)
+    {
+        lock (_secretsLock)
+        {
+            if (patterns.All(_secrets.Contains))
+            {
+                return;
+            }
+
+            // Odd versions mark an in-progress publication so readers cannot reuse
+            // a cache while the matching secret collection is being updated.
+            Interlocked.Increment(ref _version);
+            foreach (var pattern in patterns)
+            {
+                _secrets.Add(pattern);
+            }
+
+            Interlocked.Increment(ref _version);
         }
     }
 
@@ -289,6 +378,7 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     private void PublishDeferredPatternsWithoutReadLock(DeferredRegistrationScope scope)
     {
         PublishPatterns(scope.TakePatterns());
+        scope.RefreshSnapshot(GetPublishedSnapshot());
     }
 
     private void PublishPatterns(IEnumerable<IReadOnlyList<string>> deferredPatterns)
@@ -687,6 +777,11 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private sealed record ReflectionAccessors(IReadOnlyList<SecretPropertyAccessor> Value);
 
+    private sealed record UnscopedRegistrationContext(
+        SecretProvider Provider,
+        long Batch,
+        UnscopedRegistrationContext? Parent);
+
     private sealed class DeferredRegistrationScope
     {
         private readonly object _syncRoot = new();
@@ -694,17 +789,31 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         private readonly DeferredRegistrationScope[] _trackedAncestors;
         private int _activeDescendantCount;
         private bool _isOpen = true;
+        private SecretSnapshot _snapshot;
 
         public SecretProvider Provider { get; }
 
         public DeferredRegistrationScope? Parent { get; }
 
+        public SecretSnapshot Snapshot
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _snapshot;
+                }
+            }
+        }
+
         public DeferredRegistrationScope(
             SecretProvider provider,
-            DeferredRegistrationScope? parent)
+            DeferredRegistrationScope? parent,
+            SecretSnapshot snapshot)
         {
             Provider = provider;
             Parent = parent;
+            _snapshot = snapshot;
             _trackedAncestors = GetTrackedAncestors(provider, parent);
             foreach (var ancestor in _trackedAncestors)
             {
@@ -771,6 +880,14 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             }
 
             return patterns;
+        }
+
+        public void RefreshSnapshot(SecretSnapshot snapshot)
+        {
+            lock (_syncRoot)
+            {
+                _snapshot = snapshot;
+            }
         }
 
         public void ExecuteAfterDescendantsComplete(Action action)

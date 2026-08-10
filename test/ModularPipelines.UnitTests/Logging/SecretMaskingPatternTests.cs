@@ -1340,6 +1340,110 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_ExposesUnflowedRegistrationToDirectMasking()
+    {
+        const string discoveredSecret = "unflowed-direct-masking-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? directOutput = null;
+        string? stableOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                            directOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                stableOutput = obfuscator.Obfuscate(discoveredSecret, null);
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        using (Assert.Multiple())
+        {
+            await Assert.That(directOutput).IsEqualTo("**********");
+            await Assert.That(stableOutput).IsEqualTo(discoveredSecret);
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_AllowsUnflowedRegisteringWorkerToEmitNext()
+    {
+        const string discoveredSecret = "unflowed-register-then-emit-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? emittedOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var workerCompleted = new ManualResetEventSlim();
+                Exception? workerException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                            outerProvider.ExecuteWithStableSecrets(
+                                discoveredSecret,
+                                value => emittedOutput = obfuscator.Obfuscate(value, null));
+                        }
+                        catch (Exception exception)
+                        {
+                            workerException = exception;
+                        }
+                        finally
+                        {
+                            workerCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!workerCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed worker emission.");
+                }
+
+                if (workerException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed worker emission failed.", workerException);
+                }
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
     public async Task StableSecretEmission_PublishesDeferredSecretsBeforeNextRootEmission()
     {
         const string discoveredSecret = "deferred-before-next-emission-secret";
