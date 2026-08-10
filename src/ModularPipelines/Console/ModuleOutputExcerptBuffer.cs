@@ -175,21 +175,20 @@ internal sealed class ModuleOutputExcerptBuffer(
             return false;
         }
 
-        var maskedStdout = concreteObfuscator.ObfuscatePreservingMasks(stdout);
-        var maskedStderr = concreteObfuscator.ObfuscatePreservingMasks(stderr);
+        var maskedStdout = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stdout);
+        var maskedStderr = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stderr);
         (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
             maskedStdout,
-            maskedStderr,
-            concreteObfuscator);
+            maskedStderr);
 
         if (!TryGetSafeMaskedTail(
-                maskedStdout,
+                maskedStdout.Value,
                 stdoutBytes,
                 _totalStdoutBytes > Utf8.GetByteCount(stdout),
                 maximumMatchBytes,
                 out stdoutTail)
             || !TryGetSafeMaskedTail(
-                maskedStderr,
+                maskedStderr.Value,
                 stderrBytes,
                 _totalStderrBytes > Utf8.GetByteCount(stderr),
                 maximumMatchBytes,
@@ -206,77 +205,49 @@ internal sealed class ModuleOutputExcerptBuffer(
     }
 
     private (int StdoutBytes, int StderrBytes) RebalanceMaskedStreamByteLimits(
-        string maskedStdout,
-        string maskedStderr,
-        SecretObfuscator obfuscator)
+        SecretObfuscator.MappedObfuscatedOutput maskedStdout,
+        SecretObfuscator.MappedObfuscatedOutput maskedStderr)
     {
-        var maskedStdoutBytes = Utf8.GetByteCount(maskedStdout);
-        var maskedStderrBytes = Utf8.GetByteCount(maskedStderr);
+        var maskedStdoutBytes = Utf8.GetBytes(maskedStdout.Value);
+        var maskedStderrBytes = Utf8.GetBytes(maskedStderr.Value);
         var stdoutBytes = 0;
         var stderrBytes = 0;
-        var stdoutNeeded = maskedStdoutBytes;
-        var stderrNeeded = maskedStderrBytes;
-        var stdoutSuffix = new StringBuilder();
-        var stderrSuffix = new StringBuilder();
-        var maskedAvailability = new List<(ModuleOutputStream Stream, int Bytes)>();
-        var chunks = GetCoalescedChunks();
+        var stdoutOffset = 0;
+        var stderrOffset = 0;
+        var chunks = new List<MappedOutputChunk>(_chunks.Count);
+        foreach (var chunk in _chunks)
+        {
+            var textLength = Utf8.GetString(chunk.Bytes).Length;
+            if (chunk.Stream is ModuleOutputStream.StandardError)
+            {
+                chunks.Add(new MappedOutputChunk(chunk.Stream, stderrOffset));
+                stderrOffset += textLength;
+            }
+            else
+            {
+                chunks.Add(new MappedOutputChunk(chunk.Stream, stdoutOffset));
+                stdoutOffset += textLength;
+            }
+        }
 
         for (var index = chunks.Count - 1; index >= 0; index--)
         {
             var chunk = chunks[index];
-            var chunkText = chunk.Text.ToString();
             if (chunk.Stream is ModuleOutputStream.StandardError)
             {
-                stderrSuffix.Insert(0, chunkText);
-                var available = Math.Min(
-                    stderrNeeded,
-                    Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stderrSuffix.ToString())));
-                maskedAvailability.Add((ModuleOutputStream.StandardError, available));
-            }
-            else
-            {
-                stdoutSuffix.Insert(0, chunkText);
-                var available = Math.Min(
-                    stdoutNeeded,
-                    Utf8.GetByteCount(obfuscator.ObfuscatePreservingMasks(stdoutSuffix.ToString())));
-                maskedAvailability.Add((ModuleOutputStream.StandardOutput, available));
-            }
-        }
-
-        var stableStdoutAvailability = stdoutNeeded;
-        var stableStderrAvailability = stderrNeeded;
-        for (var index = maskedAvailability.Count - 1; index >= 0; index--)
-        {
-            var availability = maskedAvailability[index];
-            if (availability.Stream is ModuleOutputStream.StandardError)
-            {
-                stableStderrAvailability = Math.Min(stableStderrAvailability, availability.Bytes);
-                maskedAvailability[index] = (availability.Stream, stableStderrAvailability);
-            }
-            else
-            {
-                stableStdoutAvailability = Math.Min(stableStdoutAvailability, availability.Bytes);
-                maskedAvailability[index] = (availability.Stream, stableStdoutAvailability);
-            }
-        }
-
-        foreach (var availability in maskedAvailability)
-        {
-            if (availability.Stream is ModuleOutputStream.StandardError)
-            {
                 stderrBytes = RebalanceStreamBytes(
-                    availability.Bytes,
+                    maskedStderr.GetSuffixByteCount(chunk.SourceOffset),
                     stderrBytes,
                     stdoutBytes);
-                stderrBytes = GetUtf8TailByteCount(maskedStderr, stderrBytes);
+                stderrBytes = GetUtf8TailByteCount(maskedStderrBytes, stderrBytes);
             }
             else
             {
                 stdoutBytes = RebalanceStreamBytes(
-                    availability.Bytes,
+                    maskedStdout.GetSuffixByteCount(chunk.SourceOffset),
                     stdoutBytes,
                     stderrBytes);
-                stdoutBytes = GetUtf8TailByteCount(maskedStdout, stdoutBytes);
+                stdoutBytes = GetUtf8TailByteCount(maskedStdoutBytes, stdoutBytes);
             }
         }
 
@@ -317,6 +288,8 @@ internal sealed class ModuleOutputExcerptBuffer(
         string stdout,
         string stderr)
     {
+        var stdoutUtf8 = Utf8.GetBytes(stdout);
+        var stderrUtf8 = Utf8.GetBytes(stderr);
         var stdoutBytes = 0;
         var stderrBytes = 0;
         for (var chunk = _chunks.Last;
@@ -328,40 +301,38 @@ internal sealed class ModuleOutputExcerptBuffer(
             if (chunk.Value.Stream is ModuleOutputStream.StandardError)
             {
                 stderrBytes += retained;
-                stderrBytes = GetUtf8TailByteCount(stderr, stderrBytes);
+                stderrBytes = GetUtf8TailByteCount(stderrUtf8, stderrBytes);
             }
             else
             {
                 stdoutBytes += retained;
-                stdoutBytes = GetUtf8TailByteCount(stdout, stdoutBytes);
+                stdoutBytes = GetUtf8TailByteCount(stdoutUtf8, stdoutBytes);
             }
         }
 
         return (stdoutBytes, stderrBytes);
     }
 
-    private IReadOnlyList<CoalescedOutputChunk> GetCoalescedChunks()
+    private static int GetUtf8TailByteCount(byte[] bytes, int maximumTailBytes)
     {
-        var coalescedChunks = new List<CoalescedOutputChunk>();
-        foreach (var chunk in _chunks)
+        if (maximumTailBytes == 0 || bytes.Length == 0)
         {
-            var previous = coalescedChunks.Count == 0 ? null : coalescedChunks[^1];
-            if (previous?.Stream == chunk.Stream)
-            {
-                previous.Text.Append(Utf8.GetString(chunk.Bytes));
-                continue;
-            }
-
-            coalescedChunks.Add(new CoalescedOutputChunk(
-                chunk.Stream,
-                new StringBuilder(Utf8.GetString(chunk.Bytes))));
+            return 0;
         }
 
-        return coalescedChunks;
-    }
+        if (bytes.Length <= maximumTailBytes)
+        {
+            return bytes.Length;
+        }
 
-    private static int GetUtf8TailByteCount(string value, int maximumTailBytes) =>
-        Utf8.GetByteCount(GetUtf8Tail(value, maximumTailBytes) ?? string.Empty);
+        var start = bytes.Length - maximumTailBytes;
+        while (start < bytes.Length && IsUtf8ContinuationByte(bytes[start]))
+        {
+            start++;
+        }
+
+        return bytes.Length - start;
+    }
 
     internal static string? GetUtf8Tail(string value, int maximumTailBytes)
     {
@@ -440,14 +411,7 @@ internal sealed class ModuleOutputExcerptBuffer(
 
     private readonly record struct OutputChunk(ModuleOutputStream Stream, byte[] Bytes);
 
-    private sealed class CoalescedOutputChunk(
-        ModuleOutputStream stream,
-        StringBuilder text)
-    {
-        public ModuleOutputStream Stream { get; } = stream;
-
-        public StringBuilder Text { get; } = text;
-    }
+    private readonly record struct MappedOutputChunk(ModuleOutputStream Stream, int SourceOffset);
 }
 
 internal enum ModuleOutputStream
