@@ -37,6 +37,18 @@ public partial class SonarScannerCliScraper : CliScraperBase
 
     protected override string ExecutablePath { get; }
 
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = SonarScannerVersionPattern().Match(result.CombinedOutput);
+        if (match.Success)
+        {
+            return match.Value;
+        }
+
+        Logger.LogWarning("Could not extract stable {Tool} version identity", ToolName);
+        return null;
+    }
+
     /// <summary>
     /// SonarScanner doesn't have subcommands.
     /// </summary>
@@ -239,6 +251,9 @@ public partial class SonarScannerCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)(?:\s+(?<value><[^>]+>))?\s+(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex SonarOptionPattern();
+
+    [GeneratedRegex(@"\bSonarScanner CLI \d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?\b")]
+    private static partial Regex SonarScannerVersionPattern();
 
     #endregion
 }

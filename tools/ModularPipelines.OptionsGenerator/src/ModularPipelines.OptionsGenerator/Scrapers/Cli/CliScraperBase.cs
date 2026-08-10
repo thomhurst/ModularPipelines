@@ -172,19 +172,27 @@ public abstract partial class CliScraperBase : ICliScraper
                 return null;
             }
 
-            var version = result.CombinedOutput.ReplaceLineEndings(" ").Trim();
-            return version.Length switch
-            {
-                0 => null,
-                > 500 => version[..500],
-                _ => version,
-            };
+            return ParseVersionOutput(result);
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             Logger.LogWarning(ex, "Could not determine installed {Tool} version", ToolName);
             return null;
         }
+    }
+
+    /// <summary>
+    /// Parses successful version-command output into stable coverage metadata.
+    /// </summary>
+    protected virtual string? ParseVersionOutput(CliCommandResult result)
+    {
+        var version = result.CombinedOutput.ReplaceLineEndings(" ").Trim();
+        return version.Length switch
+        {
+            0 => null,
+            > 500 => version[..500],
+            _ => version,
+        };
     }
 
     /// <summary>
