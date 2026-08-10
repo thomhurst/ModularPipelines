@@ -332,7 +332,7 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Schema2_Metadata_Revalidates_Legacy_Optional_Compatibility_Flag()
+    public async Task Schema3_Metadata_Supersedes_Legacy_Schema2_Optional_Marker()
     {
         var optionsType = typeof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>);
         GeneratedCommandMetadata.Register(
@@ -349,6 +349,23 @@ public class CliAttributeTests
                 {
                     AllowsLegacyOptionalValues = true,
                     IsSupportedPropertyType = true,
+                },
+            ],
+            schemaVersion: 2);
+        GeneratedCommandMetadata.RegisterExternal(
+            typeof(CliAttributeTests).Assembly,
+            optionsType,
+            [
+                new OptionPart(
+                    nameof(RegisteredLegacyOptionalOptions<Schema2MetadataMarker>.Output),
+                    static options =>
+                        ((RegisteredLegacyOptionalOptions<Schema2MetadataMarker>) options).Output,
+                    new CliOptionAttribute("--output")
+                    {
+                        ValueArity = CliOptionValueArity.Optional,
+                    })
+                {
+                    IsSupportedPropertyType = false,
                 },
             ],
             GeneratedCommandMetadata.CurrentSchemaVersion);

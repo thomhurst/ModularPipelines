@@ -13,7 +13,7 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    private const int RuntimeMetadataSchemaVersion = 2;
+    private const int RuntimeMetadataSchemaVersion = 3;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
 

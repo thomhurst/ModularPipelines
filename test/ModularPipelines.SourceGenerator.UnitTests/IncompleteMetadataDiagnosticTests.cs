@@ -580,7 +580,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 2;
+                    public const int SchemaVersion = 3;
                 }
             }
 
@@ -624,7 +624,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 2;
+                    public const int SchemaVersion = 3;
                 }
             }
 
@@ -670,7 +670,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 2;
+                    public const int SchemaVersion = 3;
                 }
             }
 

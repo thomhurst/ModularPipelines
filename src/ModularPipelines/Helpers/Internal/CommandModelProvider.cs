@@ -254,8 +254,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         PropertyCommandLinePart part,
         Func<Type, bool> isSupported)
     {
-        if (part is not OptionPart { AllowsLegacyOptionalValues: true }
-            && part.IsSupportedPropertyType is { } knownResult)
+        if (part.IsSupportedPropertyType is { } knownResult)
         {
             return knownResult;
         }

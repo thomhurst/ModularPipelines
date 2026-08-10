@@ -10,7 +10,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// </summary>
 public static class GeneratedCommandMetadata
 {
-    internal const int CurrentSchemaVersion = 2;
+    internal const int CurrentSchemaVersion = 3;
 
     private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = [];
     private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = [];
