@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -37,10 +38,11 @@ public class CommandLineBuilderTests : TestBase
             Name = "123",
         });
 
-        await Assert.That(Build)
-            .Throws<ValidationException>()
+        var exception = await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
             .And.HasMessageContaining("TestValidatedOptions.Name")
             .And.HasMessageContaining("TestValidatedOptions.Verbose");
+        await Assert.That(exception!.InnerException).IsTypeOf<ValidationException>();
     }
 
     [Test]
@@ -54,7 +56,7 @@ public class CommandLineBuilderTests : TestBase
         });
 
         await Assert.That(Build)
-            .Throws<ValidationException>()
+            .Throws<CommandOptionsValidationException>()
             .And.HasMessageContaining("TestValidatedOptions.Level");
     }
 

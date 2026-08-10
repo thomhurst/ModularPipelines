@@ -82,7 +82,22 @@ internal sealed class Command : ICommandContext
                 : _pipelineWorkingDirectory.Path,
         };
         RegisterSecrets(options, execOpts);
-        var (command, commandInput, tool, parsedArgs) = CreateCommand(options, execOpts);
+        (CliWrap.Command Command, string CommandInput, string Tool, List<string> ParsedArgs) commandDetails;
+        try
+        {
+            commandDetails = CreateCommand(options, execOpts);
+        }
+        catch (Exception exception)
+        {
+            using var creationActivity = ModuleActivityTracing.StartCommandActivity(options.GetType().Name);
+            ModuleActivityTracing.RecordCommandFailure(
+                creationActivity,
+                exception,
+                _secretObfuscator.Obfuscate(exception.Message, execOpts));
+            throw;
+        }
+
+        var (command, commandInput, tool, parsedArgs) = commandDetails;
 
         cancellationToken.ThrowIfCancellationRequested();
 

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
@@ -38,9 +39,12 @@ internal static class CommandLineOptionsValidator
 
         var errors = validationResults
             .Select(result => FormatValidationResult(optionsType, result))
-            .Order(StringComparer.Ordinal);
-        throw new ValidationException(
-            $"Invalid command-line options: {string.Join("; ", errors)}");
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var message = $"Invalid command-line options: {string.Join("; ", errors)}";
+        throw new CommandOptionsValidationException(
+            message,
+            new ValidationException(message));
     }
 
     [UnconditionalSuppressMessage(

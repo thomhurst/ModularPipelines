@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Ansible.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -65,7 +65,7 @@ public class AnsibleOptionsTests : TestBase
         {
             Verbose = 7,
         }))
-            .Throws<ValidationException>()
+            .Throws<CommandOptionsValidationException>()
             .And.HasMessageContaining("AnsibleExecuteOptions.Verbose");
     }
 }
