@@ -287,20 +287,21 @@ internal class CoordinatedTextWriter : TextWriter
             }
 
             var secret = pending.Substring(match.Index, match.Length);
-            var obfuscatedSecret = _secretObfuscator.Obfuscate(secret, null);
-            if (string.Equals(obfuscatedSecret, secret, StringComparison.Ordinal))
+            var obfuscation = _secretObfuscator is ITrackedSecretObfuscator trackedObfuscator
+                ? trackedObfuscator.ObfuscateWithConsumption(secret, null)
+                : GetFallbackObfuscation(secret);
+            if (obfuscation.ConsumedInputLength == 0)
             {
                 searchIndex = match.Index + 1;
                 continue;
             }
 
-            var unchangedSuffixLength = GetUnchangedSuffixLength(secret, obfuscatedSecret);
-            var consumedLength = match.Length - unchangedSuffixLength;
-            var obfuscatedLength = obfuscatedSecret.Length - unchangedSuffixLength;
+            var unconsumedLength = match.Length - obfuscation.ConsumedInputLength;
+            var obfuscatedLength = obfuscation.Output.Length - unconsumedLength;
             output.Append(pending, outputIndex, match.Index - outputIndex);
-            output.Append(obfuscatedSecret, 0, obfuscatedLength);
-            retainedPrefixInvalidated |= match.Index + consumedLength > retainedPrefixStart;
-            outputIndex = match.Index + consumedLength;
+            output.Append(obfuscation.Output, 0, obfuscatedLength);
+            retainedPrefixInvalidated |= match.Index + obfuscation.ConsumedInputLength > retainedPrefixStart;
+            outputIndex = match.Index + obfuscation.ConsumedInputLength;
             searchIndex = outputIndex;
             replaced = true;
         }
@@ -316,17 +317,13 @@ internal class CoordinatedTextWriter : TextWriter
             : retainedPrefixLength;
     }
 
-    private static int GetUnchangedSuffixLength(string input, string obfuscated)
+    private SecretObfuscationResult GetFallbackObfuscation(string input)
     {
-        var maximumLength = Math.Min(input.Length, obfuscated.Length);
-        var suffixLength = 0;
-        while (suffixLength < maximumLength
-               && input[^(suffixLength + 1)] == obfuscated[^(suffixLength + 1)])
-        {
-            suffixLength++;
-        }
-
-        return suffixLength == input.Length ? 0 : suffixLength;
+        var output = _secretObfuscator.Obfuscate(input, null);
+        var consumedInputLength = string.Equals(output, input, StringComparison.Ordinal)
+            ? 0
+            : input.Length;
+        return new SecretObfuscationResult(output, consumedInputLength);
     }
 
     private void FlushSafeOutput(LineBufferState state, int retainedLength, bool shouldBuffer)

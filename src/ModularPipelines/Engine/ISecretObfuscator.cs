@@ -22,3 +22,10 @@ public interface ISecretObfuscator
     /// <returns>The input with sensitive information obfuscated.</returns>
     string Obfuscate(string? input, object? optionsObject);
 }
+
+internal interface ITrackedSecretObfuscator : ISecretObfuscator
+{
+    SecretObfuscationResult ObfuscateWithConsumption(string? input, object? optionsObject);
+}
+
+internal readonly record struct SecretObfuscationResult(string Output, int ConsumedInputLength);

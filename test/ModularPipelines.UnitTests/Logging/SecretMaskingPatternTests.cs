@@ -672,6 +672,33 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_DoesNotMistakeCustomMaskSuffixForUnconsumedInput()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("bAb");
+        var obfuscator = new SecretObfuscator(
+            provider,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                CaseInsensitive = true,
+                MaskValue = "ab",
+            }));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator,
+            provider);
+
+        writer.Write("babaBABb");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("abaabb");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);

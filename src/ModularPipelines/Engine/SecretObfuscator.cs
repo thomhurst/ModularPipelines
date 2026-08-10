@@ -23,7 +23,7 @@ namespace ModularPipelines.Engine;
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class SecretObfuscator : ISecretObfuscator, IInitializer
+internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 {
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
@@ -55,9 +55,21 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public string Obfuscate(string? input, object? optionsObject)
     {
+        return ObfuscateWithConsumption(input, optionsObject).Output;
+    }
+
+    SecretObfuscationResult ITrackedSecretObfuscator.ObfuscateWithConsumption(
+        string? input,
+        object? optionsObject)
+    {
+        return ObfuscateWithConsumption(input, optionsObject);
+    }
+
+    private SecretObfuscationResult ObfuscateWithConsumption(string? input, object? optionsObject)
+    {
         if (string.IsNullOrEmpty(input))
         {
-            return string.Empty;
+            return new SecretObfuscationResult(string.Empty, 0);
         }
 
         var options = _maskingOptions.Value;
@@ -69,7 +81,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         if (secretCache.SearchValues is null ||
             !input.AsSpan().ContainsAny(secretCache.SearchValues))
         {
-            return input;
+            return new SecretObfuscationResult(input, 0);
         }
 
         return ObfuscateMatches(
@@ -200,7 +212,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             searchValues);
     }
 
-    private static string ObfuscateMatches(
+    private static SecretObfuscationResult ObfuscateMatches(
         string input,
         IReadOnlyList<string> secrets,
         SearchValues<string> searchValues,
@@ -243,7 +255,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
         result.Append(input, inputOffset, input.Length - inputOffset);
 
-        return result.ToString();
+        return new SecretObfuscationResult(result.ToString(), inputOffset);
     }
 
     private sealed class OptionsSecretCache
