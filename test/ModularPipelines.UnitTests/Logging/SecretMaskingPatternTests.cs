@@ -262,8 +262,9 @@ public class SecretMaskingPatternTests
     {
         var provider = CreateProvider(out _);
         using var firstObfuscationStarted = new ManualResetEventSlim();
-        using var secondWriteStarted = new ManualResetEventSlim();
+        using var secondWriterStarted = new ManualResetEventSlim();
         using var secondObfuscationStarted = new ManualResetEventSlim();
+        using var secondBufferReached = new ManualResetEventSlim();
         using var releaseFirstObfuscation = new ManualResetEventSlim();
         var callCount = 0;
         var obfuscator = new Mock<ISecretObfuscator>();
@@ -288,6 +289,9 @@ public class SecretMaskingPatternTests
             });
         var firstBuffer = new Mock<IModuleOutputBuffer>();
         var secondBuffer = new Mock<IModuleOutputBuffer>();
+        secondBuffer
+            .Setup(x => x.WriteLine("second output"))
+            .Callback(() => secondBufferReached.Set());
         var coordinator = new Mock<IConsoleCoordinator>();
         coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
         coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
@@ -304,22 +308,28 @@ public class SecretMaskingPatternTests
         try
         {
             await Assert.That(firstObfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            secondWrite = Task.Run(() =>
-            {
-                secondWriteStarted.Set();
-                WriteForModule(writer, typeof(SecondModule), "second output");
-            });
-            await Assert.That(secondWriteStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            secondWrite = Task.Factory.StartNew(
+                () =>
+                {
+                    secondWriterStarted.Set();
+                    WriteForModule(writer, typeof(SecondModule), "second output");
+                },
+                CancellationToken.None,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
+            await Assert.That(secondWriterStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
             await Task.Delay(TimeSpan.FromMilliseconds(200));
             await Assert.That(secondObfuscationStarted.IsSet).IsFalse();
+            await Assert.That(secondBufferReached.IsSet).IsFalse();
         }
         finally
         {
             releaseFirstObfuscation.Set();
-            await Task.WhenAll(firstWrite, secondWrite);
+            await Task.WhenAll(firstWrite, secondWrite).WaitAsync(TimeSpan.FromSeconds(5));
         }
 
         await Assert.That(secondObfuscationStarted.IsSet).IsTrue();
+        await Assert.That(secondBufferReached.IsSet).IsTrue();
         obfuscator.Verify(x => x.Obfuscate(It.IsAny<string>(), null), Times.Exactly(2));
         firstBuffer.Verify(x => x.WriteLine("first output"), Times.Once);
         secondBuffer.Verify(x => x.WriteLine("second output"), Times.Once);
@@ -718,7 +728,7 @@ public class SecretMaskingPatternTests
             Mock.Of<IConsoleCoordinator>(),
             realConsole,
             () => false,
-            CreateObfuscator(provider),
+            CreateObfuscator(provider, caseInsensitive: false),
             provider);
 
         writer.Write("abcx");
@@ -785,7 +795,7 @@ public class SecretMaskingPatternTests
             Mock.Of<IConsoleCoordinator>(),
             realConsole,
             () => false,
-            CreateObfuscator(provider),
+            CreateObfuscator(provider, caseInsensitive: false),
             provider);
 
         writer.Write("aA");
@@ -845,7 +855,7 @@ public class SecretMaskingPatternTests
             Mock.Of<IConsoleCoordinator>(),
             realConsole,
             () => false,
-            CreateObfuscator(provider),
+            CreateObfuscator(provider, caseInsensitive: false),
             provider);
 
         writer.Write("AAAAAa");
@@ -958,7 +968,7 @@ public class SecretMaskingPatternTests
         finally
         {
             releaseObfuscation.Set();
-            await Task.WhenAll(write, registration);
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
         }
 
         await Assert.That(realConsole.ToString())
@@ -1004,7 +1014,7 @@ public class SecretMaskingPatternTests
         finally
         {
             releaseWrite.Set();
-            await Task.WhenAll(write, registration);
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
         }
 
         await Assert.That(realConsole.ToString())
@@ -1078,11 +1088,16 @@ public class SecretMaskingPatternTests
             logger?.Object ?? Mock.Of<ILogger<SecretProvider>>());
     }
 
-    private static SecretObfuscator CreateObfuscator(ISecretProvider provider)
+    private static SecretObfuscator CreateObfuscator(
+        ISecretProvider provider,
+        bool caseInsensitive = false)
     {
         return new SecretObfuscator(
             provider,
-            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                CaseInsensitive = caseInsensitive,
+            }));
     }
 
     private static void WriteForModule(CoordinatedTextWriter writer, Type moduleType, string value)
