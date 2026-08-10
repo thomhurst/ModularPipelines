@@ -201,49 +201,61 @@ internal class ModuleRunner : IModuleRunner
             }
             catch (Exception ex)
             {
-                var isDependencyFailure = ex is DependencyFailedException;
-                var isPipelineCancellation = ex is OperationCanceledException
-                                             && _engineCancellationToken.IsCancelled;
-                var registeredResult = _resultRegistry.GetResult(moduleType);
-                if (isPipelineCancellation)
-                {
-                    _logger.LogInformation(
-                        "Pipeline cancellation stopped module {ModuleName} before execution",
-                        moduleName);
-                }
-                else
-                {
-                    _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
-                }
-
-                Enums.Status? statusOverride = isDependencyFailure
-                    ? Enums.Status.DependencyFailed
-                    : isPipelineCancellation
-                        ? registeredResult?.ModuleStatus ?? Enums.Status.PipelineTerminated
-                        : null;
-                scheduler.MarkModuleCompleted(
-                    moduleType,
-                    false,
-                    ex,
-                    statusOverride);
-
-                if (moduleState.Result == null && registeredResult == null)
-                {
-                    if (isDependencyFailure)
-                    {
-                        _resultRegistrar.RegisterDependencyFailedResult(module, moduleType, ex);
-                    }
-                    else
-                    {
-                        _resultRegistrar.RegisterTerminatedResult(module, moduleType, ex);
-                    }
-                }
+                HandleExecutionFailure(moduleState, scheduler, ex);
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                 {
                     throw;
                 }
             }
+        }
+    }
+
+    private void HandleExecutionFailure(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        Exception exception)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
+        var isDependencyFailure = exception is DependencyFailedException;
+        var isPipelineCancellation = exception is OperationCanceledException
+                                     && _engineCancellationToken.IsCancelled;
+        var registeredResult = _resultRegistry.GetResult(moduleType);
+        if (isPipelineCancellation)
+        {
+            _logger.LogInformation(
+                "Pipeline cancellation stopped module {ModuleName} before execution",
+                moduleType.Name);
+        }
+        else
+        {
+            _logger.LogError(exception, "Module {ModuleName} failed", moduleType.Name);
+        }
+
+        Enums.Status? statusOverride = isDependencyFailure
+            ? Enums.Status.DependencyFailed
+            : isPipelineCancellation
+                ? registeredResult?.ModuleStatus ?? Enums.Status.PipelineTerminated
+                : null;
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            false,
+            exception,
+            statusOverride);
+
+        if (moduleState.Result is not null || registeredResult is not null)
+        {
+            return;
+        }
+
+        if (isDependencyFailure)
+        {
+            _resultRegistrar.RegisterDependencyFailedResult(module, moduleType, exception);
+        }
+        else
+        {
+            _resultRegistrar.RegisterTerminatedResult(module, moduleType, exception);
         }
     }
 
