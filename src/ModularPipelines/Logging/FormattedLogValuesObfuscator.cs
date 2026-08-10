@@ -31,9 +31,34 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 
     public object TryObfuscateValues(object state)
     {
+        // HasSecrets is only a hint; custom obfuscators may still apply policy-based masking.
+        if (_secretObfuscator is not SecretObfuscator builtInObfuscator)
+        {
+            return TryObfuscateValues(state, skipOrdinaryValues: false);
+        }
+
+        var registrationState = builtInObfuscator.GetRegistrationState();
+        var skipOrdinaryValues = !registrationState.HasSecrets;
+        var obfuscatedState = TryObfuscateValues(state, skipOrdinaryValues);
+
+        if (!skipOrdinaryValues)
+        {
+            return obfuscatedState;
+        }
+
+        // A secret may be registered while the zero-secret fast path traverses the state.
+        var currentRegistrationState = builtInObfuscator.GetRegistrationState();
+        return currentRegistrationState.Version != registrationState.Version
+               && currentRegistrationState.HasSecrets
+            ? TryObfuscateValues(state, skipOrdinaryValues: false)
+            : obfuscatedState;
+    }
+
+    private object TryObfuscateValues(object state, bool skipOrdinaryValues)
+    {
         if (state is not IReadOnlyList<KeyValuePair<string, object?>> values)
         {
-            return ObfuscateValue(state);
+            return skipOrdinaryValues ? state : ObfuscateValue(state);
         }
 
         KeyValuePair<string, object?>[]? obfuscatedValues = null;
@@ -46,7 +71,20 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
                 continue;
             }
 
-            var obfuscatedValue = ObfuscateValue(property.Value);
+            object obfuscatedValue;
+            if (property.Value is PreObfuscatedLogValue preObfuscatedValue)
+            {
+                obfuscatedValue = preObfuscatedValue.Value;
+            }
+            else if (!skipOrdinaryValues)
+            {
+                obfuscatedValue = ObfuscateValue(property.Value);
+            }
+            else
+            {
+                continue;
+            }
+
             if (ReferenceEquals(obfuscatedValue, property.Value))
             {
                 continue;
@@ -69,7 +107,7 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
         string originalValue;
         try
         {
-            originalValue = value.ToString() ?? string.Empty;
+            originalValue = value as string ?? value.ToString() ?? string.Empty;
         }
         catch (Exception)
         {
@@ -77,7 +115,8 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
         }
 
         var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
-        return obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
+        return ReferenceEquals(obfuscatedValue, originalValue)
+               || obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
             ? value
             : obfuscatedValue;
     }

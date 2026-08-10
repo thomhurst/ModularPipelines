@@ -9,6 +9,25 @@ namespace ModularPipelines.UnitTests.Logging;
 public class SecretObfuscatorCachingTests
 {
     [Test]
+    public async Task HasSecrets_TracksDynamicSecretRegistration()
+    {
+        var optionsProvider = new Mock<IOptionsProvider>();
+        optionsProvider.Setup(x => x.GetOptions()).Returns([]);
+        var secretProvider = new SecretProvider(
+            optionsProvider.Object,
+            Mock.Of<IBuildSystemSecretMasker>(),
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()),
+            Mock.Of<ILogger<SecretProvider>>());
+        var obfuscator = CreateObfuscator(secretProvider);
+
+        await Assert.That(obfuscator.HasSecrets).IsFalse();
+
+        secretProvider.AddSecret("dynamic-secret");
+
+        await Assert.That(obfuscator.HasSecrets).IsTrue();
+    }
+
+    [Test]
     public async Task ReusesSecretSnapshotUntilProviderChanges()
     {
         var secretProvider = new Mock<ISecretProvider>();
