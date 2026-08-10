@@ -230,7 +230,7 @@ internal class ModuleRunner : IModuleRunner
     {
         if (!alwaysRun
             && (workerCancellationToken.IsCancellationRequested
-                || _engineCancellationToken.OriginalException is not null)
+                || _engineCancellationToken.IsCancelled)
             && exception is OperationCanceledException operationCanceledException
             && operationCanceledException.CancellationToken == limiterCancellationToken
             && limiterCancellationToken != workerCancellationToken)
@@ -282,11 +282,10 @@ internal class ModuleRunner : IModuleRunner
         var isPipelineCancellation = exception is OperationCanceledException
                                      && _engineCancellationToken.IsCancelled;
         var registeredResult = _resultRegistry.GetResult(moduleType);
-        var completionException = isPipelineCancellation
-            ? registeredResult?.ExceptionOrDefault
-              ?? _engineCancellationToken.OriginalException
-              ?? exception
-            : exception;
+        var completionException = GetCompletionException(
+            exception,
+            isPipelineCancellation,
+            registeredResult?.ExceptionOrDefault);
         if (isPipelineCancellation)
         {
             _logger.LogInformation(
@@ -298,11 +297,10 @@ internal class ModuleRunner : IModuleRunner
             _logger.LogError(exception, "Module {ModuleName} failed", moduleType.Name);
         }
 
-        Enums.Status? statusOverride = isDependencyFailure
-            ? Enums.Status.DependencyFailed
-            : isPipelineCancellation
-                ? registeredResult?.ModuleStatus ?? Enums.Status.PipelineTerminated
-                : null;
+        var statusOverride = GetStatusOverride(
+            isDependencyFailure,
+            isPipelineCancellation,
+            registeredResult?.ModuleStatus);
         scheduler.MarkModuleCompleted(
             moduleType,
             false,
@@ -322,6 +320,29 @@ internal class ModuleRunner : IModuleRunner
         {
             _resultRegistrar.RegisterTerminatedResult(module, moduleType, completionException);
         }
+    }
+
+    private Exception GetCompletionException(
+        Exception exception,
+        bool isPipelineCancellation,
+        Exception? registeredException) =>
+        isPipelineCancellation
+            ? registeredException ?? _engineCancellationToken.OriginalException ?? exception
+            : exception;
+
+    private static Enums.Status? GetStatusOverride(
+        bool isDependencyFailure,
+        bool isPipelineCancellation,
+        Enums.Status? registeredStatus)
+    {
+        if (isDependencyFailure)
+        {
+            return Enums.Status.DependencyFailed;
+        }
+
+        return isPipelineCancellation
+            ? registeredStatus ?? Enums.Status.PipelineTerminated
+            : null;
     }
 
     private async Task UploadProducedArtifactsAsync(

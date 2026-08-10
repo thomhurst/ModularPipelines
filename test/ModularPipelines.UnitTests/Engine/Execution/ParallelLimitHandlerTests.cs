@@ -231,15 +231,18 @@ public class ParallelLimitHandlerTests
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var scheduler = new Mock<IModuleScheduler>();
         var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        using var workerCancellationTokenSource = new CancellationTokenSource();
 
         var executionTask = moduleRunner.ExecuteAsync(
             moduleState,
             scheduler.Object,
-            CancellationToken.None);
+            workerCancellationTokenSource.Token);
         await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         engineCancellationToken.Cancel();
 
-        await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+        await Assert.That(exception!.CancellationToken)
+            .IsEqualTo(workerCancellationTokenSource.Token);
         scheduler.Verify(x => x.MarkModuleCompleted(
             typeof(TestModule),
             false,
