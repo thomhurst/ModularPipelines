@@ -18,9 +18,11 @@ internal static class CommandLineOptionsValidator
         Justification = "Command options follow the generated-metadata-or-reflection contract used by CommandModelProvider. Unprocessed reflection fallback assemblies are not trim-safe.")]
     public static void Validate(
         CommandLineToolOptions options,
+        IServiceProvider serviceProvider,
         ISecretObfuscator secretObfuscator)
     {
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(serviceProvider);
         ArgumentNullException.ThrowIfNull(secretObfuscator);
 
         var optionsType = options.GetType();
@@ -35,18 +37,18 @@ internal static class CommandLineOptionsValidator
         var validationResults = new List<ValidationResult>();
         try
         {
-            ValidateProperties(options, metadata.NonPublicProperties, validationResults);
+            ValidateProperties(options, metadata.NonPublicProperties, serviceProvider, validationResults);
             if (validationResults.Count == 0)
             {
                 Validator.TryValidateObject(
                     options,
-                    new ValidationContext(options),
+                    new ValidationContext(options, serviceProvider, items: null),
                     validationResults,
                     validateAllProperties: true);
             }
             else
             {
-                ValidateProperties(options, metadata.PublicProperties, validationResults);
+                ValidateProperties(options, metadata.PublicProperties, serviceProvider, validationResults);
             }
         }
         catch (Exception exception)
@@ -131,11 +133,12 @@ internal static class CommandLineOptionsValidator
     private static void ValidateProperties(
         object options,
         IReadOnlyList<ValidatedProperty> properties,
+        IServiceProvider serviceProvider,
         ICollection<ValidationResult> validationResults)
     {
         foreach (var property in properties)
         {
-            var context = new ValidationContext(options)
+            var context = new ValidationContext(options, serviceProvider, items: null)
             {
                 DisplayName = property.Property.Name,
                 MemberName = property.Property.Name,

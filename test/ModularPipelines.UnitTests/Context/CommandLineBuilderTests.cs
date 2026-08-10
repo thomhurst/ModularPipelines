@@ -106,6 +106,16 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Provides_Scoped_Services_To_Validation_Contexts()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestServiceValidatedOptions());
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
     public async Task Build_Wraps_ValidationException_From_Callback()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -147,9 +157,9 @@ public class CommandLineBuilderTests : TestBase
         var builder = await GetService<ICommandLineBuilder>();
 
         var exception = await Assert.That(() => builder.Build(new TestThrowingSecretValidatedOptions
-            {
-                Token = secret,
-            }))
+        {
+            Token = secret,
+        }))
             .Throws<CommandOptionsValidationException>();
 
         using (Assert.Multiple())
@@ -1276,6 +1286,29 @@ public class CommandLineBuilderTests : TestBase
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) =>
             throw new ValidationException("Callback validation failed.");
+    }
+
+    [CliTool("tool")]
+    private sealed record TestServiceValidatedOptions : CommandLineToolOptions, IValidatableObject
+    {
+        [RequiresCommandLineBuilder]
+        internal string Value { get; init; } = "valid";
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (validationContext.GetService(typeof(ICommandLineBuilder)) is null)
+            {
+                yield return new ValidationResult("Scoped service unavailable to object validation.");
+            }
+        }
+    }
+
+    private sealed class RequiresCommandLineBuilderAttribute : ValidationAttribute
+    {
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext) =>
+            validationContext.GetService(typeof(ICommandLineBuilder)) is null
+                ? new ValidationResult("Scoped service unavailable to property validation.")
+                : ValidationResult.Success;
     }
 
     [CliTool("tool")]

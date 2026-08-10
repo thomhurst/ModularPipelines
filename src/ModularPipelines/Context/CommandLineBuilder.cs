@@ -26,6 +26,7 @@ internal sealed class CommandLineBuilder(
     ICommandPartsProvider commandPartsProvider,
     ICommandModelProvider commandModelProvider,
     ICommandArgumentBuilder commandArgumentBuilder,
+    IServiceProvider serviceProvider,
     ISecretObfuscator secretObfuscator) : ICommandLineBuilder
 {
     private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
@@ -43,12 +44,13 @@ internal sealed class CommandLineBuilder(
     private readonly ICommandPartsProvider _commandPartsProvider = commandPartsProvider;
     private readonly ICommandModelProvider _commandModelProvider = commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder = commandArgumentBuilder;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
 
     /// <inheritdoc />
     public CommandLine Build(CommandLineToolOptions options)
     {
-        CommandLineOptionsValidator.Validate(options, _secretObfuscator);
+        CommandLineOptionsValidator.Validate(options, _serviceProvider, _secretObfuscator);
 
         // 2. Resolve tool name using _toolResolver
         var tool = _toolResolver.ResolveTool(options)
