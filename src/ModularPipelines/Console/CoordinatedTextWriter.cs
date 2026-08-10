@@ -272,8 +272,18 @@ internal class CoordinatedTextWriter : TextWriter
                 && retainedPrefixLength > 0
                 && match.Index + match.Length > retainedPrefixStart)
             {
-                searchIndex = match.Index + 1;
-                continue;
+                var safeMatchLength = FindLongestPatternEndingAtOrBefore(
+                    pending,
+                    patterns.Values,
+                    match.Index,
+                    retainedPrefixStart);
+                if (safeMatchLength == 0)
+                {
+                    searchIndex = match.Index + 1;
+                    continue;
+                }
+
+                match = (match.Index, safeMatchLength);
             }
 
             output.Append(pending, outputIndex, match.Index - outputIndex);
@@ -361,6 +371,29 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
+    }
+
+    private static int FindLongestPatternEndingAtOrBefore(
+        string input,
+        IReadOnlyList<string> patterns,
+        int startIndex,
+        int endIndex)
+    {
+        if (startIndex >= endIndex)
+        {
+            return 0;
+        }
+
+        var safeInput = input.AsSpan(startIndex, endIndex - startIndex);
+        foreach (var pattern in patterns)
+        {
+            if (safeInput.StartsWith(pattern, StringComparison.OrdinalIgnoreCase))
+            {
+                return pattern.Length;
+            }
+        }
+
+        return 0;
     }
 
     private static int GetPotentialPatternPrefixLength(StringBuilder input, IReadOnlyList<string> patterns)
