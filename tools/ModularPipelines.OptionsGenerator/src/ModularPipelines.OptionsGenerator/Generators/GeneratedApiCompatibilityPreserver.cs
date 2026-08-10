@@ -47,90 +47,15 @@ internal static class GeneratedApiCompatibilityPreserver
         var violations = new List<string>();
         foreach (var baseline in baselineProperties)
         {
-            if (baseline.IsCompatibility)
-            {
-                AddCompatibilityProperty(
-                    compatibilityProperties,
-                    new CliCompatibilityProperty
-                    {
-                        PropertyName = baseline.PropertyName,
-                        CSharpType = baseline.CSharpType,
-                        ForwardToPropertyName = baseline.ForwardToPropertyName,
-                        ObsoleteMessage = baseline.ObsoleteMessage
-                            ?? $"{baseline.PropertyName} is retained for compatibility.",
-                    });
-                continue;
-            }
-
-            var sameName = currentProperties.FirstOrDefault(property =>
-                property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
-            if (sameName is not null)
-            {
-                if (!sameName.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
-                {
-                    violations.Add(
-                        $"{command.ClassName}.{baseline.PropertyName} changed type from "
-                        + $"{baseline.CSharpType} to {sameName.CSharpType}");
-                }
-                else if (!baseline.IsRequired && sameName.IsRequired)
-                {
-                    violations.Add(
-                        $"{command.ClassName}.{baseline.PropertyName} changed from optional to required");
-                }
-                else if (!HasSameCliIdentity(sameName, baseline))
-                {
-                    violations.Add(
-                        $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
-                }
-
-                continue;
-            }
-
-            var sameCliMember = currentProperties.FirstOrDefault(property =>
-                HasSameCliIdentity(property, baseline));
-            if (sameCliMember is not null
-                && !sameCliMember.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
-            {
-                violations.Add(
-                    $"{command.ClassName}.{baseline.PropertyName} changed type from "
-                    + $"{baseline.CSharpType} to {sameCliMember.CSharpType} "
-                    + $"while being renamed to {sameCliMember.PropertyName}");
-                continue;
-            }
-
-            var replacement = sameCliMember;
-            if (baseline.IsRequired && replacement is null)
-            {
-                violations.Add(
-                    $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor");
-                continue;
-            }
-
-            AddCompatibilityProperty(
+            PreserveBaselineProperty(
+                command,
+                baseline,
+                currentProperties,
                 compatibilityProperties,
-                new CliCompatibilityProperty
-                {
-                    PropertyName = baseline.PropertyName,
-                    CSharpType = baseline.CSharpType,
-                    ForwardToPropertyName = replacement?.PropertyName,
-                    ObsoleteMessage = replacement is null
-                        ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
-                        : $"Use {replacement.PropertyName} instead.",
-                });
+                violations);
         }
 
-        foreach (var current in currentProperties.Where(static property => property.IsRequired))
-        {
-            if (baselineProperties.Any(baseline =>
-                    !baseline.IsCompatibility
-                    && baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal)))
-            {
-                continue;
-            }
-
-            violations.Add(
-                $"{command.ClassName}.{current.PropertyName} was added to the required constructor");
-        }
+        AddNewRequiredMemberViolations(command, baselineProperties, currentProperties, violations);
 
         if (violations.Count > 0)
         {
@@ -146,6 +71,116 @@ internal static class GeneratedApiCompatibilityPreserver
             PositionalArguments = positionalArguments,
             CompatibilityProperties = compatibilityProperties,
         };
+    }
+
+    private static void PreserveBaselineProperty(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> currentProperties,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        List<string> violations)
+    {
+        if (baseline.IsCompatibility)
+        {
+            PreserveCompatibilityProperty(baseline, compatibilityProperties);
+            return;
+        }
+
+        var sameName = currentProperties.FirstOrDefault(property =>
+            property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
+        if (sameName is not null)
+        {
+            ValidateMatchingProperty(command, baseline, sameName, violations);
+            return;
+        }
+
+        var replacement = currentProperties.FirstOrDefault(property =>
+            HasSameCliIdentity(property, baseline));
+        if (replacement is not null
+            && !replacement.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed type from "
+                + $"{baseline.CSharpType} to {replacement.CSharpType} "
+                + $"while being renamed to {replacement.PropertyName}");
+            return;
+        }
+
+        if (baseline.IsRequired && replacement is null)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} was removed from the required constructor");
+            return;
+        }
+
+        AddCompatibilityProperty(
+            compatibilityProperties,
+            new CliCompatibilityProperty
+            {
+                PropertyName = baseline.PropertyName,
+                CSharpType = baseline.CSharpType,
+                ForwardToPropertyName = replacement?.PropertyName,
+                ObsoleteMessage = replacement is null
+                    ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
+                    : $"Use {replacement.PropertyName} instead.",
+            });
+    }
+
+    private static void PreserveCompatibilityProperty(
+        GeneratedApiProperty baseline,
+        ICollection<CliCompatibilityProperty> compatibilityProperties) =>
+        AddCompatibilityProperty(
+            compatibilityProperties,
+            new CliCompatibilityProperty
+            {
+                PropertyName = baseline.PropertyName,
+                CSharpType = baseline.CSharpType,
+                ForwardToPropertyName = baseline.ForwardToPropertyName,
+                ObsoleteMessage = baseline.ObsoleteMessage
+                    ?? $"{baseline.PropertyName} is retained for compatibility.",
+            });
+
+    private static void ValidateMatchingProperty(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty current,
+        List<string> violations)
+    {
+        if (!current.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed type from "
+                + $"{baseline.CSharpType} to {current.CSharpType}");
+        }
+        else if (!baseline.IsRequired && current.IsRequired)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed from optional to required");
+        }
+        else if (!HasSameCliIdentity(current, baseline))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
+        }
+    }
+
+    private static void AddNewRequiredMemberViolations(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IEnumerable<GeneratedApiProperty> currentProperties,
+        List<string> violations)
+    {
+        foreach (var current in currentProperties.Where(static property => property.IsRequired))
+        {
+            var existedInBaseline = baselineProperties.Any(baseline =>
+                !baseline.IsCompatibility
+                && baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal));
+            if (!existedInBaseline)
+            {
+                violations.Add(
+                    $"{command.ClassName}.{current.PropertyName} was added to the required constructor");
+            }
+        }
     }
 
     private static void RestoreRequiredMemberNames(
