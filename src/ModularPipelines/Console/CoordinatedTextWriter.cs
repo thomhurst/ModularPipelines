@@ -46,6 +46,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly ConditionalWeakTable<object, Dictionary<LineBufferKey, LineBufferState>>
         _scopedLineBuffers = [];
+    private readonly HashSet<LineBufferState> _pendingScopedLineBuffers = [];
     private readonly object _lineBufferLock = new();
     private readonly object _customObfuscatorLock = new();
     private readonly object _secretPatternsLock = new();
@@ -140,6 +141,7 @@ internal class CoordinatedTextWriter : TextWriter
                 var shouldBuffer = GetBufferMode(state, ShouldBuffer());
                 state.Buffer.Append(value);
                 ProcessPendingOutput(state, shouldBuffer, shouldProcess: value == '\n');
+                UpdateScopedLineBufferRetention(state);
             }
         }
         finally
@@ -228,10 +230,13 @@ internal class CoordinatedTextWriter : TextWriter
         {
             state.Buffer.Append(Environment.NewLine);
             ProcessPendingOutput(state, shouldBuffer, shouldProcess: true);
-            return;
+        }
+        else
+        {
+            ProcessPendingOutput(state, shouldBuffer, shouldProcess: false);
         }
 
-        ProcessPendingOutput(state, shouldBuffer, shouldProcess: false);
+        UpdateScopedLineBufferRetention(state);
     }
 
     private void ProcessPendingOutput(LineBufferState state, bool shouldBuffer, bool shouldProcess)
@@ -306,7 +311,7 @@ internal class CoordinatedTextWriter : TextWriter
                 : _scopedLineBuffers.GetValue(primaryScope, static _ => []);
             if (!lineBuffers.TryGetValue(key, out var state))
             {
-                state = new LineBufferState(moduleType);
+                state = new LineBufferState(moduleType, primaryScope is not null);
                 lineBuffers.Add(key, state);
             }
 
@@ -1066,6 +1071,8 @@ internal class CoordinatedTextWriter : TextWriter
                     context.State.ShouldBuffer = null;
                 }
             });
+
+        UpdateScopedLineBufferRetention(state);
     }
 
     /// <inheritdoc />
@@ -1160,10 +1167,31 @@ internal class CoordinatedTextWriter : TextWriter
         lock (_lineBufferLock)
         {
             return _lineBuffers.Values
-                .Concat(_scopedLineBuffers.SelectMany(static entry => entry.Value.Values))
+                .Concat(_pendingScopedLineBuffers)
                 .ToArray();
         }
     }
+
+    private void UpdateScopedLineBufferRetention(LineBufferState state)
+    {
+        if (!state.IsScoped)
+        {
+            return;
+        }
+
+        lock (_lineBufferLock)
+        {
+            if (state.Buffer.Length == 0)
+            {
+                _pendingScopedLineBuffers.Remove(state);
+            }
+            else
+            {
+                _pendingScopedLineBuffers.Add(state);
+            }
+        }
+    }
+
     private sealed class CustomObfuscationScope(CustomObfuscationScope? parent)
     {
         private int _isActive = 1;
@@ -1175,11 +1203,13 @@ internal class CoordinatedTextWriter : TextWriter
         public void Deactivate() => Volatile.Write(ref _isActive, 0);
     }
 
-    private sealed class LineBufferState(Type? moduleType)
+    private sealed class LineBufferState(Type? moduleType, bool isScoped)
     {
         public object SyncRoot { get; } = new();
 
         public Type? ModuleType { get; } = moduleType;
+
+        public bool IsScoped { get; } = isScoped;
 
         public StringBuilder Buffer { get; } = new();
 

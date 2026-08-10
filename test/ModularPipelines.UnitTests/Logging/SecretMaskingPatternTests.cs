@@ -2314,6 +2314,32 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FireAndForgetSinkPartialWriteSurvivesScopeCollection()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialFireAndForgetWriteStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("owner");
+        await realConsole.ChildCompleted.WaitAsync(TimeSpan.FromSeconds(5));
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"owner{Environment.NewLine}sec");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -2736,6 +2762,33 @@ public class SecretMaskingPatternTests
                     Writer.WriteLine("ret");
                 });
                 _prefixWritten.Task.GetAwaiter().GetResult();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class PartialFireAndForgetWriteStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _childCompleted = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _started;
+
+        public TextWriter? Writer { get; set; }
+
+        public Task ChildCompleted => _childCompleted.Task;
+
+        public override void WriteLine(string? value)
+        {
+            if (!_started)
+            {
+                _started = true;
+                _ = Task.Run(() =>
+                {
+                    Writer!.Write("sec");
+                    _childCompleted.TrySetResult();
+                });
+                _childCompleted.Task.GetAwaiter().GetResult();
             }
 
             base.WriteLine(value);
