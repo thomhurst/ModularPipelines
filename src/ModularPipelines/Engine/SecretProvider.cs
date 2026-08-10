@@ -177,20 +177,15 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
         ArgumentNullException.ThrowIfNull(processOutput);
 
         var existingScope = FindDeferredRegistrationScope();
-        if (existingScope is not null && _secretEmissionLock.IsReadLockHeld)
-        {
-            PublishDeferredPatterns(existingScope);
-            processOutput(state);
-            return;
-        }
-
         var ownsReadLock = existingScope is null;
         EnterStableEmission(ownsReadLock, GetUnscopedRegistrationBatch());
         var previousScope = CurrentDeferredRegistrationScope.Value;
         var scope = new DeferredRegistrationScope(
             this,
             previousScope,
-            existingScope?.Snapshot ?? GetMaskingSnapshot());
+            existingScope is null
+                ? GetMaskingSnapshot()
+                : GetNestedMaskingSnapshot(existingScope));
         CurrentDeferredRegistrationScope.Value = scope;
         try
         {
@@ -202,6 +197,27 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             CurrentDeferredRegistrationScope.Value = previousScope;
             ExitStableEmission(ownsReadLock, deferredPatterns);
         }
+    }
+
+    private SecretSnapshot GetNestedMaskingSnapshot(DeferredRegistrationScope existingScope)
+    {
+        var existingSnapshot = existingScope.Snapshot;
+        var secrets = existingSnapshot.Secrets.ToHashSet(StringComparer.Ordinal);
+        var existingCount = secrets.Count;
+        secrets.UnionWith(GetMaskingSnapshot().Secrets);
+        for (var scope = existingScope; scope is not null; scope = scope.Parent)
+        {
+            if (ReferenceEquals(scope.Provider, this))
+            {
+                scope.AddPatternsTo(secrets);
+            }
+        }
+
+        return secrets.Count == existingCount
+            ? existingSnapshot
+            : new SecretSnapshot(
+                Interlocked.Decrement(ref _nextDeferredSnapshotVersion),
+                secrets.ToArray());
     }
 
     private void EnterStableEmission(
@@ -352,33 +368,6 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
             Interlocked.Increment(ref _version);
         }
-    }
-
-    private void PublishDeferredPatterns(DeferredRegistrationScope scope)
-    {
-        if (!scope.HasPatterns)
-        {
-            return;
-        }
-
-        scope.ExecuteAfterDescendantsComplete(() =>
-        {
-            _secretEmissionLock.ExitReadLock();
-            try
-            {
-                PublishDeferredPatternsWithoutReadLock(scope);
-            }
-            finally
-            {
-                _secretEmissionLock.EnterReadLock();
-            }
-        });
-    }
-
-    private void PublishDeferredPatternsWithoutReadLock(DeferredRegistrationScope scope)
-    {
-        PublishPatterns(scope.TakePatterns());
-        scope.RefreshSnapshot(GetPublishedSnapshot());
     }
 
     private void PublishPatterns(IEnumerable<IReadOnlyList<string>> deferredPatterns)
@@ -786,10 +775,8 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     {
         private readonly object _syncRoot = new();
         private readonly List<IReadOnlyList<string>> _patterns = [];
-        private readonly DeferredRegistrationScope[] _trackedAncestors;
-        private int _activeDescendantCount;
+        private readonly SecretSnapshot _snapshot;
         private bool _isOpen = true;
-        private SecretSnapshot _snapshot;
 
         public SecretProvider Provider { get; }
 
@@ -814,11 +801,6 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             Provider = provider;
             Parent = parent;
             _snapshot = snapshot;
-            _trackedAncestors = GetTrackedAncestors(provider, parent);
-            foreach (var ancestor in _trackedAncestors)
-            {
-                ancestor.RegisterDescendant();
-            }
         }
 
         public bool IsOpen
@@ -828,17 +810,6 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
                 lock (_syncRoot)
                 {
                     return _isOpen;
-                }
-            }
-        }
-
-        public bool HasPatterns
-        {
-            get
-            {
-                lock (_syncRoot)
-                {
-                    return _patterns.Count > 0;
                 }
             }
         }
@@ -857,14 +828,6 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             }
         }
 
-        public IReadOnlyList<IReadOnlyList<string>> TakePatterns()
-        {
-            lock (_syncRoot)
-            {
-                return TakePatternsUnderLock();
-            }
-        }
-
         public IReadOnlyList<IReadOnlyList<string>> CloseAndTakePatterns()
         {
             IReadOnlyList<IReadOnlyList<string>> patterns;
@@ -874,32 +837,20 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
                 patterns = TakePatternsUnderLock();
             }
 
-            foreach (var ancestor in _trackedAncestors)
-            {
-                ancestor.UnregisterDescendant();
-            }
-
             return patterns;
         }
 
-        public void RefreshSnapshot(SecretSnapshot snapshot)
+        public void AddPatternsTo(ISet<string> secrets)
         {
             lock (_syncRoot)
             {
-                _snapshot = snapshot;
-            }
-        }
-
-        public void ExecuteAfterDescendantsComplete(Action action)
-        {
-            lock (_syncRoot)
-            {
-                while (_activeDescendantCount != 0)
+                foreach (var patterns in _patterns)
                 {
-                    Monitor.Wait(_syncRoot);
+                    foreach (var pattern in patterns)
+                    {
+                        secrets.Add(pattern);
+                    }
                 }
-
-                action();
             }
         }
 
@@ -908,42 +859,6 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             var patterns = _patterns.ToArray();
             _patterns.Clear();
             return patterns;
-        }
-
-        private void RegisterDescendant()
-        {
-            lock (_syncRoot)
-            {
-                _activeDescendantCount++;
-            }
-        }
-
-        private void UnregisterDescendant()
-        {
-            lock (_syncRoot)
-            {
-                _activeDescendantCount--;
-                if (_activeDescendantCount == 0)
-                {
-                    Monitor.PulseAll(_syncRoot);
-                }
-            }
-        }
-
-        private static DeferredRegistrationScope[] GetTrackedAncestors(
-            SecretProvider provider,
-            DeferredRegistrationScope? parent)
-        {
-            var ancestors = new List<DeferredRegistrationScope>();
-            for (var ancestor = parent; ancestor is not null; ancestor = ancestor.Parent)
-            {
-                if (ReferenceEquals(ancestor.Provider, provider))
-                {
-                    ancestors.Add(ancestor);
-                }
-            }
-
-            return ancestors.ToArray();
         }
     }
 }

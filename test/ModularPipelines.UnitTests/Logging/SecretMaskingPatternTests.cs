@@ -1444,6 +1444,108 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task StableSecretEmission_RefreshesNestedSnapshotAfterUnflowedRegistration()
+    {
+        const string discoveredSecret = "unflowed-before-nested-emission-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? emittedOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                outerProvider.ExecuteWithStableSecrets(
+                    discoveredSecret,
+                    value => emittedOutput = obfuscator.Obfuscate(value, null));
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_DoesNotWaitForInheritedEmissionBeforeNestedEmission()
+    {
+        const string discoveredSecret = "nested-before-inherited-completion-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var childStarted = new ManualResetEventSlim();
+        using var releaseChild = new ManualResetEventSlim();
+        using var nestedCompleted = new ManualResetEventSlim();
+        Task childEmission = Task.CompletedTask;
+        string? emittedOutput = null;
+
+        var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                outerProvider.AddSecret(discoveredSecret);
+                childEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    childStarted,
+                    started =>
+                    {
+                        started.Set();
+                        if (!releaseChild.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release inherited emission.");
+                        }
+                    }));
+                if (!childStarted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited emission.");
+                }
+
+                outerProvider.ExecuteWithStableSecrets(
+                    discoveredSecret,
+                    value => emittedOutput = obfuscator.Obfuscate(value, null));
+                nestedCompleted.Set();
+            }));
+
+        try
+        {
+            await Assert.That(childStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(nestedCompleted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        }
+        finally
+        {
+            releaseChild.Set();
+            await Task.WhenAll(outerEmission, childEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
     public async Task StableSecretEmission_PublishesDeferredSecretsBeforeNextRootEmission()
     {
         const string discoveredSecret = "deferred-before-next-emission-secret";
@@ -1500,14 +1602,14 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
-    public async Task StableSecretEmission_DefersReentrantPublicationUntilInheritedWorkerCompletes()
+    public async Task StableSecretEmission_DefersPublicationWithoutWaitingForInheritedWorker()
     {
         const string discoveredSecret = "inherited-worker-deferred-secret";
         var provider = CreateProvider(out _);
         var obfuscator = CreateObfuscator(provider);
         using var childScanned = new ManualResetEventSlim();
         using var releaseChild = new ManualResetEventSlim();
-        using var nestedEmissionAttempted = new ManualResetEventSlim();
+        using var nestedEmissionCompleted = new ManualResetEventSlim();
         Task childEmission = Task.CompletedTask;
         string? emittedOutput = null;
 
@@ -1534,14 +1636,14 @@ public class SecretMaskingPatternTests
                 }
 
                 outerProvider.AddSecret(discoveredSecret);
-                nestedEmissionAttempted.Set();
                 outerProvider.ExecuteWithStableSecrets(outerProvider, static _ => { });
+                nestedEmissionCompleted.Set();
             }));
 
         try
         {
-            await Assert.That(nestedEmissionAttempted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            await Assert.That(outerEmission.Wait(TimeSpan.FromMilliseconds(250))).IsFalse();
+            await Assert.That(nestedEmissionCompleted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await outerEmission.WaitAsync(TimeSpan.FromSeconds(5));
             await Assert.That(provider.Secrets).DoesNotContain(discoveredSecret);
         }
         finally
