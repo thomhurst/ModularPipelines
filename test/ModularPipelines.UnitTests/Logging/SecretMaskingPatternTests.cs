@@ -486,6 +486,35 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_ReobfuscatesWhenComparisonChangesBeforeEmission()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 4
+                ? StringComparison.Ordinal
+                : StringComparison.OrdinalIgnoreCase);
+        obfuscator.Setup(candidate => candidate.Obfuscate("abc", null))
+            .Returns("**********");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}");
+        obfuscator.Verify(candidate => candidate.Obfuscate("abc", null), Times.Once);
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_RestartsFromOriginalWhenComparisonBecomesOrdinal()
     {
         var provider = CreateProvider(out _);

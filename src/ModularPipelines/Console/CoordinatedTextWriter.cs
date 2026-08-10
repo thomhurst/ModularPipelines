@@ -253,7 +253,7 @@ internal class CoordinatedTextWriter : TextWriter
                     context.State,
                     retainedPrefixLength,
                     context.ShouldBuffer,
-                    patterns.Version);
+                    patterns);
             });
     }
 
@@ -515,13 +515,13 @@ internal class CoordinatedTextWriter : TextWriter
         LineBufferState state,
         int retainedLength,
         bool shouldBuffer,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
         FlushSafePrefix(
             state,
             state.Buffer.Length - retainedLength,
             shouldBuffer,
-            secretPatternsVersion);
+            secretPatterns);
 
         if (state.Buffer.Length == 0)
         {
@@ -533,7 +533,7 @@ internal class CoordinatedTextWriter : TextWriter
         LineBufferState state,
         int safeLength,
         bool shouldBuffer,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
         var consumedLength = 0;
         for (var index = 0; index < safeLength; index++)
@@ -550,7 +550,7 @@ internal class CoordinatedTextWriter : TextWriter
             }
 
             var line = state.Buffer.ToString(consumedLength, lineLength);
-            WriteCompletedLine(line, shouldBuffer, state.ModuleType, secretPatternsVersion);
+            WriteCompletedLine(line, shouldBuffer, state.ModuleType, secretPatterns);
             consumedLength = index + 1;
         }
 
@@ -562,7 +562,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (!shouldBuffer)
         {
-            FlushDirectPrefix(state, safeLength, secretPatternsVersion);
+            FlushDirectPrefix(state, safeLength, secretPatterns);
         }
     }
 
@@ -704,7 +704,7 @@ internal class CoordinatedTextWriter : TextWriter
     private void FlushDirectPrefix(
         LineBufferState state,
         int length,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
         if (length <= 0)
         {
@@ -714,7 +714,7 @@ internal class CoordinatedTextWriter : TextWriter
         var output = state.Buffer.ToString(0, length);
         state.Buffer.Remove(0, length);
         WriteToRealConsole(
-            ObfuscateCustomOutput(output, secretPatternsVersion),
+            ObfuscateCustomOutput(output, secretPatterns),
             appendNewLine: false);
     }
 
@@ -722,18 +722,18 @@ internal class CoordinatedTextWriter : TextWriter
         string line,
         bool shouldBuffer,
         Type? moduleType,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
         if (shouldBuffer)
         {
             RouteToBuffer(
-                ObfuscateCustomOutput(line, secretPatternsVersion),
+                ObfuscateCustomOutput(line, secretPatterns),
                 moduleType);
         }
         else
         {
             WriteToRealConsole(
-                ObfuscateCustomOutput(line, secretPatternsVersion),
+                ObfuscateCustomOutput(line, secretPatterns),
                 appendNewLine: true);
         }
     }
@@ -741,16 +741,16 @@ internal class CoordinatedTextWriter : TextWriter
     private void FlushPartialLine(
         LineBufferState state,
         bool shouldBuffer,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
-        FlushPartialPrefix(state, state.Buffer.Length, shouldBuffer, secretPatternsVersion);
+        FlushPartialPrefix(state, state.Buffer.Length, shouldBuffer, secretPatterns);
     }
 
     private void FlushPartialPrefix(
         LineBufferState state,
         int length,
         bool shouldBuffer,
-        long secretPatternsVersion)
+        SecretPatterns secretPatterns)
     {
         if (length <= 0)
         {
@@ -763,13 +763,13 @@ internal class CoordinatedTextWriter : TextWriter
         if (shouldBuffer)
         {
             RouteToBuffer(
-                ObfuscateCustomOutput(pending, secretPatternsVersion),
+                ObfuscateCustomOutput(pending, secretPatterns),
                 state.ModuleType);
         }
         else
         {
             WriteToRealConsole(
-                ObfuscateCustomOutput(pending, secretPatternsVersion),
+                ObfuscateCustomOutput(pending, secretPatterns),
                 appendNewLine: false);
         }
     }
@@ -863,11 +863,12 @@ internal class CoordinatedTextWriter : TextWriter
         ActiveOutputWriterScope.Value = activeOutputWriter.Parent;
     }
 
-    private string ObfuscateCustomOutput(string output, long secretPatternsVersion)
+    private string ObfuscateCustomOutput(string output, SecretPatterns secretPatterns)
     {
         if (_secretObfuscator is ITrackedSecretObfuscator)
         {
-            return _secretProvider.Version == secretPatternsVersion
+            return _secretProvider.Version == secretPatterns.Version
+                && GetPatternComparison() == secretPatterns.Comparison
                 ? output
                 : _secretObfuscator.Obfuscate(output, null);
         }
@@ -1036,11 +1037,11 @@ internal class CoordinatedTextWriter : TextWriter
                         context.State,
                         context.State.Buffer.Length,
                         shouldBuffer,
-                        patterns.Version);
+                        patterns);
                     context.Writer.FlushPartialLine(
                         context.State,
                         shouldBuffer,
-                        patterns.Version);
+                        patterns);
                     context.State.ShouldBuffer = null;
                     return;
                 }
@@ -1049,7 +1050,7 @@ internal class CoordinatedTextWriter : TextWriter
                     context.State,
                     retainedLength,
                     shouldBuffer,
-                    patterns.Version);
+                    patterns);
 
                 if (shouldBuffer)
                 {
@@ -1057,7 +1058,7 @@ internal class CoordinatedTextWriter : TextWriter
                         context.State,
                         context.State.Buffer.Length - retainedLength,
                         shouldBuffer,
-                        patterns.Version);
+                        patterns);
                 }
 
                 if (context.State.Buffer.Length == 0)
