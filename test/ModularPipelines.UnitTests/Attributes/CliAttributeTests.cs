@@ -296,7 +296,8 @@ public class CliAttributeTests
                     nameof(RegisteredValuePairOptions<string>.Values),
                     static options => ((RegisteredValuePairOptions<string>) options).Values,
                     new CliOptionAttribute("--arg") { Format = OptionFormat.EqualsSeparated }),
-            ]);
+            ],
+            GeneratedCommandMetadata.CurrentSchemaVersion);
         var model = new CommandModelProvider().GetCommandModel(optionsType);
         var options = new RegisteredValuePairOptions<string>
         {

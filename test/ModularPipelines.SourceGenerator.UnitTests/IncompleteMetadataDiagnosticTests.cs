@@ -494,7 +494,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Rescans_Legacy_Metadata_Marker()
+    public async Task Trimmed_Host_Rescans_Previous_Metadata_Schema()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -502,7 +502,10 @@ public class IncompleteMetadataDiagnosticTests
             """
             namespace ModularPipelines.Generated
             {
-                internal static class RuntimeMetadataRegistration;
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 1;
+                }
             }
 
             namespace External
@@ -541,7 +544,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 1;
+                    public const int SchemaVersion = 2;
                 }
             }
 
@@ -585,7 +588,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 1;
+                    public const int SchemaVersion = 2;
                 }
             }
 
@@ -631,7 +634,7 @@ public class IncompleteMetadataDiagnosticTests
             {
                 internal static class RuntimeMetadataRegistration
                 {
-                    public const int SchemaVersion = 1;
+                    public const int SchemaVersion = 2;
                 }
             }
 

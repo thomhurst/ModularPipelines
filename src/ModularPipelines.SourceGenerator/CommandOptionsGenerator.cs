@@ -13,7 +13,7 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    private const int RuntimeMetadataSchemaVersion = 1;
+    private const int RuntimeMetadataSchemaVersion = 2;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
     private const string GeneratedCodeAttributeFullName = "System.CodeDom.Compiler.GeneratedCodeAttribute";
@@ -1345,7 +1345,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
-        sb.AppendLine("            });");
+        sb.AppendLine("            },");
+        sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
     }
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)

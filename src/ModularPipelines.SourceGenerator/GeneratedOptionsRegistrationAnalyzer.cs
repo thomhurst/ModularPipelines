@@ -267,7 +267,9 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
 
         return method.Name switch
         {
-            "RegisterCommandOptions" => MetadataCoverage.CommandOptions,
+            "RegisterCommandOptions" when method.Parameters.Length == 3
+                                          && method.Parameters[2].Type.SpecialType
+                                          == SpecialType.System_Int32 => MetadataCoverage.CommandOptions,
             "RegisterSecrets" => MetadataCoverage.Secrets,
             _ => MetadataCoverage.None,
         };
