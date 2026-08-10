@@ -1,3 +1,4 @@
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -7,6 +8,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -254,6 +256,86 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
+    public async Task ModuleRunner_PreservesWorkerTokenForFailureDrivenEngineCancellation()
+    {
+        var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parallelLimitHandler = new Mock<IParallelLimitHandler>();
+        parallelLimitHandler
+            .Setup(x => x.AcquireParallelLimitAsync(
+                typeof(TestModule),
+                It.IsAny<CancellationToken>()))
+            .Returns<Type, CancellationToken>(async (_, token) =>
+            {
+                limiterWaitStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return Mock.Of<IDisposable>();
+            });
+
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TestModule>();
+        builder.Services.AddSingleton(parallelLimitHandler.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var engineCancellationToken = host.Services.GetRequiredService<ModularPipelines.Engine.EngineCancellationToken>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
+        using var workerCancellationTokenSource = new CancellationTokenSource();
+
+        var executionTask = moduleRunner.ExecuteAsync(
+            moduleState,
+            scheduler.Object,
+            workerCancellationTokenSource.Token);
+        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        engineCancellationToken.CancelWithException(new InvalidOperationException("Primary module failure"));
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
+
+        await Assert.That(exception!.CancellationToken)
+            .IsEqualTo(workerCancellationTokenSource.Token);
+    }
+
+    [Test]
+    public async Task ModuleRunner_RoutesThrowingReadyHandlerThroughFailureLifecycle()
+    {
+        ThrowingReadyAttribute.Reset();
+        var receiver = new TrackingFailureReceiver();
+        var mediator = new Mock<IMediator>();
+        mediator
+            .Setup(x => x.Publish(
+                It.IsAny<ModuleCompletedNotification>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(ValueTask.CompletedTask);
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ThrowingReadyTestModule>();
+        builder.Services.AddSingleton<IModuleEventReceiver>(receiver);
+        builder.Services.AddSingleton(mediator.Object);
+        await using var host = await builder.BuildAsync();
+        var moduleRunner = host.Services.GetRequiredService<IModuleRunner>();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var scheduler = new Mock<IModuleScheduler>();
+        var moduleState = new ModuleState(
+            new ThrowingReadyTestModule(),
+            typeof(ThrowingReadyTestModule));
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(resultRegistry.GetResult(typeof(ThrowingReadyTestModule))!.ModuleStatus)
+                .IsEqualTo(Status.Failed);
+            await Assert.That(ThrowingReadyAttribute.FailureInvocationCount).IsEqualTo(1);
+            await Assert.That(receiver.FailureInvocationCount).IsEqualTo(1);
+        }
+
+        mediator.Verify(x => x.Publish(
+            It.Is<ModuleCompletedNotification>(notification =>
+                notification.ModuleState.ModuleType == typeof(ThrowingReadyTestModule)
+                && !notification.IsSuccessful),
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
     public async Task ModuleRunner_PreservesWorkerTokenForCancelledLinkedLimiterWait()
     {
         var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -319,6 +401,9 @@ public class ParallelLimitHandlerTests
     [TrackingReady]
     private sealed class ReadyTestModule : TestModule;
 
+    [ThrowingReady]
+    private sealed class ThrowingReadyTestModule : TestModule;
+
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class TrackingReadyAttribute : Attribute, IModuleReadyHandler
     {
@@ -331,6 +416,38 @@ public class ParallelLimitHandlerTests
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
             Interlocked.Increment(ref _invocationCount);
+            return Task.CompletedTask;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class ThrowingReadyAttribute : Attribute, IModuleReadyHandler, IModuleFailureHandler
+    {
+        private static int _failureInvocationCount;
+
+        public static int FailureInvocationCount => Volatile.Read(ref _failureInvocationCount);
+
+        public static void Reset() => Volatile.Write(ref _failureInvocationCount, 0);
+
+        public Task OnModuleReadyAsync(IModuleHookContext context) =>
+            Task.FromException(new InvalidOperationException("Ready handler failure"));
+
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
+        {
+            Interlocked.Increment(ref _failureInvocationCount);
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class TrackingFailureReceiver : IModuleEventReceiver
+    {
+        private int _failureInvocationCount;
+
+        public int FailureInvocationCount => Volatile.Read(ref _failureInvocationCount);
+
+        public Task OnModuleFailureAsync(IModuleHookContext context)
+        {
+            Interlocked.Increment(ref _failureInvocationCount);
             return Task.CompletedTask;
         }
     }

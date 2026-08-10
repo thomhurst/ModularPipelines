@@ -159,7 +159,7 @@ internal class ModuleRunner : IModuleRunner
                         scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
                         scope.ServiceProvider,
                         cancellationToken);
-                    await _lifecycleEventInvoker.InvokeReadyEventAsync(readyLifecycleContext).ConfigureAwait(false);
+                    await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                 }
 
                 using var limiterCancellationTokenSource = module.Configuration.AlwaysRun
@@ -222,14 +222,15 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private static Exception NormalizeLimiterCancellation(
+    private Exception NormalizeLimiterCancellation(
         Exception exception,
         bool alwaysRun,
         CancellationToken workerCancellationToken,
         CancellationToken limiterCancellationToken)
     {
         if (!alwaysRun
-            && workerCancellationToken.IsCancellationRequested
+            && (workerCancellationToken.IsCancellationRequested
+                || _engineCancellationToken.OriginalException is not null)
             && exception is OperationCanceledException operationCanceledException
             && operationCanceledException.CancellationToken == limiterCancellationToken
             && limiterCancellationToken != workerCancellationToken)
@@ -241,6 +242,33 @@ internal class ModuleRunner : IModuleRunner
         }
 
         return exception;
+    }
+
+    private async Task InvokeReadyEventAsync(
+        ModuleState moduleState,
+        ModuleLifecycleContext lifecycleContext)
+    {
+        try
+        {
+            await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            var executionContext = CreateExecutionContext(moduleState.Module, moduleState.ModuleType);
+            ApplyDependencySkip(moduleState, executionContext);
+
+            try
+            {
+                await HandleModuleFailureAsync(moduleState, executionContext, lifecycleContext, exception)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
+            }
+
+            throw;
+        }
     }
 
     private void HandleExecutionFailure(
@@ -841,13 +869,18 @@ internal class ModuleRunner : IModuleRunner
         }
         finally
         {
-            // Store execution context results in module state
-            moduleState.TrySetSkipResult(executionContext.SkipResult);
+            await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
+        }
+    }
 
-            if (!_pipelineOptions.Value.Console.ShowProgress)
-            {
-                await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
-            }
+    private async Task CompleteModuleLifecycleAsync(
+        ModuleState moduleState,
+        ModuleExecutionContext executionContext)
+    {
+        moduleState.TrySetSkipResult(executionContext.SkipResult);
+        if (!_pipelineOptions.Value.Console.ShowProgress)
+        {
+            await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
         }
     }
 
