@@ -350,7 +350,10 @@ public class OptionsClassGenerator : ICodeGenerator
                 continue;
             }
 
-            GenerateCompatibilityProperty(sb, compatibilityProperty);
+            GeneratorUtils.GenerateCompatibilityProperty(
+                sb,
+                compatibilityProperty,
+                GetNewModifier(compatibilityProperty.PropertyName));
             sb.AppendLine();
         }
     }
@@ -443,23 +446,6 @@ public class OptionsClassGenerator : ICodeGenerator
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
         sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
-    }
-
-    private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
-    {
-        sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
-
-        if (property.ForwardToPropertyName is null)
-        {
-            sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
-            return;
-        }
-
-        sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName}");
-        sb.AppendLine("    {");
-        sb.AppendLine($"        get => {property.ForwardToPropertyName};");
-        sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
-        sb.AppendLine("    }");
     }
 
     private static string GetNewModifier(string propertyName) =>
