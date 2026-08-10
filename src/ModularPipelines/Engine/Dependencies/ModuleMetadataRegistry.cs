@@ -76,6 +76,7 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     public TAttribute? GetAttribute<TAttribute>(Type moduleType)
         where TAttribute : Attribute
     {
+        EnsureAttributeValuesAvailable(typeof(TAttribute));
         var attributes = GetCachedAttributes(moduleType, typeof(TAttribute));
         return attributes.Length switch
         {
@@ -89,7 +90,10 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     /// <inheritdoc />
     public IEnumerable<TAttribute> GetAttributes<TAttribute>(Type moduleType)
         where TAttribute : Attribute
-        => GetCachedAttributes(moduleType, typeof(TAttribute)).Cast<TAttribute>();
+    {
+        EnsureAttributeValuesAvailable(typeof(TAttribute));
+        return GetCachedAttributes(moduleType, typeof(TAttribute)).Cast<TAttribute>();
+    }
 
     private ModuleMetadata CreateMetadata(Type moduleType, IModule instance)
     {
@@ -122,5 +126,19 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
                     .ToArray());
     }
 
+    private void EnsureAttributeValuesAvailable(Type attributeType)
+    {
+        if (_planningSafeOnly
+            && attributeType != typeof(ModuleTagAttribute)
+            && attributeType != typeof(ModuleCategoryAttribute))
+        {
+            throw new PlanningMetadataValueUnavailableException(attributeType);
+        }
+    }
+
     internal sealed record ModuleMetadata(FrozenSet<string> Tags, string? Category);
 }
+
+internal sealed class PlanningMetadataValueUnavailableException(Type attributeType)
+    : InvalidOperationException(
+        $"Attribute values for '{attributeType.Name}' are unavailable during dependency graph planning.");

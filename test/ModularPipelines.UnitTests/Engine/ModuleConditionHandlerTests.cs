@@ -18,6 +18,7 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ModuleConditionHandlerTests
 {
     private static int _conditionEvaluationCount;
+    private static int _deferredDiscoveryConditionConstructions;
 
     [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
@@ -121,6 +122,22 @@ public class ModuleConditionHandlerTests
         var result = await handler.ShouldIgnoreByCategory(CreateForeignOsModule());
 
         await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Distributed_Master_Discovery_Does_Not_Construct_Deferred_Conditions()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        _deferredDiscoveryConditionConstructions = 0;
+
+        _ = await handler.ShouldIgnoreByCategory(new DeferredDiscoveryConditionModule());
+
+        await Assert.That(_deferredDiscoveryConditionConstructions).IsEqualTo(0);
     }
 
     [Test]
@@ -265,6 +282,27 @@ public class ModuleConditionHandlerTests
         {
             return Task.FromResult(string.Empty);
         }
+    }
+
+    [DeferredDiscoveryCondition]
+    private sealed class DeferredDiscoveryConditionModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(string.Empty);
+    }
+
+    private sealed class DeferredDiscoveryConditionAttribute : Attribute, IConditionAttribute
+    {
+        public DeferredDiscoveryConditionAttribute() =>
+            Interlocked.Increment(ref _deferredDiscoveryConditionConstructions);
+
+        public ConditionLogic Logic => ConditionLogic.All;
+
+        public string ConditionNames => nameof(DeferredDiscoveryConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     [RunIfAll<OnUnix>]

@@ -238,7 +238,7 @@ public static class PipelineBuilderExtensions
         string path,
         CancellationToken cancellationToken = default)
     {
-        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        await using var pipeline = await builder.BuildForDependencyGraphExportAsync().ConfigureAwait(false);
         await pipeline.ExportDependencyGraphAsync(format, path, cancellationToken)
             .ConfigureAwait(false);
     }
