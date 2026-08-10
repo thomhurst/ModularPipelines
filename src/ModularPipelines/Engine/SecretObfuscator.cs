@@ -36,6 +36,8 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public bool HasSecrets => GetRegistrationState().HasSecrets;
 
+    internal bool CaseInsensitive => _maskingOptions.Value.CaseInsensitive;
+
     public SecretObfuscator(
         ISecretProvider secretProvider,
         IOptions<SecretMaskingOptions> maskingOptions)
