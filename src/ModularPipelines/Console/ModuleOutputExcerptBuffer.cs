@@ -219,11 +219,13 @@ internal sealed class ModuleOutputExcerptBuffer(
         var stdoutSuffix = new StringBuilder();
         var stderrSuffix = new StringBuilder();
         var maskedAvailability = new List<(ModuleOutputStream Stream, int Bytes)>();
+        var chunks = GetCoalescedChunks();
 
-        for (var chunk = _chunks.Last; chunk is not null; chunk = chunk.Previous)
+        for (var index = chunks.Count - 1; index >= 0; index--)
         {
-            var chunkText = Utf8.GetString(chunk.Value.Bytes);
-            if (chunk.Value.Stream is ModuleOutputStream.StandardError)
+            var chunk = chunks[index];
+            var chunkText = chunk.Text.ToString();
+            if (chunk.Stream is ModuleOutputStream.StandardError)
             {
                 stderrSuffix.Insert(0, chunkText);
                 var available = Math.Min(
@@ -338,6 +340,26 @@ internal sealed class ModuleOutputExcerptBuffer(
         return (stdoutBytes, stderrBytes);
     }
 
+    private IReadOnlyList<CoalescedOutputChunk> GetCoalescedChunks()
+    {
+        var coalescedChunks = new List<CoalescedOutputChunk>();
+        foreach (var chunk in _chunks)
+        {
+            var previous = coalescedChunks.Count == 0 ? null : coalescedChunks[^1];
+            if (previous?.Stream == chunk.Stream)
+            {
+                previous.Text.Append(Utf8.GetString(chunk.Bytes));
+                continue;
+            }
+
+            coalescedChunks.Add(new CoalescedOutputChunk(
+                chunk.Stream,
+                new StringBuilder(Utf8.GetString(chunk.Bytes))));
+        }
+
+        return coalescedChunks;
+    }
+
     private static int GetUtf8TailByteCount(string value, int maximumTailBytes) =>
         Utf8.GetByteCount(GetUtf8Tail(value, maximumTailBytes) ?? string.Empty);
 
@@ -417,6 +439,15 @@ internal sealed class ModuleOutputExcerptBuffer(
     }
 
     private readonly record struct OutputChunk(ModuleOutputStream Stream, byte[] Bytes);
+
+    private sealed class CoalescedOutputChunk(
+        ModuleOutputStream stream,
+        StringBuilder text)
+    {
+        public ModuleOutputStream Stream { get; } = stream;
+
+        public StringBuilder Text { get; } = text;
+    }
 }
 
 internal enum ModuleOutputStream
