@@ -213,20 +213,23 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> parts)
     {
-        var positions = new Dictionary<(bool IsGlobalScope, CommandLinePhase Phase, int Position), string>();
-        foreach (var argument in parts.OfType<ArgumentPart>().Where(static argument => argument.HasExplicitPosition))
+        var positions = new Dictionary<
+            (bool IsGlobalScope, CommandLinePhase Phase, int Position),
+            (string PropertyName, bool HasExplicitPosition)>();
+        foreach (var argument in parts.OfType<ArgumentPart>())
         {
             var isGlobalScope = argument.Phase != CommandLinePhase.Terminal && argument.IsGlobalOption;
             var key = (isGlobalScope, argument.Phase, argument.Attribute.Position);
-            if (positions.TryGetValue(key, out var existingProperty))
+            if (positions.TryGetValue(key, out var existing)
+                && (existing.HasExplicitPosition || argument.HasExplicitPosition))
             {
                 throw new InvalidOperationException(
                     $"{optionsType.Name} defines CLI argument position {argument.Attribute.Position} "
                     + $"more than once in phase {argument.Phase} on properties "
-                    + $"'{existingProperty}' and '{argument.PropertyName}'.");
+                    + $"'{existing.PropertyName}' and '{argument.PropertyName}'.");
             }
 
-            positions.Add(key, argument.PropertyName);
+            positions.TryAdd(key, (argument.PropertyName, argument.HasExplicitPosition));
         }
     }
 

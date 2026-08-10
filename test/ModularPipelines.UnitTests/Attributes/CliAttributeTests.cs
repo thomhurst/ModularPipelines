@@ -723,6 +723,15 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task CommandModel_Rejects_Mixed_Implicit_And_Explicit_Argument_Positions()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithMixedArgumentPositions()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
+    }
+
+    [Test]
     public async Task CommandModel_Preserves_Shipped_Multi_Operand_Options()
     {
         var arguments = BuildArguments(
@@ -1101,6 +1110,15 @@ public class CliAttributeTests
         public string? First { get; set; }
 
         [CliArgument]
+        public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithMixedArgumentPositions : CommandLineToolOptions
+    {
+        [CliArgument]
+        public string? First { get; set; }
+
+        [CliArgument(0)]
         public string? Second { get; set; }
     }
 
