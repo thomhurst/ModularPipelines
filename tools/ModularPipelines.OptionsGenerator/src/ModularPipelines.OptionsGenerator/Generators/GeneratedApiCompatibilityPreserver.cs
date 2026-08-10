@@ -31,7 +31,8 @@ internal static class GeneratedApiCompatibilityPreserver
             : tool;
         var facadeMethods = ReadFacadeMethods(
             Path.Combine(outputDirectory, tool.OutputDirectory, "Services"),
-            $"{tool.TargetNamespace}.Services");
+            $"{tool.TargetNamespace}.Services",
+            tool.NamespacePrefix);
         RejectRemovedCommands(compatibleTool, facadeMethods);
         var executeFacadeOptionTypes = facadeMethods
             .Where(static method => method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
@@ -756,7 +757,8 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
         string servicesDirectory,
-        string targetNamespace)
+        string targetNamespace,
+        string namespacePrefix)
     {
         var methods = new List<GeneratedFacadeMethod>();
         if (!Directory.Exists(servicesDirectory))
@@ -766,7 +768,7 @@ internal static class GeneratedApiCompatibilityPreserver
 
         foreach (var path in Directory.EnumerateFiles(
                      servicesDirectory,
-                     "*.Generated.cs",
+                     $"{namespacePrefix}*.Generated.cs",
                      SearchOption.TopDirectoryOnly))
         {
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
