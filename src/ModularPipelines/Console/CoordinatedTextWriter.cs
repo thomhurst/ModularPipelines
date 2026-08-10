@@ -763,14 +763,14 @@ internal class CoordinatedTextWriter : TextWriter
         }
 
         _outputLock.Wait();
-        var previousActiveOutputWriter = EnterActiveOutputWriter();
+        var activeOutputWriter = EnterActiveOutputWriter();
         try
         {
             WriteToRealConsoleCore(output, appendNewLine);
         }
         finally
         {
-            ActiveOutputWriterScope.Value = previousActiveOutputWriter;
+            ExitActiveOutputWriter(activeOutputWriter);
             _outputLock.Release();
         }
     }
@@ -793,7 +793,8 @@ internal class CoordinatedTextWriter : TextWriter
              activeOutputWriter != null;
              activeOutputWriter = activeOutputWriter.Parent)
         {
-            if (ReferenceEquals(activeOutputWriter.Writer, this))
+            if (activeOutputWriter.IsActive
+                && ReferenceEquals(activeOutputWriter.Writer, this))
             {
                 return true;
             }
@@ -802,11 +803,17 @@ internal class CoordinatedTextWriter : TextWriter
         return false;
     }
 
-    private ActiveOutputWriter? EnterActiveOutputWriter()
+    private ActiveOutputWriter EnterActiveOutputWriter()
     {
-        var previousActiveOutputWriter = ActiveOutputWriterScope.Value;
-        ActiveOutputWriterScope.Value = new ActiveOutputWriter(this, previousActiveOutputWriter);
-        return previousActiveOutputWriter;
+        var activeOutputWriter = new ActiveOutputWriter(this, ActiveOutputWriterScope.Value);
+        ActiveOutputWriterScope.Value = activeOutputWriter;
+        return activeOutputWriter;
+    }
+
+    private static void ExitActiveOutputWriter(ActiveOutputWriter activeOutputWriter)
+    {
+        activeOutputWriter.Deactivate();
+        ActiveOutputWriterScope.Value = activeOutputWriter.Parent;
     }
 
     private string ObfuscateCustomOutput(string output, long secretPatternsVersion)
@@ -992,7 +999,7 @@ internal class CoordinatedTextWriter : TextWriter
     private void FlushRealConsole()
     {
         _outputLock.Wait();
-        var previousActiveOutputWriter = EnterActiveOutputWriter();
+        var activeOutputWriter = EnterActiveOutputWriter();
         try
         {
             // Always flush real console (needed for Spectre.Console internals)
@@ -1000,7 +1007,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
         finally
         {
-            ActiveOutputWriterScope.Value = previousActiveOutputWriter;
+            ExitActiveOutputWriter(activeOutputWriter);
             _outputLock.Release();
         }
     }
@@ -1008,14 +1015,14 @@ internal class CoordinatedTextWriter : TextWriter
     private async Task FlushRealConsoleAsync()
     {
         await _outputLock.WaitAsync().ConfigureAwait(false);
-        var previousActiveOutputWriter = EnterActiveOutputWriter();
+        var activeOutputWriter = EnterActiveOutputWriter();
         try
         {
             await _realConsole.FlushAsync().ConfigureAwait(false);
         }
         finally
         {
-            ActiveOutputWriterScope.Value = previousActiveOutputWriter;
+            ExitActiveOutputWriter(activeOutputWriter);
             _outputLock.Release();
         }
     }
@@ -1040,9 +1047,20 @@ internal class CoordinatedTextWriter : TextWriter
 
     private bool ShouldBuffer() => !DirectWriteScope.Value && _shouldBuffer();
 
-    private sealed record ActiveOutputWriter(
-        CoordinatedTextWriter Writer,
-        ActiveOutputWriter? Parent);
+    private sealed class ActiveOutputWriter(
+        CoordinatedTextWriter writer,
+        ActiveOutputWriter? parent)
+    {
+        private int _isActive = 1;
+
+        public CoordinatedTextWriter Writer { get; } = writer;
+
+        public ActiveOutputWriter? Parent { get; } = parent;
+
+        public bool IsActive => Volatile.Read(ref _isActive) != 0;
+
+        public void Deactivate() => Volatile.Write(ref _isActive, 0);
+    }
 
     private sealed class LineBufferState(Type? moduleType)
     {

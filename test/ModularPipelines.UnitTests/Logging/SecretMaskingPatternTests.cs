@@ -1830,6 +1830,45 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FlushAsync_ExpiresReentrancyForFireAndForgetSinkWork()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new FireAndForgetFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync();
+        Task ownerTask;
+        using (ExecutionContext.SuppressFlow())
+        {
+            ownerTask = Task.Run(() => writer.WriteLine("owner"));
+        }
+
+        await realConsole.OwnerEntered.WaitAsync(TimeSpan.FromSeconds(5));
+        realConsole.ReleaseChild();
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await Assert.That(realConsole.ChildEntered.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            realConsole.ReleaseOwner();
+            await Task.WhenAll(ownerTask, realConsole.ChildTask).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"owner{Environment.NewLine}child{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -2073,6 +2112,51 @@ public class SecretMaskingPatternTests
         {
             _flushStarted.TrySetResult();
             await _releaseFlush.Task.ConfigureAwait(false);
+        }
+    }
+
+    private sealed class FireAndForgetFlushStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _ownerEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _childEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseOwner = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseChild = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TextWriter? Writer { get; set; }
+
+        public Task OwnerEntered => _ownerEntered.Task;
+
+        public Task ChildEntered => _childEntered.Task;
+
+        public Task ChildTask { get; private set; } = Task.CompletedTask;
+
+        public void ReleaseOwner() => _releaseOwner.TrySetResult();
+
+        public void ReleaseChild() => _releaseChild.TrySetResult();
+
+        public override Task FlushAsync()
+        {
+            ChildTask = Task.Run(async () =>
+            {
+                await _releaseChild.Task.ConfigureAwait(false);
+                Writer!.WriteLine("child");
+            });
+            return Task.CompletedTask;
+        }
+
+        public override void WriteLine(string? value)
+        {
+            if (value == "owner")
+            {
+                _ownerEntered.TrySetResult();
+                _releaseOwner.Task.GetAwaiter().GetResult();
+            }
+            else if (value == "child")
+            {
+                _childEntered.TrySetResult();
+            }
+
+            base.WriteLine(value);
         }
     }
 }
