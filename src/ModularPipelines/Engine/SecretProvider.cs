@@ -154,6 +154,8 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
                 return false;
             }
 
+            // Keep the action inside this lock: callers use it for small synchronous
+            // publication steps that must remain atomic with the version check.
             action();
             return true;
         }

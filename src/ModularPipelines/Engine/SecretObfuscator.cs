@@ -299,31 +299,19 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var inputOffset = 0;
         while (inputOffset < input.Length)
         {
-            var remainingInput = input.AsSpan(inputOffset);
-            var relativeMatchIndex = remainingInput.IndexOfAny(searchValues);
-            if (relativeMatchIndex < 0)
+            if (!TryFindNextMatch(
+                    input,
+                    inputOffset,
+                    secrets,
+                    searchValues,
+                    comparison,
+                    out var matchIndex,
+                    out var matchedSecret))
             {
                 break;
             }
 
-            var matchIndex = inputOffset + relativeMatchIndex;
             result.Append(input, inputOffset, matchIndex - inputOffset);
-
-            var matchingInput = input.AsSpan(matchIndex);
-            string? matchedSecret = null;
-            foreach (var secret in secrets)
-            {
-                if (matchingInput.StartsWith(secret, comparison))
-                {
-                    matchedSecret = secret;
-                    break;
-                }
-            }
-
-            if (matchedSecret is null)
-            {
-                throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
-            }
 
             if (IsContainedInExistingMask(
                     existingMaskRanges,
@@ -360,14 +348,18 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
         var outputByteCount = 0;
         while (inputOffset < input.Length)
         {
-            var remainingInput = input.AsSpan(inputOffset);
-            var relativeMatchIndex = remainingInput.IndexOfAny(searchValues);
-            if (relativeMatchIndex < 0)
+            if (!TryFindNextMatch(
+                    input,
+                    inputOffset,
+                    secrets,
+                    searchValues,
+                    comparison,
+                    out var matchIndex,
+                    out var matchedSecret))
             {
                 break;
             }
 
-            var matchIndex = inputOffset + relativeMatchIndex;
             AppendUnchangedWithSourceMap(
                 result,
                 input,
@@ -375,22 +367,6 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
                 matchIndex,
                 sourceToOutputByteOffsets,
                 ref outputByteCount);
-
-            var matchingInput = input.AsSpan(matchIndex);
-            string? matchedSecret = null;
-            foreach (var secret in secrets)
-            {
-                if (matchingInput.StartsWith(secret, comparison))
-                {
-                    matchedSecret = secret;
-                    break;
-                }
-            }
-
-            if (matchedSecret is null)
-            {
-                throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
-            }
 
             var matchEnd = matchIndex + matchedSecret.Length;
             if (IsContainedInExistingMask(
@@ -430,6 +406,38 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             sourceToOutputByteOffsets,
             ref outputByteCount);
         return new MappedObfuscatedOutput(result.ToString(), sourceToOutputByteOffsets);
+    }
+
+    private static bool TryFindNextMatch(
+        string input,
+        int inputOffset,
+        IReadOnlyList<string> secrets,
+        SearchValues<string> searchValues,
+        StringComparison comparison,
+        out int matchIndex,
+        out string matchedSecret)
+    {
+        var relativeMatchIndex = input.AsSpan(inputOffset).IndexOfAny(searchValues);
+        if (relativeMatchIndex < 0)
+        {
+            matchIndex = -1;
+            matchedSecret = string.Empty;
+            return false;
+        }
+
+        matchIndex = inputOffset + relativeMatchIndex;
+        var matchingInput = input.AsSpan(matchIndex);
+        foreach (var secret in secrets)
+        {
+            if (matchingInput.StartsWith(secret, comparison))
+            {
+                matchedSecret = secret;
+                return true;
+            }
+        }
+
+        throw new InvalidOperationException(
+            "SearchValues returned a position without a matching secret.");
     }
 
     private static MappedObfuscatedOutput CreateUnchangedSourceMap(string input)
@@ -543,6 +551,27 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
         public int GetSuffixByteCount(int sourceOffset) =>
             Utf8ByteCount - SourceToOutputByteOffsets[sourceOffset];
+
+        public int GetSourceOffsetForOutputSuffix(int suffixByteCount)
+        {
+            var outputStart = Utf8ByteCount - suffixByteCount;
+            var low = 0;
+            var high = SourceToOutputByteOffsets.Count;
+            while (low < high)
+            {
+                var middle = low + ((high - low) / 2);
+                if (SourceToOutputByteOffsets[middle] < outputStart)
+                {
+                    low = middle + 1;
+                }
+                else
+                {
+                    high = middle;
+                }
+            }
+
+            return low;
+        }
     }
 
     internal readonly record struct SecretRegistrationState(long Version, bool HasSecrets);

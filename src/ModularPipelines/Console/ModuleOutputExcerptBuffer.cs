@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
 
@@ -7,7 +8,8 @@ namespace ModularPipelines.Console;
 internal sealed class ModuleOutputExcerptBuffer(
     int maximumBytes,
     ISecretObfuscator? secretObfuscator = null,
-    ISecretProvider? secretProvider = null)
+    ISecretProvider? secretProvider = null,
+    ILogger? logger = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -57,7 +59,7 @@ internal sealed class ModuleOutputExcerptBuffer(
         {
             NewLineBytes.CopyTo(bytes, valueByteCount);
         }
-        _chunks.AddLast(new OutputChunk(stream, bytes));
+        _chunks.AddLast(new OutputChunk(stream, bytes, Utf8.GetString(bytes)));
         _retainedBytes += bytes.Length;
         TrimToLimit(_retentionBytes);
     }
@@ -76,24 +78,20 @@ internal sealed class ModuleOutputExcerptBuffer(
         foreach (var chunk in _chunks)
         {
             (chunk.Stream is ModuleOutputStream.StandardError ? stderr : stdout)
-                .Append(Utf8.GetString(chunk.Bytes));
+                .Append(chunk.Text);
         }
 
         var stdoutValue = stdout.ToString();
         var stderrValue = stderr.ToString();
         var (stdoutBytes, stderrBytes) = GetFinalStreamByteLimits(stdoutValue, stderrValue);
-        var truncatedBytes = GetTruncatedByteCount(
-            stdoutValue,
-            stderrValue,
-            stdoutBytes,
-            stderrBytes);
         if (!TryCreateTails(
                 stdoutValue,
                 stderrValue,
                 stdoutBytes,
                 stderrBytes,
                 out var stdoutTail,
-                out var stderrTail))
+                out var stderrTail,
+                out var retainedSourceBytes))
         {
             return null;
         }
@@ -107,21 +105,10 @@ internal sealed class ModuleOutputExcerptBuffer(
         {
             StdoutTail = stdoutTail,
             StderrTail = stderrTail,
-            TruncatedBytes = truncatedBytes,
+            TruncatedBytes = Math.Max(0, _totalBytes - retainedSourceBytes),
             SecretPatternsVersion = secretPatternsVersion,
         };
     }
-
-    private long GetTruncatedByteCount(
-        string stdout,
-        string stderr,
-        int stdoutBytes,
-        int stderrBytes) =>
-        Math.Max(
-            0,
-            _totalBytes
-            - Utf8.GetByteCount(GetUtf8Tail(stdout, stdoutBytes) ?? string.Empty)
-            - Utf8.GetByteCount(GetUtf8Tail(stderr, stderrBytes) ?? string.Empty));
 
     private bool TryCreateTails(
         string stdout,
@@ -129,39 +116,43 @@ internal sealed class ModuleOutputExcerptBuffer(
         int stdoutBytes,
         int stderrBytes,
         out string? stdoutTail,
-        out string? stderrTail)
+        out string? stderrTail,
+        out long retainedSourceBytes)
     {
         if (secretObfuscator is null && secretProvider is null)
         {
             stdoutTail = GetUtf8Tail(stdout, stdoutBytes);
             stderrTail = GetUtf8Tail(stderr, stderrBytes);
+            retainedSourceBytes = Utf8.GetByteCount(stdoutTail ?? string.Empty)
+                                  + Utf8.GetByteCount(stderrTail ?? string.Empty);
             return true;
         }
 
         return TryCreateMaskedTails(
             stdout,
             stderr,
-            stdoutBytes,
-            stderrBytes,
             out stdoutTail,
-            out stderrTail);
+            out stderrTail,
+            out retainedSourceBytes);
     }
 
     private bool TryCreateMaskedTails(
         string stdout,
         string stderr,
-        int stdoutBytes,
-        int stderrBytes,
         out string? stdoutTail,
-        out string? stderrTail)
+        out string? stderrTail,
+        out long retainedSourceBytes)
     {
         stdoutTail = null;
         stderrTail = null;
+        retainedSourceBytes = 0;
 
         // Custom or incomplete masking dependencies do not expose enough information
         // to prove that a bounded context is safe.
         if (secretObfuscator is not SecretObfuscator concreteObfuscator || secretProvider is null)
         {
+            logger?.LogDebug(
+                "Omitting module output excerpt because its masking dependencies cannot provide a safe source map.");
             return false;
         }
 
@@ -169,6 +160,8 @@ internal sealed class ModuleOutputExcerptBuffer(
         var snapshot = secretProvider.GetSnapshot();
         if (!concreteObfuscator.CanSafelyPreserveMasks(snapshot.Secrets))
         {
+            logger?.LogDebug(
+                "Omitting module output excerpt because the configured mask contains a registered secret.");
             return false;
         }
 
@@ -179,12 +172,16 @@ internal sealed class ModuleOutputExcerptBuffer(
             .Max();
         if (maximumMatchBytes > maximumBytes)
         {
+            logger?.LogDebug(
+                "Omitting module output excerpt because a possible secret match of {MaximumMatchBytes} UTF-8 bytes exceeds the {MaximumExcerptBytes}-byte excerpt cap.",
+                maximumMatchBytes,
+                maximumBytes);
             return false;
         }
 
         var maskedStdout = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stdout);
         var maskedStderr = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stderr);
-        (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
+        var (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(
             maskedStdout,
             maskedStderr);
 
@@ -202,13 +199,36 @@ internal sealed class ModuleOutputExcerptBuffer(
                 out stderrTail))
         {
             stdoutTail = stderrTail = null;
+            logger?.LogDebug(
+                "Omitting module output excerpt because the retained context cannot prove both masked stream boundaries safe.");
             return false;
         }
 
+        retainedSourceBytes = GetRetainedSourceByteCount(maskedStdout, stdout, stdoutTail)
+                              + GetRetainedSourceByteCount(maskedStderr, stderr, stderrTail);
+
         // If registration changed during masking, a new secret may cross the retained
         // boundary. Omit the excerpt rather than risk returning a partial secret.
-        return secretProvider.Version == snapshot.Version
-               && concreteObfuscator.CaseInsensitive == caseInsensitive;
+        if (secretProvider.Version != snapshot.Version
+            || concreteObfuscator.CaseInsensitive != caseInsensitive)
+        {
+            retainedSourceBytes = 0;
+            logger?.LogDebug(
+                "Omitting module output excerpt because secret masking configuration changed while the excerpt was created.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static int GetRetainedSourceByteCount(
+        SecretObfuscator.MappedObfuscatedOutput maskedOutput,
+        string source,
+        string? tail)
+    {
+        var tailBytes = Utf8.GetByteCount(tail ?? string.Empty);
+        var sourceOffset = maskedOutput.GetSourceOffsetForOutputSuffix(tailBytes);
+        return Utf8.GetByteCount(source.AsSpan(sourceOffset));
     }
 
     private (int StdoutBytes, int StderrBytes) RebalanceMaskedStreamByteLimits(
@@ -224,7 +244,7 @@ internal sealed class ModuleOutputExcerptBuffer(
         var chunks = new List<MappedOutputChunk>(_chunks.Count);
         foreach (var chunk in _chunks)
         {
-            var textLength = Utf8.GetString(chunk.Bytes).Length;
+            var textLength = chunk.Text.Length;
             if (chunk.Stream is ModuleOutputStream.StandardError)
             {
                 chunks.Add(new MappedOutputChunk(chunk.Stream, stderrOffset));
@@ -332,11 +352,7 @@ internal sealed class ModuleOutputExcerptBuffer(
             return bytes.Length;
         }
 
-        var start = bytes.Length - maximumTailBytes;
-        while (start < bytes.Length && IsUtf8ContinuationByte(bytes[start]))
-        {
-            start++;
-        }
+        var start = GetUtf8Boundary(bytes, bytes.Length - maximumTailBytes);
 
         return bytes.Length - start;
     }
@@ -354,11 +370,7 @@ internal sealed class ModuleOutputExcerptBuffer(
             return value;
         }
 
-        var start = bytes.Length - maximumTailBytes;
-        while (start < bytes.Length && IsUtf8ContinuationByte(bytes[start]))
-        {
-            start++;
-        }
+        var start = GetUtf8Boundary(bytes, bytes.Length - maximumTailBytes);
 
         return start == bytes.Length ? null : Utf8.GetString(bytes.AsSpan(start));
     }
@@ -376,16 +388,22 @@ internal sealed class ModuleOutputExcerptBuffer(
                 continue;
             }
 
-            var start = overflow;
-            while (start < oldest.Bytes.Length && IsUtf8ContinuationByte(oldest.Bytes[start]))
-            {
-                start++;
-            }
+            var start = GetUtf8Boundary(oldest.Bytes, overflow);
 
             var tail = oldest.Bytes[start..];
-            _chunks.AddFirst(new OutputChunk(oldest.Stream, tail));
+            _chunks.AddFirst(new OutputChunk(oldest.Stream, tail, Utf8.GetString(tail)));
             _retainedBytes -= start;
         }
+    }
+
+    private static int GetUtf8Boundary(byte[] bytes, int start)
+    {
+        while (start < bytes.Length && IsUtf8ContinuationByte(bytes[start]))
+        {
+            start++;
+        }
+
+        return start;
     }
 
     private static bool IsUtf8ContinuationByte(byte value) => (value & 0xC0) == 0x80;
@@ -416,7 +434,10 @@ internal sealed class ModuleOutputExcerptBuffer(
         return maximumBytes > int.MaxValue ? int.MaxValue : (int) maximumBytes;
     }
 
-    private readonly record struct OutputChunk(ModuleOutputStream Stream, byte[] Bytes);
+    private readonly record struct OutputChunk(
+        ModuleOutputStream Stream,
+        byte[] Bytes,
+        string Text);
 
     private readonly record struct MappedOutputChunk(ModuleOutputStream Stream, int SourceOffset);
 }

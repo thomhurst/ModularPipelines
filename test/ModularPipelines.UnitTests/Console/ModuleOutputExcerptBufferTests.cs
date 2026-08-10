@@ -258,6 +258,8 @@ public class ModuleOutputExcerptBufferTests
             await Assert.That(excerpt.StdoutTail).IsEqualTo("*" + Environment.NewLine);
             await Assert.That(stdoutBytes + stderrBytes).IsEqualTo(maximumBytes);
             await Assert.That(stderrBytes).IsEqualTo(maximumBytes - stdoutBytes);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(
+                Encoding.UTF8.GetByteCount($"12345678{Environment.NewLine}") - stderrBytes);
         }
     }
 
