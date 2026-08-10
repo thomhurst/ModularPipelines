@@ -197,8 +197,8 @@ public class ValidationTests
     {
         public int Order => int.MaxValue;
 
-        public ValidationResult Validate(IServiceProvider services) =>
-            throw new PipelineException("No modules can be serialized.");
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+            Task.FromException<ValidationResult>(new PipelineException("No modules can be serialized."));
     }
 
     [Test]
