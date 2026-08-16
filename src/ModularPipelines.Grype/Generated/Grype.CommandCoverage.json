@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "grype",
-  "toolVersion": "grype 0.116.1",
+  "toolVersion": "grype 0.117.0",
   "commandCount": 12,
   "commandTreeSha256": "b45d7527254e3df6ad584cc8896f94ed1d24e359389729d279639a4563ceb40c",
   "commands": [
