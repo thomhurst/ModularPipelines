@@ -224,6 +224,7 @@ html.docs-wrapper .main-wrapper {
 
 .theme-doc-markdown > h1:first-child,
 .theme-doc-markdown > header:first-child > h1 {
+  margin-top: 0;
   margin-bottom: 1.5rem;
   color: var(--mp-doc-title);
   font-family: var(--mp-font-display);
@@ -299,6 +300,10 @@ html.docs-wrapper .main-wrapper {
 }
 
 .theme-doc-version-badge {
+  display: block;
+  width: fit-content;
+  margin: 0.4rem 0 1.6rem;
+  padding: 0.35rem 0.7rem;
   border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 30%, var(--mp-border));
   color: var(--ifm-color-primary-darkest);
   background: var(--mp-soft-accent);
