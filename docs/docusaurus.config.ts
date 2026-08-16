@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Modular Pipelines',
-  tagline: 'Build your pipelines in C#!',
-  favicon: 'img/favicon.ico',
+  tagline: 'Strongly typed pipelines, orchestrated automatically.',
+  favicon: 'img/modular-pipelines-favicon.png',
 
   plugins: [
     [
@@ -67,20 +67,19 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
       title: 'Modular Pipelines',
       logo: {
         alt: 'Modular Pipelines Logo',
-        src: 'img/logo.svg',
+        src: 'img/modular-pipelines-logo.png',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Documentation',
         },
         {
           type: 'docsVersionDropdown',
@@ -98,7 +97,7 @@ const config: Config = {
         },
         {
           href: 'https://github.com/sponsors/thomhurst',
-          label: '❤️ Sponsor',
+          label: 'Sponsor',
           position: 'right',
         },
       ],
@@ -107,11 +106,15 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Documentation',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs',
+              label: 'Getting started',
+              to: '/docs/next/getting-started',
+            },
+            {
+              label: 'Core concepts',
+              to: '/docs/fundamentals',
             },
           ],
         },
@@ -122,14 +125,22 @@ const config: Config = {
               label: 'Stack Overflow',
               href: 'https://stackoverflow.com/questions/tagged/ModularPipelines',
             },
+            {
+              label: 'Sponsor the project',
+              href: 'https://github.com/sponsors/thomhurst',
+            },
           ],
         },
         {
-          title: 'More',
+          title: 'Project',
           items: [
             {
               label: 'GitHub',
               href: 'https://github.com/thomhurst/ModularPipelines',
+            },
+            {
+              label: 'NuGet',
+              href: 'https://www.nuget.org/packages/ModularPipelines',
             },
           ],
         },

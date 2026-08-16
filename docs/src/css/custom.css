@@ -1,30 +1,398 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #6657ec;
+  --ifm-color-primary-dark: #5545e7;
+  --ifm-color-primary-darker: #4b3be3;
+  --ifm-color-primary-darkest: #3829c2;
+  --ifm-color-primary-light: #7769f1;
+  --ifm-color-primary-lighter: #8275f3;
+  --ifm-color-primary-lightest: #a69df7;
+  --ifm-background-color: #f7f8fc;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-navbar-height: 66px;
+  --ifm-font-family-base: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ifm-heading-font-family: Bahnschrift, "Arial Narrow", Inter, sans-serif;
+  --ifm-heading-font-weight: 720;
+  --ifm-font-color-base: #252a3d;
+  --ifm-heading-color: #12172a;
+  --ifm-code-font-size: 92%;
+  --ifm-link-color: #5849df;
+  --ifm-toc-border-color: #dfe2ed;
+  --ifm-global-radius: 5px;
+  --ifm-navbar-shadow: 0 1px 0 rgb(30 35 62 / 8%);
+  --docusaurus-highlighted-code-line-bg: rgb(102 87 236 / 10%);
+  --mp-accent: #6253e6;
+  --mp-cyan: #159aae;
+  --mp-muted: #656d86;
+  --mp-surface: #f7f8fc;
+  --mp-panel: #ffffff;
+  --mp-soft-accent: #f0eefe;
+  --mp-border: #dfe2ed;
+  --mp-border-strong: #cbd0df;
+  --mp-doc-canvas: #f4f2fb;
+  --mp-doc-title: #332978;
+  --mp-sidebar: #0d1325;
+  --mp-sidebar-border: #29314b;
+  --mp-sidebar-text: #aeb7d2;
+  --mp-font-display: Bahnschrift, "Arial Narrow", Inter, sans-serif;
+  --mp-font-data: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #8f83ff;
+  --ifm-color-primary-dark: #7d70fa;
+  --ifm-color-primary-darker: #7466f7;
+  --ifm-color-primary-darkest: #5142df;
+  --ifm-color-primary-light: #a196ff;
+  --ifm-color-primary-lighter: #aaa0ff;
+  --ifm-color-primary-lightest: #c8c2ff;
+  --ifm-background-color: #0c1120;
+  --ifm-background-surface-color: #12182a;
+  --ifm-font-color-base: #cdd2e4;
+  --ifm-heading-color: #f0f2fb;
+  --ifm-link-color: #9b91ff;
+  --ifm-toc-border-color: #2b334d;
+  --docusaurus-highlighted-code-line-bg: rgb(121 108 255 / 14%);
+  --mp-accent: #9388ff;
+  --mp-cyan: #79ecff;
+  --mp-muted: #929bb8;
+  --mp-surface: #0c1120;
+  --mp-panel: #12182a;
+  --mp-soft-accent: #1d2140;
+  --mp-border: #283149;
+  --mp-border-strong: #3b4564;
+  --mp-doc-canvas: #0b1020;
+  --mp-doc-title: #f0f2fb;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "ss01" 1, "cv11" 1;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: #fff;
+  background: #6859e8;
+}
+
+:focus-visible {
+  outline: 3px solid #79dfee;
+  outline-offset: 3px;
+}
+
+.container {
+  max-width: 1240px;
+}
+
+.navbar {
+  --ifm-navbar-background-color: #090d1b;
+  --ifm-navbar-link-color: #cbd1e6;
+  --ifm-navbar-link-hover-color: #ffffff;
+  border-bottom: 1px solid #242c44;
+  color: #cbd1e6;
+  background: rgb(9 13 27 / 92%);
+  backdrop-filter: blur(18px) saturate(150%);
+}
+
+[data-theme='dark'] .navbar {
+  border-bottom-color: #242c44;
+  background: rgb(9 13 27 / 92%);
+}
+
+.navbar__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.navbar__brand {
+  margin-right: 1.7rem;
+}
+
+.navbar__logo {
+  width: 31px;
+  height: 31px;
+}
+
+.navbar__title {
+  color: #f4f5ff;
+  font-family: var(--mp-font-display);
+  font-size: 1rem;
+  font-weight: 780;
+  letter-spacing: -0.025em;
+}
+
+.navbar__link {
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #a99fff;
+}
+
+.navbar__item[href*="nuget.org"]::before,
+.navbar__item[href*="github.com/thomhurst/ModularPipelines"]::before {
+  display: inline-block;
+  margin-right: 0.38rem;
+  color: #7983a2;
+  font-family: var(--mp-font-data);
+  font-size: 0.62rem;
+}
+
+.navbar__item[href*="nuget.org"]::before { content: "□"; }
+.navbar__item[href*="github.com/thomhurst/ModularPipelines"]::before { content: "<>"; }
+
+.navbar__search-input {
+  border: 1px solid #323b58;
+  border-radius: 4px;
+  color: #eef0fa;
+  background-color: #141a2e;
+  box-shadow: none;
+}
+
+.navbar__search-input::placeholder { color: #8992ae; }
+
+.navbar__toggle,
+.navbar .clean-btn { color: #cbd1e6; }
+
+.dropdown__menu {
+  border: 1px solid var(--mp-border);
+  background: var(--mp-panel);
+  box-shadow: 0 16px 40px rgb(5 8 18 / 22%);
+}
+
+html.docs-wrapper .main-wrapper {
+  background:
+    radial-gradient(circle at 72% 0%, rgb(101 84 231 / 9%), transparent 28rem),
+    linear-gradient(90deg, rgb(101 84 231 / 2.5%) 1px, transparent 1px),
+    var(--mp-doc-canvas);
+  background-size: auto, 64px 64px, auto;
+}
+
+.theme-doc-sidebar-container {
+  --ifm-menu-color: var(--mp-sidebar-text);
+  --ifm-menu-color-active: #ffffff;
+  --ifm-menu-color-background-active: #6253e6;
+  --ifm-menu-color-background-hover: rgb(143 131 255 / 10%);
+  border-right-color: var(--mp-sidebar-border) !important;
+  background: var(--mp-sidebar);
+}
+
+.menu {
+  padding: 1.4rem 0.8rem;
+  font-size: 0.86rem;
+}
+
+.menu__list-item-collapsible,
+.menu__link {
+  border-radius: 4px;
+}
+
+.menu__link {
+  color: var(--mp-sidebar-text);
+  transition: color 150ms ease, background 150ms ease, transform 150ms ease;
+}
+
+.menu__link:hover {
+  color: #eef0fa;
+  transform: translateX(2px);
+}
+
+.menu__link--sublist {
+  color: #dce0ef;
+  font-weight: 700;
+}
+
+.menu__caret::before { filter: invert(1) opacity(0.65); }
+
+.menu__link--active:not(.menu__link--sublist) {
+  color: #ffffff;
+  background: #6253e6;
+  box-shadow: 0 8px 22px rgb(63 49 184 / 25%);
+  font-weight: 700;
+}
+
+.theme-doc-markdown {
+  color: var(--ifm-font-color-base);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.theme-doc-markdown > h1:first-child,
+.theme-doc-markdown > header:first-child > h1 {
+  margin-bottom: 1.5rem;
+  color: var(--mp-doc-title);
+  font-family: var(--mp-font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 760;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.theme-doc-markdown > h1:first-child::before,
+.theme-doc-markdown > header:first-child > h1::before {
+  content: "DOCUMENTATION";
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--mp-accent);
+  font-family: var(--mp-font-data);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--mp-border);
+  font-size: 1.9rem;
+  letter-spacing: -0.025em;
+}
+
+.theme-doc-markdown h3 {
+  margin-top: 2rem;
+  letter-spacing: -0.015em;
+}
+
+.theme-doc-markdown a:not(.hash-link) {
+  text-decoration-color: color-mix(in srgb, var(--ifm-color-primary) 45%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.theme-doc-markdown code {
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 24%, var(--mp-border));
+  background: var(--mp-soft-accent);
+}
+
+.theme-code-block {
+  overflow: hidden;
+  border: 1px solid var(--mp-border);
+  border-top: 3px solid var(--ifm-color-primary);
+  border-radius: 6px;
+  box-shadow: 0 14px 35px rgb(25 29 52 / 7%);
+}
+
+.theme-code-block pre {
+  border-radius: 0;
+}
+
+.alert {
+  border-width: 1px;
+  border-left-width: 4px;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.breadcrumbs__link {
+  border-radius: 4px;
+  color: var(--mp-muted);
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--mp-doc-title);
+  background: var(--mp-soft-accent);
+  font-weight: 700;
+}
+
+.theme-doc-version-badge {
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 30%, var(--mp-border));
+  color: var(--ifm-color-primary-darkest);
+  background: var(--mp-soft-accent);
+  font-family: var(--mp-font-data);
+  font-size: 0.64rem;
+}
+
+[data-theme='dark'] .theme-doc-version-badge { color: #c8c2ff; }
+
+.pagination-nav__link {
+  border-color: var(--mp-border);
+  border-radius: 6px;
+  background: var(--mp-panel);
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.pagination-nav__sublabel {
+  color: var(--mp-muted);
+  font-family: var(--mp-font-data);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pagination-nav__label { color: var(--mp-doc-title); }
+
+.pagination-nav__link:hover {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-primary);
+}
+
+.table-of-contents__link {
+  font-size: 0.8rem;
+}
+
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+}
+
+.table-of-contents__left-border {
+  border-left-color: color-mix(in srgb, var(--ifm-color-primary) 25%, var(--mp-border));
+}
+
+.footer {
+  border-top: 1px solid #242b42;
+  background: #090d1b;
+}
+
+.footer__title {
+  color: #f0f2fc;
+  font-family: var(--mp-font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footer__link-item,
+.footer__copyright {
+  color: #858faa;
+}
+
+.footer__link-item:hover {
+  color: #a69dff;
+}
+
+.footer__bottom {
+  padding-top: 1.5rem;
+  border-top: 1px solid #20273c;
+  text-align: left;
+}
+
+.footer__copyright {
+  font-family: var(--mp-font-data);
+  font-size: 0.68rem;
+}
+
+@media (max-width: 996px) {
+  .navbar__items--right > .navbar__item {
+    display: none;
+  }
+
+  .navbar-sidebar {
+    --ifm-menu-color: var(--mp-sidebar-text);
+    --ifm-menu-color-active: #ffffff;
+    --ifm-menu-color-background-active: #6253e6;
+    color: var(--mp-sidebar-text);
+    background: var(--mp-sidebar);
+  }
+
+  .navbar-sidebar__brand { border-bottom-color: var(--mp-sidebar-border); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .menu__link, .pagination-nav__link { transition: none; }
 }
