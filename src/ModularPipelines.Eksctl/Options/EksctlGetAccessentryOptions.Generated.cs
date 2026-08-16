@@ -72,7 +72,7 @@ public record EksctlGetAccessentryOptions : EksctlOptions
     /// dump logs to disk on failure if set to true
     /// </summary>
     [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? Dumplogs { get; set; }
+    public bool? DumpLogs { get; set; }
 
     /// <summary>
     /// help for this command

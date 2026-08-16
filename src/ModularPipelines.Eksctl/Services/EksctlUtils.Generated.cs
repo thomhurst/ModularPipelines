@@ -302,6 +302,21 @@ public class EksctlUtils : IEksctlUtils
     }
 
     /// <summary>
+    /// update the kube-apiserver, kube-scheduler and kube-controller-manager configuration of a cluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateControlPlaneComponentConfigAsync(
+        EksctlUtilsUpdateControlPlaneComponentConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsUpdateControlPlaneComponentConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update coredns add-on to ensure image matches the standard Amazon EKS version
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -368,12 +383,12 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> WriteKubeconfigAsync(
-        EksctlUtilsWriteKubeconfigOptions? options = null,
+    public virtual async Task<CommandResult> WriteKubeConfigAsync(
+        EksctlUtilsWriteKubeConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeconfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeConfigOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

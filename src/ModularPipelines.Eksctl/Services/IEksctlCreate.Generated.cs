@@ -15,6 +15,9 @@ namespace ModularPipelines.Eksctl.Services;
 /// <summary>
 /// eksctl create commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IEksctlCreate
 {
@@ -25,10 +28,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        EksctlCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(EksctlCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create access entries
@@ -37,10 +38,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AccessentryAsync(
-        EksctlCreateAccessentryOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AccessentryAsync(EksctlCreateAccessentryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create an Addon
@@ -49,10 +48,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddonAsync(
-        EksctlCreateAddonOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AddonAsync(EksctlCreateAddonOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create capabilities
@@ -61,10 +58,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CapabilityAsync(
-        EksctlCreateCapabilityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> CapabilityAsync(EksctlCreateCapabilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a cluster
@@ -73,10 +68,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ClusterAsync(
-        EksctlCreateClusterOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ClusterAsync(EksctlCreateClusterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a Fargate profile
@@ -85,10 +78,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FargateprofileAsync(
-        EksctlCreateFargateprofileOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> FargateprofileAsync(EksctlCreateFargateprofileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Creates a mapping from IAM role or user to Kubernetes user and groups.
@@ -97,10 +88,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> IamidentitymappingAsync(
-        EksctlCreateIamidentitymappingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> IamidentitymappingAsync(EksctlCreateIamidentitymappingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create an iamserviceaccount - AWS IAM role bound to a Kubernetes service account
@@ -109,10 +98,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> IamserviceaccountAsync(
-        EksctlCreateIamserviceaccountOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> IamserviceaccountAsync(EksctlCreateIamserviceaccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a nodegroup
@@ -121,10 +108,8 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NodegroupAsync(
-        EksctlCreateNodegroupOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> NodegroupAsync(EksctlCreateNodegroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a pod identity association
@@ -133,9 +118,7 @@ public interface IEksctlCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PodidentityassociationAsync(
-        EksctlCreatePodidentityassociationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> PodidentityassociationAsync(EksctlCreatePodidentityassociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

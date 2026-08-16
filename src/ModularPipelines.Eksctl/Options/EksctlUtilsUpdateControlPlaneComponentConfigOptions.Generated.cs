@@ -13,18 +13,18 @@ using ModularPipelines.Eksctl.Options;
 namespace ModularPipelines.Eksctl.Options;
 
 /// <summary>
-/// Migrates aws-auth to API authentication mode for the cluster
+/// update the kube-apiserver, kube-scheduler and kube-controller-manager configuration of a cluster
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("utils", "migrate-to-access-entry")]
-public record EksctlUtilsMigrateToAccessEntryOptions : EksctlOptions
+[CliSubCommand("utils", "update-control-plane-component-config")]
+public record EksctlUtilsUpdateControlPlaneComponentConfigOptions : EksctlOptions
 {
     /// <summary>
-    /// Target Authentication mode of migration (default "API_AND_CONFIG_MAP")
+    /// AWS credentials profile to use (defaults to the value of the AWS_PROFILE environment variable)
     /// </summary>
-    [CliOption("--target-authentication-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? TargetAuthenticationMode { get; set; }
+    [CliOption("--profile", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
+    public string? Profile { get; set; }
 
     /// <summary>
     /// EKS cluster name
@@ -39,16 +39,10 @@ public record EksctlUtilsMigrateToAccessEntryOptions : EksctlOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// maximum waiting time for any long-running operation (default 25m0s)
+    /// load configuration from a file (or stdin if set to '-')
     /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// Apply the changes
-    /// </summary>
-    [CliFlag("--approve")]
-    public bool? Approve { get; set; }
+    [CliOption("--config-file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")

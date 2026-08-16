@@ -18,7 +18,7 @@ namespace ModularPipelines.Eksctl.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("utils", "write-kubeconfig")]
-public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
+public record EksctlUtilsWriteKubeConfigOptions : EksctlOptions
 {
     /// <summary>
     /// EKS cluster name
@@ -48,7 +48,7 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     /// path to write kubeconfig (incompatible with --auto-kubeconfig)
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// AWS IAM role to assume for authenticator
@@ -60,13 +60,13 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     /// if true then current-context will be set in kubeconfig; if a context is already set then it will be overwritten (default true)
     /// </summary>
     [CliOption("--set-kubeconfig-context", Format = OptionFormat.EqualsSeparated)]
-    public bool? SetKubeconfigContext { get; set; }
+    public bool? SetKubeConfigContext { get; set; }
 
     /// <summary>
     /// save kubeconfig file by cluster name
     /// </summary>
     [CliFlag("--auto-kubeconfig")]
-    public bool? AutoKubeconfig { get; set; }
+    public bool? AutoKubeConfig { get; set; }
 
     /// <summary>
     /// AWS credentials profile to use (defaults to the value of the AWS_PROFILE environment variable)
@@ -84,7 +84,7 @@ public record EksctlUtilsWriteKubeconfigOptions : EksctlOptions
     /// dump logs to disk on failure if set to true
     /// </summary>
     [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? Dumplogs { get; set; }
+    public bool? DumpLogs { get; set; }
 
     /// <summary>
     /// help for this command

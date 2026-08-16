@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "toolName": "eksctl",
-  "commandCount": 84,
-  "commandTreeSha256": "ecffecf7f4be6a14125b50867f1d6a89003488d37de8f25055b36222a52efa1a",
+  "commandCount": 85,
+  "commandTreeSha256": "84fec058d6a4a16c205233e11b13a4ffb48fce85b9cb074d731bba5dc937d7a5",
   "commands": [
     "eksctl associate",
     "eksctl associate identityprovider",
@@ -83,6 +83,7 @@
     "eksctl utils update-cluster-endpoints",
     "eksctl utils update-cluster-logging",
     "eksctl utils update-cluster-vpc-config",
+    "eksctl utils update-control-plane-component-config",
     "eksctl utils update-coredns",
     "eksctl utils update-kube-proxy",
     "eksctl utils update-legacy-subnet-settings",

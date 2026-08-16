@@ -15,6 +15,9 @@ namespace ModularPipelines.Eksctl.Services;
 /// <summary>
 /// eksctl utils commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IEksctlUtils
 {
@@ -25,10 +28,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        EksctlUtilsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(EksctlUtilsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Setup IAM OIDC provider for a cluster to enable IAM roles for pods
@@ -37,10 +38,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AssociateIamOidcProviderAsync(
-        EksctlUtilsAssociateIamOidcProviderOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AssociateIamOidcProviderAsync(EksctlUtilsAssociateIamOidcProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Output the configuration JSON schema for an addon
@@ -49,10 +48,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeAddonConfigurationAsync(
-        EksctlUtilsDescribeAddonConfigurationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> DescribeAddonConfigurationAsync(EksctlUtilsDescribeAddonConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// describe addon versions supported
@@ -61,10 +58,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeAddonVersionsAsync(
-        EksctlUtilsDescribeAddonVersionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> DescribeAddonVersionsAsync(EksctlUtilsDescribeAddonVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Describe Supported Kubernetes Versions
@@ -73,10 +68,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeClusterVersionsAsync(
-        EksctlUtilsDescribeClusterVersionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> DescribeClusterVersionsAsync(EksctlUtilsDescribeClusterVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Describe CloudFormation stack for a given cluster
@@ -85,10 +78,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DescribeStacksAsync(
-        EksctlUtilsDescribeStacksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> DescribeStacksAsync(EksctlUtilsDescribeStacksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Enable secrets encryption on a cluster
@@ -97,10 +88,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EnableSecretsEncryptionAsync(
-        EksctlUtilsEnableSecretsEncryptionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> EnableSecretsEncryptionAsync(EksctlUtilsEnableSecretsEncryptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Install Windows VPC controller to support running Windows workloads
@@ -109,10 +98,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallVpcControllersAsync(
-        EksctlUtilsInstallVpcControllersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallVpcControllersAsync(EksctlUtilsInstallVpcControllersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Migrates aws-auth to API authentication mode for the cluster
@@ -121,10 +108,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> MigrateToAccessEntryAsync(
-        EksctlUtilsMigrateToAccessEntryOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> MigrateToAccessEntryAsync(EksctlUtilsMigrateToAccessEntryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Migrates all IRSA related config for a cluster to an equivalent pod identity associations config
@@ -133,10 +118,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> MigrateToPodIdentityAsync(
-        EksctlUtilsMigrateToPodIdentityOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> MigrateToPodIdentityAsync(EksctlUtilsMigrateToPodIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get nodegroup health for a managed node
@@ -145,10 +128,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NodegroupHealthAsync(
-        EksctlUtilsNodegroupHealthOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> NodegroupHealthAsync(EksctlUtilsNodegroupHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Output the ClusterConfig JSON Schema
@@ -157,10 +138,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SchemaAsync(
-        EksctlUtilsSchemaOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> SchemaAsync(EksctlUtilsSchemaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// CIDR blocks that EKS uses to create a security group on the public endpoint
@@ -169,10 +148,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetPublicAccessCidrsAsync(
-        EksctlUtilsSetPublicAccessCidrsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> SetPublicAccessCidrsAsync(EksctlUtilsSetPublicAccessCidrsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Updates the authentication mode for a cluster
@@ -181,10 +158,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAuthenticationModeAsync(
-        EksctlUtilsUpdateAuthenticationModeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateAuthenticationModeAsync(EksctlUtilsUpdateAuthenticationModeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update aws-node add-on to latest released version
@@ -193,10 +168,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAwsNodeAsync(
-        EksctlUtilsUpdateAwsNodeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateAwsNodeAsync(EksctlUtilsUpdateAwsNodeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update Kubernetes API endpoint access configuration
@@ -205,10 +178,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateClusterEndpointsAsync(
-        EksctlUtilsUpdateClusterEndpointsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateClusterEndpointsAsync(EksctlUtilsUpdateClusterEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update cluster logging configuration
@@ -217,10 +188,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateClusterLoggingAsync(
-        EksctlUtilsUpdateClusterLoggingOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateClusterLoggingAsync(EksctlUtilsUpdateClusterLoggingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Updates the Kubernetes API endpoint access configuration and public access CIDRs.
@@ -229,10 +198,18 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateClusterVpcConfigAsync(
-        EksctlUtilsUpdateClusterVpcConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateClusterVpcConfigAsync(EksctlUtilsUpdateClusterVpcConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// update the kube-apiserver, kube-scheduler and kube-controller-manager configuration of a cluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> UpdateControlPlaneComponentConfigAsync(EksctlUtilsUpdateControlPlaneComponentConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update coredns add-on to ensure image matches the standard Amazon EKS version
@@ -241,10 +218,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateCorednsAsync(
-        EksctlUtilsUpdateCorednsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateCorednsAsync(EksctlUtilsUpdateCorednsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update kube-proxy add-on to ensure image matches Kubernetes control plane version
@@ -253,10 +228,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateKubeProxyAsync(
-        EksctlUtilsUpdateKubeProxyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateKubeProxyAsync(EksctlUtilsUpdateKubeProxyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// MapPublicIpOnLaunch is a new property for subnets that is required for creating new nodegroups in them
@@ -265,10 +238,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateLegacySubnetSettingsAsync(
-        EksctlUtilsUpdateLegacySubnetSettingsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateLegacySubnetSettingsAsync(EksctlUtilsUpdateLegacySubnetSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// update zonal shift config on a cluster
@@ -277,10 +248,8 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateZonalShiftConfigAsync(
-        EksctlUtilsUpdateZonalShiftConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateZonalShiftConfigAsync(EksctlUtilsUpdateZonalShiftConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Write kubeconfig file for a given cluster
@@ -289,9 +258,7 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WriteKubeconfigAsync(
-        EksctlUtilsWriteKubeconfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> WriteKubeConfigAsync(EksctlUtilsWriteKubeConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

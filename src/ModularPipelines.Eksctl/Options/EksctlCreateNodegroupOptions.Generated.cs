@@ -166,7 +166,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     public string? NodeAmi { get; set; }
 
     /// <summary>
-    /// supported AMI families: AmazonLinux2023, AmazonLinux2, UbuntuPro2604, Ubuntu2604, UbuntuPro2404, Ubuntu2404, UbuntuPro2204, Ubuntu2204, UbuntuPro2004, Ubuntu2004, Bottlerocket, WindowsServer2019CoreContainer, WindowsServer2019FullContainer, WindowsServer2022CoreContainer, WindowsServer2022FullContainer, WindowsServer2025CoreContainer, WindowsServer2025FullContainer
+    /// supported AMI families: AmazonLinux2023, AmazonLinux2, UbuntuPro2604, Ubuntu2604, UbuntuPro2404, Ubuntu2404, UbuntuPro2204, Ubuntu2204, UbuntuPro2004, Ubuntu2004, Bottlerocket, BottlerocketFips, WindowsServer2019CoreContainer, WindowsServer2019FullContainer, WindowsServer2022CoreContainer, WindowsServer2022FullContainer, WindowsServer2025CoreContainer, WindowsServer2025FullContainer
     /// </summary>
     [CliOption("--node-ami-family", Format = OptionFormat.EqualsSeparated)]
     public string? NodeAmiFamily { get; set; }
@@ -373,7 +373,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// dump logs to disk on failure if set to true
     /// </summary>
     [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? Dumplogs { get; set; }
+    public bool? DumpLogs { get; set; }
 
     /// <summary>
     /// help for this command
