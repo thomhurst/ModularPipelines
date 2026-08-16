@@ -295,6 +295,75 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("artifact rm", "ARTIFACT [ARTIFACT...]")]
+    [Arguments("quadlet rm", "QUADLET [QUADLET...]")]
+    public async Task Podman_All_Removal_Operands_Are_Optional(
+        string command,
+        string operands)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var argument = definition!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    [Arguments("kube down")]
+    [Arguments("kube play")]
+    public async Task Podman_Kube_Files_Are_Optional_Collections(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] [KUBEFILE [KUBEFILE...]]|-";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var argument = definition!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Kubefile");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    [Arguments("generate kube", "NoTrunc")]
+    [Arguments("kube generate", "NoTrunc")]
+    [Arguments("machine rm", "SaveKeys")]
+    public async Task Podman_Removed_Flags_Are_Retained_As_Compatibility_Properties(
+        string command,
+        string propertyName)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options]";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var property = definition!.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(property.PropertyName).IsEqualTo(propertyName);
+            await Assert.That(property.CSharpType).IsEqualTo("bool?");
+            await Assert.That(property.ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """

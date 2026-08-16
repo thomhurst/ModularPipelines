@@ -171,9 +171,9 @@ public record PodmanKubePlayOptions : PodmanOptions
     public bool? Wait { get; set; }
 
     /// <summary>
-    /// The [KUBEFILE [KUBEFILE...]] operand.
+    /// The KUBEFILE operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? KubefileKubefile { get; set; }
+    public IEnumerable<string>? Kubefile { get; set; }
 
 }

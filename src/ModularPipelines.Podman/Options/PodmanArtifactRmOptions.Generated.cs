@@ -18,9 +18,7 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "rm")]
-public record PodmanArtifactRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Artifact
-) : PodmanOptions
+public record PodmanArtifactRmOptions : PodmanOptions
 {
     /// <summary>
     /// Remove all artifacts
@@ -33,5 +31,11 @@ public record PodmanArtifactRmOptions(
     /// </summary>
     [CliFlag("--ignore", ShortForm = "-i")]
     public bool? Ignore { get; set; }
+
+    /// <summary>
+    /// The ARTIFACT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Artifact { get; set; }
 
 }

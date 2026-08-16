@@ -18,9 +18,7 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quadlet", "rm")]
-public record PodmanQuadletRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Quadlet
-) : PodmanOptions
+public record PodmanQuadletRmOptions : PodmanOptions
 {
     /// <summary>
     /// Remove all Quadlets for the current user
@@ -45,5 +43,11 @@ public record PodmanQuadletRmOptions(
     /// </summary>
     [CliOption("--reload-systemd", Format = OptionFormat.EqualsSeparated)]
     public bool? ReloadSystemd { get; set; }
+
+    /// <summary>
+    /// The QUADLET operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Quadlet { get; set; }
 
 }

@@ -44,4 +44,7 @@ public record PodmanMachineRmOptions : PodmanOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Machine { get; set; }
 
+    [Obsolete("Podman no longer supports --save-keys and this property has no effect.")]
+    public bool? SaveKeys { get; set; }
+
 }
