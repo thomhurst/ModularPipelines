@@ -20,47 +20,59 @@ namespace ModularPipelines.Podman.Options;
 [CliSubCommand("manifest", "annotate")]
 public record PodmanManifestAnnotateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Imageorartifact
 ) : PodmanOptions
 {
     /// <summary>
-    /// set an annotation for the specified image
+    /// set an annotation for the specified image or artifact
     /// </summary>
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public string? Annotation { get; set; }
 
     /// <summary>
-    /// override the architecture of the specified image
+    /// override the architecture of the specified image or artifact
     /// </summary>
     [CliOption("--arch", Format = OptionFormat.EqualsSeparated)]
     public string? Arch { get; set; }
 
     /// <summary>
-    /// override the features of the specified image
+    /// override the features of the specified image or artifact
     /// </summary>
     [CliOption("--features", Format = OptionFormat.EqualsSeparated)]
     public string? Features { get; set; }
 
     /// <summary>
-    /// override the OS of the specified image
+    /// apply --annotation values to the image index itself
+    /// </summary>
+    [CliFlag("--index")]
+    public bool? Index { get; set; }
+
+    /// <summary>
+    /// override the OS of the specified image or artifact
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
     public string? Os { get; set; }
 
     /// <summary>
-    /// override the OS features of the specified image
+    /// override the OS features of the specified image or artifact
     /// </summary>
     [CliOption("--os-features", Format = OptionFormat.EqualsSeparated)]
     public string? OsFeatures { get; set; }
 
     /// <summary>
-    /// override the OS version of the specified image
+    /// override the OS version of the specified image or artifact
     /// </summary>
     [CliOption("--os-version", Format = OptionFormat.EqualsSeparated)]
     public string? OsVersion { get; set; }
 
     /// <summary>
-    /// override the Variant of the specified image
+    /// set the subject to which the image index refers
+    /// </summary>
+    [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
+    public string? Subject { get; set; }
+
+    /// <summary>
+    /// override the Variant of the specified image or artifact
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }

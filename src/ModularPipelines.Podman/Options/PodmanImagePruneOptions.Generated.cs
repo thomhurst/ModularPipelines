@@ -27,6 +27,12 @@ public record PodmanImagePruneOptions : PodmanOptions
     public bool? All { get; set; }
 
     /// <summary>
+    /// Remove persistent build cache created by --mount=type=cache
+    /// </summary>
+    [CliFlag("--build-cache")]
+    public bool? BuildCache { get; set; }
+
+    /// <summary>
     /// Remove images even when they are used by external containers (e.g., by build containers)
     /// </summary>
     [CliFlag("--external")]

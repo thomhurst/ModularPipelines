@@ -47,4 +47,22 @@ public record PodmanSystemConnectionAddOptions(
     [CliOption("--socket-path", Format = OptionFormat.EqualsSeparated)]
     public string? SocketPath { get; set; }
 
+    /// <summary>
+    /// path to TLS certificate Authority PEM file
+    /// </summary>
+    [CliOption("--tls-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsCa { get; set; }
+
+    /// <summary>
+    /// path to TLS client certificate PEM file
+    /// </summary>
+    [CliOption("--tls-cert", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsCert { get; set; }
+
+    /// <summary>
+    /// path to TLS client certificate private key PEM file
+    /// </summary>
+    [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsKey { get; set; }
+
 }

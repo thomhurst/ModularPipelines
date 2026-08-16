@@ -19,7 +19,13 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "rm")]
 public record PodmanManifestRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> List
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> List
 ) : PodmanOptions
 {
+    /// <summary>
+    /// Ignore errors when a specified manifest is missing
+    /// </summary>
+    [CliFlag("--ignore", ShortForm = "-i")]
+    public bool? Ignore { get; set; }
+
 }
