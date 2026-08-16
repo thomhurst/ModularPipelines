@@ -118,15 +118,6 @@ internal static partial class EnumDefinitionStabilizer
         for (var index = 0; index < newValues.Count; index++)
         {
             var incomingValue = newValues[index];
-            if (stabilizedValues.Any(value => value.MemberName.Equals(
-                    incomingValue.MemberName,
-                    StringComparison.Ordinal)))
-            {
-                throw new InvalidOperationException(
-                    $"Enum '{definition.EnumName}' would generate duplicate member "
-                    + $"'{incomingValue.MemberName}'.");
-            }
-
             while (usedNumericValues.Contains(nextNumericValue))
             {
                 nextNumericValue = checked(nextNumericValue + 1);
