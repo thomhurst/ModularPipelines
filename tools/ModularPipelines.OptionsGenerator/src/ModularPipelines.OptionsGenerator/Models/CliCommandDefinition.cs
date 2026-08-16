@@ -104,6 +104,12 @@ public record CliCommandDefinition
     { get; init; } = new Dictionary<string, IReadOnlyList<CliCompatibilityConstructor>>(StringComparer.Ordinal);
 
     /// <summary>
+    /// Enum-valued properties retained on command-group alias records, keyed by alias class name.
+    /// </summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<CliAliasCompatibilityProperty>> AliasCompatibilityProperties
+    { get; init; } = new Dictionary<string, IReadOnlyList<CliAliasCompatibilityProperty>>(StringComparer.Ordinal);
+
+    /// <summary>
     /// Whether an existing command-group <c>ExecuteAsync</c> facade must remain generated.
     /// </summary>
     public bool PreserveExecuteFacade { get; init; }
@@ -237,6 +243,32 @@ public record CliCompatibilityConstructor
 /// Describes a parameter on a retained generated constructor.
 /// </summary>
 public readonly record struct CliCompatibilityConstructorParameter(string PropertyName, string CSharpType);
+
+/// <summary>
+/// Describes an enum-valued property retained on a command-group alias record.
+/// </summary>
+public record CliAliasCompatibilityProperty
+{
+    /// <summary>
+    /// CLR property name shared with the canonical options record.
+    /// </summary>
+    public required string PropertyName { get; init; }
+
+    /// <summary>
+    /// Previously generated alias enum type exposed to consumers.
+    /// </summary>
+    public required string AliasCSharpType { get; init; }
+
+    /// <summary>
+    /// Canonical enum type used by the base options record.
+    /// </summary>
+    public required string CanonicalCSharpType { get; init; }
+
+    /// <summary>
+    /// Obsolete diagnostic shown to consumers.
+    /// </summary>
+    public required string ObsoleteMessage { get; init; }
+}
 
 /// <summary>
 /// Describes an obsolete generated method retained as a forwarding alias.

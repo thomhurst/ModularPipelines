@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -25,6 +26,17 @@ internal static class GeneratedApiCompatibilityPreserver
             return tool;
         }
 
+        var enumBaseline = ReadEnumBaseline(Path.Combine(
+            outputDirectory,
+            tool.OutputDirectory,
+            "Enums"));
+        tool = tool with
+        {
+            CompatibilityEnums = tool.CompatibilityEnums
+                .Concat(enumBaseline.Values)
+                .DistinctBy(static definition => definition.EnumName)
+                .ToArray(),
+        };
         var baseline = ReadBaseline(optionsDirectory);
         var compatibleTool = baseline.TryGetValue($"{tool.NamespacePrefix}Options", out var globalBaseline)
             ? PreserveGlobalOptions(tool, globalBaseline.Properties)
@@ -51,10 +63,11 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
                     ? Preserve(command, commandBaseline.Properties, commandBaseline.Constructors)
                     : command)
-                .Select(command => PreserveAliasConstructors(
+                .Select(command => PreserveAliasCompatibility(
                     compatibleTool,
                     command,
-                    baseline))
+                    baseline,
+                    enumBaseline))
                 .Select(command => executeFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveExecuteFacade = true }
                     : command)
@@ -70,10 +83,11 @@ internal static class GeneratedApiCompatibilityPreserver
         return preservedTool;
     }
 
-    private static CliCommandDefinition PreserveAliasConstructors(
+    private static CliCommandDefinition PreserveAliasCompatibility(
         CliToolDefinition tool,
         CliCommandDefinition command,
-        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyDictionary<string, CliEnumDefinition> enumBaseline)
     {
         if (command.CommandParts.Length == 0)
         {
@@ -81,6 +95,8 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         var constructorsByAlias = command.AliasCompatibilityConstructors
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
+        var propertiesByAlias = command.AliasCompatibilityProperties
             .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
         foreach (var alias in tool.CommandGroupAliases.Where(alias =>
                      command.CommandParts[0].Equals(
@@ -120,9 +136,71 @@ internal static class GeneratedApiCompatibilityPreserver
             {
                 constructorsByAlias[aliasClassName] = compatibilityConstructors;
             }
+
+            var currentAliasProperties = command.Options
+                .Where(static option => option.EnumDefinition is not null
+                                        && option.ValueArity != CliOptionValueArity.Optional)
+                .Select(option => (
+                    option.PropertyName,
+                    option.CSharpType.Replace(
+                        option.EnumDefinition!.EnumName,
+                        GeneratorUtils.GetAliasedClassName(
+                            tool,
+                            alias,
+                            option.EnumDefinition.EnumName),
+                        StringComparison.Ordinal)))
+                .ToHashSet();
+            var compatibilityProperties = propertiesByAlias
+                .GetValueOrDefault(aliasClassName, [])
+                .ToList();
+            var canonicalProperties = baseline.GetValueOrDefault(command.ClassName)?.Properties ?? [];
+            foreach (var baselineProperty in aliasBaseline.Properties)
+            {
+                var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
+                if (!enumBaseline.ContainsKey(aliasEnumName)
+                    || currentAliasProperties.Contains((
+                        baselineProperty.PropertyName,
+                        baselineProperty.CSharpType))
+                    || compatibilityProperties.Any(existing => existing.PropertyName.Equals(
+                        baselineProperty.PropertyName,
+                        StringComparison.Ordinal)))
+                {
+                    continue;
+                }
+
+                var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
+                    property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
+                if (canonicalProperty is null
+                    || !enumBaseline.ContainsKey(GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType)))
+                {
+                    continue;
+                }
+
+                compatibilityProperties.Add(new CliAliasCompatibilityProperty
+                {
+                    PropertyName = baselineProperty.PropertyName,
+                    AliasCSharpType = baselineProperty.CSharpType,
+                    CanonicalCSharpType = canonicalProperty.CSharpType,
+                    ObsoleteMessage = baselineProperty.ObsoleteMessage
+                        ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
+                });
+            }
+
+            if (compatibilityProperties.Count == 0)
+            {
+                propertiesByAlias.Remove(aliasClassName);
+            }
+            else
+            {
+                propertiesByAlias[aliasClassName] = compatibilityProperties;
+            }
         }
 
-        return command with { AliasCompatibilityConstructors = constructorsByAlias };
+        return command with
+        {
+            AliasCompatibilityConstructors = constructorsByAlias,
+            AliasCompatibilityProperties = propertiesByAlias,
+        };
     }
 
     internal static CliToolDefinition PreserveGlobalOptions(
@@ -758,6 +836,59 @@ internal static class GeneratedApiCompatibilityPreserver
 
         return baseline;
     }
+
+    private static Dictionary<string, CliEnumDefinition> ReadEnumBaseline(string enumsDirectory)
+    {
+        var baseline = new Dictionary<string, CliEnumDefinition>(StringComparer.Ordinal);
+        if (!Directory.Exists(enumsDirectory))
+        {
+            return baseline;
+        }
+
+        foreach (var path in Directory.EnumerateFiles(
+                     enumsDirectory,
+                     "*.Generated.cs",
+                     SearchOption.TopDirectoryOnly))
+        {
+            var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
+            foreach (var declaration in root.DescendantNodes().OfType<EnumDeclarationSyntax>())
+            {
+                var nextNumericValue = 0;
+                var values = new List<CliEnumValue>(declaration.Members.Count);
+                foreach (var member in declaration.Members)
+                {
+                    var attributes = member.AttributeLists.SelectMany(static list => list.Attributes);
+                    var cliValueAttribute = FindAttribute(attributes, "EnumValue")
+                                            ?? FindAttribute(attributes, "Description");
+                    var numericValue = GetEnumNumericValue(member.EqualsValue?.Value) ?? nextNumericValue;
+                    values.Add(new CliEnumValue
+                    {
+                        MemberName = member.Identifier.ValueText,
+                        CliValue = GetStringArgument(cliValueAttribute) ?? member.Identifier.ValueText,
+                        NumericValue = numericValue,
+                    });
+                    nextNumericValue = checked(numericValue + 1);
+                }
+
+                baseline[declaration.Identifier.ValueText] = new CliEnumDefinition
+                {
+                    EnumName = declaration.Identifier.ValueText,
+                    Values = values,
+                };
+            }
+        }
+
+        return baseline;
+    }
+
+    private static int? GetEnumNumericValue(ExpressionSyntax? expression) => expression switch
+    {
+        LiteralExpressionSyntax literal when literal.Token.Value is int value => value,
+        PrefixUnaryExpressionSyntax prefix when prefix.IsKind(SyntaxKind.UnaryMinusExpression)
+                                                 && prefix.Operand is LiteralExpressionSyntax literal
+                                                 && literal.Token.Value is int value => -value,
+        _ => null,
+    };
 
     private static CliCompatibilityConstructor[] ReadCompatibilityConstructors(
         RecordDeclarationSyntax declaration) =>

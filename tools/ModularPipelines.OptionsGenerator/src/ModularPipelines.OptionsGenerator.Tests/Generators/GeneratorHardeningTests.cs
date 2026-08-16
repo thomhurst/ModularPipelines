@@ -1569,6 +1569,77 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Alias_Enum_Properties()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        var optionsDirectory = Path.Combine(packageDirectory, "Options");
+        var enumsDirectory = Path.Combine(packageDirectory, "Enums");
+        Directory.CreateDirectory(optionsDirectory);
+        Directory.CreateDirectory(enumsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions { "
+                + "[CliOption(\"--progress\")] public ToolBuildxBakeProgress? Progress { get; set; } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions { "
+                + "[CliOption(\"--progress\")] public new ToolBuilderBakeProgress? Progress { get; set; } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "ToolBuildxBakeProgress.Generated.cs"),
+                "public enum ToolBuildxBakeProgress { [EnumValue(\"plain\")] Plain = 4 }");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "ToolBuilderBakeProgress.Generated.cs"),
+                "public enum ToolBuilderBakeProgress { [EnumValue(\"plain\")] Plain = 4 }");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx");
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generatedOptions = await new OptionsClassGenerator().GenerateAsync(preserved);
+            var generatedAlias = generatedOptions.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolBuilderBakeOptions.Generated.cs", StringComparison.Ordinal)).Content;
+            var generatedCanonical = generatedOptions.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolBuildxBakeOptions.Generated.cs", StringComparison.Ordinal)).Content;
+            var generatedEnums = await new EnumGenerator().GenerateAsync(preserved);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generatedCanonical)
+                    .Contains("public ToolBuildxBakeProgress? Progress { get; set; }");
+                await Assert.That(generatedAlias)
+                    .Contains("public new ToolBuilderBakeProgress? Progress");
+                await Assert.That(generatedAlias)
+                    .Contains("(ToolBuildxBakeProgress)(int)value.Value");
+                await Assert.That(generatedEnums.Select(file => Path.GetFileName(file.RelativePath)))
+                    .Contains("ToolBuildxBakeProgress.Generated.cs");
+                await Assert.That(generatedEnums.Select(file => Path.GetFileName(file.RelativePath)))
+                    .Contains("ToolBuilderBakeProgress.Generated.cs");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Rekeys_Documentation_Examples_After_Required_Rename()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with

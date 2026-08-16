@@ -129,8 +129,14 @@ public record CliToolDefinition
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
+        .Concat(CompatibilityEnums)
         .DistinctBy(e => e.EnumName)
         .ToList();
+
+    /// <summary>
+    /// Generated enum types retained after the installed CLI stops advertising them.
+    /// </summary>
+    public IReadOnlyList<CliEnumDefinition> CompatibilityEnums { get; init; } = [];
 
     /// <summary>
     /// Any scraping errors encountered.
