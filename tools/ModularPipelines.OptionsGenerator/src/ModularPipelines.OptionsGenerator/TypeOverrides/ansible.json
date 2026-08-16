@@ -1,0 +1,21 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--become-password-file": {
+      "type": "string",
+      "isSecret": true,
+      "reason": "Ansible credential file values are masked from command logs"
+    },
+    "--connection-password-file": {
+      "type": "string",
+      "isSecret": true,
+      "reason": "Ansible credential file values are masked from command logs"
+    },
+    "--vault-password-file": {
+      "type": "string",
+      "isSecret": true,
+      "reason": "Ansible credential file values are masked from command logs"
+    }
+  },
+  "commands": {}
+}

@@ -7,6 +7,25 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ManualOverrideDetectorTests
 {
     [Test]
+    [Arguments("--become-password-file")]
+    [Arguments("--connection-password-file")]
+    [Arguments("--vault-password-file")]
+    public async Task Ansible_Credential_File_Overrides_Are_Secret(string optionName)
+    {
+        var detector = new ManualOverrideDetector(NullLogger<ManualOverrideDetector>.Instance);
+        var result = await detector.DetectTypeAsync(new OptionDetectionContext
+        {
+            ToolName = "ansible",
+            CommandPath = ["ansible"],
+            OptionName = optionName,
+            AllNames = [optionName],
+        });
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.IsSecret).IsTrue();
+    }
+
+    [Test]
     [Arguments("managed-cassandra", "cluster", "invoke-command")]
     [Arguments("synapse", "spark", "job", "submit")]
     public async Task Azure_Arguments_Overrides_Are_String_Lists(params string[] commandParts)

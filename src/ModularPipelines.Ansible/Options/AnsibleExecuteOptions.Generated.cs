@@ -26,12 +26,14 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// Become password file
     /// </summary>
+    [SecretValue]
     [CliOption("--become-password-file")]
     public string? BecomePasswordFile { get; set; }
 
     /// <summary>
     /// Connection password file
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-password-file")]
     public string? ConnectionPasswordFile { get; set; }
 
@@ -68,6 +70,7 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// vault password file
     /// </summary>
+    [SecretValue]
     [CliOption("--vault-password-file")]
     public string? VaultPasswordFile { get; set; }
 
