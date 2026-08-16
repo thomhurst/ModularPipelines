@@ -87,8 +87,18 @@ const config: Config = {
           position: 'right',
         },
         {
+          href: 'https://www.nuget.org/packages/ModularPipelines',
+          label: 'NuGet',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/thomhurst/ModularPipelines',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/sponsors/thomhurst',
+          label: '❤️ Sponsor',
           position: 'right',
         },
       ],
