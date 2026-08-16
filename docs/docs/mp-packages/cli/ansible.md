@@ -7,7 +7,13 @@ title: ansible CLI reference
 
 `ModularPipelines.Ansible` provides strongly typed access to the `ansible` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `ansible` executable. Install it separately and ensure `ansible` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Ansible
@@ -30,7 +36,10 @@ public class RunCommandModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Tools.Ansible.ExecuteAsync(
-            new AnsibleExecuteOptions("value"),
+            new AnsibleExecuteOptions("localhost")
+            {
+                ListHosts = true,
+            },
             cancellationToken: cancellationToken);
     }
 }
