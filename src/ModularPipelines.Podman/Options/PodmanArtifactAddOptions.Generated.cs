@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Options;
 [CliSubCommand("artifact", "add")]
 public record PodmanArtifactAddOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Artifact,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Path
 ) : PodmanOptions
 {
     /// <summary>

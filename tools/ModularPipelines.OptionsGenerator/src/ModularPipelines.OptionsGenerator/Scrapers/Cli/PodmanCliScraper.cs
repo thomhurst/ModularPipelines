@@ -137,6 +137,7 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         return string.Join(' ', commandParts) switch
         {
+            "artifact add" => SetRequiredVariadic(positionalArguments, 1, "Path"),
             "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
             "exec" or "container exec" => SetRequiredCount(positionalArguments, 2),
             "artifact rm" or "quadlet rm" => SetRequiredCount(positionalArguments, 0),
@@ -165,6 +166,24 @@ public partial class PodmanCliScraper : CobraCliScraper
                 Description = $"The {propertyName.ToUpperInvariant()} operand.",
             },
         ];
+
+    private static IReadOnlyList<CliPositionalArgument> SetRequiredVariadic(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int index,
+        string propertyName) => positionalArguments.Count <= index
+        ? positionalArguments
+        : positionalArguments
+            .Select((argument, argumentIndex) => argumentIndex == index
+                ? argument with
+                {
+                    PropertyName = propertyName,
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                    IsVariadic = true,
+                    Description = $"The {propertyName.ToUpperInvariant()} operand.",
+                }
+                : argument)
+            .ToList();
 
     protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
         string[] commandParts) => string.Join(' ', commandParts) switch

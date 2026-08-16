@@ -318,6 +318,29 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Artifact_Add_Accepts_Multiple_Paths()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman artifact add [options] ARTIFACT PATH";
+
+        var definition = await scraper.Parse(["podman", "artifact", "add"], helpText);
+        var arguments = definition!.PositionalArguments;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments).Count().IsEqualTo(2);
+            await Assert.That(arguments[0].PropertyName).IsEqualTo("Artifact");
+            await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(arguments[0].IsRequired).IsTrue();
+            await Assert.That(arguments[1].PropertyName).IsEqualTo("Path");
+            await Assert.That(arguments[1].CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(arguments[1].IsRequired).IsTrue();
+            await Assert.That(arguments[1].IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
     [Arguments("kube down")]
     [Arguments("kube play")]
     public async Task Podman_Kube_Files_Are_Optional_Collections(string command)
