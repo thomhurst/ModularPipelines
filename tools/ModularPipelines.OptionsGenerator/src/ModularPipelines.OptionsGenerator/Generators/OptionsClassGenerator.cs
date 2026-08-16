@@ -54,10 +54,16 @@ public class OptionsClassGenerator : ICodeGenerator
             command.ClassName);
         var compatibilityConstructors = command.AliasCompatibilityConstructors
             .GetValueOrDefault(aliasClassName, []);
+        var compatibilityProperties = command.AliasCompatibilityProperties
+            .GetValueOrDefault(aliasClassName, []);
+        var compatibilityPropertyNames = compatibilityProperties
+            .Select(static property => property.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
             .Where(option => option.EnumDefinition is not null
-                             && option.ValueArity != CliOptionValueArity.Optional)
+                             && option.ValueArity != CliOptionValueArity.Optional
+                             && !compatibilityPropertyNames.Contains(option.PropertyName))
             .ToArray();
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
@@ -69,9 +75,13 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
-        if (enumOptions.Length > 0)
+        if (enumOptions.Length > 0 || compatibilityProperties.Count > 0)
         {
-            sb.AppendLine("using ModularPipelines.Attributes;");
+            if (enumOptions.Length > 0)
+            {
+                sb.AppendLine("using ModularPipelines.Attributes;");
+            }
+
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
 
@@ -82,7 +92,8 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("[ExcludeFromCodeCoverage]");
         if (enumOptions.Length == 0
             && requiredParameters.Count == 0
-            && compatibilityConstructors.Count == 0)
+            && compatibilityConstructors.Count == 0
+            && compatibilityProperties.Count == 0)
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
         }
@@ -103,6 +114,11 @@ public class OptionsClassGenerator : ICodeGenerator
             foreach (var option in enumOptions)
             {
                 GenerateCompatibilityEnumProperty(sb, option, tool, alias);
+            }
+
+            foreach (var property in compatibilityProperties)
+            {
+                GenerateAliasCompatibilityProperty(sb, property);
             }
 
             sb.AppendLine("}");
@@ -229,6 +245,53 @@ public class OptionsClassGenerator : ICodeGenerator
             + $"static value => ({canonicalEnumName})(int)value);");
     }
 
+    private static void GenerateAliasCompatibilityProperty(
+        StringBuilder sb,
+        CliAliasCompatibilityProperty property)
+    {
+        var aliasEnumName = GeneratorUtils.GetEnumTypeName(property.AliasCSharpType);
+        var canonicalEnumName = GeneratorUtils.GetEnumTypeName(property.CanonicalCSharpType);
+        var aliasIsEnumerable = property.AliasCSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal);
+        var canonicalIsEnumerable = property.CanonicalCSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal);
+        if (aliasIsEnumerable != canonicalIsEnumerable)
+        {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {property.PropertyName} because its collection shape changed.");
+        }
+
+        sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
+        sb.AppendLine($"    public new {property.AliasCSharpType} {property.PropertyName}");
+        sb.AppendLine("    {");
+        if (aliasIsEnumerable)
+        {
+            var baseNullableOperator = property.CanonicalCSharpType.EndsWith('?') ? "?" : string.Empty;
+            var aliasNullableOperator = property.AliasCSharpType.EndsWith('?') ? "?" : string.Empty;
+            sb.AppendLine(
+                $"        get => base.{property.PropertyName}{baseNullableOperator}.Select("
+                + $"static value => ({aliasEnumName})(int)value);");
+            sb.AppendLine(
+                $"        set => base.{property.PropertyName} = value{aliasNullableOperator}.Select("
+                + $"static value => ({canonicalEnumName})(int)value);");
+        }
+        else if (property.AliasCSharpType.EndsWith('?')
+                 && property.CanonicalCSharpType.EndsWith('?'))
+        {
+            sb.AppendLine($"        get => base.{property.PropertyName} is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({aliasEnumName})(int)base.{property.PropertyName}.Value;");
+            sb.AppendLine($"        set => base.{property.PropertyName} = value is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({canonicalEnumName})(int)value.Value;");
+        }
+        else
+        {
+            sb.AppendLine($"        get => ({aliasEnumName})(int)base.{property.PropertyName};");
+            sb.AppendLine($"        set => base.{property.PropertyName} = ({canonicalEnumName})(int)value;");
+        }
+
+        sb.AppendLine("    }");
+    }
+
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)
     {
         var sb = new StringBuilder();
@@ -316,7 +379,11 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Include enums namespace if any options use enum types
-        if (command.Options.Any(o => o.EnumDefinition is not null))
+        if (command.Options.Any(o => o.EnumDefinition is not null)
+            || command.CompatibilityProperties.Any(property => tool.AllEnums.Any(definition =>
+                definition.EnumName.Equals(
+                    GeneratorUtils.GetEnumTypeName(property.CSharpType),
+                    StringComparison.Ordinal))))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }

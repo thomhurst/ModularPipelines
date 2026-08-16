@@ -14,6 +14,15 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    internal static string GetEnumTypeName(string cSharpType)
+    {
+        var type = cSharpType.TrimEnd('?');
+        const string enumerablePrefix = "IEnumerable<";
+        return type.StartsWith(enumerablePrefix, StringComparison.Ordinal)
+            ? type[enumerablePrefix.Length..^1]
+            : type;
+    }
+
     private static readonly string[] KnownRunnerHomeDirectories =
     [
         "/home/runner",
