@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "helm",
-  "toolVersion": "version.BuildInfo{Version:\u0022v3.21.3\u0022, GitCommit:\u00221ad6e68924fdf6fb0c7dcef8e9e1dfc0f36eaed6\u0022, GitTreeState:\u0022clean\u0022, GoVersion:\u0022go1.26.5\u0022}",
+  "toolVersion": "version.BuildInfo{Version:\u0022v3.21.4\u0022, GitCommit:\u0022813176c51bb5c181dbbd7901298ddcc104cd3417\u0022, GitTreeState:\u0022clean\u0022, GoVersion:\u0022go1.26.5\u0022}",
   "commandCount": 50,
   "commandTreeSha256": "4899ed49663bc26b485e79579fc4dd8dc6db81e8115ef7343e12699488811782",
   "commands": [
