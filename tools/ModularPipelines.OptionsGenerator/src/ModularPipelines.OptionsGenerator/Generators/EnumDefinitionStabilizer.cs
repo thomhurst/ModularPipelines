@@ -4,7 +4,7 @@ using ModularPipelines.OptionsGenerator.Models;
 namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
-/// Preserves the public numeric contract of generated enums across regeneration.
+/// Preserves generated enum members, CLI values, and numeric values across regeneration.
 /// </summary>
 internal static partial class EnumDefinitionStabilizer
 {
@@ -43,6 +43,9 @@ internal static partial class EnumDefinitionStabilizer
         {
             Commands = commands,
             GlobalOptions = StabilizeOptions(tool.GlobalOptions, stabilizedEnums),
+            CompatibilityEnums = tool.CompatibilityEnums
+                .Select(definition => stabilizedEnums[definition.EnumName])
+                .ToList(),
         };
     }
 
@@ -81,7 +84,25 @@ internal static partial class EnumDefinitionStabilizer
                     MemberName = existingValue.MemberName,
                     NumericValue = existingValue.NumericValue,
                 });
+                continue;
             }
+
+            var reusedMember = definition.Values.FirstOrDefault(value => value.MemberName.Equals(
+                existingValue.MemberName,
+                StringComparison.Ordinal));
+            if (reusedMember is not null)
+            {
+                throw new InvalidOperationException(
+                    $"Enum '{definition.EnumName}' member '{existingValue.MemberName}' changed CLI value from "
+                    + $"'{existingValue.CliValue}' to '{reusedMember.CliValue}'.");
+            }
+
+            stabilizedValues.Add(new CliEnumValue
+            {
+                MemberName = existingValue.MemberName,
+                CliValue = existingValue.CliValue,
+                NumericValue = existingValue.NumericValue,
+            });
         }
 
         var usedNumericValues = existingValues
@@ -97,6 +118,15 @@ internal static partial class EnumDefinitionStabilizer
         for (var index = 0; index < newValues.Count; index++)
         {
             var incomingValue = newValues[index];
+            if (stabilizedValues.Any(value => value.MemberName.Equals(
+                    incomingValue.MemberName,
+                    StringComparison.Ordinal)))
+            {
+                throw new InvalidOperationException(
+                    $"Enum '{definition.EnumName}' would generate duplicate member "
+                    + $"'{incomingValue.MemberName}'.");
+            }
+
             while (usedNumericValues.Contains(nextNumericValue))
             {
                 nextNumericValue = checked(nextNumericValue + 1);
@@ -123,6 +153,15 @@ internal static partial class EnumDefinitionStabilizer
         {
             throw new InvalidOperationException(
                 $"Enum '{definition.EnumName}' contains duplicate CLI value '{duplicateCliValue.Key}'.");
+        }
+
+        var duplicateMember = definition.Values
+            .GroupBy(value => value.MemberName, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateMember is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{definition.EnumName}' contains duplicate member '{duplicateMember.Key}'.");
         }
 
         var suspiciousValue = definition.Values
