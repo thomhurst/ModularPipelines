@@ -64,14 +64,30 @@ internal static partial class EnumDefinitionStabilizer
     {
         ValidateValues(definition);
 
+        var existingValues = ReadExistingValues(existingFile, fallbackExistingFile);
+        var stabilizedValues = PreserveExistingValues(definition, existingValues);
+        AppendNewValues(definition, existingValues, stabilizedValues);
+
+        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
+        return definition with { Values = stabilizedValues };
+    }
+
+    private static IReadOnlyList<ExistingEnumValue> ReadExistingValues(
+        string existingFile,
+        string? fallbackExistingFile)
+    {
         var baselineFile = File.Exists(existingFile)
             ? existingFile
             : fallbackExistingFile;
-        var existingValues = baselineFile is not null && File.Exists(baselineFile)
+        return baselineFile is not null && File.Exists(baselineFile)
             ? ParseExistingValues(File.ReadAllText(baselineFile))
             : [];
+    }
 
-        var existingByCliValue = existingValues.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
+    private static List<CliEnumValue> PreserveExistingValues(
+        CliEnumDefinition definition,
+        IReadOnlyList<ExistingEnumValue> existingValues)
+    {
         var incomingByCliValue = definition.Values.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
         var stabilizedValues = new List<CliEnumValue>(definition.Values.Count);
 
@@ -105,11 +121,22 @@ internal static partial class EnumDefinitionStabilizer
             });
         }
 
+        return stabilizedValues;
+    }
+
+    private static void AppendNewValues(
+        CliEnumDefinition definition,
+        IReadOnlyList<ExistingEnumValue> existingValues,
+        List<CliEnumValue> stabilizedValues)
+    {
+        var existingCliValues = existingValues
+            .Select(value => value.CliValue)
+            .ToHashSet(StringComparer.Ordinal);
         var usedNumericValues = existingValues
             .Select(value => value.NumericValue)
             .ToHashSet();
         var newValues = definition.Values
-            .Where(value => !existingByCliValue.ContainsKey(value.CliValue))
+            .Where(value => !existingCliValues.Contains(value.CliValue))
             .ToList();
         var nextNumericValue = newValues.Count > 0 && usedNumericValues.Count > 0
             ? checked(usedNumericValues.Max() + 1)
@@ -130,9 +157,6 @@ internal static partial class EnumDefinitionStabilizer
                 nextNumericValue = checked(nextNumericValue + 1);
             }
         }
-
-        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
-        return definition with { Values = stabilizedValues };
     }
 
     private static void ValidateValues(CliEnumDefinition definition)

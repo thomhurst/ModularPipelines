@@ -109,91 +109,22 @@ internal static class GeneratedApiCompatibilityPreserver
                 continue;
             }
 
-            var compatibilityConstructors = constructorsByAlias
-                .GetValueOrDefault(aliasClassName, [])
-                .ToList();
-            var currentRequired = GeneratorUtils.GetRequiredConstructorParameters(command)
-                .Select(parameter => new GeneratedApiProperty(
-                    parameter.PropertyName,
-                    GeneratorUtils.GetAliasedRequiredConstructorParameterType(parameter, tool, alias),
-                    null,
-                    null,
-                    true,
-                    false,
-                    null,
-                    null))
-                .ToArray();
-            PreserveCompatibilityConstructors(
-                aliasBaseline.Properties,
-                aliasBaseline.Constructors,
-                currentRequired,
-                compatibilityConstructors);
-            if (compatibilityConstructors.Count == 0)
-            {
-                constructorsByAlias.Remove(aliasClassName);
-            }
-            else
-            {
-                constructorsByAlias[aliasClassName] = compatibilityConstructors;
-            }
-
-            var currentAliasProperties = command.Options
-                .Where(static option => option.EnumDefinition is not null
-                                        && option.ValueArity != CliOptionValueArity.Optional)
-                .Select(option => (
-                    option.PropertyName,
-                    option.CSharpType.Replace(
-                        option.EnumDefinition!.EnumName,
-                        GeneratorUtils.GetAliasedClassName(
-                            tool,
-                            alias,
-                            option.EnumDefinition.EnumName),
-                        StringComparison.Ordinal)))
-                .ToHashSet();
-            var compatibilityProperties = propertiesByAlias
-                .GetValueOrDefault(aliasClassName, [])
-                .ToList();
-            var canonicalProperties = baseline.GetValueOrDefault(command.ClassName)?.Properties ?? [];
-            foreach (var baselineProperty in aliasBaseline.Properties)
-            {
-                var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
-                if (!enumBaseline.ContainsKey(aliasEnumName)
-                    || currentAliasProperties.Contains((
-                        baselineProperty.PropertyName,
-                        baselineProperty.CSharpType))
-                    || compatibilityProperties.Any(existing => existing.PropertyName.Equals(
-                        baselineProperty.PropertyName,
-                        StringComparison.Ordinal)))
-                {
-                    continue;
-                }
-
-                var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
-                    property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
-                if (canonicalProperty is null
-                    || !enumBaseline.ContainsKey(GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType)))
-                {
-                    continue;
-                }
-
-                compatibilityProperties.Add(new CliAliasCompatibilityProperty
-                {
-                    PropertyName = baselineProperty.PropertyName,
-                    AliasCSharpType = baselineProperty.CSharpType,
-                    CanonicalCSharpType = canonicalProperty.CSharpType,
-                    ObsoleteMessage = baselineProperty.ObsoleteMessage
-                        ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
-                });
-            }
-
-            if (compatibilityProperties.Count == 0)
-            {
-                propertiesByAlias.Remove(aliasClassName);
-            }
-            else
-            {
-                propertiesByAlias[aliasClassName] = compatibilityProperties;
-            }
+            PreserveAliasConstructors(
+                tool,
+                command,
+                alias,
+                aliasClassName,
+                aliasBaseline,
+                constructorsByAlias);
+            PreserveAliasProperties(
+                tool,
+                command,
+                alias,
+                aliasClassName,
+                aliasBaseline,
+                baseline,
+                enumBaseline,
+                propertiesByAlias);
         }
 
         return command with
@@ -201,6 +132,130 @@ internal static class GeneratedApiCompatibilityPreserver
             AliasCompatibilityConstructors = constructorsByAlias,
             AliasCompatibilityProperties = propertiesByAlias,
         };
+    }
+
+    private static void PreserveAliasConstructors(
+        CliToolDefinition tool,
+        CliCommandDefinition command,
+        CliCommandGroupAlias alias,
+        string aliasClassName,
+        GeneratedApiBaseline aliasBaseline,
+        Dictionary<string, IReadOnlyList<CliCompatibilityConstructor>> constructorsByAlias)
+    {
+        var compatibilityConstructors = constructorsByAlias
+            .GetValueOrDefault(aliasClassName, [])
+            .ToList();
+        var currentRequired = GeneratorUtils.GetRequiredConstructorParameters(command)
+            .Select(parameter => new GeneratedApiProperty(
+                parameter.PropertyName,
+                GeneratorUtils.GetAliasedRequiredConstructorParameterType(parameter, tool, alias),
+                null,
+                null,
+                true,
+                false,
+                null,
+                null))
+            .ToArray();
+        PreserveCompatibilityConstructors(
+            aliasBaseline.Properties,
+            aliasBaseline.Constructors,
+            currentRequired,
+            compatibilityConstructors);
+        SetCompatibilityEntries(constructorsByAlias, aliasClassName, compatibilityConstructors);
+    }
+
+    private static void PreserveAliasProperties(
+        CliToolDefinition tool,
+        CliCommandDefinition command,
+        CliCommandGroupAlias alias,
+        string aliasClassName,
+        GeneratedApiBaseline aliasBaseline,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyDictionary<string, CliEnumDefinition> enumBaseline,
+        Dictionary<string, IReadOnlyList<CliAliasCompatibilityProperty>> propertiesByAlias)
+    {
+        var currentAliasProperties = command.Options
+            .Where(static option => option.EnumDefinition is not null
+                                    && option.ValueArity != CliOptionValueArity.Optional)
+            .Select(option => (
+                option.PropertyName,
+                option.CSharpType.Replace(
+                    option.EnumDefinition!.EnumName,
+                    GeneratorUtils.GetAliasedClassName(
+                        tool,
+                        alias,
+                        option.EnumDefinition.EnumName),
+                    StringComparison.Ordinal)))
+            .ToHashSet();
+        var compatibilityProperties = propertiesByAlias
+            .GetValueOrDefault(aliasClassName, [])
+            .ToList();
+        var canonicalProperties = baseline.GetValueOrDefault(command.ClassName)?.Properties ?? [];
+
+        foreach (var baselineProperty in aliasBaseline.Properties)
+        {
+            var compatibilityProperty = CreateAliasCompatibilityProperty(
+                baselineProperty,
+                canonicalProperties,
+                enumBaseline,
+                currentAliasProperties,
+                compatibilityProperties);
+            if (compatibilityProperty is not null)
+            {
+                compatibilityProperties.Add(compatibilityProperty);
+            }
+        }
+
+        SetCompatibilityEntries(propertiesByAlias, aliasClassName, compatibilityProperties);
+    }
+
+    private static CliAliasCompatibilityProperty? CreateAliasCompatibilityProperty(
+        GeneratedApiProperty baselineProperty,
+        IReadOnlyList<GeneratedApiProperty> canonicalProperties,
+        IReadOnlyDictionary<string, CliEnumDefinition> enumBaseline,
+        IReadOnlySet<(string PropertyName, string CSharpType)> currentAliasProperties,
+        IReadOnlyCollection<CliAliasCompatibilityProperty> compatibilityProperties)
+    {
+        var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
+        if (!enumBaseline.ContainsKey(aliasEnumName)
+            || currentAliasProperties.Contains((baselineProperty.PropertyName, baselineProperty.CSharpType))
+            || compatibilityProperties.Any(existing => existing.PropertyName.Equals(
+                baselineProperty.PropertyName,
+                StringComparison.Ordinal)))
+        {
+            return null;
+        }
+
+        var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
+            property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
+        if (canonicalProperty is null
+            || !enumBaseline.ContainsKey(GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType)))
+        {
+            return null;
+        }
+
+        return new CliAliasCompatibilityProperty
+        {
+            PropertyName = baselineProperty.PropertyName,
+            AliasCSharpType = baselineProperty.CSharpType,
+            CanonicalCSharpType = canonicalProperty.CSharpType,
+            ObsoleteMessage = baselineProperty.ObsoleteMessage
+                ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
+        };
+    }
+
+    private static void SetCompatibilityEntries<T>(
+        Dictionary<string, IReadOnlyList<T>> entriesByAlias,
+        string aliasClassName,
+        IReadOnlyList<T> entries)
+    {
+        if (entries.Count == 0)
+        {
+            entriesByAlias.Remove(aliasClassName);
+            return;
+        }
+
+        entriesByAlias[aliasClassName] = entries;
     }
 
     internal static CliToolDefinition PreserveGlobalOptions(
