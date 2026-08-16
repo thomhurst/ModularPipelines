@@ -204,7 +204,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
-            Enums = enums
+            Enums = enums,
+            CompatibilityMethods = GetCompatibilityMethods(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -320,7 +321,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
                 seenOptions.Add(longForm);
 
-                var propertyName = NormalizePropertyName(longForm);
+                var propertyName = NormalizeOptionPropertyName(longForm);
                 if (propertyName is null)
                 {
                     continue;
@@ -449,6 +450,19 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Applies tool-specific normalization before option descriptions are generated.
     /// </summary>
     protected virtual string NormalizeOptionDescription(string description) => description;
+
+    /// <summary>
+    /// Normalizes an option switch to its public property name. Tool-specific scrapers may
+    /// override established spellings that predate the shared compound-word conventions.
+    /// </summary>
+    protected virtual string? NormalizeOptionPropertyName(string switchName) =>
+        NormalizePropertyName(switchName);
+
+    /// <summary>
+    /// Returns obsolete forwarding methods that preserve established public API names.
+    /// </summary>
+    protected virtual IReadOnlyList<CliCompatibilityMethod> GetCompatibilityMethods(
+        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether an option accepts repeated values when the source type is scalar.

@@ -117,4 +117,4 @@ var eksctl = context.Tools.Eksctl;
 | `eksctl utils update-kube-proxy` | `EksctlUtilsUpdateKubeProxyOptions` |
 | `eksctl utils update-legacy-subnet-settings` | `EksctlUtilsUpdateLegacySubnetSettingsOptions` |
 | `eksctl utils update-zonal-shift-config` | `EksctlUtilsUpdateZonalShiftConfigOptions` |
-| `eksctl utils write-kubeconfig` | `EksctlUtilsWriteKubeConfigOptions` |
+| `eksctl utils write-kubeconfig` | `EksctlUtilsWriteKubeconfigOptions` |

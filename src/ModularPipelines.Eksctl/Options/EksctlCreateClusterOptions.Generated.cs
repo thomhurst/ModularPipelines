@@ -403,7 +403,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// path to write kubeconfig (incompatible with --auto-kubeconfig)
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeConfig { get; set; }
+    public string? Kubeconfig { get; set; }
 
     /// <summary>
     /// AWS IAM role to assume for authenticator
@@ -415,19 +415,19 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// if true then current-context will be set in kubeconfig; if a context is already set then it will be overwritten (default true)
     /// </summary>
     [CliOption("--set-kubeconfig-context", Format = OptionFormat.EqualsSeparated)]
-    public bool? SetKubeConfigContext { get; set; }
+    public bool? SetKubeconfigContext { get; set; }
 
     /// <summary>
     /// save kubeconfig file by cluster name
     /// </summary>
     [CliFlag("--auto-kubeconfig")]
-    public bool? AutoKubeConfig { get; set; }
+    public bool? AutoKubeconfig { get; set; }
 
     /// <summary>
     /// toggle writing of kubeconfig (default true)
     /// </summary>
     [CliOption("--write-kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public bool? WriteKubeConfig { get; set; }
+    public bool? WriteKubeconfig { get; set; }
 
     /// <summary>
     /// toggle colorized logs (valid options: true, false, fabulous) (default "true")
@@ -439,7 +439,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// dump logs to disk on failure if set to true
     /// </summary>
     [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? DumpLogs { get; set; }
+    public bool? Dumplogs { get; set; }
 
     /// <summary>
     /// help for this command

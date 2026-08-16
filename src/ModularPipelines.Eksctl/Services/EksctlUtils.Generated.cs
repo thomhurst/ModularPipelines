@@ -384,11 +384,20 @@ public class EksctlUtils : IEksctlUtils
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WriteKubeConfigAsync(
-        EksctlUtilsWriteKubeConfigOptions? options = null,
+        EksctlUtilsWriteKubeconfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlUtilsWriteKubeconfigOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use WriteKubeConfigAsync instead.")]
+    public virtual async Task<CommandResult> WriteKubeconfigAsync(
+        EksctlUtilsWriteKubeconfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await WriteKubeConfigAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

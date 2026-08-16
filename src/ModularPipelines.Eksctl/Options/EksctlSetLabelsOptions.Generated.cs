@@ -73,7 +73,7 @@ public record EksctlSetLabelsOptions : EksctlOptions
     /// dump logs to disk on failure if set to true
     /// </summary>
     [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? DumpLogs { get; set; }
+    public bool? Dumplogs { get; set; }
 
     /// <summary>
     /// help for this command
