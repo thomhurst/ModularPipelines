@@ -25,6 +25,26 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PodmanCliScraper : CobraCliScraper
 {
+    private static readonly IReadOnlyList<CliCompatibilityProperty> NoTruncCompatibilityProperties =
+    [
+        new CliCompatibilityProperty
+        {
+            PropertyName = "NoTrunc",
+            CSharpType = "bool?",
+            ObsoleteMessage = "Podman no longer supports --no-trunc and this property has no effect.",
+        },
+    ];
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> SaveKeysCompatibilityProperties =
+    [
+        new CliCompatibilityProperty
+        {
+            PropertyName = "SaveKeys",
+            CSharpType = "bool?",
+            ObsoleteMessage = "Podman no longer supports --save-keys and this property has no effect.",
+        },
+    ];
+
     public PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -119,12 +139,40 @@ public partial class PodmanCliScraper : CobraCliScraper
         {
             "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
             "exec" or "container exec" => SetRequiredCount(positionalArguments, 2),
+            "artifact rm" or "quadlet rm" => SetRequiredCount(positionalArguments, 0),
+            "kube down" or "kube play" => SetOptionalVariadic(
+                positionalArguments,
+                "Kubefile"),
             "secret exists" or "secret inspect" or "secret rm" => positionalArguments
                 .Select(argument => argument with { IsSecret = false })
                 .ToList(),
             _ => positionalArguments,
         };
     }
+
+    private static IReadOnlyList<CliPositionalArgument> SetOptionalVariadic(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        string propertyName) => positionalArguments.Count == 0
+        ? positionalArguments
+        :
+        [
+            positionalArguments[0] with
+            {
+                PropertyName = propertyName,
+                CSharpType = "IEnumerable<string>?",
+                IsRequired = false,
+                IsVariadic = true,
+                Description = $"The {propertyName.ToUpperInvariant()} operand.",
+            },
+        ];
+
+    protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
+        string[] commandParts) => string.Join(' ', commandParts) switch
+        {
+            "generate kube" or "kube generate" => NoTruncCompatibilityProperties,
+            "machine rm" => SaveKeysCompatibilityProperties,
+            _ => [],
+        };
 
     private static IReadOnlyList<CliPositionalArgument> SetRequiredCount(
         IReadOnlyList<CliPositionalArgument> positionalArguments,

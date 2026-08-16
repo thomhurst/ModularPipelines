@@ -200,6 +200,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             DocumentationUrl = null, // CLI-first, no URL
             Options = options,
             PositionalArguments = positionalArgs,
+            CompatibilityProperties = GetCompatibilityProperties(commandParts),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
@@ -812,6 +813,12 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
+    /// <summary>
+    /// Returns public properties that remain available after the installed CLI removes a switch.
+    /// </summary>
+    protected virtual IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
+        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether a Boolean must be emitted with an explicit value instead of
