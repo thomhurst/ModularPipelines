@@ -33,7 +33,7 @@ public static class AnsibleExtensions
     }
 
     /// <summary>
-    /// Gets the ansible service from the pipeline context.
+    /// Gets the ansible service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAnsible"/> service for executing ansible commands.</returns>
