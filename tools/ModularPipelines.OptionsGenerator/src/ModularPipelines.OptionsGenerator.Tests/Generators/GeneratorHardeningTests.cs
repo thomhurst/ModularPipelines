@@ -925,7 +925,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ServiceInterfaceGenerator_Emits_Obsolete_Compatibility_Signature()
+    public async Task ServiceInterfaceGenerator_Delegates_Current_Member_To_Obsolete_Compatibility_Signature()
     {
         const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";
         var tool = Tool(Command(
@@ -950,6 +950,10 @@ public class GeneratorHardeningTests
         await Assert.That(generated)
             .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
+        await Assert.That(generated).Contains("    #pragma warning disable CS0618");
+        await Assert.That(generated)
+            .Contains("    => Create_or_updateAsync(options, executionOptions, cancellationToken);");
+        await Assert.That(generated).Contains("    #pragma warning restore CS0618");
         await Assert.That(generated)
             .Contains("    => throw new System.NotSupportedException();");
     }

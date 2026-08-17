@@ -258,8 +258,10 @@ public interface IEksctlUtils
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    #pragma warning disable CS0618
     Task<CommandResult> WriteKubeConfigAsync(EksctlUtilsWriteKubeconfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+        => WriteKubeconfigAsync(options, executionOptions, cancellationToken);
+    #pragma warning restore CS0618
 
     [Obsolete("Use WriteKubeConfigAsync instead.")]
     Task<CommandResult> WriteKubeconfigAsync(EksctlUtilsWriteKubeconfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
