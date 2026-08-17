@@ -118,6 +118,12 @@ public record PodmanKubePlayOptions : PodmanOptions
     public bool? NoPodPrefix { get; set; }
 
     /// <summary>
+    /// Compatibility property retained for callers compiled against an earlier Podman CLI surface.
+    /// </summary>
+    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
+    public bool? NoTrunc { get; set; }
+
+    /// <summary>
     /// Publish a container's port, or a range of ports, to the host
     /// </summary>
     [CliOption("--publish", Format = OptionFormat.EqualsSeparated)]
