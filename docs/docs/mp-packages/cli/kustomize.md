@@ -7,7 +7,13 @@ title: kustomize CLI reference
 
 `ModularPipelines.Kubernetes` provides strongly typed access to the `kustomize` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `kustomize` executable. Install it separately and ensure `kustomize` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Kubernetes
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Kustomize`. For projects older than C# 1
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Kubernetes.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Kustomize.BuildAsync(
-            new KustomizeBuildOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var kustomize = context.Tools.Kustomize;
 ```
 
 ## Commands
@@ -41,11 +34,13 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `kustomize build` | `KustomizeBuildOptions` |
+| `kustomize cfg` | `KustomizeCfgOptions` |
 | `kustomize cfg cat` | `KustomizeCfgCatOptions` |
 | `kustomize cfg count` | `KustomizeCfgCountOptions` |
 | `kustomize cfg grep` | `KustomizeCfgGrepOptions` |
 | `kustomize cfg tree` | `KustomizeCfgTreeOptions` |
 | `kustomize create` | `KustomizeCreateOptions` |
+| `kustomize edit` | `KustomizeEditOptions` |
 | `kustomize edit add` | `KustomizeEditAddOptions` |
 | `kustomize edit add annotation` | `KustomizeEditAddAnnotationOptions` |
 | `kustomize edit add base` | `KustomizeEditAddBaseOptions` |
@@ -80,5 +75,6 @@ public class RunCommandModule : Module<CommandResult>
 | `kustomize edit set namesuffix` | `KustomizeEditSetNamesuffixOptions` |
 | `kustomize edit set replicas` | `KustomizeEditSetReplicasOptions` |
 | `kustomize edit set secret` | `KustomizeEditSetSecretOptions` |
+| `kustomize fn` | `KustomizeFnOptions` |
 | `kustomize fn run` | `KustomizeFnRunOptions` |
 | `kustomize localize` | `KustomizeLocalizeOptions` |
