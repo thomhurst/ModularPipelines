@@ -52,10 +52,12 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly object _deferredOutputLock = new();
     private readonly object _secretPatternsLock = new();
     private readonly AsyncLocal<CustomObfuscationScope?> _customObfuscationScope = new();
+    private readonly Queue<DeferredInputWrite> _deferredInputWrites = [];
     private readonly Queue<DeferredOutputWrite> _deferredOutputWrites = [];
     private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.SupportsRecursion);
-    private bool _isAsyncFlushActive;
+    private volatile bool _isOutputSinkActive;
+    private bool _isDeferredInputDrainActive;
     private SecretPatterns _secretPatterns = new([], null);
     private long _secretPatternsVersion = long.MinValue;
 
@@ -88,18 +90,21 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override void WriteLine(string? value)
     {
-        _flushLock.EnterReadLock();
+        if (TryDeferInputWrite((value ?? string.Empty).AsSpan(), appendNewLine: true))
+        {
+            return;
+        }
+
         try
         {
-            var state = GetLineBufferState();
-            lock (state.SyncRoot)
-            {
-                WriteCore(state, (value ?? string.Empty).AsSpan(), appendNewLine: true);
-            }
+            WriteSynchronized(
+                GetLineBufferState(),
+                (value ?? string.Empty).AsSpan(),
+                appendNewLine: true);
         }
         finally
         {
-            _flushLock.ExitReadLock();
+            DrainDeferredInputWrites();
         }
     }
 
@@ -117,39 +122,39 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
-        _flushLock.EnterReadLock();
+        if (TryDeferInputWrite(value.AsSpan(), appendNewLine: false))
+        {
+            return;
+        }
+
         try
         {
-            var state = GetLineBufferState();
-            lock (state.SyncRoot)
-            {
-                WriteCore(state, value.AsSpan(), appendNewLine: false);
-            }
+            WriteSynchronized(GetLineBufferState(), value.AsSpan(), appendNewLine: false);
         }
         finally
         {
-            _flushLock.ExitReadLock();
+            DrainDeferredInputWrites();
         }
     }
 
     /// <inheritdoc />
     public override void Write(char value)
     {
-        _flushLock.EnterReadLock();
+        if (TryDeferInputWrite(stackalloc char[] { value }, appendNewLine: false))
+        {
+            return;
+        }
+
         try
         {
-            var state = GetLineBufferState();
-            lock (state.SyncRoot)
-            {
-                var shouldBuffer = GetBufferMode(state, ShouldBuffer());
-                state.Buffer.Append(value);
-                ProcessPendingOutput(state, shouldBuffer, shouldProcess: value == '\n');
-                UpdateScopedLineBufferRetention(state);
-            }
+            WriteSynchronized(
+                GetLineBufferState(),
+                stackalloc char[] { value },
+                appendNewLine: false);
         }
         finally
         {
-            _flushLock.ExitReadLock();
+            DrainDeferredInputWrites();
         }
     }
 
@@ -157,32 +162,51 @@ internal class CoordinatedTextWriter : TextWriter
     public override void Write(char[] buffer, int index, int count)
     {
         ArgumentNullException.ThrowIfNull(buffer);
+        var value = buffer.AsSpan(index, count);
+        if (TryDeferInputWrite(value, appendNewLine: false))
+        {
+            return;
+        }
 
-        _flushLock.EnterReadLock();
         try
         {
-            var state = GetLineBufferState();
-            lock (state.SyncRoot)
-            {
-                WriteCore(state, buffer.AsSpan(index, count), appendNewLine: false);
-            }
+            WriteSynchronized(GetLineBufferState(), value, appendNewLine: false);
         }
         finally
         {
-            _flushLock.ExitReadLock();
+            DrainDeferredInputWrites();
         }
     }
 
     /// <inheritdoc />
     public override void Write(ReadOnlySpan<char> buffer)
     {
+        if (TryDeferInputWrite(buffer, appendNewLine: false))
+        {
+            return;
+        }
+
+        try
+        {
+            WriteSynchronized(GetLineBufferState(), buffer, appendNewLine: false);
+        }
+        finally
+        {
+            DrainDeferredInputWrites();
+        }
+    }
+
+    private void WriteSynchronized(
+        LineBufferState state,
+        ReadOnlySpan<char> value,
+        bool appendNewLine)
+    {
         _flushLock.EnterReadLock();
         try
         {
-            var state = GetLineBufferState();
             lock (state.SyncRoot)
             {
-                WriteCore(state, buffer, appendNewLine: false);
+                WriteCore(state, value, appendNewLine);
             }
         }
         finally
@@ -806,14 +830,14 @@ internal class CoordinatedTextWriter : TextWriter
 
         _outputLock.Wait();
         var activeOutputWriter = EnterActiveOutputWriter();
+        BeginDeferringOutputWrites();
         try
         {
             WriteToRealConsoleCore(output, appendNewLine);
         }
         finally
         {
-            ExitActiveOutputWriter(activeOutputWriter);
-            _outputLock.Release();
+            CompleteOutputWrite(activeOutputWriter);
         }
     }
 
@@ -833,16 +857,79 @@ internal class CoordinatedTextWriter : TextWriter
     {
         lock (_deferredOutputLock)
         {
-            if (!_isAsyncFlushActive)
+            if (!_isOutputSinkActive)
             {
                 return false;
             }
 
-            // An asynchronous sink can suppress ExecutionContext flow before awaiting
-            // work that writes through this writer. That callback cannot see the active
-            // writer scope, so queue its processed output instead of waiting on our lease.
+            // A sink can suppress ExecutionContext flow before waiting for work that
+            // writes through this writer. That callback cannot see the active writer
+            // scope, so queue its processed output instead of waiting on our lease.
             _deferredOutputWrites.Enqueue(new DeferredOutputWrite(output, appendNewLine));
             return true;
+        }
+    }
+
+    private bool TryDeferInputWrite(ReadOnlySpan<char> value, bool appendNewLine)
+    {
+        if (IsReentrantOutputWrite() || !_isOutputSinkActive)
+        {
+            return false;
+        }
+
+        var state = GetLineBufferState();
+        lock (_deferredOutputLock)
+        {
+            if (!_isOutputSinkActive)
+            {
+                return false;
+            }
+
+            _deferredInputWrites.Enqueue(
+                new DeferredInputWrite(value.ToString(), appendNewLine, state));
+            return true;
+        }
+    }
+
+    private void DrainDeferredInputWrites()
+    {
+        lock (_deferredOutputLock)
+        {
+            if (_isDeferredInputDrainActive)
+            {
+                return;
+            }
+
+            _isDeferredInputDrainActive = true;
+        }
+
+        while (true)
+        {
+            DeferredInputWrite write;
+            lock (_deferredOutputLock)
+            {
+                if (_deferredInputWrites.Count == 0)
+                {
+                    _isDeferredInputDrainActive = false;
+                    return;
+                }
+
+                write = _deferredInputWrites.Dequeue();
+            }
+
+            try
+            {
+                WriteSynchronized(write.State, write.Output.AsSpan(), write.AppendNewLine);
+            }
+            catch
+            {
+                lock (_deferredOutputLock)
+                {
+                    _isDeferredInputDrainActive = false;
+                }
+
+                throw;
+            }
         }
     }
 
@@ -850,7 +937,7 @@ internal class CoordinatedTextWriter : TextWriter
     {
         lock (_deferredOutputLock)
         {
-            _isAsyncFlushActive = true;
+            _isOutputSinkActive = true;
         }
     }
 
@@ -863,7 +950,7 @@ internal class CoordinatedTextWriter : TextWriter
             {
                 if (_deferredOutputWrites.Count == 0)
                 {
-                    _isAsyncFlushActive = false;
+                    _isOutputSinkActive = false;
                     return;
                 }
 
@@ -882,7 +969,21 @@ internal class CoordinatedTextWriter : TextWriter
     {
         lock (_deferredOutputLock)
         {
-            _isAsyncFlushActive = false;
+            _isOutputSinkActive = false;
+        }
+    }
+
+    private void CompleteOutputWrite(ActiveOutputWriter activeOutputWriter)
+    {
+        try
+        {
+            DrainDeferredOutputWrites();
+        }
+        finally
+        {
+            StopDeferringOutputWrites();
+            ExitActiveOutputWriter(activeOutputWriter);
+            _outputLock.Release();
         }
     }
 
@@ -1000,22 +1101,29 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override void Flush()
     {
-        if (IsReentrantOutputWrite())
+        try
         {
-            FlushReentrantOutput();
-            _realConsole.Flush();
-            return;
-        }
+            if (IsReentrantOutputWrite())
+            {
+                FlushReentrantOutput();
+                _realConsole.Flush();
+                return;
+            }
 
-        if (IsCustomObfuscationActive())
-        {
-            FlushReentrantOutput();
+            if (IsCustomObfuscationActive())
+            {
+                FlushReentrantOutput();
+                FlushRealConsole();
+                return;
+            }
+
+            FlushBufferedOutput();
             FlushRealConsole();
-            return;
         }
-
-        FlushBufferedOutput();
-        FlushRealConsole();
+        finally
+        {
+            DrainDeferredInputWrites();
+        }
     }
 
     private void FlushReentrantOutput()
@@ -1143,28 +1251,36 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override async Task FlushAsync()
     {
-        if (IsReentrantOutputWrite())
+        try
         {
-            FlushReentrantOutput();
-            await _realConsole.FlushAsync().ConfigureAwait(false);
-            return;
-        }
+            if (IsReentrantOutputWrite())
+            {
+                FlushReentrantOutput();
+                await _realConsole.FlushAsync().ConfigureAwait(false);
+                return;
+            }
 
-        if (IsCustomObfuscationActive())
-        {
-            FlushReentrantOutput();
+            if (IsCustomObfuscationActive())
+            {
+                FlushReentrantOutput();
+                await FlushRealConsoleAsync().ConfigureAwait(false);
+                return;
+            }
+
+            FlushBufferedOutput();
             await FlushRealConsoleAsync().ConfigureAwait(false);
-            return;
         }
-
-        FlushBufferedOutput();
-        await FlushRealConsoleAsync().ConfigureAwait(false);
+        finally
+        {
+            DrainDeferredInputWrites();
+        }
     }
 
     private void FlushRealConsole()
     {
         _outputLock.Wait();
         var activeOutputWriter = EnterActiveOutputWriter();
+        BeginDeferringOutputWrites();
         try
         {
             // Always flush real console (needed for Spectre.Console internals)
@@ -1172,8 +1288,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
         finally
         {
-            ExitActiveOutputWriter(activeOutputWriter);
-            _outputLock.Release();
+            CompleteOutputWrite(activeOutputWriter);
         }
     }
 
@@ -1188,16 +1303,7 @@ internal class CoordinatedTextWriter : TextWriter
         }
         finally
         {
-            try
-            {
-                DrainDeferredOutputWrites();
-            }
-            finally
-            {
-                StopDeferringOutputWrites();
-                ExitActiveOutputWriter(activeOutputWriter);
-                _outputLock.Release();
-            }
+            CompleteOutputWrite(activeOutputWriter);
         }
     }
 
@@ -1235,6 +1341,11 @@ internal class CoordinatedTextWriter : TextWriter
 
         public void Deactivate() => Volatile.Write(ref _isActive, 0);
     }
+
+    private readonly record struct DeferredInputWrite(
+        string Output,
+        bool AppendNewLine,
+        LineBufferState State);
 
     private readonly record struct DeferredOutputWrite(string Output, bool AppendNewLine);
 

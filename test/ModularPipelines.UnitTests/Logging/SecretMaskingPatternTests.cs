@@ -1419,6 +1419,27 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkWriteWithoutExecutionContextFlow()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("diagnostic");
+        var realConsole = new UnflowedReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}sink **********{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DirectConsoleWrite_Isolates_Nested_Reentrant_Sink_Writes()
     {
         var provider = CreateProvider(out _);
@@ -1903,7 +1924,7 @@ public class SecretMaskingPatternTests
         using var childStarted = new ManualResetEventSlim();
         using var releaseChild = new ManualResetEventSlim();
         using var nestedCompleted = new ManualResetEventSlim();
-        Task childEmission = Task.CompletedTask;
+        var childEmission = Task.CompletedTask;
         string? emittedOutput = null;
 
         var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
@@ -2011,7 +2032,7 @@ public class SecretMaskingPatternTests
         using var childScanned = new ManualResetEventSlim();
         using var releaseChild = new ManualResetEventSlim();
         using var nestedEmissionCompleted = new ManualResetEventSlim();
-        Task childEmission = Task.CompletedTask;
+        var childEmission = Task.CompletedTask;
         string? emittedOutput = null;
 
         var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
@@ -2635,6 +2656,30 @@ public class SecretMaskingPatternTests
                 _hasWrittenDiagnostic = true;
                 Writer!.WriteLine("flush diagnostic");
             }
+        }
+    }
+
+    private sealed class UnflowedReentrantWritingStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Task diagnosticWrite;
+                using (ExecutionContext.SuppressFlow())
+                {
+                    diagnosticWrite = Task.Run(() => Writer!.WriteLine("sink diagnostic"));
+                }
+
+                diagnosticWrite.WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
+            }
+
+            base.WriteLine(value);
         }
     }
 
