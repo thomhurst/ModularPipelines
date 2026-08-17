@@ -368,7 +368,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         if (baseline.IsCompatibility)
         {
-            PreserveCompatibilityProperty(baseline, compatibilityProperties);
+            PreserveCompatibilityProperty(
+                command,
+                baseline,
+                compatibilityProperties,
+                violations);
             return;
         }
 
@@ -426,19 +430,51 @@ internal static class GeneratedApiCompatibilityPreserver
     }
 
     private static void PreserveCompatibilityProperty(
+        CliCommandDefinition command,
         GeneratedApiProperty baseline,
-        ICollection<CliCompatibilityProperty> compatibilityProperties) =>
-        AddCompatibilityProperty(
-            compatibilityProperties,
-            new CliCompatibilityProperty
-            {
-                PropertyName = baseline.PropertyName,
-                CSharpType = baseline.CSharpType,
-                ForwardToPropertyName = baseline.ForwardToPropertyName,
-                UseInitAccessor = baseline.UseInitAccessor,
-                ObsoleteMessage = baseline.ObsoleteMessage
-                    ?? $"{baseline.PropertyName} is retained for compatibility.",
-            });
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        ICollection<string> violations)
+    {
+        var supplied = compatibilityProperties.FirstOrDefault(property =>
+            property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
+        if (supplied is null)
+        {
+            AddCompatibilityProperty(
+                compatibilityProperties,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = baseline.PropertyName,
+                    CSharpType = baseline.CSharpType,
+                    ForwardToPropertyName = baseline.ForwardToPropertyName,
+                    UseInitAccessor = baseline.UseInitAccessor,
+                    ObsoleteMessage = baseline.ObsoleteMessage
+                        ?? $"{baseline.PropertyName} is retained for compatibility.",
+                });
+            return;
+        }
+
+        if (!supplied.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed type from "
+                + $"{baseline.CSharpType} to {supplied.CSharpType}");
+        }
+        else if (!string.Equals(
+                     supplied.ForwardToPropertyName,
+                     baseline.ForwardToPropertyName,
+                     StringComparison.Ordinal))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed forwarding target from "
+                + $"{baseline.ForwardToPropertyName ?? "<none>"} to {supplied.ForwardToPropertyName ?? "<none>"}");
+        }
+        else if (supplied.UseInitAccessor != baseline.UseInitAccessor)
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed accessor from "
+                + $"{(baseline.UseInitAccessor ? "init" : "set")} to {(supplied.UseInitAccessor ? "init" : "set")}");
+        }
+    }
 
     private static void ValidateMatchingProperty(
         CliCommandDefinition command,

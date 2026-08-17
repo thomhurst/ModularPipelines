@@ -106,7 +106,9 @@ public class GeneratorHardeningTests
         string? switchName = null,
         int? argumentPosition = null,
         bool isRequired = false,
-        bool isCompatibility = false) =>
+        bool isCompatibility = false,
+        string? forwardToPropertyName = null,
+        bool useInitAccessor = false) =>
         new(
             propertyName,
             cSharpType,
@@ -114,8 +116,9 @@ public class GeneratorHardeningTests
             argumentPosition,
             isRequired,
             isCompatibility,
+            forwardToPropertyName,
             null,
-            null);
+            useInitAccessor);
 
     private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
         new()
@@ -991,6 +994,63 @@ public class GeneratorHardeningTests
 
         await Assert.That(exception.Message)
             .Contains("ToolCopyOptions.RemovedFlag changed CLI switch or argument position");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Property_Type()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "string?",
+                    ObsoleteMessage = "Still retained.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag compatibility property changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Forwarding()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "OldName",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "DifferentName",
+                    ObsoleteMessage = "Use DifferentName.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [
+                    BaselineProperty(
+                        "OldName",
+                        "string?",
+                        isCompatibility: true,
+                        forwardToPropertyName: "CurrentName"),
+                ]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.OldName compatibility property changed forwarding target from CurrentName to DifferentName");
     }
 
     [Test]
