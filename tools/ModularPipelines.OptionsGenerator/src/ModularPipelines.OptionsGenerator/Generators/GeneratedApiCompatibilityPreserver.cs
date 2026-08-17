@@ -358,17 +358,17 @@ internal static class GeneratedApiCompatibilityPreserver
         ICollection<CliCompatibilityProperty> compatibilityProperties,
         List<string> violations)
     {
-        if (baseline.IsCompatibility)
-        {
-            PreserveCompatibilityProperty(baseline, compatibilityProperties);
-            return;
-        }
-
         var sameName = currentProperties.FirstOrDefault(property =>
             property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
         if (sameName is not null)
         {
             ValidateMatchingProperty(command, baseline, sameName, violations);
+            return;
+        }
+
+        if (baseline.IsCompatibility)
+        {
+            PreserveCompatibilityProperty(baseline, compatibilityProperties);
             return;
         }
 
