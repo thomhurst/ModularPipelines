@@ -636,9 +636,15 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
         }
 
-        AppendDefaultServiceMethod(sb, methodName, command, indent);
+        var compatibilityMethods = GetCompatibilityMethods(command, methodName).ToList();
+        AppendDefaultServiceMethod(
+            sb,
+            methodName,
+            command,
+            indent,
+            compatibilityMethods.FirstOrDefault()?.MethodName);
 
-        foreach (var compatibilityMethod in GetCompatibilityMethods(command, methodName))
+        foreach (var compatibilityMethod in compatibilityMethods)
         {
             sb.AppendLine();
             sb.AppendLine(
@@ -651,10 +657,23 @@ public static partial class GeneratorUtils
         StringBuilder sb,
         string methodName,
         CliCommandDefinition command,
-        string indent)
+        string indent,
+        string? fallbackMethodName = null)
     {
+        if (fallbackMethodName is not null)
+        {
+            sb.AppendLine($"{indent}#pragma warning disable CS0618");
+        }
+
         sb.AppendLine($"{indent}Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default)");
-        sb.AppendLine($"{indent}    => throw new System.NotSupportedException();");
+        sb.AppendLine(fallbackMethodName is null
+            ? $"{indent}    => throw new System.NotSupportedException();"
+            : $"{indent}    => {fallbackMethodName}(options, executionOptions, cancellationToken);");
+
+        if (fallbackMethodName is not null)
+        {
+            sb.AppendLine($"{indent}#pragma warning restore CS0618");
+        }
     }
 
     /// <summary>

@@ -162,6 +162,62 @@ public class EksctlCliScraperTests
             .IsEqualTo("alternate kubeconfig path");
     }
 
+    [Test]
+    public async Task Preserves_Established_Option_Property_Casing()
+    {
+        const string helpText = """
+            Create a cluster
+
+            Usage: eksctl create cluster [flags]
+
+            Flags:
+                  --kubeconfig string          path to write kubeconfig
+                  --set-kubeconfig-context     set the current-context in kubeconfig
+                  --auto-kubeconfig            save kubeconfig to a generated path
+                  --write-kubeconfig           write the kubeconfig file
+              -d, --dumpLogs                  dump logs on failure
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "create", "cluster"],
+            helpText);
+
+        await Assert.That(command!.Options.Select(option => option.PropertyName))
+            .IsEquivalentTo(
+            [
+                "Kubeconfig",
+                "SetKubeconfigContext",
+                "AutoKubeconfig",
+                "WriteKubeconfig",
+                "Dumplogs",
+            ]);
+    }
+
+    [Test]
+    public async Task Preserves_Established_Write_Kubeconfig_Type_And_Method()
+    {
+        const string helpText = """
+            Write kubeconfig file for a given cluster
+
+            Usage: eksctl utils write-kubeconfig [flags]
+
+            Flags:
+                  --cluster string   EKS cluster name
+            """;
+
+        var command = await new TestEksctlCliScraper().Parse(
+            ["eksctl", "utils", "write-kubeconfig"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.ClassName)
+                .IsEqualTo("EksctlUtilsWriteKubeconfigOptions");
+            await Assert.That(command.CompatibilityMethods.Single().MethodName)
+                .IsEqualTo("WriteKubeconfig");
+        }
+    }
+
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()
