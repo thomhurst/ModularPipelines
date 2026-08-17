@@ -104,7 +104,8 @@ internal static class CommandLineOptionsValidator
             .Where(static property => IsSupportedNonPublicGetter(property.GetMethod))
             .Select(static property => new ValidatedProperty(
                 property,
-                GetInheritedValidationAttributes(property)))
+                GetInheritedValidationAttributes(property),
+                GetInheritedDisplayName(property)))
             .Where(static property => property.Attributes.Count > 0)
             .ToArray();
         var nonPublicPropertyAttributes = nonPublicProperties
@@ -127,15 +128,61 @@ internal static class CommandLineOptionsValidator
         Justification = "Generated command option types retain their property override chains. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static ValidationAttribute[] GetInheritedValidationAttributes(PropertyInfo property)
     {
+        var attributes = new List<ValidationAttribute>();
+        var singleUseAttributeTypes = new HashSet<Type>();
+        var isInherited = false;
+        foreach (var overriddenProperty in GetPropertyOverrideChain(property))
+        {
+            foreach (var attribute in overriddenProperty
+                         .GetCustomAttributes<ValidationAttribute>(inherit: false))
+            {
+                var usage = attribute.GetType()
+                    .GetCustomAttribute<AttributeUsageAttribute>(inherit: true);
+                if (isInherited && usage?.Inherited == false)
+                {
+                    continue;
+                }
+
+                if (usage?.AllowMultiple == true
+                    || singleUseAttributeTypes.Add(attribute.GetType()))
+                {
+                    attributes.Add(attribute);
+                }
+            }
+
+            isInherited = true;
+        }
+
+        return attributes.ToArray();
+    }
+
+    private static string GetInheritedDisplayName(PropertyInfo property)
+    {
+        foreach (var overriddenProperty in GetPropertyOverrideChain(property))
+        {
+            var display = overriddenProperty.GetCustomAttribute<DisplayAttribute>(inherit: false);
+            if (display is not null)
+            {
+                return display.GetName() ?? property.Name;
+            }
+        }
+
+        return property.Name;
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Generated command option types retain their property override chains. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    private static IEnumerable<PropertyInfo> GetPropertyOverrideChain(PropertyInfo property)
+    {
         var getter = property.GetMethod;
         if (getter is null)
         {
-            return [];
+            yield break;
         }
 
         var baseDefinition = getter.GetBaseDefinition();
-        var attributes = new List<ValidationAttribute>();
-        var singleUseAttributeTypes = new HashSet<Type>();
         for (var declaringType = property.DeclaringType;
              declaringType is not null;
              declaringType = declaringType.BaseType)
@@ -149,30 +196,11 @@ internal static class CommandLineOptionsValidator
                                    | BindingFlags.DeclaredOnly)
                     .FirstOrDefault(candidate =>
                         candidate.GetMethod?.GetBaseDefinition().Equals(baseDefinition) == true);
-            if (overriddenProperty is null)
+            if (overriddenProperty is not null)
             {
-                continue;
-            }
-
-            foreach (var attribute in overriddenProperty
-                         .GetCustomAttributes<ValidationAttribute>(inherit: false))
-            {
-                var usage = attribute.GetType()
-                    .GetCustomAttribute<AttributeUsageAttribute>(inherit: true);
-                if (declaringType != property.DeclaringType && usage?.Inherited == false)
-                {
-                    continue;
-                }
-
-                if (usage?.AllowMultiple == true
-                    || singleUseAttributeTypes.Add(attribute.GetType()))
-                {
-                    attributes.Add(attribute);
-                }
+                yield return overriddenProperty;
             }
         }
-
-        return attributes.ToArray();
     }
 
     [UnconditionalSuppressMessage(
@@ -203,7 +231,7 @@ internal static class CommandLineOptionsValidator
 
             var context = new ValidationContext(options, serviceProvider, items: null)
             {
-                DisplayName = property.DisplayName,
+                DisplayName = GetDisplayName(property),
                 MemberName = property.Name,
             };
             ValidateAttributes(
@@ -230,6 +258,13 @@ internal static class CommandLineOptionsValidator
             }
         }
     }
+
+    private static string GetDisplayName(PropertyDescriptor property) =>
+        property.Attributes
+            .OfType<DisplayAttribute>()
+            .FirstOrDefault()
+            ?.GetName()
+        ?? property.DisplayName;
 
     private static ValidationAttribute[] GetUnvalidatedDescriptorAttributes(
         PropertyDescriptor property,
@@ -304,7 +339,7 @@ internal static class CommandLineOptionsValidator
         {
             var context = new ValidationContext(options, serviceProvider, items: null)
             {
-                DisplayName = property.Property.Name,
+                DisplayName = property.DisplayName,
                 MemberName = property.Property.Name,
             };
             var value = property.Property.GetValue(options);
@@ -395,5 +430,6 @@ internal static class CommandLineOptionsValidator
 
     private sealed record ValidatedProperty(
         PropertyInfo Property,
-        IReadOnlyList<ValidationAttribute> Attributes);
+        IReadOnlyList<ValidationAttribute> Attributes,
+        string DisplayName);
 }
