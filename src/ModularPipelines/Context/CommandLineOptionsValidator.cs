@@ -99,15 +99,13 @@ internal static class CommandLineOptionsValidator
         Justification = "Generated command option types retain their public and non-public option properties. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static ValidationMetadata CreateValidationMetadata(Type optionsType)
     {
-        var validatedProperties = CommandModelProvider.GetOptionProperties(optionsType)
+        var nonPublicProperties = CommandModelProvider.GetOptionProperties(optionsType)
             .Where(static property => property.GetIndexParameters().Length == 0)
+            .Where(static property => IsSupportedNonPublicGetter(property.GetMethod))
             .Select(static property => new ValidatedProperty(
                 property,
-                property.GetCustomAttributes<ValidationAttribute>(inherit: true).ToArray()))
+                GetInheritedValidationAttributes(property)))
             .Where(static property => property.Attributes.Count > 0)
-            .ToArray();
-        var nonPublicProperties = validatedProperties
-            .Where(static property => property.Property.GetMethod is not { IsPublic: true })
             .ToArray();
         var nonPublicPropertyAttributes = nonPublicProperties
             .GroupBy(static property => property.Property.Name, StringComparer.Ordinal)
@@ -118,6 +116,63 @@ internal static class CommandLineOptionsValidator
                     .ToArray(),
                 StringComparer.Ordinal);
         return new ValidationMetadata(nonPublicProperties, nonPublicPropertyAttributes);
+    }
+
+    private static bool IsSupportedNonPublicGetter(MethodInfo? getter) =>
+        getter is not null && (getter.IsAssembly || getter.IsFamilyOrAssembly);
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Generated command option types retain their property override chains. Unprocessed reflection fallback assemblies are not trim-safe.")]
+    private static ValidationAttribute[] GetInheritedValidationAttributes(PropertyInfo property)
+    {
+        var getter = property.GetMethod;
+        if (getter is null)
+        {
+            return [];
+        }
+
+        var baseDefinition = getter.GetBaseDefinition();
+        var attributes = new List<ValidationAttribute>();
+        var singleUseAttributeTypes = new HashSet<Type>();
+        for (var declaringType = property.DeclaringType;
+             declaringType is not null;
+             declaringType = declaringType.BaseType)
+        {
+            var overriddenProperty = declaringType == property.DeclaringType
+                ? property
+                : declaringType
+                    .GetProperties(BindingFlags.Instance
+                                   | BindingFlags.Public
+                                   | BindingFlags.NonPublic
+                                   | BindingFlags.DeclaredOnly)
+                    .FirstOrDefault(candidate =>
+                        candidate.GetMethod?.GetBaseDefinition().Equals(baseDefinition) == true);
+            if (overriddenProperty is null)
+            {
+                continue;
+            }
+
+            foreach (var attribute in overriddenProperty
+                         .GetCustomAttributes<ValidationAttribute>(inherit: false))
+            {
+                var usage = attribute.GetType()
+                    .GetCustomAttribute<AttributeUsageAttribute>(inherit: true);
+                if (declaringType != property.DeclaringType && usage?.Inherited == false)
+                {
+                    continue;
+                }
+
+                if (usage?.AllowMultiple == true
+                    || singleUseAttributeTypes.Add(attribute.GetType()))
+                {
+                    attributes.Add(attribute);
+                }
+            }
+        }
+
+        return attributes.ToArray();
     }
 
     [UnconditionalSuppressMessage(

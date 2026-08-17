@@ -117,6 +117,69 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Invalid_Overridden_NonPublic_Annotated_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestOverriddenNonPublicValidatedOptions
+        {
+            Retries = 4,
+        });
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestOverriddenNonPublicValidatedOptions.Retries");
+    }
+
+    [Test]
+    public async Task Build_Honors_NonInherited_Validation_Attribute_On_Overridden_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestNonInheritedValidationOverrideOptions());
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
+    public async Task Build_Uses_Derived_SingleUse_Validation_Attribute_On_Overridden_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestDerivedValidationOverrideOptions
+        {
+            Retries = 5,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool --retries 5");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Invalid_ProtectedInternal_Annotated_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestProtectedInternalValidatedOptions
+        {
+            Retries = 4,
+        });
+
+        await Assert.That(Build)
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestProtectedInternalValidatedOptions.Retries");
+    }
+
+    [Test]
+    public async Task Build_Ignores_Unsupported_NonPublic_Annotated_Helper_Properties()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestUnsupportedNonPublicValidatedOptions());
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
+    }
+
+    [Test]
     public async Task Build_Skips_Object_Validation_When_NonPublic_Property_Is_Invalid()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1453,6 +1516,76 @@ public class CommandLineBuilderTests : TestBase
 
     private sealed record TestDerivedNonPublicValidatedOptions
         : TestInheritedNonPublicValidatedOptionsBase;
+
+    [CliTool("tool")]
+    private abstract record TestOverriddenNonPublicValidatedOptionsBase : CommandLineToolOptions
+    {
+        [Range(0, 3)]
+        [CliOption("--retries")]
+        internal virtual int Retries { get; init; }
+    }
+
+    private sealed record TestOverriddenNonPublicValidatedOptions
+        : TestOverriddenNonPublicValidatedOptionsBase
+    {
+        internal override int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private abstract record TestNonInheritedValidationOverrideOptionsBase : CommandLineToolOptions
+    {
+        [AlwaysInvalidNonInherited]
+        [CliOption("--value")]
+        internal virtual string Value => "value";
+    }
+
+    private sealed record TestNonInheritedValidationOverrideOptions
+        : TestNonInheritedValidationOverrideOptionsBase
+    {
+        internal override string Value => "value";
+    }
+
+    [AttributeUsage(AttributeTargets.Property, Inherited = false)]
+    private sealed class AlwaysInvalidNonInheritedAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object? value) => false;
+    }
+
+    [CliTool("tool")]
+    private abstract record TestDerivedValidationOverrideOptionsBase : CommandLineToolOptions
+    {
+        [Range(0, 3)]
+        [CliOption("--retries")]
+        internal virtual int Retries { get; init; }
+    }
+
+    private sealed record TestDerivedValidationOverrideOptions
+        : TestDerivedValidationOverrideOptionsBase
+    {
+        [Range(4, 6)]
+        internal override int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private record TestProtectedInternalValidatedOptions : CommandLineToolOptions
+    {
+        [Range(0, 3)]
+        [CliOption("--retries")]
+        protected internal int Retries { get; init; }
+    }
+
+    [CliTool("tool")]
+    private record TestUnsupportedNonPublicValidatedOptions : CommandLineToolOptions
+    {
+        [Required]
+        private string? PrivateHelper => null;
+
+        [Required]
+        protected string? ProtectedHelper => null;
+
+        [Required]
+        private protected string? PrivateProtectedHelper => null;
+    }
 
     [CliTool("tool")]
     private sealed record TestNonPublicAndObjectValidatedOptions : CommandLineToolOptions, IValidatableObject
