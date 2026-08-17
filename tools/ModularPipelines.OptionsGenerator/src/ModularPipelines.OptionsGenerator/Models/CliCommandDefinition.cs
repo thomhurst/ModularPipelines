@@ -93,7 +93,7 @@ public record CliCommandDefinition
     public IReadOnlyList<CliCompatibilityProperty> CompatibilityProperties { get; init; } = [];
 
     /// <summary>
-    /// Secondary constructors retained when the CLI adds required members to the primary constructor.
+    /// Previously generated secondary constructors retained for source compatibility.
     /// </summary>
     public IReadOnlyList<CliCompatibilityConstructor> CompatibilityConstructors { get; init; } = [];
 
@@ -211,6 +211,11 @@ public record CliCompatibilityProperty
     /// Optional replacement property that this compatibility alias forwards to.
     /// </summary>
     public string? ForwardToPropertyName { get; init; }
+
+    /// <summary>
+    /// Whether the forwarding accessor must use <c>init</c> because its target is init-only.
+    /// </summary>
+    public bool UseInitAccessor { get; init; }
 
     /// <summary>
     /// Obsolete diagnostic shown to consumers.
