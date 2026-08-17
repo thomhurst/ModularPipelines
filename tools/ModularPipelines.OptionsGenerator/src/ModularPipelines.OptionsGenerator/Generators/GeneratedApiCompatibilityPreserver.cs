@@ -27,9 +27,12 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         var enumBaseline = ReadEnumBaseline(Path.Combine(
-            outputDirectory,
-            tool.OutputDirectory,
-            "Enums"));
+                outputDirectory,
+                tool.OutputDirectory,
+                "Enums"))
+            .Where(pair => pair.Key.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
+        MergeCurrentAliasEnumValues(tool, enumBaseline);
         tool = tool with
         {
             CompatibilityEnums = tool.CompatibilityEnums
@@ -321,13 +324,6 @@ internal static class GeneratedApiCompatibilityPreserver
                 violations);
         }
 
-        PreserveCompatibilityConstructors(
-            baselineProperties,
-            baselineConstructors,
-            positionalArguments,
-            options,
-            compatibilityConstructors);
-
         if (violations.Count > 0)
         {
             throw new InvalidOperationException(
@@ -335,6 +331,13 @@ internal static class GeneratedApiCompatibilityPreserver
                 + Environment.NewLine
                 + string.Join(Environment.NewLine, violations.Select(violation => $"- {violation}")));
         }
+
+        PreserveCompatibilityConstructors(
+            baselineProperties,
+            baselineConstructors,
+            positionalArguments,
+            options,
+            compatibilityConstructors);
 
         return command with
         {
@@ -432,6 +435,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 PropertyName = baseline.PropertyName,
                 CSharpType = baseline.CSharpType,
                 ForwardToPropertyName = baseline.ForwardToPropertyName,
+                UseInitAccessor = baseline.UseInitAccessor,
                 ObsoleteMessage = baseline.ObsoleteMessage
                     ?? $"{baseline.PropertyName} is retained for compatibility.",
             });
@@ -618,6 +622,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 PropertyName = propertyName,
                 CSharpType = cSharpType,
                 ForwardToPropertyName = forwardToPropertyName,
+                UseInitAccessor = true,
                 ObsoleteMessage = $"Use {forwardToPropertyName} instead.",
             });
 
@@ -701,14 +706,27 @@ internal static class GeneratedApiCompatibilityPreserver
             return;
         }
 
+        var baselineRequired = baselineProperties
+            .Where(static property => property.IsRequired && !property.IsCompatibility)
+            .ToArray();
+        var addedRequired = currentRequired
+            .Where(current => !baselineRequired.Any(baseline =>
+                baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal)
+                && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
+            .Select(static property => property.PropertyName)
+            .ToArray();
+        if (currentRequired.Count > baselineRequired.Length && addedRequired.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Cannot retain generated constructors because newly required member(s) "
+                + $"{string.Join(", ", addedRequired)} have no baseline value.");
+        }
+
         foreach (var constructor in baselineConstructors)
         {
             AddCompatibilityConstructor(compatibilityConstructors, constructor, currentRequired);
         }
 
-        var baselineRequired = baselineProperties
-            .Where(static property => property.IsRequired && !property.IsCompatibility)
-            .ToArray();
         if (HasSameConstructorContract(baselineRequired, currentRequired))
         {
             return;
@@ -790,9 +808,12 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
-        return left.Select(GetConstructorParameterType)
-            .SequenceEqual(right.Select(GetConstructorParameterType), StringComparer.Ordinal);
+        return left.Select(GetConstructorParameterSignatureType)
+            .SequenceEqual(right.Select(GetConstructorParameterSignatureType), StringComparer.Ordinal);
     }
+
+    private static string GetConstructorParameterSignatureType<T>(T parameter) =>
+        GetConstructorParameterType(parameter).TrimEnd('?');
 
     private static string GetConstructorParameterType<T>(T parameter) => parameter switch
     {
@@ -934,6 +955,50 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return baseline;
+    }
+
+    private static void MergeCurrentAliasEnumValues(
+        CliToolDefinition tool,
+        IDictionary<string, CliEnumDefinition> enumBaseline)
+    {
+        var currentAliasEnums = tool.CommandGroupAliases
+            .SelectMany(alias => tool.Commands
+                .Where(command => command.CommandParts.Length > 0
+                                  && command.CommandParts[0].Equals(
+                                      alias.CanonicalCommand,
+                                      StringComparison.OrdinalIgnoreCase))
+                .SelectMany(command => command.Options
+                    .Where(static option => option.EnumDefinition is not null)
+                    .Select(option => option.EnumDefinition! with
+                    {
+                        EnumName = GeneratorUtils.GetAliasedClassName(
+                            tool,
+                            alias,
+                            option.EnumDefinition!.EnumName),
+                    })))
+            .GroupBy(static definition => definition.EnumName, StringComparer.Ordinal)
+            .ToDictionary(
+                static group => group.Key,
+                static group => group.SelectMany(static definition => definition.Values)
+                    .DistinctBy(static value => value.CliValue, StringComparer.Ordinal)
+                    .ToArray(),
+                StringComparer.Ordinal);
+
+        foreach (var pair in enumBaseline.ToArray())
+        {
+            if (!currentAliasEnums.TryGetValue(pair.Key, out var currentValues))
+            {
+                continue;
+            }
+
+            enumBaseline[pair.Key] = pair.Value with
+            {
+                Values = pair.Value.Values
+                    .Concat(currentValues)
+                    .DistinctBy(static value => value.CliValue, StringComparer.Ordinal)
+                    .ToArray(),
+            };
+        }
     }
 
     private static int? GetEnumNumericValue(ExpressionSyntax? expression) => expression switch
@@ -1157,7 +1222,9 @@ internal static class GeneratedApiCompatibilityPreserver
             isRequired,
             obsolete is not null,
             GetForwardTarget(accessorList),
-            GetStringArgument(obsolete));
+            GetStringArgument(obsolete),
+            accessorList?.Accessors.Any(static accessor =>
+                accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true);
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -1196,7 +1263,8 @@ internal sealed record GeneratedApiProperty(
     bool IsRequired,
     bool IsCompatibility,
     string? ForwardToPropertyName,
-    string? ObsoleteMessage);
+    string? ObsoleteMessage,
+    bool UseInitAccessor = false);
 
 internal sealed record GeneratedApiBaseline(
     IReadOnlyList<GeneratedApiProperty> Properties,

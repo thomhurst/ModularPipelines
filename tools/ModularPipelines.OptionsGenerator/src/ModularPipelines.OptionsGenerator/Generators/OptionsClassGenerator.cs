@@ -259,13 +259,21 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"Cannot retain alias property {property.PropertyName} because its collection shape changed.");
         }
 
+        var aliasIsNullable = property.AliasCSharpType.EndsWith('?');
+        var canonicalIsNullable = property.CanonicalCSharpType.EndsWith('?');
+        if (aliasIsNullable != canonicalIsNullable)
+        {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {property.PropertyName} because its nullability changed.");
+        }
+
         sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
         sb.AppendLine($"    public new {property.AliasCSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
         if (aliasIsEnumerable)
         {
-            var baseNullableOperator = property.CanonicalCSharpType.EndsWith('?') ? "?" : string.Empty;
-            var aliasNullableOperator = property.AliasCSharpType.EndsWith('?') ? "?" : string.Empty;
+            var baseNullableOperator = canonicalIsNullable ? "?" : string.Empty;
+            var aliasNullableOperator = aliasIsNullable ? "?" : string.Empty;
             sb.AppendLine(
                 $"        get => base.{property.PropertyName}{baseNullableOperator}.Select("
                 + $"static value => ({aliasEnumName})(int)value);");
@@ -273,8 +281,7 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"        set => base.{property.PropertyName} = value{aliasNullableOperator}.Select("
                 + $"static value => ({canonicalEnumName})(int)value);");
         }
-        else if (property.AliasCSharpType.EndsWith('?')
-                 && property.CanonicalCSharpType.EndsWith('?'))
+        else if (aliasIsNullable)
         {
             sb.AppendLine($"        get => base.{property.PropertyName} is null");
             sb.AppendLine("            ? null");

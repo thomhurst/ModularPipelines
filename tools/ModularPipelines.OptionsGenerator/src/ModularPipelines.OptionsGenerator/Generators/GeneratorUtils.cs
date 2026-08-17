@@ -46,7 +46,8 @@ public static partial class GeneratorUtils
         sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
         sb.AppendLine($"        get => {property.ForwardToPropertyName};");
-        sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
+        var setter = property.UseInitAccessor ? "init" : "set";
+        sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value;");
         sb.AppendLine("    }");
     }
 
