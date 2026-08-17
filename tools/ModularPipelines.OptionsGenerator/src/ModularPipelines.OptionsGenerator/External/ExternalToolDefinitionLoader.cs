@@ -549,12 +549,24 @@ public static class ExternalToolDefinitionLoader
                 + $"'{property.ForwardToPropertyName}'.");
         }
 
-        if (!SyntaxFactory.ParseTypeName(property.CSharpType)
-                .IsEquivalentTo(SyntaxFactory.ParseTypeName(forwardingTargetType)))
+        var propertyType = SyntaxFactory.ParseTypeName(property.CSharpType);
+        var targetType = SyntaxFactory.ParseTypeName(forwardingTargetType);
+        var typesAreCompatible = property.ForwardingKind switch
+        {
+            CliCompatibilityForwardingKind.Direct => propertyType.IsEquivalentTo(targetType),
+            CliCompatibilityForwardingKind.ScalarToCollection =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("IEnumerable<string>?")),
+            CliCompatibilityForwardingKind.NullableInt32ToString =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
+            _ => false,
+        };
+        if (!typesAreCompatible)
         {
             throw new InvalidDataException(
                 $"Compatibility property '{property.PropertyName}' on command "
-                + $"'{command.FullCommand}' cannot forward type '{property.CSharpType}' "
+                + $"'{command.FullCommand}' cannot use {property.ForwardingKind} forwarding from type '{property.CSharpType}' "
                 + $"to '{forwardingTargetType}' property '{property.ForwardToPropertyName}'.");
         }
     }

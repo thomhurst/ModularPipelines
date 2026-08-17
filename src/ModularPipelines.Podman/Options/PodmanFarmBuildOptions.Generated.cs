@@ -549,7 +549,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// set new timestamps in image info and layer to seconds after the epoch, defaults to current times
     /// </summary>
     [CliOption("--timestamp", Format = OptionFormat.EqualsSeparated)]
-    public string? Timestamp { get; set; }
+    public string? TimestampValue { get; set; }
 
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
@@ -628,5 +628,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Context { get; set; }
+
+    [Obsolete("Use TimestampValue instead.")]
+    public int? Timestamp
+    {
+        get => int.TryParse(TimestampValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
+        set => TimestampValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

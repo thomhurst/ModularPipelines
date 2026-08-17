@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Options;
 [CliSubCommand("manifest", "remove")]
 public record PodmanManifestRemoveOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Digest
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : PodmanOptions
 {
 }

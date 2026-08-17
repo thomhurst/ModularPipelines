@@ -181,9 +181,25 @@ public record CliCompatibilityProperty
     public string? ForwardToPropertyName { get; init; }
 
     /// <summary>
+    /// Conversion used when the compatibility property and its replacement have
+    /// different CLR shapes.
+    /// </summary>
+    public CliCompatibilityForwardingKind ForwardingKind { get; init; }
+
+    /// <summary>
     /// Obsolete diagnostic shown to consumers.
     /// </summary>
     public required string ObsoleteMessage { get; init; }
+}
+
+/// <summary>
+/// Supported conversions for generated compatibility-property forwarding.
+/// </summary>
+public enum CliCompatibilityForwardingKind
+{
+    Direct,
+    ScalarToCollection,
+    NullableInt32ToString,
 }
 
 /// <summary>

@@ -716,6 +716,44 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Emits_Converted_Compatibility_Properties()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions") with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Outputs",
+                    ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                    ObsoleteMessage = "Use Outputs instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Timestamp",
+                    CSharpType = "int?",
+                    ForwardToPropertyName = "TimestampValue",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+                    ObsoleteMessage = "Use TimestampValue instead.",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("get => Outputs?.FirstOrDefault();");
+            await Assert.That(generated).Contains("set => Outputs = value is null ? null : [value];");
+            await Assert.That(generated).Contains("int.TryParse(TimestampValue");
+            await Assert.That(generated).Contains(
+                "set => TimestampValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Emits_Case_Variant_Compatibility_Alias()
     {
         var command = Command("ToolBuildOptions", "ToolOptions") with
