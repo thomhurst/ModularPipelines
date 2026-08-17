@@ -291,6 +291,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Validates_Provider_Added_Attribute_On_NonPublic_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestProviderExposedNonPublicOptions
+        {
+            Name = null,
+            RejectRetries = false,
+        };
+
+        await Assert.That(() => builder.Build(options))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestProviderExposedNonPublicOptions.Name");
+        await Assert.That(options.ValidationCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Build_Ignores_Validated_SetterOnly_Property()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1557,11 +1573,23 @@ public class CommandLineBuilderTests : TestBase
     {
         private static readonly PropertyInfo RetriesProperty = typeof(TestProviderExposedNonPublicOptions)
             .GetProperty(nameof(Retries), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        private static readonly PropertyInfo NameProperty = typeof(TestProviderExposedNonPublicOptions)
+            .GetProperty(nameof(Name), BindingFlags.Instance | BindingFlags.NonPublic)!;
         private static readonly PropertyDescriptorCollection Properties =
-            new([new NonPublicPropertyDescriptor(RetriesProperty)], readOnly: true);
+            new(
+                [
+                    new NonPublicPropertyDescriptor(RetriesProperty),
+                    new NonPublicPropertyDescriptor(NameProperty, [new RequiredAttribute()]),
+                ],
+                readOnly: true);
 
         [CountingValidation]
         internal int Retries { get; init; }
+
+        [StringLength(10)]
+        internal string? Name { get; init; } = "valid";
+
+        public bool RejectRetries { get; init; } = true;
 
         public int ValidationCount { get; private set; }
 
@@ -1597,15 +1625,23 @@ public class CommandLineBuilderTests : TestBase
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            ((TestProviderExposedNonPublicOptions) validationContext.ObjectInstance).RecordValidation();
-            return new ValidationResult("Retries are invalid.");
+            var options = (TestProviderExposedNonPublicOptions) validationContext.ObjectInstance;
+            options.RecordValidation();
+            return options.RejectRetries
+                ? new ValidationResult("Retries are invalid.")
+                : ValidationResult.Success;
         }
     }
 
-    private sealed class NonPublicPropertyDescriptor(PropertyInfo property)
+    private sealed class NonPublicPropertyDescriptor(
+        PropertyInfo property,
+        Attribute[]? additionalAttributes = null)
         : PropertyDescriptor(
             property.Name,
-            property.GetCustomAttributes<Attribute>(inherit: true).ToArray())
+            [
+                .. property.GetCustomAttributes<Attribute>(inherit: true),
+                .. additionalAttributes ?? [],
+            ])
     {
         public override Type ComponentType => property.DeclaringType!;
 
