@@ -452,6 +452,87 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("build")]
+    [Arguments("image build")]
+    public async Task Podman_Build_Output_Preserves_Scalar_And_Exposes_Collection(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"""
+            Usage: podman {command} [options] CONTEXT
+
+            Flags:
+              -o, --output strings   output destination
+            """;
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var outputs = definition!.Options.Single(option => option.PropertyName == "Outputs");
+        var output = definition.CompatibilityProperties.Single(property => property.PropertyName == "Output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output.CSharpType).IsEqualTo("string?");
+            await Assert.That(output.ForwardToPropertyName).IsEqualTo("Outputs");
+            await Assert.That(output.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.ScalarToCollection);
+            await Assert.That(outputs.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(outputs.AcceptsMultipleValues).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("farm build")]
+    [Arguments("image build")]
+    public async Task Podman_Build_Timestamp_Preserves_Integer_And_Exposes_String(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"""
+            Usage: podman {command} [options] CONTEXT
+
+            Flags:
+                  --timestamp string   set build timestamp
+            """;
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var timestampValue = definition!.Options.Single(option => option.PropertyName == "TimestampValue");
+        var timestamp = definition.CompatibilityProperties.Single(property => property.PropertyName == "Timestamp");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(timestamp.CSharpType).IsEqualTo("int?");
+            await Assert.That(timestamp.ForwardToPropertyName).IsEqualTo("TimestampValue");
+            await Assert.That(timestamp.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToString);
+            await Assert.That(timestampValue.CSharpType).IsEqualTo("string?");
+            await Assert.That(timestampValue.IsNumeric).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("inspect", "Usage: podman inspect [options] ARTIFACT [ARTIFACT...]", "Container")]
+    [Arguments("manifest add", "Usage: podman manifest add [options] LIST IMAGEORARTIFACT [IMAGEORARTIFACT...]", "Image")]
+    [Arguments("manifest annotate", "Usage: podman manifest annotate [options] LIST IMAGEORARTIFACT", "Image")]
+    [Arguments("manifest remove", "Usage: podman manifest remove [options] LIST DIGEST", "Image")]
+    public async Task Podman_Retains_Existing_Positional_Property_Names(
+        string command,
+        string helpText,
+        string expectedPropertyName)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        await Assert.That(definition!.PositionalArguments.Last().PropertyName)
+            .IsEqualTo(expectedPropertyName);
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
