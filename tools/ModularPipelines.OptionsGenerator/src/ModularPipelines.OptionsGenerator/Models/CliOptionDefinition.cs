@@ -224,7 +224,7 @@ public record CliOptionDefinition
 
     /// <summary>
     /// Whether this option contains a secret value that should be obfuscated in logs.
-    /// Automatically detected for options with "Secret", "Password", "Token", "Key", or "Credential" in the name.
+    /// Automatically detected for options with "Secret", "Password", "Token", "Key", "Credential", or "Creds" in the name.
     /// </summary>
     public bool IsSecret { get; init; }
 

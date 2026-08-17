@@ -37,6 +37,7 @@ public record PodmanArtifactPullOptions(
     /// <summary>
     /// Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 

@@ -802,6 +802,7 @@ public static partial class GeneratorUtils
         "Passphrase",
         "Token",
         "Credential",
+        "Creds",
         "ApiKey",
         "PrivateKey",
         "AccessKey",
@@ -813,7 +814,7 @@ public static partial class GeneratorUtils
     /// <summary>
     /// Determines if an option should be marked as a secret based on its property name and description.
     /// Options containing secret-related keywords such as "Secret", "Password", "Passphrase",
-    /// "Token", "Credential", "Otp", or known compound key names are considered secrets and
+    /// "Token", "Credential", "Creds", "Otp", or known compound key names are considered secrets and
     /// should be obfuscated in logs.
     /// </summary>
     /// <param name="propertyName">The C# property name of the option.</param>
