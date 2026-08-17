@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -295,6 +296,30 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Creds_Option_Is_Secret()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = """
+            Usage: podman pull [options] IMAGE
+
+            Flags:
+              --creds string   Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+              --creds-helper string   Select a credential helper by name
+            """;
+
+        var definition = await scraper.Parse(["podman", "pull"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.Options.Single(option => option.PropertyName == "Creds").IsSecret)
+                .IsTrue();
+            await Assert.That(definition.Options.Single(option => option.PropertyName == "CredsHelper").IsSecret)
+                .IsFalse();
+        }
+    }
+
+    [Test]
     [Arguments("artifact rm", "ARTIFACT [ARTIFACT...]")]
     [Arguments("quadlet rm", "QUADLET [QUADLET...]")]
     public async Task Podman_All_Removal_Operands_Are_Optional(
@@ -314,6 +339,8 @@ public class CliScraperTraversalTests
             await Assert.That(argument.IsRequired).IsFalse();
             await Assert.That(argument.IsVariadic).IsTrue();
             await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(GeneratorUtils.BuildOptionsParameter(definition))
+                .IsEqualTo($"{definition.ClassName}? options = null");
         }
     }
 
@@ -363,8 +390,26 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Kube_File_Fix_Preserves_Additional_Parsed_Operands()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman kube play [options] [KUBEFILE...] INPUT";
+
+        var definition = await scraper.Parse(["podman", "kube", "play"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(definition.PositionalArguments[0].PropertyName).IsEqualTo("Kubefile");
+            await Assert.That(definition.PositionalArguments[1].PropertyName).IsEqualTo("Input");
+        }
+    }
+
+    [Test]
     [Arguments("generate kube", "NoTrunc")]
     [Arguments("kube generate", "NoTrunc")]
+    [Arguments("kube play", "NoTrunc")]
     [Arguments("machine rm", "SaveKeys")]
     public async Task Podman_Removed_Flags_Are_Retained_As_Compatibility_Properties(
         string command,

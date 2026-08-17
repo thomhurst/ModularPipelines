@@ -137,13 +137,26 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         return string.Join(' ', commandParts) switch
         {
-            "artifact add" => SetRequiredVariadic(positionalArguments, 1, "Path"),
+            "artifact add" => SetPositionalArgument(
+                positionalArguments,
+                index: 1,
+                propertyName: "Path",
+                isRequired: true,
+                isVariadic: true),
             "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
             "exec" or "container exec" => SetRequiredCount(positionalArguments, 2),
-            "artifact rm" or "quadlet rm" => SetRequiredCount(positionalArguments, 0),
-            "kube down" or "kube play" => SetOptionalVariadic(
+            "artifact rm" or "quadlet rm" => SetPositionalArgument(
                 positionalArguments,
-                "Kubefile"),
+                index: 0,
+                propertyName: null,
+                isRequired: false,
+                isVariadic: true),
+            "kube down" or "kube play" => SetPositionalArgument(
+                positionalArguments,
+                index: 0,
+                propertyName: "Kubefile",
+                isRequired: false,
+                isVariadic: true),
             "secret exists" or "secret inspect" or "secret rm" => positionalArguments
                 .Select(argument => argument with { IsSecret = false })
                 .ToList(),
@@ -151,44 +164,49 @@ public partial class PodmanCliScraper : CobraCliScraper
         };
     }
 
-    private static IReadOnlyList<CliPositionalArgument> SetOptionalVariadic(
-        IReadOnlyList<CliPositionalArgument> positionalArguments,
-        string propertyName) => positionalArguments.Count == 0
-        ? positionalArguments
-        :
-        [
-            positionalArguments[0] with
-            {
-                PropertyName = propertyName,
-                CSharpType = "IEnumerable<string>?",
-                IsRequired = false,
-                IsVariadic = true,
-                Description = $"The {propertyName.ToUpperInvariant()} operand.",
-            },
-        ];
-
-    private static IReadOnlyList<CliPositionalArgument> SetRequiredVariadic(
+    private static IReadOnlyList<CliPositionalArgument> SetPositionalArgument(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int index,
-        string propertyName) => positionalArguments.Count <= index
+        string? propertyName,
+        bool isRequired,
+        bool isVariadic) => positionalArguments.Count <= index
         ? positionalArguments
         : positionalArguments
             .Select((argument, argumentIndex) => argumentIndex == index
-                ? argument with
-                {
-                    PropertyName = propertyName,
-                    CSharpType = "IEnumerable<string>",
-                    IsRequired = true,
-                    IsVariadic = true,
-                    Description = $"The {propertyName.ToUpperInvariant()} operand.",
-                }
+                ? ConfigurePositionalArgument(
+                    argument,
+                    propertyName,
+                    isRequired,
+                    isVariadic)
                 : argument)
             .ToList();
+
+    private static CliPositionalArgument ConfigurePositionalArgument(
+        CliPositionalArgument argument,
+        string? propertyName,
+        bool isRequired,
+        bool isVariadic)
+    {
+        var resolvedPropertyName = propertyName ?? argument.PropertyName;
+        var csharpType = isVariadic
+            ? "IEnumerable<string>"
+            : argument.CSharpType.TrimEnd('?');
+        return argument with
+        {
+            PropertyName = resolvedPropertyName,
+            CSharpType = isRequired ? csharpType : $"{csharpType}?",
+            IsRequired = isRequired,
+            IsVariadic = isVariadic,
+            Description = propertyName is null
+                ? argument.Description
+                : $"The {resolvedPropertyName.ToUpperInvariant()} operand.",
+        };
+    }
 
     protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
         string[] commandParts) => string.Join(' ', commandParts) switch
         {
-            "generate kube" or "kube generate" => NoTruncCompatibilityProperties,
+            "generate kube" or "kube generate" or "kube play" => NoTruncCompatibilityProperties,
             "machine rm" => SaveKeysCompatibilityProperties,
             _ => [],
         };
@@ -197,16 +215,15 @@ public partial class PodmanCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int requiredCount) =>
         positionalArguments
-            .Select((argument, index) => index < requiredCount
-                ? argument with
-                {
-                    CSharpType = argument.CSharpType.TrimEnd('?'),
-                    IsRequired = true,
-                }
-                : argument with
-                {
-                    CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
-                    IsRequired = false,
-                })
+            .Select((argument, index) => ConfigurePositionalArgument(
+                argument,
+                propertyName: null,
+                isRequired: index < requiredCount,
+                isVariadic: argument.IsVariadic))
             .ToList();
+
+    /// <inheritdoc />
+    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
+        base.IsSecretOption(propertyName, isFlag)
+        || (!isFlag && propertyName.Equals("Creds", StringComparison.OrdinalIgnoreCase));
 }
