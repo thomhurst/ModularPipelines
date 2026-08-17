@@ -36,7 +36,11 @@ internal static class CommandLineOptionsValidator
         try
         {
             ValidateProperties(options, metadata.NonPublicProperties, serviceProvider, validationResults);
-            ValidateTypeDescriptorMetadata(options, serviceProvider, validationResults);
+            ValidateTypeDescriptorMetadata(
+                options,
+                metadata.NonPublicPropertyNames,
+                serviceProvider,
+                validationResults);
             if (validationResults.Count == 0)
             {
                 ValidateObject(options, serviceProvider, validationResults);
@@ -100,7 +104,10 @@ internal static class CommandLineOptionsValidator
         var nonPublicProperties = validatedProperties
             .Where(static property => property.Property.GetMethod is not { IsPublic: true })
             .ToArray();
-        return new ValidationMetadata(nonPublicProperties);
+        var nonPublicPropertyNames = nonPublicProperties
+            .Select(static property => property.Property.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        return new ValidationMetadata(nonPublicProperties, nonPublicPropertyNames);
     }
 
     [UnconditionalSuppressMessage(
@@ -109,11 +116,17 @@ internal static class CommandLineOptionsValidator
         Justification = "Generated command option types retain their public properties and validation attributes. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static void ValidateTypeDescriptorMetadata(
         object options,
+        IReadOnlySet<string> previouslyValidatedPropertyNames,
         IServiceProvider serviceProvider,
         ICollection<ValidationResult> validationResults)
     {
         foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(options))
         {
+            if (previouslyValidatedPropertyNames.Contains(property.Name))
+            {
+                continue;
+            }
+
             var attributes = property.Attributes
                 .OfType<ValidationAttribute>()
                 .ToArray();
@@ -257,7 +270,8 @@ internal static class CommandLineOptionsValidator
     }
 
     private sealed record ValidationMetadata(
-        IReadOnlyList<ValidatedProperty> NonPublicProperties);
+        IReadOnlyList<ValidatedProperty> NonPublicProperties,
+        IReadOnlySet<string> NonPublicPropertyNames);
 
     private sealed record ValidatedProperty(
         PropertyInfo Property,

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -275,6 +276,18 @@ public class CommandLineBuilderTests : TestBase
         {
             TypeDescriptor.RemoveProvider(provider, typeof(TestTypeDescriptorValidatedOptions));
         }
+    }
+
+    [Test]
+    public async Task Build_Validates_Provider_Exposed_NonPublic_Property_Once()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestProviderExposedNonPublicOptions();
+
+        await Assert.That(() => builder.Build(options))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestProviderExposedNonPublicOptions.Retries");
+        await Assert.That(options.ValidationCount).IsEqualTo(1);
     }
 
     [Test]
@@ -1449,7 +1462,7 @@ public class CommandLineBuilderTests : TestBase
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            ((TestPropertyFirstValidatedOptions)value!).MarkTypeValidationInvoked();
+            ((TestPropertyFirstValidatedOptions) value!).MarkTypeValidationInvoked();
             return new ValidationResult("Type validation should be skipped.");
         }
     }
@@ -1537,6 +1550,81 @@ public class CommandLineBuilderTests : TestBase
     {
         [Required]
         public string? Name { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestProviderExposedNonPublicOptions : CommandLineToolOptions, ICustomTypeDescriptor
+    {
+        private static readonly PropertyInfo RetriesProperty = typeof(TestProviderExposedNonPublicOptions)
+            .GetProperty(nameof(Retries), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        private static readonly PropertyDescriptorCollection Properties =
+            new([new NonPublicPropertyDescriptor(RetriesProperty)], readOnly: true);
+
+        [CountingValidation]
+        internal int Retries { get; init; }
+
+        public int ValidationCount { get; private set; }
+
+        public void RecordValidation() => ValidationCount++;
+
+        AttributeCollection ICustomTypeDescriptor.GetAttributes() => AttributeCollection.Empty;
+
+        string? ICustomTypeDescriptor.GetClassName() => null;
+
+        string? ICustomTypeDescriptor.GetComponentName() => null;
+
+        TypeConverter? ICustomTypeDescriptor.GetConverter() => null;
+
+        EventDescriptor? ICustomTypeDescriptor.GetDefaultEvent() => null;
+
+        PropertyDescriptor? ICustomTypeDescriptor.GetDefaultProperty() => null;
+
+        object? ICustomTypeDescriptor.GetEditor(Type editorBaseType) => null;
+
+        EventDescriptorCollection ICustomTypeDescriptor.GetEvents() => EventDescriptorCollection.Empty;
+
+        EventDescriptorCollection ICustomTypeDescriptor.GetEvents(Attribute[]? attributes) =>
+            EventDescriptorCollection.Empty;
+
+        PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties() => Properties;
+
+        PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[]? attributes) => Properties;
+
+        object ICustomTypeDescriptor.GetPropertyOwner(PropertyDescriptor? propertyDescriptor) => this;
+    }
+
+    private sealed class CountingValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            ((TestProviderExposedNonPublicOptions) validationContext.ObjectInstance).RecordValidation();
+            return new ValidationResult("Retries are invalid.");
+        }
+    }
+
+    private sealed class NonPublicPropertyDescriptor(PropertyInfo property)
+        : PropertyDescriptor(
+            property.Name,
+            property.GetCustomAttributes<Attribute>(inherit: true).ToArray())
+    {
+        public override Type ComponentType => property.DeclaringType!;
+
+        public override bool IsReadOnly => true;
+
+        public override Type PropertyType => property.PropertyType;
+
+        public override bool CanResetValue(object component) => false;
+
+        public override object? GetValue(object? component) => property.GetValue(component);
+
+        public override void ResetValue(object component)
+        {
+        }
+
+        public override void SetValue(object? component, object? value) =>
+            throw new NotSupportedException();
+
+        public override bool ShouldSerializeValue(object component) => false;
     }
 
     [CliTool("mytool")]
