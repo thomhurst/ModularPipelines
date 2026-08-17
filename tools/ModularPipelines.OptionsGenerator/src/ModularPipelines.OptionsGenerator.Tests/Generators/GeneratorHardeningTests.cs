@@ -105,14 +105,15 @@ public class GeneratorHardeningTests
         string cSharpType,
         string? switchName = null,
         int? argumentPosition = null,
-        bool isRequired = false) =>
+        bool isRequired = false,
+        bool isCompatibility = false) =>
         new(
             propertyName,
             cSharpType,
             switchName,
             argumentPosition,
             isRequired,
-            false,
+            isCompatibility,
             null,
             null);
 
@@ -940,6 +941,56 @@ public class GeneratorHardeningTests
 
         await Assert.That(exception.Message)
             .Contains("ToolCopyOptions.CommandOptions changed CLI switch or argument position");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Different_Type()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--restored",
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Cli_Identity()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--restored",
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag changed CLI switch or argument position");
     }
 
     [Test]
