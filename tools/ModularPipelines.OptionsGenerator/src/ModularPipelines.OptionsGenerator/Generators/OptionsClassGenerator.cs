@@ -451,14 +451,39 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (property.ForwardToPropertyName is null)
         {
+            if (property.ForwardingKind != CliCompatibilityForwardingKind.Direct)
+            {
+                throw new InvalidOperationException(
+                    $"Compatibility property '{property.PropertyName}' requires a forwarding target for {property.ForwardingKind} conversion.");
+            }
+
             sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
             return;
         }
 
         sb.AppendLine($"    public {GetNewModifier(property.PropertyName)}{property.CSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
-        sb.AppendLine($"        get => {property.ForwardToPropertyName};");
-        sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
+        switch (property.ForwardingKind)
+        {
+            case CliCompatibilityForwardingKind.Direct:
+                sb.AppendLine($"        get => {property.ForwardToPropertyName};");
+                sb.AppendLine($"        set => {property.ForwardToPropertyName} = value;");
+                break;
+            case CliCompatibilityForwardingKind.ScalarToCollection:
+                sb.AppendLine($"        get => {property.ForwardToPropertyName}?.FirstOrDefault();");
+                sb.AppendLine($"        set => {property.ForwardToPropertyName} = value is null ? null : [value];");
+                break;
+            case CliCompatibilityForwardingKind.NullableInt32ToString:
+                sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
+                sb.AppendLine($"        set => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(property.ForwardingKind),
+                    property.ForwardingKind,
+                    "Unsupported compatibility-property forwarding kind.");
+        }
+
         sb.AppendLine("    }");
     }
 
