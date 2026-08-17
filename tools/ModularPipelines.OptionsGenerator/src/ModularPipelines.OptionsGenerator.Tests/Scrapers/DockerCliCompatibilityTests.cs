@@ -66,6 +66,24 @@ public class DockerCliCompatibilityTests
             .And.HasMessageContaining("maps both '--current' and '--legacy'");
     }
 
+    [Test]
+    public async Task Switch_Normalization_Treats_Source_Switch_Casing_As_Distinct()
+    {
+        const string helpText = """
+            Usage: fake run [OPTIONS]
+
+            Options:
+              --current string   Current value
+              --CURRENT string   Upper-case value
+            """;
+
+        await Assert.That(() => new CollidingSwitchScraper().Parse(
+                ["fake", "run"],
+                helpText))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("maps both '--current' and '--CURRENT'");
+    }
+
     private static CliCommandDefinition CreateCommand(string commandGroup)
     {
         return new CliCommandDefinition

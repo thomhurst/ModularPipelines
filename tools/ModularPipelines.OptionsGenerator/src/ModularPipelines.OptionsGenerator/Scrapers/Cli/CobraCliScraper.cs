@@ -320,7 +320,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 {
                     if (!existingScrapedLongForm.Equals(
                             scrapedLongForm,
-                            StringComparison.OrdinalIgnoreCase))
+                            StringComparison.Ordinal))
                     {
                         throw new InvalidOperationException(
                             $"Option switch normalization for '{string.Join(' ', commandParts)}' "
