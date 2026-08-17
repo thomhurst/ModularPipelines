@@ -41,6 +41,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly ILogger? _outputExcerptLogger;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IServiceProvider _serviceProvider;
     private readonly object _phaseLock = new();
@@ -81,6 +82,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _secretProvider = secretProvider;
         _options = options;
         _loggerFactory = loggerFactory;
+        _outputExcerptLogger = _options.Value.RunReport.IncludeModuleOutput
+            ? _loggerFactory.CreateLogger<ModuleOutputExcerptBuffer>()
+            : null;
         _buildSystemDetector = buildSystemDetector;
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
@@ -312,7 +316,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     : 0,
                 outputExcerptSecretObfuscator: _secretObfuscator,
                 outputExcerptSecretProvider: _secretProvider,
-                outputExcerptLogger: _loggerFactory.CreateLogger<ModuleOutputExcerptBuffer>()));
+                outputExcerptLogger: _outputExcerptLogger));
     }
 
     /// <inheritdoc />
