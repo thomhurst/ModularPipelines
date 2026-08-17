@@ -1,6 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type { PluginOptions } from '@signalwire/docusaurus-plugin-llms-txt';
 
 const config: Config = {
   title: 'Modular Pipelines',
@@ -9,13 +10,15 @@ const config: Config = {
 
   plugins: [
     [
-      'docusaurus-plugin-llms',
+      '@signalwire/docusaurus-plugin-llms-txt',
       {
-        generateLLMsTxt: true,
-        generateLLMsFullTxt: true,
-        title: 'Modular Pipelines Documentation',
-        description: 'Documentation for ModularPipelines - a C# framework for building modular, testable CI/CD pipelines with dependency injection support.',
-      },
+        siteTitle: 'Modular Pipelines Documentation',
+        siteDescription: 'Documentation for ModularPipelines - a C# framework for building modular, testable CI/CD pipelines with dependency injection support.',
+        content: {
+          enableMarkdownFiles: true,
+          enableLlmsFullTxt: true,
+        },
+      } satisfies PluginOptions,
     ],
   ],
 
