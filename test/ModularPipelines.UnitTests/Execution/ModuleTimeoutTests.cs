@@ -299,6 +299,34 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Completed_Execution_Published_After_Deadline_Signal_Wins()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+
+        signalState.SignalCancellation();
+        signalState.PublishExecutionTask(Task.FromResult(true));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await signalState.Signal.Task).IsTrue();
+            await Assert.That(attemptCancellation.IsCancellationRequested).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+
+        signalState.SignalCancellation();
+        signalState.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
+
+        await Assert.That(await signalState.Signal.Task).IsFalse();
+    }
+
+    [Test]
     public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
     {
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(

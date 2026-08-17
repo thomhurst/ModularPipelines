@@ -112,8 +112,8 @@ internal static class TimeoutHelper
         deadlineCts.CancelAfter(timeout.Value);
 
         var executionTask = taskFactory(attemptCts.Token);
-        Volatile.Write(ref deadlineState.ExecutionTask, executionTask);
-        Volatile.Write(ref externalCancellationState.ExecutionTask, executionTask);
+        deadlineState.PublishExecutionTask(executionTask);
+        externalCancellationState.PublishExecutionTask(executionTask);
 
         await Task.WhenAny(
                 executionTask,
@@ -215,18 +215,48 @@ internal static class TimeoutHelper
         }
     }
 
-    private sealed class CancellationSignalState<T>(CancellationTokenSource attemptCts)
+    internal sealed class CancellationSignalState<T>(CancellationTokenSource attemptCts)
     {
-        public Task<T>? ExecutionTask;
+        private readonly Lock _lock = new();
+        private Task<T>? _executionTask;
+        private bool _cancellationSignaled;
 
         public TaskCompletionSource<bool> Signal { get; } = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
 
+        public void PublishExecutionTask(Task<T> executionTask)
+        {
+            bool cancellationSignaled;
+            lock (_lock)
+            {
+                _executionTask = executionTask;
+                cancellationSignaled = _cancellationSignaled;
+            }
+
+            if (cancellationSignaled)
+            {
+                // A completed value or fault existed by the time publication caught up
+                // with the signal. A cancelled task still belongs to the signal that
+                // cancelled the attempt token.
+                Signal.TrySetResult(executionTask.IsCompleted && !executionTask.IsCanceled);
+            }
+        }
+
         public void SignalCancellation()
         {
-            // The attempt token is not linked to either source, so this sample is
-            // independent of CancellationTokenSource callback ordering.
-            Signal.TrySetResult(Volatile.Read(ref ExecutionTask)?.IsCompleted == true);
+            Task<T>? executionTask;
+            lock (_lock)
+            {
+                _cancellationSignaled = true;
+                executionTask = _executionTask;
+            }
+
+            if (executionTask is not null)
+            {
+                // Record ordering before propagating cancellation to the attempt.
+                Signal.TrySetResult(executionTask.IsCompleted);
+            }
+
             attemptCts.Cancel();
         }
     }
