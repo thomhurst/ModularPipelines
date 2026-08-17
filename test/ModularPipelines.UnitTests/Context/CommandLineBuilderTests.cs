@@ -63,6 +63,20 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Uses_DataAnnotations_Display_Name_For_Public_Property()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        await Assert.That(() => builder.Build(new TestValidatedOptions
+        {
+            Verbose = 7,
+            Name = "valid",
+        }))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("Verbosity level");
+    }
+
+    [Test]
     public async Task Build_Skips_Other_Property_Validation_When_Required_Fails()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -128,7 +142,8 @@ public class CommandLineBuilderTests : TestBase
 
         await Assert.That(Build)
             .Throws<CommandOptionsValidationException>()
-            .And.HasMessageContaining("TestOverriddenNonPublicValidatedOptions.Retries");
+            .And.HasMessageContaining("TestOverriddenNonPublicValidatedOptions.Retries")
+            .And.HasMessageContaining("Retry count");
     }
 
     [Test]
@@ -1425,6 +1440,7 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("tool")]
     private sealed record TestValidatedOptions : CommandLineToolOptions
     {
+        [Display(Name = "Verbosity level")]
         [Range(0, 6)]
         [CliFlag("-v")]
         public int Verbose { get; init; }
@@ -1520,6 +1536,7 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("tool")]
     private abstract record TestOverriddenNonPublicValidatedOptionsBase : CommandLineToolOptions
     {
+        [Display(Name = "Retry count")]
         [Range(0, 3)]
         [CliOption("--retries")]
         internal virtual int Retries { get; init; }
