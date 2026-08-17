@@ -49,10 +49,13 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly HashSet<LineBufferState> _pendingScopedLineBuffers = [];
     private readonly object _lineBufferLock = new();
     private readonly object _customObfuscatorLock = new();
+    private readonly object _deferredOutputLock = new();
     private readonly object _secretPatternsLock = new();
     private readonly AsyncLocal<CustomObfuscationScope?> _customObfuscationScope = new();
+    private readonly Queue<DeferredOutputWrite> _deferredOutputWrites = [];
     private readonly SemaphoreSlim _outputLock = new(1, 1);
     private readonly ReaderWriterLockSlim _flushLock = new(LockRecursionPolicy.SupportsRecursion);
+    private bool _isAsyncFlushActive;
     private SecretPatterns _secretPatterns = new([], null);
     private long _secretPatternsVersion = long.MinValue;
 
@@ -796,6 +799,11 @@ internal class CoordinatedTextWriter : TextWriter
             return;
         }
 
+        if (TryDeferOutputWrite(output, appendNewLine))
+        {
+            return;
+        }
+
         _outputLock.Wait();
         var activeOutputWriter = EnterActiveOutputWriter();
         try
@@ -818,6 +826,63 @@ internal class CoordinatedTextWriter : TextWriter
         else
         {
             _realConsole.Write(output);
+        }
+    }
+
+    private bool TryDeferOutputWrite(string output, bool appendNewLine)
+    {
+        lock (_deferredOutputLock)
+        {
+            if (!_isAsyncFlushActive)
+            {
+                return false;
+            }
+
+            // An asynchronous sink can suppress ExecutionContext flow before awaiting
+            // work that writes through this writer. That callback cannot see the active
+            // writer scope, so queue its processed output instead of waiting on our lease.
+            _deferredOutputWrites.Enqueue(new DeferredOutputWrite(output, appendNewLine));
+            return true;
+        }
+    }
+
+    private void BeginDeferringOutputWrites()
+    {
+        lock (_deferredOutputLock)
+        {
+            _isAsyncFlushActive = true;
+        }
+    }
+
+    private void DrainDeferredOutputWrites()
+    {
+        while (true)
+        {
+            DeferredOutputWrite[] pending;
+            lock (_deferredOutputLock)
+            {
+                if (_deferredOutputWrites.Count == 0)
+                {
+                    _isAsyncFlushActive = false;
+                    return;
+                }
+
+                pending = _deferredOutputWrites.ToArray();
+                _deferredOutputWrites.Clear();
+            }
+
+            foreach (var write in pending)
+            {
+                WriteToRealConsoleCore(write.Output, write.AppendNewLine);
+            }
+        }
+    }
+
+    private void StopDeferringOutputWrites()
+    {
+        lock (_deferredOutputLock)
+        {
+            _isAsyncFlushActive = false;
         }
     }
 
@@ -1116,14 +1181,23 @@ internal class CoordinatedTextWriter : TextWriter
     {
         await _outputLock.WaitAsync().ConfigureAwait(false);
         var activeOutputWriter = EnterActiveOutputWriter();
+        BeginDeferringOutputWrites();
         try
         {
             await _realConsole.FlushAsync().ConfigureAwait(false);
         }
         finally
         {
-            ExitActiveOutputWriter(activeOutputWriter);
-            _outputLock.Release();
+            try
+            {
+                DrainDeferredOutputWrites();
+            }
+            finally
+            {
+                StopDeferringOutputWrites();
+                ExitActiveOutputWriter(activeOutputWriter);
+                _outputLock.Release();
+            }
         }
     }
 
@@ -1161,6 +1235,8 @@ internal class CoordinatedTextWriter : TextWriter
 
         public void Deactivate() => Volatile.Write(ref _isActive, 0);
     }
+
+    private readonly record struct DeferredOutputWrite(string Output, bool AppendNewLine);
 
     private LineBufferState[] GetLineBufferStates()
     {

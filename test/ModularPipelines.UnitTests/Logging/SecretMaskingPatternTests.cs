@@ -2194,6 +2194,26 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task FlushAsync_AllowsReentrantSinkWriteWithoutExecutionContextFlow()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new UnflowedAsyncWritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task FlushAsync_ReentrantFlushDrainsPartialPrefix()
     {
         var provider = CreateProvider(out _);
@@ -2237,8 +2257,8 @@ public class SecretMaskingPatternTests
 
         try
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
-            await Assert.That(writeTask.IsCompleted).IsFalse();
+            await writeTask.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(realConsole.ToString()).IsEmpty();
         }
         finally
         {
@@ -2614,6 +2634,27 @@ public class SecretMaskingPatternTests
             {
                 _hasWrittenDiagnostic = true;
                 Writer!.WriteLine("flush diagnostic");
+            }
+        }
+    }
+
+    private sealed class UnflowedAsyncWritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override Task FlushAsync()
+        {
+            if (_hasWrittenDiagnostic)
+            {
+                return Task.CompletedTask;
+            }
+
+            _hasWrittenDiagnostic = true;
+            using (ExecutionContext.SuppressFlow())
+            {
+                return Task.Run(() => Writer!.WriteLine("flush diagnostic"));
             }
         }
     }
