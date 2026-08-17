@@ -180,9 +180,28 @@ public class ConsoleCoordinatorTests
         await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalConsole);
     }
 
+    [Test]
+    public async Task GetModuleBuffer_DoesNotUseDisposedLoggerFactory()
+    {
+        var loggerFactory = LoggerFactory.Create(static _ => { });
+        var coordinator = CreateCoordinator(
+            Mock.Of<IOutputCoordinator>(),
+            new PipelineOptions
+            {
+                RunReport = new RunReportOptions { IncludeModuleOutput = true },
+            },
+            loggerFactory);
+        loggerFactory.Dispose();
+
+        var buffer = coordinator.GetModuleBuffer(typeof(ConsoleCoordinatorTests));
+
+        await Assert.That(buffer).IsNotNull();
+    }
+
     private static ConsoleCoordinator CreateCoordinator(
         IOutputCoordinator outputCoordinator,
-        PipelineOptions? options = null)
+        PipelineOptions? options = null,
+        ILoggerFactory? loggerFactory = null)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(provider => provider.Secrets).Returns([]);
@@ -211,7 +230,7 @@ public class ConsoleCoordinatorTests
             secretObfuscator.Object,
             secretProvider.Object,
             Microsoft.Extensions.Options.Options.Create(options ?? new PipelineOptions()),
-            NullLoggerFactory.Instance,
+            loggerFactory ?? NullLoggerFactory.Instance,
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),
             outputCoordinator,
