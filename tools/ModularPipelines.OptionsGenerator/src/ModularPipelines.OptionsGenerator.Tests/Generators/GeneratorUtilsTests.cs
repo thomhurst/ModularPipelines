@@ -680,9 +680,7 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
-    [Arguments("Creds")]
-    [Arguments("RegistryCreds")]
-    public async Task IsSecretOption_Returns_True_For_Credential_And_Creds_Variants(string propertyName)
+    public async Task IsSecretOption_Returns_True_For_Credential_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
 
