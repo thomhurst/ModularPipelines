@@ -38,7 +38,7 @@ internal static class CommandLineOptionsValidator
             ValidateProperties(options, metadata.NonPublicProperties, serviceProvider, validationResults);
             ValidateTypeDescriptorMetadata(
                 options,
-                metadata.NonPublicPropertyNames,
+                metadata.NonPublicPropertyAttributes,
                 serviceProvider,
                 validationResults);
             if (validationResults.Count == 0)
@@ -104,10 +104,15 @@ internal static class CommandLineOptionsValidator
         var nonPublicProperties = validatedProperties
             .Where(static property => property.Property.GetMethod is not { IsPublic: true })
             .ToArray();
-        var nonPublicPropertyNames = nonPublicProperties
-            .Select(static property => property.Property.Name)
-            .ToHashSet(StringComparer.Ordinal);
-        return new ValidationMetadata(nonPublicProperties, nonPublicPropertyNames);
+        var nonPublicPropertyAttributes = nonPublicProperties
+            .GroupBy(static property => property.Property.Name, StringComparer.Ordinal)
+            .ToDictionary(
+                static group => group.Key,
+                static group => (IReadOnlyList<ValidationAttribute>) group
+                    .SelectMany(static property => property.Attributes)
+                    .ToArray(),
+                StringComparer.Ordinal);
+        return new ValidationMetadata(nonPublicProperties, nonPublicPropertyAttributes);
     }
 
     [UnconditionalSuppressMessage(
@@ -116,20 +121,15 @@ internal static class CommandLineOptionsValidator
         Justification = "Generated command option types retain their public properties and validation attributes. Unprocessed reflection fallback assemblies are not trim-safe.")]
     private static void ValidateTypeDescriptorMetadata(
         object options,
-        IReadOnlySet<string> previouslyValidatedPropertyNames,
+        IReadOnlyDictionary<string, IReadOnlyList<ValidationAttribute>> previouslyValidatedAttributes,
         IServiceProvider serviceProvider,
         ICollection<ValidationResult> validationResults)
     {
         foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(options))
         {
-            if (previouslyValidatedPropertyNames.Contains(property.Name))
-            {
-                continue;
-            }
-
-            var attributes = property.Attributes
-                .OfType<ValidationAttribute>()
-                .ToArray();
+            var attributes = GetUnvalidatedDescriptorAttributes(
+                property,
+                previouslyValidatedAttributes);
             if (attributes.Length == 0)
             {
                 continue;
@@ -163,6 +163,40 @@ internal static class CommandLineOptionsValidator
                 validationResults.Add(result!);
             }
         }
+    }
+
+    private static ValidationAttribute[] GetUnvalidatedDescriptorAttributes(
+        PropertyDescriptor property,
+        IReadOnlyDictionary<string, IReadOnlyList<ValidationAttribute>> previouslyValidatedAttributes)
+    {
+        var descriptorAttributes = property.Attributes
+            .OfType<ValidationAttribute>()
+            .ToArray();
+        if (!previouslyValidatedAttributes.TryGetValue(property.Name, out var reflectedAttributes))
+        {
+            return descriptorAttributes;
+        }
+
+        var remainingReflectedAttributes = reflectedAttributes.ToList();
+        return descriptorAttributes
+            .Where(attribute => !RemoveMatchingAttribute(remainingReflectedAttributes, attribute))
+            .ToArray();
+    }
+
+    private static bool RemoveMatchingAttribute(
+        List<ValidationAttribute> attributes,
+        ValidationAttribute candidate)
+    {
+        var matchingIndex = attributes.FindIndex(attribute =>
+            attribute.GetType() == candidate.GetType()
+            && attribute.Match(candidate));
+        if (matchingIndex < 0)
+        {
+            return false;
+        }
+
+        attributes.RemoveAt(matchingIndex);
+        return true;
     }
 
     [UnconditionalSuppressMessage(
@@ -271,7 +305,7 @@ internal static class CommandLineOptionsValidator
 
     private sealed record ValidationMetadata(
         IReadOnlyList<ValidatedProperty> NonPublicProperties,
-        IReadOnlySet<string> NonPublicPropertyNames);
+        IReadOnlyDictionary<string, IReadOnlyList<ValidationAttribute>> NonPublicPropertyAttributes);
 
     private sealed record ValidatedProperty(
         PropertyInfo Property,
