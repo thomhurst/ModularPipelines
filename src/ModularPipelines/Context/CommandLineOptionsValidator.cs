@@ -35,10 +35,15 @@ internal static class CommandLineOptionsValidator
         var validationResults = new List<ValidationResult>();
         try
         {
-            ValidateProperties(options, metadata.NonPublicProperties, serviceProvider, validationResults);
+            var requiredFailures = ValidateProperties(
+                options,
+                metadata.NonPublicProperties,
+                serviceProvider,
+                validationResults);
             ValidateTypeDescriptorMetadata(
                 options,
                 metadata.NonPublicPropertyAttributes,
+                requiredFailures,
                 serviceProvider,
                 validationResults);
             if (validationResults.Count == 0)
@@ -122,11 +127,17 @@ internal static class CommandLineOptionsValidator
     private static void ValidateTypeDescriptorMetadata(
         object options,
         IReadOnlyDictionary<string, IReadOnlyList<ValidationAttribute>> previouslyValidatedAttributes,
+        IReadOnlySet<string> requiredFailures,
         IServiceProvider serviceProvider,
         ICollection<ValidationResult> validationResults)
     {
         foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(options))
         {
+            if (requiredFailures.Contains(property.Name))
+            {
+                continue;
+            }
+
             var attributes = GetUnvalidatedDescriptorAttributes(
                 property,
                 previouslyValidatedAttributes);
@@ -227,12 +238,13 @@ internal static class CommandLineOptionsValidator
         "Trimming",
         "IL2026",
         Justification = "Schema-3 generated metadata preserves non-public properties and their validation attributes. Unprocessed reflection fallback assemblies are not trim-safe.")]
-    private static void ValidateProperties(
+    private static IReadOnlySet<string> ValidateProperties(
         object options,
         IReadOnlyList<ValidatedProperty> properties,
         IServiceProvider serviceProvider,
         ICollection<ValidationResult> validationResults)
     {
+        var requiredFailures = new HashSet<string>(StringComparer.Ordinal);
         foreach (var property in properties)
         {
             var context = new ValidationContext(options, serviceProvider, items: null)
@@ -241,36 +253,55 @@ internal static class CommandLineOptionsValidator
                 MemberName = property.Property.Name,
             };
             var value = property.Property.GetValue(options);
-            ValidateAttributes(
+            if (ValidateAttributes(
                 property.Attributes,
                 value,
                 context,
                 property.Property.Name,
-                validationResults);
+                validationResults))
+            {
+                requiredFailures.Add(property.Property.Name);
+            }
         }
+
+        return requiredFailures;
     }
 
-    private static void ValidateAttributes(
+    private static bool ValidateAttributes(
         IReadOnlyList<ValidationAttribute> attributes,
         object? value,
         ValidationContext context,
         string propertyName,
         ICollection<ValidationResult> validationResults)
     {
-        var requiredAttribute = attributes.FirstOrDefault(static attribute => attribute is RequiredAttribute);
-        if (requiredAttribute is not null
-            && !ValidateAttribute(requiredAttribute, value, context, propertyName, validationResults))
+        var requiredFailed = false;
+        foreach (var attribute in attributes)
         {
-            return;
+            if (attribute is RequiredAttribute)
+            {
+                requiredFailed |= !ValidateAttribute(
+                    attribute,
+                    value,
+                    context,
+                    propertyName,
+                    validationResults);
+            }
+        }
+
+        if (requiredFailed)
+        {
+            return true;
         }
 
         foreach (var attribute in attributes)
         {
-            if (!ReferenceEquals(attribute, requiredAttribute))
+            if (attribute is not RequiredAttribute)
             {
                 ValidateAttribute(attribute, value, context, propertyName, validationResults);
             }
         }
+
+        return false;
     }
 
     private static bool ValidateAttribute(

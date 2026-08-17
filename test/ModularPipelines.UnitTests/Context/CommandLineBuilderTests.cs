@@ -307,6 +307,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Skips_Provider_Validators_After_NonPublic_Required_Failure()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var options = new TestProviderExposedNonPublicOptions
+        {
+            RequiredValue = null,
+            RejectRetries = false,
+        };
+
+        await Assert.That(() => builder.Build(options))
+            .Throws<CommandOptionsValidationException>()
+            .And.HasMessageContaining("TestProviderExposedNonPublicOptions.RequiredValue");
+        await Assert.That(options.ProviderValidationCount).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Build_Ignores_Validated_SetterOnly_Property()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1575,11 +1591,16 @@ public class CommandLineBuilderTests : TestBase
             .GetProperty(nameof(Retries), BindingFlags.Instance | BindingFlags.NonPublic)!;
         private static readonly PropertyInfo NameProperty = typeof(TestProviderExposedNonPublicOptions)
             .GetProperty(nameof(Name), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        private static readonly PropertyInfo RequiredValueProperty = typeof(TestProviderExposedNonPublicOptions)
+            .GetProperty(nameof(RequiredValue), BindingFlags.Instance | BindingFlags.NonPublic)!;
         private static readonly PropertyDescriptorCollection Properties =
             new(
                 [
                     new NonPublicPropertyDescriptor(RetriesProperty),
                     new NonPublicPropertyDescriptor(NameProperty, [new RequiredAttribute()]),
+                    new NonPublicPropertyDescriptor(
+                        RequiredValueProperty,
+                        [new NullIntolerantValidationAttribute()]),
                 ],
                 readOnly: true);
 
@@ -1589,11 +1610,18 @@ public class CommandLineBuilderTests : TestBase
         [StringLength(10)]
         internal string? Name { get; init; } = "valid";
 
+        [Required]
+        internal string? RequiredValue { get; init; } = "valid";
+
         public bool RejectRetries { get; init; } = true;
 
         public int ValidationCount { get; private set; }
 
+        public int ProviderValidationCount { get; private set; }
+
         public void RecordValidation() => ValidationCount++;
+
+        public void RecordProviderValidation() => ProviderValidationCount++;
 
         AttributeCollection ICustomTypeDescriptor.GetAttributes() => AttributeCollection.Empty;
 
@@ -1629,6 +1657,18 @@ public class CommandLineBuilderTests : TestBase
             options.RecordValidation();
             return options.RejectRetries
                 ? new ValidationResult("Retries are invalid.")
+                : ValidationResult.Success;
+        }
+    }
+
+    private sealed class NullIntolerantValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            var options = (TestProviderExposedNonPublicOptions) validationContext.ObjectInstance;
+            options.RecordProviderValidation();
+            return value is null
+                ? throw new InvalidOperationException("Provider validator must not receive a missing required value.")
                 : ValidationResult.Success;
         }
     }
