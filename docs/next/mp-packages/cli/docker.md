@@ -1,0 +1,263 @@
+# docker CLI reference
+
+`ModularPipelines.Docker` provides strongly typed access to the `docker` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `docker` executable. Install it separately and ensure `docker` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Docker
+```
+
+Resolve the service with `context.Tools.Docker`. For projects older than C# 14, import `ModularPipelines.Docker.Extensions` and use the `context.Docker()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+```
+using ModularPipelines.Context;
+
+using ModularPipelines.Models;
+
+using ModularPipelines.Modules;
+
+using ModularPipelines.Docker.Options;
+
+
+
+public class RunCommandModule : Module<CommandResult>
+
+{
+
+    protected override async Task<CommandResult> ExecuteAsync(
+
+        IModuleContext context,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        return await context.Tools.Docker.InfoAsync(
+
+            new DockerInfoOptions(),
+
+            cancellationToken: cancellationToken);
+
+    }
+
+}
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                                    | Options record                                    |
+| ---------------------------------------------- | ------------------------------------------------- |
+| `docker attach`                                | `DockerAttachOptions`                             |
+| `docker build`                                 | `DockerBuildOptions`                              |
+| `docker buildx`                                | `DockerBuildxOptions`                             |
+| `docker buildx bake`                           | `DockerBuildxBakeOptions`                         |
+| `docker buildx build`                          | `DockerBuildxBuildOptions`                        |
+| `docker buildx create`                         | `DockerBuildxCreateOptions`                       |
+| `docker buildx dap`                            | `DockerBuildxDapOptions`                          |
+| `docker buildx dap build`                      | `DockerBuildxDapBuildOptions`                     |
+| `docker buildx dial-stdio`                     | `DockerBuildxDialStdioOptions`                    |
+| `docker buildx du`                             | `DockerBuildxDuOptions`                           |
+| `docker buildx history`                        | `DockerBuildxHistoryOptions`                      |
+| `docker buildx history export`                 | `DockerBuildxHistoryExportOptions`                |
+| `docker buildx history import`                 | `DockerBuildxHistoryImportOptions`                |
+| `docker buildx history inspect`                | `DockerBuildxHistoryInspectOptions`               |
+| `docker buildx history inspect attachment`     | `DockerBuildxHistoryInspectAttachmentOptions`     |
+| `docker buildx history logs`                   | `DockerBuildxHistoryLogsOptions`                  |
+| `docker buildx history ls`                     | `DockerBuildxHistoryLsOptions`                    |
+| `docker buildx history open`                   | `DockerBuildxHistoryOpenOptions`                  |
+| `docker buildx history rm`                     | `DockerBuildxHistoryRmOptions`                    |
+| `docker buildx history trace`                  | `DockerBuildxHistoryTraceOptions`                 |
+| `docker buildx imagetools`                     | `DockerBuildxImageToolsOptions`                   |
+| `docker buildx imagetools create`              | `DockerBuildxImageToolsCreateOptions`             |
+| `docker buildx imagetools inspect`             | `DockerBuildxImageToolsInspectOptions`            |
+| `docker buildx inspect`                        | `DockerBuildxInspectOptions`                      |
+| `docker buildx ls`                             | `DockerBuildxLsOptions`                           |
+| `docker buildx policy`                         | `DockerBuildxPolicyOptions`                       |
+| `docker buildx policy eval`                    | `DockerBuildxPolicyEvalOptions`                   |
+| `docker buildx policy test`                    | `DockerBuildxPolicyTestOptions`                   |
+| `docker buildx prune`                          | `DockerBuildxPruneOptions`                        |
+| `docker buildx rm`                             | `DockerBuildxRmOptions`                           |
+| `docker buildx stop`                           | `DockerBuildxStopOptions`                         |
+| `docker buildx use`                            | `DockerBuildxUseOptions`                          |
+| `docker commit`                                | `DockerCommitOptions`                             |
+| `docker compose`                               | `DockerComposeOptions`                            |
+| `docker compose attach`                        | `DockerComposeAttachOptions`                      |
+| `docker compose bridge`                        | `DockerComposeBridgeOptions`                      |
+| `docker compose bridge convert`                | `DockerComposeBridgeConvertOptions`               |
+| `docker compose bridge transformations`        | `DockerComposeBridgeTransformationsOptions`       |
+| `docker compose bridge transformations create` | `DockerComposeBridgeTransformationsCreateOptions` |
+| `docker compose bridge transformations list`   | `DockerComposeBridgeTransformationsListOptions`   |
+| `docker compose build`                         | `DockerComposeBuildOptions`                       |
+| `docker compose commit`                        | `DockerComposeCommitOptions`                      |
+| `docker compose config`                        | `DockerComposeConfigOptions`                      |
+| `docker compose cp`                            | `DockerComposeCpOptions`                          |
+| `docker compose create`                        | `DockerComposeCreateOptions`                      |
+| `docker compose down`                          | `DockerComposeDownOptions`                        |
+| `docker compose events`                        | `DockerComposeEventsOptions`                      |
+| `docker compose exec`                          | `DockerComposeExecOptions`                        |
+| `docker compose export`                        | `DockerComposeExportOptions`                      |
+| `docker compose images`                        | `DockerComposeImagesOptions`                      |
+| `docker compose kill`                          | `DockerComposeKillOptions`                        |
+| `docker compose logs`                          | `DockerComposeLogsOptions`                        |
+| `docker compose ls`                            | `DockerComposeLsOptions`                          |
+| `docker compose pause`                         | `DockerComposePauseOptions`                       |
+| `docker compose port`                          | `DockerComposePortOptions`                        |
+| `docker compose ps`                            | `DockerComposePsOptions`                          |
+| `docker compose publish`                       | `DockerComposePublishOptions`                     |
+| `docker compose pull`                          | `DockerComposePullOptions`                        |
+| `docker compose push`                          | `DockerComposePushOptions`                        |
+| `docker compose restart`                       | `DockerComposeRestartOptions`                     |
+| `docker compose rm`                            | `DockerComposeRmOptions`                          |
+| `docker compose run`                           | `DockerComposeRunOptions`                         |
+| `docker compose scale`                         | `DockerComposeScaleOptions`                       |
+| `docker compose start`                         | `DockerComposeStartOptions`                       |
+| `docker compose stats`                         | `DockerComposeStatsOptions`                       |
+| `docker compose stop`                          | `DockerComposeStopOptions`                        |
+| `docker compose top`                           | `DockerComposeTopOptions`                         |
+| `docker compose unpause`                       | `DockerComposeUnpauseOptions`                     |
+| `docker compose up`                            | `DockerComposeUpOptions`                          |
+| `docker compose volumes`                       | `DockerComposeVolumesOptions`                     |
+| `docker compose wait`                          | `DockerComposeWaitOptions`                        |
+| `docker compose watch`                         | `DockerComposeWatchOptions`                       |
+| `docker container`                             | `DockerContainerOptions`                          |
+| `docker container attach`                      | `DockerContainerAttachOptions`                    |
+| `docker container commit`                      | `DockerContainerCommitOptions`                    |
+| `docker container cp`                          | `DockerContainerCpOptions`                        |
+| `docker container create`                      | `DockerContainerCreateOptions`                    |
+| `docker container diff`                        | `DockerContainerDiffOptions`                      |
+| `docker container exec`                        | `DockerContainerExecOptions`                      |
+| `docker container export`                      | `DockerContainerExportOptions`                    |
+| `docker container inspect`                     | `DockerContainerInspectOptions`                   |
+| `docker container kill`                        | `DockerContainerKillOptions`                      |
+| `docker container logs`                        | `DockerContainerLogsOptions`                      |
+| `docker container ls`                          | `DockerContainerLsOptions`                        |
+| `docker container pause`                       | `DockerContainerPauseOptions`                     |
+| `docker container port`                        | `DockerContainerPortOptions`                      |
+| `docker container prune`                       | `DockerContainerPruneOptions`                     |
+| `docker container rename`                      | `DockerContainerRenameOptions`                    |
+| `docker container restart`                     | `DockerContainerRestartOptions`                   |
+| `docker container rm`                          | `DockerContainerRmOptions`                        |
+| `docker container run`                         | `DockerContainerRunOptions`                       |
+| `docker container start`                       | `DockerContainerStartOptions`                     |
+| `docker container stats`                       | `DockerContainerStatsOptions`                     |
+| `docker container stop`                        | `DockerContainerStopOptions`                      |
+| `docker container top`                         | `DockerContainerTopOptions`                       |
+| `docker container unpause`                     | `DockerContainerUnpauseOptions`                   |
+| `docker container update`                      | `DockerContainerUpdateOptions`                    |
+| `docker container wait`                        | `DockerContainerWaitOptions`                      |
+| `docker context`                               | `DockerContextOptions`                            |
+| `docker context create`                        | `DockerContextCreateOptions`                      |
+| `docker context export`                        | `DockerContextExportOptions`                      |
+| `docker context import`                        | `DockerContextImportOptions`                      |
+| `docker context inspect`                       | `DockerContextInspectOptions`                     |
+| `docker context ls`                            | `DockerContextLsOptions`                          |
+| `docker context rm`                            | `DockerContextRmOptions`                          |
+| `docker context update`                        | `DockerContextUpdateOptions`                      |
+| `docker context use`                           | `DockerContextUseOptions`                         |
+| `docker cp`                                    | `DockerCpOptions`                                 |
+| `docker create`                                | `DockerCreateOptions`                             |
+| `docker diff`                                  | `DockerDiffOptions`                               |
+| `docker events`                                | `DockerEventsOptions`                             |
+| `docker exec`                                  | `DockerExecOptions`                               |
+| `docker export`                                | `DockerExportOptions`                             |
+| `docker history`                               | `DockerHistoryOptions`                            |
+| `docker image`                                 | `DockerImageOptions`                              |
+| `docker image build`                           | `DockerImageBuildOptions`                         |
+| `docker image history`                         | `DockerImageHistoryOptions`                       |
+| `docker image import`                          | `DockerImageImportOptions`                        |
+| `docker image inspect`                         | `DockerImageInspectOptions`                       |
+| `docker image load`                            | `DockerImageLoadOptions`                          |
+| `docker image ls`                              | `DockerImageLsOptions`                            |
+| `docker image prune`                           | `DockerImagePruneOptions`                         |
+| `docker image pull`                            | `DockerImagePullOptions`                          |
+| `docker image push`                            | `DockerImagePushOptions`                          |
+| `docker image rm`                              | `DockerImageRmOptions`                            |
+| `docker image save`                            | `DockerImageSaveOptions`                          |
+| `docker image tag`                             | `DockerImageTagOptions`                           |
+| `docker images`                                | `DockerImagesOptions`                             |
+| `docker import`                                | `DockerImportOptions`                             |
+| `docker info`                                  | `DockerInfoOptions`                               |
+| `docker inspect`                               | `DockerInspectOptions`                            |
+| `docker kill`                                  | `DockerKillOptions`                               |
+| `docker load`                                  | `DockerLoadOptions`                               |
+| `docker login`                                 | `DockerLoginOptions`                              |
+| `docker logout`                                | `DockerLogoutOptions`                             |
+| `docker logs`                                  | `DockerLogsOptions`                               |
+| `docker manifest`                              | `DockerManifestOptions`                           |
+| `docker manifest annotate`                     | `DockerManifestAnnotateOptions`                   |
+| `docker manifest create`                       | `DockerManifestCreateOptions`                     |
+| `docker manifest inspect`                      | `DockerManifestInspectOptions`                    |
+| `docker manifest push`                         | `DockerManifestPushOptions`                       |
+| `docker manifest rm`                           | `DockerManifestRmOptions`                         |
+| `docker network`                               | `DockerNetworkOptions`                            |
+| `docker network connect`                       | `DockerNetworkConnectOptions`                     |
+| `docker network create`                        | `DockerNetworkCreateOptions`                      |
+| `docker network disconnect`                    | `DockerNetworkDisconnectOptions`                  |
+| `docker network inspect`                       | `DockerNetworkInspectOptions`                     |
+| `docker network ls`                            | `DockerNetworkLsOptions`                          |
+| `docker network prune`                         | `DockerNetworkPruneOptions`                       |
+| `docker network rm`                            | `DockerNetworkRmOptions`                          |
+| `docker pause`                                 | `DockerPauseOptions`                              |
+| `docker plugin`                                | `DockerPluginOptions`                             |
+| `docker plugin create`                         | `DockerPluginCreateOptions`                       |
+| `docker plugin disable`                        | `DockerPluginDisableOptions`                      |
+| `docker plugin enable`                         | `DockerPluginEnableOptions`                       |
+| `docker plugin inspect`                        | `DockerPluginInspectOptions`                      |
+| `docker plugin install`                        | `DockerPluginInstallOptions`                      |
+| `docker plugin ls`                             | `DockerPluginLsOptions`                           |
+| `docker plugin push`                           | `DockerPluginPushOptions`                         |
+| `docker plugin rm`                             | `DockerPluginRmOptions`                           |
+| `docker plugin set`                            | `DockerPluginSetOptions`                          |
+| `docker plugin upgrade`                        | `DockerPluginUpgradeOptions`                      |
+| `docker port`                                  | `DockerPortOptions`                               |
+| `docker ps`                                    | `DockerPsOptions`                                 |
+| `docker pull`                                  | `DockerPullOptions`                               |
+| `docker push`                                  | `DockerPushOptions`                               |
+| `docker rename`                                | `DockerRenameOptions`                             |
+| `docker restart`                               | `DockerRestartOptions`                            |
+| `docker rm`                                    | `DockerRmOptions`                                 |
+| `docker rmi`                                   | `DockerRmiOptions`                                |
+| `docker run`                                   | `DockerRunOptions`                                |
+| `docker save`                                  | `DockerSaveOptions`                               |
+| `docker search`                                | `DockerSearchOptions`                             |
+| `docker start`                                 | `DockerStartOptions`                              |
+| `docker stats`                                 | `DockerStatsOptions`                              |
+| `docker stop`                                  | `DockerStopOptions`                               |
+| `docker swarm`                                 | `DockerSwarmOptions`                              |
+| `docker swarm init`                            | `DockerSwarmInitOptions`                          |
+| `docker swarm join`                            | `DockerSwarmJoinOptions`                          |
+| `docker system`                                | `DockerSystemOptions`                             |
+| `docker system df`                             | `DockerSystemDfOptions`                           |
+| `docker system events`                         | `DockerSystemEventsOptions`                       |
+| `docker system info`                           | `DockerSystemInfoOptions`                         |
+| `docker system prune`                          | `DockerSystemPruneOptions`                        |
+| `docker tag`                                   | `DockerTagOptions`                                |
+| `docker top`                                   | `DockerTopOptions`                                |
+| `docker trust`                                 | `DockerTrustOptions`                              |
+| `docker trust inspect`                         | `DockerTrustInspectOptions`                       |
+| `docker trust key`                             | `DockerTrustKeyOptions`                           |
+| `docker trust key generate`                    | `DockerTrustKeyGenerateOptions`                   |
+| `docker trust key load`                        | `DockerTrustKeyLoadOptions`                       |
+| `docker trust revoke`                          | `DockerTrustRevokeOptions`                        |
+| `docker trust sign`                            | `DockerTrustSignOptions`                          |
+| `docker trust signer`                          | `DockerTrustSignerOptions`                        |
+| `docker trust signer add`                      | `DockerTrustSignerAddOptions`                     |
+| `docker trust signer remove`                   | `DockerTrustSignerRemoveOptions`                  |
+| `docker unpause`                               | `DockerUnpauseOptions`                            |
+| `docker update`                                | `DockerUpdateOptions`                             |
+| `docker volume`                                | `DockerVolumeOptions`                             |
+| `docker volume create`                         | `DockerVolumeCreateOptions`                       |
+| `docker volume inspect`                        | `DockerVolumeInspectOptions`                      |
+| `docker volume ls`                             | `DockerVolumeLsOptions`                           |
+| `docker volume prune`                          | `DockerVolumePruneOptions`                        |
+| `docker volume rm`                             | `DockerVolumeRmOptions`                           |
+| `docker wait`                                  | `DockerWaitOptions`                               |

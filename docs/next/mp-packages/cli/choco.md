@@ -1,0 +1,57 @@
+# choco CLI reference
+
+`ModularPipelines.Chocolatey` provides strongly typed access to the `choco` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `choco` executable. Install it separately and ensure `choco` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Chocolatey
+```
+
+Resolve the service with `context.Tools.Choco`. For projects older than C# 14, import `ModularPipelines.Chocolatey.Extensions` and use the `context.Choco()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var choco = context.Tools.Choco;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command        | Options record           |
+| ------------------ | ------------------------ |
+| `choco apikey`     | `ChocoApikeyOptions`     |
+| `choco cache`      | `ChocoCacheOptions`      |
+| `choco config`     | `ChocoConfigOptions`     |
+| `choco export`     | `ChocoExportOptions`     |
+| `choco feature`    | `ChocoFeatureOptions`    |
+| `choco features`   | `ChocoFeaturesOptions`   |
+| `choco find`       | `ChocoFindOptions`       |
+| `choco info`       | `ChocoInfoOptions`       |
+| `choco install`    | `ChocoInstallOptions`    |
+| `choco license`    | `ChocoLicenseOptions`    |
+| `choco list`       | `ChocoListOptions`       |
+| `choco new`        | `ChocoNewOptions`        |
+| `choco outdated`   | `ChocoOutdatedOptions`   |
+| `choco pack`       | `ChocoPackOptions`       |
+| `choco pin`        | `ChocoPinOptions`        |
+| `choco push`       | `ChocoPushOptions`       |
+| `choco rule`       | `ChocoRuleOptions`       |
+| `choco search`     | `ChocoSearchOptions`     |
+| `choco setapikey`  | `ChocoSetapikeyOptions`  |
+| `choco source`     | `ChocoSourceOptions`     |
+| `choco sources`    | `ChocoSourcesOptions`    |
+| `choco support`    | `ChocoSupportOptions`    |
+| `choco template`   | `ChocoTemplateOptions`   |
+| `choco templates`  | `ChocoTemplatesOptions`  |
+| `choco uninstall`  | `ChocoUninstallOptions`  |
+| `choco unpackself` | `ChocoUnpackselfOptions` |
+| `choco upgrade`    | `ChocoUpgradeOptions`    |

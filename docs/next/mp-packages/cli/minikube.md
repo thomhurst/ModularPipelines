@@ -1,0 +1,76 @@
+# minikube CLI reference
+
+`ModularPipelines.Minikube` provides strongly typed access to the `minikube` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `minikube` executable. Install it separately and ensure `minikube` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Minikube
+```
+
+Resolve the service with `context.Tools.Minikube`. For projects older than C# 14, import `ModularPipelines.Minikube.Extensions` and use the `context.Minikube()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var minikube = context.Tools.Minikube;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                 | Options record                   |
+| --------------------------- | -------------------------------- |
+| `minikube addons`           | `MinikubeAddonsOptions`          |
+| `minikube addons configure` | `MinikubeAddonsConfigureOptions` |
+| `minikube addons disable`   | `MinikubeAddonsDisableOptions`   |
+| `minikube addons enable`    | `MinikubeAddonsEnableOptions`    |
+| `minikube addons images`    | `MinikubeAddonsImagesOptions`    |
+| `minikube addons list`      | `MinikubeAddonsListOptions`      |
+| `minikube addons open`      | `MinikubeAddonsOpenOptions`      |
+| `minikube cache add`        | `MinikubeCacheAddOptions`        |
+| `minikube cache list`       | `MinikubeCacheListOptions`       |
+| `minikube config`           | `MinikubeConfigOptions`          |
+| `minikube config defaults`  | `MinikubeConfigDefaultsOptions`  |
+| `minikube config get`       | `MinikubeConfigGetOptions`       |
+| `minikube config set`       | `MinikubeConfigSetOptions`       |
+| `minikube config unset`     | `MinikubeConfigUnsetOptions`     |
+| `minikube config view`      | `MinikubeConfigViewOptions`      |
+| `minikube cp`               | `MinikubeCpOptions`              |
+| `minikube dashboard`        | `MinikubeDashboardOptions`       |
+| `minikube delete`           | `MinikubeDeleteOptions`          |
+| `minikube docker-env`       | `MinikubeDockerEnvOptions`       |
+| `minikube image build`      | `MinikubeImageBuildOptions`      |
+| `minikube image load`       | `MinikubeImageLoadOptions`       |
+| `minikube image ls`         | `MinikubeImageLsOptions`         |
+| `minikube image rm`         | `MinikubeImageRmOptions`         |
+| `minikube image save`       | `MinikubeImageSaveOptions`       |
+| `minikube ip`               | `MinikubeIpOptions`              |
+| `minikube kubectl`          | `MinikubeKubectlOptions`         |
+| `minikube license`          | `MinikubeLicenseOptions`         |
+| `minikube logs`             | `MinikubeLogsOptions`            |
+| `minikube mount`            | `MinikubeMountOptions`           |
+| `minikube node`             | `MinikubeNodeOptions`            |
+| `minikube node add`         | `MinikubeNodeAddOptions`         |
+| `minikube node start`       | `MinikubeNodeStartOptions`       |
+| `minikube pause`            | `MinikubePauseOptions`           |
+| `minikube podman-env`       | `MinikubePodmanEnvOptions`       |
+| `minikube profile`          | `MinikubeProfileOptions`         |
+| `minikube profile list`     | `MinikubeProfileListOptions`     |
+| `minikube service`          | `MinikubeServiceOptions`         |
+| `minikube service list`     | `MinikubeServiceListOptions`     |
+| `minikube ssh`              | `MinikubeSshOptions`             |
+| `minikube ssh-host`         | `MinikubeSshHostOptions`         |
+| `minikube ssh-key`          | `MinikubeSshKeyOptions`          |
+| `minikube start`            | `MinikubeStartOptions`           |
+| `minikube status`           | `MinikubeStatusOptions`          |
+| `minikube stop`             | `MinikubeStopOptions`            |
+| `minikube tunnel`           | `MinikubeTunnelOptions`          |
+| `minikube unpause`          | `MinikubeUnpauseOptions`         |

@@ -1,0 +1,305 @@
+# Defining Modules
+
+## Defining Modules[​](#defining-modules "Direct link to Defining Modules")
+
+Modules are defined by creating a class that inherits from the `Module<T>` base class.
+
+`T` is the type of object that your Module will return, and that object can be seen by other Modules (if they depend on it).
+
+```
+public class FindAFileModule : Module<FileInfo>
+
+{
+
+    protected override async Task<FileInfo?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        return context.Files
+
+            .Glob("C:\\**\\MyJsonFile.json")
+
+            .Single();
+
+    }
+
+}
+```
+
+### Modules Without Return Values[​](#modules-without-return-values "Direct link to Modules Without Return Values")
+
+For modules that perform actions without returning meaningful data, use the non-generic `Module` base class:
+
+```
+public class CleanupModule : Module
+
+{
+
+    protected override async Task ExecuteModuleAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        var folder = context.Files.GetFolder("./temp");
+
+        folder.Delete();
+
+        // No return statement needed
+
+    }
+
+}
+```
+
+For synchronous operations, use `SyncModule`:
+
+```
+public class LoggingModule : SyncModule
+
+{
+
+    protected override void ExecuteModule(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
+
+        // No return statement needed
+
+    }
+
+}
+```
+
+These classes internally use the `None` struct to represent the absence of a value. `None` is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
+
+## Configuring Module Behavior[​](#configuring-module-behavior "Direct link to Configuring Module Behavior")
+
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+
+```
+public class MyModule : Module<FileInfo>
+
+{
+
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+
+        .WithTimeout(TimeSpan.FromMinutes(5))
+
+        .WithRetryCount(3)
+
+        .WithSkipWhen(() => !File.Exists("important.json"))
+
+        .WithPriority(ModulePriority.High)
+
+        .WithExecutionHint(ExecutionType.IoIntensive)
+
+        .WithTags("build", "critical")
+
+        .WithCategory("build")
+
+        .DependsOn<RestoreModule>()
+
+        .WithIgnoreFailures()
+
+        .WithAlwaysRun()
+
+        .Build();
+
+
+
+    protected override async Task<FileInfo?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        // Module logic here
+
+    }
+
+}
+```
+
+### Available Configuration Options[​](#available-configuration-options "Direct link to Available Configuration Options")
+
+| Method                              | Description                                                         |
+| ----------------------------------- | ------------------------------------------------------------------- |
+| `.WithTimeout(TimeSpan)`            | Maximum execution time before module is cancelled                   |
+| `.WithRetryCount(int)`              | Number of retry attempts on failure                                 |
+| `.WithRetryPolicy(IAsyncPolicy)`    | Custom Polly retry policy                                           |
+| `.WithSkipWhen(...)`                | Condition to skip the module                                        |
+| `.WithIgnoreFailures()`             | Don't fail the pipeline if this module fails                        |
+| `.WithIgnoreFailuresWhen(...)`      | Conditionally ignore failures                                       |
+| `.WithAlwaysRun()`                  | Run even if the pipeline has failed                                 |
+| `.WithBeforeExecute(...)`           | Hook to run before execution                                        |
+| `.WithAfterExecute(...)`            | Hook to run after execution                                         |
+| `.WithNotInParallel(...)`           | Prevent parallel execution globally or for matching constraint keys |
+| `.WithPriority(ModulePriority)`     | Set scheduler priority                                              |
+| `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits                      |
+| `.WithTags(...)`                    | Add tags used by metadata-based dependencies                        |
+| `.WithCategory(string)`             | Set the module category                                             |
+| `.DependsOn<TModule>()`             | Add a required dependency                                           |
+| `.DependsOnOptional<TModule>()`     | Add an optional dependency                                          |
+
+The fluent configuration is the canonical runtime model. Existing attributes such as `[Priority]`, `[ExecutionHint]`, `[NotInParallel]`, `[ModuleTag]`, `[ModuleCategory]`, and `[DependsOn<T>]` remain supported as declarative sugar and are merged into the same model.
+
+## Lifecycle Hooks[​](#lifecycle-hooks "Direct link to Lifecycle Hooks")
+
+You can also override lifecycle methods directly on the module class:
+
+```
+public class MyModule : Module<string>
+
+{
+
+    protected override Task OnBeforeExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        context.Logger.LogInformation("Starting module execution");
+
+        return Task.CompletedTask;
+
+    }
+
+
+
+    protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+
+        IModuleContext context,
+
+        ModuleResult<string> result,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+
+        return Task.FromResult<ModuleResult<string>?>(null);
+
+    }
+
+
+
+    protected override Task OnSkippedAsync(
+
+        IModuleContext context,
+
+        SkipDecision skipDecision,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        context.Logger.LogWarning("Module skipped: {Reason}", skipDecision.Reason);
+
+        return Task.CompletedTask;
+
+    }
+
+
+
+    protected override Task OnFailedAsync(
+
+        IModuleContext context,
+
+        Exception exception,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        context.Logger.LogError(exception, "Module failed");
+
+        return Task.CompletedTask;
+
+    }
+
+
+
+    protected override async Task<string?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        return "result";
+
+    }
+
+}
+```
+
+## Tags and Categories[​](#tags-and-categories "Direct link to Tags and Categories")
+
+Organize your modules with tags and categories:
+
+```
+[ModuleCategory("Build")]
+
+[ModuleTag("critical")]
+
+[ModuleTag("fast")]
+
+public class BuildModule : Module<BuildOutput>
+
+{
+
+    protected override async Task<BuildOutput?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        // ...
+
+    }
+
+}
+```
+
+Or define them programmatically:
+
+```
+public class BuildModule : Module<BuildOutput>
+
+{
+
+    public override string? Category => "Build";
+
+    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+
+
+
+    protected override async Task<BuildOutput?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        // ...
+
+    }
+
+}
+```
+
+See the individual documentation pages for more details on each behavior:
+
+* [Skipping Modules](/ModularPipelines/docs/how-to/skipping.md)
+* [Retry Policies](/ModularPipelines/docs/how-to/retry-policy.md)
+* [Timeouts](/ModularPipelines/docs/how-to/timeouts.md)
+* [Ignoring Failures](/ModularPipelines/docs/how-to/ignoring-failures.md)
+* [Always Run](/ModularPipelines/docs/how-to/always-run.md)
+* [Hooks](/ModularPipelines/docs/how-to/hooks.md)
+* [Categories](/ModularPipelines/docs/how-to/categories.md)
+* [Run Conditions](/ModularPipelines/docs/how-to/run-conditions.md)

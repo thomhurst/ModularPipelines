@@ -1,0 +1,80 @@
+# yarn CLI reference
+
+`ModularPipelines.Yarn` provides strongly typed access to the `yarn` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `yarn` executable. Install it separately and ensure `yarn` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Yarn
+```
+
+Resolve the service with `context.Tools.Yarn`. For projects older than C# 14, import `ModularPipelines.Yarn.Extensions` and use the `context.Yarn()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var yarn = context.Tools.Yarn;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                       | Options record                       |
+| --------------------------------- | ------------------------------------ |
+| `yarn add`                        | `YarnAddOptions`                     |
+| `yarn bin`                        | `YarnBinOptions`                     |
+| `yarn cache clean`                | `YarnCacheCleanOptions`              |
+| `yarn config`                     | `YarnConfigOptions`                  |
+| `yarn config get`                 | `YarnConfigGetOptions`               |
+| `yarn config set`                 | `YarnConfigSetOptions`               |
+| `yarn config unset`               | `YarnConfigUnsetOptions`             |
+| `yarn constraints`                | `YarnConstraintsOptions`             |
+| `yarn constraints query`          | `YarnConstraintsQueryOptions`        |
+| `yarn constraints source`         | `YarnConstraintsSourceOptions`       |
+| `yarn dedupe`                     | `YarnDedupeOptions`                  |
+| `yarn exec`                       | `YarnExecOptions`                    |
+| `yarn explain`                    | `YarnExplainOptions`                 |
+| `yarn info`                       | `YarnInfoOptions`                    |
+| `yarn init`                       | `YarnInitOptions`                    |
+| `yarn install`                    | `YarnInstallOptions`                 |
+| `yarn link`                       | `YarnLinkOptions`                    |
+| `yarn npm audit`                  | `YarnNpmAuditOptions`                |
+| `yarn npm info`                   | `YarnNpmInfoOptions`                 |
+| `yarn npm login`                  | `YarnNpmLoginOptions`                |
+| `yarn npm logout`                 | `YarnNpmLogoutOptions`               |
+| `yarn npm publish`                | `YarnNpmPublishOptions`              |
+| `yarn npm stage approve`          | `YarnNpmStageApproveOptions`         |
+| `yarn npm stage list`             | `YarnNpmStageListOptions`            |
+| `yarn npm stage reject`           | `YarnNpmStageRejectOptions`          |
+| `yarn npm tag list`               | `YarnNpmTagListOptions`              |
+| `yarn npm whoami`                 | `YarnNpmWhoamiOptions`               |
+| `yarn pack`                       | `YarnPackOptions`                    |
+| `yarn patch`                      | `YarnPatchOptions`                   |
+| `yarn patch-commit`               | `YarnPatchCommitOptions`             |
+| `yarn plugin check`               | `YarnPluginCheckOptions`             |
+| `yarn plugin import`              | `YarnPluginImportOptions`            |
+| `yarn plugin import from sources` | `YarnPluginImportFromSourcesOptions` |
+| `yarn plugin list`                | `YarnPluginListOptions`              |
+| `yarn plugin runtime`             | `YarnPluginRuntimeOptions`           |
+| `yarn remove`                     | `YarnRemoveOptions`                  |
+| `yarn run`                        | `YarnRunOptions`                     |
+| `yarn set version`                | `YarnSetVersionOptions`              |
+| `yarn set version from sources`   | `YarnSetVersionFromSourcesOptions`   |
+| `yarn stage`                      | `YarnStageOptions`                   |
+| `yarn unlink`                     | `YarnUnlinkOptions`                  |
+| `yarn unplug`                     | `YarnUnplugOptions`                  |
+| `yarn up`                         | `YarnUpOptions`                      |
+| `yarn upgrade-interactive`        | `YarnUpgradeInteractiveOptions`      |
+| `yarn version apply`              | `YarnVersionApplyOptions`            |
+| `yarn version check`              | `YarnVersionCheckOptions`            |
+| `yarn why`                        | `YarnWhyOptions`                     |
+| `yarn workspaces focus`           | `YarnWorkspacesFocusOptions`         |
+| `yarn workspaces foreach`         | `YarnWorkspacesForeachOptions`       |
+| `yarn workspaces list`            | `YarnWorkspacesListOptions`          |

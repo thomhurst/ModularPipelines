@@ -1,0 +1,45 @@
+# Snyk Package
+
+`ModularPipelines.Snyk` provides strongly typed access to the Snyk CLI for open-source, container, infrastructure-as-code, code, SBOM, and AI-BOM security workflows.
+
+## Installation[​](#installation "Direct link to Installation")
+
+```
+dotnet add package ModularPipelines.Snyk
+```
+
+The `snyk` executable must be installed and available on `PATH` when the pipeline runs.
+
+## Test a container image[​](#test-a-container-image "Direct link to Test a container image")
+
+```
+using ModularPipelines.Snyk.Enums;
+
+using ModularPipelines.Snyk.Options;
+
+
+
+var result = await context.Tools.Snyk.ContainerTestAsync(
+
+    new SnykContainerTestOptions("alpine:3.20")
+
+    {
+
+        SeverityThreshold = SnykSeverityThreshold.High,
+
+        FailOn = SnykContainerTestFailOn.Upgradable,
+
+    },
+
+    cancellationToken: cancellationToken);
+```
+
+This renders the equivalent of:
+
+```
+snyk container test alpine:3.20 --severity-threshold=high --fail-on=upgradable
+```
+
+## Authentication[​](#authentication "Direct link to Authentication")
+
+Prefer the `SNYK_TOKEN` environment variable supplied by your CI secret store. The generated API-token, client-secret, and password properties are marked as secrets so Modular Pipelines masks their values in command logs.

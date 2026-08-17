@@ -1,0 +1,95 @@
+# buildah CLI reference
+
+`ModularPipelines.Buildah` provides strongly typed access to the `buildah` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `buildah` executable. Install it separately and ensure `buildah` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Buildah
+```
+
+Resolve the service with `context.Tools.Buildah`. For projects older than C# 14, import `ModularPipelines.Buildah.Extensions` and use the `context.Buildah()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+```
+using ModularPipelines.Context;
+
+using ModularPipelines.Models;
+
+using ModularPipelines.Modules;
+
+using ModularPipelines.Buildah.Options;
+
+
+
+public class RunCommandModule : Module<CommandResult>
+
+{
+
+    protected override async Task<CommandResult> ExecuteAsync(
+
+        IModuleContext context,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        return await context.Tools.Buildah.ContainersAsync(
+
+            new BuildahContainersOptions(),
+
+            cancellationToken: cancellationToken);
+
+    }
+
+}
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                 | Options record                   |
+| --------------------------- | -------------------------------- |
+| `buildah add`               | `BuildahAddOptions`              |
+| `buildah build`             | `BuildahBuildOptions`            |
+| `buildah commit`            | `BuildahCommitOptions`           |
+| `buildah config`            | `BuildahConfigOptions`           |
+| `buildah containers`        | `BuildahContainersOptions`       |
+| `buildah copy`              | `BuildahCopyOptions`             |
+| `buildah from`              | `BuildahFromOptions`             |
+| `buildah images`            | `BuildahImagesOptions`           |
+| `buildah inspect`           | `BuildahInspectOptions`          |
+| `buildah login`             | `BuildahLoginOptions`            |
+| `buildah logout`            | `BuildahLogoutOptions`           |
+| `buildah manifest`          | `BuildahManifestOptions`         |
+| `buildah manifest add`      | `BuildahManifestAddOptions`      |
+| `buildah manifest annotate` | `BuildahManifestAnnotateOptions` |
+| `buildah manifest create`   | `BuildahManifestCreateOptions`   |
+| `buildah manifest exists`   | `BuildahManifestExistsOptions`   |
+| `buildah manifest inspect`  | `BuildahManifestInspectOptions`  |
+| `buildah manifest push`     | `BuildahManifestPushOptions`     |
+| `buildah manifest remove`   | `BuildahManifestRemoveOptions`   |
+| `buildah manifest rm`       | `BuildahManifestRmOptions`       |
+| `buildah mkcw`              | `BuildahMkcwOptions`             |
+| `buildah mount`             | `BuildahMountOptions`            |
+| `buildah prune`             | `BuildahPruneOptions`            |
+| `buildah pull`              | `BuildahPullOptions`             |
+| `buildah push`              | `BuildahPushOptions`             |
+| `buildah rename`            | `BuildahRenameOptions`           |
+| `buildah rm`                | `BuildahRmOptions`               |
+| `buildah rmi`               | `BuildahRmiOptions`              |
+| `buildah run`               | `BuildahRunOptions`              |
+| `buildah source`            | `BuildahSourceOptions`           |
+| `buildah source add`        | `BuildahSourceAddOptions`        |
+| `buildah source create`     | `BuildahSourceCreateOptions`     |
+| `buildah source pull`       | `BuildahSourcePullOptions`       |
+| `buildah source push`       | `BuildahSourcePushOptions`       |
+| `buildah tag`               | `BuildahTagOptions`              |
+| `buildah umount`            | `BuildahUmountOptions`           |
+| `buildah unshare`           | `BuildahUnshareOptions`          |

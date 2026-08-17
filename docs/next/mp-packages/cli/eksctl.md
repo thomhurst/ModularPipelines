@@ -1,0 +1,115 @@
+# eksctl CLI reference
+
+`ModularPipelines.Eksctl` provides strongly typed access to the `eksctl` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `eksctl` executable. Install it separately and ensure `eksctl` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Eksctl
+```
+
+Resolve the service with `context.Tools.Eksctl`. For projects older than C# 14, import `ModularPipelines.Eksctl.Extensions` and use the `context.Eksctl()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var eksctl = context.Tools.Eksctl;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                                          | Options record                                        |
+| ---------------------------------------------------- | ----------------------------------------------------- |
+| `eksctl associate`                                   | `EksctlAssociateOptions`                              |
+| `eksctl associate identityprovider`                  | `EksctlAssociateIdentityproviderOptions`              |
+| `eksctl create`                                      | `EksctlCreateOptions`                                 |
+| `eksctl create accessentry`                          | `EksctlCreateAccessentryOptions`                      |
+| `eksctl create addon`                                | `EksctlCreateAddonOptions`                            |
+| `eksctl create capability`                           | `EksctlCreateCapabilityOptions`                       |
+| `eksctl create cluster`                              | `EksctlCreateClusterOptions`                          |
+| `eksctl create fargateprofile`                       | `EksctlCreateFargateprofileOptions`                   |
+| `eksctl create iamidentitymapping`                   | `EksctlCreateIamidentitymappingOptions`               |
+| `eksctl create iamserviceaccount`                    | `EksctlCreateIamserviceaccountOptions`                |
+| `eksctl create nodegroup`                            | `EksctlCreateNodegroupOptions`                        |
+| `eksctl create podidentityassociation`               | `EksctlCreatePodidentityassociationOptions`           |
+| `eksctl delete`                                      | `EksctlDeleteOptions`                                 |
+| `eksctl delete accessentry`                          | `EksctlDeleteAccessentryOptions`                      |
+| `eksctl delete addon`                                | `EksctlDeleteAddonOptions`                            |
+| `eksctl delete capability`                           | `EksctlDeleteCapabilityOptions`                       |
+| `eksctl delete cluster`                              | `EksctlDeleteClusterOptions`                          |
+| `eksctl delete fargateprofile`                       | `EksctlDeleteFargateprofileOptions`                   |
+| `eksctl delete iamidentitymapping`                   | `EksctlDeleteIamidentitymappingOptions`               |
+| `eksctl delete iamserviceaccount`                    | `EksctlDeleteIamserviceaccountOptions`                |
+| `eksctl delete nodegroup`                            | `EksctlDeleteNodegroupOptions`                        |
+| `eksctl delete podidentityassociation`               | `EksctlDeletePodidentityassociationOptions`           |
+| `eksctl deregister`                                  | `EksctlDeregisterOptions`                             |
+| `eksctl deregister cluster`                          | `EksctlDeregisterClusterOptions`                      |
+| `eksctl disassociate`                                | `EksctlDisassociateOptions`                           |
+| `eksctl disassociate identityprovider`               | `EksctlDisassociateIdentityproviderOptions`           |
+| `eksctl drain`                                       | `EksctlDrainOptions`                                  |
+| `eksctl drain nodegroup`                             | `EksctlDrainNodegroupOptions`                         |
+| `eksctl enable`                                      | `EksctlEnableOptions`                                 |
+| `eksctl enable flux`                                 | `EksctlEnableFluxOptions`                             |
+| `eksctl get`                                         | `EksctlGetOptions`                                    |
+| `eksctl get accessentry`                             | `EksctlGetAccessentryOptions`                         |
+| `eksctl get addon`                                   | `EksctlGetAddonOptions`                               |
+| `eksctl get capability`                              | `EksctlGetCapabilityOptions`                          |
+| `eksctl get cluster`                                 | `EksctlGetClusterOptions`                             |
+| `eksctl get fargateprofile`                          | `EksctlGetFargateprofileOptions`                      |
+| `eksctl get iamidentitymapping`                      | `EksctlGetIamidentitymappingOptions`                  |
+| `eksctl get iamserviceaccount`                       | `EksctlGetIamserviceaccountOptions`                   |
+| `eksctl get identityprovider`                        | `EksctlGetIdentityproviderOptions`                    |
+| `eksctl get labels`                                  | `EksctlGetLabelsOptions`                              |
+| `eksctl get nodegroup`                               | `EksctlGetNodegroupOptions`                           |
+| `eksctl get podidentityassociation`                  | `EksctlGetPodidentityassociationOptions`              |
+| `eksctl register`                                    | `EksctlRegisterOptions`                               |
+| `eksctl register cluster`                            | `EksctlRegisterClusterOptions`                        |
+| `eksctl scale`                                       | `EksctlScaleOptions`                                  |
+| `eksctl scale nodegroup`                             | `EksctlScaleNodegroupOptions`                         |
+| `eksctl set`                                         | `EksctlSetOptions`                                    |
+| `eksctl set labels`                                  | `EksctlSetLabelsOptions`                              |
+| `eksctl unset`                                       | `EksctlUnsetOptions`                                  |
+| `eksctl unset labels`                                | `EksctlUnsetLabelsOptions`                            |
+| `eksctl update`                                      | `EksctlUpdateOptions`                                 |
+| `eksctl update addon`                                | `EksctlUpdateAddonOptions`                            |
+| `eksctl update auto-mode-config`                     | `EksctlUpdateAutoModeConfigOptions`                   |
+| `eksctl update capability`                           | `EksctlUpdateCapabilityOptions`                       |
+| `eksctl update cluster`                              | `EksctlUpdateClusterOptions`                          |
+| `eksctl update iamserviceaccount`                    | `EksctlUpdateIamserviceaccountOptions`                |
+| `eksctl update nodegroup`                            | `EksctlUpdateNodegroupOptions`                        |
+| `eksctl update podidentityassociation`               | `EksctlUpdatePodidentityassociationOptions`           |
+| `eksctl upgrade`                                     | `EksctlUpgradeOptions`                                |
+| `eksctl upgrade cluster`                             | `EksctlUpgradeClusterOptions`                         |
+| `eksctl upgrade nodegroup`                           | `EksctlUpgradeNodegroupOptions`                       |
+| `eksctl utils`                                       | `EksctlUtilsOptions`                                  |
+| `eksctl utils associate-iam-oidc-provider`           | `EksctlUtilsAssociateIamOidcProviderOptions`          |
+| `eksctl utils describe-addon-configuration`          | `EksctlUtilsDescribeAddonConfigurationOptions`        |
+| `eksctl utils describe-addon-versions`               | `EksctlUtilsDescribeAddonVersionsOptions`             |
+| `eksctl utils describe-cluster-versions`             | `EksctlUtilsDescribeClusterVersionsOptions`           |
+| `eksctl utils describe-stacks`                       | `EksctlUtilsDescribeStacksOptions`                    |
+| `eksctl utils enable-secrets-encryption`             | `EksctlUtilsEnableSecretsEncryptionOptions`           |
+| `eksctl utils install-vpc-controllers`               | `EksctlUtilsInstallVpcControllersOptions`             |
+| `eksctl utils migrate-to-access-entry`               | `EksctlUtilsMigrateToAccessEntryOptions`              |
+| `eksctl utils migrate-to-pod-identity`               | `EksctlUtilsMigrateToPodIdentityOptions`              |
+| `eksctl utils nodegroup-health`                      | `EksctlUtilsNodegroupHealthOptions`                   |
+| `eksctl utils schema`                                | `EksctlUtilsSchemaOptions`                            |
+| `eksctl utils set-public-access-cidrs`               | `EksctlUtilsSetPublicAccessCidrsOptions`              |
+| `eksctl utils update-authentication-mode`            | `EksctlUtilsUpdateAuthenticationModeOptions`          |
+| `eksctl utils update-aws-node`                       | `EksctlUtilsUpdateAwsNodeOptions`                     |
+| `eksctl utils update-cluster-endpoints`              | `EksctlUtilsUpdateClusterEndpointsOptions`            |
+| `eksctl utils update-cluster-logging`                | `EksctlUtilsUpdateClusterLoggingOptions`              |
+| `eksctl utils update-cluster-vpc-config`             | `EksctlUtilsUpdateClusterVpcConfigOptions`            |
+| `eksctl utils update-control-plane-component-config` | `EksctlUtilsUpdateControlPlaneComponentConfigOptions` |
+| `eksctl utils update-coredns`                        | `EksctlUtilsUpdateCorednsOptions`                     |
+| `eksctl utils update-kube-proxy`                     | `EksctlUtilsUpdateKubeProxyOptions`                   |
+| `eksctl utils update-legacy-subnet-settings`         | `EksctlUtilsUpdateLegacySubnetSettingsOptions`        |
+| `eksctl utils update-zonal-shift-config`             | `EksctlUtilsUpdateZonalShiftConfigOptions`            |
+| `eksctl utils write-kubeconfig`                      | `EksctlUtilsWriteKubeconfigOptions`                   |

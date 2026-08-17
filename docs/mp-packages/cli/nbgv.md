@@ -1,0 +1,71 @@
+# nbgv CLI reference
+
+`ModularPipelines.NerdbankGitVersioning` provides strongly typed access to the `nbgv` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `nbgv` executable. Install it separately and ensure `nbgv` is available on `PATH`.
+
+The generation workflow is pinned to `nbgv` version `3.10.91`.
+
+See the [nbgv installation guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html).
+
+Install the nbgv .NET tool globally or in a tool path available on PATH.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.NerdbankGitVersioning
+```
+
+Import `ModularPipelines.NerdbankGitVersioning.Extensions`, then resolve the service with `context.Nbgv()`.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+```
+using ModularPipelines.Context;
+
+using ModularPipelines.Models;
+
+using ModularPipelines.Modules;
+
+using ModularPipelines.NerdbankGitVersioning.Extensions;
+
+using ModularPipelines.NerdbankGitVersioning.Options;
+
+
+
+public class RunCommandModule : Module<CommandResult>
+
+{
+
+    protected override async Task<CommandResult?> ExecuteAsync(
+
+        IModuleContext context,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        return await context.Nbgv().GetVersion(
+
+            new NbgvGetVersionOptions(),
+
+            cancellationToken: cancellationToken);
+
+    }
+
+}
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command            | Options record              |
+| ---------------------- | --------------------------- |
+| `nbgv cloud`           | `NbgvCloudOptions`          |
+| `nbgv get-commits`     | `NbgvGetCommitsOptions`     |
+| `nbgv get-version`     | `NbgvGetVersionOptions`     |
+| `nbgv install`         | `NbgvInstallOptions`        |
+| `nbgv prepare-release` | `NbgvPrepareReleaseOptions` |
+| `nbgv set-version`     | `NbgvSetVersionOptions`     |
+| `nbgv tag`             | `NbgvTagOptions`            |

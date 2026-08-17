@@ -1,0 +1,177 @@
+# gh CLI reference
+
+`ModularPipelines.GitHub` provides strongly typed access to the `gh` CLI.
+
+## Installation[​](#installation "Direct link to Installation")
+
+```
+dotnet add package ModularPipelines.GitHub
+```
+
+Import `ModularPipelines.GitHub.Extensions`, then resolve the service with `context.Gh()`.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+```
+using ModularPipelines.Context;
+
+using ModularPipelines.Models;
+
+using ModularPipelines.Modules;
+
+using ModularPipelines.GitHub.Extensions;
+
+using ModularPipelines.GitHub.Options;
+
+
+
+public class RunCommandModule : Module<CommandResult>
+
+{
+
+    protected override async Task<CommandResult?> ExecuteAsync(
+
+        IModuleContext context,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        return await context.Gh().Browse(
+
+            new GhBrowseOptions(),
+
+            cancellationToken: cancellationToken);
+
+    }
+
+}
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                     | Options record                      |
+| ------------------------------- | ----------------------------------- |
+| `gh agent-task create`          | `GhAgentTaskCreateOptions`          |
+| `gh agent-task list`            | `GhAgentTaskListOptions`            |
+| `gh agent-task view`            | `GhAgentTaskViewOptions`            |
+| `gh api`                        | `GhApiOptions`                      |
+| `gh attestation download`       | `GhAttestationDownloadOptions`      |
+| `gh attestation trusted-root`   | `GhAttestationTrustedRootOptions`   |
+| `gh attestation verify`         | `GhAttestationVerifyOptions`        |
+| `gh auth login`                 | `GhAuthLoginOptions`                |
+| `gh auth logout`                | `GhAuthLogoutOptions`               |
+| `gh auth refresh`               | `GhAuthRefreshOptions`              |
+| `gh auth setup-git`             | `GhAuthSetupGitOptions`             |
+| `gh auth status`                | `GhAuthStatusOptions`               |
+| `gh auth switch`                | `GhAuthSwitchOptions`               |
+| `gh auth token`                 | `GhAuthTokenOptions`                |
+| `gh browse`                     | `GhBrowseOptions`                   |
+| `gh cache delete`               | `GhCacheDeleteOptions`              |
+| `gh cache list`                 | `GhCacheListOptions`                |
+| `gh codespace code`             | `GhCodespaceCodeOptions`            |
+| `gh codespace cp`               | `GhCodespaceCpOptions`              |
+| `gh codespace create`           | `GhCodespaceCreateOptions`          |
+| `gh codespace delete`           | `GhCodespaceDeleteOptions`          |
+| `gh codespace edit`             | `GhCodespaceEditOptions`            |
+| `gh codespace jupyter`          | `GhCodespaceJupyterOptions`         |
+| `gh codespace list`             | `GhCodespaceListOptions`            |
+| `gh codespace logs`             | `GhCodespaceLogsOptions`            |
+| `gh codespace ports`            | `GhCodespacePortsOptions`           |
+| `gh codespace ports forward`    | `GhCodespacePortsForwardOptions`    |
+| `gh codespace ports visibility` | `GhCodespacePortsVisibilityOptions` |
+| `gh codespace rebuild`          | `GhCodespaceRebuildOptions`         |
+| `gh codespace ssh`              | `GhCodespaceSshOptions`             |
+| `gh codespace stop`             | `GhCodespaceStopOptions`            |
+| `gh codespace view`             | `GhCodespaceViewOptions`            |
+| `gh config clear-cache`         | `GhConfigClearCacheOptions`         |
+| `gh config get`                 | `GhConfigGetOptions`                |
+| `gh config list`                | `GhConfigListOptions`               |
+| `gh config set`                 | `GhConfigSetOptions`                |
+| `gh copilot`                    | `GhCopilotOptions`                  |
+| `gh discussion`                 | `GhDiscussionOptions`               |
+| `gh extension browse`           | `GhExtensionBrowseOptions`          |
+| `gh extension create`           | `GhExtensionCreateOptions`          |
+| `gh extension install`          | `GhExtensionInstallOptions`         |
+| `gh extension list`             | `GhExtensionListOptions`            |
+| `gh extension remove`           | `GhExtensionRemoveOptions`          |
+| `gh extension search`           | `GhExtensionSearchOptions`          |
+| `gh extension upgrade`          | `GhExtensionUpgradeOptions`         |
+| `gh gist clone`                 | `GhGistCloneOptions`                |
+| `gh gist create`                | `GhGistCreateOptions`               |
+| `gh gist delete`                | `GhGistDeleteOptions`               |
+| `gh gist edit`                  | `GhGistEditOptions`                 |
+| `gh gist list`                  | `GhGistListOptions`                 |
+| `gh gist rename`                | `GhGistRenameOptions`               |
+| `gh gist view`                  | `GhGistViewOptions`                 |
+| `gh gpg-key add`                | `GhGpgKeyAddOptions`                |
+| `gh gpg-key delete`             | `GhGpgKeyDeleteOptions`             |
+| `gh gpg-key list`               | `GhGpgKeyListOptions`               |
+| `gh issue`                      | `GhIssueOptions`                    |
+| `gh label clone`                | `GhLabelCloneOptions`               |
+| `gh label create`               | `GhLabelCreateOptions`              |
+| `gh label delete`               | `GhLabelDeleteOptions`              |
+| `gh label edit`                 | `GhLabelEditOptions`                |
+| `gh label list`                 | `GhLabelListOptions`                |
+| `gh licenses`                   | `GhLicensesOptions`                 |
+| `gh org`                        | `GhOrgOptions`                      |
+| `gh pr`                         | `GhPrOptions`                       |
+| `gh preview prompter`           | `GhPreviewPrompterOptions`          |
+| `gh project close`              | `GhProjectCloseOptions`             |
+| `gh project copy`               | `GhProjectCopyOptions`              |
+| `gh project create`             | `GhProjectCreateOptions`            |
+| `gh project delete`             | `GhProjectDeleteOptions`            |
+| `gh project edit`               | `GhProjectEditOptions`              |
+| `gh project field-create`       | `GhProjectFieldCreateOptions`       |
+| `gh project field-delete`       | `GhProjectFieldDeleteOptions`       |
+| `gh project field-list`         | `GhProjectFieldListOptions`         |
+| `gh project item-add`           | `GhProjectItemAddOptions`           |
+| `gh project item-archive`       | `GhProjectItemArchiveOptions`       |
+| `gh project item-create`        | `GhProjectItemCreateOptions`        |
+| `gh project item-delete`        | `GhProjectItemDeleteOptions`        |
+| `gh project item-edit`          | `GhProjectItemEditOptions`          |
+| `gh project item-list`          | `GhProjectItemListOptions`          |
+| `gh project link`               | `GhProjectLinkOptions`              |
+| `gh project list`               | `GhProjectListOptions`              |
+| `gh project mark-template`      | `GhProjectMarkTemplateOptions`      |
+| `gh project unlink`             | `GhProjectUnlinkOptions`            |
+| `gh project view`               | `GhProjectViewOptions`              |
+| `gh release`                    | `GhReleaseOptions`                  |
+| `gh repo`                       | `GhRepoOptions`                     |
+| `gh ruleset check`              | `GhRulesetCheckOptions`             |
+| `gh ruleset list`               | `GhRulesetListOptions`              |
+| `gh ruleset view`               | `GhRulesetViewOptions`              |
+| `gh run cancel`                 | `GhRunCancelOptions`                |
+| `gh run delete`                 | `GhRunDeleteOptions`                |
+| `gh run download`               | `GhRunDownloadOptions`              |
+| `gh run list`                   | `GhRunListOptions`                  |
+| `gh run rerun`                  | `GhRunRerunOptions`                 |
+| `gh run view`                   | `GhRunViewOptions`                  |
+| `gh run watch`                  | `GhRunWatchOptions`                 |
+| `gh search code`                | `GhSearchCodeOptions`               |
+| `gh search commits`             | `GhSearchCommitsOptions`            |
+| `gh search issues`              | `GhSearchIssuesOptions`             |
+| `gh search prs`                 | `GhSearchPrsOptions`                |
+| `gh search repos`               | `GhSearchReposOptions`              |
+| `gh secret delete`              | `GhSecretDeleteOptions`             |
+| `gh secret list`                | `GhSecretListOptions`               |
+| `gh secret set`                 | `GhSecretSetOptions`                |
+| `gh skill install`              | `GhSkillInstallOptions`             |
+| `gh skill list`                 | `GhSkillListOptions`                |
+| `gh skill preview`              | `GhSkillPreviewOptions`             |
+| `gh skill publish`              | `GhSkillPublishOptions`             |
+| `gh skill search`               | `GhSkillSearchOptions`              |
+| `gh skill update`               | `GhSkillUpdateOptions`              |
+| `gh ssh-key add`                | `GhSshKeyAddOptions`                |
+| `gh ssh-key delete`             | `GhSshKeyDeleteOptions`             |
+| `gh ssh-key list`               | `GhSshKeyListOptions`               |
+| `gh status`                     | `GhStatusOptions`                   |
+| `gh variable delete`            | `GhVariableDeleteOptions`           |
+| `gh variable get`               | `GhVariableGetOptions`              |
+| `gh variable list`              | `GhVariableListOptions`             |
+| `gh variable set`               | `GhVariableSetOptions`              |
+| `gh workflow disable`           | `GhWorkflowDisableOptions`          |
+| `gh workflow enable`            | `GhWorkflowEnableOptions`           |
+| `gh workflow list`              | `GhWorkflowListOptions`             |
+| `gh workflow run`               | `GhWorkflowRunOptions`              |
+| `gh workflow view`              | `GhWorkflowViewOptions`             |

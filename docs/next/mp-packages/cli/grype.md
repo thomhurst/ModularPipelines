@@ -1,0 +1,42 @@
+# grype CLI reference
+
+`ModularPipelines.Grype` provides strongly typed access to the `grype` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `grype` executable. Install it separately and ensure `grype` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Grype
+```
+
+Resolve the service with `context.Tools.Grype`. For projects older than C# 14, import `ModularPipelines.Grype.Extensions` and use the `context.Grype()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var grype = context.Tools.Grype;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command            | Options record             |
+| ---------------------- | -------------------------- |
+| `grype db`             | `GrypeDbOptions`           |
+| `grype db check`       | `GrypeDbCheckOptions`      |
+| `grype db delete`      | `GrypeDbDeleteOptions`     |
+| `grype db diff`        | `GrypeDbDiffOptions`       |
+| `grype db import`      | `GrypeDbImportOptions`     |
+| `grype db list`        | `GrypeDbListOptions`       |
+| `grype db providers`   | `GrypeDbProvidersOptions`  |
+| `grype db search`      | `GrypeDbSearchOptions`     |
+| `grype db search vuln` | `GrypeDbSearchVulnOptions` |
+| `grype db status`      | `GrypeDbStatusOptions`     |
+| `grype db update`      | `GrypeDbUpdateOptions`     |
+| `grype explain`        | `GrypeExplainOptions`      |

@@ -1,0 +1,75 @@
+# kustomize CLI reference
+
+`ModularPipelines.Kubernetes` provides strongly typed access to the `kustomize` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `kustomize` executable. Install it separately and ensure `kustomize` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Kubernetes
+```
+
+Resolve the service with `context.Tools.Kustomize`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kustomize()` extension method as a compatibility fallback.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var kustomize = context.Tools.Kustomize;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                                | Options record                               |
+| ------------------------------------------ | -------------------------------------------- |
+| `kustomize build`                          | `KustomizeBuildOptions`                      |
+| `kustomize cfg`                            | `KustomizeCfgOptions`                        |
+| `kustomize cfg cat`                        | `KustomizeCfgCatOptions`                     |
+| `kustomize cfg count`                      | `KustomizeCfgCountOptions`                   |
+| `kustomize cfg grep`                       | `KustomizeCfgGrepOptions`                    |
+| `kustomize cfg tree`                       | `KustomizeCfgTreeOptions`                    |
+| `kustomize create`                         | `KustomizeCreateOptions`                     |
+| `kustomize edit`                           | `KustomizeEditOptions`                       |
+| `kustomize edit add`                       | `KustomizeEditAddOptions`                    |
+| `kustomize edit add annotation`            | `KustomizeEditAddAnnotationOptions`          |
+| `kustomize edit add base`                  | `KustomizeEditAddBaseOptions`                |
+| `kustomize edit add buildmetadata`         | `KustomizeEditAddBuildmetadataOptions`       |
+| `kustomize edit add component`             | `KustomizeEditAddComponentOptions`           |
+| `kustomize edit add configmap`             | `KustomizeEditAddConfigmapOptions`           |
+| `kustomize edit add generator`             | `KustomizeEditAddGeneratorOptions`           |
+| `kustomize edit add label`                 | `KustomizeEditAddLabelOptions`               |
+| `kustomize edit add patch`                 | `KustomizeEditAddPatchOptions`               |
+| `kustomize edit add resource`              | `KustomizeEditAddResourceOptions`            |
+| `kustomize edit add secret`                | `KustomizeEditAddSecretOptions`              |
+| `kustomize edit add transformer`           | `KustomizeEditAddTransformerOptions`         |
+| `kustomize edit alpha-list-builtin-plugin` | `KustomizeEditAlphaListBuiltinPluginOptions` |
+| `kustomize edit fix`                       | `KustomizeEditFixOptions`                    |
+| `kustomize edit remove`                    | `KustomizeEditRemoveOptions`                 |
+| `kustomize edit remove annotation`         | `KustomizeEditRemoveAnnotationOptions`       |
+| `kustomize edit remove buildmetadata`      | `KustomizeEditRemoveBuildmetadataOptions`    |
+| `kustomize edit remove configmap`          | `KustomizeEditRemoveConfigmapOptions`        |
+| `kustomize edit remove label`              | `KustomizeEditRemoveLabelOptions`            |
+| `kustomize edit remove patch`              | `KustomizeEditRemovePatchOptions`            |
+| `kustomize edit remove resource`           | `KustomizeEditRemoveResourceOptions`         |
+| `kustomize edit remove secret`             | `KustomizeEditRemoveSecretOptions`           |
+| `kustomize edit remove transformer`        | `KustomizeEditRemoveTransformerOptions`      |
+| `kustomize edit set`                       | `KustomizeEditSetOptions`                    |
+| `kustomize edit set annotation`            | `KustomizeEditSetAnnotationOptions`          |
+| `kustomize edit set buildmetadata`         | `KustomizeEditSetBuildmetadataOptions`       |
+| `kustomize edit set configmap`             | `KustomizeEditSetConfigmapOptions`           |
+| `kustomize edit set image`                 | `KustomizeEditSetImageOptions`               |
+| `kustomize edit set label`                 | `KustomizeEditSetLabelOptions`               |
+| `kustomize edit set nameprefix`            | `KustomizeEditSetNameprefixOptions`          |
+| `kustomize edit set namespace`             | `KustomizeEditSetNamespaceOptions`           |
+| `kustomize edit set namesuffix`            | `KustomizeEditSetNamesuffixOptions`          |
+| `kustomize edit set replicas`              | `KustomizeEditSetReplicasOptions`            |
+| `kustomize edit set secret`                | `KustomizeEditSetSecretOptions`              |
+| `kustomize fn`                             | `KustomizeFnOptions`                         |
+| `kustomize fn run`                         | `KustomizeFnRunOptions`                      |
+| `kustomize localize`                       | `KustomizeLocalizeOptions`                   |
