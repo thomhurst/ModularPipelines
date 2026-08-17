@@ -432,6 +432,26 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Machine_Init_Retains_Removed_Compatibility_Properties()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman machine init [options] [NAME]";
+
+        var definition = await scraper.Parse(["podman", "machine", "init"], helpText);
+        var properties = definition!.CompatibilityProperties.ToDictionary(property => property.PropertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(properties.Keys).IsEquivalentTo(["ImagePath", "VolumeDriver"]);
+            await Assert.That(properties["ImagePath"].CSharpType).IsEqualTo("string?");
+            await Assert.That(properties["ImagePath"].ForwardToPropertyName).IsEqualTo("Image");
+            await Assert.That(properties["VolumeDriver"].CSharpType).IsEqualTo("string?");
+            await Assert.That(properties["VolumeDriver"].ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """

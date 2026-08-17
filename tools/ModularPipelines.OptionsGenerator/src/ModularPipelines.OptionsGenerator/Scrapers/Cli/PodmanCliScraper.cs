@@ -45,6 +45,23 @@ public partial class PodmanCliScraper : CobraCliScraper
         },
     ];
 
+    private static readonly IReadOnlyList<CliCompatibilityProperty> MachineInitCompatibilityProperties =
+    [
+        new CliCompatibilityProperty
+        {
+            PropertyName = "ImagePath",
+            CSharpType = "string?",
+            ForwardToPropertyName = "Image",
+            ObsoleteMessage = "Use Image instead.",
+        },
+        new CliCompatibilityProperty
+        {
+            PropertyName = "VolumeDriver",
+            CSharpType = "string?",
+            ObsoleteMessage = "Podman no longer supports --volume-driver and this property has no effect.",
+        },
+    ];
+
     public PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -207,6 +224,7 @@ public partial class PodmanCliScraper : CobraCliScraper
         string[] commandParts) => string.Join(' ', commandParts) switch
         {
             "generate kube" or "kube generate" or "kube play" => NoTruncCompatibilityProperties,
+            "machine init" => MachineInitCompatibilityProperties,
             "machine rm" => SaveKeysCompatibilityProperties,
             _ => [],
         };
