@@ -81,6 +81,10 @@ public class SubDomainClassGenerator : ICodeGenerator
         IReadOnlyList<CliCommandGroupAlias> commandGroupAliases,
         CliCommandDefinition? parentCommand = null)
     {
+        parentCommand ??= tool.Commands.FirstOrDefault(command =>
+            command.PreserveExecuteFacade
+            && command.ClassName.Equals($"{node.ClassName}Options", StringComparison.Ordinal));
+
         // Build map of commands that collide with child property names
         // These will become ExecuteAsync() methods on the child classes instead
         var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
@@ -96,7 +100,9 @@ public class SubDomainClassGenerator : ICodeGenerator
             }
         }
 
-        var excludedCommands = collidingCommands.Values.ToHashSet();
+        var excludedCommands = collidingCommands.Values
+            .Where(static command => !command.PreserveNamedFacade)
+            .ToHashSet();
 
         // Generate the command represented by this node as ExecuteAsync(). Root nodes receive
         // their top-level command; nested nodes receive a command that collided with the
@@ -409,7 +415,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             tool,
             alias,
             command.ClassName);
-        return GeneratorUtils.HasRequiredParameters(command)
+        return GeneratorUtils.RequiresOptionsParameter(command)
             ? $"{aliasOptionsClassName} options"
             : $"{aliasOptionsClassName}? options = null";
     }

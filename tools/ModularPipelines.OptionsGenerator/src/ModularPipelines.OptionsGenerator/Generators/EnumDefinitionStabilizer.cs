@@ -4,7 +4,7 @@ using ModularPipelines.OptionsGenerator.Models;
 namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
-/// Preserves the public numeric contract of generated enums across regeneration.
+/// Preserves generated enum members, CLI values, and numeric values across regeneration.
 /// </summary>
 internal static partial class EnumDefinitionStabilizer
 {
@@ -43,6 +43,9 @@ internal static partial class EnumDefinitionStabilizer
         {
             Commands = commands,
             GlobalOptions = StabilizeOptions(tool.GlobalOptions, stabilizedEnums),
+            CompatibilityEnums = tool.CompatibilityEnums
+                .Select(definition => stabilizedEnums[definition.EnumName])
+                .ToList(),
         };
     }
 
@@ -61,14 +64,30 @@ internal static partial class EnumDefinitionStabilizer
     {
         ValidateValues(definition);
 
+        var existingValues = ReadExistingValues(existingFile, fallbackExistingFile);
+        var stabilizedValues = PreserveExistingValues(definition, existingValues);
+        AppendNewValues(definition, existingValues, stabilizedValues);
+
+        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
+        return definition with { Values = stabilizedValues };
+    }
+
+    private static IReadOnlyList<ExistingEnumValue> ReadExistingValues(
+        string existingFile,
+        string? fallbackExistingFile)
+    {
         var baselineFile = File.Exists(existingFile)
             ? existingFile
             : fallbackExistingFile;
-        var existingValues = baselineFile is not null && File.Exists(baselineFile)
+        return baselineFile is not null && File.Exists(baselineFile)
             ? ParseExistingValues(File.ReadAllText(baselineFile))
             : [];
+    }
 
-        var existingByCliValue = existingValues.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
+    private static List<CliEnumValue> PreserveExistingValues(
+        CliEnumDefinition definition,
+        IReadOnlyList<ExistingEnumValue> existingValues)
+    {
         var incomingByCliValue = definition.Values.ToDictionary(value => value.CliValue, StringComparer.Ordinal);
         var stabilizedValues = new List<CliEnumValue>(definition.Values.Count);
 
@@ -81,14 +100,43 @@ internal static partial class EnumDefinitionStabilizer
                     MemberName = existingValue.MemberName,
                     NumericValue = existingValue.NumericValue,
                 });
+                continue;
             }
+
+            var reusedMember = definition.Values.FirstOrDefault(value => value.MemberName.Equals(
+                existingValue.MemberName,
+                StringComparison.Ordinal));
+            if (reusedMember is not null)
+            {
+                throw new InvalidOperationException(
+                    $"Enum '{definition.EnumName}' member '{existingValue.MemberName}' changed CLI value from "
+                    + $"'{existingValue.CliValue}' to '{reusedMember.CliValue}'.");
+            }
+
+            stabilizedValues.Add(new CliEnumValue
+            {
+                MemberName = existingValue.MemberName,
+                CliValue = existingValue.CliValue,
+                NumericValue = existingValue.NumericValue,
+            });
         }
 
+        return stabilizedValues;
+    }
+
+    private static void AppendNewValues(
+        CliEnumDefinition definition,
+        IReadOnlyList<ExistingEnumValue> existingValues,
+        List<CliEnumValue> stabilizedValues)
+    {
+        var existingCliValues = existingValues
+            .Select(value => value.CliValue)
+            .ToHashSet(StringComparer.Ordinal);
         var usedNumericValues = existingValues
             .Select(value => value.NumericValue)
             .ToHashSet();
         var newValues = definition.Values
-            .Where(value => !existingByCliValue.ContainsKey(value.CliValue))
+            .Where(value => !existingCliValues.Contains(value.CliValue))
             .ToList();
         var nextNumericValue = newValues.Count > 0 && usedNumericValues.Count > 0
             ? checked(usedNumericValues.Max() + 1)
@@ -109,9 +157,6 @@ internal static partial class EnumDefinitionStabilizer
                 nextNumericValue = checked(nextNumericValue + 1);
             }
         }
-
-        ValidateUniqueMemberNames(definition.EnumName, stabilizedValues);
-        return definition with { Values = stabilizedValues };
     }
 
     private static void ValidateValues(CliEnumDefinition definition)
@@ -123,6 +168,15 @@ internal static partial class EnumDefinitionStabilizer
         {
             throw new InvalidOperationException(
                 $"Enum '{definition.EnumName}' contains duplicate CLI value '{duplicateCliValue.Key}'.");
+        }
+
+        var duplicateMember = definition.Values
+            .GroupBy(value => value.MemberName, StringComparer.Ordinal)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateMember is not null)
+        {
+            throw new InvalidOperationException(
+                $"Enum '{definition.EnumName}' contains duplicate member '{duplicateMember.Key}'.");
         }
 
         var suspiciousValue = definition.Values

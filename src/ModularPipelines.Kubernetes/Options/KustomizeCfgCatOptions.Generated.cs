@@ -23,6 +23,13 @@ public record KustomizeCfgCatOptions(
 ) : KustomizeOptions
 {
     /// <summary>
+    /// Creates compatibility options without the newly required directory operand.
+    /// </summary>
+    public KustomizeCfgCatOptions() : this(string.Empty)
+    {
+    }
+
+    /// <summary>
     /// annotate resources with their file origins.
     /// </summary>
     [CliFlag("--annotate")]

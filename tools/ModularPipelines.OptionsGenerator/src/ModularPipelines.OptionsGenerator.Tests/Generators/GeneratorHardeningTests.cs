@@ -100,6 +100,35 @@ public class GeneratorHardeningTests
             Commands = commands,
         };
 
+    private static GeneratedApiProperty BaselineProperty(
+        string propertyName,
+        string cSharpType,
+        string? switchName = null,
+        int? argumentPosition = null,
+        bool isRequired = false,
+        bool isCompatibility = false,
+        string? forwardToPropertyName = null,
+        bool useInitAccessor = false) =>
+        new(
+            propertyName,
+            cSharpType,
+            switchName,
+            argumentPosition,
+            isRequired,
+            isCompatibility,
+            forwardToPropertyName,
+            null,
+            useInitAccessor);
+
+    private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
+        new()
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = "string",
+            IsRequired = true,
+        };
+
     [Test]
     public async Task Command_Facade_Generation_Can_Be_Disabled_Independently_Of_Options()
     {
@@ -784,6 +813,1195 @@ public class GeneratorHardeningTests
 
         using (Assert.Multiple())
         {
+            await Assert.That(generated).Contains("get => CliArguments;");
+            await Assert.That(generated).Contains("set => CliArguments = value;");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Removed_Scraped_Options()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions", ["build"]);
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("RemovedFlag", "bool?", switchName: "--removed-flag")]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
+            await Assert.That(generated).Contains("RemovedFlag is no longer supported");
+            await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Positional_Names()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Dep",
+                    CSharpType = "IEnumerable<string>",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "DepVersion",
+                "IEnumerable<string>",
+                argumentPosition: 0,
+                isRequired: true)]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("IEnumerable<string> DepVersion");
+            await Assert.That(generated).Contains("public IEnumerable<string> Dep");
+            await Assert.That(generated).Contains("get => DepVersion;");
+            await Assert.That(generated).Contains("init => DepVersion = value;");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Scalar_To_Collection_Changes()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--command-options",
+                    PropertyName = "CommandOptions",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.CommandOptions changed type from string? to IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Renamed_Scalar_To_Collection_Changes()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--command-options",
+                    PropertyName = "CommandOptionValues",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("changed type from string? to IEnumerable<string>? while being renamed");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reassigned_Property_Names()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--different",
+                    PropertyName = "CommandOptions",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.CommandOptions changed CLI switch or argument position");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Different_Type()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--restored",
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Cli_Identity()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--restored",
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag changed CLI switch or argument position");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Property_Type()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "string?",
+                    ObsoleteMessage = "Still retained.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag compatibility property changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Forwarding()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "OldName",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "DifferentName",
+                    ObsoleteMessage = "Use DifferentName.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [
+                    BaselineProperty(
+                        "OldName",
+                        "string?",
+                        isCompatibility: true,
+                        forwardToPropertyName: "CurrentName"),
+                ]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.OldName compatibility property changed forwarding target from CurrentName to DifferentName");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Uses_The_Emitted_Optional_Value_Type()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--progress",
+                    PropertyName = "Progress",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Progress", "string?", switchName: "--progress")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolRunOptions.Progress changed type from string? to CliOptionValue?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Optional_Member_Becoming_Required()
+    {
+        var command = Command("ToolNewOptions", "ToolOptions", ["new"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Name",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Name", "string", argumentPosition: 0)]));
+
+        await Assert.That(exception.Message)
+            .Contains("Name changed from optional to required and would remove its public setter");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Constructor_Order()
+    {
+        var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--second",
+                    PropertyName = "Second",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--first",
+                    PropertyName = "First",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("First", "string", switchName: "--first", isRequired: true),
+                BaselineProperty("Second", "string", switchName: "--second", isRequired: true),
+            ]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        await Assert.That(generated.IndexOf("string First", StringComparison.Ordinal))
+            .IsLessThan(generated.IndexOf("string Second", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Old_Deconstruct_Arity_For_New_Required_Members()
+    {
+        var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--source",
+                    PropertyName = "Source",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--destination",
+                    PropertyName = "Destination",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("Source", "string", switchName: "--source", isRequired: true)]));
+
+        await Assert.That(exception.Message).Contains("newly required member(s) Destination have no baseline value");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Required_Member_Demoted_To_Optional()
+    {
+        var command = Command("ToolDiffOptions", "ToolOptions", ["diff"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Target",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Target", "string", argumentPosition: 0, isRequired: true)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        await Assert.That(generated).Contains("string Target");
+        await Assert.That(generated).DoesNotContain("public string? Target");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Positional_Operands()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                Command("ToolInstallOptions", "ToolOptions", ["install"]),
+                [BaselineProperty("Name", "string?", argumentPosition: 1)]));
+
+        await Assert.That(exception.Message).Contains("Name positional argument was removed");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Required_Members()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                Command("ToolAddOptions", "ToolOptions", ["add"]),
+                [BaselineProperty(
+                    "Package",
+                    "string",
+                    argumentPosition: 0,
+                    isRequired: true)]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolAddOptions.Package positional argument was removed");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Constructor_Preservation_When_Required_Member_Is_Added()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Package",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(command, []));
+
+        await Assert.That(exception.Message).Contains("newly required member(s) Package have no baseline value");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Previously_Generated_Secondary_Constructors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions([property: CliArgument(0)] string Package) "
+                + "{ public ToolAddOptions() : this(default!) { } }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var generated = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+
+            await Assert.That(generated).Contains("public ToolAddOptions()");
+            await Assert.That(generated).Contains(": this(default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Retain_Nullability_Only_Constructor_Duplicates()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions([property: CliArgument(0)] string Package) "
+                + "{ public ToolAddOptions(string? LegacyPackage) : this(LegacyPackage!) { } }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var generated = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+
+            await Assert.That(generated).DoesNotContain("public ToolAddOptions(string? LegacyPackage)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Deconstruct_Preservation_For_New_Required_Members()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolMoveOptions.Generated.cs"),
+                "public record ToolMoveOptions([property: CliOption(\"--source\")] string Source, "
+                + "[property: CliOption(\"--destination\")] string Destination) "
+                + "{ public ToolMoveOptions(string Source) : this(Source, default!) { } "
+                + "public void Deconstruct(out string Source) { Source = this.Source; } }");
+            var command = Command("ToolMoveOptions", "ToolOptions", ["move"]) with
+            {
+                Options =
+                [
+                    RequiredOption("--source", "Source"),
+                    RequiredOption("--destination", "Destination"),
+                    RequiredOption("--force", "Force"),
+                ],
+            };
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root));
+
+            await Assert.That(exception.Message).Contains("newly required member(s) Force have no baseline value");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Execute_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolEditAddOptions.Generated.cs"),
+                "public record ToolEditAddOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolEditAdd.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolEditAdd { public Task ExecuteAsync(ToolEditAddOptions? options = null) => Task.CompletedTask; }");
+            var parent = Command(
+                "ToolEditAddOptions",
+                "ToolOptions",
+                ["edit", "add"],
+                subDomainGroup: "edit");
+            var child = Command(
+                "ToolEditAddSecretOptions",
+                "ToolOptions",
+                ["edit", "add", "secret"],
+                subDomainGroup: "edit");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(parent, child), root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith(
+                    "ToolEditAdd.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            await Assert.That(generated).Contains("Task<CommandResult> ExecuteAsync(");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Removed_Command_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolRemovedOptions.Generated.cs"),
+                "public record ToolRemovedOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task RemovedAsync(ToolRemovedOptions? options = null) => Task.CompletedTask; }");
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(
+                    Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                    root));
+
+            await Assert.That(exception.Message)
+                .Contains("ToolRemovedOptions command disappeared from generated facade");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Optional_Facade_When_Required_Member_Is_Added()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task AddAsync(ToolAddOptions? options = null) => Task.CompletedTask; }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                ],
+            };
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root));
+
+            await Assert.That(exception.Message).Contains("newly required member(s) Package have no baseline value");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Leaf_Facade_When_It_Gains_Children()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupChildOptions.Generated.cs"),
+                "public record ToolGroupChildOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroup.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolGroup { public Task ChildAsync(ToolGroupChildOptions? options = null) => Task.CompletedTask; }");
+            var child = Command(
+                "ToolGroupChildOptions",
+                "ToolOptions",
+                ["group", "child"],
+                subDomainGroup: "group");
+            var grandchild = Command(
+                "ToolGroupChildSubOptions",
+                "ToolOptions",
+                ["group", "child", "sub"],
+                subDomainGroup: "group");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(child, grandchild),
+                root);
+            var generated = await new SubDomainClassGenerator().GenerateAsync(preserved);
+            var groupFacade = generated.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolGroup.Generated.cs", StringComparison.Ordinal));
+            var childFacade = generated.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolGroupChild.Generated.cs", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(groupFacade.Content)
+                    .Contains("Task<CommandResult> ChildAsync(");
+                await Assert.That(childFacade.Content)
+                    .Contains("Task<CommandResult> ExecuteAsync(");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCurrentOptions.Generated.cs"),
+                "public record ToolCurrentOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Tool { public Task CurrentAsync(ToolCurrentOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Other.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class Other { public Task RemovedAsync(OtherRemovedOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            await Assert.That(preserved.Commands).HasSingleItem();
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Accepts_Current_Command_Group_Alias_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolBuilder.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolBuilder { public Task BakeAsync(ToolBuilderBakeOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx")) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            await Assert.That(preserved.Commands).HasSingleItem();
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Alias_Constructors_For_New_Required_Members()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions([property: CliOption(\"--source\")] string Source);");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions "
+                + "{ public ToolBuilderBakeOptions(string Source) : base(Source) { } }");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx") with
+            {
+                Options =
+                [
+                    RequiredOption("--source", "Source"),
+                    RequiredOption("--destination", "Destination"),
+                ],
+            };
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+
+            await Assert.That(exception.Message).Contains("newly required member(s) Destination have no baseline value");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Parameterless_Alias_Constructor_For_New_Required_Members()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions;");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx") with
+            {
+                Options = [RequiredOption("--source", "Source")],
+            };
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+
+            await Assert.That(exception.Message).Contains("newly required member(s) Source have no baseline value");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Alias_Enum_Properties()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        var optionsDirectory = Path.Combine(packageDirectory, "Options");
+        var enumsDirectory = Path.Combine(packageDirectory, "Enums");
+        Directory.CreateDirectory(optionsDirectory);
+        Directory.CreateDirectory(enumsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions { "
+                + "[CliOption(\"--progress\")] public ToolBuildxBakeProgress? Progress { get; set; } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions { "
+                + "[CliOption(\"--progress\")] public new ToolBuilderBakeProgress? Progress { get; set; } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "ToolBuildxBakeProgress.Generated.cs"),
+                "public enum ToolBuildxBakeProgress { [EnumValue(\"plain\")] Plain = 4 }");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "ToolBuilderBakeProgress.Generated.cs"),
+                "public enum ToolBuilderBakeProgress { [EnumValue(\"plain\")] Plain = 4 }");
+            var enumDefinition = new CliEnumDefinition
+            {
+                EnumName = "ToolBuildxBakeProgress",
+                Values =
+                [
+                    new CliEnumValue { MemberName = "Plain", CliValue = "plain" },
+                    new CliEnumValue { MemberName = "Tty", CliValue = "tty" },
+                ],
+            };
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx",
+                options:
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--progress",
+                        PropertyName = "Progress",
+                        CSharpType = "ToolBuildxBakeProgress?",
+                        EnumDefinition = enumDefinition,
+                    },
+                ]);
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generatedOptions = await new OptionsClassGenerator().GenerateAsync(preserved);
+            var generatedAlias = generatedOptions.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolBuilderBakeOptions.Generated.cs", StringComparison.Ordinal)).Content;
+            var generatedCanonical = generatedOptions.Single(file => Path.GetFileName(file.RelativePath)
+                .Equals("ToolBuildxBakeOptions.Generated.cs", StringComparison.Ordinal)).Content;
+            var generatedEnums = await new EnumGenerator().GenerateAsync(preserved);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generatedCanonical)
+                    .Contains("public ToolBuildxBakeProgress? Progress { get; set; }");
+                await Assert.That(generatedAlias)
+                    .Contains("public new ToolBuilderBakeProgress? Progress");
+                await Assert.That(generatedAlias)
+                    .Contains("(ToolBuildxBakeProgress)(int)value.Value");
+                await Assert.That(generatedEnums.Select(file => Path.GetFileName(file.RelativePath)))
+                    .Contains("ToolBuildxBakeProgress.Generated.cs");
+                await Assert.That(generatedEnums.Select(file => Path.GetFileName(file.RelativePath)))
+                    .Contains("ToolBuilderBakeProgress.Generated.cs");
+                await Assert.That(generatedEnums.Single(file => Path.GetFileName(file.RelativePath)
+                        .Equals("ToolBuilderBakeProgress.Generated.cs", StringComparison.Ordinal)).Content)
+                    .Contains("Tty");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Scopes_Enum_Baselines_To_The_Current_Tool()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        var optionsDirectory = Path.Combine(packageDirectory, "Options");
+        var enumsDirectory = Path.Combine(packageDirectory, "Enums");
+        Directory.CreateDirectory(optionsDirectory);
+        Directory.CreateDirectory(enumsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolRunOptions.Generated.cs"),
+                "public record ToolRunOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "ToolLegacy.Generated.cs"),
+                "public enum ToolLegacy { Value }");
+            await File.WriteAllTextAsync(
+                Path.Combine(enumsDirectory, "OtherLegacy.Generated.cs"),
+                "public enum OtherLegacy { Value }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolRunOptions", "ToolOptions", ["run"])),
+                root);
+
+            await Assert.That(preserved.CompatibilityEnums.Select(static definition => definition.EnumName))
+                .IsEquivalentTo(["ToolLegacy"]);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Rejects_Alias_Enum_Nullability_Changes()
+    {
+        const string aliasClassName = "ToolBuilderBakeOptions";
+        var command = Command(
+            "ToolBuildxBakeOptions",
+            "ToolOptions",
+            ["buildx", "bake"],
+            subDomainGroup: "Buildx") with
+        {
+            AliasCompatibilityProperties = new Dictionary<string, IReadOnlyList<CliAliasCompatibilityProperty>>
+            {
+                [aliasClassName] =
+                [
+                    new CliAliasCompatibilityProperty
+                    {
+                        PropertyName = "Progress",
+                        AliasCSharpType = "ToolBuilderBakeProgress?",
+                        CanonicalCSharpType = "ToolBuildxBakeProgress",
+                        ObsoleteMessage = "Use the canonical property instead.",
+                    },
+                ],
+            },
+        };
+        var tool = Tool(command) with
+        {
+            CommandGroupAliases =
+            [
+                new CliCommandGroupAlias
+                {
+                    Alias = "builder",
+                    CanonicalCommand = "buildx",
+                    ObsoleteMessage = "Use buildx instead.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            new OptionsClassGenerator().GenerateAsync(tool));
+
+        await Assert.That(exception.Message)
+            .Contains("alias property Progress because its nullability changed");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rekeys_Documentation_Examples_After_Required_Rename()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "CurrentName",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["CurrentName"] = "\"example\"",
+            },
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]);
+
+        await Assert.That(preserved.DocumentationExampleValues.Keys).IsEquivalentTo(["StableName"]);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Required_Rename_Collisions()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "CurrentName",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--stable-name",
+                    PropertyName = "StableName",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]));
+
+        await Assert.That(exception.Message).Contains("would duplicate a member name");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Removed_Global_Options()
+    {
+        var preserved = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+            Tool(Command("ToolRunOptions", "ToolOptions", ["run"])),
+            [BaselineProperty("LegacyFlag", "bool?", switchName: "--legacy-flag")]);
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(preserved)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public virtual bool? LegacyFlag { get; set; }");
+            await Assert.That(generated).Contains("LegacyFlag is no longer supported");
+            await Assert.That(generated).DoesNotContain("CliFlag(\"--legacy-flag\")");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Validates_Supplemental_Global_Options()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            SupplementalGlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--progress",
+                    PropertyName = "Progress",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+                tool,
+                [BaselineProperty("Progress", "CliOptionValue?", switchName: "--progress")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolOptions.Progress changed type from CliOptionValue? to string?");
+    }
+
+    [Test]
+    public async Task Global_Compatibility_Targets_Follow_Inherited_Property_Renames()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+            GlobalCompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyArguments",
+                    CSharpType = "IEnumerable<string>?",
+                    ForwardToPropertyName = "Arguments",
+                    ObsoleteMessage = "Use Arguments instead.",
+                },
+            ],
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(resolved)).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public virtual IEnumerable<string>? CliArguments");
             await Assert.That(generated).Contains("get => CliArguments;");
             await Assert.That(generated).Contains("set => CliArguments = value;");
         }

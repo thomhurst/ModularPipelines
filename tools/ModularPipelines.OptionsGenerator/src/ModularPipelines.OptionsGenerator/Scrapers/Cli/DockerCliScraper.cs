@@ -31,4 +31,13 @@ public class DockerCliScraper : CobraCliScraper
         string[] commandPath,
         string helpText) =>
         DockerCliCompatibility.DetectCommandGroupAlias(commandPath, helpText);
+
+    /// <inheritdoc />
+    protected override string NormalizeOptionSwitchName(
+        string[] commandParts,
+        string switchName) =>
+        commandParts is ["compose", "exec"]
+        && switchName.Equals("--no-tty", StringComparison.OrdinalIgnoreCase)
+            ? "--no-TTY"
+            : switchName;
 }
