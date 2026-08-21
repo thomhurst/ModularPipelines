@@ -80,6 +80,36 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     }
 
     /// <inheritdoc />
+    public async Task FlushConsoleAsync()
+    {
+        await FlushWritersAsync(System.Console.Out, System.Console.Error).ConfigureAwait(false);
+    }
+
+    internal static async Task FlushWritersAsync(TextWriter output, TextWriter error)
+    {
+        var exceptions = new List<Exception>();
+        await CaptureExceptionAsync(
+            () => output.FlushAsync(),
+            exceptions).ConfigureAwait(false);
+        if (!ReferenceEquals(error, output))
+        {
+            await CaptureExceptionAsync(
+                () => error.FlushAsync(),
+                exceptions).ConfigureAwait(false);
+        }
+
+        if (exceptions.Count == 1)
+        {
+            ExceptionDispatchInfo.Capture(exceptions[0]).Throw();
+        }
+
+        if (exceptions.Count > 1)
+        {
+            throw new AggregateException("Console flush failed.", exceptions);
+        }
+    }
+
+    /// <inheritdoc />
     public void PrintResults(PipelineSummary pipelineSummary)
     {
         _consolePrinter.PrintResults(pipelineSummary);
@@ -111,6 +141,20 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
                 liveFlushInterval,
                 $"The interval must be between {TimeSpan.Zero} and " +
                 $"{PipelineConsoleOptions.MaximumModuleOutputFlushInterval}.");
+        }
+    }
+
+    private static async Task CaptureExceptionAsync(
+        Func<Task> operation,
+        ICollection<Exception> exceptions)
+    {
+        try
+        {
+            await operation().ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            exceptions.Add(exception);
         }
     }
 
@@ -210,20 +254,6 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             if (exceptions.Count > 1)
             {
                 throw new AggregateException("Pipeline output teardown failed.", exceptions);
-            }
-        }
-
-        private static async Task CaptureExceptionAsync(
-            Func<Task> operation,
-            ICollection<Exception> exceptions)
-        {
-            try
-            {
-                await operation().ConfigureAwait(false);
-            }
-            catch (Exception exception)
-            {
-                exceptions.Add(exception);
             }
         }
 

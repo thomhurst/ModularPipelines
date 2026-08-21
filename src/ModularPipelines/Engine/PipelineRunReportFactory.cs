@@ -1,13 +1,24 @@
+using System.Text;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Console;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
 internal sealed class PipelineRunReportFactory(
     ICommandExecutionCounter commandExecutionCounter,
-    ISecretObfuscator secretObfuscator)
+    ISecretObfuscator secretObfuscator,
+    IModuleOutputExcerptProvider? outputExcerptProvider = null,
+    IOptions<PipelineOptions>? pipelineOptions = null,
+    ISecretProvider? secretProvider = null)
 {
+    private static readonly Encoding Utf8 = new UTF8Encoding(
+        encoderShouldEmitUTF8Identifier: false,
+        throwOnInvalidBytes: false);
+
     public PipelineRunReport Create(
         PipelineSummary summary,
         PipelineRunReport? previousReport,
@@ -156,6 +167,7 @@ internal sealed class PipelineRunReportFactory(
             End = current.End,
             SkipReason = GetSkipReason(result),
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
+            Output = CreateOutputExcerpt(moduleType),
             CommandCount = commandExecutionCounter.GetCount(moduleType),
             PreviousDuration = previousDuration,
             DurationDelta = previousDuration.HasValue
@@ -215,6 +227,149 @@ internal sealed class PipelineRunReportFactory(
         result?.SkipDecisionOrDefault?.Reason is { } skipReason
             ? secretObfuscator.Obfuscate(skipReason, null)
             : null;
+
+    private ModuleOutputExcerpt? CreateOutputExcerpt(Type moduleType)
+    {
+        var excerpt = outputExcerptProvider?.GetModuleOutputExcerpt(moduleType);
+        if (excerpt is null)
+        {
+            return null;
+        }
+
+        if (excerpt.SecretPatternsVersion is { } version)
+        {
+            var currentVersion = secretProvider?.Version;
+            // Detect a pattern change while the already-masked excerpt is handed off.
+            return currentVersion == version
+                   && secretProvider?.Version == currentVersion
+                ? excerpt
+                : null;
+        }
+
+        var secretPatternsVersion = secretProvider?.Version;
+        var maskedStdout = ObfuscateOptional(excerpt.StdoutTail);
+        var maskedStderr = ObfuscateOptional(excerpt.StderrTail);
+        var maximumBytes = pipelineOptions?.Value.RunReport.MaxOutputBytesPerModule ?? int.MaxValue;
+        var stdoutBudget = Math.Min(GetByteCount(excerpt.StdoutTail), maximumBytes);
+        var stderrBudget = Math.Min(GetByteCount(excerpt.StderrTail), maximumBytes - stdoutBudget);
+        var stdoutTail = GetUtf8Tail(maskedStdout, stdoutBudget);
+        var stderrTail = GetUtf8Tail(maskedStderr, stderrBudget);
+        var additionallyTruncatedBytes = Math.Max(
+            0,
+            GetByteCount(maskedStdout)
+            + GetByteCount(maskedStderr)
+            - GetByteCount(stdoutTail)
+            - GetByteCount(stderrTail));
+
+        var finalExcerpt = excerpt with
+        {
+            StdoutTail = stdoutTail,
+            StderrTail = stderrTail,
+            TruncatedBytes = excerpt.TruncatedBytes + additionallyTruncatedBytes,
+            SecretPatternsVersion = secretPatternsVersion,
+        };
+
+        return secretProvider?.Version == secretPatternsVersion ? finalExcerpt : null;
+    }
+
+    internal PipelineRunReport RemoveStaleOutputExcerpts(PipelineRunReport report)
+    {
+        if (secretProvider is null || report.Modules.All(static module => module.Output is null))
+        {
+            return report;
+        }
+
+        var currentVersion = secretProvider.Version;
+        var modules = report.Modules
+            .Select(module => module.Output?.SecretPatternsVersion == currentVersion
+                ? module
+                : module with { Output = null })
+            .ToArray();
+
+        if (secretProvider.Version != currentVersion)
+        {
+            modules = modules
+                .Select(static module => module with { Output = null })
+                .ToArray();
+        }
+
+        return report with { Modules = modules };
+    }
+
+    internal PipelineRunReport RemoveOutputExcerpts(PipelineRunReport report) =>
+        report with
+        {
+            Modules = report.Modules
+                .Select(static module => module with { Output = null })
+                .ToArray(),
+        };
+
+    internal string SerializeWithValidatedOutputExcerpts(PipelineRunReport report) =>
+        CreateValidatedSerialization(report).Contents;
+
+    internal Task WriteWithValidatedOutputExcerptsAsync(
+        string path,
+        PipelineRunReport report,
+        CancellationToken cancellationToken = default) =>
+        WriteWithValidatedOutputExcerptsAsync(
+            path,
+            report,
+            static (temporaryPath, contents, token) =>
+                File.WriteAllTextAsync(temporaryPath, contents, token),
+            cancellationToken);
+
+    internal Task WriteWithValidatedOutputExcerptsAsync(
+        string path,
+        PipelineRunReport report,
+        Func<string, string, CancellationToken, Task> writeAsync,
+        CancellationToken cancellationToken = default)
+    {
+        var serialization = CreateValidatedSerialization(report);
+        return AtomicFileWriter.WriteAllTextAsync(
+            path,
+            serialization.Contents,
+            writeAsync,
+            () => serialization.SecretPatternsVersion is { } version
+                  && secretProvider?.Version != version
+                ? RunReportJsonSerializer.Serialize(RemoveOutputExcerpts(report))
+                : null,
+            serialization.SecretPatternsVersion is { } version
+                ? action => secretProvider?.TryExecuteIfVersionCurrent(version, action) == true
+                : null,
+            cancellationToken);
+    }
+
+    private ValidatedSerialization CreateValidatedSerialization(PipelineRunReport report)
+    {
+        var validatedReport = RemoveStaleOutputExcerpts(report);
+        var serializedReport = RunReportJsonSerializer.Serialize(validatedReport);
+        var outputExcerptCount = validatedReport.Modules.Count(static module => module.Output is not null);
+        if (outputExcerptCount == 0)
+        {
+            return new ValidatedSerialization(serializedReport, null);
+        }
+
+        var revalidatedReport = RemoveStaleOutputExcerpts(validatedReport);
+        var excerptsRemainCurrent = revalidatedReport.Modules.Count(static module => module.Output is not null)
+                                    == outputExcerptCount;
+        return new ValidatedSerialization(
+            excerptsRemainCurrent
+                ? serializedReport
+                : RunReportJsonSerializer.Serialize(revalidatedReport),
+            revalidatedReport.Modules
+                .Select(static module => module.Output?.SecretPatternsVersion)
+                .FirstOrDefault(static version => version is not null));
+    }
+
+    private sealed record ValidatedSerialization(string Contents, long? SecretPatternsVersion);
+
+    private static int GetByteCount(string? value) => Utf8.GetByteCount(value ?? string.Empty);
+
+    private static string? GetUtf8Tail(string? value, int maximumBytes) =>
+        value is null ? null : ModuleOutputExcerptBuffer.GetUtf8Tail(value, maximumBytes);
+
+    private string? ObfuscateOptional(string? value) =>
+        value is null ? null : secretObfuscator.Obfuscate(value, null);
 
     private static string? GetResultTypeName(IModuleResult result) =>
         result is ModuleResult { ModuleType: { } moduleType }

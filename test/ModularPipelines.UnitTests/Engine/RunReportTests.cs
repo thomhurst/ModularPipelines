@@ -4,8 +4,10 @@ using System.Runtime.Loader;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
+using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DependencyInjection;
@@ -82,6 +84,19 @@ public class RunReportTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("success");
+    }
+
+    private sealed class OutputExcerptModule(ISecretRegistry secretRegistry) : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            secretRegistry.AddSecret("module-output-secret");
+            context.Logger.LogInformation("{CommandOutput}", "stdout module-output-secret");
+            context.Logger.LogInformation("{CommandError}", "stderr module-output-secret");
+            return Task.FromResult<string?>("success");
+        }
     }
 
     private sealed class GenericModule<T> : Module<string>
@@ -221,6 +236,36 @@ public class RunReportTests
             new(_completion.Task);
     }
 
+    private sealed class DelayedSecretRegisteringRunReportEnricher(Action registerSecret)
+        : IRunReportEnricher
+    {
+        private readonly TaskCompletionSource _release = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _started = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task Completion { get; private set; } = Task.CompletedTask;
+
+        public Task Started => _started.Task;
+
+        public void Release() => _release.TrySetResult();
+
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            Completion = CompleteAsync();
+            _started.TrySetResult();
+            return new ValueTask(Completion);
+        }
+
+        private async Task CompleteAsync()
+        {
+            await _release.Task.ConfigureAwait(false);
+            registerSecret();
+        }
+    }
+
     private sealed class CommandCountingRunReportEnricher(
         ICommandExecutionCounter commandExecutionCounter) : IRunReportEnricher
     {
@@ -229,6 +274,17 @@ public class RunReportTests
             CancellationToken cancellationToken)
         {
             commandExecutionCounter.Record(moduleType: null);
+            return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class CallbackRunReportEnricher(Action callback) : IRunReportEnricher
+    {
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            callback();
             return ValueTask.CompletedTask;
         }
     }
@@ -875,7 +931,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -920,7 +977,8 @@ public class RunReportTests
                     HistoryRetention = 2,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1002,7 +1060,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -1099,7 +1158,8 @@ public class RunReportTests
         });
         var store = new FileSystemRunHistoryStore(
             options,
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
 
         try
         {
@@ -1144,7 +1204,8 @@ public class RunReportTests
                     GlobalHistoryRetention = 1,
                 },
             }),
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
         var legacyFile = Path.Combine(
             directory,
             "modularpipelines-run-legacy-202608021300000000000-00000000000000000000000000000000.json");
@@ -1331,7 +1392,7 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
-        const int expectedCurrentSchemaVersion = 3;
+        const int expectedCurrentSchemaVersion = 4;
 
         using (Assert.Multiple())
         {
@@ -1339,8 +1400,9 @@ public class RunReportTests
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(4, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(5, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 
@@ -1358,7 +1420,8 @@ public class RunReportTests
                     HistoryRetention = 2,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1414,7 +1477,8 @@ public class RunReportTests
                     HistoryRetention = 4,
                 },
             }),
-            new StringLogger<FileSystemRunHistoryStore>(log));
+            new StringLogger<FileSystemRunHistoryStore>(log),
+            CreateReportFactory());
 
         try
         {
@@ -1519,7 +1583,11 @@ public class RunReportTests
                     HistoryRetention = historyRetention,
                 },
             }),
-            NullLogger<FileSystemRunHistoryStore>.Instance);
+            NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory());
+
+    private static PipelineRunReportFactory CreateReportFactory() =>
+        new(new CommandExecutionCounter(), new PassthroughSecretObfuscator());
 
     private static PipelineOptions CreateReportingOptions(string reportPath) =>
         new()
@@ -1599,6 +1667,352 @@ public class RunReportTests
                     .IsEqualTo("https://ci.example/**********-run");
                 await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
                 await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOmitsOutputMadeStaleByEnricherSecretRegistration()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var reportFactory = new PipelineRunReportFactory(
+            commandExecutionCounter,
+            new PassthroughSecretObfuscator(),
+            outputProvider.Object,
+            secretProvider: secretProvider.Object);
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            reportFactory,
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new CallbackRunReportEnricher(() => version = 4)]);
+
+        try
+        {
+            var report = await service.CompleteAsync(summary);
+            var persisted = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ReportSerializationOmitsOutputThatBecomesStaleDuringSerialization()
+    {
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupSequence(provider => provider.Version)
+            .Returns(2)
+            .Returns(2)
+            .Returns(4)
+            .Returns(4);
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+
+        var serialized = reportFactory.SerializeWithValidatedOutputExcerpts(report);
+        var persisted = RunReportJsonSerializer.Deserialize(serialized);
+
+        await Assert.That(persisted!.Modules.Single().Output).IsNull();
+    }
+
+    [Test]
+    public async Task ReportPersistenceOmitsOutputThatBecomesStaleDuringWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "report.json");
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+        var writeCount = 0;
+
+        try
+        {
+            await reportFactory.WriteWithValidatedOutputExcerptsAsync(
+                path,
+                report,
+                async (temporaryPath, contents, cancellationToken) =>
+                {
+                    await File.WriteAllTextAsync(temporaryPath, contents, cancellationToken);
+                    if (Interlocked.Increment(ref writeCount) == 1)
+                    {
+                        version = 4;
+                    }
+                });
+            var persisted = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(path));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(writeCount).IsEqualTo(2);
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ReportPersistenceOmitsOutputThatBecomesStaleDuringPublication()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "report.json");
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        secretProvider
+            .Setup(provider => provider.TryExecuteIfVersionCurrent(2, It.IsAny<Action>()))
+            .Returns<long, Action>((_, _) =>
+            {
+                version = 4;
+                return false;
+            });
+        var reportFactory = new PipelineRunReportFactory(
+            new CommandExecutionCounter(),
+            new PassthroughSecretObfuscator(),
+            secretProvider: secretProvider.Object);
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "late-secret-suffix",
+                        SecretPatternsVersion = 2,
+                    },
+                },
+            ],
+        };
+
+        try
+        {
+            await reportFactory.WriteWithValidatedOutputExcerptsAsync(path, report);
+            var persisted = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(path));
+
+            await Assert.That(persisted!.Modules.Single().Output).IsNull();
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOmitsOutputWhenTimedOutEnricherCanRegisterSecretsLater()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        var enricher = new DelayedSecretRegisteringRunReportEnricher(() => version = 4);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(CreateReportingOptions(reportPath)),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            enricherTimeout: TimeSpan.FromMilliseconds(25),
+            runReportEnrichers: [enricher]);
+
+        try
+        {
+            var completion = service.CompleteAsync(summary);
+            await enricher.Started.WaitAsync(TimeSpan.FromSeconds(2));
+            var report = await completion.WaitAsync(TimeSpan.FromSeconds(2));
+            var persisted = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            enricher.Release();
+            await enricher.Completion.WaitAsync(TimeSpan.FromSeconds(2));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(persisted!.Modules.Single().Output).IsNull();
+                await Assert.That(version).IsEqualTo(4);
+            }
+        }
+        finally
+        {
+            enricher.Release();
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CustomHistoryStoreOmitsOutputExcerptsFromAllReports()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "report.json");
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider.Setup(provider => provider.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var version = 2L;
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(() => version);
+        PipelineRunReport? savedReport = null;
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(EmptyReports());
+        historyStore.Setup(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<PipelineRunReport, CancellationToken>((report, _) =>
+            {
+                version = 4;
+                savedReport = report;
+            })
+            .Returns(Task.CompletedTask);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    ReportPath = reportPath,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance);
+
+        try
+        {
+            var report = await service.CompleteAsync(summary);
+            var persistedReport = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.Modules.Single().Output).IsNull();
+                await Assert.That(savedReport!.Modules.Single().Output).IsNull();
+                await Assert.That(persistedReport!.Modules.Single().Output).IsNull();
             }
         }
         finally
@@ -1941,6 +2355,7 @@ public class RunReportTests
                 },
             }),
             NullLogger<FileSystemRunHistoryStore>.Instance,
+            CreateReportFactory(),
             new RunReportPathResolver(directory));
 
         try
@@ -3178,6 +3593,253 @@ public class RunReportTests
 
         await Assert.That(result.Errors.Select(error => error.Message))
             .Contains(message => message.Contains("HistoryRetention", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportJsonRoundTripPreservesModuleOutputExcerpt()
+    {
+        var report = new PipelineRunReport
+        {
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    Output = new ModuleOutputExcerpt
+                    {
+                        StdoutTail = "stdout tail",
+                        StderrTail = "stderr tail",
+                        TruncatedBytes = 42,
+                    },
+                },
+            ],
+        };
+
+        var deserialized = RunReportJsonSerializer.Deserialize(
+            RunReportJsonSerializer.Serialize(report));
+        var output = deserialized!.Modules.Single().Output;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output!.StdoutTail).IsEqualTo("stdout tail");
+            await Assert.That(output.StderrTail).IsEqualTo("stderr tail");
+            await Assert.That(output.TruncatedBytes).IsEqualTo(42);
+        }
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(-1)]
+    public async Task RunReportOptionsRejectNonPositiveOutputLimit(int maximumBytes)
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = maximumBytes,
+            },
+        });
+
+        await Assert.That(result.Errors.Select(error => error.Message))
+            .Contains(message => message.Contains("MaxOutputBytesPerModule", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task RunReportOptionsIgnoreOutputLimitWhenOutputIsDisabled()
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 0 },
+        });
+
+        await Assert.That(result.Errors).IsEmpty();
+    }
+
+    [Test]
+    public async Task RunReportIncludesMaskedModuleOutputWhenEnabled()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Console = options.Console with { PrintLogo = false, PrintResults = false },
+            RunReport = options.RunReport with
+            {
+                AutoWriteInCi = false,
+                HistoryRetention = 0,
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = 1024,
+            },
+        });
+        builder.AddModule<OutputExcerptModule>();
+
+        var summary = await builder.ExecutePipelineAsync();
+        var output = summary.RunReport!.Modules.Single().Output;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsNotNull();
+            await Assert.That(output!.StdoutTail).Contains("stdout");
+            await Assert.That(output.StderrTail).Contains("stderr");
+            await Assert.That(output.StdoutTail).DoesNotContain("module-output-secret");
+            await Assert.That(output.StderrTail).DoesNotContain("module-output-secret");
+        }
+    }
+
+    [Test]
+    public async Task RunReportMasksOutputAgainAtCreation()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "late-secret",
+                StderrTail = "late-secret",
+            });
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("late-secret", "***") ?? string.Empty);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object)
+            .Create(summary, null, "output-remasking");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Modules.Single().Output!.StdoutTail).IsEqualTo("***");
+            await Assert.That(report.Modules.Single().Output!.StderrTail).IsEqualTo("***");
+        }
+    }
+
+    [Test]
+    public async Task RunReportDoesNotRemaskCurrentVersionExcerpt()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "X**********",
+                TruncatedBytes = 0,
+                SecretPatternsVersion = 2,
+            });
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        var obfuscator = new Mock<ISecretObfuscator>(MockBehavior.Strict);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object,
+                secretProvider: secretProvider.Object)
+            .Create(summary, null, "current-version-output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Modules.Single().Output!.StdoutTail)
+                .IsEqualTo("X**********");
+            await Assert.That(report.Modules.Single().Output!.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task RunReportRemaskingPreservesSharedOutputByteLimit()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "secret",
+                StderrTail = "secret",
+                TruncatedBytes = 5,
+            });
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("secret", "[MASKED]") ?? string.Empty);
+        var options = Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+        {
+            RunReport = new RunReportOptions { MaxOutputBytesPerModule = 12 },
+        });
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                obfuscator.Object,
+                outputProvider.Object,
+                options)
+            .Create(summary, null, "output-remasking-limit");
+        var output = report.Modules.Single().Output!;
+        var retainedBytes = Encoding.UTF8.GetByteCount(output.StdoutTail ?? string.Empty)
+                            + Encoding.UTF8.GetByteCount(output.StderrTail ?? string.Empty);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(retainedBytes).IsLessThanOrEqualTo(12);
+            await Assert.That(output.TruncatedBytes).IsEqualTo(9);
+        }
+    }
+
+    [Test]
+    public async Task RunReportOmitsOutputWhenSecretsChangeDuringFinalMasking()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1));
+        var outputProvider = new Mock<IModuleOutputExcerptProvider>();
+        outputProvider
+            .Setup(x => x.GetModuleOutputExcerpt(typeof(SuccessfulModule)))
+            .Returns(new ModuleOutputExcerpt
+            {
+                StdoutTail = "secret-suffix",
+                SecretPatternsVersion = 2,
+            });
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider
+            .SetupSequence(provider => provider.Version)
+            .Returns(2)
+            .Returns(4);
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                new PassthroughSecretObfuscator(),
+                outputProvider.Object,
+                secretProvider: secretProvider.Object)
+            .Create(summary, null, "output-remasking-race");
+
+        await Assert.That(report.Modules.Single().Output).IsNull();
     }
 
     [Test]

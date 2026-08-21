@@ -13,6 +13,7 @@ namespace ModularPipelines.Engine;
 internal sealed class FileSystemRunHistoryStore(
     IOptions<PipelineOptions> pipelineOptions,
     ILogger<FileSystemRunHistoryStore> logger,
+    PipelineRunReportFactory reportFactory,
     RunReportPathResolver? pathResolver = null) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
@@ -172,9 +173,9 @@ internal sealed class FileSystemRunHistoryStore(
             : Guid.NewGuid().ToString("N");
         var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{runId}.json";
         var path = Path.Combine(directory, fileName);
-        await AtomicFileWriter.WriteAllTextAsync(
+        await reportFactory.WriteWithValidatedOutputExcerptsAsync(
                 path,
-                RunReportJsonSerializer.Serialize(report),
+                report,
                 cancellationToken)
             .ConfigureAwait(false);
 

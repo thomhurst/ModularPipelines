@@ -41,6 +41,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly ILogger? _outputExcerptLogger;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IServiceProvider _serviceProvider;
     private readonly object _phaseLock = new();
@@ -81,6 +82,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _secretProvider = secretProvider;
         _options = options;
         _loggerFactory = loggerFactory;
+        _outputExcerptLogger = _options.Value.RunReport.IncludeModuleOutput
+            ? _loggerFactory.CreateLogger<ModuleOutputExcerptBuffer>()
+            : null;
         _buildSystemDetector = buildSystemDetector;
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
@@ -155,7 +159,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     _originalConsoleError,
                     () => _isProgressActive,
                     _secretObfuscator,
-                    _secretProvider);
+                    _secretProvider,
+                    isError: true);
 
                 System.Console.SetOut(_coordinatedOut);
                 System.Console.SetError(_coordinatedError);
@@ -298,14 +303,27 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         return _moduleBuffers.GetOrAdd(
             moduleType,
             t => new ModuleOutputBuffer(
+                t.Name,
                 t,
                 _options.Value.Console.ModuleOutputFlushThreshold,
                 RequestThresholdFlush,
                 isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                     OutputLoggerCategories.ForModule(t),
                     logLevel),
-                showFailureHeaderWithoutOutput: !_options.Value.Console.PrintResults));
+                showFailureHeaderWithoutOutput: !_options.Value.Console.PrintResults,
+                outputExcerptMaximumBytes: _options.Value.RunReport.IncludeModuleOutput
+                    ? _options.Value.RunReport.MaxOutputBytesPerModule
+                    : 0,
+                outputExcerptSecretObfuscator: _secretObfuscator,
+                outputExcerptSecretProvider: _secretProvider,
+                outputExcerptLogger: _outputExcerptLogger));
     }
+
+    /// <inheritdoc />
+    public ModuleOutputExcerpt? GetModuleOutputExcerpt(Type moduleType) =>
+        _moduleBuffers.TryGetValue(moduleType, out var buffer)
+            ? buffer.GetOutputExcerpt()
+            : null;
 
     /// <inheritdoc />
     public IModuleOutputBuffer GetUnattributedBuffer() => _unattributedBuffer;

@@ -86,26 +86,26 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             return;
         }
 
-        var patterns = SecretMaskingPatternGenerator.Generate(secret);
-        RegisterNativeMaskPatterns(patterns);
-
-        var minimumLength = Math.Max(1, _maskingOptions.Value.MinimumSecretLength);
-        if (secret.Length < minimumLength)
-        {
-            if (_shortSecretWarnings.TryAdd(secret, 0))
-            {
-                _logger.LogWarning(
-                    "A secret with length {SecretLength} is shorter than MinimumSecretLength {MinimumSecretLength}. " +
-                    "Framework log masking is disabled for this value; native build-system masking was requested.",
-                    secret.Length,
-                    minimumLength);
-            }
-
-            return;
-        }
-
         lock (_secretsLock)
         {
+            var patterns = SecretMaskingPatternGenerator.Generate(secret);
+            RegisterNativeMaskPatterns(patterns);
+
+            var minimumLength = Math.Max(1, _maskingOptions.Value.MinimumSecretLength);
+            if (secret.Length < minimumLength)
+            {
+                if (_shortSecretWarnings.TryAdd(secret, 0))
+                {
+                    _logger.LogWarning(
+                        "A secret with length {SecretLength} is shorter than MinimumSecretLength {MinimumSecretLength}. " +
+                        "Framework log masking is disabled for this value; native build-system masking was requested.",
+                        secret.Length,
+                        minimumLength);
+                }
+
+                return;
+            }
+
             if (patterns.All(_secrets.Contains))
             {
                 return;
@@ -120,6 +120,23 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             }
 
             Interlocked.Increment(ref _version);
+        }
+    }
+
+    /// <inheritdoc />
+    public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
+    {
+        lock (_secretsLock)
+        {
+            if (Version != expectedVersion)
+            {
+                return false;
+            }
+
+            // Keep the action inside this lock: callers use it for small synchronous
+            // publication steps that must remain atomic with the version check.
+            action();
+            return true;
         }
     }
 

@@ -36,6 +36,8 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public bool HasSecrets => GetRegistrationState().HasSecrets;
 
+    internal bool CaseInsensitive => _maskingOptions.Value.CaseInsensitive;
+
     public SecretObfuscator(
         ISecretProvider secretProvider,
         IOptions<SecretMaskingOptions> maskingOptions)
@@ -62,7 +64,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
         var options = _maskingOptions.Value;
         // Ensure mask value is never empty to avoid removing secrets without masking
-        var maskValue = string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
+        var maskValue = GetMaskValue(options);
         var caseInsensitive = options.CaseInsensitive;
 
         var secretCache = GetSecretCache(optionsObject, options, caseInsensitive);
@@ -80,10 +82,71 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
     }
 
+    internal string ObfuscatePreservingMasks(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return string.Empty;
+        }
+
+        var options = _maskingOptions.Value;
+        var maskValue = GetMaskValue(options);
+        var caseInsensitive = options.CaseInsensitive;
+        var secretCache = GetSecretCache(null, options, caseInsensitive);
+        if (secretCache.SearchValues is null
+            || !input.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return input;
+        }
+
+        return ObfuscateMatches(
+            input,
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            maskValue,
+            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal,
+            preserveExistingMasks: true);
+    }
+
+    internal MappedObfuscatedOutput ObfuscatePreservingMasksWithSourceMap(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return new MappedObfuscatedOutput(string.Empty, [0]);
+        }
+
+        var options = _maskingOptions.Value;
+        var maskValue = GetMaskValue(options);
+        var caseInsensitive = options.CaseInsensitive;
+        var secretCache = GetSecretCache(null, options, caseInsensitive);
+        if (secretCache.SearchValues is null
+            || !input.AsSpan().ContainsAny(secretCache.SearchValues))
+        {
+            return CreateUnchangedSourceMap(input);
+        }
+
+        return ObfuscateMatchesWithSourceMap(
+            input,
+            secretCache.Secrets,
+            secretCache.SearchValues,
+            maskValue,
+            caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+    }
+
     internal SecretRegistrationState GetRegistrationState()
     {
         var cache = GetRegisteredSecretCache(_maskingOptions.Value.CaseInsensitive);
         return new SecretRegistrationState(cache.Version, cache.SearchValues is not null);
+    }
+
+    internal bool CanSafelyPreserveMasks(IReadOnlyList<string> secrets)
+    {
+        var maskValue = GetMaskValue(_maskingOptions.Value);
+        var comparison = CaseInsensitive
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        return secrets.All(secret =>
+            string.IsNullOrEmpty(secret) || !maskValue.Contains(secret, comparison));
     }
 
     internal SecretCache GetSecretCache(
@@ -174,6 +237,9 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         }
     }
 
+    private static string GetMaskValue(SecretMaskingOptions options) =>
+        string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
+
     private static SecretCache CreateSecretCache(
         IEnumerable<string> secrets,
         long version,
@@ -205,36 +271,40 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         IReadOnlyList<string> secrets,
         SearchValues<string> searchValues,
         string maskValue,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool preserveExistingMasks = false)
     {
+        var existingMaskRanges = preserveExistingMasks
+            ? GetMaskRanges(input, maskValue)
+            : [];
+        var maskRangeIndex = 0;
         var result = new StringBuilder(input.Length);
         var inputOffset = 0;
         while (inputOffset < input.Length)
         {
-            var remainingInput = input.AsSpan(inputOffset);
-            var relativeMatchIndex = remainingInput.IndexOfAny(searchValues);
-            if (relativeMatchIndex < 0)
+            if (!TryFindNextMatch(
+                    input,
+                    inputOffset,
+                    secrets,
+                    searchValues,
+                    comparison,
+                    out var matchIndex,
+                    out var matchedSecret))
             {
                 break;
             }
 
-            var matchIndex = inputOffset + relativeMatchIndex;
             result.Append(input, inputOffset, matchIndex - inputOffset);
 
-            var matchingInput = input.AsSpan(matchIndex);
-            string? matchedSecret = null;
-            foreach (var secret in secrets)
+            if (IsContainedInExistingMask(
+                    existingMaskRanges,
+                    ref maskRangeIndex,
+                    matchIndex,
+                    matchedSecret.Length))
             {
-                if (matchingInput.StartsWith(secret, comparison))
-                {
-                    matchedSecret = secret;
-                    break;
-                }
-            }
-
-            if (matchedSecret is null)
-            {
-                throw new InvalidOperationException("SearchValues returned a position without a matching secret.");
+                result.Append(input, matchIndex, matchedSecret.Length);
+                inputOffset = matchIndex + matchedSecret.Length;
+                continue;
             }
 
             result.Append(maskValue);
@@ -244,6 +314,196 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         result.Append(input, inputOffset, input.Length - inputOffset);
 
         return result.ToString();
+    }
+
+    private static MappedObfuscatedOutput ObfuscateMatchesWithSourceMap(
+        string input,
+        IReadOnlyList<string> secrets,
+        SearchValues<string> searchValues,
+        string maskValue,
+        StringComparison comparison)
+    {
+        var existingMaskRanges = GetMaskRanges(input, maskValue);
+        var maskRangeIndex = 0;
+        var sourceToOutputByteOffsets = new int[input.Length + 1];
+        var result = new StringBuilder(input.Length);
+        var inputOffset = 0;
+        var outputByteCount = 0;
+        while (inputOffset < input.Length)
+        {
+            if (!TryFindNextMatch(
+                    input,
+                    inputOffset,
+                    secrets,
+                    searchValues,
+                    comparison,
+                    out var matchIndex,
+                    out var matchedSecret))
+            {
+                break;
+            }
+
+            AppendUnchangedWithSourceMap(
+                result,
+                input,
+                inputOffset,
+                matchIndex,
+                sourceToOutputByteOffsets,
+                ref outputByteCount);
+
+            var matchEnd = matchIndex + matchedSecret.Length;
+            if (IsContainedInExistingMask(
+                    existingMaskRanges,
+                    ref maskRangeIndex,
+                    matchIndex,
+                    matchedSecret.Length))
+            {
+                AppendUnchangedWithSourceMap(
+                    result,
+                    input,
+                    matchIndex,
+                    matchEnd,
+                    sourceToOutputByteOffsets,
+                    ref outputByteCount);
+            }
+            else
+            {
+                for (var index = matchIndex; index < matchEnd; index++)
+                {
+                    sourceToOutputByteOffsets[index] = outputByteCount;
+                }
+
+                result.Append(maskValue);
+                outputByteCount += Encoding.UTF8.GetByteCount(maskValue);
+                sourceToOutputByteOffsets[matchEnd] = outputByteCount;
+            }
+
+            inputOffset = matchEnd;
+        }
+
+        AppendUnchangedWithSourceMap(
+            result,
+            input,
+            inputOffset,
+            input.Length,
+            sourceToOutputByteOffsets,
+            ref outputByteCount);
+        return new MappedObfuscatedOutput(result.ToString(), sourceToOutputByteOffsets);
+    }
+
+    private static bool TryFindNextMatch(
+        string input,
+        int inputOffset,
+        IReadOnlyList<string> secrets,
+        SearchValues<string> searchValues,
+        StringComparison comparison,
+        out int matchIndex,
+        out string matchedSecret)
+    {
+        var relativeMatchIndex = input.AsSpan(inputOffset).IndexOfAny(searchValues);
+        if (relativeMatchIndex < 0)
+        {
+            matchIndex = -1;
+            matchedSecret = string.Empty;
+            return false;
+        }
+
+        matchIndex = inputOffset + relativeMatchIndex;
+        var matchingInput = input.AsSpan(matchIndex);
+        foreach (var secret in secrets)
+        {
+            if (matchingInput.StartsWith(secret, comparison))
+            {
+                matchedSecret = secret;
+                return true;
+            }
+        }
+
+        throw new InvalidOperationException(
+            "SearchValues returned a position without a matching secret.");
+    }
+
+    private static MappedObfuscatedOutput CreateUnchangedSourceMap(string input)
+    {
+        var sourceToOutputByteOffsets = new int[input.Length + 1];
+        var outputByteCount = 0;
+        AppendUnchangedWithSourceMap(
+            result: null,
+            input,
+            0,
+            input.Length,
+            sourceToOutputByteOffsets,
+            ref outputByteCount);
+        return new MappedObfuscatedOutput(input, sourceToOutputByteOffsets);
+    }
+
+    private static void AppendUnchangedWithSourceMap(
+        StringBuilder? result,
+        string input,
+        int start,
+        int end,
+        int[] sourceToOutputByteOffsets,
+        ref int outputByteCount)
+    {
+        result?.Append(input, start, end - start);
+        for (var index = start; index < end;)
+        {
+            sourceToOutputByteOffsets[index] = outputByteCount;
+            var status = Rune.DecodeFromUtf16(input.AsSpan(index, end - index), out var rune, out var consumed);
+            if (status != OperationStatus.Done)
+            {
+                rune = Rune.ReplacementChar;
+                consumed = 1;
+            }
+
+            for (var continuation = 1; continuation < consumed; continuation++)
+            {
+                sourceToOutputByteOffsets[index + continuation] = outputByteCount;
+            }
+
+            outputByteCount += rune.Utf8SequenceLength;
+            index += consumed;
+        }
+
+        sourceToOutputByteOffsets[end] = outputByteCount;
+    }
+
+    private static bool IsContainedInExistingMask(
+        IReadOnlyList<(int Start, int End)> ranges,
+        ref int rangeIndex,
+        int matchIndex,
+        int matchLength)
+    {
+        while (rangeIndex < ranges.Count && ranges[rangeIndex].End <= matchIndex)
+        {
+            rangeIndex++;
+        }
+
+        var matchEnd = matchIndex + matchLength;
+        for (var index = rangeIndex;
+             index < ranges.Count && ranges[index].Start <= matchIndex;
+             index++)
+        {
+            if (matchEnd <= ranges[index].End)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IReadOnlyList<(int Start, int End)> GetMaskRanges(string input, string maskValue)
+    {
+        var ranges = new List<(int Start, int End)>();
+        for (var index = input.IndexOf(maskValue, StringComparison.Ordinal);
+             index >= 0;
+             index = input.IndexOf(maskValue, index + 1, StringComparison.Ordinal))
+        {
+            ranges.Add((index, index + maskValue.Length));
+        }
+
+        return ranges;
     }
 
     private sealed class OptionsSecretCache
@@ -265,6 +525,37 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         string[] Secrets,
         IReadOnlySet<string> ExactSecrets,
         SearchValues<string>? SearchValues);
+
+    internal sealed record MappedObfuscatedOutput(
+        string Value,
+        IReadOnlyList<int> SourceToOutputByteOffsets)
+    {
+        public int Utf8ByteCount => SourceToOutputByteOffsets[^1];
+
+        public int GetSuffixByteCount(int sourceOffset) =>
+            Utf8ByteCount - SourceToOutputByteOffsets[sourceOffset];
+
+        public int GetSourceOffsetForOutputSuffix(int suffixByteCount)
+        {
+            var outputStart = Utf8ByteCount - suffixByteCount;
+            var low = 0;
+            var high = SourceToOutputByteOffsets.Count;
+            while (low < high)
+            {
+                var middle = low + ((high - low) / 2);
+                if (SourceToOutputByteOffsets[middle] < outputStart)
+                {
+                    low = middle + 1;
+                }
+                else
+                {
+                    high = middle;
+                }
+            }
+
+            return low;
+        }
+    }
 
     internal readonly record struct SecretRegistrationState(long Version, bool HasSecrets);
 }

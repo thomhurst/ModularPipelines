@@ -64,16 +64,23 @@ internal sealed class RunReportService(
             pipelineIdentity,
             runId,
             pipelineException);
-        report = await EnrichReportAsync(
+        var enrichment = await EnrichReportAsync(
                 report,
                 pipelineIdentity,
                 reportPath is not null || historyEnabled)
             .ConfigureAwait(false);
+        report = enrichment.Report;
         report = report with
         {
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
+        report = enrichment.HasIncompleteEnricher
+            ? reportFactory.RemoveOutputExcerpts(report)
+            : reportFactory.RemoveStaleOutputExcerpts(report);
+        report = historyEnabled
+            ? PrepareHistoryReport(report)
+            : report;
 
         if (!cancellationToken.IsCancellationRequested)
         {
@@ -85,7 +92,25 @@ internal sealed class RunReportService(
             await SaveHistoryAsync(historyEnabled, report, cancellationToken).ConfigureAwait(false);
         }
 
-        return report;
+        return reportFactory.RemoveStaleOutputExcerpts(report);
+    }
+
+    private PipelineRunReport PrepareHistoryReport(PipelineRunReport report)
+    {
+        if (historyStore is FileSystemRunHistoryStore
+            || report.Modules.All(static module => module.Output is null))
+        {
+            return report;
+        }
+
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug(
+                "Omitting module output excerpts from custom run history store {HistoryStoreType}",
+                historyStore.GetType().FullName);
+        }
+
+        return reportFactory.RemoveOutputExcerpts(report);
     }
 
     private async Task SynchronizeDistributedMetricsAsync(
@@ -154,7 +179,7 @@ internal sealed class RunReportService(
         }
     }
 
-    private async Task<PipelineRunReport> EnrichReportAsync(
+    private async Task<EnrichedRunReport> EnrichReportAsync(
         PipelineRunReport report,
         string pipelineIdentity,
         bool invokeEnrichers)
@@ -164,25 +189,31 @@ internal sealed class RunReportService(
             pipelineIdentity,
             Environment.MachineName,
             buildSystemDetector.Current);
+        var hasIncompleteEnricher = false;
         if (invokeEnrichers)
         {
-            context = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+            var enrichment = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+            context = enrichment.Context;
+            hasIncompleteEnricher = enrichment.HasIncompleteEnricher;
         }
 
         try
         {
-            return reportFactory.WithCorrelation(report, context);
+            return new EnrichedRunReport(
+                reportFactory.WithCorrelation(report, context),
+                hasIncompleteEnricher);
         }
         catch (Exception exception)
         {
             logger.LogWarning(exception, "Could not obfuscate pipeline run correlation metadata");
-            return report;
+            return new EnrichedRunReport(report, hasIncompleteEnricher);
         }
     }
 
-    private async Task<RunReportEnrichmentContext> InvokeEnrichersAsync(
+    private async Task<RunReportEnrichment> InvokeEnrichersAsync(
         RunReportEnrichmentContext context)
     {
+        var hasIncompleteEnricher = false;
         foreach (var enricher in _runReportEnrichers)
         {
             using var timeout = new CancellationTokenSource(_enricherTimeout);
@@ -197,6 +228,7 @@ internal sealed class RunReportService(
             }
             catch (OperationCanceledException) when (timeout.IsCancellationRequested)
             {
+                hasIncompleteEnricher = true;
                 logger.LogWarning(
                     "Timed out enriching pipeline run report using {EnricherType} after {Timeout}",
                     enricher.GetType().FullName,
@@ -211,8 +243,16 @@ internal sealed class RunReportService(
             }
         }
 
-        return context;
+        return new RunReportEnrichment(context, hasIncompleteEnricher);
     }
+
+    private sealed record RunReportEnrichment(
+        RunReportEnrichmentContext Context,
+        bool HasIncompleteEnricher);
+
+    private sealed record EnrichedRunReport(
+        PipelineRunReport Report,
+        bool HasIncompleteEnricher);
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)
     {
@@ -250,9 +290,9 @@ internal sealed class RunReportService(
                 {
                     var fullPath = Path.GetFullPath(reportPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-                    await AtomicFileWriter.WriteAllTextAsync(
+                    await reportFactory.WriteWithValidatedOutputExcerptsAsync(
                             fullPath,
-                            RunReportJsonSerializer.Serialize(report),
+                            report,
                             token)
                         .ConfigureAwait(false);
                     logger.LogInformation(
@@ -279,7 +319,9 @@ internal sealed class RunReportService(
         }
 
         await RunTimedPhaseAsync(
-                token => historyStore.SaveAsync(report, token),
+                token => historyStore.SaveAsync(
+                    PrepareHistoryReport(reportFactory.RemoveStaleOutputExcerpts(report)),
+                    token),
                 _historyStoreTimeout,
                 cancellationToken,
                 exception => logger.LogWarning(exception, "Could not save pipeline run history"))

@@ -35,6 +35,7 @@ internal class CoordinatedTextWriter : TextWriter
     private readonly Func<bool> _shouldBuffer;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ISecretProvider _secretProvider;
+    private readonly bool _isError;
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly object _lineBufferLock = new();
     private string[] _secretPatterns = [];
@@ -49,18 +50,21 @@ internal class CoordinatedTextWriter : TextWriter
     /// <param name="shouldBuffer">Function that returns whether output should be buffered.</param>
     /// <param name="secretObfuscator">Obfuscator for secrets in output.</param>
     /// <param name="secretProvider">Provider for registered secret patterns.</param>
+    /// <param name="isError">Whether this writer represents standard error.</param>
     public CoordinatedTextWriter(
         IConsoleCoordinator coordinator,
         TextWriter realConsole,
         Func<bool> shouldBuffer,
         ISecretObfuscator secretObfuscator,
-        ISecretProvider secretProvider)
+        ISecretProvider secretProvider,
+        bool isError = false)
     {
         _coordinator = coordinator;
         _realConsole = realConsole;
         _shouldBuffer = shouldBuffer;
         _secretObfuscator = secretObfuscator;
         _secretProvider = secretProvider;
+        _isError = isError;
     }
 
     /// <inheritdoc />
@@ -130,18 +134,29 @@ internal class CoordinatedTextWriter : TextWriter
     /// <summary>
     /// Routes a message to the appropriate buffer based on current module context.
     /// </summary>
-    private void RouteToBuffer(string message, Type? moduleType)
+    private void RouteToBuffer(string message, Type? moduleType, bool appendNewLine)
     {
-        if (moduleType != null)
+        var buffer = moduleType is not null
+            ? _coordinator.GetModuleBuffer(moduleType)
+            : _coordinator.GetUnattributedBuffer();
+        if (_isError)
         {
-            // Inside a module - route to that module's buffer
-            var buffer = _coordinator.GetModuleBuffer(moduleType);
+            if (appendNewLine)
+            {
+                buffer.WriteErrorLine(message);
+            }
+            else
+            {
+                buffer.WriteError(message);
+            }
+        }
+        else if (appendNewLine)
+        {
             buffer.WriteLine(message);
         }
         else
         {
-            // Outside any module - route to unattributed buffer
-            _coordinator.GetUnattributedBuffer().WriteLine(message);
+            buffer.Write(message);
         }
     }
 
@@ -403,7 +418,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (shouldBuffer)
         {
-            RouteToBuffer(obfuscated, moduleType);
+            RouteToBuffer(obfuscated, moduleType, appendNewLine: true);
         }
         else
         {
@@ -429,7 +444,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         if (shouldBuffer)
         {
-            RouteToBuffer(obfuscated, state.ModuleType);
+            RouteToBuffer(obfuscated, state.ModuleType, appendNewLine: false);
         }
         else
         {
