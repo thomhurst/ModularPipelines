@@ -13,7 +13,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Add images to a manifest list or image index
+/// Add images or artifacts to a manifest list or image index
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -42,6 +42,48 @@ public record PodmanManifestAddOptions(
     public string? Arch { get; set; }
 
     /// <summary>
+    /// add all arguments as artifact files rather than as images
+    /// </summary>
+    [CliFlag("--artifact")]
+    public bool? Artifact { get; set; }
+
+    /// <summary>
+    /// artifact configuration file
+    /// </summary>
+    [CliOption("--artifact-config", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactConfig { get; set; }
+
+    /// <summary>
+    /// artifact configuration media type
+    /// </summary>
+    [CliOption("--artifact-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactConfigType { get; set; }
+
+    /// <summary>
+    /// refrain from setting "org.opencontainers.image.title" annotations on "layers"
+    /// </summary>
+    [CliFlag("--artifact-exclude-titles")]
+    public bool? ArtifactExcludeTitles { get; set; }
+
+    /// <summary>
+    /// artifact layer media type
+    /// </summary>
+    [CliOption("--artifact-layer-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactLayerType { get; set; }
+
+    /// <summary>
+    /// artifact subject reference
+    /// </summary>
+    [CliOption("--artifact-subject", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactSubject { get; set; }
+
+    /// <summary>
+    /// override the artifactType value
+    /// </summary>
+    [CliOption("--artifact-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactType { get; set; }
+
+    /// <summary>
     /// path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
     /// </summary>
     [CliOption("--authfile", Format = OptionFormat.EqualsSeparated)]
@@ -56,6 +98,7 @@ public record PodmanManifestAddOptions(
     /// <summary>
     /// use [username[:password]] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 

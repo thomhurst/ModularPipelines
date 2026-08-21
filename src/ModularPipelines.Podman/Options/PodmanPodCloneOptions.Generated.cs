@@ -94,6 +94,12 @@ public record PodmanPodCloneOptions(
     [CliOption("--gidmap", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gidmap { get; set; }
 
+    /// <summary>
+    /// GPU devices to add to the container ('all' to pass all GPUs)
+    /// </summary>
+    [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gpus { get; set; }
+
     [CliFlag("--help")]
     public bool? Help { get; set; }
 

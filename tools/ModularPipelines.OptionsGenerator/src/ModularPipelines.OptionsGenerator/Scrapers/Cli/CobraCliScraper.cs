@@ -176,7 +176,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        var options = ApplyOptionFixes(commandParts, ParseOptions(helpText, commandParts));
 
         // Parse positional arguments from usage/synopsis text
         var positionalArgs = ApplyPositionalArgumentFixes(commandParts, usage.PositionalArguments);
@@ -200,6 +200,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             DocumentationUrl = null, // CLI-first, no URL
             Options = options,
             PositionalArguments = positionalArgs,
+            CompatibilityProperties = GetCompatibilityProperties(commandParts),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
@@ -790,6 +791,20 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
+
+    /// <summary>
+    /// Applies tool-specific corrections when Cobra's option metadata would change
+    /// an established generated API.
+    /// </summary>
+    protected virtual IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options) => options;
+
+    /// <summary>
+    /// Returns public properties that remain available after the installed CLI removes a switch.
+    /// </summary>
+    protected virtual IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
+        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether a Boolean must be emitted with an explicit value instead of

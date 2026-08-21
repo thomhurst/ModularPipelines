@@ -39,10 +39,10 @@ public record PodmanMachineInitOptions : PodmanOptions
     public string? IgnitionPath { get; set; }
 
     /// <summary>
-    /// Path to bootable image (default "testing")
+    /// Bootable image for machine
     /// </summary>
-    [CliOption("--image-path", Format = OptionFormat.EqualsSeparated)]
-    public string? ImagePath { get; set; }
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Memory in MiB (default 2048)
@@ -57,16 +57,34 @@ public record PodmanMachineInitOptions : PodmanOptions
     public bool? Now { get; set; }
 
     /// <summary>
+    /// Run an Ansible playbook after first boot
+    /// </summary>
+    [CliOption("--playbook", Format = OptionFormat.EqualsSeparated)]
+    public string? Playbook { get; set; }
+
+    /// <summary>
     /// Whether this machine should prefer rootful container execution
     /// </summary>
     [CliFlag("--rootful")]
     public bool? Rootful { get; set; }
 
     /// <summary>
+    /// Swap in MiB
+    /// </summary>
+    [CliOption("--swap", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public int? Swap { get; set; }
+
+    /// <summary>
     /// Set timezone (default "local")
     /// </summary>
     [CliOption("--timezone", Format = OptionFormat.EqualsSeparated)]
     public string? Timezone { get; set; }
+
+    /// <summary>
+    /// Require HTTPS and verify certificates when contacting registries (default true)
+    /// </summary>
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
+    public bool? TlsVerify { get; set; }
 
     /// <summary>
     /// USB Host passthrough: bus=$1,devnum=$2 or vendor=$1,product=$2
@@ -93,15 +111,19 @@ public record PodmanMachineInitOptions : PodmanOptions
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>
-    /// Optional volume driver
-    /// </summary>
-    [CliOption("--volume-driver", Format = OptionFormat.EqualsSeparated)]
-    public string? VolumeDriver { get; set; }
-
-    /// <summary>
     /// The NAME operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
+
+    [Obsolete("Use Image instead.")]
+    public string? ImagePath
+    {
+        get => Image;
+        set => Image = value;
+    }
+
+    [Obsolete("Podman no longer supports --volume-driver and this property has no effect.")]
+    public string? VolumeDriver { get; set; }
 
 }

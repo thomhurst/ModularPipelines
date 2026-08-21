@@ -29,6 +29,12 @@ public record PodmanWaitOptions(
     public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>
+    /// Wait for exit of first container which matches conditions, ignore other ones
+    /// </summary>
+    [CliFlag("--exit-first-match")]
+    public bool? ExitFirstMatch { get; set; }
+
+    /// <summary>
     /// Ignore if a container does not exist
     /// </summary>
     [CliFlag("--ignore")]

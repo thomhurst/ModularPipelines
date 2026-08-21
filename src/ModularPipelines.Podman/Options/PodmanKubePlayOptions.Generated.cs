@@ -18,12 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "play")]
-public record PodmanKubePlayOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
-) : PodmanOptions
+public record PodmanKubePlayOptions : PodmanOptions
 {
     /// <summary>
-    /// Add annotations to pods (key=value)
+    /// Add Podman-specific annotations to containers and pods created by Podman (key=value)
     /// </summary>
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
@@ -61,6 +59,7 @@ public record PodmanKubePlayOptions(
     /// <summary>
     /// Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 
@@ -77,7 +76,7 @@ public record PodmanKubePlayOptions(
     public string? Ip { get; set; }
 
     /// <summary>
-    /// Logging driver for the container (default "journald")
+    /// Logging driver for the container (default "k8s-file")
     /// </summary>
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }
@@ -101,15 +100,27 @@ public record PodmanKubePlayOptions(
     public IEnumerable<string>? Network { get; set; }
 
     /// <summary>
+    /// Do not create /etc/hostname within the container, instead use the version from the image
+    /// </summary>
+    [CliFlag("--no-hostname")]
+    public bool? NoHostname { get; set; }
+
+    /// <summary>
     /// Do not create /etc/hosts within the pod's containers, instead use the version from the image
     /// </summary>
     [CliFlag("--no-hosts")]
     public bool? NoHosts { get; set; }
 
     /// <summary>
-    /// Use annotations that are not truncated to the Kubernetes maximum length of 63 characters
+    /// Do not prefix container name with pod name
     /// </summary>
-    [CliFlag("--no-trunc")]
+    [CliFlag("--no-pod-prefix")]
+    public bool? NoPodPrefix { get; set; }
+
+    /// <summary>
+    /// Compatibility property retained for callers compiled against an earlier Podman CLI surface.
+    /// </summary>
+    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
     public bool? NoTrunc { get; set; }
 
     /// <summary>
@@ -165,5 +176,11 @@ public record PodmanKubePlayOptions(
     /// </summary>
     [CliFlag("--wait", ShortForm = "-w")]
     public bool? Wait { get; set; }
+
+    /// <summary>
+    /// The KUBEFILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Kubefile { get; set; }
 
 }

@@ -62,6 +62,7 @@ public record PodmanManifestPushOptions(
     /// <summary>
     /// use [username[:password]] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 
@@ -102,7 +103,7 @@ public record PodmanManifestPushOptions(
     public bool? Rm { get; set; }
 
     /// <summary>
-    /// sign the image using a GPG key with the specified FINGERPRINT
+    /// Add a signature at the destination using the specified key
     /// </summary>
     [CliOption("--sign-by", Format = OptionFormat.EqualsSeparated)]
     public string? SignBy { get; set; }
@@ -119,6 +120,12 @@ public record PodmanManifestPushOptions(
     [SecretValue]
     [CliOption("--sign-by-sigstore-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? SignBySigstorePrivateKey { get; set; }
+
+    /// <summary>
+    /// Sign the image using a Sequoia-PGP key with the specified FINGERPRINT
+    /// </summary>
+    [CliOption("--sign-by-sq-fingerprint", Format = OptionFormat.EqualsSeparated)]
+    public string? SignBySqFingerprint { get; set; }
 
     /// <summary>
     /// Read a passphrase for signing an image from PATH

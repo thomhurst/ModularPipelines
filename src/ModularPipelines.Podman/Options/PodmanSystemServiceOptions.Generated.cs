@@ -33,6 +33,24 @@ public record PodmanSystemServiceOptions : PodmanOptions
     public int? Time { get; set; }
 
     /// <summary>
+    /// PEM file containing TLS serving certificate.
+    /// </summary>
+    [CliOption("--tls-cert", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsCert { get; set; }
+
+    /// <summary>
+    /// Only trust client connections with certificates signed by this CA PEM file
+    /// </summary>
+    [CliOption("--tls-client-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsClientCa { get; set; }
+
+    /// <summary>
+    /// PEM file containing TLS serving certificate private key
+    /// </summary>
+    [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsKey { get; set; }
+
+    /// <summary>
     /// The URI operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
