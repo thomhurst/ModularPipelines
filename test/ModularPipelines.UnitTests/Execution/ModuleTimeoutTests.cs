@@ -1,6 +1,7 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -195,5 +196,155 @@ public class ModuleTimeoutTests : TestBase
         var timeoutException = exception!.InnerException as ModuleTimeoutException;
         await Assert.That(timeoutException).IsNotNull();
         await Assert.That(timeoutException!.Message).Contains("did not complete within the cancellation grace period");
+    }
+
+    [Test]
+    public async Task Timeout_Fault_During_Grace_Period_Counts_As_Response()
+    {
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            async cancellationToken =>
+            {
+                try
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw new TimeoutException("Inner operation timed out.");
+                }
+
+                return true;
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Timeout_Does_Not_Claim_Unrelated_Cancellation_Before_Deadline()
+    {
+        using var unrelatedCancellation = new CancellationTokenSource();
+        unrelatedCancellation.Cancel();
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                _ => Task.FromCanceled<bool>(unrelatedCancellation.Token),
+                TimeSpan.FromSeconds(1),
+                CancellationToken.None));
+
+        await Assert.That(exception!.CancellationToken).IsEqualTo(unrelatedCancellation.Token);
+    }
+
+    [Test]
+    public async Task Timeout_Claims_Cancellation_Through_Linked_Attempt_Token()
+    {
+        using var unrelatedCancellation = new CancellationTokenSource();
+
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            timeoutToken =>
+            {
+                using var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+                    timeoutToken,
+                    unrelatedCancellation.Token);
+                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                return Task.FromCanceled<bool>(linkedCancellation.Token);
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Fault_Completed_Before_Deadline_Is_Not_Claimed_By_Timeout()
+    {
+        var exception = await Assert.ThrowsAsync<TimeoutException>(async () =>
+            await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                _ => Task.FromException<bool>(new TimeoutException("Inner operation timed out.")),
+                TimeSpan.FromMilliseconds(10),
+                CancellationToken.None));
+
+        await Assert.That(exception!.Message).IsEqualTo("Inner operation timed out.");
+    }
+
+    [Test]
+    public async Task Completion_With_Asynchronous_Continuations_Before_Deadline_Is_Not_Claimed_By_Timeout()
+    {
+        var completion = new TaskCompletionSource<bool>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            _ => completion.Task,
+            TimeSpan.FromSeconds(1),
+            CancellationToken.None);
+
+        completion.SetResult(true);
+
+        var result = await execution;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsFalse();
+            await Assert.That(result.Value).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Completed_Execution_Published_After_Deadline_Signal_Wins()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+
+        signalState.SignalCancellation();
+        signalState.PublishExecutionTask(Task.FromResult(true));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await signalState.Signal.Task).IsTrue();
+            await Assert.That(attemptCancellation.IsCancellationRequested).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+
+        signalState.SignalCancellation();
+        signalState.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
+
+        await Assert.That(await signalState.Signal.Task).IsFalse();
+    }
+
+    [Test]
+    public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
+    {
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            timeoutToken =>
+            {
+                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+                var completion = new TaskCompletionSource<bool>(
+                    TaskCreationOptions.RunContinuationsAsynchronously);
+                completion.TrySetCanceled();
+                return completion.Task;
+            },
+            TimeSpan.FromMilliseconds(10),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+        }
     }
 }

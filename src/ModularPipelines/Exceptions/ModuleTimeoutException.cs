@@ -7,12 +7,13 @@ namespace ModularPipelines.Exceptions;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception is thrown when a module's execution time exceeds the configured timeout.
+/// This exception is thrown when a module execution attempt exceeds the configured timeout.
 /// The timeout can be configured per-module using the <c>Timeout</c> property or module options.
+/// When retries are configured, each attempt receives a fresh timeout and retry delays are excluded.
 /// </para>
 /// <para><b>When this is thrown:</b></para>
 /// <list type="bullet">
-/// <item>When a module's <c>ExecuteAsync</c> takes longer than the configured timeout</item>
+/// <item>When a module's <c>ExecuteAsync</c> attempt takes longer than the configured timeout</item>
 /// <item>When the module does not respond to cancellation token within the grace period</item>
 /// </list>
 /// <para><b>Properties available:</b></para>

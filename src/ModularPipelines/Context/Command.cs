@@ -538,10 +538,7 @@ internal sealed class Command : ICommandContext
                         command.WorkingDirPath));
                 var failure = loggingFailures.CombineWith(e);
 
-                if (ShouldPreserveCallerCancellation(e, failure, callerCancellationToken))
-                {
-                    throw;
-                }
+                ThrowCallerCancellationIfRequired(e, failure, callerCancellationToken);
 
                 throw CreateExecutionFailure(
                     e,
@@ -610,6 +607,38 @@ internal sealed class Command : ICommandContext
         return executionFailure is OperationCanceledException
                && cancellationToken.IsCancellationRequested
                && ReferenceEquals(combinedFailure, executionFailure);
+    }
+
+    private static void ThrowCallerCancellationIfRequired(
+        Exception executionFailure,
+        Exception combinedFailure,
+        CancellationToken callerCancellationToken)
+    {
+        if (!ShouldPreserveCallerCancellation(
+                executionFailure,
+                combinedFailure,
+                callerCancellationToken))
+        {
+            return;
+        }
+
+        if (executionFailure is OperationCanceledException cancellationException
+            && cancellationException.CancellationToken != callerCancellationToken)
+        {
+            throw cancellationException is TaskCanceledException
+                ? new TaskCanceledException(
+                    cancellationException.Message,
+                    cancellationException,
+                    callerCancellationToken)
+                : new OperationCanceledException(
+                    cancellationException.Message,
+                    cancellationException,
+                    callerCancellationToken);
+        }
+
+        System.Runtime.ExceptionServices.ExceptionDispatchInfo
+            .Capture(executionFailure)
+            .Throw();
     }
 
     private Exception CreateExecutionFailure(
