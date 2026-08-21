@@ -161,6 +161,514 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public void CompletedOutput_OnlyObfuscatesActualSecretMatches()
+    {
+        var provider = new Mock<ISecretProvider>();
+        provider.Setup(x => x.GetSnapshot()).Returns(new SecretSnapshot(0, ["split-secret"]));
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(x => x.PatternComparison).Returns(StringComparison.Ordinal);
+        obfuscator
+            .Setup(x => x.ObfuscateWithConsumption("split-secret", null))
+            .Returns(new SecretObfuscationResult("**********", "split-secret".Length));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider.Object);
+
+        writer.WriteLine("ordinary output");
+        writer.WriteLine("split-secret");
+
+        obfuscator.Verify(x => x.ObfuscateWithConsumption("split-secret", null), Times.Once);
+        obfuscator.Verify(x => x.ObfuscateWithConsumption("ordinary output", null), Times.Never);
+    }
+
+    [Test]
+    public async Task CustomObfuscatorProcessesOutputWithoutRegisteredPatterns()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input.Replace("custom-secret", "[masked]", StringComparison.Ordinal));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("before custom-secret after");
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"before [masked] after{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task CustomObfuscatorCanRegisterDiscoveredSecret()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                provider.AddSecret("discovered-secret");
+                return input;
+            });
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.Secrets).Contains("discovered-secret");
+            await Assert.That(realConsole.ToString())
+                .IsEqualTo($"ordinary output{Environment.NewLine}");
+        }
+    }
+
+    [Test]
+    public async Task CustomObfuscatorCanWriteReentrantly()
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? writer = null;
+        var isReentrantWrite = false;
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (!isReentrantWrite)
+                {
+                    isReentrantWrite = true;
+                    try
+                    {
+                        writer!.WriteLine("custom diagnostic");
+                    }
+                    finally
+                    {
+                        isReentrantWrite = false;
+                    }
+                }
+
+                return input.Replace("custom-secret", "[masked]", StringComparison.Ordinal);
+            });
+        var realConsole = new StringWriter();
+
+        using (writer = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   realConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.WriteLine("custom-secret");
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"custom diagnostic{Environment.NewLine}[masked]{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CustomObfuscatorCanFlushReentrantly(bool useAsyncFlush)
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? writer = null;
+        var isReentrantFlush = false;
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (!isReentrantFlush)
+                {
+                    isReentrantFlush = true;
+                    try
+                    {
+                        if (useAsyncFlush)
+                        {
+                            writer!.FlushAsync().GetAwaiter().GetResult();
+                        }
+                        else
+                        {
+                            writer!.Flush();
+                        }
+                    }
+                    finally
+                    {
+                        isReentrantFlush = false;
+                    }
+                }
+
+                return input;
+            });
+        var realConsole = new StringWriter();
+
+        using (writer = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   realConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.WriteLine("ordinary output");
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CustomObfuscatorFlushesOtherWriterNormally(bool useAsyncFlush)
+    {
+        var provider = CreateProvider(out _);
+        var obfuscator = new Mock<ISecretObfuscator>();
+        CoordinatedTextWriter? errorWriter = null;
+        string? errorDuringCallback = null;
+        var errorConsole = new StringWriter();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (input == "stdout output")
+                {
+                    if (useAsyncFlush)
+                    {
+                        errorWriter!.FlushAsync().GetAwaiter().GetResult();
+                    }
+                    else
+                    {
+                        errorWriter!.Flush();
+                    }
+
+                    errorDuringCallback = errorConsole.ToString();
+                }
+
+                return input;
+            });
+
+        using (errorWriter = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   errorConsole,
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        using (var outputWriter = new CoordinatedTextWriter(
+                   Mock.Of<IConsoleCoordinator>(),
+                   new StringWriter(),
+                   () => false,
+                   obfuscator.Object,
+                   provider))
+        {
+            errorWriter.Write("stderr prefix");
+            outputWriter.WriteLine("stdout output");
+        }
+
+        await Assert.That(errorDuringCallback).IsEqualTo("stderr prefix");
+    }
+
+    [Test]
+    public async Task CustomObfuscatorFireAndForgetFlushExpiresReentrancy()
+    {
+        var provider = CreateProvider(out _);
+        var outputBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetUnattributedBuffer()).Returns(outputBuffer.Object);
+        var releaseFlush = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var childFlush = Task.CompletedTask;
+        var started = 0;
+        CoordinatedTextWriter? writer = null;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (Interlocked.Exchange(ref started, 1) == 0)
+                {
+                    childFlush = Task.Run(async () =>
+                    {
+                        await releaseFlush.Task.ConfigureAwait(false);
+                        writer!.Flush();
+                    });
+                }
+
+                return input;
+            });
+
+        using (writer = new CoordinatedTextWriter(
+                   coordinator.Object,
+                   new StringWriter(),
+                   () => true,
+                   obfuscator.Object,
+                   provider))
+        {
+            writer.Write("pending");
+            using (CoordinatedTextWriter.BeginDirectWrite())
+            {
+                writer.WriteLine("trigger");
+            }
+
+            releaseFlush.TrySetResult();
+            await childFlush.WaitAsync(TimeSpan.FromSeconds(5));
+
+            outputBuffer.Verify(x => x.WriteLine("pending"), Times.Once);
+        }
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RefreshesPatternsAfterComparisonChanges()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var maskingOptions = Microsoft.Extensions.Options.Options.Create(
+            new SecretMaskingOptions());
+        var obfuscator = new SecretObfuscator(provider, maskingOptions);
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator,
+            provider);
+
+        writer.WriteLine("abc");
+        maskingOptions.Value.CaseInsensitive = true;
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"abc{Environment.NewLine}**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RetriesWhenComparisonChangesDuringScan()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 2
+                ? StringComparison.Ordinal
+                : StringComparison.OrdinalIgnoreCase);
+        obfuscator.Setup(candidate => candidate.ObfuscateWithConsumption("abc", null))
+            .Returns(new SecretObfuscationResult("**********", 3));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_ReobfuscatesWhenComparisonChangesBeforeEmission()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 4
+                ? StringComparison.Ordinal
+                : StringComparison.OrdinalIgnoreCase);
+        obfuscator.Setup(candidate => candidate.Obfuscate("abc", null))
+            .Returns("**********");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}");
+        obfuscator.Verify(candidate => candidate.Obfuscate("abc", null), Times.Once);
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RestartsFromOriginalWhenComparisonBecomesOrdinal()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        var comparisonReads = 0;
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison)
+            .Returns(() => Interlocked.Increment(ref comparisonReads) <= 2
+                ? StringComparison.OrdinalIgnoreCase
+                : StringComparison.Ordinal);
+        obfuscator.Setup(candidate => candidate.ObfuscateWithConsumption("abc", null))
+            .Returns(new SecretObfuscationResult("**********", 3));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        writer.WriteLine("abc");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"abc{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DifferentModuleBuffers_ProcessConcurrently()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("split-secret");
+        using var firstWriteStarted = new ManualResetEventSlim();
+        using var releaseFirstWrite = new ManualResetEventSlim();
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        firstBuffer
+            .Setup(x => x.WriteLine("**********"))
+            .Callback(() =>
+            {
+                firstWriteStarted.Set();
+                if (!releaseFirstWrite.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the first module write.");
+                }
+            });
+        var secondBuffer = new Mock<IModuleOutputBuffer>();
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            CreateObfuscator(provider),
+            provider);
+
+        var firstWrite = Task.Run(() => WriteForModule(writer, typeof(FirstModule), "split-secret"));
+        try
+        {
+            await Assert.That(firstWriteStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+
+            var secondWrite = Task.Run(() => WriteForModule(writer, typeof(SecondModule), "ordinary output"));
+            await secondWrite.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseFirstWrite.Set();
+            await firstWrite.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        secondBuffer.Verify(x => x.WriteLine("ordinary output"), Times.Once);
+        firstBuffer.Verify(x => x.WriteLine("**********"), Times.Once);
+    }
+
+    [Test]
+    public async Task DifferentModuleBuffers_SerializeCustomObfuscatorCalls()
+    {
+        var provider = CreateProvider(out _);
+        using var firstObfuscationStarted = new ManualResetEventSlim();
+        using var secondWriterStarted = new ManualResetEventSlim();
+        using var secondObfuscationStarted = new ManualResetEventSlim();
+        using var secondBufferReached = new ManualResetEventSlim();
+        using var releaseFirstObfuscation = new ManualResetEventSlim();
+        var callCount = 0;
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (Interlocked.Increment(ref callCount) == 1)
+                {
+                    firstObfuscationStarted.Set();
+                    if (!releaseFirstObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release the first obfuscation.");
+                    }
+                }
+                else
+                {
+                    secondObfuscationStarted.Set();
+                }
+
+                return input;
+            });
+        var firstBuffer = new Mock<IModuleOutputBuffer>();
+        var secondBuffer = new Mock<IModuleOutputBuffer>();
+        secondBuffer
+            .Setup(x => x.WriteLine("second output"))
+            .Callback(() => secondBufferReached.Set());
+        var coordinator = new Mock<IConsoleCoordinator>();
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(FirstModule))).Returns(firstBuffer.Object);
+        coordinator.Setup(x => x.GetModuleBuffer(typeof(SecondModule))).Returns(secondBuffer.Object);
+
+        using var writer = new CoordinatedTextWriter(
+            coordinator.Object,
+            new StringWriter(),
+            () => true,
+            obfuscator.Object,
+            provider);
+
+        var firstWrite = Task.Run(() => WriteForModule(writer, typeof(FirstModule), "first output"));
+        var secondWrite = Task.CompletedTask;
+        try
+        {
+            await Assert.That(firstObfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            secondWrite = Task.Factory.StartNew(
+                () =>
+                {
+                    secondWriterStarted.Set();
+                    WriteForModule(writer, typeof(SecondModule), "second output");
+                },
+                CancellationToken.None,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
+            await Assert.That(secondWriterStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            await Assert.That(secondObfuscationStarted.IsSet).IsFalse();
+            await Assert.That(secondBufferReached.IsSet).IsFalse();
+        }
+        finally
+        {
+            releaseFirstObfuscation.Set();
+            await Task.WhenAll(firstWrite, secondWrite).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(secondObfuscationStarted.IsSet).IsTrue();
+        await Assert.That(secondBufferReached.IsSet).IsTrue();
+        obfuscator.Verify(x => x.Obfuscate(It.IsAny<string>(), null), Times.Exactly(2));
+        firstBuffer.Verify(x => x.WriteLine("first output"), Times.Once);
+        secondBuffer.Verify(x => x.WriteLine("second output"), Times.Once);
+    }
+
+    [Test]
     public void BufferedConsoleWrites_RefreshPatternsAfterSecretRegistration()
     {
         var provider = CreateProvider(out _);
@@ -500,6 +1008,1379 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DirectConsoleWrite_MasksContainedSecretBeforeRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abcXYZdef");
+        provider.AddSecret("XYZ");
+        provider.AddSecret("efGHI");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("helloabcXYZdef");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("helloabc**********d");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksShorterSameStartSecretBeforeRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abc");
+        provider.AddSecret("abcdef");
+        provider.AddSecret("efxyZ");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcdefxy");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********d");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_HonorsCaseSensitiveOverlappingSecrets()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABC");
+        provider.AddSecret("bcx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider, caseInsensitive: false),
+            provider);
+
+        writer.Write("abcx");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("a**********");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RescansPartiallyObfuscatedCandidates()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("ABCDEF");
+        provider.AddSecret("abc");
+        provider.AddSecret("defx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcdefx");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("********************");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_DoesNotMistakeCustomMaskSuffixForUnconsumedInput()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("bAb");
+        var obfuscator = new SecretObfuscator(
+            provider,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                CaseInsensitive = true,
+                MaskValue = "ab",
+            }));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator,
+            provider);
+
+        writer.Write("babaBABb");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("abaabb");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_PreservesTailAfterCaseSensitiveFalseMatch()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("a");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider, caseInsensitive: false),
+            provider);
+
+        writer.Write("aA");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********A");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksSelfOverlappingMatchBeforeRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abcabc");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("ABCabcabcabcabc");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("ABC********************");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksCompleteSecretOverlappingAnotherSecretPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abcdef");
+        provider.AddSecret("cdefgh");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("abcdef");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksCompleteMatchBeforeFalseCaseRetainedPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("AAAA");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider, caseInsensitive: false),
+            provider);
+
+        writer.Write("AAAAAa");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********Aa");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_PreservesCaseDistinctPatternsAcrossWrites()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("abc");
+        provider.AddSecret("ABC");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("AB");
+        writer.Write("C");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_RescansAfterRetainedPrefixIsInvalidated()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("token");
+        provider.AddSecret("secret");
+        provider.AddSecret("okensecretx");
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.Write("tokensecret");
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("********************");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_DefersRegistrationDuringMasking()
+    {
+        var provider = CreateProvider(out var nativeMasker);
+        provider.AddSecret("known-secret");
+        using var obfuscationStarted = new ManualResetEventSlim();
+        using var releaseObfuscation = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
+        var obfuscator = new Mock<ITrackedSecretObfuscator>();
+        obfuscator.SetupGet(candidate => candidate.PatternComparison).Returns(StringComparison.Ordinal);
+        obfuscator
+            .Setup(candidate => candidate.ObfuscateWithConsumption(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+            {
+                if (input == "known-secret")
+                {
+                    obfuscationStarted.Set();
+                    if (!releaseObfuscation.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release obfuscation.");
+                    }
+                }
+
+                return input is "known-secret" or "dynamic-secret"
+                    ? new SecretObfuscationResult("**********", input.Length)
+                    : new SecretObfuscationResult(input, 0);
+            });
+        obfuscator
+            .Setup(candidate => candidate.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) =>
+                input.Replace("dynamic-secret", "**********", StringComparison.Ordinal));
+        var realConsole = new StringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            obfuscator.Object,
+            provider);
+
+        var write = Task.Run(() => writer.WriteLine("known-secret dynamic-secret"));
+        var registration = Task.CompletedTask;
+        try
+        {
+            await Assert.That(obfuscationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("dynamic-secret");
+
+            releaseObfuscation.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseObfuscation.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"********** dynamic-secret{Environment.NewLine}");
+        await Assert.That(provider.Secrets).Contains("dynamic-secret");
+        obfuscator.Verify(
+            candidate => candidate.ObfuscateWithConsumption("dynamic-secret", null),
+            Times.Never);
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_DefersRegistrationUntilWriteCompletes()
+    {
+        var provider = CreateProvider(out var nativeMasker);
+        using var writeStarted = new ManualResetEventSlim();
+        using var releaseWrite = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
+        var realConsole = new BlockingWriteStringWriter(writeStarted, releaseWrite);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        var write = Task.Run(() => writer.WriteLine("dynamic-secret"));
+        var registration = Task.CompletedTask;
+        try
+        {
+            await Assert.That(writeStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            registration = Task.Run(() => provider.AddSecret("dynamic-secret"));
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("dynamic-secret");
+
+            releaseWrite.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseWrite.Set();
+            await Task.WhenAll(write, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString())
+            .IsEqualTo($"dynamic-secret{Environment.NewLine}");
+        await Assert.That(provider.Secrets).Contains("dynamic-secret");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AllowsSinkToRegisterSecret()
+    {
+        const string discoveredSecret = "sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringStringWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.ToString())
+                .IsEqualTo($"ordinary output{Environment.NewLine}");
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AppliesSinkSecretBeforeNextLine()
+    {
+        const string discoveredSecret = "sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringStringWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        writer.WriteLine($"ordinary output{Environment.NewLine}{discoveredSecret}");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new ReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"sink diagnostic{Environment.NewLine}ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkWriteWithoutExecutionContextFlow()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("diagnostic");
+        var realConsole = new UnflowedReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"ordinary output{Environment.NewLine}sink **********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_Isolates_Nested_Reentrant_Sink_Writes()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new NestedReentrantWritingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"sink diagnostic 2{Environment.NewLine}"
+            + $"sink diagnostic 1{Environment.NewLine}"
+            + $"ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_MasksSecretRegisteredBeforeReentrantSinkWrite()
+    {
+        const string discoveredSecret = "nested-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+        var realConsole = new SecretRegisteringReentrantWriter(provider, discoveredSecret);
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"**********{Environment.NewLine}ordinary output{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_AllowsReentrantSinkFlush()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new ReentrantFlushingStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.FlushCount).IsEqualTo(1);
+            await Assert.That(realConsole.ToString()).IsEqualTo(
+                $"ordinary output{Environment.NewLine}");
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_AllowsReentrantRegistration()
+    {
+        const string discoveredSecret = "nested-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider => outerProvider.ExecuteWithStableSecrets(
+                outerProvider,
+                innerProvider => innerProvider.AddSecret(discoveredSecret)));
+
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
+    public async Task StableSecretEmission_ExposesScopedRegistrationToDirectMasking()
+    {
+        const string discoveredSecret = "scoped-direct-masking-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? maskedOutput = null;
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            scopedProvider =>
+            {
+                scopedProvider.AddSecret(discoveredSecret);
+                maskedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+            });
+
+        await Assert.That(maskedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_UsesEvenDeferredSnapshotVersions()
+    {
+        const string discoveredSecret = "even-deferred-version-secret";
+        var provider = CreateProvider(out _);
+        using var emissionStarted = new ManualResetEventSlim();
+        using var releaseEmission = new ManualResetEventSlim();
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            emissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the emission.");
+                }
+            }));
+
+        long deferredVersion;
+        try
+        {
+            await Assert.That(emissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            provider.AddSecret(discoveredSecret);
+            deferredVersion = provider.Version;
+        }
+        finally
+        {
+            releaseEmission.Set();
+            await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(deferredVersion).IsLessThan(0);
+            await Assert.That(deferredVersion & 1).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_DoesNotHoldStateLockWhileWaitingForReaderLock()
+    {
+        var provider = CreateProvider(out _);
+        var emissionLock = (ReaderWriterLockSlim) typeof(SecretProvider)
+            .GetField(
+                "_secretEmissionLock",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(provider)!;
+        using var firstEmissionStarted = new ManualResetEventSlim();
+        using var releaseFirstEmission = new ManualResetEventSlim();
+        using var writerAcquired = new ManualResetEventSlim();
+        using var releaseWriter = new ManualResetEventSlim();
+        using var contenderStarted = new ManualResetEventSlim();
+
+        var firstEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            firstEmissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseFirstEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the first emission.");
+                }
+            }));
+
+        await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        var queuedWriter = Task.Run(() =>
+        {
+            emissionLock.EnterWriteLock();
+            try
+            {
+                writerAcquired.Set();
+                if (!releaseWriter.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the queued writer.");
+                }
+            }
+            finally
+            {
+                emissionLock.ExitWriteLock();
+            }
+        });
+
+        await Assert.That(SpinWait.SpinUntil(
+            () => emissionLock.WaitingWriteCount > 0,
+            TimeSpan.FromSeconds(5))).IsTrue();
+        var contender = Task.Run(() => provider.ExecuteWithStableSecrets(
+            contenderStarted,
+            started => started.Set()));
+
+        try
+        {
+            await Assert.That(SpinWait.SpinUntil(
+                () => emissionLock.WaitingReadCount > 0,
+                TimeSpan.FromSeconds(5))).IsTrue();
+            releaseFirstEmission.Set();
+            await Assert.That(writerAcquired.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            releaseWriter.Set();
+            await Task.WhenAll(firstEmission, queuedWriter, contender)
+                .WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(contenderStarted.IsSet).IsTrue();
+        }
+        finally
+        {
+            releaseFirstEmission.Set();
+            releaseWriter.Set();
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_AllowsCrossThreadRegistration()
+    {
+        const string discoveredSecret = "cross-thread-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider => Task.Run(() => outerProvider.AddSecret(discoveredSecret))
+                .GetAwaiter()
+                .GetResult()));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
+    public async Task StableSecretEmission_AllowsUnflowedRegistrationBeforeInheritedEmission()
+    {
+        const string discoveredSecret = "unflowed-sink-discovered-secret";
+        var provider = CreateProvider(out _);
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                var inheritedEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    outerProvider,
+                    static _ => { }));
+                if (!inheritedEmission.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited emission.");
+                }
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(provider.Secrets).Contains(discoveredSecret);
+    }
+
+    [Test]
+    public async Task StableSecretEmission_ExposesUnflowedRegistrationToDirectMasking()
+    {
+        const string discoveredSecret = "unflowed-direct-masking-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? directOutput = null;
+        string? stableOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                            directOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                stableOutput = obfuscator.Obfuscate(discoveredSecret, null);
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        using (Assert.Multiple())
+        {
+            await Assert.That(directOutput).IsEqualTo("**********");
+            await Assert.That(stableOutput).IsEqualTo(discoveredSecret);
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_AllowsUnflowedRegisteringWorkerToEmitNext()
+    {
+        const string discoveredSecret = "unflowed-register-then-emit-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? emittedOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var workerCompleted = new ManualResetEventSlim();
+                Exception? workerException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                            outerProvider.ExecuteWithStableSecrets(
+                                discoveredSecret,
+                                value => emittedOutput = obfuscator.Obfuscate(value, null));
+                        }
+                        catch (Exception exception)
+                        {
+                            workerException = exception;
+                        }
+                        finally
+                        {
+                            workerCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!workerCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed worker emission.");
+                }
+
+                if (workerException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed worker emission failed.", workerException);
+                }
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_ReusesUnscopedRegistrationContext()
+    {
+        var provider = CreateProvider(out _);
+        using var emissionStarted = new ManualResetEventSlim();
+        using var releaseEmission = new ManualResetEventSlim();
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            emissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release the emission.");
+                }
+            }));
+
+        try
+        {
+            await Assert.That(emissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            Task<int> registration;
+            using (ExecutionContext.SuppressFlow())
+            {
+                registration = Task.Run(() =>
+                {
+                    for (var index = 0; index < 100; index++)
+                    {
+                        provider.AddSecret($"unscoped-secret-{index}");
+                    }
+
+                    return GetUnscopedRegistrationContextDepth();
+                });
+            }
+
+            await Assert.That(await registration.WaitAsync(TimeSpan.FromSeconds(5))).IsEqualTo(1);
+        }
+        finally
+        {
+            releaseEmission.Set();
+            await emission.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_RefreshesNestedSnapshotAfterUnflowedRegistration()
+    {
+        const string discoveredSecret = "unflowed-before-nested-emission-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        string? emittedOutput = null;
+
+        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                using var registrationCompleted = new ManualResetEventSlim();
+                Exception? registrationException = null;
+                ThreadPool.UnsafeQueueUserWorkItem(
+                    _ =>
+                    {
+                        try
+                        {
+                            outerProvider.AddSecret(discoveredSecret);
+                        }
+                        catch (Exception exception)
+                        {
+                            registrationException = exception;
+                        }
+                        finally
+                        {
+                            registrationCompleted.Set();
+                        }
+                    },
+                    null);
+                if (!registrationCompleted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for unflowed registration.");
+                }
+
+                if (registrationException is not null)
+                {
+                    throw new InvalidOperationException("Unflowed registration failed.", registrationException);
+                }
+
+                outerProvider.ExecuteWithStableSecrets(
+                    discoveredSecret,
+                    value => emittedOutput = obfuscator.Obfuscate(value, null));
+            }));
+
+        await emission.WaitAsync(TimeSpan.FromSeconds(10));
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_DoesNotWaitForInheritedEmissionBeforeNestedEmission()
+    {
+        const string discoveredSecret = "nested-before-inherited-completion-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var childStarted = new ManualResetEventSlim();
+        using var releaseChild = new ManualResetEventSlim();
+        using var nestedCompleted = new ManualResetEventSlim();
+        var childEmission = Task.CompletedTask;
+        string? emittedOutput = null;
+
+        var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                outerProvider.AddSecret(discoveredSecret);
+                childEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    childStarted,
+                    started =>
+                    {
+                        started.Set();
+                        if (!releaseChild.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release inherited emission.");
+                        }
+                    }));
+                if (!childStarted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited emission.");
+                }
+
+                outerProvider.ExecuteWithStableSecrets(
+                    discoveredSecret,
+                    value => emittedOutput = obfuscator.Obfuscate(value, null));
+                nestedCompleted.Set();
+            }));
+
+        try
+        {
+            await Assert.That(childStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(nestedCompleted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        }
+        finally
+        {
+            releaseChild.Set();
+            await Task.WhenAll(outerEmission, childEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_PublishesDeferredSecretsBeforeNextRootEmission()
+    {
+        const string discoveredSecret = "deferred-before-next-emission-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var firstEmissionStarted = new ManualResetEventSlim();
+        using var releaseFirstEmission = new ManualResetEventSlim();
+        using var secondEmissionAttempted = new ManualResetEventSlim();
+        using var secondEmissionStarted = new ManualResetEventSlim();
+
+        var firstEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            firstEmissionStarted,
+            started =>
+            {
+                started.Set();
+                if (!releaseFirstEmission.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Timed out waiting to release first emission.");
+                }
+            }));
+
+        await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+        provider.AddSecret(discoveredSecret);
+
+        string? emittedOutput = null;
+        Task secondEmission;
+        using (ExecutionContext.SuppressFlow())
+        {
+            secondEmission = Task.Run(() =>
+            {
+                secondEmissionAttempted.Set();
+                provider.ExecuteWithStableSecrets(
+                    secondEmissionStarted,
+                    started =>
+                    {
+                        started.Set();
+                        emittedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                    });
+            });
+        }
+
+        try
+        {
+            await Assert.That(secondEmissionAttempted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(secondEmissionStarted.Wait(TimeSpan.FromMilliseconds(250))).IsFalse();
+        }
+        finally
+        {
+            releaseFirstEmission.Set();
+            await Task.WhenAll(firstEmission, secondEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(emittedOutput).IsEqualTo("**********");
+    }
+
+    [Test]
+    public async Task StableSecretEmission_DefersPublicationWithoutWaitingForInheritedWorker()
+    {
+        const string discoveredSecret = "inherited-worker-deferred-secret";
+        var provider = CreateProvider(out _);
+        var obfuscator = CreateObfuscator(provider);
+        using var childScanned = new ManualResetEventSlim();
+        using var releaseChild = new ManualResetEventSlim();
+        using var nestedEmissionCompleted = new ManualResetEventSlim();
+        var childEmission = Task.CompletedTask;
+        string? emittedOutput = null;
+
+        var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                childEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    outerProvider,
+                    _ =>
+                    {
+                        var scannedOutput = obfuscator.Obfuscate(discoveredSecret, null);
+                        childScanned.Set();
+                        if (!releaseChild.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release inherited worker.");
+                        }
+
+                        emittedOutput = scannedOutput;
+                    }));
+                if (!childScanned.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for inherited worker scan.");
+                }
+
+                outerProvider.AddSecret(discoveredSecret);
+                outerProvider.ExecuteWithStableSecrets(outerProvider, static _ => { });
+                nestedEmissionCompleted.Set();
+            }));
+
+        try
+        {
+            await Assert.That(nestedEmissionCompleted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await outerEmission.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain(discoveredSecret);
+        }
+        finally
+        {
+            releaseChild.Set();
+            await Task.WhenAll(outerEmission, childEmission).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(emittedOutput).IsEqualTo(discoveredSecret);
+            await Assert.That(provider.Secrets).Contains(discoveredSecret);
+        }
+    }
+
+    [Test]
+    public async Task StableSecretEmission_HoldsLeaseForInheritedWorker()
+    {
+        var provider = CreateProvider(out var nativeMasker);
+        using var workerStarted = new ManualResetEventSlim();
+        using var releaseWorker = new ManualResetEventSlim();
+        using var registrationStarted = new ManualResetEventSlim();
+        nativeMasker
+            .Setup(masker => masker.MaskSecrets(It.IsAny<IEnumerable<string>>()))
+            .Callback(() => registrationStarted.Set());
+        var worker = Task.CompletedTask;
+
+        provider.ExecuteWithStableSecrets(
+            provider,
+            outerProvider =>
+            {
+                worker = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                    workerStarted,
+                    started =>
+                    {
+                        started.Set();
+                        if (!releaseWorker.Wait(TimeSpan.FromSeconds(10)))
+                        {
+                            throw new TimeoutException("Timed out waiting to release worker emission.");
+                        }
+                    }));
+                if (!workerStarted.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Timed out waiting for worker emission to start.");
+                }
+            });
+
+        var registration = Task.Run(() => provider.AddSecret("late-worker-secret"));
+        try
+        {
+            await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await registration.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(provider.Secrets).DoesNotContain("late-worker-secret");
+
+            releaseWorker.Set();
+            await Task.WhenAll(worker, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            releaseWorker.Set();
+            await Task.WhenAll(worker, registration).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(provider.Secrets).Contains("late-worker-secret");
+    }
+
+    [Test]
+    public async Task FlushAsync_UsesUnderlyingAsynchronousFlush()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new AsyncFlushTrackingWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        await writer.FlushAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(realConsole.AsyncFlushCount).IsEqualTo(1);
+            await Assert.That(realConsole.SynchronousFlushCount).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Flush_AllowsReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new WritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_AllowsSynchronousReentrantSinkWrite()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new WritingOnAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_AllowsReentrantSinkWriteAfterAwait()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new AsyncWritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_AllowsReentrantSinkWriteWithoutExecutionContextFlow()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new UnflowedAsyncWritingOnFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"flush diagnostic{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_ReentrantFlushDrainsPartialPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialWriteAndAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(realConsole.ToString()).IsEqualTo("sec");
+    }
+
+    [Test]
+    public async Task FlushAsync_ExcludesUnrelatedWritesUntilUnderlyingFlushCompletes()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        var flushTask = writer.FlushAsync();
+        await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+
+        Task writeTask;
+        using (ExecutionContext.SuppressFlow())
+        {
+            writeTask = Task.Run(() => writer.WriteLine("after flush"));
+        }
+
+        try
+        {
+            await writeTask.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(realConsole.ToString()).IsEmpty();
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await Task.WhenAll(flushTask, writeTask).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"after flush{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FlushAsync_ExpiresReentrancyForFireAndForgetSinkWork()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new FireAndForgetFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        await writer.FlushAsync();
+        Task ownerTask;
+        using (ExecutionContext.SuppressFlow())
+        {
+            ownerTask = Task.Run(() => writer.WriteLine("owner"));
+        }
+
+        await realConsole.OwnerEntered.WaitAsync(TimeSpan.FromSeconds(5));
+        realConsole.ReleaseChild();
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await Assert.That(realConsole.ChildEntered.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            realConsole.ReleaseOwner();
+            await Task.WhenAll(ownerTask, realConsole.ChildTask).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"owner{Environment.NewLine}child{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FireAndForgetSinkWritePreservesBufferAcrossLeaseExpiry()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new SplitWriteAcrossOutputLeaseStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("owner");
+        realConsole.ReleaseSuffix();
+        await realConsole.ChildTask.WaitAsync(TimeSpan.FromSeconds(5));
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"owner{Environment.NewLine}**********{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task FireAndForgetSinkPartialWriteSurvivesScopeCollection()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialFireAndForgetWriteStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("owner");
+        await realConsole.ChildCompleted.WaitAsync(TimeSpan.FromSeconds(5));
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        writer.Flush();
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"owner{Environment.NewLine}sec");
+    }
+
+    [Test]
     public async Task PartialLine_Keeps_Its_Original_Destination_When_Buffering_Starts()
     {
         var provider = CreateProvider(out _);
@@ -525,6 +2406,28 @@ public class SecretMaskingPatternTests
         outputBuffer.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
     }
 
+    private static int GetUnscopedRegistrationContextDepth()
+    {
+        var contextHolder = typeof(SecretProvider)
+            .GetField(
+                "CurrentUnscopedRegistrationContext",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(null)!;
+        var currentContext = contextHolder.GetType()
+            .GetProperty("Value")!
+            .GetValue(contextHolder);
+        var depth = 0;
+        while (currentContext is not null)
+        {
+            depth++;
+            currentContext = currentContext.GetType()
+                .GetProperty("Parent")!
+                .GetValue(currentContext);
+        }
+
+        return depth;
+    }
+
     private static SecretProvider CreateProvider(
         out Mock<IBuildSystemSecretMasker> nativeMasker,
         Mock<ILogger<SecretProvider>>? logger = null,
@@ -544,10 +2447,437 @@ public class SecretMaskingPatternTests
             logger?.Object ?? Mock.Of<ILogger<SecretProvider>>());
     }
 
-    private static SecretObfuscator CreateObfuscator(ISecretProvider provider)
+    private static SecretObfuscator CreateObfuscator(
+        ISecretProvider provider,
+        bool caseInsensitive = false)
     {
         return new SecretObfuscator(
             provider,
-            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                CaseInsensitive = caseInsensitive,
+            }));
+    }
+
+    private static void WriteForModule(CoordinatedTextWriter writer, Type moduleType, string value)
+    {
+        var previousModule = ModuleLogger.CurrentModuleType.Value;
+        try
+        {
+            ModuleLogger.CurrentModuleType.Value = moduleType;
+            writer.WriteLine(value);
+        }
+        finally
+        {
+            ModuleLogger.CurrentModuleType.Value = previousModule;
+        }
+    }
+
+    private sealed class BlockingWriteStringWriter(
+        ManualResetEventSlim writeStarted,
+        ManualResetEventSlim releaseWrite) : StringWriter
+    {
+        public override void WriteLine(string? value)
+        {
+            writeStarted.Set();
+            if (!releaseWrite.Wait(TimeSpan.FromSeconds(10)))
+            {
+                throw new TimeoutException("Timed out waiting to release the console write.");
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class SecretRegisteringStringWriter(
+        ISecretRegistry secretRegistry,
+        string secret) : StringWriter
+    {
+        public override void WriteLine(string? value)
+        {
+            secretRegistry.AddSecret(secret);
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class ReentrantWritingStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("sink diagnostic");
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class NestedReentrantWritingStringWriter : StringWriter
+    {
+        private int _depth;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (_depth < 2)
+            {
+                _depth++;
+                try
+                {
+                    Writer!.WriteLine($"sink diagnostic {_depth}");
+                }
+                finally
+                {
+                    _depth--;
+                }
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class ReentrantFlushingStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public int FlushCount { get; private set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Flush();
+            }
+
+            base.WriteLine(value);
+        }
+
+        public override void Flush()
+        {
+            FlushCount++;
+        }
+    }
+
+    private sealed class PartialWriteAndFlushStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Write("sec");
+                Writer.Flush();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class SecretRegisteringReentrantWriter(
+        ISecretRegistry secretRegistry,
+        string secret) : StringWriter
+    {
+        private bool _hasWrittenSecret;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenSecret)
+            {
+                _hasWrittenSecret = true;
+                secretRegistry.AddSecret(secret);
+                Writer!.WriteLine(secret);
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class WritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void Flush()
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
+        }
+    }
+
+    private sealed class WritingOnAsyncFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override Task FlushAsync()
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class AsyncWritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override async Task FlushAsync()
+        {
+            await Task.Yield();
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Writer!.WriteLine("flush diagnostic");
+            }
+        }
+    }
+
+    private sealed class UnflowedReentrantWritingStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override void WriteLine(string? value)
+        {
+            if (!_hasWrittenDiagnostic)
+            {
+                _hasWrittenDiagnostic = true;
+                Task diagnosticWrite;
+                using (ExecutionContext.SuppressFlow())
+                {
+                    diagnosticWrite = Task.Run(() => Writer!.WriteLine("sink diagnostic"));
+                }
+
+                diagnosticWrite.WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class UnflowedAsyncWritingOnFlushStringWriter : StringWriter
+    {
+        private bool _hasWrittenDiagnostic;
+
+        public TextWriter? Writer { get; set; }
+
+        public override Task FlushAsync()
+        {
+            if (_hasWrittenDiagnostic)
+            {
+                return Task.CompletedTask;
+            }
+
+            _hasWrittenDiagnostic = true;
+            using (ExecutionContext.SuppressFlow())
+            {
+                return Task.Run(() => Writer!.WriteLine("flush diagnostic"));
+            }
+        }
+    }
+
+    private sealed class PartialWriteAndAsyncFlushStringWriter : StringWriter
+    {
+        private bool _hasFlushed;
+
+        public TextWriter? Writer { get; set; }
+
+        public override async Task FlushAsync()
+        {
+            if (!_hasFlushed)
+            {
+                _hasFlushed = true;
+                Writer!.Write("sec");
+                await Writer.FlushAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
+    private sealed class AsyncFlushTrackingWriter : StringWriter
+    {
+        public int AsyncFlushCount { get; private set; }
+
+        public int SynchronousFlushCount { get; private set; }
+
+        public override void Flush()
+        {
+            SynchronousFlushCount++;
+        }
+
+        public override Task FlushAsync()
+        {
+            AsyncFlushCount++;
+            return Task.CompletedTask;
+        }
+    }
+
+    [Test]
+    public async Task DirectConsoleWrite_ReentrantFlushDrainsPartialPrefix()
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new PartialWriteAndFlushStringWriter();
+
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        realConsole.Writer = writer;
+
+        writer.WriteLine("ordinary output");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"secordinary output{Environment.NewLine}");
+    }
+
+    private sealed class BlockingAsyncFlushStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _flushStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseFlush = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task FlushStarted => _flushStarted.Task;
+
+        public void ReleaseFlush() => _releaseFlush.TrySetResult();
+
+        public override async Task FlushAsync()
+        {
+            _flushStarted.TrySetResult();
+            await _releaseFlush.Task.ConfigureAwait(false);
+        }
+    }
+
+    private sealed class FireAndForgetFlushStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _ownerEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _childEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseOwner = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseChild = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TextWriter? Writer { get; set; }
+
+        public Task OwnerEntered => _ownerEntered.Task;
+
+        public Task ChildEntered => _childEntered.Task;
+
+        public Task ChildTask { get; private set; } = Task.CompletedTask;
+
+        public void ReleaseOwner() => _releaseOwner.TrySetResult();
+
+        public void ReleaseChild() => _releaseChild.TrySetResult();
+
+        public override Task FlushAsync()
+        {
+            ChildTask = Task.Run(async () =>
+            {
+                await _releaseChild.Task.ConfigureAwait(false);
+                Writer!.WriteLine("child");
+            });
+            return Task.CompletedTask;
+        }
+
+        public override void WriteLine(string? value)
+        {
+            if (value == "owner")
+            {
+                _ownerEntered.TrySetResult();
+                _releaseOwner.Task.GetAwaiter().GetResult();
+            }
+            else if (value == "child")
+            {
+                _childEntered.TrySetResult();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class SplitWriteAcrossOutputLeaseStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _prefixWritten = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _releaseSuffix = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _started;
+
+        public TextWriter? Writer { get; set; }
+
+        public Task ChildTask { get; private set; } = Task.CompletedTask;
+
+        public void ReleaseSuffix() => _releaseSuffix.TrySetResult();
+
+        public override void WriteLine(string? value)
+        {
+            if (!_started)
+            {
+                _started = true;
+                ChildTask = Task.Run(async () =>
+                {
+                    Writer!.Write("sec");
+                    _prefixWritten.TrySetResult();
+                    await _releaseSuffix.Task.ConfigureAwait(false);
+                    Writer.WriteLine("ret");
+                });
+                _prefixWritten.Task.GetAwaiter().GetResult();
+            }
+
+            base.WriteLine(value);
+        }
+    }
+
+    private sealed class PartialFireAndForgetWriteStringWriter : StringWriter
+    {
+        private readonly TaskCompletionSource _childCompleted = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _started;
+
+        public TextWriter? Writer { get; set; }
+
+        public Task ChildCompleted => _childCompleted.Task;
+
+        public override void WriteLine(string? value)
+        {
+            if (!_started)
+            {
+                _started = true;
+                _ = Task.Run(() =>
+                {
+                    Writer!.Write("sec");
+                    _childCompleted.TrySetResult();
+                });
+                _childCompleted.Task.GetAwaiter().GetResult();
+            }
+
+            base.WriteLine(value);
+        }
     }
 }
