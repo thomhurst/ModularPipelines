@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Microsoft.Playwright" />
     <PackageReference Include="MinVer" PrivateAssets="All" />
-    <PackageReference Include="Polly" />
+    <PackageReference Include="Kevlar" />
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 

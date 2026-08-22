@@ -227,7 +227,7 @@ ModularPipelines takes a different approach: each unit of work is a self-contain
 * **Secret obfuscation** - Automatic masking in logs
 * **Hooks** - Run code before/after any module
 * **Skip conditions** - Dynamically skip modules based on custom logic
-* **Retry policies** - Configurable retry with Polly integration
+* **Resilience shields** - Configurable retries and advanced Kevlar integration
 * **Requirements validation** - Check prerequisites before running
 * **Progress reporting** - Real-time console output with parallel execution visualization
 * **Source controlled** - Your pipeline is code, version it like code

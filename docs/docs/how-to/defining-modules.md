@@ -92,7 +92,7 @@ public class MyModule : Module<FileInfo>
 |--------|-------------|
 | `.WithTimeout(TimeSpan)` | Maximum execution time before module is cancelled |
 | `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter |
-| `.Advanced.WithRetryPolicy(IAsyncPolicy)` | Custom Polly policy for advanced scenarios |
+| `.Advanced.WithShield(Shield)` | Custom Kevlar resilience shield for advanced scenarios |
 | `.WithSkipWhen(...)` | Condition to skip the module |
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |

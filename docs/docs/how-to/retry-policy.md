@@ -1,9 +1,9 @@
 ---
-title: Retry Policies
+title: Retries and Resilience Shields
 sidebar_position: 6
 ---
 
-# Retry Policies
+# Retries and Resilience Shields
 
 When creating modules, you can configure retries per module using the `Configure()` method.
 The standard API supports exponential backoff, jitter, and exception filtering without exposing
@@ -42,18 +42,18 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Polly Policy
+### Advanced Resilience Shield
 
-For policy features outside the standard API, use the explicit `.Advanced` surface:
+For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryPolicy(
-            Policy.Handle<HttpRequestException>()
-                .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
+        .WithShield(
+            Shield.When<HttpRequestException>()
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
         .Build();
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -63,20 +63,20 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-### Context-Aware Retry Policy
+### Context-Aware Resilience Shield
 
-If you need access to the pipeline context when building your policy:
+If you need access to the pipeline context when building your shield:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryPolicy(ctx =>
+        .WithShield(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
-            return Policy.Handle<Exception>()
-                .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(i));
+            return Shield.When<Exception>()
+                .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
         })
         .Build();
 }
@@ -84,7 +84,7 @@ public class MyModule : Module<CommandResult>
 
 ## Combining with Other Behaviors
 
-Retry policies can be combined with other module behaviors:
+Retry configuration can be combined with other module behaviors:
 
 ```csharp
 public class ResilientModule : Module<CommandResult>
@@ -97,9 +97,9 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
-## Default Retry Policy
+## Default Retry Configuration
 
-Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
+Retries are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
@@ -117,4 +117,4 @@ builder.ConfigurePipelineOptions(options => options with
 await builder.ExecutePipelineAsync();
 ```
 
-This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.
+This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.
