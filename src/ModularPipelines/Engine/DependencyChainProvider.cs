@@ -8,15 +8,20 @@ internal class DependencyChainProvider : IDependencyChainProvider
 {
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly bool _planningSafeOnly;
+
+    public bool IsInitialized { get; private set; }
 
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
     public DependencyChainProvider(
         IModuleMetadataRegistry metadataRegistry,
-        IModuleDependencyRegistry dependencyRegistry)
+        IModuleDependencyRegistry dependencyRegistry,
+        bool planningSafeOnly = false)
     {
         _metadataRegistry = metadataRegistry;
         _dependencyRegistry = dependencyRegistry;
+        _planningSafeOnly = planningSafeOnly;
     }
 
     public void Initialize(IReadOnlyList<IModule> modules)
@@ -30,6 +35,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
         }
 
         ModuleDependencyModels = Detect(modules.Select(x => new ModuleDependencyModel(x)).ToArray());
+        IsInitialized = true;
     }
 
     private ModuleDependencyModel[] Detect(ModuleDependencyModel[] allModules)
@@ -73,9 +79,12 @@ internal class DependencyChainProvider : IDependencyChainProvider
             moduleDependencyModel.Module,
             availableModuleTypes,
             _dependencyRegistry,
-            dependencyContext: _metadataRegistry);
+            dependencyContext: _metadataRegistry,
+            planningSafeOnly: _planningSafeOnly);
 
-        foreach (var (dependencyType, _) in dependencies)
+        foreach (var dependencyType in dependencies
+                     .Select(dependency => dependency.DependencyType)
+                     .Distinct())
         {
             if (moduleModelsByType.TryGetValue(dependencyType, out var dependencyModel))
             {

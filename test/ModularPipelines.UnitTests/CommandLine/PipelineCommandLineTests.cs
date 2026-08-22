@@ -13,6 +13,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.PipelineCli;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -234,6 +235,22 @@ public class PipelineCommandLineTests
             Interlocked.Increment(ref _conditionEvaluations);
             return Task.FromResult(true);
         }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class RuntimeOnlyDependencyAttribute : DependsOnBaseAttribute
+    {
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+            throw new InvalidOperationException("Graph export must not evaluate runtime dependency predicates.");
+    }
+
+    [RuntimeOnlyDependency]
+    private sealed class RuntimeOnlyDependencyModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult("runtime-only-dependency");
     }
 
     [RunIfAll<TrackingCondition>]
@@ -915,6 +932,60 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandExportsWithoutExecutingModules()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-cli-graph-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "pipeline.json");
+            using var builder = CreateExecutionBuilder(["--graph", "json", path]);
+
+            var summary = await builder.ExecutePipelineAsync();
+            var graph = await File.ReadAllTextAsync(path);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(summary.Results).IsEmpty();
+                await Assert.That(graph).Contains(nameof(DependencyModule));
+                await Assert.That(graph).Contains(nameof(TargetModule));
+                await Assert.That(_dependencyExecutions).IsEqualTo(0);
+                await Assert.That(_targetExecutions).IsEqualTo(0);
+                await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task GraphCommandDoesNotEvaluateRuntimeDependencyPredicatesDuringBuild()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-cli-graph-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "pipeline.json");
+            using var builder = Pipeline.CreateBuilder(["--graph", "json", path]);
+            builder.AddModule<DependencyModule>();
+            builder.AddModule<RuntimeOnlyDependencyModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var graph = await File.ReadAllTextAsync(path);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(summary.Results).IsEmpty();
+                await Assert.That(graph).Contains(nameof(RuntimeOnlyDependencyModule));
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments("--help")]
     [Arguments("-h")]
     public async Task HelpOptionsPrintUsage(string option)
@@ -929,6 +1000,9 @@ public class PipelineCommandLineTests
             .Contains("ModularPipelines command-line options:")
             .And.Contains("--skip-module")
             .And.Contains("--");
+        await Assert.That(PipelineCommandLineHelp.Usage)
+            .Contains("--graph <mermaid|dot|json> [path]")
+            .And.Contains("--graph-path <path>");
     }
 
     [Test]
@@ -1186,7 +1260,7 @@ public class PipelineCommandLineTests
     }
 
     [Test]
-    public async Task PlanAsyncEvaluatesOptionalRegistrationChecks()
+    public async Task PlanAsyncDefersOptionalRegistrationChecks()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<RegistrationOnlyOptionalSkipModule>();
@@ -1199,9 +1273,100 @@ public class PipelineCommandLineTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
-            await Assert.That(plannedModule.ShouldSkip).IsTrue();
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsFalse();
+            await Assert.That(plannedModule.ShouldSkip).IsFalse();
         }
+    }
+
+    [Test]
+    public async Task MermaidGraphCommandDefaultsToRawMermaidExtension()
+    {
+        var options = PipelineCommandLineParser.Parse(["--graph", "mermaid"]);
+
+        await Assert.That(options.GraphPath).IsEqualTo("dependency-graph.mmd");
+    }
+
+    [Test]
+    public async Task GraphCommandDoesNotConsumeHostConfigurationAsPath()
+    {
+        var options = PipelineCommandLineParser.Parse(["--graph", "json", "Feature:Enabled=true"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.GraphPath).IsEqualTo("dependency-graph.json");
+            await Assert.That(options.HostArguments).IsEquivalentTo(["Feature:Enabled=true"]);
+        }
+    }
+
+    [Test]
+    public async Task GraphCommandDoesNotConsumeShortHelpAsPath()
+    {
+        var exception = await Assert.That(() =>
+                PipelineCommandLineParser.Parse(["--graph", "json", "-h"]))
+            .Throws<ArgumentException>();
+
+        await Assert.That(exception!.Message)
+            .Contains("'-h' cannot be combined with another pipeline command");
+    }
+
+    [Test]
+    public async Task GraphCommandAcceptsPathContainingEqualsSign()
+    {
+        var options = PipelineCommandLineParser.Parse(
+            ["--graph", "json", "artifacts/branch=main.json"]);
+
+        await Assert.That(options.GraphPath)
+            .IsEqualTo("artifacts/branch=main.json");
+    }
+
+    [Test]
+    public async Task GraphCommandAcceptsExplicitAmbiguousPath()
+    {
+        var options = PipelineCommandLineParser.Parse(
+            ["--graph", "json", "--graph-path", "branch=main.json"]);
+
+        await Assert.That(options.GraphPath).IsEqualTo("branch=main.json");
+    }
+
+    [Test]
+    public async Task GraphPathOptionRequiresGraphCommand()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph-path", "branch=main.json"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task GraphCommandRejectsDuplicatePaths()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph", "json", "graph.json", "--graph-path", "other.json"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task GraphCommandRejectsRepeatedFormats()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph", "json", "report.json", "--graph", "dot"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    [Arguments("0")]
+    [Arguments("1")]
+    [Arguments("2")]
+    public async Task GraphCommandRejectsNumericFormats(string format)
+    {
+        await Assert.That(() => Pipeline.CreateBuilder(["--graph", format]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task GraphCommandRejectsCombinedFormats()
+    {
+        await Assert.That(() => Pipeline.CreateBuilder(["--graph", "mermaid,dot"]))
+            .Throws<ArgumentException>();
     }
 
     [Test]

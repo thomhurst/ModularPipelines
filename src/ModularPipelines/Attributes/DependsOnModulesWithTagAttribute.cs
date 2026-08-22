@@ -12,7 +12,7 @@ namespace ModularPipelines.Attributes;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class DependsOnModulesWithTagAttribute : DependsOnBaseAttribute
+public sealed class DependsOnModulesWithTagAttribute : PlanningSafeDependsOnBaseAttribute
 {
     /// <summary>
     /// Gets the tag to match.

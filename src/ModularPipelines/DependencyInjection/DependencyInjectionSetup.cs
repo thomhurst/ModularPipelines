@@ -233,6 +233,11 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IUnusedModuleDetector, UnusedModuleDetector>()
             .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
             .AddSingleton<IDependencyPrinter, DependencyPrinter>()
+            .AddSingleton<PipelineExecutionState>()
+            .AddSingleton<ModuleDiscoveryPlanner>()
+            .AddSingleton<DependencyGraphExporter>()
+            .AddSingleton<IDependencyGraphExporter>(provider =>
+                provider.GetRequiredService<DependencyGraphExporter>())
             .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
     }
 

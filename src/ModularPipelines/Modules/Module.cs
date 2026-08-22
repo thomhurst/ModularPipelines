@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -52,25 +53,23 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IInternalModule
+public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
 {
-    private readonly Lazy<ModuleConfiguration> _configuration;
+    private Lazy<ModuleConfiguration> _configuration;
 
     // Exposes hook-transformed results to self-awaits without completing the public result early.
-    private readonly AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
+    private AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
     protected Module()
     {
-        _configuration = new Lazy<ModuleConfiguration>(
-            CreateConfiguration,
-            LazyThreadSafetyMode.ExecutionAndPublication);
+        _configuration = CreateConfigurationLazy();
     }
 
-    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } =
-        new(TaskCreationOptions.RunContinuationsAsynchronously);
+    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; private set; } =
+        CreateCompletionSource();
 
     /// <inheritdoc />
     Task<IModuleResult> IInternalModule.ResultTask
@@ -119,6 +118,44 @@ public abstract class Module<T> : IInternalModule
 
     /// <inheritdoc />
     ModuleConfiguration IModule.Configuration => _configuration.Value;
+
+    IModule IPlanningModuleCopyProvider.CreatePlanningCopy(IServiceProvider serviceProvider) =>
+        CreatePlanningCopy(serviceProvider);
+
+    bool IPlanningModuleCopyProvider.IsConfigurationInitialized => _configuration.IsValueCreated;
+
+    void IPlanningModuleCopyProvider.InitializeConfiguration() => _ = _configuration.Value;
+
+    void IPlanningModuleCopyProvider.InitializeConfiguration(ModuleConfiguration configuration) =>
+        _configuration = CreateInitializedConfigurationLazy(configuration);
+
+    IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance(
+        bool preserveConfiguration)
+    {
+        var copy = (Module<T>) MemberwiseClone();
+        copy._configuration = preserveConfiguration && _configuration.IsValueCreated
+            ? CreateInitializedConfigurationLazy(_configuration.Value)
+            : copy.CreateConfigurationLazy();
+        copy._provisionalResult = new AsyncLocal<ModuleResult<T>?>();
+        copy.CompletionSource = CreateCompletionSource();
+        return copy;
+    }
+
+    /// <summary>
+    /// Creates an isolated module instance for dependency-graph planning.
+    /// </summary>
+    /// <remarks>
+    /// Override this when the module is registered with constructor values that cannot be resolved
+    /// from dependency injection. The returned instance must not share mutable module-owned state.
+    /// </remarks>
+    /// <param name="serviceProvider">The pipeline service provider.</param>
+    /// <returns>An isolated module instance used only for planning.</returns>
+    protected virtual Module<T> CreatePlanningCopy(IServiceProvider serviceProvider)
+    {
+        return (Module<T>) serviceProvider
+            .GetRequiredService<IModuleActivator>()
+            .CreatePlanningModule(GetType(), serviceProvider);
+    }
 
     /// <summary>
     /// Executes the module's core logic.
@@ -308,6 +345,29 @@ public abstract class Module<T> : IInternalModule
         ModuleConfigurationAttributeAdapter.Apply(
             GetType(),
             Configure());
+
+    private Lazy<ModuleConfiguration> CreateConfigurationLazy() =>
+        new(CreateConfiguration, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static Lazy<ModuleConfiguration> CreateInitializedConfigurationLazy(
+        ModuleConfiguration configuration) =>
+        new(() => configuration, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static TaskCompletionSource<ModuleResult<T>> CreateCompletionSource() =>
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
+}
+
+internal interface IPlanningModuleCopyProvider
+{
+    bool IsConfigurationInitialized { get; }
+
+    IModule CreatePlanningCopy(IServiceProvider serviceProvider);
+
+    IModule CreatePlanningCopyFromRegisteredInstance(bool preserveConfiguration);
+
+    void InitializeConfiguration();
+
+    void InitializeConfiguration(ModuleConfiguration configuration);
 }
 
 #pragma warning restore SA1202

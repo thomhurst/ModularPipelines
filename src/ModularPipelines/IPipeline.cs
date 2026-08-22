@@ -1,3 +1,4 @@
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
 namespace ModularPipelines;
@@ -25,4 +26,18 @@ public interface IPipeline : IAsyncDisposable
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A summary of the pipeline execution results.</returns>
     Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Exports the resolved module dependency graph without executing modules.
+    /// </summary>
+    /// <param name="format">The output format.</param>
+    /// <param name="path">The destination file.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <exception cref="Exceptions.PipelineException">
+    /// Thrown when pipeline execution has already started.
+    /// </exception>
+    Task ExportDependencyGraphAsync(
+        DependencyGraphFormat format,
+        string path,
+        CancellationToken cancellationToken = default);
 }

@@ -7,6 +7,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -65,12 +66,18 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
         IModule module,
         CancellationToken cancellationToken = default)
+        => ShouldIgnoreByCategory(module, _metadataRegistry, cancellationToken);
+
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var result = EvaluateCategoryConditions(module);
+        var result = EvaluateCategoryConditions(module, metadataRegistry);
         if (!result.ShouldIgnore
             && IsDistributedMaster()
-            && OperatingSystemConditions.HasImpossibleCombination(GetConditionAttributes(module.GetType()).All))
+            && OperatingSystemConditions.HasImpossibleCombination(module.GetType()))
         {
             result = (true, SkipDecision.Skip("Module requires mutually exclusive operating systems"));
         }
@@ -81,33 +88,77 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
         IModule module,
         CancellationToken cancellationToken = default)
+        => ShouldIgnoreForPlanning(module, _metadataRegistry, cancellationToken);
+
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return EvaluateShouldIgnore(module, cancellationToken);
+        return EvaluateShouldIgnore(
+            module,
+            cancellationToken,
+            useFreshAttributes: true,
+            metadataRegistry);
+    }
+
+    public async Task<PlanningConditionResult> ShouldIgnoreForGraphPlanning(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var categoryResult = EvaluateCategoryConditions(module, metadataRegistry);
+        if (categoryResult.ShouldIgnore)
+        {
+            return new PlanningConditionResult(
+                true,
+                categoryResult.SkipDecision,
+                IsResolved: true);
+        }
+
+        return await EvaluatePlanningConditions(
+                CreatePlanningConditionAttributes(module.GetType()),
+                _pipelineContextProvider.GetModuleContext(),
+                IsDistributedMaster(),
+                cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> EvaluateShouldIgnore(
         IModule module,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool useFreshAttributes = false,
+        IModuleMetadataRegistry? metadataRegistry = null)
     {
-        var categoryResult = EvaluateCategoryConditions(module);
+        var categoryResult = EvaluateCategoryConditions(module, metadataRegistry ?? _metadataRegistry);
         if (categoryResult.ShouldIgnore)
         {
             return categoryResult;
         }
 
         var moduleType = module.GetType();
-        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
+        var conditionResult = await IsRunnableCondition(
+                moduleType,
+                cancellationToken,
+                useFreshAttributes)
+            .ConfigureAwait(false);
         return conditionResult.IsRunnable
             ? (false, null)
             : (true, conditionResult.SkipDecision);
     }
 
     private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(IModule module)
+        => EvaluateCategoryConditions(module, _metadataRegistry);
+
+    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry)
     {
         var moduleType = module.GetType();
-        _metadataRegistry.FinalizeMetadata(moduleType, module);
-        var category = _metadataRegistry.GetCategory(moduleType);
+        metadataRegistry.FinalizeMetadata(moduleType, module);
+        var category = metadataRegistry.GetCategory(moduleType);
 
         if (IsIgnoreCategory(category))
         {
@@ -148,10 +199,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(
         Type moduleType,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool useFreshAttributes)
     {
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
-        var attributes = GetConditionAttributes(moduleType);
+        var attributes = useFreshAttributes
+            ? CreateConditionAttributes(moduleType)
+            : GetConditionAttributes(moduleType);
         return await EvaluateConditions(
             attributes,
             pipelineContext,
@@ -186,6 +240,307 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
             conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray());
     }
+
+    private static ConditionAttributes CreatePlanningConditionAttributes(Type moduleType)
+    {
+        var conditionData = CustomAttributeMetadata.GetApplicable(
+            moduleType,
+            static type => typeof(IConditionAttribute).IsAssignableFrom(type));
+        var planningAttributes = conditionData
+            .Where(data => IsPlanningConditionAttribute(data.AttributeType))
+            .Select(CustomAttributeMetadata.Create<IConditionAttribute>)
+            .ToArray();
+        var deferredTypes = conditionData
+            .Select(static data => data.AttributeType)
+            .Where(static type => !IsPlanningConditionAttribute(type))
+            .ToArray();
+
+        return new ConditionAttributes(
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
+            HasDeferredCondition(deferredTypes, ConditionLogic.Skip),
+            HasDeferredCondition(deferredTypes, ConditionLogic.All),
+            HasDeferredCondition(deferredTypes, ConditionLogic.Any));
+    }
+
+    private static bool HasDeferredCondition(
+        IEnumerable<Type> attributeTypes,
+        ConditionLogic logic) =>
+        attributeTypes.Any(type => GetConditionLogic(type) is not { } conditionLogic
+                                   || conditionLogic == logic);
+
+    private static ConditionLogic? GetConditionLogic(Type attributeType)
+    {
+        if (typeof(SkipIfAttribute).IsAssignableFrom(attributeType))
+        {
+            return ConditionLogic.Skip;
+        }
+
+        if (typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
+        {
+            return ConditionLogic.All;
+        }
+
+        return typeof(RunIfAnyAttribute).IsAssignableFrom(attributeType)
+            ? ConditionLogic.Any
+            : null;
+    }
+
+    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+        => IsPlanningConditionAttribute(attribute.GetType());
+
+    private static bool IsPlanningConditionAttribute(Type attributeType)
+    {
+        if (typeof(IPlanningConditionAttribute).IsAssignableFrom(attributeType))
+        {
+            return true;
+        }
+
+        var conditionTypes = attributeType.GetGenericArguments();
+        return attributeType.IsGenericType
+               && IsBuiltInGenericConditionAttribute(attributeType.GetGenericTypeDefinition())
+               && conditionTypes.All(static type =>
+                   typeof(IPlanningRunCondition).IsAssignableFrom(type));
+    }
+
+    private static bool IsBuiltInGenericConditionAttribute(Type type) =>
+        type == typeof(RunIfAllAttribute<>)
+        || type == typeof(RunIfAllAttribute<,>)
+        || type == typeof(RunIfAllAttribute<,,>)
+        || type == typeof(RunIfAllAttribute<,,,>)
+        || type == typeof(RunIfAnyAttribute<>)
+        || type == typeof(RunIfAnyAttribute<,>)
+        || type == typeof(RunIfAnyAttribute<,,>)
+        || type == typeof(RunIfAnyAttribute<,,,>)
+        || type == typeof(SkipIfAttribute<>)
+        || type == typeof(SkipIfAttribute<,>)
+        || type == typeof(SkipIfAttribute<,,>)
+        || type == typeof(SkipIfAttribute<,,,>);
+
+    private static async Task<PlanningConditionResult> EvaluatePlanningConditions(
+        ConditionAttributes attributes,
+        IPipelineContext pipelineContext,
+        bool isDistributedMaster,
+        CancellationToken cancellationToken)
+    {
+        var skipEvaluation = await EvaluateSkipPlanningConditions(
+                attributes.Skip,
+                pipelineContext,
+                attributes.HasDeferredSkip,
+                cancellationToken)
+            .ConfigureAwait(false);
+        if (skipEvaluation.Result is not null)
+        {
+            return skipEvaluation.Result;
+        }
+
+        var allEvaluation = await EvaluateAllPlanningConditions(
+                attributes.All,
+                pipelineContext,
+                isDistributedMaster,
+                attributes.HasDeferredAll,
+                cancellationToken)
+            .ConfigureAwait(false);
+        if (allEvaluation.Result is not null)
+        {
+            return allEvaluation.Result;
+        }
+
+        var anyEvaluation = await EvaluateAnyPlanningConditions(
+                attributes.Any,
+                pipelineContext,
+                attributes.HasDeferredAny,
+                cancellationToken)
+            .ConfigureAwait(false);
+        return anyEvaluation.Result ?? new PlanningConditionResult(
+            false,
+            null,
+            skipEvaluation.IsResolved
+            && allEvaluation.IsResolved
+            && anyEvaluation.IsResolved);
+    }
+
+    private static async Task<PlanningConditionEvaluation> EvaluateSkipPlanningConditions(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        bool hasDeferredConditions,
+        CancellationToken cancellationToken)
+    {
+        var isResolved = !hasDeferredConditions;
+        foreach (var attribute in attributes)
+        {
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                isResolved = false;
+                continue;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return new PlanningConditionEvaluation(
+                    PlanningSkip($"SkipIf<{attribute.ConditionNames}> returned true"),
+                    IsResolved: true);
+            }
+        }
+
+        return new PlanningConditionEvaluation(null, isResolved);
+    }
+
+    private static async Task<PlanningConditionEvaluation> EvaluateAllPlanningConditions(
+        IEnumerable<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        bool isDistributedMaster,
+        bool hasDeferredConditions,
+        CancellationToken cancellationToken)
+    {
+        var isResolved = !hasDeferredConditions;
+        var allConditions = attributes
+            .Select(attribute => (
+                Attribute: attribute,
+                OperatingSystemTargets: OperatingSystemConditions.GetTargets(attribute)))
+            .ToArray();
+        var operatingSystemTargets = allConditions
+            .SelectMany(condition => condition.OperatingSystemTargets)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        var deferOperatingSystemConditions = isDistributedMaster && operatingSystemTargets.Length == 1;
+        if (deferOperatingSystemConditions)
+        {
+            isResolved = false;
+        }
+
+        foreach (var (attribute, attributeOperatingSystemTargets) in allConditions)
+        {
+            if (deferOperatingSystemConditions && attributeOperatingSystemTargets.Count > 0)
+            {
+                continue;
+            }
+
+            if (!IsPlanningConditionAttribute(attribute))
+            {
+                isResolved = false;
+                continue;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
+            {
+                return new PlanningConditionEvaluation(
+                    PlanningSkip($"RunIfAll<{attribute.ConditionNames}> not satisfied"),
+                    IsResolved: true);
+            }
+        }
+
+        return new PlanningConditionEvaluation(null, isResolved);
+    }
+
+    private static async Task<PlanningConditionEvaluation> EvaluateAnyPlanningConditions(
+        IReadOnlyCollection<IConditionAttribute> attributes,
+        IPipelineContext pipelineContext,
+        bool hasDeferredConditions,
+        CancellationToken cancellationToken)
+    {
+        foreach (var attribute in attributes.Where(static attribute =>
+                     attribute is not IGroupedConditionAttribute))
+        {
+            var evaluation = await EvaluateSingleAnyPlanningCondition(
+                    attribute,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (evaluation.Result is not null)
+            {
+                return evaluation;
+            }
+        }
+
+        var isResolved = !hasDeferredConditions;
+        var evaluatedGroups = new HashSet<Type>();
+        foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
+        {
+            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            {
+                continue;
+            }
+
+            var evaluation = await EvaluateGroupedPlanningConditions(
+                    attributes,
+                    groupedAttribute.ConditionGroupType,
+                    pipelineContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (evaluation.Result is not null)
+            {
+                return evaluation;
+            }
+
+            isResolved &= evaluation.IsResolved;
+        }
+
+        return new PlanningConditionEvaluation(null, isResolved);
+    }
+
+    private static async Task<PlanningConditionEvaluation> EvaluateSingleAnyPlanningCondition(
+        IConditionAttribute attribute,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        if (!IsPlanningConditionAttribute(attribute))
+        {
+            return new PlanningConditionEvaluation(null, IsResolved: false);
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
+        var matches = await attribute.EvaluateAsync(pipelineContext, cancellationToken)
+            .ConfigureAwait(false);
+        return matches
+            ? new PlanningConditionEvaluation(null, IsResolved: true)
+            : new PlanningConditionEvaluation(
+                PlanningSkip($"RunIfAny<{attribute.ConditionNames}> not satisfied"),
+                IsResolved: true);
+    }
+
+    private static async Task<PlanningConditionEvaluation> EvaluateGroupedPlanningConditions(
+        IEnumerable<IConditionAttribute> attributes,
+        Type groupType,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        var alternatives = attributes
+            .OfType<IGroupedConditionAttribute>()
+            .Where(candidate => candidate.ConditionGroupType == groupType)
+            .ToArray();
+        var planningAlternatives = alternatives
+            .Where(IsPlanningConditionAttribute)
+            .ToArray();
+        if (await AnyConditionMatches(
+                planningAlternatives,
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false))
+        {
+            return new PlanningConditionEvaluation(null, IsResolved: true);
+        }
+
+        if (planningAlternatives.Length != alternatives.Length)
+        {
+            return new PlanningConditionEvaluation(null, IsResolved: false);
+        }
+
+        return new PlanningConditionEvaluation(
+            PlanningSkip(
+                $"No grouped run conditions were met: {string.Join(", ", alternatives.Select(x => x.ConditionNames))}"),
+            IsResolved: true);
+    }
+
+    private static PlanningConditionResult PlanningSkip(string reason) =>
+        new(true, SkipDecision.Skip(reason), IsResolved: true);
+
+    private readonly record struct PlanningConditionEvaluation(
+        PlanningConditionResult? Result,
+        bool IsResolved);
 
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateConditions(
         ConditionAttributes attributes,
@@ -332,5 +687,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private sealed record ConditionAttributes(
         IConditionAttribute[] Skip,
         IConditionAttribute[] All,
-        IConditionAttribute[] Any);
+        IConditionAttribute[] Any,
+        bool HasDeferredSkip = false,
+        bool HasDeferredAll = false,
+        bool HasDeferredAny = false);
 }

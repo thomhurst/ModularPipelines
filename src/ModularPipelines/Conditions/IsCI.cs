@@ -20,7 +20,7 @@ namespace ModularPipelines.Conditions;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class IsCI : IRunCondition
+public sealed class IsCI : IPlanningRunCondition
 {
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)

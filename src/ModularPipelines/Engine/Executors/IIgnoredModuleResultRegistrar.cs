@@ -1,4 +1,6 @@
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -14,4 +16,26 @@ internal interface IIgnoredModuleResultRegistrar
     /// remain skipped after history restoration.
     /// </summary>
     Task<OrganizedModules> RegisterIgnoredModuleResultsAsync(OrganizedModules organizedModules);
+
+    /// <summary>
+    /// Resolves ignored modules and history for planning without mutating runtime results.
+    /// </summary>
+    Task<IgnoredModuleResolution> ResolveIgnoredModuleResultsAsync(
+        OrganizedModules organizedModules,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Resolves which newly ignored planning modules have historical results.
+    /// </summary>
+    Task<IReadOnlySet<Type>> ResolveHistoryModuleTypesAsync(
+        IEnumerable<IModule> ignoredModules,
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken);
 }
+
+internal sealed record IgnoredModuleResolution(
+    OrganizedModules OrganizedModules,
+    IReadOnlySet<Type> UsedHistoryModuleTypes);

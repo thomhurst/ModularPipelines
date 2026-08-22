@@ -17,10 +17,16 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly ConcurrentDictionary<Type, Lazy<ModuleMetadata>> _finalizedMetadata = new();
     private readonly ConcurrentDictionary<(Type ModuleType, Type AttributeType), Attribute[]> _attributesByType = new();
     private readonly IModuleAttributeEventService _attributeEventService;
+    private readonly bool _planningSafeOnly;
 
-    public ModuleMetadataRegistry(IModuleAttributeEventService attributeEventService)
+    internal bool PlanningSafeOnly => _planningSafeOnly;
+
+    public ModuleMetadataRegistry(
+        IModuleAttributeEventService attributeEventService,
+        bool planningSafeOnly = false)
     {
         _attributeEventService = attributeEventService;
+        _planningSafeOnly = planningSafeOnly;
     }
 
     public void SetMetadata(Type moduleType, string key, object value)
@@ -59,12 +65,18 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     /// <inheritdoc />
     public bool HasAttribute<TAttribute>(Type moduleType)
         where TAttribute : Attribute
-        => GetCachedAttributes(moduleType, typeof(TAttribute)).Length > 0;
+        => _planningSafeOnly
+            ? CustomAttributeMetadata.GetApplicable(
+                    moduleType,
+                    typeof(TAttribute).IsAssignableFrom)
+                .Count > 0
+            : GetCachedAttributes(moduleType, typeof(TAttribute)).Length > 0;
 
     /// <inheritdoc />
     public TAttribute? GetAttribute<TAttribute>(Type moduleType)
         where TAttribute : Attribute
     {
+        EnsureAttributeValuesAvailable(typeof(TAttribute));
         var attributes = GetCachedAttributes(moduleType, typeof(TAttribute));
         return attributes.Length switch
         {
@@ -78,7 +90,10 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     /// <inheritdoc />
     public IEnumerable<TAttribute> GetAttributes<TAttribute>(Type moduleType)
         where TAttribute : Attribute
-        => GetCachedAttributes(moduleType, typeof(TAttribute)).Cast<TAttribute>();
+    {
+        EnsureAttributeValuesAvailable(typeof(TAttribute));
+        return GetCachedAttributes(moduleType, typeof(TAttribute)).Cast<TAttribute>();
+    }
 
     private ModuleMetadata CreateMetadata(Type moduleType, IModule instance)
     {
@@ -100,10 +115,30 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     {
         return _attributesByType.GetOrAdd(
             (moduleType, attributeType),
-            key => _attributeEventService.GetAttributes(key.ModuleType)
-                .Where(key.AttributeType.IsInstanceOfType)
-                .ToArray());
+            key => _planningSafeOnly
+                ? CustomAttributeMetadata.GetApplicable(
+                        key.ModuleType,
+                        key.AttributeType.IsAssignableFrom)
+                    .Select(CustomAttributeMetadata.Create<Attribute>)
+                    .ToArray()
+                : _attributeEventService.GetAttributes(key.ModuleType)
+                    .Where(key.AttributeType.IsInstanceOfType)
+                    .ToArray());
+    }
+
+    private void EnsureAttributeValuesAvailable(Type attributeType)
+    {
+        if (_planningSafeOnly
+            && attributeType != typeof(ModuleTagAttribute)
+            && attributeType != typeof(ModuleCategoryAttribute))
+        {
+            throw new PlanningMetadataValueUnavailableException(attributeType);
+        }
     }
 
     internal sealed record ModuleMetadata(FrozenSet<string> Tags, string? Category);
 }
+
+internal sealed class PlanningMetadataValueUnavailableException(Type attributeType)
+    : InvalidOperationException(
+        $"Attribute values for '{attributeType.Name}' are unavailable during dependency graph planning.");

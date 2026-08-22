@@ -37,3 +37,5 @@ public interface IConditionAttribute
     /// </summary>
     string ConditionNames { get; }
 }
+
+internal interface IPlanningConditionAttribute : IConditionAttribute;
