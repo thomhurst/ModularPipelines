@@ -20,10 +20,10 @@ public sealed class AdvancedModuleConfigurationBuilder
     /// </summary>
     /// <param name="shield">The Kevlar shield to execute around the module.</param>
     /// <returns>The parent module configuration builder.</returns>
-    public ModuleConfigurationBuilder WithRetryShield(Shield shield)
+    public ModuleConfigurationBuilder WithShield(Shield shield)
     {
         ArgumentNullException.ThrowIfNull(shield);
-        return _builder.SetAdvancedRetryShield(_ => shield);
+        return _builder.SetResilienceShield(_ => shield);
     }
 
     /// <summary>
@@ -31,9 +31,9 @@ public sealed class AdvancedModuleConfigurationBuilder
     /// </summary>
     /// <param name="factory">The shield factory.</param>
     /// <returns>The parent module configuration builder.</returns>
-    public ModuleConfigurationBuilder WithRetryShield(Func<IModuleContext, Shield> factory)
+    public ModuleConfigurationBuilder WithShield(Func<IModuleContext, Shield> factory)
     {
         ArgumentNullException.ThrowIfNull(factory);
-        return _builder.SetAdvancedRetryShield(factory);
+        return _builder.SetResilienceShield(factory);
     }
 }

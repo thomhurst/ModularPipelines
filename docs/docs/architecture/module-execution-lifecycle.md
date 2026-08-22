@@ -24,7 +24,7 @@ For a module that runs successfully, the phases are:
 11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
 12. The module result is published and dependants become eligible.
 
-`OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete retry policy, not each
+`OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete resilience shield, not each
 individual attempt.
 
 ## Skipped modules

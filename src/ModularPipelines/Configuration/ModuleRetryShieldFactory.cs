@@ -2,7 +2,7 @@ using Kevlar;
 
 namespace ModularPipelines.Configuration;
 
-internal static class ModuleRetryPolicyFactory
+internal static class ModuleRetryShieldFactory
 {
     internal static Shield Create(ModuleRetryConfiguration configuration)
     {

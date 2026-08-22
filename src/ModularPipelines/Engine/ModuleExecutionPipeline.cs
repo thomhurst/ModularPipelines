@@ -486,8 +486,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
-        // Get retry shield if applicable
-        var retryShield = GetRetryShield(config, moduleContext);
+        // Get resilience shield if applicable
+        var resilienceShield = GetResilienceShield(config, moduleContext);
         var moduleAttemptCount = 0;
         var moduleAttemptRespondedToCancellation = 0;
 
@@ -507,10 +507,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        // Create the execution function that optionally includes retry
-        Func<CancellationToken, Task<T>> executeFunc = retryShield != null
-            ? async ct => await retryShield.ExecuteAsync(
-                async retryToken => await ExecuteModuleAttempt(retryToken).ConfigureAwait(false),
+        // Create the execution function that optionally includes resilience strategies
+        Func<CancellationToken, Task<T>> executeFunc = resilienceShield != null
+            ? async ct => await resilienceShield.ExecuteAsync(
+                async shieldToken => await ExecuteModuleAttempt(shieldToken).ConfigureAwait(false),
                 ct).ConfigureAwait(false)
             : ExecuteModuleAttempt;
 
@@ -534,7 +534,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         if (timeoutResult.TimedOut)
         {
             var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
-                                                && (retryShield is null
+                                                && (resilienceShield is null
                                                     || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
 
             // Create a detailed timeout exception with information about token cooperation
@@ -553,25 +553,25 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return config.Timeout ?? _pipelineOptions.Value.DefaultModuleTimeout;
     }
 
-    private static Shield? GetRetryShield(
+    private static Shield? GetResilienceShield(
         ModuleConfiguration config,
         IModuleContext moduleContext)
     {
-        if (config.AdvancedRetryShieldFactory != null)
+        if (config.ResilienceShieldFactory != null)
         {
-            return config.AdvancedRetryShieldFactory(moduleContext);
+            return config.ResilienceShieldFactory(moduleContext);
         }
 
         if (config.RetryConfiguration != null)
         {
-            return ModuleRetryPolicyFactory.Create(config.RetryConfiguration);
+            return ModuleRetryShieldFactory.Create(config.RetryConfiguration);
         }
 
         // Check if default retry count is configured
         var defaultRetryCount = moduleContext.Services.Options.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
-            return ModuleRetryPolicyFactory.Create(new ModuleRetryConfiguration(
+            return ModuleRetryShieldFactory.Create(new ModuleRetryConfiguration(
                 defaultRetryCount,
                 ModuleRetryConfiguration.DefaultBaseDelay,
                 ShouldRetry: null));

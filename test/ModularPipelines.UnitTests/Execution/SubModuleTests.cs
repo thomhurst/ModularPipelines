@@ -170,7 +170,7 @@ public class SubModuleTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .Advanced
-            .WithRetryShield(Shield.When<Exception>().Retry(3, Backoff.None))
+            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -208,7 +208,7 @@ public class SubModuleTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .Advanced
-            .WithRetryShield(Shield.When<Exception>().Retry(3, Backoff.None))
+            .WithShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

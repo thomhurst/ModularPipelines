@@ -40,7 +40,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(GetSkipDecision)
         .Advanced
-        .WithRetryShield(Shield.Retry(0))
+        .WithShield(Shield.Retry(0))
         .Build();
 
     protected virtual SkipDecision GetSkipDecision(IModuleContext context) => SkipDecision.DoNotSkip;

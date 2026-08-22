@@ -1,9 +1,9 @@
 ---
-title: Retry Policies
+title: Retries and Resilience Shields
 sidebar_position: 6
 ---
 
-# Retry Policies
+# Retries and Resilience Shields
 
 When creating modules, you can configure retries per module using the `Configure()` method.
 The standard API supports exponential backoff, jitter, and exception filtering without exposing
@@ -42,7 +42,7 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Kevlar Shield
+### Advanced Resilience Shield
 
 For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
 
@@ -51,7 +51,7 @@ public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryShield(
+        .WithShield(
             Shield.When<HttpRequestException>()
                 .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
         .Build();
@@ -63,7 +63,7 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-### Context-Aware Retry Shield
+### Context-Aware Resilience Shield
 
 If you need access to the pipeline context when building your shield:
 
@@ -72,7 +72,7 @@ public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryShield(ctx =>
+        .WithShield(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
             return Shield.When<Exception>()
@@ -84,7 +84,7 @@ public class MyModule : Module<CommandResult>
 
 ## Combining with Other Behaviors
 
-Retry policies can be combined with other module behaviors:
+Retry configuration can be combined with other module behaviors:
 
 ```csharp
 public class ResilientModule : Module<CommandResult>
@@ -97,9 +97,9 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
-## Default Retry Policy
+## Default Retry Configuration
 
-Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
+Retries are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);

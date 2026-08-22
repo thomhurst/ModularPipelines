@@ -158,7 +158,7 @@ public sealed class ModuleConfiguration
     internal ModuleRetryConfiguration? RetryConfiguration { get; init; }
 
     /// <summary>
-    /// Gets the advanced Kevlar shield factory for module execution.
+    /// Gets the resilience shield factory for module execution.
     /// </summary>
-    internal Func<IModuleContext, Shield>? AdvancedRetryShieldFactory { get; init; }
+    internal Func<IModuleContext, Shield>? ResilienceShieldFactory { get; init; }
 }

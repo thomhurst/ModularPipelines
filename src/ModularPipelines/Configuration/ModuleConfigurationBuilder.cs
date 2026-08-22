@@ -45,7 +45,7 @@ public sealed class ModuleConfigurationBuilder
     private string? _cacheAssemblyVersionKey;
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
-    private Func<IModuleContext, Shield>? _advancedRetryShieldFactory;
+    private Func<IModuleContext, Shield>? _resilienceShieldFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
     private string[]? _parallelConstraintKeys;
@@ -364,7 +364,7 @@ public sealed class ModuleConfigurationBuilder
         }
 
         _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, shouldRetry);
-        _advancedRetryShieldFactory = null;
+        _resilienceShieldFactory = null;
         return this;
     }
 
@@ -432,7 +432,7 @@ public sealed class ModuleConfigurationBuilder
             PlanningSkipCondition = ComposePlanningSkipConditions(),
             Timeout = _timeout,
             RetryConfiguration = _retryConfiguration,
-            AdvancedRetryShieldFactory = _advancedRetryShieldFactory,
+            ResilienceShieldFactory = _resilienceShieldFactory,
             IgnoreFailuresCondition = _ignoreFailuresCondition,
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
@@ -447,9 +447,9 @@ public sealed class ModuleConfigurationBuilder
         };
     }
 
-    internal ModuleConfigurationBuilder SetAdvancedRetryShield(Func<IModuleContext, Shield> factory)
+    internal ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)
     {
-        _advancedRetryShieldFactory = factory;
+        _resilienceShieldFactory = factory;
         _retryConfiguration = null;
         return this;
     }

@@ -40,7 +40,7 @@ namespace ModularPipelines.Options;
 /// <para>
 /// <strong>Module Behaviors:</strong>
 /// Module-level configuration uses <see cref="Configuration.ModuleConfiguration"/>. A module with
-/// <see cref="Configuration.ModuleConfigurationBuilder.WithRetry"/> configured will use its custom retry policy instead of
+/// <see cref="Configuration.ModuleConfigurationBuilder.WithRetry"/> configured will use its custom retry configuration instead of
 /// <see cref="DefaultRetryCount"/>. Modules without configuration fall back to global settings.
 /// </para>
 /// </remarks>

@@ -42,7 +42,7 @@ public class ModuleConfigurationTests
         using (Assert.Multiple())
         {
             await Assert.That(config.RetryConfiguration).IsNull();
-            await Assert.That(config.AdvancedRetryShieldFactory).IsNull();
+            await Assert.That(config.ResilienceShieldFactory).IsNull();
         }
     }
 
@@ -344,7 +344,7 @@ public class ModuleConfigurationTests
             await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(3);
             await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(TimeSpan.FromMilliseconds(100));
             await Assert.That(config.RetryConfiguration.ShouldRetry).IsNull();
-            await Assert.That(config.AdvancedRetryShieldFactory).IsNull();
+            await Assert.That(config.ResilienceShieldFactory).IsNull();
         }
     }
 
@@ -383,37 +383,37 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Advanced_WithRetryShield_Direct_SetsAdvancedRetryShieldFactory()
+    public async Task Advanced_WithShield_Direct_SetsResilienceShieldFactory()
     {
         var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
             .Advanced
-            .WithRetryShield(shield)
+            .WithShield(shield)
             .Build();
 
-        await Assert.That(config.AdvancedRetryShieldFactory).IsNotNull();
+        await Assert.That(config.ResilienceShieldFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.AdvancedRetryShieldFactory!(context);
+        var result = config.ResilienceShieldFactory!(context);
 
         await Assert.That(result).IsEqualTo(shield);
     }
 
     [Test]
-    public async Task Advanced_WithRetryShield_Factory_SetsAdvancedRetryShieldFactory()
+    public async Task Advanced_WithShield_Factory_SetsResilienceShieldFactory()
     {
         var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
             .Advanced
-            .WithRetryShield(_ => shield)
+            .WithShield(_ => shield)
             .Build();
 
-        await Assert.That(config.AdvancedRetryShieldFactory).IsNotNull();
+        await Assert.That(config.ResilienceShieldFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.AdvancedRetryShieldFactory!(context);
+        var result = config.ResilienceShieldFactory!(context);
 
         await Assert.That(result).IsEqualTo(shield);
     }
@@ -438,7 +438,7 @@ public class ModuleConfigurationTests
     [Arguments(1, 200)]
     public async Task RetryDelayCalculator_AddsBoundedJitter(double jitterFactor, int expectedMilliseconds)
     {
-        var delay = ModuleRetryPolicyFactory.CalculateDelay(
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
             retryAttempt: 2,
             baseDelay: TimeSpan.FromMilliseconds(100),
             jitterFactor);
