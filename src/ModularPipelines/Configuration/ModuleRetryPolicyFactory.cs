@@ -1,21 +1,19 @@
-using Polly;
+using Kevlar;
 
 namespace ModularPipelines.Configuration;
 
 internal static class ModuleRetryPolicyFactory
 {
-    internal static IAsyncPolicy Create(ModuleRetryConfiguration configuration)
+    internal static Shield Create(ModuleRetryConfiguration configuration)
     {
-        var policyBuilder = configuration.ShouldRetry is null
-            ? Policy.Handle<Exception>()
-            : Policy.Handle<Exception>(configuration.ShouldRetry);
-
-        return policyBuilder.WaitAndRetryAsync(
-            configuration.Count,
-            retryAttempt => CalculateDelay(
-                retryAttempt,
-                configuration.BaseDelay,
-                Random.Shared.NextDouble()));
+        return Shield
+            .When(configuration.ShouldRetry ?? (static _ => true))
+            .Retry(
+                configuration.Count,
+                Backoff.Custom(retryAttempt => CalculateDelay(
+                    retryAttempt,
+                    configuration.BaseDelay,
+                    Random.Shared.NextDouble())));
     }
 
     internal static TimeSpan CalculateDelay(

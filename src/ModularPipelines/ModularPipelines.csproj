@@ -136,7 +136,7 @@
     <PackageReference Include="CliWrap">
       <PrivateAssets>compile;contentfiles;build;analyzers</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Polly" />
+    <PackageReference Include="Kevlar" />
     <PackageReference Include="Spectre.Console" />
     <PackageReference Include="EnumerableAsyncProcessor" />
     <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" />

@@ -1,3 +1,4 @@
+using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -7,8 +8,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Polly;
-using Polly.Retry;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -118,9 +117,9 @@ public class RetryTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .Advanced
-            .WithRetryPolicy(Policy
-                .Handle<Exception>()
-                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero))
+            .WithRetryShield(Shield
+                .When<Exception>()
+                .Retry(DefaultRetryCount, Backoff.None))
             .Build();
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -144,9 +143,9 @@ public class RetryTests : TestBase
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
             .Advanced
-            .WithRetryPolicy(Policy
-                .Handle<Exception>()
-                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.FromMilliseconds(RetryDelayMs)))
+            .WithRetryShield(Shield
+                .When<Exception>()
+                .Retry(DefaultRetryCount, Backoff.Constant(TimeSpan.FromMilliseconds(RetryDelayMs))))
             .Build();
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

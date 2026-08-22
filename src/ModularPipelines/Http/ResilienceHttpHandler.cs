@@ -1,14 +1,13 @@
+using Kevlar;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using Polly;
-using Polly.Retry;
 
 namespace ModularPipelines.Http;
 
 /// <summary>
-/// A delegating handler that adds retry resilience to HTTP requests using Polly.
+/// A delegating handler that adds retry resilience to HTTP requests using Kevlar.
 /// Handles transient failures including network errors and server errors (5xx).
 /// </summary>
 internal class ResilienceHttpHandler : DelegatingHandler
@@ -41,25 +40,27 @@ internal class ResilienceHttpHandler : DelegatingHandler
             contentBytes = await request.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        var retryPolicy = BuildRetryPolicy(options);
+        var retryShield = BuildRetryShield(options);
 
-        return await retryPolicy.ExecuteAsync(
+        return await retryShield.ExecuteAsync(
             async ct => await base.SendAsync(CloneRequest(request, contentBytes), ct).ConfigureAwait(false),
             cancellationToken).ConfigureAwait(false);
     }
 
-    private AsyncRetryPolicy<HttpResponseMessage> BuildRetryPolicy(HttpResilienceOptions options)
+    private Shield<HttpResponseMessage> BuildRetryShield(HttpResilienceOptions options)
     {
-        return Policy<HttpResponseMessage>
-            .Handle<HttpRequestException>(ex => options.RetryOnHttpRequestException)
-            .Or<TaskCanceledException>(ex =>
+        return Shield.For<HttpResponseMessage>()
+            .When<HttpRequestException>(_ => options.RetryOnHttpRequestException)
+            .Or<TaskCanceledException>(exception =>
                 options.RetryOnTimeout &&
-                ex.InnerException is TimeoutException)
+                exception.InnerException is TimeoutException)
             .OrResult(response => ShouldRetryStatusCode(response, options))
-            .WaitAndRetryAsync(
-                options.MaxRetryAttempts,
-                retryAttempt => CalculateDelay(retryAttempt, options),
-                OnRetry);
+            .Retry(retryOptions =>
+            {
+                retryOptions.MaxRetries = options.MaxRetryAttempts;
+                retryOptions.Backoff = Backoff.Custom(retryAttempt => CalculateDelay(retryAttempt, options));
+                retryOptions.OnRetry = OnRetry;
+            });
     }
 
     private static bool ShouldRetryStatusCode(HttpResponseMessage response, HttpResilienceOptions options)
@@ -93,17 +94,18 @@ internal class ResilienceHttpHandler : DelegatingHandler
         return baseDelay;
     }
 
-    private Task OnRetry(DelegateResult<HttpResponseMessage> outcome, TimeSpan delay, int retryAttempt, Polly.Context context)
+    private void OnRetry(RetryEvent<HttpResponseMessage> retryEvent)
     {
         var logger = _loggerProvider.GetLogger();
+        var outcome = retryEvent.Outcome;
 
         if (outcome.Exception != null)
         {
             logger.LogWarning("HTTP request failed with {ExceptionType}: {Message}. Retry attempt {RetryAttempt} after {Delay}ms",
                 outcome.Exception.GetType().Name,
                 outcome.Exception.Message,
-                retryAttempt,
-                (int) delay.TotalMilliseconds);
+                retryEvent.Attempt,
+                (int) retryEvent.Delay.TotalMilliseconds);
         }
         else if (outcome.Result != null)
         {
@@ -111,16 +113,14 @@ internal class ResilienceHttpHandler : DelegatingHandler
             {
                 logger.LogWarning("HTTP request returned {StatusCode}. Retry attempt {RetryAttempt} after {Delay}ms",
                     (int) outcome.Result.StatusCode,
-                    retryAttempt,
-                    (int) delay.TotalMilliseconds);
+                    retryEvent.Attempt,
+                    (int) retryEvent.Delay.TotalMilliseconds);
             }
             finally
             {
                 outcome.Result.Dispose();
             }
         }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

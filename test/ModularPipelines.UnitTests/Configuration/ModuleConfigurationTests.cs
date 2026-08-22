@@ -1,10 +1,10 @@
+using Kevlar;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Moq;
-using Polly;
 
 namespace ModularPipelines.UnitTests.Configuration;
 
@@ -42,7 +42,7 @@ public class ModuleConfigurationTests
         using (Assert.Multiple())
         {
             await Assert.That(config.RetryConfiguration).IsNull();
-            await Assert.That(config.AdvancedRetryPolicyFactory).IsNull();
+            await Assert.That(config.AdvancedRetryShieldFactory).IsNull();
         }
     }
 
@@ -344,7 +344,7 @@ public class ModuleConfigurationTests
             await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(3);
             await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(TimeSpan.FromMilliseconds(100));
             await Assert.That(config.RetryConfiguration.ShouldRetry).IsNull();
-            await Assert.That(config.AdvancedRetryPolicyFactory).IsNull();
+            await Assert.That(config.AdvancedRetryShieldFactory).IsNull();
         }
     }
 
@@ -383,43 +383,43 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task Advanced_WithRetryPolicy_Direct_SetsAdvancedRetryPolicyFactory()
+    public async Task Advanced_WithRetryShield_Direct_SetsAdvancedRetryShieldFactory()
     {
-        var policy = Policy.NoOpAsync();
+        var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
             .Advanced
-            .WithRetryPolicy(policy)
+            .WithRetryShield(shield)
             .Build();
 
-        await Assert.That(config.AdvancedRetryPolicyFactory).IsNotNull();
+        await Assert.That(config.AdvancedRetryShieldFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.AdvancedRetryPolicyFactory!(context);
+        var result = config.AdvancedRetryShieldFactory!(context);
 
-        await Assert.That(result).IsEqualTo(policy);
+        await Assert.That(result).IsEqualTo(shield);
     }
 
     [Test]
-    public async Task Advanced_WithRetryPolicy_Factory_SetsAdvancedRetryPolicyFactory()
+    public async Task Advanced_WithRetryShield_Factory_SetsAdvancedRetryShieldFactory()
     {
-        var policy = Policy.NoOpAsync();
+        var shield = Shield.Retry(0);
 
         var config = ModuleConfiguration.Create()
             .Advanced
-            .WithRetryPolicy(_ => policy)
+            .WithRetryShield(_ => shield)
             .Build();
 
-        await Assert.That(config.AdvancedRetryPolicyFactory).IsNotNull();
+        await Assert.That(config.AdvancedRetryShieldFactory).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = config.AdvancedRetryPolicyFactory!(context);
+        var result = config.AdvancedRetryShieldFactory!(context);
 
-        await Assert.That(result).IsEqualTo(policy);
+        await Assert.That(result).IsEqualTo(shield);
     }
 
     [Test]
-    public async Task StandardConfigurationSurface_DoesNotExposePollyTypes()
+    public async Task StandardConfigurationSurface_DoesNotExposeKevlarTypes()
     {
         var publicSurfaceTypes = typeof(ModuleConfigurationBuilder)
             .GetMethods()
@@ -430,7 +430,7 @@ public class ModuleConfigurationTests
                 .GetProperties()
                 .Select(property => property.PropertyType));
 
-        await Assert.That(publicSurfaceTypes.Any(ContainsPollyType)).IsFalse();
+        await Assert.That(publicSurfaceTypes.Any(ContainsKevlarType)).IsFalse();
     }
 
     [Test]
@@ -580,7 +580,7 @@ public class ModuleConfigurationTests
 
     #endregion
 
-    private static bool ContainsPollyType(Type type) =>
-        type.Namespace?.StartsWith("Polly", StringComparison.Ordinal) == true
-        || type.GetGenericArguments().Any(ContainsPollyType);
+    private static bool ContainsKevlarType(Type type) =>
+        type.Namespace?.StartsWith("Kevlar", StringComparison.Ordinal) == true
+        || type.GetGenericArguments().Any(ContainsKevlarType);
 }

@@ -42,18 +42,18 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Polly Policy
+### Advanced Kevlar Shield
 
-For policy features outside the standard API, use the explicit `.Advanced` surface:
+For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryPolicy(
-            Policy.Handle<HttpRequestException>()
-                .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
+        .WithRetryShield(
+            Shield.When<HttpRequestException>()
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
         .Build();
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -63,20 +63,20 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-### Context-Aware Retry Policy
+### Context-Aware Retry Shield
 
-If you need access to the pipeline context when building your policy:
+If you need access to the pipeline context when building your shield:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .Advanced
-        .WithRetryPolicy(ctx =>
+        .WithRetryShield(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
-            return Policy.Handle<Exception>()
-                .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(i));
+            return Shield.When<Exception>()
+                .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
         })
         .Build();
 }
@@ -117,4 +117,4 @@ builder.ConfigurePipelineOptions(options => options with
 await builder.ExecutePipelineAsync();
 ```
 
-This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.
+This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.

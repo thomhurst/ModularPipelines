@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Kevlar;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
@@ -14,7 +15,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using Polly;
 using Spectre.Console;
 using File = ModularPipelines.FileSystem.File;
 
@@ -40,7 +40,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(GetSkipDecision)
         .Advanced
-        .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(0))
+        .WithRetryShield(Shield.Retry(0))
         .Build();
 
     protected virtual SkipDecision GetSkipDecision(IModuleContext context) => SkipDecision.DoNotSkip;

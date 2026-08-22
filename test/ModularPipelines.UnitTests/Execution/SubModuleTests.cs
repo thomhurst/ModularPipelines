@@ -1,3 +1,4 @@
+using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Configuration;
@@ -8,8 +9,6 @@ using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
-using Polly;
-using Polly.Retry;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -171,7 +170,7 @@ public class SubModuleTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .Advanced
-            .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
+            .WithRetryShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -209,7 +208,7 @@ public class SubModuleTests : TestBase
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .Advanced
-            .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
+            .WithRetryShield(Shield.When<Exception>().Retry(3, Backoff.None))
             .Build();
 
         protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -401,8 +400,8 @@ public class SubModuleTests : TestBase
 
         var module = host.Services.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule>().First();
 
-        // Polly retries the entire module execution, so all counters increment on each retry
-        // With RetryAsync(3), we get 1 original + 3 retries = 4 total executions
+        // Kevlar retries the entire module execution, so all counters increment on each retry.
+        // With Retry(3), we get 1 original + 3 retries = 4 total executions.
         using (Assert.Multiple())
         {
             await Assert.That(module._oneCount).IsEqualTo(4);
@@ -423,8 +422,8 @@ public class SubModuleTests : TestBase
 
         var module = host.Services.GetServices<IModule>().OfType<SucceedingSubModulesDoNotRetryModule_WithReturnType>().First();
 
-        // Polly retries the entire module execution, so all counters increment on each retry
-        // With RetryAsync(3), we get 1 original + 3 retries = 4 total executions
+        // Kevlar retries the entire module execution, so all counters increment on each retry.
+        // With Retry(3), we get 1 original + 3 retries = 4 total executions.
         using (Assert.Multiple())
         {
             await Assert.That(module._oneCount).IsEqualTo(4);

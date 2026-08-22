@@ -1,10 +1,10 @@
+using Kevlar;
 using ModularPipelines.Context;
-using Polly;
 
 namespace ModularPipelines.Configuration;
 
 /// <summary>
-/// Provides advanced module configuration that depends on third-party policy abstractions.
+/// Provides advanced module configuration using Kevlar resilience shields.
 /// </summary>
 public sealed class AdvancedModuleConfigurationBuilder
 {
@@ -16,24 +16,24 @@ public sealed class AdvancedModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a custom Polly async policy for module execution.
+    /// Sets a custom Kevlar shield for module execution.
     /// </summary>
-    /// <param name="policy">The Polly async policy to execute around the module.</param>
+    /// <param name="shield">The Kevlar shield to execute around the module.</param>
     /// <returns>The parent module configuration builder.</returns>
-    public ModuleConfigurationBuilder WithRetryPolicy(IAsyncPolicy policy)
+    public ModuleConfigurationBuilder WithRetryShield(Shield shield)
     {
-        ArgumentNullException.ThrowIfNull(policy);
-        return _builder.SetAdvancedRetryPolicy(_ => policy);
+        ArgumentNullException.ThrowIfNull(shield);
+        return _builder.SetAdvancedRetryShield(_ => shield);
     }
 
     /// <summary>
-    /// Sets a factory that creates a custom Polly async policy from the module context.
+    /// Sets a factory that creates a custom Kevlar shield from the module context.
     /// </summary>
-    /// <param name="factory">The policy factory.</param>
+    /// <param name="factory">The shield factory.</param>
     /// <returns>The parent module configuration builder.</returns>
-    public ModuleConfigurationBuilder WithRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
+    public ModuleConfigurationBuilder WithRetryShield(Func<IModuleContext, Shield> factory)
     {
         ArgumentNullException.ThrowIfNull(factory);
-        return _builder.SetAdvancedRetryPolicy(factory);
+        return _builder.SetAdvancedRetryShield(factory);
     }
 }
