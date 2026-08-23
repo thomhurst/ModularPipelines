@@ -47,6 +47,8 @@ public partial class GoCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Go";
 
+    protected override string VersionArguments => "version";
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
