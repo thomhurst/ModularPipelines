@@ -407,7 +407,10 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
-    public async Task Argument_Aware_IsAvailableAsync_Falls_Back_To_Help()
+    [Arguments("version")]
+    [Arguments("version --client")]
+    public async Task Argument_Aware_IsAvailableAsync_Falls_Back_To_Help_For_Real_Version_Arguments(
+        string versionArguments)
     {
         var root = Path.Combine(Path.GetTempPath(), "mp-cli-executor-tests", Guid.NewGuid().ToString("N"));
         var scriptPath = Path.Combine(root, OperatingSystem.IsWindows() ? "probe.cmd" : "probe.sh");
@@ -433,7 +436,7 @@ public class ProcessCliCommandExecutorTests
 
             var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
 
-            var isAvailable = await executor.IsAvailableAsync(scriptPath, "--version");
+            var isAvailable = await executor.IsAvailableAsync(scriptPath, versionArguments);
 
             await Assert.That(isAvailable).IsTrue();
         }
