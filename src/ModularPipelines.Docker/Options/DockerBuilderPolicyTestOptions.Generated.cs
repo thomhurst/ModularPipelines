@@ -21,4 +21,10 @@ public record DockerBuilderPolicyTestOptions : DockerBuildxPolicyTestOptions
     {
     }
 
+    [Obsolete("Path is retained for compatibility.")]
+    public new string Path
+    {
+        get => base.Path;
+        init => base.Path = value;
+    }
 }

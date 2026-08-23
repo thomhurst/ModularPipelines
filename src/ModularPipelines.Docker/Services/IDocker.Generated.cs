@@ -23,7 +23,7 @@ public partial interface IDocker
     /// <summary>
     /// Gets the buildx sub-domain service.
     /// </summary>
-    IDockerBuildx Buildx { get; }
+    IDockerBuildx Buildx => throw new System.NotSupportedException();
 
     [Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
     IDockerBuilder Builder { get; }
@@ -31,57 +31,57 @@ public partial interface IDocker
     /// <summary>
     /// Gets the compose sub-domain service.
     /// </summary>
-    IDockerCompose Compose { get; }
+    IDockerCompose Compose => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    IDockerContainer Container { get; }
+    IDockerContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the context sub-domain service.
     /// </summary>
-    IDockerContext Context { get; }
+    IDockerContext Context => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    IDockerImage Image { get; }
+    IDockerImage Image => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    IDockerManifest Manifest { get; }
+    IDockerManifest Manifest => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    IDockerNetwork Network { get; }
+    IDockerNetwork Network => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IDockerPlugin Plugin { get; }
+    IDockerPlugin Plugin => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the swarm sub-domain service.
     /// </summary>
-    IDockerSwarm Swarm { get; }
+    IDockerSwarm Swarm => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the system sub-domain service.
     /// </summary>
-    IDockerSystem System { get; }
+    IDockerSystem System => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the trust sub-domain service.
     /// </summary>
-    IDockerTrust Trust { get; }
+    IDockerTrust Trust => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the volume sub-domain service.
     /// </summary>
-    IDockerVolume Volume { get; }
+    IDockerVolume Volume => throw new System.NotSupportedException();
 
     #endregion
 

@@ -21,4 +21,10 @@ public record DockerBuilderUseOptions : DockerBuildxUseOptions
     {
     }
 
+    [Obsolete("Name is retained for compatibility.")]
+    public new string Name
+    {
+        get => base.Name;
+        init => base.Name = value;
+    }
 }
