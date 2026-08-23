@@ -33,7 +33,7 @@ public static class LiquibaseExtensions
     }
 
     /// <summary>
-    /// Gets the liquibase service from the pipeline context.
+    /// Gets the liquibase service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ILiquibase"/> service for executing liquibase commands.</returns>

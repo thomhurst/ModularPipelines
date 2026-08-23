@@ -22,18 +22,6 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseSnapshotOptions : LiquibaseOptions
 {
     /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
-
-    /// <summary>
     /// Password to use to connect to the database
     /// </summary>
     [SecretValue]
@@ -47,12 +35,6 @@ public record LiquibaseSnapshotOptions : LiquibaseOptions
     public string? Schemas { get; set; }
 
     /// <summary>
-    /// Output format to use (JSON, YAML, or TXT)
-    /// </summary>
-    [CliOption("--snapshot-format", Format = OptionFormat.EqualsSeparated)]
-    public string? SnapshotFormat { get; set; }
-
-    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
@@ -63,5 +45,14 @@ public record LiquibaseSnapshotOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
+
+    [Obsolete("SnapshotFormat is no longer supported by the installed CLI and has no effect.")]
+    public string? SnapshotFormat { get; set; }
 
 }

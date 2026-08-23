@@ -10,24 +10,21 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Liquibase.Enums;
 
-/// <summary>
-/// Allowed values for --duplicate-file-mode.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseDuplicateFileMode
 {
     [EnumValue("silent")]
-    Silent,
+    Silent = 0,
 
     [EnumValue("debug")]
-    Debug,
+    Debug = 1,
 
     [EnumValue("info")]
-    Info,
+    Info = 2,
 
     [EnumValue("warn")]
-    Warn,
+    Warn = 3,
 
     [EnumValue("error")]
-    Error
+    Error = 4
 }

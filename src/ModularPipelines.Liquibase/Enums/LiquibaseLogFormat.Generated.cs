@@ -17,11 +17,11 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseLogFormat
 {
     [EnumValue("text")]
-    Text,
+    Text = 0,
 
     [EnumValue("json")]
-    Json,
+    Json = 1,
 
     [EnumValue("json_pretty")]
-    JsonPretty
+    JsonPretty = 2
 }

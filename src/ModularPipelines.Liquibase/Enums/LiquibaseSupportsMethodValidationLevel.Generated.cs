@@ -10,18 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Liquibase.Enums;
 
-/// <summary>
-/// Allowed values for --supports-method-validation-level.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseSupportsMethodValidationLevel
 {
     [EnumValue("off")]
-    Off,
+    Off = 0,
 
     [EnumValue("warn")]
-    Warn,
+    Warn = 1,
 
     [EnumValue("fail")]
-    Fail
+    Fail = 2
 }

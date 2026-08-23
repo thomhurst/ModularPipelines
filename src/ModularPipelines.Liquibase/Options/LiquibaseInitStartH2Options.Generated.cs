@@ -40,12 +40,6 @@ public record LiquibaseInitStartH2Options : LiquibaseOptions
     public bool? Detached { get; set; }
 
     /// <summary>
-    /// Whether to open a browser to the database's web interface DEFAULT: true
-    /// </summary>
-    [CliOption("--launch-browser", Format = OptionFormat.EqualsSeparated)]
-    public bool? LaunchBrowser { get; set; }
-
-    /// <summary>
     /// Password to use for created h2 user DEFAULT: letmein
     /// </summary>
     [SecretValue]
@@ -63,5 +57,8 @@ public record LiquibaseInitStartH2Options : LiquibaseOptions
     /// </summary>
     [CliOption("--web-port", Format = OptionFormat.EqualsSeparated)]
     public int? WebPort { get; set; }
+
+    [Obsolete("LaunchBrowser is no longer supported by the installed CLI and has no effect.")]
+    public bool? LaunchBrowser { get; set; }
 
 }

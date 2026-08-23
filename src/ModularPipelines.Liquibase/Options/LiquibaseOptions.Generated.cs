@@ -24,82 +24,16 @@ namespace ModularPipelines.Liquibase.Options;
 public abstract record LiquibaseOptions : CommandLineToolOptions
 {
     /// <summary>
-    /// Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false
-    /// </summary>
-    [CliOption("--allow-duplicated-changeset-identifiers", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? AllowDuplicatedChangesetIdentifiers { get; set; }
-
-    /// <summary>
-    /// If true, included changelogs without an explicit logicalFilePath will inherit their parent changelog's logicalFilePath, and explicit logicalFilePath attributes on include statements are honored (Liquibase 4.31.0+ behavior). If false, included changelogs use their physical file paths, ignoring both implicit inheritance and explicit logicalFilePath attributes on include statements. Only logicalFilePath set directly on the changelog itself is respected. Defaults to true for backward compatibility. DEFAULT: true
-    /// </summary>
-    [CliOption("--allow-inherit-logical-file-path", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? AllowInheritLogicalFilePath { get; set; }
-
-    /// <summary>
-    /// If true, drop and recreate a view instead of replacing it. DEFAULT: false
-    /// </summary>
-    [CliOption("--always-drop-instead-of-replace", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? AlwaysDropInsteadOfReplace { get; set; }
-
-    /// <summary>
-    /// When generating SQL for createProcedure, should the procedure schema be forced to the default schema if no schemaName attribute is set? DEFAULT: false
-    /// </summary>
-    [CliOption("--always-override-stored-logic-schema", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? AlwaysOverrideStoredLogicSchema { get; set; }
-
-    /// <summary>
-    /// Enable or disable sending product usage data and analytics to Liquibase. Learn more at https: //docs.liquibase.com/analytics.
-    /// </summary>
-    [CliOption("--analytics-enabled", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? AnalyticsEnabled { get; set; }
-
-    /// <summary>
     /// Should Liquibase automatically include REORG TABLE commands when needed? DEFAULT: true
     /// </summary>
     [CliOption("--auto-reorg", Format = OptionFormat.EqualsSeparated)]
     public virtual bool? AutoReorg { get; set; }
 
     /// <summary>
-    /// Number of seconds wait between checks to the changelog lock when it is locked DEFAULT: 10
-    /// </summary>
-    [CliOption("--changelog-lock-poll-rate", Format = OptionFormat.EqualsSeparated)]
-    public virtual int? ChangelogLockPollRate { get; set; }
-
-    /// <summary>
-    /// Number of minutes to wait for the changelog lock to be available before giving up DEFAULT: 5
-    /// </summary>
-    [CliOption("--changelog-lock-wait-time-in-minutes", Format = OptionFormat.EqualsSeparated)]
-    public virtual int? ChangelogLockWaitTimeInMinutes { get; set; }
-
-    /// <summary>
-    /// Configures how to handle unknown fields in changelog files. Possible values: STRICT which causes parsing to fail, and LAX which continues with the parsing. DEFAULT: STRICT
-    /// </summary>
-    [CliOption("--changelog-parse-mode", Format = OptionFormat.EqualsSeparated)]
-    public virtual LiquibaseChangelogParseMode? ChangelogParseMode { get; set; }
-
-    /// <summary>
     /// Additional classpath entries to use
     /// </summary>
     [CliOption("--classpath", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Classpath { get; set; }
-
-    /// <summary>
-    /// Should Liquibase convert to/from STANDARD data types. Applies to both snapshot and update commands. DEFAULT: true
-    /// </summary>
-    [CliOption("--convert-data-types", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? ConvertDataTypes { get; set; }
-
-    /// <summary>
-    /// Name of table to use for tracking concurrent Liquibase usage DEFAULT: DATABASECHANGELOGLOCK
-    /// </summary>
-    [CliOption("--database-changelog-lock-table-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? DatabaseChangelogLockTableName { get; set; }
-
-    /// <summary>
-    /// Name of table to use for tracking change history DEFAULT: DATABASECHANGELOG
-    /// </summary>
-    [CliOption("--database-changelog-table-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? DatabaseChangelogTableName { get; set; }
 
     /// <summary>
     /// Class to use for Database implementation
@@ -120,28 +54,10 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual bool? DatabricksDiffTblPropertiesIgnoreAll { get; set; }
 
     /// <summary>
-    /// The DDL_LOCK_TIMEOUT parameter indicates the number of seconds a DDL command should wait for the locks to become available before throwing the resource busy error message. This applies only to Oracle databases.
-    /// </summary>
-    [CliOption("--ddl-lock-timeout", Format = OptionFormat.EqualsSeparated)]
-    public virtual int? DdlLockTimeout { get; set; }
-
-    /// <summary>
     /// File with default Liquibase properties DEFAULT: liquibase.properties
     /// </summary>
     [CliOption("--defaults-file", Format = OptionFormat.EqualsSeparated)]
     public virtual string? DefaultsFile { get; set; }
-
-    /// <summary>
-    /// Should Liquibase compare column default value constraint name in diff operation? DEFAULT: true
-    /// </summary>
-    [CliOption("--diff-column-default-value-constraint-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? DiffColumnDefaultValueConstraintName { get; set; }
-
-    /// <summary>
-    /// Should Liquibase compare column order in diff operation? DEFAULT: true
-    /// </summary>
-    [CliOption("--diff-column-order", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? DiffColumnOrder { get; set; }
 
     /// <summary>
     /// Database driver class
@@ -150,52 +66,10 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual string? Driver { get; set; }
 
     /// <summary>
-    /// Driver-specific properties
-    /// </summary>
-    [CliOption("--driver-properties-file", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? DriverPropertiesFile { get; set; }
-
-    /// <summary>
-    /// How to handle multiple files being found in the search path that have duplicate paths. Options are SILENT (do not log and choose one at random), DEBUG, INFO, WARN (log at the given level and choose one at random), or ERROR (fail current operation). DEFAULT: ERROR
-    /// </summary>
-    [CliOption("--duplicate-file-mode", Format = OptionFormat.EqualsSeparated)]
-    public virtual LiquibaseDuplicateFileMode? DuplicateFileMode { get; set; }
-
-    /// <summary>
-    /// Throw an error if Liquibase detects that an includeAll will cause a circular reference (and thus a changelog parse error). DEFAULT: true
-    /// </summary>
-    [CliOption("--error-on-circular-include-all", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? ErrorOnCircularIncludeAll { get; set; }
-
-    /// <summary>
-    /// If true, referenced objects which do not have a snapshot ID will cause snapshot failure DEFAULT: true
-    /// </summary>
-    [CliOption("--fail-on-null-snapshot-id", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? FailOnNullSnapshotId { get; set; }
-
-    /// <summary>
     /// Encoding to use when reading files. Valid values include: UTF-8, UTF-16, UTF-16BE, UTF-16LE, US-ASCII, or OS to use the system configured encoding. DEFAULT: UTF-8
     /// </summary>
     [CliOption("--file-encoding", Format = OptionFormat.EqualsSeparated)]
     public virtual string? FileEncoding { get; set; }
-
-    /// <summary>
-    /// DEPRECATED: No longer used
-    /// </summary>
-    [CliOption("--filter-log-messages", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? FilterLogMessages { get; set; }
-
-    /// <summary>
-    /// Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false
-    /// </summary>
-    [CliOption("--generate-changeset-created-values", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? GenerateChangesetCreatedValues { get; set; }
-
-    /// <summary>
-    /// Should Liquibase include the change description in the id when generating changesets? DEFAULT: false
-    /// </summary>
-    [CliOption("--generated-changeset-ids-contains-description", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? GeneratedChangesetIdsContainsDescription { get; set; }
 
     /// <summary>
     /// Force Liquibase to think it has no access to a keyboard DEFAULT: false
@@ -210,53 +84,11 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual bool? Help { get; set; }
 
     /// <summary>
-    /// Should Liquibase include the catalog name when determining equality? DEFAULT: false
-    /// </summary>
-    [CliOption("--include-catalog-in-specification", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? IncludeCatalogInSpecification { get; set; }
-
-    /// <summary>
-    /// If true, the parent relationship for computed columns is preserved in snapshot-dependent commands: snapshot and diff DEFAULT: false
-    /// </summary>
-    [CliOption("--include-relations-for-computed-columns", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? IncludeRelationsForComputedColumns { get; set; }
-
-    /// <summary>
-    /// If true, the schema name is included for the default schema when loading a snapshot DEFAULT: false
-    /// </summary>
-    [CliOption("--include-schema-name-for-default", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? IncludeSchemaNameForDefault { get; set; }
-
-    /// <summary>
-    /// Include the system classpath when resolving classes at runtime DEFAULT: true
-    /// </summary>
-    [CliOption("--include-system-classpath", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? IncludeSystemClasspath { get; set; }
-
-    /// <summary>
     /// Specifies the license key that enables Liquibase Secure functionality. Availability: Liquibase Secure. Documentation: https://docs.liquibase.com/community/reference-guide-5-0/parameters/what-are-parameters
     /// </summary>
     [SecretValue]
     [CliOption("--license-key", Format = OptionFormat.EqualsSeparated)]
     public virtual string? LicenseKey { get; set; }
-
-    /// <summary>
-    /// Catalog to use for Liquibase objects
-    /// </summary>
-    [CliOption("--liquibase-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? LiquibaseCatalogName { get; set; }
-
-    /// <summary>
-    /// Schema to use for Liquibase objects
-    /// </summary>
-    [CliOption("--liquibase-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? LiquibaseSchemaName { get; set; }
-
-    /// <summary>
-    /// Tablespace to use for Liquibase objects
-    /// </summary>
-    [CliOption("--liquibase-tablespace-name", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? LiquibaseTablespaceName { get; set; }
 
     /// <summary>
     /// DEFAULT: Controls which log channels have their level set by the liquibase.logLevel setting. Comma separate multiple values. To set the level of all channels, use 'all'. Example: liquibase, org.mariadb.jdbc
@@ -282,74 +114,8 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
     public virtual LiquibaseLogLevel? LogLevel { get; set; }
 
-    /// <summary>
-    /// When set to true, the console messages are mirrored to the logs as [liquibase.ui] to provide a more complete picture of liquibase operations to log analysis tools. Set to false to change this behavior. DEFAULT: true
-    /// </summary>
-    [CliOption("--mirror-console-messages-to-log", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? MirrorConsoleMessagesToLog { get; set; }
-
-    /// <summary>
-    /// How to handle changelog property expressions where a value is not set. For example, a string 'null' when no 'address' property was defined. Values can be: 'preserve' which leaves the string as-is, 'empty' which replaces it with an empty string, or 'error' which stops processing with an error. DEFAULT: PRESERVE
-    /// </summary>
-    [CliOption("--missing-property-mode", Format = OptionFormat.EqualsSeparated)]
-    public virtual LiquibaseMissingPropertyMode? MissingPropertyMode { get; set; }
-
-    /// <summary>
-    /// Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false
-    /// </summary>
-    [CliOption("--monitor-performance", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? MonitorPerformance { get; set; }
-
-    /// <summary>
-    /// Number of bytes needed to store one character (depends on database's character encoding) DEFAULT: 1
-    /// </summary>
-    [CliOption("--mssql-bytes-per-char", Format = OptionFormat.EqualsSeparated)]
-    public virtual int? MssqlBytesPerChar { get; set; }
-
-    /// <summary>
-    /// If set to WARN, then liquibase will not throw exception on missing changelog file, instead will show a warning message. DEFAULT: FAIL
-    /// </summary>
-    [CliOption("--on-missing-include-changelog", Format = OptionFormat.EqualsSeparated)]
-    public virtual LiquibaseOnMissingIncludeChangelog? OnMissingIncludeChangelog { get; set; }
-
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public virtual string? OutputFile { get; set; }
-
-    /// <summary>
-    /// Encoding to use when writing files DEFAULT: UTF-8
-    /// </summary>
-    [CliOption("--output-file-encoding", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? OutputFileEncoding { get; set; }
-
-    /// <summary>
-    /// Line separator for output DEFAULT: Line separator(LF or CRLF) for output. Defaults to OS default
-    /// </summary>
-    [CliOption("--output-line-separator", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? OutputLineSeparator { get; set; }
-
-    /// <summary>
-    /// If true 'classpath:' prefix will be preserved in normalized paths, allowing to resolve hierarchical resources under a classpath-based root. DEFAULT: false
-    /// </summary>
-    [CliOption("--preserve-classpath-prefix-in-normalized-paths", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? PreserveClasspathPrefixInNormalizedPaths { get; set; }
-
-    /// <summary>
-    /// If true, Liquibase treats schema and catalog names as case sensitive DEFAULT: false
-    /// </summary>
-    [CliOption("--preserve-schema-case", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? PreserveSchemaCase { get; set; }
-
-    /// <summary>
-    /// Should Liquibase prompt if a non-local database is being accessed
-    /// </summary>
-    [CliOption("--prompt-for-non-local-database", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? PromptForNonLocalDatabase { get; set; }
-
-    /// <summary>
-    /// Implementation of Properties class to provide additional driver properties
-    /// </summary>
-    [CliOption("--property-provider-class", Format = OptionFormat.EqualsSeparated)]
-    public virtual string? PropertyProviderClass { get; set; }
 
     /// <summary>
     /// Complete list of Location(s) to search for files such as changelog files in. Multiple paths can be specified by separating them with commas.
@@ -370,12 +136,6 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual bool? ShouldRun { get; set; }
 
     /// <summary>
-    /// Should Liquibase snapshot data by default? DEFAULT: false
-    /// </summary>
-    [CliOption("--should-snapshot-data", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? ShouldSnapshotData { get; set; }
-
-    /// <summary>
     /// If true, show a Liquibase banner on startup. DEFAULT: true
     /// </summary>
     [CliOption("--show-banner", Format = OptionFormat.EqualsSeparated)]
@@ -388,40 +148,10 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual string? SqlLogLevel { get; set; }
 
     /// <summary>
-    /// Show SQLWarning messages DEFAULT: true
-    /// </summary>
-    [CliOption("--sql-show-sql-warnings", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? SqlShowSqlWarnings { get; set; }
-
-    /// <summary>
     /// If true, Liquibase enforces certain best practices and proactively looks for common errors DEFAULT: false
     /// </summary>
     [CliOption("--strict", Format = OptionFormat.EqualsSeparated)]
     public virtual bool? Strict { get; set; }
-
-    /// <summary>
-    /// Support escaping changelog parameters using a colon. Example: null DEFAULT: false
-    /// </summary>
-    [CliOption("--support-property-escaping", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? SupportPropertyEscaping { get; set; }
-
-    /// <summary>
-    /// Controls the level of validation performed on the supports method of Change classes. Options are OFF, WARN, FAIL. DEFAULT: WARN
-    /// </summary>
-    [CliOption("--supports-method-validation-level", Format = OptionFormat.EqualsSeparated)]
-    public virtual LiquibaseSupportsMethodValidationLevel? SupportsMethodValidationLevel { get; set; }
-
-    /// <summary>
-    /// When set to true, this global property prevents DBCL and DBCLH sql from being present in console and logs during *-sql commands, such as update-sql, rollback-sql, etc. DEFAULT: false
-    /// </summary>
-    [CliOption("--suppress-liquibase-sql", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? SuppressLiquibaseSql { get; set; }
-
-    /// <summary>
-    /// If true column headers will be trimmed in case they were specified with spaces in the file. DEFAULT: false
-    /// </summary>
-    [CliOption("--trim-load-data-file-header", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? TrimLoadDataFileHeader { get; set; }
 
     /// <summary>
     /// Changes the default UI Service Logger used by Liquibase. Options are CONSOLE or LOGGER. DEFAULT: CONSOLE
@@ -430,21 +160,150 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual LiquibaseUiService? UiService { get; set; }
 
     /// <summary>
-    /// If set to true (default value), createProcedure tags with a set schemaName will modify the procedure body with the given schema name. DEFAULT: true
-    /// </summary>
-    [CliOption("--use-procedure-schema", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? UseProcedureSchema { get; set; }
-
-    /// <summary>
-    /// Will perform XSD validation of XML changelog files. When many XML changelog files are included, this validation may impact Liquibase performance. Defaults to true. DEFAULT: true
-    /// </summary>
-    [CliOption("--validate-xml-changelog-files", Format = OptionFormat.EqualsSeparated)]
-    public virtual bool? ValidateXmlChangelogFiles { get; set; }
-
-    /// <summary>
     /// Print version information and exit
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public virtual bool? Version { get; set; }
+
+    [Obsolete("AllowDuplicatedChangesetIdentifiers is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? AllowDuplicatedChangesetIdentifiers { get; set; }
+
+    [Obsolete("AllowInheritLogicalFilePath is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? AllowInheritLogicalFilePath { get; set; }
+
+    [Obsolete("AlwaysDropInsteadOfReplace is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? AlwaysDropInsteadOfReplace { get; set; }
+
+    [Obsolete("AlwaysOverrideStoredLogicSchema is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? AlwaysOverrideStoredLogicSchema { get; set; }
+
+    [Obsolete("AnalyticsEnabled is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? AnalyticsEnabled { get; set; }
+
+    [Obsolete("ChangelogLockPollRate is no longer supported by the installed CLI and has no effect.")]
+    public virtual int? ChangelogLockPollRate { get; set; }
+
+    [Obsolete("ChangelogLockWaitTimeInMinutes is no longer supported by the installed CLI and has no effect.")]
+    public virtual int? ChangelogLockWaitTimeInMinutes { get; set; }
+
+    [Obsolete("ChangelogParseMode is no longer supported by the installed CLI and has no effect.")]
+    public virtual LiquibaseChangelogParseMode? ChangelogParseMode { get; set; }
+
+    [Obsolete("ConvertDataTypes is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? ConvertDataTypes { get; set; }
+
+    [Obsolete("DatabaseChangelogLockTableName is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? DatabaseChangelogLockTableName { get; set; }
+
+    [Obsolete("DatabaseChangelogTableName is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? DatabaseChangelogTableName { get; set; }
+
+    [Obsolete("DdlLockTimeout is no longer supported by the installed CLI and has no effect.")]
+    public virtual int? DdlLockTimeout { get; set; }
+
+    [Obsolete("DiffColumnDefaultValueConstraintName is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? DiffColumnDefaultValueConstraintName { get; set; }
+
+    [Obsolete("DiffColumnOrder is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? DiffColumnOrder { get; set; }
+
+    [Obsolete("DriverPropertiesFile is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? DriverPropertiesFile { get; set; }
+
+    [Obsolete("DuplicateFileMode is no longer supported by the installed CLI and has no effect.")]
+    public virtual LiquibaseDuplicateFileMode? DuplicateFileMode { get; set; }
+
+    [Obsolete("ErrorOnCircularIncludeAll is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? ErrorOnCircularIncludeAll { get; set; }
+
+    [Obsolete("FailOnNullSnapshotId is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? FailOnNullSnapshotId { get; set; }
+
+    [Obsolete("FilterLogMessages is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? FilterLogMessages { get; set; }
+
+    [Obsolete("GenerateChangesetCreatedValues is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? GenerateChangesetCreatedValues { get; set; }
+
+    [Obsolete("GeneratedChangesetIdsContainsDescription is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? GeneratedChangesetIdsContainsDescription { get; set; }
+
+    [Obsolete("IncludeCatalogInSpecification is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? IncludeCatalogInSpecification { get; set; }
+
+    [Obsolete("IncludeRelationsForComputedColumns is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? IncludeRelationsForComputedColumns { get; set; }
+
+    [Obsolete("IncludeSchemaNameForDefault is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? IncludeSchemaNameForDefault { get; set; }
+
+    [Obsolete("IncludeSystemClasspath is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? IncludeSystemClasspath { get; set; }
+
+    [Obsolete("LiquibaseCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? LiquibaseCatalogName { get; set; }
+
+    [Obsolete("LiquibaseSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? LiquibaseSchemaName { get; set; }
+
+    [Obsolete("LiquibaseTablespaceName is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? LiquibaseTablespaceName { get; set; }
+
+    [Obsolete("MirrorConsoleMessagesToLog is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? MirrorConsoleMessagesToLog { get; set; }
+
+    [Obsolete("MissingPropertyMode is no longer supported by the installed CLI and has no effect.")]
+    public virtual LiquibaseMissingPropertyMode? MissingPropertyMode { get; set; }
+
+    [Obsolete("MonitorPerformance is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? MonitorPerformance { get; set; }
+
+    [Obsolete("MssqlBytesPerChar is no longer supported by the installed CLI and has no effect.")]
+    public virtual int? MssqlBytesPerChar { get; set; }
+
+    [Obsolete("OnMissingIncludeChangelog is no longer supported by the installed CLI and has no effect.")]
+    public virtual LiquibaseOnMissingIncludeChangelog? OnMissingIncludeChangelog { get; set; }
+
+    [Obsolete("OutputFileEncoding is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? OutputFileEncoding { get; set; }
+
+    [Obsolete("OutputLineSeparator is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? OutputLineSeparator { get; set; }
+
+    [Obsolete("PreserveClasspathPrefixInNormalizedPaths is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? PreserveClasspathPrefixInNormalizedPaths { get; set; }
+
+    [Obsolete("PreserveSchemaCase is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? PreserveSchemaCase { get; set; }
+
+    [Obsolete("PromptForNonLocalDatabase is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? PromptForNonLocalDatabase { get; set; }
+
+    [Obsolete("PropertyProviderClass is no longer supported by the installed CLI and has no effect.")]
+    public virtual string? PropertyProviderClass { get; set; }
+
+    [Obsolete("ShouldSnapshotData is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? ShouldSnapshotData { get; set; }
+
+    [Obsolete("SqlShowSqlWarnings is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? SqlShowSqlWarnings { get; set; }
+
+    [Obsolete("SupportPropertyEscaping is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? SupportPropertyEscaping { get; set; }
+
+    [Obsolete("SupportsMethodValidationLevel is no longer supported by the installed CLI and has no effect.")]
+    public virtual LiquibaseSupportsMethodValidationLevel? SupportsMethodValidationLevel { get; set; }
+
+    [Obsolete("SuppressLiquibaseSql is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? SuppressLiquibaseSql { get; set; }
+
+    [Obsolete("TrimLoadDataFileHeader is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? TrimLoadDataFileHeader { get; set; }
+
+    [Obsolete("UseProcedureSchema is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? UseProcedureSchema { get; set; }
+
+    [Obsolete("ValidateXmlChangelogFiles is no longer supported by the installed CLI and has no effect.")]
+    public virtual bool? ValidateXmlChangelogFiles { get; set; }
 
 }

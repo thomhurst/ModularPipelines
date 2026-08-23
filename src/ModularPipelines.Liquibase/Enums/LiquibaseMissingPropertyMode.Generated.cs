@@ -10,18 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Liquibase.Enums;
 
-/// <summary>
-/// Allowed values for --missing-property-mode.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseMissingPropertyMode
 {
     [EnumValue("preserve")]
-    Preserve,
+    Preserve = 0,
 
     [EnumValue("empty")]
-    Empty,
+    Empty = 1,
 
     [EnumValue("error")]
-    Error
+    Error = 2
 }

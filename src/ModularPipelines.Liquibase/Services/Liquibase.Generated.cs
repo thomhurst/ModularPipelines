@@ -212,7 +212,7 @@ internal partial class Liquibase : ILiquibase
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> MarkNextChangesetRanAsync(
+    public virtual async Task<CommandResult> MarkNextChangeSetRanAsync(
         LiquibaseMarkNextChangesetRanOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -221,7 +221,7 @@ internal partial class Liquibase : ILiquibase
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> MarkNextChangesetRanSqlAsync(
+    public virtual async Task<CommandResult> MarkNextChangeSetRanSqlAsync(
         LiquibaseMarkNextChangesetRanSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)

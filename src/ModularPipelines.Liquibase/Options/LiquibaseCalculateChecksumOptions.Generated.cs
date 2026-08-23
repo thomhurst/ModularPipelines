@@ -29,46 +29,22 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     public string? ChangelogFile { get; set; }
 
     /// <summary>
-    /// ChangeSet Author attribute
-    /// </summary>
-    [CliOption("--changeset-author", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetAuthor { get; set; }
-
-    /// <summary>
     /// ChangeSet ID attribute
     /// </summary>
     [CliOption("--changeset-id", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetId { get; set; }
-
-    /// <summary>
-    /// ChangeSet identifier of form filepath::id::author
-    /// </summary>
-    [CliOption("--changeset-identifier", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetIdentifier { get; set; }
+    public string? ChangeSetId { get; set; }
 
     /// <summary>
     /// Changelog path in which the changeSet is included
     /// </summary>
     [CliOption("--changeset-path", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetPath { get; set; }
+    public string? ChangeSetPath { get; set; }
 
     /// <summary>
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator)]
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
-
-    /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
 
     /// <summary>
     /// Password to use to connect to the database
@@ -88,5 +64,31 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("ChangesetAuthor is no longer supported by the installed CLI and has no effect.")]
+    public string? ChangesetAuthor { get; set; }
+
+    [Obsolete("Use ChangeSetId instead.")]
+    public string? ChangesetId
+    {
+        get => ChangeSetId;
+        set => ChangeSetId = value;
+    }
+
+    [Obsolete("ChangesetIdentifier is no longer supported by the installed CLI and has no effect.")]
+    public string? ChangesetIdentifier { get; set; }
+
+    [Obsolete("Use ChangeSetPath instead.")]
+    public string? ChangesetPath
+    {
+        get => ChangeSetPath;
+        set => ChangeSetPath = value;
+    }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
 
 }
