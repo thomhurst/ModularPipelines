@@ -1054,6 +1054,76 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Alias_For_Formerly_Active_Property()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--removed-flag",
+                    PropertyName = "CurrentFlag",
+                    CSharpType = "bool?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "CurrentFlag",
+                    ObsoleteMessage = "Use CurrentFlag.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", switchName: "--removed-flag")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag compatibility property changed type from bool? to string?");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Forwarding_For_Formerly_Active_Property()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--removed-flag",
+                    PropertyName = "CurrentFlag",
+                    CSharpType = "bool?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "RemovedFlag",
+                    CSharpType = "bool?",
+                    ForwardToPropertyName = "DifferentFlag",
+                    ObsoleteMessage = "Use DifferentFlag.",
+                },
+            ],
+        };
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [BaselineProperty("RemovedFlag", "bool?", switchName: "--removed-flag")]));
+
+        await Assert.That(exception.Message)
+            .Contains("ToolCopyOptions.RemovedFlag compatibility property changed forwarding target from CurrentFlag to DifferentFlag");
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Uses_The_Emitted_Optional_Value_Type()
     {
         var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
@@ -1279,6 +1349,60 @@ public class GeneratorHardeningTests
 
             await Assert.That(generated).Contains("public ToolAddOptions()");
             await Assert.That(generated).Contains(": this(default!)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Conflicting_Supplied_Compatibility_Constructors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolAddOptions.Generated.cs"),
+                "public record ToolAddOptions([property: CliArgument(0)] string Package, "
+                + "[property: CliArgument(1)] string Destination) "
+                + "{ public ToolAddOptions(string LegacyPackage) : this(LegacyPackage, default!) { } }");
+            var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Package",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                    },
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Destination",
+                        CSharpType = "string",
+                        IsRequired = true,
+                        PositionIndex = 1,
+                    },
+                ],
+                CompatibilityConstructors =
+                [
+                    new CliCompatibilityConstructor
+                    {
+                        Parameters = [new("DifferentPackage", "string")],
+                        PrimaryConstructorArguments = ["default!", "default!"],
+                    },
+                ],
+            };
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root));
+
+            await Assert.That(exception.Message)
+                .Contains("Compatibility constructor (string) conflicts with the generated baseline contract");
         }
         finally
         {
