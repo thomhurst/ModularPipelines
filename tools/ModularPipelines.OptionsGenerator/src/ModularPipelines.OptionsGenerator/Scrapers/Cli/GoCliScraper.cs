@@ -152,11 +152,7 @@ public partial class GoCliScraper : CliScraperBase
         string[] commandPath,
         string helpText,
         CancellationToken cancellationToken) =>
-        ParseCommandAsync(
-            commandPath,
-            helpText,
-            ParseUsageSynopsis(commandPath, helpText),
-            cancellationToken);
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
 
     /// <inheritdoc />
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
@@ -194,7 +190,7 @@ public partial class GoCliScraper : CliScraperBase
             Options = options,
             PositionalArguments = positionalArguments,
             UsageSynopsis = usage.Synopsis,
-            HasOperandTakingUsage = positionalArguments.Count > 0,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = enums
         };
