@@ -29,6 +29,7 @@ public class KubectlCliScraperTests
         public List<string> Arguments { get; } = [];
 
         public List<string> AvailabilityArguments { get; } = [];
+
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
