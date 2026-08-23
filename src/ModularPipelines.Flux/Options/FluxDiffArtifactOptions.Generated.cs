@@ -24,6 +24,7 @@ public record FluxDiffArtifactOptions : FluxOptions
     /// <summary>
     /// credentials for OCI registry in the format &lt;username&gt;[:&lt;password&gt;] if --provider is generic
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 

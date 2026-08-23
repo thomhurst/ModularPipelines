@@ -47,6 +47,7 @@ public record BuildahCommitOptions : BuildahOptions
     /// <summary>
     /// use [username[:password]] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 

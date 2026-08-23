@@ -43,6 +43,7 @@ public record SkopeoInspectOptions(
     /// <summary>
     /// Use USERNAME[:PASSWORD] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 
