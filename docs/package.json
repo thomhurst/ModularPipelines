@@ -52,14 +52,14 @@
   },
   "overrides": {
     "ajv": "8.18.0",
-    "http-proxy-middleware": "2.0.10",
+    "http-proxy-middleware": "4.2.0",
     "picomatch": "2.3.2",
     "serialize-javascript": "7.0.5",
     "uuid": "14.0.2"
   },
   "resolutions": {
     "ajv": "8.18.0",
-    "http-proxy-middleware": "2.0.10",
+    "http-proxy-middleware": "4.2.0",
     "picomatch": "2.3.2",
     "serialize-javascript": "7.0.5",
     "uuid": "14.0.2"
