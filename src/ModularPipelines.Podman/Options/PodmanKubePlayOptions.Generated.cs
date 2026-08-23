@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "play")]
-public record PodmanKubePlayOptions : PodmanOptions
+public record PodmanKubePlayOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
+) : PodmanOptions
 {
     /// <summary>
     /// Add Podman-specific annotations to containers and pods created by Podman (key=value)
@@ -118,12 +120,6 @@ public record PodmanKubePlayOptions : PodmanOptions
     public bool? NoPodPrefix { get; set; }
 
     /// <summary>
-    /// Compatibility property retained for callers compiled against an earlier Podman CLI surface.
-    /// </summary>
-    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
-    public bool? NoTrunc { get; set; }
-
-    /// <summary>
     /// Publish a container's port, or a range of ports, to the host
     /// </summary>
     [CliOption("--publish", Format = OptionFormat.EqualsSeparated)]
@@ -178,9 +174,12 @@ public record PodmanKubePlayOptions : PodmanOptions
     public bool? Wait { get; set; }
 
     /// <summary>
-    /// The KUBEFILE operand.
+    /// The ADDITIONALKUBEFILES operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Kubefile { get; set; }
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? AdditionalKubefiles { get; set; }
+
+    [Obsolete("Podman no longer supports --no-trunc and this property has no effect.")]
+    public bool? NoTrunc { get; set; }
 
 }

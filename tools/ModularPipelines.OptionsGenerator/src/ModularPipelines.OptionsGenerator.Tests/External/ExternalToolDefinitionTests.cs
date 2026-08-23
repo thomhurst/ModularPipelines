@@ -1583,6 +1583,89 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task Compatibility_Validation_Allows_Duplicate_Writable_Targets_With_The_Same_Type()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single();
+            tool = tool with
+            {
+                Commands =
+                [
+                    command with
+                    {
+                        PositionalArguments =
+                        [
+                            new CliPositionalArgument
+                            {
+                                PropertyName = option.PropertyName,
+                                CSharpType = option.PropertyType,
+                            },
+                        ],
+                        CompatibilityProperties =
+                        [
+                            new CliCompatibilityProperty
+                            {
+                                PropertyName = $"Legacy{option.PropertyName}",
+                                CSharpType = option.PropertyType,
+                                ForwardToPropertyName = option.PropertyName,
+                                ObsoleteMessage = $"Use {option.PropertyName}.",
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(
+                tool.Commands.Single(),
+                tool.GlobalOptions);
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Compatibility_Validation_Rejects_Duplicate_Writable_Targets_With_Conflicting_Types()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single();
+            command = command with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = option.PropertyName,
+                        CSharpType = "int?",
+                    },
+                ],
+            };
+
+            await Assert.That(() => ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(
+                    command,
+                    tool.GlobalOptions))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Flag_With_Unrenderable_Type()
     {
         var workspace = CreateTemporaryDirectory();

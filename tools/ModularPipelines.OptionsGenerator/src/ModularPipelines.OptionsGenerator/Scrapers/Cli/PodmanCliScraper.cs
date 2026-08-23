@@ -200,12 +200,11 @@ public partial class PodmanCliScraper : CobraCliScraper
                 propertyName: null,
                 isRequired: false,
                 isVariadic: true),
-            "kube down" or "kube play" => SetPositionalArgument(
+            "kube down" or "kube play" => PreserveRequiredScalarAndAddVariadic(
                 positionalArguments,
                 index: 0,
-                propertyName: "Kubefile",
-                isRequired: false,
-                isVariadic: true),
+                scalarPropertyName: "Kubefile",
+                variadicPropertyName: "AdditionalKubefiles"),
             "secret exists" or "secret inspect" or "secret rm" => positionalArguments
                 .Select(argument => argument with { IsSecret = false })
                 .ToList(),
@@ -288,9 +287,10 @@ public partial class PodmanCliScraper : CobraCliScraper
         bool isVariadic)
     {
         var resolvedPropertyName = propertyName ?? argument.PropertyName;
+        var elementType = GetPositionalElementType(argument.CSharpType);
         var csharpType = isVariadic
-            ? "IEnumerable<string>"
-            : argument.CSharpType.TrimEnd('?');
+            ? $"IEnumerable<{elementType}>"
+            : elementType;
         return argument with
         {
             PropertyName = resolvedPropertyName,
@@ -301,6 +301,43 @@ public partial class PodmanCliScraper : CobraCliScraper
                 ? argument.Description
                 : $"The {resolvedPropertyName.ToUpperInvariant()} operand.",
         };
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> PreserveRequiredScalarAndAddVariadic(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int index,
+        string scalarPropertyName,
+        string variadicPropertyName)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+
+        return positionalArguments
+            .SelectMany((argument, argumentIndex) => argumentIndex == index
+                ? new[]
+                {
+                    ConfigurePositionalArgument(
+                        argument,
+                        scalarPropertyName,
+                        isRequired: true,
+                        isVariadic: false),
+                    ConfigurePositionalArgument(
+                        argument with { PositionIndex = argument.PositionIndex + 1 },
+                        variadicPropertyName,
+                        isRequired: false,
+                        isVariadic: true),
+                }
+                : [argument])
+            .ToList();
+    }
+
+    private static string GetPositionalElementType(string csharpType)
+    {
+        var nonNullableType = csharpType.TrimEnd('?');
+        const string enumerablePrefix = "IEnumerable<";
+        return nonNullableType.StartsWith(enumerablePrefix, StringComparison.Ordinal)
+               && nonNullableType.EndsWith('>')
+            ? nonNullableType[enumerablePrefix.Length..^1]
+            : nonNullableType;
     }
 
     protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
