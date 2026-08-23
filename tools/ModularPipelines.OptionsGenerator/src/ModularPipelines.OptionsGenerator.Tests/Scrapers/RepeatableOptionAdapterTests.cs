@@ -175,10 +175,14 @@ public class RepeatableOptionAdapterTests
         : PipCliScraper(
             RepeatableOptionAdapterTests.Executor,
             RepeatableOptionAdapterTests.Cache,
-            NullLogger<PipCliScraper>.Instance)
+        NullLogger<PipCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
     }
 
     private sealed class TestPackerCliScraper()
