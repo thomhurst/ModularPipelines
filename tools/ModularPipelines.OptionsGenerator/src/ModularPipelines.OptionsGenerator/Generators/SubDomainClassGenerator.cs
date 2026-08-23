@@ -214,13 +214,11 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        foreach (var command in node.Commands
-                     .Where(command => !excludedCommands.Contains(command))
-                     .OrderBy(command => command.ClassName))
+        foreach (var (command, methodName) in GetCompatibilityCommands(
+                     node,
+                     parentCommand,
+                     excludedCommands))
         {
-            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
-                command,
-                parentCommand is not null);
             GenerateCompatibilityMethodSignature(sb, tool, alias, methodName, command);
             sb.AppendLine();
         }
@@ -305,13 +303,11 @@ public class SubDomainClassGenerator : ICodeGenerator
                 parentCommand);
         }
 
-        foreach (var command in node.Commands
-                     .Where(command => !excludedCommands.Contains(command))
-                     .OrderBy(command => command.ClassName))
+        foreach (var (command, methodName) in GetCompatibilityCommands(
+                     node,
+                     parentCommand,
+                     excludedCommands))
         {
-            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
-                command,
-                parentCommand is not null);
             sb.AppendLine();
             GenerateCompatibilityForwardingMethod(
                 sb,
@@ -332,6 +328,19 @@ public class SubDomainClassGenerator : ICodeGenerator
             Content = sb.ToString(),
         };
     }
+
+    private static IEnumerable<(CliCommandDefinition Command, string MethodName)> GetCompatibilityCommands(
+        CommandTreeNode node,
+        CliCommandDefinition? parentCommand,
+        HashSet<CliCommandDefinition> excludedCommands) =>
+        node.Commands
+            .Where(command => !excludedCommands.Contains(command))
+            .OrderBy(command => command.ClassName)
+            .Select(command => (
+                command,
+                GeneratorUtils.GenerateSubDomainMethodName(
+                    command,
+                    parentCommand is not null)));
 
     private static void GenerateCompatibilityMethodSignature(
         StringBuilder sb,
