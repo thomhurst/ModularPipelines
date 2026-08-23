@@ -483,8 +483,15 @@ public class ProcessCliCommandExecutorTests
             return;
         }
 
-        using var childProcess = Process.GetProcessById(childPid.Value);
-        childProcess.Kill();
+        try
+        {
+            using var childProcess = Process.GetProcessById(childPid.Value);
+            childProcess.Kill();
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        {
+            // The child exited between the running check and cleanup.
+        }
     }
 
     private static async Task<(string Command, string Arguments, string? ScriptPath)>
