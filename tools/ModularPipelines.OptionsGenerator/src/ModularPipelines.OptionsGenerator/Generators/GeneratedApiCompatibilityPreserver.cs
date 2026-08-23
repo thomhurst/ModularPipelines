@@ -63,6 +63,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var preservedTool = compatibleTool with
         {
             Commands = compatibleTool.Commands
+                .Select(command => PreserveIdentifierCasing(command, baseline))
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
                     ? Preserve(command, commandBaseline.Properties, commandBaseline.Constructors)
                     : command)
@@ -80,10 +81,69 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
                     : command)
+                .Select(command => PreserveFacadeMethodCasing(command, facadeMethods))
                 .ToArray(),
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
+    }
+
+    private static CliCommandDefinition PreserveIdentifierCasing(
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+    {
+        return command with
+        {
+            ClassName = FindBaselineIdentifier(command.ClassName, baseline.Keys),
+            ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
+        };
+    }
+
+    private static string FindBaselineIdentifier(
+        string identifier,
+        IEnumerable<string> baselineIdentifiers)
+    {
+        if (baselineIdentifiers.Contains(identifier, StringComparer.Ordinal))
+        {
+            return identifier;
+        }
+
+        var matches = baselineIdentifiers
+            .Where(candidate => candidate.Equals(identifier, StringComparison.OrdinalIgnoreCase))
+            .Take(2)
+            .ToArray();
+        return matches.Length switch
+        {
+            0 => identifier,
+            1 => matches[0],
+            _ => throw new InvalidOperationException(
+                $"Generated API compatibility validation found ambiguous casing for {identifier}."),
+        };
+    }
+
+    private static CliCommandDefinition PreserveFacadeMethodCasing(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods)
+    {
+        var currentMethodName = GeneratorUtils.EnsureAsyncSuffix(
+            GeneratorUtils.GenerateMethodNameFromLastCommandPart(command));
+        var compatibilityMethods = baselineFacadeMethods
+            .Where(method => method.OptionsType.Equals(command.ClassName, StringComparison.Ordinal)
+                             && method.MethodName.Equals(currentMethodName, StringComparison.OrdinalIgnoreCase)
+                             && !method.MethodName.Equals(currentMethodName, StringComparison.Ordinal))
+            .Select(method => new CliCompatibilityMethod
+            {
+                MethodName = method.MethodName,
+                ObsoleteMessage = $"Use {currentMethodName} instead.",
+            });
+
+        return command with
+        {
+            CompatibilityMethods = command.CompatibilityMethods
+                .Concat(compatibilityMethods)
+                .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)
+                .ToArray(),
+        };
     }
 
     private static CliCommandDefinition PreserveAliasCompatibility(

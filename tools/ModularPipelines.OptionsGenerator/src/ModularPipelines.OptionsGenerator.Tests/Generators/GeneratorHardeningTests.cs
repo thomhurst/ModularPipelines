@@ -1647,6 +1647,53 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Identifier_Casing()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupKubeconfigOptions.Generated.cs"),
+                "public record ToolGroupKubeconfigOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroup.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolGroup { public Task KubeconfigAsync(ToolGroupKubeconfigOptions? options = null) => Task.CompletedTask; }");
+            var command = Command(
+                "ToolGroupKubeConfigOptions",
+                "ToolOptions",
+                ["group", "kubeconfig"],
+                subDomainGroup: "group");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var preservedCommand = preserved.Commands.Single();
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolGroup.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(preservedCommand.ClassName)
+                    .IsEqualTo("ToolGroupKubeconfigOptions");
+                await Assert.That(generated)
+                    .Contains("KubeConfigAsync(");
+                await Assert.That(generated)
+                    .Contains("KubeconfigAsync(");
+                await Assert.That(generated)
+                    .Contains("ToolGroupKubeconfigOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
