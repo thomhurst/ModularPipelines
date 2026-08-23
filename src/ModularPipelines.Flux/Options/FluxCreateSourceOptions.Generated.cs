@@ -189,10 +189,7 @@ public record FluxCreateSourceOptions : FluxOptions
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
 
-    /// <summary>
-    /// The command operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
     public string? Command { get; set; }
 
 }

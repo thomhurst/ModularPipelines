@@ -23,92 +23,92 @@ public partial interface IFlux
     /// <summary>
     /// Gets the bootstrap sub-domain service.
     /// </summary>
-    IFluxBootstrap Bootstrap { get; }
+    IFluxBootstrap Bootstrap => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    IFluxBuild Build { get; }
+    IFluxBuild Build => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    IFluxCreate Create { get; }
+    IFluxCreate Create => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the debug sub-domain service.
     /// </summary>
-    IFluxDebug Debug { get; }
+    IFluxDebug Debug => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    IFluxDelete Delete { get; }
+    IFluxDelete Delete => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the diff sub-domain service.
     /// </summary>
-    IFluxDiff Diff { get; }
+    IFluxDiff Diff => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    IFluxExport Export { get; }
+    IFluxExport Export => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IFluxGet Get { get; }
+    IFluxGet Get => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the list sub-domain service.
     /// </summary>
-    IFluxList List { get; }
+    IFluxList List => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IFluxPlugin Plugin { get; }
+    IFluxPlugin Plugin => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pull sub-domain service.
     /// </summary>
-    IFluxPull Pull { get; }
+    IFluxPull Pull => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the push sub-domain service.
     /// </summary>
-    IFluxPush Push { get; }
+    IFluxPush Push => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the reconcile sub-domain service.
     /// </summary>
-    IFluxReconcile Reconcile { get; }
+    IFluxReconcile Reconcile => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the resume sub-domain service.
     /// </summary>
-    IFluxResume Resume { get; }
+    IFluxResume Resume => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the suspend sub-domain service.
     /// </summary>
-    IFluxSuspend Suspend { get; }
+    IFluxSuspend Suspend => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the tag sub-domain service.
     /// </summary>
-    IFluxTag Tag { get; }
+    IFluxTag Tag => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the tree sub-domain service.
     /// </summary>
-    IFluxTree Tree { get; }
+    IFluxTree Tree => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the trigger sub-domain service.
     /// </summary>
-    IFluxTrigger Trigger { get; }
+    IFluxTrigger Trigger => throw new System.NotSupportedException();
 
     #endregion
 
