@@ -780,6 +780,8 @@ public class CodeGeneratorOrchestrator
 
         await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
         {
+            // Fail the tool before any generators run. Skipping an invalid command here
+            // could silently delete an existing generated API during stale-file cleanup.
             command.ValidateOperandCoverage();
             allCommands.Add(command);
         }

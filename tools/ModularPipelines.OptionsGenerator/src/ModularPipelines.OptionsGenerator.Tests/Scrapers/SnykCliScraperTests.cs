@@ -348,6 +348,22 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Iac_Group_Models_Optional_Path_From_Usage()
+    {
+        var command = await new TestSnykCliScraper().Parse(
+            ["snyk", "iac"],
+            "Usage: snyk iac <COMMAND> [<OPTIONS>] [<PATH>]");
+
+        var path = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(path.PropertyName).IsEqualTo("Path");
+            await Assert.That(path.IsRequired).IsFalse();
+            await Assert.That(path.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Windows_Resolver_Finds_Standalone_Executable()
     {
         var root = Path.Combine(Path.GetTempPath(), "mp-snyk-resolver-tests", Guid.NewGuid().ToString("N"));
@@ -408,7 +424,11 @@ public class SnykCliScraperTests
 
         public bool CanGenerate(string helpText) => HasOptions(helpText);
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
+                ParseUsageSynopsis(commandPath, helpText));
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
     }
 }
