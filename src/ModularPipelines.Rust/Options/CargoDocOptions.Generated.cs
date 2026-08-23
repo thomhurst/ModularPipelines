@@ -40,6 +40,12 @@ public record CargoDocOptions : CargoOptions
     public bool? DocumentPrivateItems { get; set; }
 
     /// <summary>
+    /// The output type to write (unstable) [possible values: html, json]
+    /// </summary>
+    [CliOption("--output-format")]
+    public string? OutputFormat { get; set; }
+
+    /// <summary>
     /// Error format [possible values: human, short, json,
     /// </summary>
     [CliOption("--message-format")]
