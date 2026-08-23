@@ -41,7 +41,7 @@ public class PositionalOperandAdapterTests
 
         await AssertArgument(command, "Packages", isRequired: false, isVariadic: false);
         await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
-            .DoesNotContain("Prog");
+            .IsEquivalentTo(["Packages"]);
     }
 
     [Test]

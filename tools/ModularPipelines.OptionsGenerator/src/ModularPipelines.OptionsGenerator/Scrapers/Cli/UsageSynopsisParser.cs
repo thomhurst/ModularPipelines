@@ -813,9 +813,13 @@ public static class UsageSynopsisParser
         var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
-               || OptionControlTokens.Contains(content)
+               || IsOptionControlLabel(content)
                || content.All(character => !char.IsLetterOrDigit(character));
     }
+
+    private static bool IsOptionControlLabel(string content) =>
+        OptionControlTokens.Contains(content)
+        || content.EndsWith(" flags", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsOptionControlToken(string token)
     {
