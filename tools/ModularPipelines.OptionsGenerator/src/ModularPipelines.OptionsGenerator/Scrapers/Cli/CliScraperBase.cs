@@ -997,7 +997,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static partial Regex OptionLinePattern();
 
     [GeneratedRegex(
-        @"^[ \t]*Usage:?[ \t]*(?:\r?\n[ \t]*)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
+        @"^[ \t]*Usage:?[ \t]*(?:[^\r\n]*\r?\n[ \t]*){0,2}[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
         RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandGroupUsagePattern();
 

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
@@ -90,7 +91,8 @@ public class CliScraperTraversalTests
                   --value string   Supply a value
                 """,
         });
-        var scraper = new TestCobraScraper(executor);
+        var logger = new RecordingLogger();
+        var scraper = new TestCobraScraper(executor, logger);
 
         await Assert.That(scraper.DeclaresCommandGroup(emptyGroupHelp)).IsTrue();
         await Assert.That(scraper.GetSubcommands(emptyGroupHelp)).IsEmpty();
@@ -101,6 +103,25 @@ public class CliScraperTraversalTests
             .IsEquivalentTo(["fake sibling"]);
         await Assert.That(executor.Arguments)
             .IsEquivalentTo(["--help", "parent --help", "sibling --help"]);
+        await Assert.That(logger.Warnings).Contains(warning =>
+            warning.Exception is InvalidOperationException
+            && warning.Message.Contains("Failed to validate subcommand discovery: fake parent"));
+    }
+
+    [Test]
+    public async Task SharedTraversal_Detects_Command_On_Second_Usage_Line()
+    {
+        const string helpText = """
+            Usage:
+              fake [flags]
+              fake <command> [flags]
+
+            Available Commands:
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        await Assert.That(scraper.DeclaresCommandGroup(helpText)).IsTrue();
     }
 
     [Test]
@@ -409,11 +430,11 @@ public class CliScraperTraversalTests
 
     private sealed class TestCobraScraper : CobraCliScraper
     {
-        public TestCobraScraper(ICliCommandExecutor executor)
+        public TestCobraScraper(ICliCommandExecutor executor, ILogger? logger = null)
             : base(
                 executor,
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<TestCobraScraper>.Instance)
+                logger ?? NullLogger<TestCobraScraper>.Instance)
         {
         }
 
@@ -436,6 +457,29 @@ public class CliScraperTraversalTests
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+    }
+
+    private sealed class RecordingLogger : ILogger
+    {
+        public List<(string Message, Exception? Exception)> Warnings { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (logLevel == LogLevel.Warning)
+            {
+                Warnings.Add((formatter(state, exception), exception));
+            }
+        }
     }
 
     private sealed class TestPodmanCliScraper(ICliCommandExecutor executor)
