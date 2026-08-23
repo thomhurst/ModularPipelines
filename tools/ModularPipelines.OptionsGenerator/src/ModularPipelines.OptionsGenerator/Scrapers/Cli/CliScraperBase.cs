@@ -1065,10 +1065,11 @@ public abstract partial class CliScraperBase : ICliScraper
             repeatable
             |(?:can|may|must|should)\s+be\s+repeated
             |(?:is|are)\s+repeated
+            |(?:one|zero)\s+or\s+more\s+[\w-]+
             |(?:can|may|must|should)\s+be\s+
                 (?:specified|supplied|provided|used|passed|set|given)\s+
                 (?:multiple\s+times|more\s+than\s+once)
-            |(?:specify|supply|provide|use|pass|set|give)\s+
+            |(?:accepts?|specify|supply|provide|use|pass|set|give)\s+
                 (?:
                     multiple\s+times
                     |more\s+than\s+once
