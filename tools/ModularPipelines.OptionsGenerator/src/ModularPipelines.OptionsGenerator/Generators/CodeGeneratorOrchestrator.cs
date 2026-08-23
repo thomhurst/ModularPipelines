@@ -68,6 +68,7 @@ public class CodeGeneratorOrchestrator
         // (e.g. kubectl and kustomize in ModularPipelines.Kubernetes) can't silently
         // overwrite each other's generated files.
         var emittedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var fileSystemPathComparer = GetFileSystemPathComparer(outputDirectory);
 
         // Build a lookup of CLI scrapers by tool name
         var cliScrapersByTool = _cliScrapers.ToDictionary(s => s.ToolName, s => s, StringComparer.OrdinalIgnoreCase);
@@ -79,6 +80,7 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             result,
             emittedPaths,
+            fileSystemPathComparer,
             useCliFirst,
             approveCommandCoverageShrinkage,
             cancellationToken);
@@ -89,6 +91,7 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             result,
             emittedPaths,
+            fileSystemPathComparer,
             useCliFirst,
             approveCommandCoverageShrinkage,
             cancellationToken);
@@ -157,6 +160,7 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             result,
             externallyClaimedPaths,
+            fileSystemPathComparer,
             approveCommandCoverageShrinkage,
             cancellationToken,
             enforceOutputContainment: true,
@@ -514,6 +518,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool useCliFirst,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
@@ -538,6 +543,7 @@ public class CodeGeneratorOrchestrator
                 outputDirectory,
                 result,
                 emittedPaths,
+                fileSystemPathComparer,
                 useCliFirst,
                 approveCommandCoverageShrinkage,
                 cancellationToken);
@@ -550,6 +556,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool useCliFirst,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
@@ -565,6 +572,7 @@ public class CodeGeneratorOrchestrator
                     outputDirectory,
                     result,
                     emittedPaths,
+                    fileSystemPathComparer,
                     approveCommandCoverageShrinkage,
                     cancellationToken);
                 if (cliFailureReason is null)
@@ -580,6 +588,7 @@ public class CodeGeneratorOrchestrator
                 outputDirectory,
                 result,
                 emittedPaths,
+                fileSystemPathComparer,
                 approveCommandCoverageShrinkage,
                 cancellationToken);
         }
@@ -594,6 +603,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
@@ -620,6 +630,7 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             result,
             emittedPaths,
+            fileSystemPathComparer,
             approveCommandCoverageShrinkage,
             cancellationToken);
 
@@ -656,6 +667,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool useCliFirst,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
@@ -685,6 +697,7 @@ public class CodeGeneratorOrchestrator
                 outputDirectory,
                 result,
                 emittedPaths,
+                fileSystemPathComparer,
                 approveCommandCoverageShrinkage,
                 cancellationToken);
         }
@@ -695,6 +708,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
@@ -707,6 +721,7 @@ public class CodeGeneratorOrchestrator
                 outputDirectory,
                 result,
                 emittedPaths,
+                fileSystemPathComparer,
                 approveCommandCoverageShrinkage,
                 cancellationToken);
             if (failureReason is not null)
@@ -750,6 +765,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
@@ -798,6 +814,7 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             result,
             emittedPaths,
+            fileSystemPathComparer,
             approveCommandCoverageShrinkage,
             cancellationToken);
 
@@ -820,6 +837,7 @@ public class CodeGeneratorOrchestrator
         string outputDirectory,
         GenerationResult result,
         HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
         bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken,
         bool enforceOutputContainment = false,
@@ -918,7 +936,7 @@ public class CodeGeneratorOrchestrator
             await beforeWrite(candidateOwnedPaths, cancellationToken);
         }
 
-        var writtenFullPaths = new HashSet<string>(GetFileSystemPathComparer(outputDirectory));
+        var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
 
         foreach (var file in generatedFiles)
         {
