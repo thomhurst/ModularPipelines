@@ -291,6 +291,7 @@ public record FluxBootstrapGitOptions : FluxOptions
     /// <summary>
     /// container registry credentials in the format 'user:password', requires --image-pull-secret to be set
     /// </summary>
+    [SecretValue]
     [CliOption("--registry-creds", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryCreds { get; set; }
 

@@ -685,6 +685,10 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
+    [Arguments("Creds")]
+    [Arguments("RegistryCreds")]
+    [Arguments("DestCreds")]
+    [Arguments("SrcCreds")]
     public async Task IsSecretOption_Returns_True_For_Credential_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -763,6 +767,7 @@ public class GeneratorUtilsTests
     [Arguments("GrpcWebRootPath")]
     [Arguments("RdbSnapshotPeriod")]
     [Arguments("AutopilotPrivilegedAdmission")]
+    [Arguments("CredsHelper")]
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
