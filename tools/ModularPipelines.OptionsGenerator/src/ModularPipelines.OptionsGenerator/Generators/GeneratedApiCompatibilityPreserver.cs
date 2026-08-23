@@ -424,6 +424,14 @@ internal static class GeneratedApiCompatibilityPreserver
         var options = command.Options.ToArray();
         var violations = new List<string>();
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
+        var preservedTypeChanges = PreserveScalarToCollectionChanges(
+            command,
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties,
+            renamedProperties,
+            violations);
 
         RestoreRequiredMemberNames(
             baselineProperties,
@@ -437,6 +445,11 @@ internal static class GeneratedApiCompatibilityPreserver
         var currentProperties = GetCurrentProperties(positionalArguments, options);
         foreach (var baseline in baselineProperties)
         {
+            if (preservedTypeChanges.Contains(baseline.PropertyName))
+            {
+                continue;
+            }
+
             PreserveBaselineProperty(
                 command,
                 baseline,
@@ -470,6 +483,70 @@ internal static class GeneratedApiCompatibilityPreserver
                 command.DocumentationExampleValues,
                 renamedProperties),
         };
+    }
+
+    private static HashSet<string> PreserveScalarToCollectionChanges(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliOptionDefinition[] options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
+        ICollection<string> violations)
+    {
+        var preserved = new HashSet<string>(StringComparer.Ordinal);
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property =>
+                     !property.IsRequired
+                     && property.CSharpType.Equals("string?", StringComparison.Ordinal)))
+        {
+            var optionIndex = Array.FindIndex(options, option =>
+                option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && option.PropertyType.Equals("IEnumerable<string>?", StringComparison.Ordinal)
+                && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
+            if (optionIndex < 0)
+            {
+                continue;
+            }
+
+            var replacementName = GetUniqueReplacementName(
+                $"{baseline.PropertyName}Values",
+                propertyNames);
+            propertyNames.Add(replacementName);
+            options[optionIndex] = options[optionIndex] with { PropertyName = replacementName };
+            PreserveCompatibilityProperty(
+                command,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = baseline.PropertyName,
+                    CSharpType = baseline.CSharpType,
+                    ForwardToPropertyName = replacementName,
+                    ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                    ObsoleteMessage = $"Use {replacementName} instead.",
+                },
+                compatibilityProperties,
+                violations);
+            renamedProperties[baseline.PropertyName] = replacementName;
+            preserved.Add(baseline.PropertyName);
+        }
+
+        return preserved;
+    }
+
+    private static string GetUniqueReplacementName(
+        string candidate,
+        IReadOnlySet<string> propertyNames)
+    {
+        while (propertyNames.Contains(candidate))
+        {
+            candidate += "Values";
+        }
+
+        return candidate;
     }
 
     private static void PreserveBaselineProperty(
@@ -567,6 +644,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 CSharpType = baseline.CSharpType,
                 ForwardToPropertyName = baseline.ForwardToPropertyName,
                 UseInitAccessor = baseline.UseInitAccessor,
+                ForwardingKind = baseline.ForwardingKind,
                 ObsoleteMessage = baseline.ObsoleteMessage
                     ?? $"{baseline.PropertyName} is retained for compatibility.",
             },
@@ -607,6 +685,12 @@ internal static class GeneratedApiCompatibilityPreserver
             violations.Add(
                 $"{command.ClassName}.{expected.PropertyName} compatibility property changed accessor from "
                 + $"{(expected.UseInitAccessor ? "init" : "set")} to {(supplied.UseInitAccessor ? "init" : "set")}");
+        }
+        else if (supplied.ForwardingKind != expected.ForwardingKind)
+        {
+            violations.Add(
+                $"{command.ClassName}.{expected.PropertyName} compatibility property changed forwarding conversion from "
+                + $"{expected.ForwardingKind} to {supplied.ForwardingKind}");
         }
     }
 
@@ -1417,6 +1501,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var cliOption = FindAttribute(attributes, "CliOption")
                         ?? FindAttribute(attributes, "CliFlag");
         var obsolete = FindAttribute(attributes, "Obsolete");
+        var forwarding = GetForwarding(accessorList);
 
         return new GeneratedApiProperty(
             propertyName,
@@ -1425,10 +1510,11 @@ internal static class GeneratedApiCompatibilityPreserver
             GetIntegerArgument(cliArgument),
             isRequired,
             obsolete is not null,
-            GetForwardTarget(accessorList),
+            forwarding.TargetPropertyName,
             GetStringArgument(obsolete),
             accessorList?.Accessors.Any(static accessor =>
-                accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true);
+                accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true,
+            forwarding.Kind);
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -1451,12 +1537,52 @@ internal static class GeneratedApiCompatibilityPreserver
                 ? value
                 : null;
 
-    private static string? GetForwardTarget(AccessorListSyntax? accessorList) =>
-        accessorList?.Accessors
+    private static (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) GetForwarding(
+        AccessorListSyntax? accessorList)
+    {
+        var expression = accessorList?.Accessors
             .FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration))?
-            .ExpressionBody?.Expression is IdentifierNameSyntax identifier
-                ? identifier.Identifier.ValueText
-                : null;
+            .ExpressionBody?.Expression;
+        if (expression is IdentifierNameSyntax identifier)
+        {
+            return (identifier.Identifier.ValueText, CliCompatibilityForwardingKind.Direct);
+        }
+
+        if (expression is ConditionalAccessExpressionSyntax
+            {
+                Expression: IdentifierNameSyntax collection,
+                WhenNotNull: InvocationExpressionSyntax
+                {
+                    Expression: MemberBindingExpressionSyntax member,
+                },
+            }
+            && member.Name.Identifier.ValueText.Equals("FirstOrDefault", StringComparison.Ordinal))
+        {
+            return (
+                collection.Identifier.ValueText,
+                CliCompatibilityForwardingKind.ScalarToCollection);
+        }
+
+        if (expression is ConditionalExpressionSyntax
+            {
+                Condition: InvocationExpressionSyntax
+                {
+                    Expression: MemberAccessExpressionSyntax
+                    {
+                        Name.Identifier.ValueText: "TryParse",
+                    },
+                    ArgumentList.Arguments: { Count: > 0 } arguments,
+                },
+            }
+            && arguments[0].Expression is IdentifierNameSyntax stringValue)
+        {
+            return (
+                stringValue.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableInt32ToString);
+        }
+
+        return (null, CliCompatibilityForwardingKind.Direct);
+    }
 }
 
 internal sealed record GeneratedApiProperty(
@@ -1468,7 +1594,8 @@ internal sealed record GeneratedApiProperty(
     bool IsCompatibility,
     string? ForwardToPropertyName,
     string? ObsoleteMessage,
-    bool UseInitAccessor = false);
+    bool UseInitAccessor = false,
+    CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct);
 
 internal sealed record GeneratedApiBaseline(
     IReadOnlyList<GeneratedApiProperty> Properties,
