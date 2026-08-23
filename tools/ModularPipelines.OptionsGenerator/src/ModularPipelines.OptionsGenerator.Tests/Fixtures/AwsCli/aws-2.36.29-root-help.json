@@ -1,0 +1,4 @@
+{
+  "version": "aws-cli/2.36.29 Python/3.14.6 Linux/6.17.0-1022-azure exe/x86_64.ubuntu.24",
+  "help": "AWS()                                                                    AWS()\n\nNAME\n       aws -\n\nDESCRIPTION\n       The  AWS  Command  Line  Interface is a unified tool to manage your AWS\n       services.\n\nSYNOPSIS\n          aws [options] <command> <subcommand> [parameters]\n\nGLOBAL OPTIONS\n       --debug (boolean)\n\n       Turn on debug logging.\n\nAVAILABLE SERVICES\n       +\bo accessanalyzer\n\n       +\bo cloudformation\n\n       +\bo ec2\n\nSEE ALSO\n       aws help topics\n"
+}
