@@ -578,6 +578,21 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// Generates a method name for a command emitted on a sub-domain service.
+    /// A literal <c>execute</c> child is disambiguated from the parent command's
+    /// reserved <c>ExecuteAsync</c> method.
+    /// </summary>
+    public static string GenerateSubDomainMethodName(
+        CliCommandDefinition command,
+        bool hasParentCommand)
+    {
+        var methodName = GenerateMethodNameFromLastCommandPart(command);
+        return hasParentCommand && methodName.Equals("Execute", StringComparison.OrdinalIgnoreCase)
+            ? "ExecuteCommand"
+            : methodName;
+    }
+
+    /// <summary>
     /// The executionOptions parameter as emitted in every generated command method.
     /// </summary>
     public const string ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null";

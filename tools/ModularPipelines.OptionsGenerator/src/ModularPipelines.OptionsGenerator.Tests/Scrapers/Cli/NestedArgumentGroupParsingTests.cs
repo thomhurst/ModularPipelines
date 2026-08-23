@@ -121,6 +121,59 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Models_Repeatable_Options_As_Collections()
+    {
+        const string helpText = """
+            NAME
+                gcloud asset search-all-resources - search all resources
+
+            SYNOPSIS
+                gcloud asset search-all-resources
+
+            FLAGS
+                 --order-by=FIELD
+                    This flag can be repeated to provide a list of fields.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "asset", "search-all-resources"],
+            helpText);
+        var orderBy = command!.Options.Single(option => option.SwitchName == "--order-by");
+
+        await Assert.That(orderBy.AcceptsMultipleValues).IsTrue();
+        await Assert.That(orderBy.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task Gcloud_Does_Not_Mask_Secret_Named_File_Path_Options()
+    {
+        const string helpText = """
+            NAME
+                gcloud example create - create an example
+
+            SYNOPSIS
+                gcloud example create
+
+            FLAGS
+                 --credential=CREDENTIAL
+                    Path to the credential file.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "create"],
+            helpText);
+        var credential = command!.Options.Single(option => option.SwitchName == "--credential");
+
+        await Assert.That(credential.IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task GcloudAgentIdentityUpdate_Emits_Nested_Scope_Credential_And_Negatable_Flags()
     {
         const string helpText = """

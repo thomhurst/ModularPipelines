@@ -220,11 +220,11 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        foreach (var command in node.Commands
-                     .Where(command => !excludedCommands.Contains(command))
-                     .OrderBy(command => command.ClassName))
+        foreach (var (command, methodName) in GetCompatibilityCommands(
+                     node,
+                     parentCommand,
+                     excludedCommands))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
             GenerateCompatibilityMethodSignature(sb, tool, alias, methodName, command);
             sb.AppendLine();
         }
@@ -309,11 +309,11 @@ public class SubDomainClassGenerator : ICodeGenerator
                 parentCommand);
         }
 
-        foreach (var command in node.Commands
-                     .Where(command => !excludedCommands.Contains(command))
-                     .OrderBy(command => command.ClassName))
+        foreach (var (command, methodName) in GetCompatibilityCommands(
+                     node,
+                     parentCommand,
+                     excludedCommands))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
             sb.AppendLine();
             GenerateCompatibilityForwardingMethod(
                 sb,
@@ -334,6 +334,19 @@ public class SubDomainClassGenerator : ICodeGenerator
             Content = sb.ToString(),
         };
     }
+
+    private static IEnumerable<(CliCommandDefinition Command, string MethodName)> GetCompatibilityCommands(
+        CommandTreeNode node,
+        CliCommandDefinition? parentCommand,
+        HashSet<CliCommandDefinition> excludedCommands) =>
+        node.Commands
+            .Where(command => !excludedCommands.Contains(command))
+            .OrderBy(command => command.ClassName)
+            .Select(command => (
+                command,
+                GeneratorUtils.GenerateSubDomainMethodName(
+                    command,
+                    parentCommand is not null)));
 
     private static void GenerateCompatibilityMethodSignature(
         StringBuilder sb,
@@ -469,7 +482,9 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         foreach (var command in commands.OrderBy(command => command.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null);
             GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
             sb.AppendLine();
         }
@@ -509,83 +524,94 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"public class {node.ClassName}{interfaceClause}");
         sb.AppendLine("{");
 
-        // Private field for ICommandContext
-        sb.AppendLine("    private readonly ICommandContext _command;");
-
-        // Private fields for child instances (lazy). Nullable: the fields are only
-        // populated on first property access, and generated files declare #nullable enable.
-        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
-        {
-            var fieldName = GetSafeFieldName(child.PascalSegment);
-            sb.AppendLine($"    private {child.ClassName}? {fieldName};");
-        }
-
-        sb.AppendLine();
-
-        // Constructor
-        sb.AppendLine($"    /// <summary>");
-        sb.AppendLine($"    /// Initializes a new instance of the <see cref=\"{node.ClassName}\"/> class.");
-        sb.AppendLine($"    /// </summary>");
-        sb.AppendLine($"    public {node.ClassName}(ICommandContext command)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        _command = command;");
-        sb.AppendLine("    }");
-
-        // Properties for child sub-command groups
-        if (node.Children.Count > 0)
-        {
-            sb.AppendLine();
-            sb.AppendLine("    #region Sub-command Groups");
-            sb.AppendLine();
-
-            foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
-            {
-                var fieldName = GetSafeFieldName(child.PascalSegment);
-
-                sb.AppendLine($"    /// <summary>");
-                sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
-                sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    public {child.ClassName} {child.PascalSegment} => {fieldName} ??= new {child.ClassName}(_command);");
-                sb.AppendLine();
-            }
-
-            sb.AppendLine("    #endregion");
-        }
-
-        // Methods for direct commands at this level
-        // Filter out commands that collide with child property names
-        var filteredCommands = excludedCommands != null
-            ? node.Commands.Where(c => !excludedCommands.Contains(c)).ToList()
-            : node.Commands;
-        EnsureUniquePublicMemberNames(tool, node, filteredCommands, parentCommand);
-
-        var hasCommands = filteredCommands.Count > 0 || parentCommand is not null;
-        if (hasCommands)
-        {
-            sb.AppendLine();
-            sb.AppendLine("    #region Commands");
-            sb.AppendLine();
-
-            // Add ExecuteAsync method for the parent command if it exists
-            if (parentCommand is not null)
-            {
-                GenerateExecuteMethod(sb, parentCommand);
-                sb.AppendLine();
-            }
-
-            foreach (var command in filteredCommands.OrderBy(c => c.ClassName))
-            {
-                var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
-                GeneratorUtils.GenerateServiceMethod(sb, methodName, command);
-                sb.AppendLine();
-            }
-
-            sb.AppendLine("    #endregion");
-        }
+        AppendStateAndConstructor(sb, node);
+        AppendChildProperties(sb, node, tool);
+        AppendCommandMethods(sb, node, tool, parentCommand, excludedCommands);
 
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    private static void AppendStateAndConstructor(StringBuilder sb, CommandTreeNode node)
+    {
+        sb.AppendLine("    private readonly ICommandContext _command;");
+
+        // Child fields are populated on first property access. Generated files enable nullable analysis.
+        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
+        {
+            sb.AppendLine($"    private {child.ClassName}? {GetSafeFieldName(child.PascalSegment)};");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("    /// <summary>");
+        sb.AppendLine($"    /// Initializes a new instance of the <see cref=\"{node.ClassName}\"/> class.");
+        sb.AppendLine("    /// </summary>");
+        sb.AppendLine($"    public {node.ClassName}(ICommandContext command)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        _command = command;");
+        sb.AppendLine("    }");
+    }
+
+    private static void AppendChildProperties(StringBuilder sb, CommandTreeNode node, CliToolDefinition tool)
+    {
+        if (node.Children.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("    #region Sub-command Groups");
+        sb.AppendLine();
+
+        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
+        {
+            var fieldName = GetSafeFieldName(child.PascalSegment);
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine($"    public {child.ClassName} {child.PascalSegment} => {fieldName} ??= new {child.ClassName}(_command);");
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("    #endregion");
+    }
+
+    private static void AppendCommandMethods(
+        StringBuilder sb,
+        CommandTreeNode node,
+        CliToolDefinition tool,
+        CliCommandDefinition? parentCommand,
+        HashSet<CliCommandDefinition>? excludedCommands)
+    {
+        var commands = excludedCommands is null
+            ? node.Commands
+            : node.Commands.Where(command => !excludedCommands.Contains(command)).ToList();
+        EnsureUniquePublicMemberNames(tool, node, commands, parentCommand);
+
+        if (commands.Count == 0 && parentCommand is null)
+        {
+            return;
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("    #region Commands");
+        sb.AppendLine();
+
+        if (parentCommand is not null)
+        {
+            GenerateExecuteMethod(sb, parentCommand);
+            sb.AppendLine();
+        }
+
+        foreach (var command in commands.OrderBy(c => c.ClassName))
+        {
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(command, parentCommand is not null);
+            GeneratorUtils.GenerateServiceMethod(sb, methodName, command);
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("    #endregion");
     }
 
     private static void EnsureUniquePublicMemberNames(
@@ -597,7 +623,9 @@ public class SubDomainClassGenerator : ICodeGenerator
         var publicMembers = node.Children.Values
             .Select(child => child.PascalSegment)
             .Concat(commands
-                .Select(GeneratorUtils.GenerateMethodNameFromLastCommandPart)
+                .Select(command => GeneratorUtils.GenerateSubDomainMethodName(
+                    command,
+                    parentCommand is not null))
                 .Select(GeneratorUtils.EnsureAsyncSuffix));
         if (parentCommand is not null)
         {
