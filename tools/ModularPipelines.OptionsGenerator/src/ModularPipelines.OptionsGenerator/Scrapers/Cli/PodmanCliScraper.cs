@@ -27,22 +27,18 @@ public partial class PodmanCliScraper : CobraCliScraper
 {
     private static readonly IReadOnlyList<CliCompatibilityProperty> NoTruncCompatibilityProperties =
     [
-        new CliCompatibilityProperty
-        {
-            PropertyName = "NoTrunc",
-            CSharpType = "bool?",
-            ObsoleteMessage = "Podman no longer supports --no-trunc and this property has no effect.",
-        },
+        RemovedCompatibilityProperty(
+            "NoTrunc",
+            "bool?",
+            "Podman no longer supports --no-trunc and this property has no effect."),
     ];
 
     private static readonly IReadOnlyList<CliCompatibilityProperty> SaveKeysCompatibilityProperties =
     [
-        new CliCompatibilityProperty
-        {
-            PropertyName = "SaveKeys",
-            CSharpType = "bool?",
-            ObsoleteMessage = "Podman no longer supports --save-keys and this property has no effect.",
-        },
+        RemovedCompatibilityProperty(
+            "SaveKeys",
+            "bool?",
+            "Podman no longer supports --save-keys and this property has no effect."),
     ];
 
     private static readonly IReadOnlyList<CliCompatibilityProperty> MachineInitCompatibilityProperties =
@@ -237,16 +233,14 @@ public partial class PodmanCliScraper : CobraCliScraper
         string propertyName)
     {
         EnsurePositionalArgumentExists(positionalArguments, index);
+        var argument = positionalArguments[index];
 
-        return positionalArguments
-            .Select((argument, argumentIndex) => argumentIndex == index
-                ? argument with
-                {
-                    PropertyName = propertyName,
-                    Description = $"The {propertyName.ToUpperInvariant()} operand.",
-                }
-                : argument)
-            .ToList();
+        return SetPositionalArgument(
+            positionalArguments,
+            index,
+            propertyName,
+            argument.IsRequired,
+            argument.IsVariadic);
     }
 
     private static IReadOnlyList<CliPositionalArgument> SetPositionalArgument(
@@ -326,9 +320,21 @@ public partial class PodmanCliScraper : CobraCliScraper
                         isRequired: false,
                         isVariadic: true),
                 }
-                : [argument])
+                : [argumentIndex > index
+                    ? argument with { PositionIndex = argument.PositionIndex + 1 }
+                    : argument])
             .ToList();
     }
+
+    private static CliCompatibilityProperty RemovedCompatibilityProperty(
+        string propertyName,
+        string csharpType,
+        string obsoleteMessage) => new()
+        {
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            ObsoleteMessage = obsoleteMessage,
+        };
 
     private static string GetPositionalElementType(string csharpType)
     {
