@@ -2419,7 +2419,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Construct_Target_Attribute_Values_During_Planning()
+    public async Task Render_Rejects_Planning_Predicates_That_Require_Target_Attribute_Values()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<StatefulPlanningTargetModule>();
@@ -2427,10 +2427,16 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         _planningTargetAttributeConstructions = 0;
 
-        _ = await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
-            .RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
+                .RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(_planningTargetAttributeConstructions).IsEqualTo(0);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message)
+                .Contains(nameof(StatefulPlanningTargetAttribute));
+            await Assert.That(_planningTargetAttributeConstructions).IsEqualTo(0);
+        }
     }
 
     [Test]

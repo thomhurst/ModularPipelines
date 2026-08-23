@@ -147,17 +147,7 @@ internal static class ModuleDependencyResolver
 
             foreach (var attr in predicateAttributes)
             {
-                bool shouldDependOn;
-                try
-                {
-                    shouldDependOn = attr.ShouldDependOn(candidateType, dependencyContext);
-                }
-                catch (PlanningMetadataValueUnavailableException) when (planningSafeOnly)
-                {
-                    continue;
-                }
-
-                if (shouldDependOn)
+                if (attr.ShouldDependOn(candidateType, dependencyContext))
                 {
                     yield return (candidateType, false);
                     break; // Only add once even if multiple attributes match
