@@ -317,6 +317,30 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("Accepts multiple values")]
+    [Arguments("One or more label selectors")]
+    public async Task SharedShapeInference_Preserves_Common_Repeatability_Phrases(string description)
+    {
+        var helpText = $"""
+            Execute a command.
+
+            Usage:
+              fake execute [flags]
+
+            Flags:
+              --tag string   {description}
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        var command = await scraper.Parse(["fake", "execute"], helpText);
+        var tag = command!.Options.Single();
+
+        await Assert.That(tag.AcceptsMultipleValues).IsTrue();
+        await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Optional_Cobra_Option_Values()
     {
         const string helpText = """
