@@ -245,6 +245,36 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Conflicting_Command_Attributes_Across_Override_Chain_Report_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public class BaseOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliArgument(0)]
+                public virtual string Value { get; } = "";
+            }
+
+            public sealed class TestOptions : BaseOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public override string Value { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(result, "MPG0003", "global::TestOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("conflicting");
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Value");
+            await Assert.That(result.GeneratedTrees.Single().ToString())
+                .DoesNotContain("(instance).@Value");
+        }
+    }
+
+    [Test]
     public async Task Null_Command_Attribute_Names_Report_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
@@ -491,6 +521,11 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("typeof(global::External.CrossLanguageOptions)");
+            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 2;");
+            await Assert.That(generatedSource).Contains("public const int CommandSchemaVersion = 3;");
+            await Assert.That(generatedSource).Contains("            3);");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
@@ -689,6 +724,111 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).DoesNotContain("global::External.CurrentOptions");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Preserves_NonPublic_Command_Properties()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            internal sealed class InternalOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                internal string Value { get; } = "";
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("public const int SchemaVersion = 2;");
+            await Assert.That(generatedSource).Contains("public const int CommandSchemaVersion = 3;");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::InternalOptions)");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Preserves_Properties_When_Command_Metadata_Is_Incomplete()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            internal sealed class InternalOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [System.ComponentModel.DataAnnotations.Range(1, 3)]
+                internal int Retries { get; } = 1;
+
+                [ModularPipelines.Attributes.CliOption("--value")]
+                [ModularPipelines.Attributes.CliArgument(0)]
+                public string Value { get; } = "";
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Single().Id).IsEqualTo("MPG0003");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::InternalOptions)");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::InternalOptions)");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rescans_PreNonPublicValidation_Metadata_Schema()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 2;
+                }
+            }
+
+            namespace External
+            {
+                public sealed class LegacyValidationOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.CliOption("--value")]
+                    public string Value { get; } = "";
+                }
+            }
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).Contains(
+                "DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(global::External.LegacyValidationOptions)");
         }
     }
 
@@ -1261,6 +1401,8 @@ public class IncompleteMetadataDiagnosticTests
             "MPG0004",
             "global::Secrets");
         await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Token");
+        await Assert.That(result.GeneratedTrees.Single().ToString()).Contains(
+            "[assembly: global::ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(\"Secrets\")]");
     }
 
     [Test]

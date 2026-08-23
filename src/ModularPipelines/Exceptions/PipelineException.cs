@@ -14,6 +14,7 @@ namespace ModularPipelines.Exceptions;
 /// <item><see cref="AmbiguousModuleException"/> - Module lookup matched multiple registrations</item>
 /// <item><see cref="CommandException"/> - CLI command execution failures</item>
 /// <item><see cref="CircularDependencyException"/> - Circular module dependency detected</item>
+/// <item><see cref="CommandOptionsValidationException"/> - Command-line options failed validation</item>
 /// <item><see cref="DependencyCollisionException"/> - Module dependency conflicts</item>
 /// <item><see cref="DependencyFailedException"/> - A dependency module failed</item>
 /// <item><see cref="FailedRequirementsException"/> - Pipeline requirements not met</item>

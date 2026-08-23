@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
@@ -136,6 +137,31 @@ public class TelemetryIntegrationTests
                     },
                 },
                 cancellationToken);
+        }
+    }
+
+    private sealed class InvalidOptionsCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new InvalidCommandOptions { Token = Secret },
+                cancellationToken: cancellationToken);
+        }
+    }
+
+    [ModularPipelines.Attributes.CliTool("invalid-options-tool")]
+    private sealed record InvalidCommandOptions : CommandLineToolOptions, IValidatableObject
+    {
+        [ModularPipelines.Attributes.CliOption("--token")]
+        [ModularPipelines.Attributes.SecretValue]
+        public string Token { get; init; } = string.Empty;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield return new ValidationResult($"Invalid token {Token}", [nameof(Token)]);
         }
     }
 
@@ -284,6 +310,32 @@ public class TelemetryIntegrationTests
             await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
                 .IsEqualTo("Input manipulator failed");
             await Assert.That(_throwingInputManipulatorInvocations).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Command_Validation_Failure_Is_Recorded_And_Obfuscated()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+            await TestPipelineBuilder.Create()
+                .AddModule<InvalidOptionsCommandModule>()
+                .ExecutePipelineAsync());
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Command.{nameof(InvalidCommandOptions)}");
+        var message = commandActivity
+            .GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?
+            .ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandActivity.Status).IsEqualTo(ActivityStatusCode.Error);
+            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionTypeTag))
+                .IsEqualTo(typeof(CommandOptionsValidationException).FullName);
+            await Assert.That(message).Contains("**********");
+            await Assert.That(message).DoesNotContain(Secret);
         }
     }
 
