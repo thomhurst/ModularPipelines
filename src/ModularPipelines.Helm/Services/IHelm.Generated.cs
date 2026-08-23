@@ -23,37 +23,37 @@ public partial interface IHelm
     /// <summary>
     /// Gets the dependency sub-domain service.
     /// </summary>
-    IHelmDependency Dependency { get; }
+    IHelmDependency Dependency => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IHelmGet Get { get; }
+    IHelmGet Get => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IHelmPlugin Plugin { get; }
+    IHelmPlugin Plugin => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the registry sub-domain service.
     /// </summary>
-    IHelmRegistry Registry { get; }
+    IHelmRegistry Registry => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the repo sub-domain service.
     /// </summary>
-    IHelmRepo Repo { get; }
+    IHelmRepo Repo => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    IHelmSearch Search { get; }
+    IHelmSearch Search => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the show sub-domain service.
     /// </summary>
-    IHelmShow Show { get; }
+    IHelmShow Show => throw new System.NotSupportedException();
 
     #endregion
 
