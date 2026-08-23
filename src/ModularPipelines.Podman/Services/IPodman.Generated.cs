@@ -23,82 +23,82 @@ public partial interface IPodman
     /// <summary>
     /// Gets the artifact sub-domain service.
     /// </summary>
-    IPodmanArtifact Artifact { get; }
+    IPodmanArtifact Artifact => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the compose sub-domain service.
     /// </summary>
-    IPodmanCompose Compose { get; }
+    IPodmanCompose Compose => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    IPodmanContainer Container { get; }
+    IPodmanContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the farm sub-domain service.
     /// </summary>
-    IPodmanFarm Farm { get; }
+    IPodmanFarm Farm => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the generate sub-domain service.
     /// </summary>
-    IPodmanGenerate Generate { get; }
+    IPodmanGenerate Generate => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the healthcheck sub-domain service.
     /// </summary>
-    IPodmanHealthcheck Healthcheck { get; }
+    IPodmanHealthcheck Healthcheck => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    IPodmanImage Image { get; }
+    IPodmanImage Image => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the kube sub-domain service.
     /// </summary>
-    IPodmanKube Kube { get; }
+    IPodmanKube Kube => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the machine sub-domain service.
     /// </summary>
-    IPodmanMachine Machine { get; }
+    IPodmanMachine Machine => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    IPodmanManifest Manifest { get; }
+    IPodmanManifest Manifest => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    IPodmanNetwork Network { get; }
+    IPodmanNetwork Network => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pod sub-domain service.
     /// </summary>
-    IPodmanPod Pod { get; }
+    IPodmanPod Pod => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the quadlet sub-domain service.
     /// </summary>
-    IPodmanQuadlet Quadlet { get; }
+    IPodmanQuadlet Quadlet => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the secret sub-domain service.
     /// </summary>
-    IPodmanSecret Secret { get; }
+    IPodmanSecret Secret => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the system sub-domain service.
     /// </summary>
-    IPodmanSystem System { get; }
+    IPodmanSystem System => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the volume sub-domain service.
     /// </summary>
-    IPodmanVolume Volume { get; }
+    IPodmanVolume Volume => throw new System.NotSupportedException();
 
     #endregion
 

@@ -462,7 +462,7 @@ public static class ExternalToolDefinitionLoader
         propertiesBySwitch.Add(switchName, propertyName);
     }
 
-    private static void ValidateCompatibilityMetadata(
+    internal static void ValidateCompatibilityMetadata(
         CliCommandDefinition command,
         IReadOnlyList<CliOptionDefinition> globalOptions)
     {

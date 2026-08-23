@@ -841,6 +841,11 @@ public class CodeGeneratorOrchestrator
                 GlobalOptions = globalOptions,
                 SupplementalGlobalOptions = [],
             }));
+        var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
+        foreach (var command in toolDefinition.Commands)
+        {
+            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(command, resolvedGlobalOptions);
+        }
 
         if (enforceOutputContainment)
         {

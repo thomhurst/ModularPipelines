@@ -299,7 +299,8 @@ public class GeneratorHardeningTests
             .Contains("public class ToolApplicationSet : IToolApplicationSet");
         await Assert.That(subDomainInterface.Content)
             .Contains("Task<CommandResult> ExecuteAsync(ToolApplicationSetOptions? options = null");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolApplicationSet ApplicationSet => throw new System.NotSupportedException();");
         await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
         await Assert.That(implementationFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -335,7 +336,8 @@ public class GeneratorHardeningTests
             Path.GetFileName(file.RelativePath) == "ToolWorkspaceAddOns.Generated.cs");
 
         await Assert.That(subDomainClass.RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolWorkspaceAddOns WorkspaceAddOns { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolWorkspaceAddOns WorkspaceAddOns => throw new System.NotSupportedException();");
     }
 
     [Test]
@@ -376,7 +378,8 @@ public class GeneratorHardeningTests
             .Contains("public virtual async Task<CommandResult> ExecuteAsync(");
         await Assert.That(groupService.Content)
             .Contains("public virtual async Task<CommandResult> ChildAsync(");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolGroup Group { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolGroup Group => throw new System.NotSupportedException();");
         await Assert.That(optionFiles.Single(file =>
                 file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
             .Contains("[CliSubCommand(\"group\")]");
@@ -452,7 +455,7 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("public virtual async Task<CommandResult> DumpAsync(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
+            .Contains("IKubernetesClusterInfo ClusterInfo => throw new System.NotSupportedException();");
         await Assert.That(implementationFiles.Single().Content)
             .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -1006,6 +1009,21 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("Task<CommandResult> RunAsync(");
         await Assert.That(generated)
             .Contains("    => throw new System.NotSupportedException();");
+    }
+
+    [Test]
+    public async Task ServiceInterfaceGenerator_Emits_Default_SubDomain_Implementations()
+    {
+        var tool = Tool(Command(
+            "ToolArtifactAddOptions",
+            "ToolOptions",
+            ["artifact", "add"],
+            subDomainGroup: "Artifact"));
+
+        var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated)
+            .Contains("IToolArtifact Artifact => throw new System.NotSupportedException();");
     }
 
     #endregion

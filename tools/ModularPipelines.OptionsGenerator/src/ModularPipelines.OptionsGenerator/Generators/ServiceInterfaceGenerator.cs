@@ -69,7 +69,8 @@ public class ServiceInterfaceGenerator : ICodeGenerator
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
                 sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    I{subDomainClassName} {subDomainIdentifier} {{ get; }}");
+                sb.AppendLine(
+                    $"    I{subDomainClassName} {subDomainIdentifier} => throw new System.NotSupportedException();");
                 sb.AppendLine();
 
                 foreach (var alias in GeneratorUtils.GetCommandGroupAliases(
