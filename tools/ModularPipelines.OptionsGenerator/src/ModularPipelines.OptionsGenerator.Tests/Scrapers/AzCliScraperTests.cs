@@ -109,6 +109,53 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Tri_State_Allowed_Values_Are_Not_Collapsed_To_Boolean()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --mode MODE : Allowed values: true, false, auto.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--mode");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Explicit_Boolean_Values_Remain_A_Collection()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --enabled : One or more values: true or false.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--enabled");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

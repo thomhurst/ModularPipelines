@@ -387,6 +387,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresBooleanList(string description) =>
         HelpDeclaresSpaceSeparatedList(description) ||
+        DescriptionDeclaresRepeatableOption(description) ||
         description.Contains("list of true") ||
         description.Contains("list of false");
 

@@ -1005,7 +1005,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private static partial Regex CommandSectionHeadingPattern();
 
     [GeneratedRegex(
-        @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false|allowed\s+values?\s*:\s*(?:true\s*,\s*false|false\s*,\s*true))",
+        @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false|allowed\s+values?\s*:\s*(?:true\s*,\s*false|false\s*,\s*true)(?=\s*(?:[.)]|$)))",
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
