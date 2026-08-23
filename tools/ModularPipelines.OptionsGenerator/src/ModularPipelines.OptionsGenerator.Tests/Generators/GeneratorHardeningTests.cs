@@ -1763,7 +1763,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Removed_Command_Facades()
+    public async Task ApiCompatibilityPreserver_Restores_Removed_Command_Facades()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
         var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
@@ -1773,19 +1773,30 @@ public class GeneratorHardeningTests
         {
             await File.WriteAllTextAsync(
                 Path.Combine(packageDirectory, "Options", "ToolRemovedOptions.Generated.cs"),
-                "public record ToolRemovedOptions;");
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"removed\")] "
+                + "public record ToolRemovedOptions : ToolOptions { "
+                + "[CliFlag(\"--force\")] public bool? Force { get; set; } }");
             await File.WriteAllTextAsync(
                 Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
                 "namespace ModularPipelines.Tool.Services; "
                 + "public class Tool { public Task RemovedAsync(ToolRemovedOptions? options = null) => Task.CompletedTask; }");
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(
-                    Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
-                    root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName.Equals("ToolRemovedOptions", StringComparison.Ordinal));
+            var generated = (await new ServiceInterfaceGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ITool.Generated.cs", StringComparison.Ordinal))
+                .Content;
 
-            await Assert.That(exception.Message)
-                .Contains("ToolRemovedOptions command disappeared from generated facade");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandParts).IsEquivalentTo(["removed"]);
+                await Assert.That(restored.Options.Single().PropertyName).IsEqualTo("Force");
+                await Assert.That(generated).Contains("RemovedAsync(ToolRemovedOptions? options = null");
+            }
         }
         finally
         {
