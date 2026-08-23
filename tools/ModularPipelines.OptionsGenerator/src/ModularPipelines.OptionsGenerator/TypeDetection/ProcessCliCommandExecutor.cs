@@ -66,76 +66,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
         try
         {
-            using var process = new Process { StartInfo = processLaunch.StartInfo };
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            if (_waitForProcessReady is null)
-            {
-                cts.CancelAfter(_timeout);
-            }
-
-            process.Start();
-            process.StandardInput.Close();
-            var descendantTracker = new DescendantProcessTracker(
-                process.Id,
-                processLaunch.UsesUnixProcessGroup,
-                processLaunch.UsesWindowsJobLauncher);
-            var disposeDescendantTracker = true;
-
-            try
-            {
-                var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
-                var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
-
-                try
-                {
-                    if (_waitForProcessReady is not null)
-                    {
-                        await _waitForProcessReady(cts.Token).ConfigureAwait(false);
-                        cts.CancelAfter(_timeout);
-                    }
-
-                    await process.WaitForExitAsync(cts.Token);
-                    await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    disposeDescendantTracker = !await TryKillProcessAsync(
-                            process,
-                            descendantTracker,
-                            command,
-                            arguments)
-                        .ConfigureAwait(false);
-                    throw;
-                }
-
-                var stdout = await stdoutTask;
-                var stderr = await stderrTask;
-
-                _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
-                if (process.ExitCode != 0)
-                {
-                    _logger.LogWarning(
-                        "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
-                        command,
-                        arguments,
-                        process.ExitCode,
-                        stderr);
-                }
-
-                return new CliCommandResult
-                {
-                    StandardOutput = stdout,
-                    StandardError = stderr,
-                    ExitCode = process.ExitCode
-                };
-            }
-            finally
-            {
-                if (disposeDescendantTracker)
-                {
-                    descendantTracker.Dispose();
-                }
-            }
+            return await RunProcessAsync(
+                    processLaunch,
+                    command,
+                    arguments,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -156,6 +92,84 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 StandardError = ex.Message,
                 ExitCode = -1
             };
+        }
+    }
+
+    private async Task<CliCommandResult> RunProcessAsync(
+        ProcessLaunch processLaunch,
+        string command,
+        string arguments,
+        CancellationToken cancellationToken)
+    {
+        using var process = new Process { StartInfo = processLaunch.StartInfo };
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        if (_waitForProcessReady is null)
+        {
+            cts.CancelAfter(_timeout);
+        }
+
+        process.Start();
+        process.StandardInput.Close();
+        var descendantTracker = new DescendantProcessTracker(
+            process.Id,
+            processLaunch.UsesUnixProcessGroup,
+            processLaunch.UsesWindowsJobLauncher);
+        var disposeDescendantTracker = true;
+
+        try
+        {
+            var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
+            var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
+
+            try
+            {
+                if (_waitForProcessReady is not null)
+                {
+                    await _waitForProcessReady(cts.Token).ConfigureAwait(false);
+                    cts.CancelAfter(_timeout);
+                }
+
+                await process.WaitForExitAsync(cts.Token);
+                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                disposeDescendantTracker = !await TryKillProcessAsync(
+                        process,
+                        descendantTracker,
+                        command,
+                        arguments)
+                    .ConfigureAwait(false);
+                throw;
+            }
+
+            var stdout = await stdoutTask;
+            var stderr = await stderrTask;
+
+            _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+            if (process.ExitCode != 0)
+            {
+                _logger.LogWarning(
+                    "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
+                    command,
+                    arguments,
+                    process.ExitCode,
+                    stderr);
+            }
+
+            return new CliCommandResult
+            {
+                StandardOutput = stdout,
+                StandardError = stderr,
+                ExitCode = process.ExitCode
+            };
+        }
+        finally
+        {
+            if (disposeDescendantTracker)
+            {
+                descendantTracker.Dispose();
+            }
         }
     }
 
