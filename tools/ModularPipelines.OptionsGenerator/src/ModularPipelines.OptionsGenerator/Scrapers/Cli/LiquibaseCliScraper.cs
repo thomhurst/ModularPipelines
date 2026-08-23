@@ -572,7 +572,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
     private static partial Regex DefaultsMetadataPattern();
 
     [GeneratedRegex(
-        @"(?:Liquibase Version:|Liquibase (?:Community|'community' version))\s*(?<version>\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?)",
+        @"(?:Liquibase Version:|Liquibase (?:'community' version|\S+))\s*(?<version>\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?)",
         RegexOptions.IgnoreCase)]
     private static partial Regex LiquibaseVersionPattern();
 

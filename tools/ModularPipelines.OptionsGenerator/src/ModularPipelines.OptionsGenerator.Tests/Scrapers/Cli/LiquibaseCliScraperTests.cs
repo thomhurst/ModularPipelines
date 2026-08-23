@@ -230,6 +230,8 @@ public class LiquibaseCliScraperTests
     [Test]
     [Arguments("Liquibase Version: 5.0.3")]
     [Arguments("Liquibase Community 5.0.3 by Liquibase")]
+    [Arguments("Liquibase Pro 5.0.3 by Liquibase")]
+    [Arguments("Liquibase Secure 5.0.3 by Liquibase")]
     [Arguments("Liquibase 'community' version 5.0.3 by Liquibase")]
     public async Task Version_Parser_Skips_Banner_And_Returns_Machine_Readable_Version(string versionLine)
     {
