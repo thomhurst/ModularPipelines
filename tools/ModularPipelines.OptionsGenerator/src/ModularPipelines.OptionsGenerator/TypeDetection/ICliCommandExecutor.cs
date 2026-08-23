@@ -34,7 +34,7 @@ public interface ICliCommandExecutor
     /// <param name="command">The command to check (e.g., "kubectl").</param>
     /// <param name="arguments">Arguments that should complete successfully when the tool is available.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>True if the command executes successfully.</returns>
+    /// <returns>True if the command is available using the requested probe or the help fallback.</returns>
     Task<bool> IsAvailableAsync(
         string command,
         string arguments,

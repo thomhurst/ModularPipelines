@@ -407,6 +407,46 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Argument_Aware_IsAvailableAsync_Falls_Back_To_Help()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "mp-cli-executor-tests", Guid.NewGuid().ToString("N"));
+        var scriptPath = Path.Combine(root, OperatingSystem.IsWindows() ? "probe.cmd" : "probe.sh");
+
+        try
+        {
+            Directory.CreateDirectory(root);
+            if (OperatingSystem.IsWindows())
+            {
+                await File.WriteAllTextAsync(
+                    scriptPath,
+                    "@echo off\r\nif \"%~1\"==\"--help\" exit /b 0\r\nexit /b 1\r\n");
+            }
+            else
+            {
+                await File.WriteAllTextAsync(
+                    scriptPath,
+                    "#!/bin/sh\n[ \"$1\" = \"--help\" ]\n");
+                File.SetUnixFileMode(
+                    scriptPath,
+                    UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+            }
+
+            var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+            var isAvailable = await executor.IsAvailableAsync(scriptPath, "--version");
+
+            await Assert.That(isAvailable).IsTrue();
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Test]
     public async Task IsAvailableAsync_Returns_False_For_Missing_Command()
     {
         var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
