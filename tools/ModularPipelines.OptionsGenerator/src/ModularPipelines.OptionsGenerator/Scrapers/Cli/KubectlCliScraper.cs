@@ -14,9 +14,22 @@ public class KubectlCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Kubernetes";
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
+    protected override string VersionArguments => "version --client";
+
     public KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+    }
+
+    public override async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await Executor.ExecuteAsync(
+                ExecutablePath,
+                VersionArguments,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        return result.Success;
     }
 
     /// <summary>
