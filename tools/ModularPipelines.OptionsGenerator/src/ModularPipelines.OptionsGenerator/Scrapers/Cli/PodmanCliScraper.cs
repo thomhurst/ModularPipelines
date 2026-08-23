@@ -369,7 +369,7 @@ public partial class PodmanCliScraper : CobraCliScraper
             .ToList();
 
     /// <inheritdoc />
-    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
-        base.IsSecretOption(propertyName, isFlag)
+    protected override bool IsSecretOption(string propertyName, bool isFlag, string? description) =>
+        base.IsSecretOption(propertyName, isFlag, description)
         || (!isFlag && propertyName.Equals("Creds", StringComparison.OrdinalIgnoreCase));
 }
