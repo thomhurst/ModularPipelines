@@ -154,7 +154,10 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     public virtual async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
     {
-        return await Executor.IsAvailableAsync(ExecutablePath, cancellationToken);
+        return await Executor.IsAvailableAsync(
+            ExecutablePath,
+            VersionArguments,
+            cancellationToken);
     }
 
     /// <inheritdoc />

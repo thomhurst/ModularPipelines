@@ -20,12 +20,15 @@ public class KubectlCliScraperTests
 
         await Assert.That(isAvailable).IsTrue();
         await Assert.That(version).IsEqualTo("Client Version: v1.35.0");
-        await Assert.That(executor.Arguments).IsEquivalentTo(["version --client", "version --client"]);
+        await Assert.That(executor.AvailabilityArguments).IsEquivalentTo(["version --client"]);
+        await Assert.That(executor.Arguments).IsEquivalentTo(["version --client"]);
     }
 
     private sealed class RecordingExecutor : ICliCommandExecutor
     {
         public List<string> Arguments { get; } = [];
+
+        public List<string> AvailabilityArguments { get; } = [];
 
         public Task<CliCommandResult> ExecuteAsync(
             string command,
@@ -47,5 +50,14 @@ public class KubectlCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(false);
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default)
+        {
+            AvailabilityArguments.Add(arguments);
+            return Task.FromResult(arguments == "version --client");
+        }
     }
 }

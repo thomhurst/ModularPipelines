@@ -27,6 +27,19 @@ public interface ICliCommandExecutor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True if the command is available.</returns>
     Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Checks if a CLI tool accepts a tool-specific availability probe.
+    /// </summary>
+    /// <param name="command">The command to check (e.g., "kubectl").</param>
+    /// <param name="arguments">Arguments that should complete successfully when the tool is available.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>True if the command executes successfully.</returns>
+    Task<bool> IsAvailableAsync(
+        string command,
+        string arguments,
+        CancellationToken cancellationToken = default) =>
+        IsAvailableAsync(command, cancellationToken);
 }
 
 /// <summary>
