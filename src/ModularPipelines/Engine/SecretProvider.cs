@@ -147,18 +147,20 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     /// <inheritdoc />
     public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
     {
-        lock (_secretsLock)
-        {
-            if (Version != expectedVersion)
+        var executed = false;
+        ExecuteWithStableSecrets(
+            action,
+            candidateAction =>
             {
-                return false;
-            }
+                if (Version != expectedVersion)
+                {
+                    return;
+                }
 
-            // Keep the action inside this lock: callers use it for small synchronous
-            // publication steps that must remain atomic with the version check.
-            action();
-            return true;
-        }
+                candidateAction();
+                executed = true;
+            });
+        return executed;
     }
 
     /// <inheritdoc />

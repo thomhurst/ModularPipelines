@@ -122,7 +122,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             secretCache.SearchValues,
             maskValue,
             caseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal,
-            preserveExistingMasks: true);
+            preserveExistingMasks: true).Output;
     }
 
     internal MappedObfuscatedOutput ObfuscatePreservingMasksWithSourceMap(string input)
