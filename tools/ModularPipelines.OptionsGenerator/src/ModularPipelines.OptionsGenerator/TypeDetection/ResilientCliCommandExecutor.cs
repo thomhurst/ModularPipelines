@@ -73,9 +73,7 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
             })
             .CircuitBreaker(options =>
             {
-                options.FailureRatio = 0.5;
-                options.MinimumThroughput = circuitBreakerThreshold;
-                options.SamplingWindow = TimeSpan.FromSeconds(30);
+                options.ConsecutiveFailures = circuitBreakerThreshold;
                 options.BreakDuration = circuitBreakerDuration;
                 options.OnStateChanged = stateChangedEvent =>
                 {
@@ -106,8 +104,9 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
         try
         {
             return await _shield.ExecuteAsync(
-                async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory),
-                cancellationToken);
+                    async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory).ConfigureAwait(false),
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (CircuitOpenException ex)
         {
@@ -124,7 +123,7 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
     {
         // Availability check doesn't use resilience patterns - we want immediate feedback
-        return await _inner.IsAvailableAsync(command, cancellationToken);
+        return await _inner.IsAvailableAsync(command, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

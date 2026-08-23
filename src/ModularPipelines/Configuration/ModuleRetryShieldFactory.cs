@@ -32,10 +32,20 @@ internal static class ModuleRetryShieldFactory
             throw new ArgumentOutOfRangeException(nameof(jitterFactor));
         }
 
+        if (baseDelay == TimeSpan.Zero)
+        {
+            return TimeSpan.Zero;
+        }
+
         var exponentialTicks = baseDelay.Ticks * Math.Pow(2, retryAttempt - 1);
         var maximumTicks = Math.Min(exponentialTicks, TimeSpan.MaxValue.Ticks);
         var minimumTicks = maximumTicks / 2;
         var jitteredTicks = minimumTicks + ((maximumTicks - minimumTicks) * jitterFactor);
+
+        if (jitteredTicks >= TimeSpan.MaxValue.Ticks)
+        {
+            return TimeSpan.MaxValue;
+        }
 
         return TimeSpan.FromTicks((long) jitteredTicks);
     }
