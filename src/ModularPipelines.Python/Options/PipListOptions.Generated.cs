@@ -54,7 +54,7 @@ public record PipListOptions : PipOptions
     /// Restrict to the specified installation path for listing packages (can be used multiple times).
     /// </summary>
     [CliOption("--path")]
-    public string? Path { get; set; }
+    public IEnumerable<string>? PathValues { get; set; }
 
     /// <summary>
     /// Include pre-release and development versions. By default, pip only finds stable versions.
@@ -247,5 +247,12 @@ public record PipListOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    [Obsolete("Use PathValues instead.")]
+    public string? Path
+    {
+        get => PathValues?.FirstOrDefault();
+        set => PathValues = value is null ? null : [value];
+    }
 
 }

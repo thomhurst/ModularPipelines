@@ -78,20 +78,20 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> HashAsync(
-        PipHashOptions? options = null,
+        PipHashOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipHashOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> IndexAsync(
-        PipIndexOptions? options = null,
+        PipIndexOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipIndexOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -123,20 +123,20 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SearchAsync(
-        PipSearchOptions? options = null,
+        PipSearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ShowAsync(
-        PipShowOptions? options = null,
+        PipShowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PipShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

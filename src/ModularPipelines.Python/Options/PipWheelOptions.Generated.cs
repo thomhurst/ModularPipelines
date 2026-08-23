@@ -54,7 +54,7 @@ public record PipWheelOptions : PipOptions
     /// Constrain versions using the given constraints file. This option can be used multiple times.
     /// </summary>
     [CliOption("--constraint", ShortForm = "-c")]
-    public string? Constraint { get; set; }
+    public IEnumerable<string>? ConstraintValues { get; set; }
 
     /// <summary>
     /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
@@ -66,7 +66,7 @@ public record PipWheelOptions : PipOptions
     /// Install from the given requirements file. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public string? Requirement { get; set; }
+    public IEnumerable<string>? RequirementValues { get; set; }
 
     /// <summary>
     /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
@@ -114,7 +114,7 @@ public record PipWheelOptions : PipOptions
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
     [CliOption("--require-hashes")]
-    public string? RequireHashes { get; set; }
+    public IEnumerable<string>? RequireHashesValues { get; set; }
 
     /// <summary>
     /// Don't clean up build directories.
@@ -277,5 +277,32 @@ public record PipWheelOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The requirement specifier operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? RequirementSpecifier { get; set; }
+
+    [Obsolete("Use ConstraintValues instead.")]
+    public string? Constraint
+    {
+        get => ConstraintValues?.FirstOrDefault();
+        set => ConstraintValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use RequirementValues instead.")]
+    public string? Requirement
+    {
+        get => RequirementValues?.FirstOrDefault();
+        set => RequirementValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use RequireHashesValues instead.")]
+    public string? RequireHashes
+    {
+        get => RequireHashesValues?.FirstOrDefault();
+        set => RequireHashesValues = value is null ? null : [value];
+    }
 
 }
