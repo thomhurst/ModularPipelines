@@ -296,13 +296,12 @@ public partial class AzCliScraper : CliScraperBase
                 }
 
                 // Determine type based on value hint
-                var isFlag = string.IsNullOrEmpty(valueHint) ||
-                             valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                             valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+                var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
+                var isFlag = IsPresenceOnlyFlag(valueHint, explicitBooleanValue);
 
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
-                var csharpType = DetermineType(valueHint, description, isFlag);
+                var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
 
                 options.Add(new CliOptionDefinition
                 {
@@ -327,11 +326,30 @@ public partial class AzCliScraper : CliScraperBase
     }
 
     /// <summary>
+    /// Determines whether an option is rendered without a value.
+    /// </summary>
+    private static bool IsPresenceOnlyFlag(string valueHint, bool explicitBooleanValue)
+    {
+        if (explicitBooleanValue)
+        {
+            return false;
+        }
+
+        return string.IsNullOrEmpty(valueHint) ||
+               valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+               valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     /// Determines the C# type based on value hint and description.
     /// </summary>
-    private static string DetermineType(string valueHint, string description, bool isFlag)
+    private static string DetermineType(
+        string valueHint,
+        string description,
+        bool isFlag,
+        bool explicitBooleanValue)
     {
-        if (isFlag)
+        if (isFlag || explicitBooleanValue)
         {
             return "bool?";
         }
