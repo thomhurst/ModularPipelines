@@ -23,12 +23,12 @@ public partial interface IBuildah
     /// <summary>
     /// Gets the manifest sub-domain service.
     /// </summary>
-    IBuildahManifest Manifest { get; }
+    IBuildahManifest Manifest => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the source sub-domain service.
     /// </summary>
-    IBuildahSource Source { get; }
+    IBuildahSource Source => throw new System.NotSupportedException();
 
     #endregion
 
