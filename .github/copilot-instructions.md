@@ -12,7 +12,7 @@ curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install
 export PATH="$HOME/.dotnet:$PATH"
 ```
 
-For documentation work, ensure Node.js 20+ is available and yarn is installed.
+For documentation work, use a Node.js version allowed by `docs/package.json` (CI uses Node.js 24) and install yarn.
 
 ## Building the Code
 
