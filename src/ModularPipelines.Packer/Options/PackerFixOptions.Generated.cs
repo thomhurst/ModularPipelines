@@ -19,8 +19,15 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fix")]
-public record PackerFixOptions : PackerOptions
+public record PackerFixOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerFixOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If true (default), validates the fixed template.
     /// </summary>

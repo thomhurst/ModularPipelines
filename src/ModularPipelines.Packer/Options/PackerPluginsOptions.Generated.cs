@@ -19,6 +19,19 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugins")]
-public record PackerPluginsOptions : PackerOptions
+public record PackerPluginsOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : PackerOptions
 {
+    public PackerPluginsOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The args operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Args { get; set; }
+
 }

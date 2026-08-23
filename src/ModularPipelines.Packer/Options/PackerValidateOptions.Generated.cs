@@ -19,8 +19,15 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("validate")]
-public record PackerValidateOptions : PackerOptions
+public record PackerValidateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerValidateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Only check syntax. Do not verify config of the template.
     /// </summary>
@@ -55,7 +62,7 @@ public record PackerValidateOptions : PackerOptions
     /// JSON or HCL2 file containing user variables, can be used multiple times.
     /// </summary>
     [CliOption("--var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFileValues { get; set; }
 
     /// <summary>
     /// Disable warnings for user variable files containing undeclared variables.
@@ -80,5 +87,12 @@ public record PackerValidateOptions : PackerOptions
     /// </summary>
     [CliFlag("--use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
+
+    [Obsolete("Use VarFileValues instead.")]
+    public string? VarFile
+    {
+        get => VarFileValues?.FirstOrDefault();
+        set => VarFileValues = value is null ? null : [value];
+    }
 
 }
