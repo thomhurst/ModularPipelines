@@ -277,6 +277,15 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
     }
 
+    public async Task<bool> IsAvailableAsync(
+        string command,
+        string arguments,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await ExecuteAsync(command, arguments, cancellationToken);
+        return result.Success;
+    }
+
     /// <summary>
     /// Attempts to kill a process gracefully, falling back to force kill.
     /// Logs but swallows exceptions to prevent masking the original error.
