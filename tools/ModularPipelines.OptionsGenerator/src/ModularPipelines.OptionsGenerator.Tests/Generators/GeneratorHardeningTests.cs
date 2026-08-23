@@ -1913,6 +1913,68 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Command_Group_Alias_NonEnum_Properties()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
+                "public record ToolBuildxBakeOptions { "
+                + "[CliOption(\"--label\")] public string? Label { get; set; } }");
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
+                "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions { "
+                + "[CliOption(\"--label\")] public new string? Label { get; set; } }");
+            var command = Command(
+                "ToolBuildxBakeOptions",
+                "ToolOptions",
+                ["buildx", "bake"],
+                subDomainGroup: "Buildx",
+                options:
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--label",
+                        PropertyName = "Label",
+                        CSharpType = "string?",
+                    },
+                ]);
+            var tool = Tool(command) with
+            {
+                CommandGroupAliases =
+                [
+                    new CliCommandGroupAlias
+                    {
+                        Alias = "builder",
+                        CanonicalCommand = "buildx",
+                        ObsoleteMessage = "Use buildx instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generatedAlias = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolBuilderBakeOptions.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generatedAlias).Contains("public new string? Label");
+                await Assert.That(generatedAlias).Contains("get => base.Label;");
+                await Assert.That(generatedAlias).Contains("set => base.Label = value;");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Scopes_Enum_Baselines_To_The_Current_Tool()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");

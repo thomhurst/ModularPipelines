@@ -65,6 +65,8 @@ public class OptionsClassGenerator : ICodeGenerator
                              && option.ValueArity != CliOptionValueArity.Optional
                              && !compatibilityPropertyNames.Contains(option.PropertyName))
             .ToArray();
+        var usesCompatibilityEnums = compatibilityProperties.Any(property =>
+            !property.AliasCSharpType.Equals(property.CanonicalCSharpType, StringComparison.Ordinal));
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
@@ -75,7 +77,7 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
-        if (enumOptions.Length > 0 || compatibilityProperties.Count > 0)
+        if (enumOptions.Length > 0 || usesCompatibilityEnums)
         {
             if (enumOptions.Length > 0)
             {
@@ -249,6 +251,9 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb,
         CliAliasCompatibilityProperty property)
     {
+        var isDirectForward = property.AliasCSharpType.Equals(
+            property.CanonicalCSharpType,
+            StringComparison.Ordinal);
         var aliasEnumName = GeneratorUtils.GetEnumTypeName(property.AliasCSharpType);
         var canonicalEnumName = GeneratorUtils.GetEnumTypeName(property.CanonicalCSharpType);
         var aliasIsEnumerable = property.AliasCSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal);
@@ -270,7 +275,13 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
         sb.AppendLine($"    public new {property.AliasCSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
-        if (aliasIsEnumerable)
+        if (isDirectForward)
+        {
+            var accessor = property.UseInitAccessor ? "init" : "set";
+            sb.AppendLine($"        get => base.{property.PropertyName};");
+            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = value;");
+        }
+        else if (aliasIsEnumerable)
         {
             var baseNullableOperator = canonicalIsNullable ? "?" : string.Empty;
             var aliasNullableOperator = aliasIsNullable ? "?" : string.Empty;

@@ -219,21 +219,45 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlySet<(string PropertyName, string CSharpType)> currentAliasProperties,
         IReadOnlyCollection<CliAliasCompatibilityProperty> compatibilityProperties)
     {
-        var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
-        if (!enumBaseline.ContainsKey(aliasEnumName)
-            || currentAliasProperties.Contains((baselineProperty.PropertyName, baselineProperty.CSharpType))
-            || compatibilityProperties.Any(existing => existing.PropertyName.Equals(
-                baselineProperty.PropertyName,
-                StringComparison.Ordinal)))
+        if (currentAliasProperties.Contains((baselineProperty.PropertyName, baselineProperty.CSharpType)))
         {
             return null;
         }
 
+        var supplied = compatibilityProperties.FirstOrDefault(existing =>
+            existing.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
         var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
             property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
-        if (canonicalProperty is null
-            || !enumBaseline.ContainsKey(GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType)))
+        if (canonicalProperty is null)
         {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {baselineProperty.PropertyName} because the canonical property is missing.");
+        }
+
+        var isDirectForward = baselineProperty.CSharpType.Equals(
+            canonicalProperty.CSharpType,
+            StringComparison.Ordinal);
+        var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
+        var canonicalEnumName = GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType);
+        if (!isDirectForward
+            && (!enumBaseline.ContainsKey(aliasEnumName)
+                || !enumBaseline.ContainsKey(canonicalEnumName)))
+        {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {baselineProperty.PropertyName} because type "
+                + $"{baselineProperty.CSharpType} cannot forward to {canonicalProperty.CSharpType}.");
+        }
+
+        if (supplied is not null)
+        {
+            if (!supplied.AliasCSharpType.Equals(baselineProperty.CSharpType, StringComparison.Ordinal)
+                || !supplied.CanonicalCSharpType.Equals(canonicalProperty.CSharpType, StringComparison.Ordinal)
+                || supplied.UseInitAccessor != baselineProperty.UseInitAccessor)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot retain alias property {baselineProperty.PropertyName} because its supplied compatibility contract changed.");
+            }
+
             return null;
         }
 
@@ -242,6 +266,7 @@ internal static class GeneratedApiCompatibilityPreserver
             PropertyName = baselineProperty.PropertyName,
             AliasCSharpType = baselineProperty.CSharpType,
             CanonicalCSharpType = canonicalProperty.CSharpType,
+            UseInitAccessor = baselineProperty.UseInitAccessor,
             ObsoleteMessage = baselineProperty.ObsoleteMessage
                 ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
         };
@@ -259,6 +284,27 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         entriesByAlias[aliasClassName] = entries;
+    }
+
+    internal static CliToolDefinition PreserveGlobalOptions(
+        CliToolDefinition tool,
+        string outputDirectory)
+    {
+        var optionsDirectory = Path.Combine(
+            outputDirectory,
+            tool.OutputDirectory,
+            "Options");
+        if (!Directory.Exists(optionsDirectory))
+        {
+            return tool;
+        }
+
+        var globalBaseline = ReadBaseline(
+            optionsDirectory,
+            $"{tool.NamespacePrefix}Options");
+        return globalBaseline is null
+            ? tool
+            : PreserveGlobalOptions(tool, globalBaseline.Properties);
     }
 
     internal static CliToolDefinition PreserveGlobalOptions(
@@ -968,6 +1014,30 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return baseline;
+    }
+
+    private static GeneratedApiBaseline? ReadBaseline(
+        string optionsDirectory,
+        string className)
+    {
+        var path = Path.Combine(optionsDirectory, $"{className}.Generated.cs");
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
+        var declaration = CSharpSyntaxTree.ParseText(File.ReadAllText(path))
+            .GetRoot()
+            .DescendantNodes()
+            .OfType<RecordDeclarationSyntax>()
+            .FirstOrDefault(record => record.Identifier.ValueText.Equals(
+                className,
+                StringComparison.Ordinal));
+        return declaration is null
+            ? null
+            : new GeneratedApiBaseline(
+                ReadProperties(declaration),
+                ReadCompatibilityConstructors(declaration));
     }
 
     private static Dictionary<string, CliEnumDefinition> ReadEnumBaseline(string enumsDirectory)

@@ -198,6 +198,64 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
+    public async Task Global_Compatibility_Names_Are_Reserved_Before_Collision_Resolution()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        await Orchestrator(
+                new FakeCliScraper { Commands = [FakeCommand()] },
+                new FakeGenerator())
+            .GenerateAsync("fake", outputRoot);
+        var optionsDirectory = Path.Combine(outputRoot, ToolOutputDirectory, "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        await File.WriteAllTextAsync(
+            Path.Combine(optionsDirectory, "FakeOptions.Generated.cs"),
+            """
+            public record FakeOptions
+            {
+                [Obsolete("Retained for compatibility.")]
+                public IEnumerable<string>? CliArguments { get; set; }
+            }
+            """);
+        CliToolDefinition? generatedTool = null;
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = tool =>
+            {
+                generatedTool = tool;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.Errors).IsEmpty();
+            await Assert.That(generatedTool!.GlobalOptions.Single().PropertyName)
+                .IsEqualTo("CliArguments2");
+            await Assert.That(generatedTool.GlobalCompatibilityProperties.Single().PropertyName)
+                .IsEqualTo("CliArguments");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Catalog_Metadata_Is_Applied_Before_Every_Generator()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
