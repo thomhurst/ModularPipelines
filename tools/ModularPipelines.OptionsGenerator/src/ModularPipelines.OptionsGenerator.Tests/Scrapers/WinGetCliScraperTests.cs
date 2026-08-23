@@ -149,15 +149,13 @@ public class WinGetCliScraperTests
         var command = await scraper.Parse(["winget", "search"], helpText);
         var usage = scraper.ParseUsage(["winget", "search"], helpText);
 
-        command!.ValidateOperandCoverage(
-            usage.HasOperandTokens,
-            usage.Synopsis,
-            usage.PositionalArguments);
+        command!.ValidateOperandCoverage();
 
         using (Assert.Multiple())
         {
             await Assert.That(command.Options.Single().PropertyName).IsEqualTo("Query");
             await Assert.That(command.PositionalArguments).IsEmpty();
+            await Assert.That(command.UsagePositionalArguments).HasSingleItem();
             await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
                 .IsEqualTo("-q");
         }
