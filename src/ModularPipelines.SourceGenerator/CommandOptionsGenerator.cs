@@ -862,13 +862,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IPropertySymbol property,
         out bool hasConflictingAttributes)
     {
+        AttributeData? commandAttribute = null;
         for (var current = property; current is not null; current = current.OverriddenProperty)
         {
             var attributes = current.GetAttributes()
                 .Where(IsCommandAttribute)
                 .Take(2)
                 .ToArray();
-            if (attributes.Length > 1)
+            if (attributes.Length > 1 || (attributes.Length == 1 && commandAttribute is not null))
             {
                 hasConflictingAttributes = true;
                 return null;
@@ -876,13 +877,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
             if (attributes.Length == 1)
             {
-                hasConflictingAttributes = false;
-                return attributes[0];
+                commandAttribute = attributes[0];
             }
         }
 
         hasConflictingAttributes = false;
-        return null;
+        return commandAttribute;
     }
 
     private static IPropertySymbol GetPropertySlot(IPropertySymbol property)

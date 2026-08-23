@@ -245,6 +245,36 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Conflicting_Command_Attributes_Across_Override_Chain_Report_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public class BaseOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliArgument(0)]
+                public virtual string Value { get; } = "";
+            }
+
+            public sealed class TestOptions : BaseOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public override string Value { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(result, "MPG0003", "global::TestOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("conflicting");
+            await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Value");
+            await Assert.That(result.GeneratedTrees.Single().ToString())
+                .DoesNotContain("(instance).@Value");
+        }
+    }
+
+    [Test]
     public async Task Null_Command_Attribute_Names_Report_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
