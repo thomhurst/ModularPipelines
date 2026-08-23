@@ -53,6 +53,9 @@ public partial interface IYarn
     Task<CommandResult> DedupeAsync(YarnDedupeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
+    Task<CommandResult> DlxAsync(YarnDlxOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
     Task<CommandResult> ExecAsync(YarnExecOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
