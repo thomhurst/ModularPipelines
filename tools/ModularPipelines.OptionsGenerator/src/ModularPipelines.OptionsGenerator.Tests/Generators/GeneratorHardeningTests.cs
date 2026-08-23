@@ -2172,11 +2172,11 @@ public class GeneratorHardeningTests
             await File.WriteAllTextAsync(
                 Path.Combine(optionsDirectory, "ToolBuildxBakeOptions.Generated.cs"),
                 "public record ToolBuildxBakeOptions { "
-                + "[CliOption(\"--label\")] public string? Label { get; set; } }");
+                + "[CliOption(\"--label\")] public string Label { get; init; } }");
             await File.WriteAllTextAsync(
                 Path.Combine(optionsDirectory, "ToolBuilderBakeOptions.Generated.cs"),
                 "public record ToolBuilderBakeOptions : ToolBuildxBakeOptions { "
-                + "[CliOption(\"--label\")] public new string? Label { get; set; } }");
+                + "[CliOption(\"--label\")] public new string Label { get; set; } }");
             var command = Command(
                 "ToolBuildxBakeOptions",
                 "ToolOptions",
@@ -2188,7 +2188,7 @@ public class GeneratorHardeningTests
                     {
                         SwitchName = "--label",
                         PropertyName = "Label",
-                        CSharpType = "string?",
+                        CSharpType = "string",
                     },
                 ]);
             var tool = Tool(command) with
@@ -2212,9 +2212,9 @@ public class GeneratorHardeningTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(generatedAlias).Contains("public new string? Label");
+                await Assert.That(generatedAlias).Contains("public new string Label");
                 await Assert.That(generatedAlias).Contains("get => base.Label;");
-                await Assert.That(generatedAlias).Contains("set => base.Label = value;");
+                await Assert.That(generatedAlias).Contains("init => base.Label = value;");
             }
         }
         finally
