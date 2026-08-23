@@ -32,6 +32,24 @@ internal partial class Flyway : IFlyway
     #region Commands
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> AddAsync(
+        FlywayAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAddOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> AuthAsync(
+        FlywayAuthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAuthOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> BaselineAsync(
         FlywayBaselineOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -65,6 +83,42 @@ internal partial class Flyway : IFlyway
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDeployOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> DiffApplyAsync(
+        FlywayDiffApplyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffApplyOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> DiffAsync(
+        FlywayDiffOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> DiffTextAsync(
+        FlywayDiffTextOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffTextOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> GenerateAsync(
+        FlywayGenerateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayGenerateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -128,6 +182,15 @@ internal partial class Flyway : IFlyway
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new FlywaySnapshotOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> UndoAsync(
+        FlywayUndoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayUndoOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
