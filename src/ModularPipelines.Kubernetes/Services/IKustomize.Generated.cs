@@ -23,17 +23,17 @@ public partial interface IKustomize
     /// <summary>
     /// Gets the cfg sub-domain service.
     /// </summary>
-    IKustomizeCfg Cfg { get; }
+    IKustomizeCfg Cfg => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the edit sub-domain service.
     /// </summary>
-    IKustomizeEdit Edit { get; }
+    IKustomizeEdit Edit => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the fn sub-domain service.
     /// </summary>
-    IKustomizeFn Fn { get; }
+    IKustomizeFn Fn => throw new System.NotSupportedException();
 
     #endregion
 
