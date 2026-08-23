@@ -218,7 +218,9 @@ public class SubDomainClassGenerator : ICodeGenerator
                      .Where(command => !excludedCommands.Contains(command))
                      .OrderBy(command => command.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null);
             GenerateCompatibilityMethodSignature(sb, tool, alias, methodName, command);
             sb.AppendLine();
         }
@@ -307,7 +309,9 @@ public class SubDomainClassGenerator : ICodeGenerator
                      .Where(command => !excludedCommands.Contains(command))
                      .OrderBy(command => command.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null);
             sb.AppendLine();
             GenerateCompatibilityForwardingMethod(
                 sb,
@@ -463,7 +467,9 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         foreach (var command in commands.OrderBy(command => command.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null);
             GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
             sb.AppendLine();
         }
@@ -569,7 +575,9 @@ public class SubDomainClassGenerator : ICodeGenerator
 
             foreach (var command in filteredCommands.OrderBy(c => c.ClassName))
             {
-                var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+                var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                    command,
+                    parentCommand is not null);
                 GeneratorUtils.GenerateServiceMethod(sb, methodName, command);
                 sb.AppendLine();
             }
@@ -591,7 +599,9 @@ public class SubDomainClassGenerator : ICodeGenerator
         var publicMembers = node.Children.Values
             .Select(child => child.PascalSegment)
             .Concat(commands
-                .Select(GeneratorUtils.GenerateMethodNameFromLastCommandPart)
+                .Select(command => GeneratorUtils.GenerateSubDomainMethodName(
+                    command,
+                    parentCommand is not null))
                 .Select(GeneratorUtils.EnsureAsyncSuffix));
         if (parentCommand is not null)
         {
