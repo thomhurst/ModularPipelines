@@ -655,6 +655,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 PropertyName = baseline.PropertyName,
                 CSharpType = baseline.CSharpType,
                 ForwardToPropertyName = replacement?.PropertyName,
+                UseInitAccessor = baseline.UseInitAccessor || replacement?.UseInitAccessor == true,
                 ForwardingKind = forwardingKind ?? CliCompatibilityForwardingKind.Direct,
                 ObsoleteMessage = replacement is null
                     ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
@@ -842,6 +843,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 if (positionalResult == RequiredMemberRestoreResult.Restored)
                 {
                     RecordRequiredMemberRename(
+                        baselineProperties,
                         compatibilityProperties,
                         renamedProperties,
                         currentName,
@@ -868,6 +870,7 @@ internal static class GeneratedApiCompatibilityPreserver
             if (optionResult == RequiredMemberRestoreResult.Restored)
             {
                 RecordRequiredMemberRename(
+                    baselineProperties,
                     compatibilityProperties,
                     renamedProperties,
                     currentName,
@@ -932,6 +935,7 @@ internal static class GeneratedApiCompatibilityPreserver
     }
 
     private static void RecordRequiredMemberRename(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
         IDictionary<string, string> renamedProperties,
         string currentName,
@@ -943,6 +947,12 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         renamedProperties[currentName] = baseline.PropertyName;
+        if (baselineProperties.Any(property =>
+                property.PropertyName.Equals(currentName, StringComparison.Ordinal)))
+        {
+            return;
+        }
+
         AddRenamedCurrentProperty(
             compatibilityProperties,
             currentName,
@@ -1227,7 +1237,8 @@ internal static class GeneratedApiCompatibilityPreserver
             argument.IsRequired,
             false,
             null,
-            null);
+            null,
+            argument.IsRequired);
 
     private static GeneratedApiProperty ToGeneratedProperty(CliOptionDefinition option) =>
         new(
@@ -1238,7 +1249,8 @@ internal static class GeneratedApiCompatibilityPreserver
             option.IsRequired,
             false,
             null,
-            null);
+            null,
+            option.IsRequired);
 
     private static bool HasSameCliIdentity(
         GeneratedApiProperty left,
