@@ -319,6 +319,37 @@ public class RetryTests : TestBase
         internal void Complete() => _completion.TrySetResult(true);
     }
 
+    private class NonCancellableModuleWithAdvancedShield : Module<bool>
+    {
+        private readonly TaskCompletionSource<bool> _completion =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        internal int ExecutionCount;
+        internal int ObservedTimeoutCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(50))
+            .Advanced
+            .WithShield(Shield
+                .When<ModuleTimeoutException>(_ =>
+                {
+                    ObservedTimeoutCount++;
+                    return true;
+                })
+                .Retry(DefaultRetryCount, Backoff.None))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return await _completion.Task;
+        }
+
+        internal void Complete() => _completion.TrySetResult(true);
+    }
+
     private class CancelledDuringRetryModule : Module<bool>
     {
         private readonly TaskCompletionSource _secondAttemptStarted =
@@ -401,6 +432,36 @@ public class RetryTests : TestBase
             using (Assert.Multiple())
             {
                 await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+                await Assert.That(timeoutException).IsNotNull();
+                await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+            }
+        }
+        finally
+        {
+            module.Complete();
+        }
+    }
+
+    [Test]
+    public async Task When_Advanced_Shield_Sees_Abandoned_Attempt_Then_Do_Not_Reenter_Module()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<NonCancellableModuleWithAdvancedShield>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>()
+            .OfType<NonCancellableModuleWithAdvancedShield>()
+            .Single();
+
+        try
+        {
+            var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => host.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+            var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+                await Assert.That(module.ObservedTimeoutCount).IsEqualTo(ExpectedSingleExecutionCount);
                 await Assert.That(timeoutException).IsNotNull();
                 await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
             }
