@@ -1,6 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "snyk",
+  "toolVersion": "1.1306.1",
   "commandCount": 18,
   "commandTreeSha256": "32de8a747296e31736bf613027b19e2b477465ca0d4198f0a4631966ff7f20ac",
   "commands": [

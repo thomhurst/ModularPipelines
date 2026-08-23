@@ -21,4 +21,10 @@ namespace ModularPipelines.Snyk.Options;
 [CliSubCommand("iac")]
 public record SnykIacOptions : SnykOptions
 {
+    /// <summary>
+    /// The &lt;PATH&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Path { get; set; }
+
 }
