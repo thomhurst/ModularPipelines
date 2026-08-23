@@ -129,4 +129,10 @@ public record PnpmPublishOptions : PnpmOptions
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
 
+    /// <summary>
+    /// The &lt;tarball&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Tarball { get; set; }
+
 }
