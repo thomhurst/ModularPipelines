@@ -307,7 +307,7 @@ internal static class GeneratedApiCompatibilityPreserver
             PropertyName = baselineProperty.PropertyName,
             AliasCSharpType = baselineProperty.CSharpType,
             CanonicalCSharpType = canonicalProperty.CSharpType,
-            UseInitAccessor = baselineProperty.UseInitAccessor,
+            UseInitAccessor = baselineProperty.UseInitAccessor || canonicalProperty.UseInitAccessor,
             ObsoleteMessage = baselineProperty.ObsoleteMessage
                 ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
         };
@@ -341,7 +341,8 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         if (!supplied.AliasCSharpType.Equals(baselineProperty.CSharpType, StringComparison.Ordinal)
             || !supplied.CanonicalCSharpType.Equals(canonicalProperty.CSharpType, StringComparison.Ordinal)
-            || supplied.UseInitAccessor != baselineProperty.UseInitAccessor)
+            || supplied.UseInitAccessor
+            != (baselineProperty.UseInitAccessor || canonicalProperty.UseInitAccessor))
         {
             throw new InvalidOperationException(
                 $"Cannot retain alias property {baselineProperty.PropertyName} because its supplied compatibility contract changed.");
@@ -1612,7 +1613,8 @@ internal static class GeneratedApiCompatibilityPreserver
             obsolete is not null,
             forwarding.TargetPropertyName,
             GetStringArgument(obsolete),
-            accessorList?.Accessors.Any(static accessor =>
+            isRequired
+            || accessorList?.Accessors.Any(static accessor =>
                 accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true,
             forwarding.Kind);
     }

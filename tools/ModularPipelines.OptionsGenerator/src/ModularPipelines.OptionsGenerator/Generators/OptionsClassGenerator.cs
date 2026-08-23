@@ -275,9 +275,9 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
         sb.AppendLine($"    public new {property.AliasCSharpType} {property.PropertyName}");
         sb.AppendLine("    {");
+        var accessor = property.UseInitAccessor ? "init" : "set";
         if (isDirectForward)
         {
-            var accessor = property.UseInitAccessor ? "init" : "set";
             sb.AppendLine($"        get => base.{property.PropertyName};");
             sb.AppendLine($"        {accessor} => base.{property.PropertyName} = value;");
         }
@@ -289,7 +289,7 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"        get => base.{property.PropertyName}{baseNullableOperator}.Select("
                 + $"static value => ({aliasEnumName})(int)value);");
             sb.AppendLine(
-                $"        set => base.{property.PropertyName} = value{aliasNullableOperator}.Select("
+                $"        {accessor} => base.{property.PropertyName} = value{aliasNullableOperator}.Select("
                 + $"static value => ({canonicalEnumName})(int)value);");
         }
         else if (aliasIsNullable)
@@ -297,14 +297,14 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine($"        get => base.{property.PropertyName} is null");
             sb.AppendLine("            ? null");
             sb.AppendLine($"            : ({aliasEnumName})(int)base.{property.PropertyName}.Value;");
-            sb.AppendLine($"        set => base.{property.PropertyName} = value is null");
+            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = value is null");
             sb.AppendLine("            ? null");
             sb.AppendLine($"            : ({canonicalEnumName})(int)value.Value;");
         }
         else
         {
             sb.AppendLine($"        get => ({aliasEnumName})(int)base.{property.PropertyName};");
-            sb.AppendLine($"        set => base.{property.PropertyName} = ({canonicalEnumName})(int)value;");
+            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = ({canonicalEnumName})(int)value;");
         }
 
         sb.AppendLine("    }");
