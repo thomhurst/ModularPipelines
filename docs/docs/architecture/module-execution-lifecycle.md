@@ -18,7 +18,7 @@ For a module that runs successfully, the phases are:
 5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
 6. The module skip condition is evaluated.
 7. `Module<T>.OnBeforeExecuteAsync` runs once.
-8. `Module<T>.ExecuteAsync` runs through timeout and retry policies.
+8. `Module<T>.ExecuteAsync` runs through timeout handling and the configured resilience shield, which may compose retries with other resilience strategies.
 9. `Module<T>.OnAfterExecuteAsync` runs once.
 10. Global `IModuleEventReceiver.OnModuleEndAsync` receivers run concurrently.
 11. Attribute `IModuleEndHandler` handlers run sequentially by priority.

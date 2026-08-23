@@ -446,6 +446,28 @@ public class ModuleConfigurationTests
         await Assert.That(delay).IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
     }
 
+    [Test]
+    public async Task RetryDelayCalculator_ZeroDelay_RemainsZeroAtMaximumAttempt()
+    {
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
+            retryAttempt: int.MaxValue,
+            baseDelay: TimeSpan.Zero,
+            jitterFactor: 0.5);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.Zero);
+    }
+
+    [Test]
+    public async Task RetryDelayCalculator_MaximumDelay_RemainsInTimeSpanRange()
+    {
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
+            retryAttempt: 2,
+            baseDelay: TimeSpan.MaxValue,
+            jitterFactor: 1);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.MaxValue);
+    }
+
     #endregion
 
     #region WithIgnoreFailures Tests
