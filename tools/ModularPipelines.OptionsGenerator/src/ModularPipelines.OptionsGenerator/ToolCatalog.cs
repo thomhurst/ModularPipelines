@@ -36,10 +36,11 @@ internal static class ToolCatalog
 
     public static string ToText(IReadOnlyList<ToolCatalogEntry> entries)
     {
-        var lines = new[] { "Tool\tPackage\tNamespace prefix\tPlatform\tAutomation" }
+        var lines = new[] { "Tool\tPackage\tNamespace prefix\tPlatform\tAutomation\tCommand facade" }
             .Concat(entries.Select(entry =>
                 $"{entry.ToolName}\t{entry.PackageName}\t{entry.NamespacePrefix}\t"
-                + $"{entry.GenerationPlatform}\t{entry.IncludeInGenerationMatrix}"));
+                + $"{entry.GenerationPlatform}\t{entry.IncludeInGenerationMatrix}\t"
+                + $"{entry.GenerateCommandFacade}"));
         return string.Join(Environment.NewLine, lines);
     }
 
@@ -74,7 +75,8 @@ internal static class ToolCatalog
             NamespacePrefix: namespacePrefix,
             OutputDirectory: outputDirectory,
             GenerationPlatform: scraper.GenerationPlatform,
-            IncludeInGenerationMatrix: scraper.IncludeInGenerationMatrix);
+            IncludeInGenerationMatrix: scraper.IncludeInGenerationMatrix,
+            GenerateCommandFacade: scraper.GenerateCommandFacade);
     }
 
     private static string RequireValue(string value, string description) =>
@@ -89,4 +91,5 @@ internal sealed record ToolCatalogEntry(
     string NamespacePrefix,
     string OutputDirectory,
     CliGenerationPlatform GenerationPlatform,
-    bool IncludeInGenerationMatrix);
+    bool IncludeInGenerationMatrix,
+    bool GenerateCommandFacade);

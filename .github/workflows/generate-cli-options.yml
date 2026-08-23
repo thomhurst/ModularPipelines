@@ -81,7 +81,8 @@ jobs:
                 tool: .toolName,
                 package: .packageName,
                 prefix: .namespacePrefix,
-                outputDirectory: .outputDirectory
+                outputDirectory: .outputDirectory,
+                generateCommandFacade: .generateCommandFacade
               }]}' \
               "$RUNNER_TEMP/tool-catalog.json"
           }
@@ -189,9 +190,8 @@ jobs:
             fi
           }
 
-          # Git's service API is handwritten and generation only validates coverage.
-          # Never remove it before the coverage-only generator run.
-          if [ "${{ matrix.tool }}" != "git" ]; then
+          # Preserve handwritten service APIs during coverage-only generator runs.
+          if [ "${{ matrix.generateCommandFacade }}" = "true" ]; then
             # Only delete specific service interface/implementation files (not all I*.cs files)
             # These are the exact files the generator will create in Services/
             remove_legacy_file "$PKG_DIR/I${PREFIX}.cs"
@@ -800,9 +800,8 @@ jobs:
             }
           }
 
-          # Git's service API is handwritten and generation only validates coverage.
-          # Never remove it before the coverage-only generator run.
-          if ('${{ matrix.tool }}' -ne 'git') {
+          # Preserve handwritten service APIs during coverage-only generator runs.
+          if ('${{ matrix.generateCommandFacade }}' -eq 'true') {
             # Only delete specific service interface/implementation files (not all I*.cs files)
             # These are the exact files the generator will create in Services/
             $interfaceFile = Join-Path $pkgDir "I$prefix.cs"

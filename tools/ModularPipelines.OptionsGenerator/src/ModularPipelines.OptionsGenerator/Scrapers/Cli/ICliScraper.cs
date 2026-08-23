@@ -39,6 +39,11 @@ public interface ICliScraper
     bool IncludeInGenerationMatrix => true;
 
     /// <summary>
+    /// Whether generation owns the tool's command facade and service files.
+    /// </summary>
+    bool GenerateCommandFacade => true;
+
+    /// <summary>
     /// Whether the CLI tool is available on the system.
     /// </summary>
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default);
