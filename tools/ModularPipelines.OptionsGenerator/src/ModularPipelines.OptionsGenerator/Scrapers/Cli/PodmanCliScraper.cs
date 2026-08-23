@@ -235,9 +235,11 @@ public partial class PodmanCliScraper : CobraCliScraper
     private static IReadOnlyList<CliPositionalArgument> RenamePositionalArgument(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int index,
-        string propertyName) => positionalArguments.Count <= index
-        ? positionalArguments
-        : positionalArguments
+        string propertyName)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+
+        return positionalArguments
             .Select((argument, argumentIndex) => argumentIndex == index
                 ? argument with
                 {
@@ -246,15 +248,18 @@ public partial class PodmanCliScraper : CobraCliScraper
                 }
                 : argument)
             .ToList();
+    }
 
     private static IReadOnlyList<CliPositionalArgument> SetPositionalArgument(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int index,
         string? propertyName,
         bool isRequired,
-        bool isVariadic) => positionalArguments.Count <= index
-        ? positionalArguments
-        : positionalArguments
+        bool isVariadic)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+
+        return positionalArguments
             .Select((argument, argumentIndex) => argumentIndex == index
                 ? ConfigurePositionalArgument(
                     argument,
@@ -263,6 +268,18 @@ public partial class PodmanCliScraper : CobraCliScraper
                     isVariadic)
                 : argument)
             .ToList();
+    }
+
+    private static void EnsurePositionalArgumentExists(
+        IReadOnlyCollection<CliPositionalArgument> positionalArguments,
+        int index)
+    {
+        if (positionalArguments.Count <= index)
+        {
+            throw new InvalidDataException(
+                $"Podman positional fix expected argument at index {index}, but parsed {positionalArguments.Count}.");
+        }
+    }
 
     private static CliPositionalArgument ConfigurePositionalArgument(
         CliPositionalArgument argument,

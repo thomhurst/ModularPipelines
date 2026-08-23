@@ -848,6 +848,11 @@ public class CodeGeneratorOrchestrator
             collisionResolvedTool,
             outputDirectory);
         var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(compatibleTool);
+        var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
+        foreach (var command in toolDefinition.Commands)
+        {
+            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(command, resolvedGlobalOptions);
+        }
 
         if (enforceOutputContainment)
         {

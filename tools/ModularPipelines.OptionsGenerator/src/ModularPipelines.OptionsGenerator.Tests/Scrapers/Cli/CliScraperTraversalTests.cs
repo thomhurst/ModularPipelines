@@ -368,6 +368,18 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Positional_Fix_Fails_When_Expected_Operand_Is_Missing()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman artifact add [options] ARTIFACT";
+
+        await Assert.That(async () =>
+                await scraper.Parse(["podman", "artifact", "add"], helpText))
+            .Throws<InvalidDataException>();
+    }
+
+    [Test]
     [Arguments("kube down")]
     [Arguments("kube play")]
     public async Task Podman_Kube_Files_Are_Optional_Collections(string command)
@@ -418,7 +430,8 @@ public class CliScraperTraversalTests
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
         var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
-        var helpText = $"Usage: podman {command} [options]";
+        var operands = command == "kube play" ? " [KUBEFILE...]" : string.Empty;
+        var helpText = $"Usage: podman {command} [options]{operands}";
 
         var definition = await scraper.Parse(commandPath, helpText);
         var property = definition!.CompatibilityProperties.Single();
