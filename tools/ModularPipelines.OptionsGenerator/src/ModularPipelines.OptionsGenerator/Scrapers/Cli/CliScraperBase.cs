@@ -1015,11 +1015,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static partial Regex OptionLinePattern();
 
     [GeneratedRegex(
-        @"^[ \t]*(?:Usage:?[ \t]*(?:\r?\n[ \t]*)?)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
+        @"^[ \t]*Usage:?[ \t]*(?:\r?\n[ \t]*)?[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
         RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandGroupUsagePattern();
 
-    [GeneratedRegex(@"^[ \t]*[A-Z][A-Z0-9 _/-]*COMMANDS?:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*[A-Z][A-Z0-9 _/-]*COMMANDS:?[ \t]*\r?$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandSectionHeadingPattern();
 
     [GeneratedRegex(

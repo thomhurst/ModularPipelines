@@ -967,7 +967,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Matches section headers like "Flags:", "Usage:", etc.
     /// </summary>
     [GeneratedRegex(
-        @"^(?:[A-Z][\w\s]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$",
+        @"^(?:[A-Z][\w \t]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$",
         RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
