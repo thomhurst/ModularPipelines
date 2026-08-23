@@ -425,10 +425,6 @@ public class SnykCliScraperTests
         public bool CanGenerate(string helpText) => HasOptions(helpText);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
-        {
-            var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
-                ParseUsageSynopsis(commandPath, helpText));
-            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
-        }
+            => ParseCommandAsync(commandPath, helpText, CancellationToken.None);
     }
 }
