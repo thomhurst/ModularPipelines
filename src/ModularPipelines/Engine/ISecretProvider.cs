@@ -25,4 +25,17 @@ internal interface ISecretProvider
     IEnumerable<string> GetSecretsInObject(object? value);
 }
 
+internal interface ISecretEmissionGuard
+{
+    /// <summary>
+    /// Executes output processing against a stable registered-secret collection.
+    /// Concurrent output may proceed together, while secret publication waits for it to finish.
+    /// Registrations made reentrantly by the output sink are published when the callback completes.
+    /// </summary>
+    /// <typeparam name="TState">The state passed to the output callback.</typeparam>
+    /// <param name="state">The output state.</param>
+    /// <param name="processOutput">The output processing and emission to execute.</param>
+    void ExecuteWithStableSecrets<TState>(TState state, Action<TState> processOutput);
+}
+
 internal readonly record struct SecretSnapshot(long Version, IReadOnlyList<string> Secrets);
