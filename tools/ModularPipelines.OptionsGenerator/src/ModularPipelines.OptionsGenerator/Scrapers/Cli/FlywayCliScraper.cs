@@ -107,30 +107,35 @@ public partial class FlywayCliScraper : CliScraperBase
         }
 
         var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-        var sectionEnd = helpText.Length;
-
-        // Find where this section ends
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
-        {
-            sectionEnd = nextSection.Index;
-        }
-
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..];
         var lines = section.Split('\n');
+        var foundCommand = false;
 
         foreach (var line in lines)
         {
-            var match = FlywayCommandLinePattern().Match(line);
-            if (match.Success)
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var commandName = match.Groups["command"].Value.Trim();
-                if (!string.IsNullOrEmpty(commandName) &&
-                    !commandName.Contains(' ') &&
-                    seenCommands.Add(commandName))
+                continue;
+            }
+
+            var match = FlywayCommandLinePattern().Match(line);
+            if (!match.Success)
+            {
+                if (foundCommand)
                 {
-                    subcommands.Add(commandName);
+                    break;
                 }
+
+                continue;
+            }
+
+            foundCommand = true;
+            var commandName = match.Groups["command"].Value.Trim();
+            if (!string.IsNullOrEmpty(commandName) &&
+                !commandName.Contains(' ') &&
+                seenCommands.Add(commandName))
+            {
+                subcommands.Add(commandName);
             }
         }
 
@@ -295,19 +300,11 @@ public partial class FlywayCliScraper : CliScraperBase
     private static partial Regex ConfigurationSectionPattern();
 
     /// <summary>
-    /// Matches next section headers.
-    /// </summary>
-    [GeneratedRegex(
-        @"(?:\r?\n[ \t]*[A-Za-z][\w ]*[ \t]*\r?\n[ \t]*[-=]+[ \t]*\r?\n)|(?:^[ \t]*(?:Configuration parameters(?:[ \t]*\([^\r\n]*\))?|Flags|Flyway Usage Example)[ \t]*\r?$)",
-        RegexOptions.IgnoreCase | RegexOptions.Multiline)]
-    private static partial Regex NextSectionPattern();
-
-    /// <summary>
     /// Matches Flyway command lines: "migrate  : Migrates the database"
     /// Also matches "  migrate         Migrates the database" format (no colon).
     /// </summary>
     [GeneratedRegex(
-        @"^[ \t]*(?<command>[\w-]+)(?:[ \t]+\([^\r\n)]+\))?(?:[ \t]+:[ \t]+|[ \t]{2,})",
+        @"^[ \t]*(?<command>[\w-]+)(?:[ \t]+\([^\r\n)]+\))?(?:,[ \t]*-{1,2}[\w-]+)*(?:[ \t]+:[ \t]+|[ \t]{2,})",
         RegexOptions.Multiline)]
     private static partial Regex FlywayCommandLinePattern();
 
