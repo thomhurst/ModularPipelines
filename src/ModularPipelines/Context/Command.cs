@@ -460,7 +460,7 @@ internal sealed class Command : ICommandContext
                             deferredOutputLogger)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
-                        configureStartInfo: ConfigureStartInfo,
+                        configureProcessStartInfo: ConfigureStartInfo,
                         configureProcess: processTreeTerminator.Attach,
                         forcefulCancellationToken: CancellationToken.None,
                         gracefulCancellationToken: executionCancellationToken);
