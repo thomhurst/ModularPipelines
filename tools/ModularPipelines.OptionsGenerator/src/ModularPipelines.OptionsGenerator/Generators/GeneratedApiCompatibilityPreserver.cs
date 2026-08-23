@@ -558,9 +558,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
                 && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
             if (optionIndex >= 0
-                && !ToGeneratedProperty(options[optionIndex]).CSharpType.Equals(
-                    baseline.CSharpType,
-                    StringComparison.Ordinal))
+                && HasBaselineShapeDrift(ToGeneratedProperty(options[optionIndex]), baseline))
             {
                 var isCollection = CliOptionDefinition.TryGetCollectionShape(
                     baseline.CSharpType,
@@ -585,9 +583,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 argument.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
                 && HasSameCliIdentity(ToGeneratedProperty(argument), baseline));
             if (positionalIndex >= 0
-                && !ToGeneratedProperty(positionalArguments[positionalIndex]).CSharpType.Equals(
-                    baseline.CSharpType,
-                    StringComparison.Ordinal))
+                && HasBaselineShapeDrift(ToGeneratedProperty(positionalArguments[positionalIndex]), baseline))
             {
                 positionalArguments[positionalIndex] = positionalArguments[positionalIndex] with
                 {
@@ -597,6 +593,12 @@ internal static class GeneratedApiCompatibilityPreserver
             }
         }
     }
+
+    private static bool HasBaselineShapeDrift(
+        GeneratedApiProperty current,
+        GeneratedApiProperty baseline) =>
+        current.IsRequired != baseline.IsRequired
+        || !current.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal);
 
     private static string GetUniqueReplacementName(
         string candidate,
