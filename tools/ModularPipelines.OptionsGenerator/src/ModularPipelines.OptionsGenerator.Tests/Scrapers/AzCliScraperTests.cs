@@ -36,6 +36,32 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Boolean_Lists_Remain_Collections()
+    {
+        const string helpText = """
+            Command
+                az vm application set : Set applications for a VM.
+
+            Optional Arguments
+                --treat-deployment-as-failure : Space-separated list of true or false corresponding
+                                                to the application version ids.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "vm", "application", "set"],
+            helpText);
+        var option = command!.Options.Single(
+            item => item.SwitchName == "--treat-deployment-as-failure");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
