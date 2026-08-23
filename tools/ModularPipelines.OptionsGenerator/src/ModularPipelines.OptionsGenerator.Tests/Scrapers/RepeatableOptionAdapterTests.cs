@@ -57,6 +57,25 @@ public class RepeatableOptionAdapterTests
     }
 
     [Test]
+    public async Task Packer_Does_Not_Treat_Operational_Repetition_As_Repeatable()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -retry-count=count  Retry the operation multiple times before failing.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--retry-count");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Snyk_Recognizes_Repeated_Prose()
     {
         const string helpText = """

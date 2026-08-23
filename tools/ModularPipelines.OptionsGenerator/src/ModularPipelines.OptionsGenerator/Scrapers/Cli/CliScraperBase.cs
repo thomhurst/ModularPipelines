@@ -1010,8 +1010,20 @@ public abstract partial class CliScraperBase : ICliScraper
     private static partial Regex ExplicitBooleanValuePattern();
 
     [GeneratedRegex(
-        @"\b(?:one\s+or\s+more|zero\s+or\s+more|multiple\s+(?:times|values)|more\s+than\s+once|repeat(?:able|ed|edly)?)\b",
-        RegexOptions.IgnoreCase)]
+        """
+        \b(?:
+            repeatable
+            |(?:can|may)\s+be\s+repeated
+            |(?:can|may)\s+be\s+
+                (?:specified|supplied|provided|used|passed|set|given)\s+
+                (?:multiple\s+times|more\s+than\s+once)
+            |(?:specify|supply|provide|use|pass|set|give)\s+
+                (?:multiple\s+times|more\s+than\s+once)
+            |(?:one|zero)\s+or\s+more\s+values?
+            |multiple\s+values
+        )\b
+        """,
+        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex RepeatableValuePattern();
 
     [GeneratedRegex(@"\x1B(?:\][^\x07\x1B]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
