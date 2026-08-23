@@ -66,6 +66,11 @@ public record CliCommandDefinition
     public bool HasOperandTakingUsage { get; init; }
 
     /// <summary>
+    /// Operands parsed from the usage synopsis, including placeholders owned by named options.
+    /// </summary>
+    public IReadOnlyList<CliPositionalArgument> UsagePositionalArguments { get; init; } = [];
+
+    /// <summary>
     /// Required options that should be constructor parameters.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> RequiredOptions =>
@@ -123,7 +128,10 @@ public record CliCommandDefinition
     /// Verifies that operand-taking usage cannot silently generate an unusable API.
     /// </summary>
     public void ValidateOperandCoverage() =>
-        ValidateOperandCoverage(HasOperandTakingUsage, UsageSynopsis);
+        ValidateOperandCoverage(
+            HasOperandTakingUsage,
+            UsageSynopsis,
+            UsagePositionalArguments);
 
     /// <summary>
     /// Verifies operand coverage against usage parsed by the shared traversal.
