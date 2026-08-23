@@ -432,6 +432,11 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties,
             renamedProperties,
             violations);
+        RestoreBaselinePropertyShapes(
+            baselineProperties,
+            preservedTypeChanges,
+            positionalArguments,
+            options);
 
         RestoreRequiredMemberNames(
             baselineProperties,
@@ -535,6 +540,60 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return preserved;
+    }
+
+    private static void RestoreBaselinePropertyShapes(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlySet<string> preservedTypeChanges,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options)
+    {
+        foreach (var baseline in baselineProperties.Where(property =>
+                     !property.IsCompatibility
+                     && !preservedTypeChanges.Contains(property.PropertyName)))
+        {
+            var optionIndex = Array.FindIndex(options, option =>
+                option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
+            if (optionIndex >= 0
+                && !ToGeneratedProperty(options[optionIndex]).CSharpType.Equals(
+                    baseline.CSharpType,
+                    StringComparison.Ordinal))
+            {
+                var isCollection = CliOptionDefinition.TryGetCollectionShape(
+                    baseline.CSharpType,
+                    out var resolvedCollectionShape)
+                    && resolvedCollectionShape;
+                var isFlag = baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
+                             || baseline.CSharpType.Equals("bool", StringComparison.Ordinal);
+                options[optionIndex] = options[optionIndex] with
+                {
+                    CSharpType = baseline.CSharpType,
+                    IsRequired = baseline.IsRequired,
+                    IsFlag = isFlag,
+                    ValueArity = CliOptionValueArity.Required,
+                    AcceptsMultipleValues = isCollection,
+                    IsCollection = isCollection,
+                    EnumDefinition = null,
+                };
+                continue;
+            }
+
+            var positionalIndex = Array.FindIndex(positionalArguments, argument =>
+                argument.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && HasSameCliIdentity(ToGeneratedProperty(argument), baseline));
+            if (positionalIndex >= 0
+                && !ToGeneratedProperty(positionalArguments[positionalIndex]).CSharpType.Equals(
+                    baseline.CSharpType,
+                    StringComparison.Ordinal))
+            {
+                positionalArguments[positionalIndex] = positionalArguments[positionalIndex] with
+                {
+                    CSharpType = baseline.CSharpType,
+                    IsRequired = baseline.IsRequired,
+                };
+            }
+        }
     }
 
     private static string GetUniqueReplacementName(
