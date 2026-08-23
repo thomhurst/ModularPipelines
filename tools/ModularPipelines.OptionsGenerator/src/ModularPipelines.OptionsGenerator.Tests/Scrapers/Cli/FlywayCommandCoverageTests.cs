@@ -30,6 +30,39 @@ public class FlywayCommandCoverageTests
     }
 
     [Test]
+    public async Task LegacyConfigurationOnlyHelp_PreservesCommandAndOptions()
+    {
+        const string rootHelp = """
+            Usage
+                flyway [options] [command]
+
+            Commands
+                migrate  Migrates the database
+            """;
+        const string commandHelp = """
+            Configuration
+            -------------
+            -url=  : Jdbc url
+            """;
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FlywayCliScraper(
+            new FlywayExecutor(rootHelp, commandHelp),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var migrate = commands.Single();
+        await Assert.That(migrate.FullCommand).IsEqualTo("flyway migrate");
+        await Assert.That(migrate.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-url"]);
+    }
+
+    [Test]
     public async Task PinnedFlywayHelp_SatisfiesCommandCoveragePolicy()
     {
         const string rootHelp = """
