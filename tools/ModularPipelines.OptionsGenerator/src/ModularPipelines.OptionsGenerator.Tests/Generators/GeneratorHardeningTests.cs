@@ -1375,7 +1375,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Optional_Member_Becoming_Required()
+    public async Task ApiCompatibilityPreserver_Restores_Optional_Member_Becoming_Required()
     {
         var command = Command("ToolNewOptions", "ToolOptions", ["new"]) with
         {
@@ -1391,13 +1391,17 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("Name", "string", argumentPosition: 0)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Name", "string?", argumentPosition: 0)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("Name changed from optional to required and would remove its public setter");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(generated).Contains("public string? Name { get; set; }");
+            await Assert.That(generated).DoesNotContain("public record ToolNewOptions(");
+        }
     }
 
     [Test]
