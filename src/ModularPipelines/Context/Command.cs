@@ -450,7 +450,10 @@ internal sealed class Command : ICommandContext
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
         var registration = executionCancellationToken.Register(
-            () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
+            () => ScheduleForcefulCancellation(
+                forcefulCancellationToken,
+                execOpts.GracefulShutdownTimeout,
+                execOpts.InternalForcefulCancellationReady));
         loggingFailures.Capture(
             () => _commandLogger.LogCommandStart(
                 options,
@@ -806,10 +809,36 @@ internal sealed class Command : ICommandContext
 
     private static void ScheduleForcefulCancellation(
         CancellationTokenSource forcefulCancellationToken,
-        TimeSpan gracefulShutdownTimeout)
+        TimeSpan gracefulShutdownTimeout,
+        Task? forcefulCancellationReady)
+    {
+        _ = ScheduleForcefulCancellationAsync(
+            forcefulCancellationToken,
+            gracefulShutdownTimeout,
+            forcefulCancellationReady);
+    }
+
+    internal static async Task ScheduleForcefulCancellationAsync(
+        CancellationTokenSource forcefulCancellationToken,
+        TimeSpan gracefulShutdownTimeout,
+        Task? forcefulCancellationReady)
     {
         try
         {
+            if (forcefulCancellationReady is not null)
+            {
+                try
+                {
+                    await forcefulCancellationReady.ConfigureAwait(false);
+                }
+                catch (Exception exception)
+                {
+                    Trace.TraceError(
+                        "Forceful cancellation readiness failed; arming the timer anyway: {0}",
+                        exception);
+                }
+            }
+
             if (forcefulCancellationToken.Token.CanBeCanceled)
             {
                 forcefulCancellationToken.CancelAfter(gracefulShutdownTimeout);
