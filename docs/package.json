@@ -49,5 +49,17 @@
   },
   "engines": {
     "node": ">=18.0"
+  },
+  "overrides": {
+    "http-proxy-middleware": "2.0.10",
+    "picomatch": "2.3.2",
+    "serialize-javascript": "7.0.5",
+    "uuid": "14.0.0"
+  },
+  "resolutions": {
+    "http-proxy-middleware": "2.0.10",
+    "picomatch": "2.3.2",
+    "serialize-javascript": "7.0.5",
+    "uuid": "14.0.0"
   }
 }
