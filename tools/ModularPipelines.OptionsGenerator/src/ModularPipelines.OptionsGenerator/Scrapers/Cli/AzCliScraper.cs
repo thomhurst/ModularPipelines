@@ -349,7 +349,7 @@ public partial class AzCliScraper : CliScraperBase
         bool isFlag,
         bool explicitBooleanValue)
     {
-        if (isFlag || explicitBooleanValue)
+        if (isFlag)
         {
             return "bool?";
         }
@@ -370,6 +370,11 @@ public partial class AzCliScraper : CliScraperBase
             lowerDesc.Contains("multiple"))
         {
             return "IEnumerable<string>?";
+        }
+
+        if (explicitBooleanValue)
+        {
+            return "bool?";
         }
 
         return "string?";
