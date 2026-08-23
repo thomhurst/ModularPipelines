@@ -148,6 +148,32 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Does_Not_Mask_Secret_Named_File_Path_Options()
+    {
+        const string helpText = """
+            NAME
+                gcloud example create - create an example
+
+            SYNOPSIS
+                gcloud example create
+
+            FLAGS
+                 --credential=CREDENTIAL
+                    Path to the credential file.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "create"],
+            helpText);
+        var credential = command!.Options.Single(option => option.SwitchName == "--credential");
+
+        await Assert.That(credential.IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task GcloudAgentIdentityUpdate_Emits_Nested_Scope_Credential_And_Negatable_Flags()
     {
         const string helpText = """
