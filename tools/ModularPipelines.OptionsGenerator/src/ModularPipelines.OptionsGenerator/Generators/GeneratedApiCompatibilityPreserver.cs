@@ -1084,7 +1084,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal)
                 && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal))
                     ? current.PropertyName
-                    : "default!")
+                    : GetTypedDefault(current.CSharpType))
             .ToArray();
         AddCompatibilityConstructor(
             compatibilityConstructors,
@@ -1106,6 +1106,16 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             return;
         }
+
+        constructor = constructor with
+        {
+            PrimaryConstructorArguments = constructor.PrimaryConstructorArguments
+                .Select((argument, index) => argument.Equals("default!", StringComparison.Ordinal)
+                                             && index < currentRequired.Count
+                    ? GetTypedDefault(currentRequired[index].CSharpType)
+                    : argument)
+                .ToArray(),
+        };
 
         var existing = constructors.FirstOrDefault(candidate => HasSameConstructorSignature(
             candidate.Parameters,
@@ -1133,6 +1143,8 @@ internal static class GeneratedApiCompatibilityPreserver
 
         constructors.Add(constructor);
     }
+
+    private static string GetTypedDefault(string cSharpType) => $"default({cSharpType})!";
 
     private static bool HasSameConstructorContract<TLeft, TRight>(
         IReadOnlyList<TLeft> left,
