@@ -1511,7 +1511,7 @@ public class GeneratorHardeningTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).Contains("public ToolAddOptions()");
-            await Assert.That(generated).Contains(": this(default!)");
+            await Assert.That(generated).Contains(": this(default(string)!)");
         }
     }
 
@@ -1545,7 +1545,7 @@ public class GeneratorHardeningTests
             var generated = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
 
             await Assert.That(generated).Contains("public ToolAddOptions()");
-            await Assert.That(generated).Contains(": this(default!)");
+            await Assert.That(generated).Contains(": this(default(string)!)");
         }
         finally
         {
