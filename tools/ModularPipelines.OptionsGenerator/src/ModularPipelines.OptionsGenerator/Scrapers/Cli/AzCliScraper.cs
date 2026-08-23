@@ -365,6 +365,16 @@ public partial class AzCliScraper : CliScraperBase
             return "int?";
         }
 
+        // Explicit Boolean values stay scalar unless the help specifically describes
+        // the Boolean values themselves as a collection. Words such as "multiple"
+        // may instead describe the resources affected by one Boolean value.
+        if (explicitBooleanValue)
+        {
+            return HelpDeclaresBooleanList(lowerDesc)
+                ? "IEnumerable<string>?"
+                : "bool?";
+        }
+
         // Check for list types (space-separated or multiple values)
         if (lowerDesc.Contains("space-separated") || lowerDesc.Contains("list of") ||
             lowerDesc.Contains("multiple"))
@@ -372,13 +382,13 @@ public partial class AzCliScraper : CliScraperBase
             return "IEnumerable<string>?";
         }
 
-        if (explicitBooleanValue)
-        {
-            return "bool?";
-        }
-
         return "string?";
     }
+
+    private static bool HelpDeclaresBooleanList(string description) =>
+        description.Contains("space-separated") ||
+        description.Contains("list of true") ||
+        description.Contains("list of false");
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
