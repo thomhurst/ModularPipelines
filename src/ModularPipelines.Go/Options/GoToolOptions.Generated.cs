@@ -13,17 +13,19 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Generate runs commands described by directives within existing
+/// Tool runs the go tool command identified by the arguments.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("generate")]
-public record GoGenerateOptions : GoOptions
+[CliSubCommand("tool")]
+public record GoToolOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : GoOptions
 {
     /// <summary>
-    /// The file.go operand.
+    /// The args operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? FileGo { get; set; }
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Args { get; set; }
 
 }

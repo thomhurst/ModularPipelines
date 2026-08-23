@@ -41,12 +41,39 @@ internal partial class Go : IGo
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> CleanAsync(
+        GoCleanOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoCleanOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> EnvAsync(
+        GoEnvOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoEnvOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> FixAsync(
         GoFixOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GoFixOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> FmtAsync(
+        GoFmtOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoFmtOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -59,6 +86,87 @@ internal partial class Go : IGo
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> GetAsync(
+        GoGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoGetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> InstallAsync(
+        GoInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoInstallOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ListAsync(
+        GoListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ModDownloadAsync(
+        GoModDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoModDownloadOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ModEditAsync(
+        GoModEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoModEditOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ModInitAsync(
+        GoModInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoModInitOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ModWhyAsync(
+        GoModWhyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> RunAsync(
+        GoRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TelemetryAsync(
+        GoTelemetryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoTelemetryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> TestAsync(
         GoTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -68,12 +176,48 @@ internal partial class Go : IGo
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> ToolAsync(
+        GoToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> VetAsync(
         GoVetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GoVetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> WorkEditAsync(
+        GoWorkEditOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoWorkEditOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> WorkInitAsync(
+        GoWorkInitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoWorkInitOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> WorkUseAsync(
+        GoWorkUseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GoWorkUseOptions(), executionOptions, cancellationToken);
     }
 
     #endregion
