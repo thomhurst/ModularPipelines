@@ -124,7 +124,11 @@ public partial class PipCliScraper : CliScraperBase
         string[] commandPath,
         string helpText,
         CancellationToken cancellationToken) =>
-        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
 
     /// <inheritdoc />
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
