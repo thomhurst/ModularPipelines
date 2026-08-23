@@ -308,9 +308,20 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.ExecuteAsync";
         }
 
-        var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
+        var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+            command,
+            HasExecutableParentCommand(tool, command));
         return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
     }
+
+    private static bool HasExecutableParentCommand(
+        CliToolDefinition tool,
+        CliCommandDefinition command) =>
+        tool.Commands.Any(candidate =>
+            candidate.CommandParts.Length == command.CommandParts.Length - 1
+            && candidate.CommandParts.SequenceEqual(
+                command.CommandParts.Take(candidate.CommandParts.Length),
+                StringComparer.OrdinalIgnoreCase));
 
     private static bool IsCommandPrefix(
         CliCommandDefinition command,
