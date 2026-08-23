@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "rm")]
-public record TerraformStateRmOptions : TerraformOptions
+public record TerraformStateRmOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Address
+) : TerraformOptions
 {
+    public TerraformStateRmOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// If set, prints out what would've been removed but doesn't actually remove anything.
     /// </summary>

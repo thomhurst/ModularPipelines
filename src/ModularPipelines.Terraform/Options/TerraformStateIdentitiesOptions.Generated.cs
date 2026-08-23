@@ -32,4 +32,10 @@ public record TerraformStateIdentitiesOptions : TerraformOptions
     [CliOption("-id", Format = OptionFormat.EqualsSeparated)]
     public string? Id { get; set; }
 
+    /// <summary>
+    /// The address operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Address { get; set; }
+
 }

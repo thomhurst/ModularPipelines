@@ -30,7 +30,7 @@ public record TerraformInitOptions : TerraformOptions
     /// Configuration to be merged with what is in the configuration file's 'backend' block. This can be either a path to an HCL file with key/value assignments (same format as terraform.tfvars) or a 'key=value' format, and can be specified multiple times. The backend type must be in the configuration itself.
     /// </summary>
     [CliOption("-backend-config", Format = OptionFormat.EqualsSeparated)]
-    public string? BackendConfig { get; set; }
+    public IEnumerable<string>? BackendConfigValues { get; set; }
 
     /// <summary>
     /// Suppress prompts about copying state data when initializing a new state backend. This is equivalent to providing a "yes" to all confirmation prompts.
@@ -127,5 +127,12 @@ public record TerraformInitOptions : TerraformOptions
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    [Obsolete("Use BackendConfigValues instead.")]
+    public string? BackendConfig
+    {
+        get => BackendConfigValues?.FirstOrDefault();
+        set => BackendConfigValues = value is null ? null : [value];
+    }
 
 }

@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("untaint")]
-public record TerraformUntaintOptions : TerraformOptions
+public record TerraformUntaintOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
+) : TerraformOptions
 {
+    public TerraformUntaintOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If specified, the command will succeed (exit code 0) even if the resource is missing.
     /// </summary>

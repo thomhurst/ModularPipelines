@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+public record TerraformForceUnlockOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LockId
+) : TerraformOptions
 {
+    public TerraformForceUnlockOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Don't ask for input for unlock confirmation.
     /// </summary>

@@ -13,29 +13,17 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Reads and outputs a Terraform state or plan file in a human-readable
+/// This command has subcommands for metadata related purposes.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record TerraformShowOptions : TerraformOptions
+[CliSubCommand("metadata")]
+public record TerraformMetadataOptions : TerraformOptions
 {
     /// <summary>
-    /// If specified, output won't contain any color.
-    /// </summary>
-    [CliFlag("-no-color")]
-    public bool? NoColor { get; set; }
-
-    /// <summary>
-    /// If specified, output the Terraform plan or state in a machine-readable form.
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
-
-    /// <summary>
-    /// The path operand.
+    /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Path { get; set; }
+    public string? Args { get; set; }
 
 }

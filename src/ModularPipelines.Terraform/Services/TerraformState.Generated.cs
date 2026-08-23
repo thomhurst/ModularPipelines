@@ -32,6 +32,21 @@ public class TerraformState : ITerraformState
     #region Commands
 
     /// <summary>
+    /// This command has subcommands for advanced state management.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        TerraformStateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List the json format of the identities of resources in the Terraform state.
     /// </summary>
     /// <param name="options">The command options.</param>
