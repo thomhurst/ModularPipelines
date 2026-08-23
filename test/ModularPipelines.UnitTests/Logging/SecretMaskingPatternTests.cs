@@ -428,7 +428,7 @@ public class SecretMaskingPatternTests
             releaseFlush.TrySetResult();
             await childFlush.WaitAsync(TimeSpan.FromSeconds(5));
 
-            outputBuffer.Verify(x => x.WriteLine("pending"), Times.Once);
+            outputBuffer.Verify(x => x.Write("pending"), Times.Once);
         }
     }
 
@@ -743,7 +743,8 @@ public class SecretMaskingPatternTests
         writer.WriteLine("y");
 
         outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("abc"))), Times.Never);
-        outputBuffer.Verify(x => x.WriteLine(It.Is<string>(value => value.Contains("**********"))), Times.Once);
+        outputBuffer.Verify(x => x.Write(It.Is<string>(value => value.Contains("**********"))), Times.Once);
+        outputBuffer.Verify(x => x.WriteLine("y"), Times.Once);
     }
 
     [Test]
