@@ -21,17 +21,6 @@ public class KubectlCliScraper : CobraCliScraper
     {
     }
 
-    public override async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
-    {
-        var result = await Executor.ExecuteAsync(
-                ExecutablePath,
-                VersionArguments,
-                cancellationToken)
-            .ConfigureAwait(false);
-
-        return result.Success;
-    }
-
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.
     /// </summary>

@@ -22,17 +22,6 @@ public class HelmCliScraper : CobraCliScraper
     {
     }
 
-    public override async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
-    {
-        var result = await Executor.ExecuteAsync(
-                ExecutablePath,
-                VersionArguments,
-                cancellationToken)
-            .ConfigureAwait(false);
-
-        return result.Success;
-    }
-
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
