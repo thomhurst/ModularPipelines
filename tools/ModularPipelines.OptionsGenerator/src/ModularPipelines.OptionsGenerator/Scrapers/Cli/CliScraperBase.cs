@@ -721,6 +721,15 @@ public abstract partial class CliScraperBase : ICliScraper
             GetAdditionalUsageSynopses(commandPath, helpText));
 
     /// <summary>
+    /// Returns true positional operands, excluding values syntactically owned by an option switch.
+    /// </summary>
+    protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
+        UsageSynopsisParseResult usage) =>
+        usage.PositionalArguments
+            .Where(argument => argument.AssociatedOptionSwitch is null)
+            .ToArray();
+
+    /// <summary>
     /// Checks if help text indicates the command has options/flags.
     /// Override if the CLI has a different pattern for leaf commands.
     /// </summary>

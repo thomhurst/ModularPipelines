@@ -726,17 +726,29 @@ public static class UsageSynopsisParser
     private static IReadOnlyList<string> TrimTrailingUsageExplanation(IEnumerable<string> sourceTokens)
     {
         var tokens = sourceTokens.ToList();
-        var boundaryIndex = tokens.FindIndex(static token =>
+        var punctuationBoundaryIndex = tokens.FindIndex(static token =>
             token.Length > 1
             && token[^1] == '.'
             && token[^2] is ']' or '>' or '}' or ')');
+        var optionDescriptionBoundaryIndex = tokens.FindIndex(static token =>
+            token.StartsWith('-')
+            && token.EndsWith(','));
+        var boundaryIndex = new[] { punctuationBoundaryIndex, optionDescriptionBoundaryIndex }
+            .Where(index => index >= 0)
+            .DefaultIfEmpty(-1)
+            .Min();
         if (boundaryIndex < 0)
         {
             return tokens;
         }
 
-        tokens[boundaryIndex] = tokens[boundaryIndex][..^1];
-        return tokens.Take(boundaryIndex + 1).ToList();
+        if (boundaryIndex == punctuationBoundaryIndex)
+        {
+            tokens[boundaryIndex] = tokens[boundaryIndex][..^1];
+            boundaryIndex++;
+        }
+
+        return tokens.Take(boundaryIndex).ToList();
     }
 
     private static string? NormalizeOperandName(string content)
@@ -801,9 +813,13 @@ public static class UsageSynopsisParser
         var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
-               || OptionControlTokens.Contains(content)
+               || IsOptionControlLabel(content)
                || content.All(character => !char.IsLetterOrDigit(character));
     }
+
+    private static bool IsOptionControlLabel(string content) =>
+        OptionControlTokens.Contains(content)
+        || content.EndsWith(" flags", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsOptionControlToken(string token)
     {

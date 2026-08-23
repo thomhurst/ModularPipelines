@@ -143,6 +143,14 @@ public partial class PnpmCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    /// <inheritdoc />
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -163,6 +171,7 @@ public partial class PnpmCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
+        var positionalArguments = GetPositionalArguments(usage);
 
         var className = GenerateClassName(commandPath);
 
@@ -176,7 +185,9 @@ public partial class PnpmCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = positionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = enums
         };
