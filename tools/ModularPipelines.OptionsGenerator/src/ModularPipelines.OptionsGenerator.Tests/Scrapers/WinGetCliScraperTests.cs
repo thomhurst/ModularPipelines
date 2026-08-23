@@ -50,6 +50,31 @@ public class WinGetCliScraperTests
     }
 
     [Test]
+    public async Task Explicit_Repeatability_Takes_Precedence_Over_Boolean_Heuristics()
+    {
+        const string helpText = """
+            List installed packages.
+
+            usage: winget list [<options>]
+
+            The following options are available:
+              --source   Accepts multiple values
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(
+            ["winget", "list"],
+            helpText);
+        var source = command!.Options.Single(option => option.SwitchName == "--source");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(source.IsFlag).IsFalse();
+            await Assert.That(source.AcceptsMultipleValues).IsTrue();
+            await Assert.That(source.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
     public async Task Does_Not_Mark_Boolean_Flags_As_Repeatable_Values()
     {
         const string helpText = """

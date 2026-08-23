@@ -1039,7 +1039,8 @@ public abstract partial class CliScraperBase : ICliScraper
             repeatable
             |(?:can|may|must|should)\s+be\s+repeated
             |(?:is|are)\s+repeated
-            |\A(?:one|zero)\s+or\s+more\s+[\w-]+
+            |\A(?:one|zero)\s+or\s+more\s+
+                (?!(?:attempts?|times?|retries?)\b)[\w-]+
             |(?:can|may|must|should)\s+be\s+
                 (?:specified|supplied|provided|used|passed|set|given)\s+
                 (?:multiple\s+times|more\s+than\s+once)
