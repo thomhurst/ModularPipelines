@@ -1026,6 +1026,87 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Reads_Nullable_To_Required_Compatibility_Accessors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolRunOptions.Generated.cs"),
+                "public record ToolRunOptions { "
+                + "[CliArgument(0)] public string Subcommand { get; set; } "
+                + "[Obsolete(\"Use Subcommand instead.\")] public string? Args { get => Subcommand; set => Subcommand = value ?? string.Empty; } "
+                + "}");
+            var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Subcommand",
+                        CSharpType = "string",
+                        PositionIndex = 0,
+                    },
+                ],
+                CompatibilityProperties =
+                [
+                    new CliCompatibilityProperty
+                    {
+                        PropertyName = "Args",
+                        CSharpType = "string?",
+                        ForwardToPropertyName = "Subcommand",
+                        ForwardingKind = CliCompatibilityForwardingKind.NullableStringToRequiredString,
+                        ObsoleteMessage = "Use Subcommand instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+
+            await Assert.That(preserved.Commands.Single().CompatibilityProperties.Single().ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableStringToRequiredString);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Renamed_Nullable_String_As_Required_String()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Subcommand",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Args", "string?", argumentPosition: 0)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableStringToRequiredString);
+            await Assert.That(generated).Contains("public string? Args");
+            await Assert.That(generated).Contains("get => Subcommand;");
+            await Assert.That(generated).Contains("set => Subcommand = value ?? string.Empty;");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Rejects_Reassigned_Property_Names()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with

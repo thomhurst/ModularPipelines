@@ -302,6 +302,7 @@ public enum CliCompatibilityForwardingKind
     Direct,
     ScalarToCollection,
     NullableInt32ToString,
+    NullableStringToRequiredString,
 }
 
 /// <summary>

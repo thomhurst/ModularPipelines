@@ -66,6 +66,10 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
                 break;
+            case CliCompatibilityForwardingKind.NullableStringToRequiredString:
+                sb.AppendLine($"        get => {property.ForwardToPropertyName};");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(property.ForwardingKind),
