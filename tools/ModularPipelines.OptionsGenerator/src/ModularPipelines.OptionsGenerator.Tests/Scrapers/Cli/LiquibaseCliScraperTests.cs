@@ -227,6 +227,24 @@ public class LiquibaseCliScraperTests
         await Assert.That(resolved).IsEqualTo("liquibase");
     }
 
+    [Test]
+    [Arguments("Liquibase Version: 5.0.3")]
+    [Arguments("Liquibase Community 5.0.3 by Liquibase")]
+    [Arguments("Liquibase 'community' version 5.0.3 by Liquibase")]
+    public async Task Version_Parser_Skips_Banner_And_Returns_Machine_Readable_Version(string versionLine)
+    {
+        var result = new CliCommandResult
+        {
+            StandardOutput = $"{new string('#', 600)}\n{versionLine}",
+            StandardError = string.Empty,
+            ExitCode = 0,
+        };
+
+        var version = _scraper.ParseLiquibaseVersion(result);
+
+        await Assert.That(version).IsEqualTo("5.0.3");
+    }
+
     private sealed class TestLiquibaseCliScraper(ICliCommandExecutor? executor = null)
         : LiquibaseCliScraper(executor ?? new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
     {
@@ -239,6 +257,8 @@ public class LiquibaseCliScraperTests
 
         public Task<CliCommandDefinition?> ParseLiquibaseCommand(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+
+        public string? ParseLiquibaseVersion(CliCommandResult result) => ParseVersionOutput(result);
     }
 
     private sealed class StubExecutor(string? rootHelp = null, string? updateHelp = null) : ICliCommandExecutor

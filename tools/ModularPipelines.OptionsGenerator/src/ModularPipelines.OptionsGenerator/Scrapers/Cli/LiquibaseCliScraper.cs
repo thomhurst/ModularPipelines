@@ -89,6 +89,18 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// </summary>
     protected override int MaxParallelism => 2;
 
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = LiquibaseVersionPattern().Match(result.CombinedOutput);
+        if (match.Success)
+        {
+            return match.Groups["version"].Value;
+        }
+
+        Logger.LogWarning("Could not extract stable {Tool} version identity", ToolName);
+        return null;
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -558,6 +570,11 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     [GeneratedRegex(@"\s*\(defaults file:.*$", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex DefaultsMetadataPattern();
+
+    [GeneratedRegex(
+        @"(?:Liquibase Version:|Liquibase (?:Community|'community' version))\s*(?<version>\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?)",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex LiquibaseVersionPattern();
 
     #endregion
 }
