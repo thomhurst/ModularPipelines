@@ -33,7 +33,7 @@ public static class FlywayExtensions
     }
 
     /// <summary>
-    /// Gets the flyway service from the pipeline context.
+    /// Gets the flyway service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlyway"/> service for executing flyway commands.</returns>
