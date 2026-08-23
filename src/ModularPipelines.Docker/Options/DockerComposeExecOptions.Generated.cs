@@ -48,12 +48,6 @@ public record DockerComposeExecOptions(
     public int? Index { get; set; }
 
     /// <summary>
-    /// Disable pseudo-TTY allocation. By default 'docker compose exec' allocates a TTY. (default true)
-    /// </summary>
-    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
-    public bool? NoTty { get; set; }
-
-    /// <summary>
     /// Give extended privileges to the process
     /// </summary>
     [CliFlag("--privileged")]
@@ -76,5 +70,8 @@ public record DockerComposeExecOptions(
     /// </summary>
     [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
+
+    [Obsolete("NoTty is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoTty { get; set; }
 
 }
