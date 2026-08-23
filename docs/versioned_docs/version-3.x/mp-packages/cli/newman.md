@@ -17,24 +17,12 @@ Import `ModularPipelines.Newman.Extensions`, then resolve the service with `cont
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Newman.Extensions;
-using ModularPipelines.Newman.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted because the remaining command has no complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Newman().Url(
-            new NewmanUrlOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+using ModularPipelines.Newman.Extensions;
+
+var newman = context.Newman();
 ```
 
 ## Commands
@@ -42,4 +30,3 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `newman run` | `NewmanRunOptions` |
-| `newman URL` | `NewmanUrlOptions` |
