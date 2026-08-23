@@ -99,7 +99,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var description = ExtractDescription(helpText);
-        var parsedOptions = ParseOptions(helpText, commandParts);
+        var parsedOptions = ParseOptions(helpText);
         var options = parsedOptions.Options;
         var positionalArgs = ParsePositionalArguments(helpText);
 
@@ -202,13 +202,11 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
-        string helpText,
-        string[] commandParts)
+    private static (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+        string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find FLAGS section
         var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
@@ -254,7 +252,7 @@ public partial class GcloudCliScraper : CliScraperBase
             var isNumeric = IsNumericHint(valueHint);
             var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
 
-            var enumDef = TryDetectEnum(propertyName, className, description);
+            var enumDef = TryDetectEnum(propertyName, description);
             var csharpType = DetermineCSharpType(
                 isFlag,
                 acceptsMultipleValues,
@@ -351,7 +349,7 @@ public partial class GcloudCliScraper : CliScraperBase
                lower.Contains("timeout") || lower.Contains("seconds") || lower.Contains("iops");
     }
 
-    private static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
