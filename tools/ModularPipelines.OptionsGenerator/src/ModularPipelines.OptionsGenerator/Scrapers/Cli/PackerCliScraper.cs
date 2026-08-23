@@ -212,7 +212,8 @@ public partial class PackerCliScraper : CliScraperBase
             }
 
             var isFlag = string.IsNullOrEmpty(valueHint) || valueHint.Contains("true") || valueHint.Contains("false");
-            var csharpType = isFlag ? "bool?" : "string?";
+            var acceptsMultipleValues = !isFlag && DescriptionDeclaresRepeatableOption(description);
+            var csharpType = acceptsMultipleValues ? "IEnumerable<string>?" : isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
             {
@@ -223,7 +224,7 @@ public partial class PackerCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
                 ValueSeparator = "=",
