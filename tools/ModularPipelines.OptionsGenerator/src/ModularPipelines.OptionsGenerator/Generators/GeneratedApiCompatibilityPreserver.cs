@@ -60,10 +60,14 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(static method => method.IsOptionsOptional)
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
+        var commands = compatibleTool.Commands
+            .Select(command => PreserveIdentifierCasing(command, baseline))
+            .Concat(RestoreRemovedCommands(compatibleTool, baseline, facadeMethods))
+            .DistinctBy(static command => command.ClassName, StringComparer.Ordinal)
+            .ToArray();
         var preservedTool = compatibleTool with
         {
-            Commands = compatibleTool.Commands
-                .Select(command => PreserveIdentifierCasing(command, baseline))
+            Commands = commands
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
                     ? Preserve(command, commandBaseline.Properties, commandBaseline.Constructors)
                     : command)
@@ -86,6 +90,96 @@ internal static class GeneratedApiCompatibilityPreserver
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
+    }
+
+    private static IEnumerable<CliCommandDefinition> RestoreRemovedCommands(
+        CliToolDefinition tool,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        var currentOptionTypes = tool.Commands
+            .Select(static command => command.ClassName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var methods in facadeMethods
+                     .Where(method => !currentOptionTypes.Contains(method.OptionsType))
+                     .GroupBy(static method => method.OptionsType, StringComparer.Ordinal))
+        {
+            if (!baseline.TryGetValue(methods.Key, out var commandBaseline)
+                || commandBaseline.CommandParts is not { Length: > 0 })
+            {
+                continue;
+            }
+
+            yield return RestoreRemovedCommand(tool, commandBaseline, methods.ToArray());
+        }
+    }
+
+    private static CliCommandDefinition RestoreRemovedCommand(
+        CliToolDefinition tool,
+        GeneratedApiBaseline baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        var commandParts = baseline.CommandParts!;
+        var facade = facadeMethods[0];
+        var groupIdentifier = facade.DeclaringType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+            ? facade.DeclaringType[tool.NamespacePrefix.Length..]
+            : null;
+        var options = baseline.Properties
+            .Where(static property => !property.IsCompatibility && property.SwitchName is not null)
+            .Select(static property => new CliOptionDefinition
+            {
+                SwitchName = property.SwitchName!,
+                PropertyName = property.PropertyName,
+                CSharpType = property.CSharpType,
+                IsRequired = property.IsRequired,
+                IsFlag = property.CSharpType is "bool" or "bool?",
+            })
+            .ToArray();
+        var positionalArguments = baseline.Properties
+            .Where(static property => !property.IsCompatibility && property.ArgumentPosition is not null)
+            .Select(static property => new CliPositionalArgument
+            {
+                PropertyName = property.PropertyName,
+                CSharpType = property.CSharpType,
+                PositionIndex = property.ArgumentPosition!.Value,
+                IsRequired = property.IsRequired,
+            })
+            .ToArray();
+        var compatibilityProperties = baseline.Properties
+            .Where(static property => property.IsCompatibility)
+            .Select(static property => new CliCompatibilityProperty
+            {
+                PropertyName = property.PropertyName,
+                CSharpType = property.CSharpType,
+                ForwardToPropertyName = property.ForwardToPropertyName,
+                UseInitAccessor = property.UseInitAccessor,
+                ForwardingKind = property.ForwardingKind,
+                ObsoleteMessage = property.ObsoleteMessage
+                    ?? $"{property.PropertyName} is retained for compatibility.",
+            })
+            .ToArray();
+
+        return new CliCommandDefinition
+        {
+            FullCommand = $"{tool.ToolName} {string.Join(' ', commandParts)}",
+            CommandParts = commandParts,
+            ClassName = baseline.ClassName,
+            ParentClassName = baseline.ParentClassName ?? $"{tool.NamespacePrefix}Options",
+            ToolNamespacePrefix = tool.NamespacePrefix,
+            Options = options,
+            PositionalArguments = positionalArguments,
+            CompatibilityProperties = compatibilityProperties,
+            CompatibilityConstructors = baseline.Constructors,
+            SubDomainGroup = commandParts.Length > 1 ? commandParts[0] : null,
+            CommandGroupIdentifierOverride = commandParts.Length > 1 && !string.IsNullOrEmpty(groupIdentifier)
+                ? groupIdentifier
+                : null,
+            PreserveExecuteFacade = facadeMethods.Any(static method =>
+                method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveNamedFacade = facadeMethods.Any(static method =>
+                !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
+        };
     }
 
     private static CliCommandDefinition PreserveIdentifierCasing(
@@ -1283,9 +1377,7 @@ internal static class GeneratedApiCompatibilityPreserver
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
             foreach (var declaration in root.DescendantNodes().OfType<RecordDeclarationSyntax>())
             {
-                baseline[declaration.Identifier.ValueText] = new GeneratedApiBaseline(
-                    ReadProperties(declaration),
-                    ReadCompatibilityConstructors(declaration));
+                baseline[declaration.Identifier.ValueText] = ReadBaseline(declaration);
             }
         }
 
@@ -1311,9 +1403,26 @@ internal static class GeneratedApiCompatibilityPreserver
                 StringComparison.Ordinal));
         return declaration is null
             ? null
-            : new GeneratedApiBaseline(
-                ReadProperties(declaration),
-                ReadCompatibilityConstructors(declaration));
+            : ReadBaseline(declaration);
+    }
+
+    private static GeneratedApiBaseline ReadBaseline(RecordDeclarationSyntax declaration)
+    {
+        var attributes = declaration.AttributeLists.SelectMany(static list => list.Attributes);
+        var subCommand = FindAttribute(attributes, "CliSubCommand");
+        var commandParts = subCommand?.ArgumentList?.Arguments
+            .Select(static argument => argument.Expression)
+            .OfType<LiteralExpressionSyntax>()
+            .Where(static literal => literal.IsKind(SyntaxKind.StringLiteralExpression))
+            .Select(static literal => literal.Token.ValueText)
+            .ToArray();
+        var parentClassName = declaration.BaseList?.Types.FirstOrDefault()?.Type.ToString();
+        return new GeneratedApiBaseline(
+            declaration.Identifier.ValueText,
+            commandParts,
+            parentClassName,
+            ReadProperties(declaration),
+            ReadCompatibilityConstructors(declaration));
     }
 
     private static Dictionary<string, CliEnumDefinition> ReadEnumBaseline(string enumsDirectory)
@@ -1743,6 +1852,9 @@ internal sealed record GeneratedApiProperty(
     CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct);
 
 internal sealed record GeneratedApiBaseline(
+    string ClassName,
+    string[]? CommandParts,
+    string? ParentClassName,
     IReadOnlyList<GeneratedApiProperty> Properties,
     IReadOnlyList<CliCompatibilityConstructor> Constructors);
 
