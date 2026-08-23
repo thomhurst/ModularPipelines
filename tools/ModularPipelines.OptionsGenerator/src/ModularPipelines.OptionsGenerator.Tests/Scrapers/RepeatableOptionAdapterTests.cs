@@ -71,15 +71,49 @@ public class RepeatableOptionAdapterTests
         await AssertRepeatable(command, "--project-environment");
     }
 
+    [Test]
+    public async Task Snyk_Preserves_Numeric_Element_Type_For_Repeatable_Options()
+    {
+        const string helpText = """
+            Usage: snyk test [<OPTIONS>]
+
+            Options
+              --max-depth=<DEPTH>
+                  Set the maximum dependency depth. Can be repeated.
+            """;
+        var command = await new TestSnykCliScraper().Parse(["snyk", "test"], helpText);
+
+        await AssertRepeatable(command, "--max-depth", "IEnumerable<int>?");
+    }
+
+    [Test]
+    public async Task Snyk_Preserves_Enum_Element_Type_For_Repeatable_Options()
+    {
+        const string helpText = """
+            Usage: snyk test [<OPTIONS>]
+
+            Options
+              --severity-threshold=<low|medium|high|critical>
+                  Report only vulnerabilities at the selected threshold. Can be repeated.
+            """;
+        var command = await new TestSnykCliScraper().Parse(["snyk", "test"], helpText);
+
+        await AssertRepeatable(
+            command,
+            "--severity-threshold",
+            "IEnumerable<SnykSeverityThreshold>?");
+    }
+
     private static async Task AssertRepeatable(
         CliCommandDefinition? command,
-        string switchName)
+        string switchName,
+        string expectedType = "IEnumerable<string>?")
     {
         var option = command!.Options.Single(item => item.SwitchName == switchName);
         using (Assert.Multiple())
         {
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
-            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.CSharpType).IsEqualTo(expectedType);
         }
     }
 
