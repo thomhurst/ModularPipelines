@@ -224,8 +224,6 @@ internal static class GeneratedApiCompatibilityPreserver
             return null;
         }
 
-        var supplied = compatibilityProperties.FirstOrDefault(existing =>
-            existing.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
         var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
             property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
         if (canonicalProperty is null)
@@ -234,30 +232,12 @@ internal static class GeneratedApiCompatibilityPreserver
                 $"Cannot retain alias property {baselineProperty.PropertyName} because the canonical property is missing.");
         }
 
-        var isDirectForward = baselineProperty.CSharpType.Equals(
-            canonicalProperty.CSharpType,
-            StringComparison.Ordinal);
-        var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
-        var canonicalEnumName = GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType);
-        if (!isDirectForward
-            && (!enumBaseline.ContainsKey(aliasEnumName)
-                || !enumBaseline.ContainsKey(canonicalEnumName)))
-        {
-            throw new InvalidOperationException(
-                $"Cannot retain alias property {baselineProperty.PropertyName} because type "
-                + $"{baselineProperty.CSharpType} cannot forward to {canonicalProperty.CSharpType}.");
-        }
-
+        EnsureAliasPropertyCanForward(baselineProperty, canonicalProperty, enumBaseline);
+        var supplied = compatibilityProperties.FirstOrDefault(existing =>
+            existing.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
         if (supplied is not null)
         {
-            if (!supplied.AliasCSharpType.Equals(baselineProperty.CSharpType, StringComparison.Ordinal)
-                || !supplied.CanonicalCSharpType.Equals(canonicalProperty.CSharpType, StringComparison.Ordinal)
-                || supplied.UseInitAccessor != baselineProperty.UseInitAccessor)
-            {
-                throw new InvalidOperationException(
-                    $"Cannot retain alias property {baselineProperty.PropertyName} because its supplied compatibility contract changed.");
-            }
-
+            EnsureSuppliedAliasContractMatches(baselineProperty, canonicalProperty, supplied);
             return null;
         }
 
@@ -270,6 +250,41 @@ internal static class GeneratedApiCompatibilityPreserver
             ObsoleteMessage = baselineProperty.ObsoleteMessage
                 ?? $"{baselineProperty.PropertyName} is retained for compatibility.",
         };
+    }
+
+    private static void EnsureAliasPropertyCanForward(
+        GeneratedApiProperty baselineProperty,
+        GeneratedApiProperty canonicalProperty,
+        IReadOnlyDictionary<string, CliEnumDefinition> enumBaseline)
+    {
+        if (baselineProperty.CSharpType.Equals(canonicalProperty.CSharpType, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        var aliasEnumName = GeneratorUtils.GetEnumTypeName(baselineProperty.CSharpType);
+        var canonicalEnumName = GeneratorUtils.GetEnumTypeName(canonicalProperty.CSharpType);
+        if (!enumBaseline.ContainsKey(aliasEnumName)
+            || !enumBaseline.ContainsKey(canonicalEnumName))
+        {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {baselineProperty.PropertyName} because type "
+                + $"{baselineProperty.CSharpType} cannot forward to {canonicalProperty.CSharpType}.");
+        }
+    }
+
+    private static void EnsureSuppliedAliasContractMatches(
+        GeneratedApiProperty baselineProperty,
+        GeneratedApiProperty canonicalProperty,
+        CliAliasCompatibilityProperty supplied)
+    {
+        if (!supplied.AliasCSharpType.Equals(baselineProperty.CSharpType, StringComparison.Ordinal)
+            || !supplied.CanonicalCSharpType.Equals(canonicalProperty.CSharpType, StringComparison.Ordinal)
+            || supplied.UseInitAccessor != baselineProperty.UseInitAccessor)
+        {
+            throw new InvalidOperationException(
+                $"Cannot retain alias property {baselineProperty.PropertyName} because its supplied compatibility contract changed.");
+        }
     }
 
     private static void SetCompatibilityEntries<T>(
