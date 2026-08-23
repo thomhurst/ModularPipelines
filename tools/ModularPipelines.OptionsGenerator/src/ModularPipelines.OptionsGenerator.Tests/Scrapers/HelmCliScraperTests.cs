@@ -21,7 +21,8 @@ public class HelmCliScraperTests
 
         await Assert.That(isAvailable).IsTrue();
         await Assert.That(version).IsEqualTo("version.BuildInfo{Version:\"v4.0.0\"}");
-        await Assert.That(executor.Arguments).IsEquivalentTo(["version", "version"]);
+        await Assert.That(executor.AvailabilityArguments).IsEquivalentTo(["version"]);
+        await Assert.That(executor.Arguments).IsEquivalentTo(["version"]);
     }
 
     [Test]
@@ -56,6 +57,8 @@ public class HelmCliScraperTests
     {
         public List<string> Arguments { get; } = [];
 
+        public List<string> AvailabilityArguments { get; } = [];
+
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
@@ -76,6 +79,15 @@ public class HelmCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(false);
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default)
+        {
+            AvailabilityArguments.Add(arguments);
+            return Task.FromResult(arguments == "version");
+        }
     }
 
     private sealed class HelmHelpExecutor : ICliCommandExecutor
