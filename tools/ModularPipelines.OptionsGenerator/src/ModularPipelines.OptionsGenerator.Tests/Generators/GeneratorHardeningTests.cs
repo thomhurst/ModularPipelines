@@ -837,6 +837,58 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Reads_Converted_Compatibility_Accessors()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolBuildOptions.Generated.cs"),
+                "public record ToolBuildOptions { "
+                + "[CliOption(\"--output\")] public IEnumerable<string>? Outputs { get; set; } "
+                + "[Obsolete(\"Use Outputs instead.\")] public string? Output { get => Outputs?.FirstOrDefault(); set => Outputs = value is null ? null : [value]; } "
+                + "}");
+            var command = Command(
+                "ToolBuildOptions",
+                "ToolOptions",
+                ["build"],
+                options:
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--output",
+                        PropertyName = "Outputs",
+                        CSharpType = "IEnumerable<string>?",
+                    },
+                ]) with
+            {
+                CompatibilityProperties =
+                [
+                    new CliCompatibilityProperty
+                    {
+                        PropertyName = "Output",
+                        CSharpType = "string?",
+                        ForwardToPropertyName = "Outputs",
+                        ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                        ObsoleteMessage = "Use Outputs instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+
+            await Assert.That(preserved.Commands.Single().CompatibilityProperties.Single().ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.ScalarToCollection);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Restores_Required_Positional_Names()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
@@ -872,7 +924,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Scalar_To_Collection_Changes()
+    public async Task ApiCompatibilityPreserver_Retains_Scalar_To_Collection_Changes()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
         {
@@ -887,13 +939,24 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("ToolCopyOptions.CommandOptions changed type from string? to IEnumerable<string>?");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("CommandOptionsValues");
+            await Assert.That(generated)
+                .Contains("IEnumerable<string>? CommandOptionsValues");
+            await Assert.That(generated)
+                .Contains("public string? CommandOptions");
+            await Assert.That(generated)
+                .Contains("get => CommandOptionsValues?.FirstOrDefault();");
+            await Assert.That(generated)
+                .Contains("set => CommandOptionsValues = value is null ? null : [value];");
+        }
     }
 
     [Test]

@@ -218,9 +218,24 @@ public record CliCompatibilityProperty
     public bool UseInitAccessor { get; init; }
 
     /// <summary>
+    /// Conversion applied while forwarding the retained property.
+    /// </summary>
+    public CliCompatibilityForwardingKind ForwardingKind { get; init; }
+
+    /// <summary>
     /// Obsolete diagnostic shown to consumers.
     /// </summary>
     public required string ObsoleteMessage { get; init; }
+}
+
+/// <summary>
+/// Supported conversions for generated compatibility-property forwarding.
+/// </summary>
+public enum CliCompatibilityForwardingKind
+{
+    Direct,
+    ScalarToCollection,
+    NullableInt32ToString,
 }
 
 /// <summary>
