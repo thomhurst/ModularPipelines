@@ -39,7 +39,7 @@ public static class KindExtensions
     }
 
     /// <summary>
-    /// Gets the kind service from the pipeline context.
+    /// Gets the kind service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKind"/> service for executing kind commands.</returns>

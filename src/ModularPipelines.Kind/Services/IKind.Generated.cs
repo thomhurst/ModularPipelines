@@ -23,32 +23,32 @@ public partial interface IKind
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    IKindBuild Build { get; }
+    IKindBuild Build => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    IKindCreate Create { get; }
+    IKindCreate Create => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    IKindDelete Delete { get; }
+    IKindDelete Delete => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    IKindExport Export { get; }
+    IKindExport Export => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IKindGet Get { get; }
+    IKindGet Get => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the load sub-domain service.
     /// </summary>
-    IKindLoad Load { get; }
+    IKindLoad Load => throw new System.NotSupportedException();
 
     #endregion
 
