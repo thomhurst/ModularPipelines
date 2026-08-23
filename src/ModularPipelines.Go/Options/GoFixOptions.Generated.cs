@@ -20,4 +20,10 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("fix")]
 public record GoFixOptions : GoOptions
 {
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Packages { get; set; }
+
 }
