@@ -170,15 +170,6 @@ internal sealed class ModuleOutputExcerptBuffer(
             .Select(secret => GetMaximumMatchByteCount(secret, caseInsensitive))
             .DefaultIfEmpty()
             .Max();
-        if (maximumMatchBytes > maximumBytes)
-        {
-            logger?.LogDebug(
-                "Omitting module output excerpt because a possible secret match of {MaximumMatchBytes} UTF-8 bytes exceeds the {MaximumExcerptBytes}-byte excerpt cap.",
-                maximumMatchBytes,
-                maximumBytes);
-            return false;
-        }
-
         var maskedStdout = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stdout);
         var maskedStderr = concreteObfuscator.ObfuscatePreservingMasksWithSourceMap(stderr);
         var (stdoutBytes, stderrBytes) = RebalanceMaskedStreamByteLimits(

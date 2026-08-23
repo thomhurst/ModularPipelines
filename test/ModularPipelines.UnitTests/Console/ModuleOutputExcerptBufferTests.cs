@@ -310,6 +310,33 @@ public class ModuleOutputExcerptBufferTests
     }
 
     [Test]
+    public async Task KeepsCompleteExcerptWhenUnrelatedSecretExceedsCap()
+    {
+        const string secret = "123456789";
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.SetupGet(provider => provider.Version).Returns(2);
+        secretProvider
+            .Setup(provider => provider.GetSnapshot())
+            .Returns(new SecretSnapshot(2, [secret]));
+        var secretObfuscator = new SecretObfuscator(
+            secretProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+        var buffer = new ModuleOutputExcerptBuffer(
+            maximumBytes: 8,
+            secretObfuscator,
+            secretProvider.Object);
+        buffer.Append("ok", ModuleOutputStream.StandardOutput);
+
+        var excerpt = buffer.CreateExcerpt()!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(excerpt.StdoutTail).IsEqualTo("ok" + Environment.NewLine);
+            await Assert.That(excerpt.TruncatedBytes).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task CountsUtf8BoundaryBytesAsTruncated()
     {
         var maximumBytes = Encoding.UTF8.GetByteCount(Environment.NewLine) + 1;
