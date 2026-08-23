@@ -37,11 +37,25 @@ public class ResilientCliCommandExecutorTests
         await Assert.That(inner.ExecutionCount).IsEqualTo(5);
     }
 
-    private static ResilientCliCommandExecutor CreateExecutor(ICliCommandExecutor inner)
+    [Test]
+    public async Task CircuitBreaker_CountsFailedCommands_NotIndividualRetryAttempts()
+    {
+        var inner = new SequenceExecutor(Enumerable.Repeat(Failure(), 20).ToArray());
+        var executor = CreateExecutor(inner, maxRetries: 3);
+
+        var results = await ExecuteAsync(executor, 6);
+
+        await Assert.That(results.Take(5).Select(result => result.ExitCode))
+            .IsEquivalentTo(Enumerable.Repeat(-1, 5));
+        await Assert.That(results[5].ExitCode).IsEqualTo(-2);
+        await Assert.That(inner.ExecutionCount).IsEqualTo(20);
+    }
+
+    private static ResilientCliCommandExecutor CreateExecutor(ICliCommandExecutor inner, int maxRetries = 0)
         => new(
             inner,
             NullLogger<ResilientCliCommandExecutor>.Instance,
-            maxRetries: 0,
+            maxRetries,
             baseDelay: TimeSpan.Zero,
             circuitBreakerThreshold: 5,
             circuitBreakerDuration: TimeSpan.FromMinutes(1));

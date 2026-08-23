@@ -58,19 +58,6 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
 
         _shield = Shield.For<CliCommandResult>()
             .WhenResult(IsTransientFailure)
-            .Retry(options =>
-            {
-                options.MaxRetries = maxRetries;
-                options.Backoff = Backoff.Exponential(baseDelay, jitter: false);
-                options.OnRetry = retryEvent =>
-                {
-                    _logger.LogWarning(
-                        "CLI command failed (attempt {Attempt}/{MaxAttempts}), retrying in {Delay}ms...",
-                        retryEvent.Attempt,
-                        maxRetries,
-                        retryEvent.Delay.TotalMilliseconds);
-                };
-            })
             .CircuitBreaker(options =>
             {
                 options.ConsecutiveFailures = circuitBreakerThreshold;
@@ -91,6 +78,19 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
                             _logger.LogInformation("Circuit breaker HALF-OPEN - Testing if CLI commands are healthy...");
                             break;
                     }
+                };
+            })
+            .Retry(options =>
+            {
+                options.MaxRetries = maxRetries;
+                options.Backoff = Backoff.Exponential(baseDelay, jitter: false);
+                options.OnRetry = retryEvent =>
+                {
+                    _logger.LogWarning(
+                        "CLI command failed (attempt {Attempt}/{MaxAttempts}), retrying in {Delay}ms...",
+                        retryEvent.Attempt,
+                        maxRetries,
+                        retryEvent.Delay.TotalMilliseconds);
                 };
             });
     }
