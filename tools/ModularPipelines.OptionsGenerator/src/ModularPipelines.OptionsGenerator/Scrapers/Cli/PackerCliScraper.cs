@@ -179,8 +179,9 @@ public partial class PackerCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
+            var line = lines[i];
             var match = PackerOptionPattern().Match(line);
             if (!match.Success)
             {
@@ -204,6 +205,8 @@ public partial class PackerCliScraper : CliScraperBase
             }
 
             seenOptions.Add(longForm);
+
+            i = AccumulateMultiLineDescription(lines, i, ref description);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -234,6 +237,38 @@ public partial class PackerCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static int AccumulateMultiLineDescription(
+        string[] lines,
+        int currentIndex,
+        ref string description)
+    {
+        var descriptionParts = new List<string>();
+        if (!string.IsNullOrEmpty(description))
+        {
+            descriptionParts.Add(description);
+        }
+
+        var optionIndent = lines[currentIndex].Length - lines[currentIndex].TrimStart().Length;
+        var nextIndex = currentIndex + 1;
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            var trimmedNext = nextLine.Trim();
+            if (string.IsNullOrWhiteSpace(trimmedNext)
+                || trimmedNext.StartsWith('-')
+                || nextLine.Length - nextLine.TrimStart().Length <= optionIndent)
+            {
+                break;
+            }
+
+            descriptionParts.Add(trimmedNext);
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts);
+        return nextIndex - 1;
     }
 
     /// <summary>
