@@ -16,9 +16,31 @@ public class GitCliScraperTests
 
         var tool = scraper.CreateToolDefinition();
 
-        await Assert.That(tool.GenerateCommandFacade).IsFalse();
         await Assert.That(tool.GenerateCode).IsFalse();
         await Assert.That(tool.DocumentationOutputDirectory).IsNull();
+    }
+
+    [Test]
+    public async Task ScrapeAsync_Discovers_Generic_Groups_Without_Repeating_Parent_Help()
+    {
+        var executor = new GroupedHelpExecutor();
+        var scraper = new GitCliScraper(
+            executor,
+            NullLogger<GitCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commands.Select(command => command.FullCommand))
+                .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
+            await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
+            await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -88,6 +110,58 @@ public class GitCliScraperTests
                     exitCode: 129),
                 _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
             });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        private static CliCommandResult Result(
+            string standardOutput,
+            string standardError = "",
+            int exitCode = 0) =>
+            new()
+            {
+                StandardOutput = standardOutput,
+                StandardError = standardError,
+                ExitCode = exitCode,
+            };
+    }
+
+    private sealed class GroupedHelpExecutor : ICliCommandExecutor
+    {
+        public int StashHelpInvocations { get; private set; }
+
+        public int StatusHelpInvocations { get; private set; }
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            if (arguments == "stash -h")
+            {
+                StashHelpInvocations++;
+            }
+            else if (arguments == "status -h")
+            {
+                StatusHelpInvocations++;
+            }
+
+            return Task.FromResult(arguments switch
+            {
+                "help -a" => Result(
+                    "Main Porcelain Commands\n"
+                    + "   stash                   Stash changes\n"
+                    + "   status                  Show status"),
+                "stash -h" => Result(
+                    "usage: git stash\n   or: git stash pop [--index]"),
+                "stash pop -h" => Result("usage: git stash pop [--index]"),
+                "status -h" => Result("usage: git status [<options>]"),
+                _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
+            });
+        }
 
         public Task<bool> IsAvailableAsync(
             string command,

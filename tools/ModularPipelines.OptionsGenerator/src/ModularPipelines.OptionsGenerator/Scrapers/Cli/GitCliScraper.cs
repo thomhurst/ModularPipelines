@@ -15,9 +15,6 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GitCliScraper : ICliScraper
 {
-    private static readonly HashSet<string> CommandGroups =
-        ["remote", "worktree"];
-
     private readonly ICliCommandExecutor _executor;
     private readonly ILogger<GitCliScraper> _logger;
 
@@ -47,7 +44,6 @@ public partial class GitCliScraper : ICliScraper
             TargetNamespace = "ModularPipelines.Git",
             OutputDirectory = "src/ModularPipelines.Git",
             DocumentationOutputDirectory = null,
-            GenerateCommandFacade = false,
             GenerateCode = false,
             Commands = [],
             Errors = [],
@@ -74,22 +70,21 @@ public partial class GitCliScraper : ICliScraper
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var definition = await ParseCommandAsync([command], cancellationToken);
-            if (definition is not null)
-            {
-                commandCount++;
-                _logger.LogInformation("Yielding command {Count}: git {Command}", commandCount, command);
-                yield return definition;
-            }
-
-            if (!CommandGroups.Contains(command))
+            var (definition, helpText) = await ParseCommandAsync([command], cancellationToken);
+            if (definition is null)
             {
                 continue;
             }
 
-            foreach (var subcommand in await DiscoverSubcommandsAsync(command, cancellationToken))
+            commandCount++;
+            _logger.LogInformation("Yielding command {Count}: git {Command}", commandCount, command);
+            yield return definition;
+
+            foreach (var subcommand in ExtractSubcommands(command, helpText))
             {
-                var childDefinition = await ParseCommandAsync([command, subcommand], cancellationToken);
+                var (childDefinition, _) = await ParseCommandAsync(
+                    [command, subcommand],
+                    cancellationToken);
                 if (childDefinition is null)
                 {
                     continue;
@@ -170,7 +165,7 @@ public partial class GitCliScraper : ICliScraper
     /// <summary>
     /// Parses a single git command's options from 'git <command> -h'.
     /// </summary>
-    private async Task<CliCommandDefinition?> ParseCommandAsync(
+    private async Task<(CliCommandDefinition? Definition, string HelpText)> ParseCommandAsync(
         IReadOnlyList<string> commandParts,
         CancellationToken cancellationToken)
     {
@@ -185,7 +180,7 @@ public partial class GitCliScraper : ICliScraper
         if (string.IsNullOrWhiteSpace(helpText))
         {
             _logger.LogWarning("No help text for git {Command}", command);
-            return null;
+            return (null, helpText);
         }
 
         // Extract description from usage line
@@ -205,25 +200,18 @@ public partial class GitCliScraper : ICliScraper
             ? "GitOptions"
             : $"Git{string.Concat(commandParts.SkipLast(1).Select(ToPascalCase))}Options";
 
-        return new CliCommandDefinition
-        {
-            FullCommand = $"git {command}",
-            CommandParts = commandParts.ToArray(),
-            ClassName = className,
-            ParentClassName = parentClassName,
-            ToolNamespacePrefix = NamespacePrefix,
-            Description = description,
-            Options = options,
-            SubDomainGroup = null // The handwritten Git facade owns command grouping.
-        };
-    }
-
-    private async Task<IReadOnlyList<string>> DiscoverSubcommandsAsync(
-        string command,
-        CancellationToken cancellationToken)
-    {
-        var result = await _executor.ExecuteAsync("git", $"{command} -h", cancellationToken);
-        return ExtractSubcommands(command, result.CombinedOutput);
+        return (new CliCommandDefinition
+            {
+                FullCommand = $"git {command}",
+                CommandParts = commandParts.ToArray(),
+                ClassName = className,
+                ParentClassName = parentClassName,
+                ToolNamespacePrefix = NamespacePrefix,
+                Description = description,
+                Options = options,
+                SubDomainGroup = null // The handwritten Git facade owns command grouping.
+            },
+            helpText);
     }
 
     internal static IReadOnlyList<string> ExtractSubcommands(string command, string helpText)
