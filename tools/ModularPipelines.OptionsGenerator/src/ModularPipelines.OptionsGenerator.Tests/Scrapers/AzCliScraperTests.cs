@@ -62,6 +62,53 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Comma_Separated_Boolean_Values_Are_Recognized()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --enabled : Allowed values: false, true.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--enabled");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Unrelated_Multiple_Wording_Does_Not_Make_Boolean_A_Collection()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --enabled : Applies to multiple resources. Allowed values: true, false.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--enabled");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
