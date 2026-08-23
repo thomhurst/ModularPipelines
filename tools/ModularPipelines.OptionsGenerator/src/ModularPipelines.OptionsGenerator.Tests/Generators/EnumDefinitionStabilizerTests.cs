@@ -132,6 +132,47 @@ public class EnumDefinitionStabilizerTests
     }
 
     [Test]
+    public async Task Stabilize_Retains_Removed_Members_And_Restores_Renamed_Members()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            "public enum FakeVisibility { "
+            + "[EnumValue(\"private\")] Private = 4, "
+            + "[EnumValue(\"public\")] Public = 9 }");
+
+        try
+        {
+            var tool = Tool(
+                new CliEnumValue { MemberName = "PrivateAccess", CliValue = "private" },
+                Value("enterprise"));
+
+            var stabilized = EnumDefinitionStabilizer.Stabilize(tool, outputRoot);
+            var values = stabilized.AllEnums.Single().Values;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(values.Select(value => value.MemberName))
+                    .IsEquivalentTo(["Private", "Public", "Enterprise"]);
+                await Assert.That(values.Single(value => value.MemberName == "Private").NumericValue)
+                    .IsEqualTo(4);
+                await Assert.That(values.Single(value => value.MemberName == "Public").CliValue)
+                    .IsEqualTo("public");
+                await Assert.That(values.Single(value => value.MemberName == "Public").NumericValue)
+                    .IsEqualTo(9);
+                await Assert.That(values.Single(value => value.MemberName == "Enterprise").NumericValue)
+                    .IsEqualTo(10);
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Stabilize_Rejects_Suspicious_Prose_Values()
     {
         var tool = Tool(Value("them"), Value("accepts"));

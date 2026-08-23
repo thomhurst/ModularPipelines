@@ -14,12 +14,42 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    internal static string GetEnumTypeName(string cSharpType)
+    {
+        var type = cSharpType.TrimEnd('?');
+        const string enumerablePrefix = "IEnumerable<";
+        return type.StartsWith(enumerablePrefix, StringComparison.Ordinal)
+            ? type[enumerablePrefix.Length..^1]
+            : type;
+    }
+
     private static readonly string[] KnownRunnerHomeDirectories =
     [
         "/home/runner",
         "/Users/runner",
         @"C:\Users\runneradmin",
     ];
+
+    internal static void GenerateCompatibilityProperty(
+        StringBuilder sb,
+        CliCompatibilityProperty property,
+        string modifiers = "")
+    {
+        sb.AppendLine($"    [Obsolete({FormatStringLiteral(property.ObsoleteMessage)})]");
+
+        if (property.ForwardToPropertyName is null)
+        {
+            sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
+            return;
+        }
+
+        sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName}");
+        sb.AppendLine("    {");
+        sb.AppendLine($"        get => {property.ForwardToPropertyName};");
+        var setter = property.UseInitAccessor ? "init" : "set";
+        sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value;");
+        sb.AppendLine("    }");
+    }
 
     internal readonly record struct RequiredConstructorParameter(
         string PropertyName,
@@ -609,9 +639,19 @@ public static partial class GeneratorUtils
     /// </summary>
     public static string BuildOptionsParameter(CliCommandDefinition command)
     {
-        return HasRequiredParameters(command)
+        return RequiresOptionsParameter(command)
             ? $"{command.ClassName} options"
             : $"{command.ClassName}? options = null";
+    }
+
+    /// <summary>
+    /// Whether callers must supply the generated options object.
+    /// </summary>
+    public static bool RequiresOptionsParameter(CliCommandDefinition command)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        return HasRequiredParameters(command) && !command.PreserveOptionalOptionsParameter;
     }
 
     /// <summary>
@@ -696,7 +736,7 @@ public static partial class GeneratorUtils
         ArgumentNullException.ThrowIfNull(command);
         methodName = EnsureAsyncSuffix(methodName);
 
-        var hasRequiredParams = HasRequiredParameters(command);
+        var requiresOptions = RequiresOptionsParameter(command);
 
         // XML documentation
         if (includeXmlDoc && !string.IsNullOrEmpty(command.Description))
@@ -718,7 +758,7 @@ public static partial class GeneratorUtils
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
-        if (hasRequiredParams)
+        if (requiresOptions)
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
         }
@@ -987,7 +1027,8 @@ public static partial class GeneratorUtils
 
         var rootCommands = tool.Commands
             .Where(c => c.SubDomainGroup is null)
-            .Where(c => !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
+            .Where(c => c.PreserveNamedFacade
+                        || !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 
         // Distinct commands can normalize to the same method name (e.g. "build-server"
@@ -1136,6 +1177,22 @@ public static partial class GeneratorUtils
 
         return $"{tool.NamespacePrefix}{GetAliasCommandGroupIdentifier(alias)}"
             + canonicalClassName[canonicalPrefix.Length..];
+    }
+
+    internal static string GetAliasedRequiredConstructorParameterType(
+        RequiredConstructorParameter parameter,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var type = parameter.CSharpType.TrimEnd('?');
+        var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
+        if (canonicalEnumName is null)
+        {
+            return type;
+        }
+
+        var aliasEnumName = GetAliasedClassName(tool, alias, canonicalEnumName);
+        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
     }
 
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>

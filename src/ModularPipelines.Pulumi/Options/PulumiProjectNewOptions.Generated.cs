@@ -21,6 +21,12 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiProjectNewOptions : PulumiOptions
 {
     /// <summary>
+    /// Prompt to use for Pulumi AI
+    /// </summary>
+    [CliOption("--ai", Format = OptionFormat.EqualsSeparated)]
+    public string? Ai { get; set; }
+
+    /// <summary>
     /// Config to save
     /// </summary>
     [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
@@ -63,6 +69,12 @@ public record PulumiProjectNewOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
+    /// Language to use for Pulumi AI (must be one of TypeScript, JavaScript, Python, Go, C#, Java, or YAML)
+    /// </summary>
+    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
+    public string? Language { get; set; }
+
+    /// <summary>
     /// List locally installed templates and exit
     /// </summary>
     [CliFlag("--list-templates", ShortForm = "-l")]
@@ -97,6 +109,12 @@ public record PulumiProjectNewOptions : PulumiOptions
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Stack { get; set; }
+
+    /// <summary>
+    /// Run in template mode, which will skip prompting for AI or Template functionality
+    /// </summary>
+    [CliFlag("--template-mode", ShortForm = "-t")]
+    public bool? TemplateMode { get; set; }
 
     /// <summary>
     /// Skip prompts and proceed with default values

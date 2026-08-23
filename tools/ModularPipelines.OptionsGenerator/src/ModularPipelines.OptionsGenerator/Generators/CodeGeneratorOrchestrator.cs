@@ -834,13 +834,20 @@ public class CodeGeneratorOrchestrator
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
-        var toolDefinition = InheritedPropertyCollisionResolver.Resolve(
-            ExecutablePrerequisiteCatalog.PrepareForGeneration(tool with
-            {
-                Commands = normalizedCommands,
-                GlobalOptions = globalOptions,
-                SupplementalGlobalOptions = [],
-            }));
+        var normalizedTool = tool with
+        {
+            Commands = normalizedCommands,
+            GlobalOptions = globalOptions,
+            SupplementalGlobalOptions = [],
+        };
+        var globallyCompatibleTool = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+            normalizedTool,
+            outputDirectory);
+        var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(globallyCompatibleTool);
+        var compatibleTool = GeneratedApiCompatibilityPreserver.Preserve(
+            collisionResolvedTool,
+            outputDirectory);
+        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(compatibleTool);
 
         if (enforceOutputContainment)
         {

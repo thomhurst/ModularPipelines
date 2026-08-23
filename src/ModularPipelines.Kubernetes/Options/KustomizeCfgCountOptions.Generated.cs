@@ -44,9 +44,6 @@ public record KustomizeCfgCountOptions : KustomizeOptions
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
 
-    /// <summary>
-    /// The DIR operand.
-    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Dir { get; set; }
 
