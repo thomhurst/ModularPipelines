@@ -248,12 +248,19 @@ public partial class GcloudCliScraper : CliScraperBase
             var description = argument.Documentation;
 
             var isFlag = string.IsNullOrEmpty(valueHint) || negatable;
-            var isArray = valueHint.Contains("...") || (description?.Contains("may be repeated") ?? false);
+            var acceptsMultipleValues = !isFlag
+                && (valueHint.Contains("...")
+                    || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
             var isNumeric = IsNumericHint(valueHint);
             var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
 
             var enumDef = TryDetectEnum(propertyName, className, description);
-            var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
+            var csharpType = DetermineCSharpType(
+                isFlag,
+                acceptsMultipleValues,
+                isKeyValue,
+                isNumeric,
+                enumDef);
 
             options.Add(new CliOptionDefinition
             {
@@ -263,7 +270,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = isArray,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : "=",
@@ -405,14 +412,25 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool acceptsMultipleValues,
+        bool isKeyValue,
+        bool isNumeric,
+        CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
-        return "string?";
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IReadOnlyList<KeyValue>?";
+        }
+
+        var scalarType = enumDef?.EnumName ?? (isNumeric ? "int" : "string");
+        return acceptsMultipleValues ? $"IEnumerable<{scalarType}>?" : $"{scalarType}?";
     }
 
     #endregion

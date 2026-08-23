@@ -205,16 +205,39 @@ public class MarkdownDocumentationGeneratorTests
             PreferredDocumentationExampleCommand = nestedCommand.FullCommand,
         };
 
+        var executeCommand = Command(
+            "fake app execute",
+            "FakeAppExecuteOptions",
+            ["app", "execute"],
+            "app") with
+        {
+            IsSafeForDocumentation = true,
+        };
+        var executeCollisionTool = Tool(
+            "fake",
+            Command("fake app", "FakeAppOptions", ["app"]),
+            executeCommand) with
+        {
+            PreferredDocumentationExampleCommand = executeCommand.FullCommand,
+        };
+
         var testCases = new[]
         {
             (Tool: rootCollisionTool,
                 Invocation: "context.Tools.Fake.App.ExecuteAsync(",
+                Method: "ExecuteAsync(",
                 ServiceFile: "FakeApp.Generated.cs",
                 OptionsType: "FakeAppOptions"),
             (Tool: nestedCollisionTool,
                 Invocation: "context.Tools.Fake.App.Get.ExecuteAsync(",
+                Method: "ExecuteAsync(",
                 ServiceFile: "FakeAppGet.Generated.cs",
                 OptionsType: "FakeAppGetOptions"),
+            (Tool: executeCollisionTool,
+                Invocation: "context.Tools.Fake.App.ExecuteCommandAsync(",
+                Method: "ExecuteCommandAsync(",
+                ServiceFile: "FakeApp.Generated.cs",
+                OptionsType: "FakeAppExecuteOptions"),
         };
 
         foreach (var testCase in testCases)
@@ -226,7 +249,7 @@ public class MarkdownDocumentationGeneratorTests
 
             await Assert.That(documentation).Contains(testCase.Invocation);
             await Assert.That(collisionService.Content)
-                .Contains("Task<CommandResult> ExecuteAsync(");
+                .Contains($"Task<CommandResult> {testCase.Method}");
             await Assert.That(collisionService.Content).Contains(testCase.OptionsType);
             await AssertDocumentationExampleCompiles(testCase.Tool);
         }
