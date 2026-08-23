@@ -274,6 +274,8 @@ public partial class FlywayCliScraper : CliScraperBase
     protected override bool HasOptions(string helpText)
     {
         return helpText.Contains("Description:", StringComparison.OrdinalIgnoreCase)
+            || ConfigurationSectionPattern().IsMatch(helpText)
+            || helpText.Contains("-url=", StringComparison.OrdinalIgnoreCase)
             || base.HasOptions(helpText);
     }
 
