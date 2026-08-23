@@ -1228,7 +1228,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Uses_The_Emitted_Optional_Value_Type()
+    public async Task ApiCompatibilityPreserver_Restores_Baseline_Optional_Value_Type()
     {
         var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
         {
@@ -1244,13 +1244,16 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("Progress", "string?", switchName: "--progress")]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Progress", "string?", switchName: "--progress")]);
+        var progress = preserved.Options.Single();
 
-        await Assert.That(exception.Message)
-            .Contains("ToolRunOptions.Progress changed type from string? to CliOptionValue?");
+        using (Assert.Multiple())
+        {
+            await Assert.That(progress.CSharpType).IsEqualTo("string?");
+            await Assert.That(progress.ValueArity).IsEqualTo(CliOptionValueArity.Required);
+        }
     }
 
     [Test]
@@ -2288,7 +2291,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Validates_Supplemental_Global_Options()
+    public async Task ApiCompatibilityPreserver_Restores_Supplemental_Global_Option_Types()
     {
         var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
         {
@@ -2303,13 +2306,16 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
-                tool,
-                [BaselineProperty("Progress", "CliOptionValue?", switchName: "--progress")]));
+        var preserved = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
+            tool,
+            [BaselineProperty("Progress", "CliOptionValue?", switchName: "--progress")]);
+        var progress = preserved.GlobalOptions.Single();
 
-        await Assert.That(exception.Message)
-            .Contains("ToolOptions.Progress changed type from CliOptionValue? to string?");
+        using (Assert.Multiple())
+        {
+            await Assert.That(progress.CSharpType).IsEqualTo("CliOptionValue?");
+            await Assert.That(preserved.SupplementalGlobalOptions).IsEmpty();
+        }
     }
 
     [Test]
