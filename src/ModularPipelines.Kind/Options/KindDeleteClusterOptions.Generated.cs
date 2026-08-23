@@ -30,7 +30,7 @@ public record KindDeleteClusterOptions : KindOptions
     /// sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// the cluster name (default "kind")
@@ -49,5 +49,12 @@ public record KindDeleteClusterOptions : KindOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

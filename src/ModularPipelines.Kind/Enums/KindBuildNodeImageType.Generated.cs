@@ -17,17 +17,17 @@ namespace ModularPipelines.Kind.Enums;
 public enum KindBuildNodeImageType
 {
     [EnumValue("url")]
-    Url,
+    Url = 0,
 
     [EnumValue("file")]
-    File,
+    File = 1,
 
     [EnumValue("release")]
-    Release,
+    Release = 2,
 
     [EnumValue("ci")]
-    Ci,
+    Ci = 3,
 
     [EnumValue("source")]
-    Source
+    Source = 4
 }
