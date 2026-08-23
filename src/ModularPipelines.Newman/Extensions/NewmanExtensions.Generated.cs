@@ -33,7 +33,7 @@ public static class NewmanExtensions
     }
 
     /// <summary>
-    /// Gets the newman service from the pipeline context.
+    /// Gets the newman service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INewman"/> service for executing newman commands.</returns>

@@ -40,14 +40,5 @@ internal partial class Newman : INewman
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> UrlAsync(
-        NewmanUrlOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new NewmanUrlOptions(), executionOptions, cancellationToken);
-    }
-
     #endregion
 }
