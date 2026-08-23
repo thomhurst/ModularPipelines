@@ -382,7 +382,7 @@ public class CliScraperTraversalTests
     [Test]
     [Arguments("kube down")]
     [Arguments("kube play")]
-    public async Task Podman_Kube_Files_Are_Optional_Collections(string command)
+    public async Task Podman_Kube_Files_Preserve_The_Required_Scalar_And_Add_Repeatability(string command)
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
@@ -390,15 +390,44 @@ public class CliScraperTraversalTests
         var helpText = $"Usage: podman {command} [options] [KUBEFILE [KUBEFILE...]]|-";
 
         var definition = await scraper.Parse(commandPath, helpText);
-        var argument = definition!.PositionalArguments.Single();
+        var arguments = definition!.PositionalArguments;
 
         using (Assert.Multiple())
         {
-            await Assert.That(argument.PropertyName).IsEqualTo("Kubefile");
-            await Assert.That(argument.IsRequired).IsFalse();
-            await Assert.That(argument.IsVariadic).IsTrue();
-            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(arguments).Count().IsEqualTo(2);
+            await Assert.That(arguments[0].PropertyName).IsEqualTo("Kubefile");
+            await Assert.That(arguments[0].IsRequired).IsTrue();
+            await Assert.That(arguments[0].IsVariadic).IsFalse();
+            await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(arguments[1].PropertyName).IsEqualTo("AdditionalKubefiles");
+            await Assert.That(arguments[1].IsRequired).IsFalse();
+            await Assert.That(arguments[1].IsVariadic).IsTrue();
+            await Assert.That(arguments[1].CSharpType).IsEqualTo("IEnumerable<string>?");
         }
+    }
+
+    [Test]
+    public async Task Podman_Variadic_Fix_Preserves_The_Parsed_Element_Type()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var fixedArguments = scraper.ApplyPositionalFixes(
+            "artifact add",
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Artifact",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Path",
+                    CSharpType = "int?",
+                },
+            ]);
+
+        await Assert.That(fixedArguments[1].CSharpType).IsEqualTo("IEnumerable<int>");
     }
 
     [Test]
@@ -412,9 +441,10 @@ public class CliScraperTraversalTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(3);
             await Assert.That(definition.PositionalArguments[0].PropertyName).IsEqualTo("Kubefile");
-            await Assert.That(definition.PositionalArguments[1].PropertyName).IsEqualTo("Input");
+            await Assert.That(definition.PositionalArguments[1].PropertyName).IsEqualTo("AdditionalKubefiles");
+            await Assert.That(definition.PositionalArguments[2].PropertyName).IsEqualTo("Input");
         }
     }
 
@@ -702,6 +732,11 @@ public class CliScraperTraversalTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+
+        public IReadOnlyList<CliPositionalArgument> ApplyPositionalFixes(
+            string command,
+            IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+            ApplyPositionalArgumentFixes(command.Split(' '), positionalArguments);
     }
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor
