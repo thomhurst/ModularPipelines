@@ -159,6 +159,8 @@ public partial class SnykCliScraper : CliScraperBase
         UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
+        usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
         var commandParts = commandPath.Skip(1).ToArray();
 
         if (commandParts.Length == 0)
