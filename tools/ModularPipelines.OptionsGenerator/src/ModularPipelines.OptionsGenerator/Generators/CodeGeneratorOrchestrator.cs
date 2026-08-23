@@ -918,7 +918,7 @@ public class CodeGeneratorOrchestrator
             await beforeWrite(candidateOwnedPaths, cancellationToken);
         }
 
-        var writtenFullPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var writtenFullPaths = new HashSet<string>(GetFileSystemPathComparer(outputDirectory));
 
         foreach (var file in generatedFiles)
         {
