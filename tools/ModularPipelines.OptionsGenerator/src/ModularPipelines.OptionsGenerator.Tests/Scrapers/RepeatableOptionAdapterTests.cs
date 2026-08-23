@@ -57,6 +57,21 @@ public class RepeatableOptionAdapterTests
     }
 
     [Test]
+    public async Task Packer_Recognizes_Multiline_Repeatable_Prose()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -var-file=path  Set a variable file.
+                              Can be repeated for additional files.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+
+        await AssertRepeatable(command, "--var-file");
+    }
+
+    [Test]
     public async Task Packer_Does_Not_Treat_Operational_Repetition_As_Repeatable()
     {
         const string helpText = """
@@ -82,6 +97,9 @@ public class RepeatableOptionAdapterTests
     [Arguments("Validates multiple values against a schema.", false)]
     [Arguments("Retry the operation one or more times before failing.", false)]
     [Arguments("This operation runs one or more attempts depending on configuration.", false)]
+    [Arguments("One or more attempts are made before failure.", false)]
+    [Arguments("One or more times may be required.", false)]
+    [Arguments("One or more retries may be attempted.", false)]
     public async Task Packer_Classifies_Explicit_Repeatability_Prose(
         string description,
         bool expected)
