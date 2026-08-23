@@ -120,11 +120,40 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
         var commandParts = baseline.CommandParts!;
-        var facade = facadeMethods[0];
-        var groupIdentifier = facade.DeclaringType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, facadeMethods[0]);
+
+        return new CliCommandDefinition
+        {
+            FullCommand = $"{tool.ToolName} {string.Join(' ', commandParts)}",
+            CommandParts = commandParts,
+            ClassName = baseline.ClassName,
+            ParentClassName = baseline.ParentClassName ?? $"{tool.NamespacePrefix}Options",
+            ToolNamespacePrefix = tool.NamespacePrefix,
+            Options = RestoreRemovedOptions(baseline.Properties),
+            PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
+            CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
+            CompatibilityConstructors = baseline.Constructors,
+            SubDomainGroup = commandParts.Length > 1 ? commandParts[0] : null,
+            CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
+            PreserveExecuteFacade = facadeMethods.Any(static method =>
+                method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveNamedFacade = facadeMethods.Any(static method =>
+                !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
+        };
+    }
+
+    private static string? GetRestoredCommandGroupIdentifier(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod facade) =>
+        facade.DeclaringType.Length > tool.NamespacePrefix.Length
+        && facade.DeclaringType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
             ? facade.DeclaringType[tool.NamespacePrefix.Length..]
             : null;
-        var options = baseline.Properties
+
+    private static CliOptionDefinition[] RestoreRemovedOptions(
+        IEnumerable<GeneratedApiProperty> properties) =>
+        properties
             .Where(static property => !property.IsCompatibility && property.SwitchName is not null)
             .Select(static property => new CliOptionDefinition
             {
@@ -135,7 +164,10 @@ internal static class GeneratedApiCompatibilityPreserver
                 IsFlag = property.CSharpType is "bool" or "bool?",
             })
             .ToArray();
-        var positionalArguments = baseline.Properties
+
+    private static CliPositionalArgument[] RestoreRemovedPositionalArguments(
+        IEnumerable<GeneratedApiProperty> properties) =>
+        properties
             .Where(static property => !property.IsCompatibility && property.ArgumentPosition is not null)
             .Select(static property => new CliPositionalArgument
             {
@@ -145,7 +177,10 @@ internal static class GeneratedApiCompatibilityPreserver
                 IsRequired = property.IsRequired,
             })
             .ToArray();
-        var compatibilityProperties = baseline.Properties
+
+    private static CliCompatibilityProperty[] RestoreRemovedCompatibilityProperties(
+        IEnumerable<GeneratedApiProperty> properties) =>
+        properties
             .Where(static property => property.IsCompatibility)
             .Select(static property => new CliCompatibilityProperty
             {
@@ -158,29 +193,6 @@ internal static class GeneratedApiCompatibilityPreserver
                     ?? $"{property.PropertyName} is retained for compatibility.",
             })
             .ToArray();
-
-        return new CliCommandDefinition
-        {
-            FullCommand = $"{tool.ToolName} {string.Join(' ', commandParts)}",
-            CommandParts = commandParts,
-            ClassName = baseline.ClassName,
-            ParentClassName = baseline.ParentClassName ?? $"{tool.NamespacePrefix}Options",
-            ToolNamespacePrefix = tool.NamespacePrefix,
-            Options = options,
-            PositionalArguments = positionalArguments,
-            CompatibilityProperties = compatibilityProperties,
-            CompatibilityConstructors = baseline.Constructors,
-            SubDomainGroup = commandParts.Length > 1 ? commandParts[0] : null,
-            CommandGroupIdentifierOverride = commandParts.Length > 1 && !string.IsNullOrEmpty(groupIdentifier)
-                ? groupIdentifier
-                : null,
-            PreserveExecuteFacade = facadeMethods.Any(static method =>
-                method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
-            PreserveNamedFacade = facadeMethods.Any(static method =>
-                !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
-            PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
-        };
-    }
 
     private static CliCommandDefinition PreserveIdentifierCasing(
         CliCommandDefinition command,
