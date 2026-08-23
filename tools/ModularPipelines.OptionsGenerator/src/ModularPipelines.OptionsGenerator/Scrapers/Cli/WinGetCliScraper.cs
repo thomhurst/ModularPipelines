@@ -362,7 +362,7 @@ public partial class WinGetCliScraper : CliScraperBase
         // WinGet options are generally strings or booleans
         // Boolean flags typically have descriptions like "Enable...", "Disable...", etc.
         var isFlag = IsBooleanDescription(description);
-        var acceptsMultipleValues = !isFlag && DescriptionDeclaresRepeatableOption(description);
+        var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
         var csharpType = isFlag
             ? "bool?"
             : acceptsMultipleValues
