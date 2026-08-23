@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Generate runs commands described by directives within existing
+/// List lists the named packages, one per line.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("generate")]
-public record GoGenerateOptions : GoOptions
+[CliSubCommand("list")]
+public record GoListOptions : GoOptions
 {
     /// <summary>
-    /// The file.go operand.
+    /// The packages operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? FileGo { get; set; }
+    public string? Packages { get; set; }
 
 }
