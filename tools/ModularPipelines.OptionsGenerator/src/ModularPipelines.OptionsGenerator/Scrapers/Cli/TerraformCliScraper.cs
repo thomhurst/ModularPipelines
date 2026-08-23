@@ -315,7 +315,7 @@ public partial class TerraformCliScraper : CliScraperBase
                 isFlag = true;
             }
 
-            var acceptsMultipleValues = IsRepeatableValueOption(isFlag, description);
+            var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag, isBoolean);
             var csharpType = GetCSharpType(isFlag, isInteger, acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
@@ -338,9 +338,6 @@ public partial class TerraformCliScraper : CliScraperBase
 
         return options;
     }
-
-    private static bool IsRepeatableValueOption(bool isFlag, string description) =>
-        !isFlag && DescriptionDeclaresRepeatableOption(description);
 
     private static string GetCSharpType(bool isFlag, bool isInteger, bool acceptsMultipleValues)
     {

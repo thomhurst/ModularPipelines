@@ -972,6 +972,15 @@ public abstract partial class CliScraperBase : ICliScraper
         RepeatableValuePattern().IsMatch(description);
 
     /// <summary>
+    /// Returns whether a value-taking, non-Boolean option is described as repeatable.
+    /// </summary>
+    protected static bool IsRepeatableValueOption(
+        string description,
+        bool isFlag,
+        bool isBoolean = false) =>
+        !isFlag && !isBoolean && DescriptionDeclaresRepeatableOption(description);
+
+    /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
     /// The adapter only recognizes one tool-specific declaration line; traversal,
     /// documentation boundaries, group classification, and flattening stay shared.
@@ -1054,14 +1063,18 @@ public abstract partial class CliScraperBase : ICliScraper
         """
         \b(?:
             repeatable
-            |(?:can|may)\s+be\s+repeated
-            |(?:can|may)\s+be\s+
+            |(?:can|may|must|should)\s+be\s+repeated
+            |(?:is|are)\s+repeated
+            |(?:can|may|must|should)\s+be\s+
                 (?:specified|supplied|provided|used|passed|set|given)\s+
                 (?:multiple\s+times|more\s+than\s+once)
             |(?:specify|supply|provide|use|pass|set|give)\s+
-                (?:multiple\s+times|more\s+than\s+once)
-            |(?:one|zero)\s+or\s+more\s+values?
-            |multiple\s+values
+                (?:
+                    multiple\s+times
+                    |more\s+than\s+once
+                    |(?:one|zero)\s+or\s+more\s+[\w-]+
+                    |multiple\s+[\w-]+
+                )
         )\b
         """,
         RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]

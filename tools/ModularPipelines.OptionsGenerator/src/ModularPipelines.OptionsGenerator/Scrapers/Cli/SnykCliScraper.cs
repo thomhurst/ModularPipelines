@@ -321,9 +321,10 @@ public partial class SnykCliScraper : CliScraperBase
                     && !isNumeric
                     && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
                 var isBoolean = IsBooleanValueHint(valueHint);
-                var acceptsMultipleValues = !isFlag
-                    && !isBoolean
-                    && DescriptionDeclaresRepeatableOption(description ?? string.Empty);
+                var acceptsMultipleValues = IsRepeatableValueOption(
+                    description ?? string.Empty,
+                    isFlag,
+                    isBoolean);
                 var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
 
                 CliEnumDefinition? enumDef = null;

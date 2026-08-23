@@ -76,6 +76,27 @@ public class RepeatableOptionAdapterTests
     }
 
     [Test]
+    [Arguments("This argument must be repeated for each entry.", true)]
+    [Arguments("The value is repeated across runs.", true)]
+    [Arguments("Provide one or more paths to scan.", true)]
+    [Arguments("Validates multiple values against a schema.", false)]
+    public async Task Packer_Classifies_Explicit_Repeatability_Prose(
+        string description,
+        bool expected)
+    {
+        var helpText = $"""
+            Usage: packer build [options]
+
+            Options:
+              -var-file=path  {description}
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--var-file");
+
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(expected);
+    }
+
+    [Test]
     public async Task Snyk_Recognizes_Repeated_Prose()
     {
         const string helpText = """
