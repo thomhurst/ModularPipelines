@@ -80,6 +80,8 @@ public class RepeatableOptionAdapterTests
     [Arguments("The value is repeated across runs.", true)]
     [Arguments("Provide one or more paths to scan.", true)]
     [Arguments("Validates multiple values against a schema.", false)]
+    [Arguments("Retry the operation one or more times before failing.", false)]
+    [Arguments("This operation runs one or more attempts depending on configuration.", false)]
     public async Task Packer_Classifies_Explicit_Repeatability_Prose(
         string description,
         bool expected)
