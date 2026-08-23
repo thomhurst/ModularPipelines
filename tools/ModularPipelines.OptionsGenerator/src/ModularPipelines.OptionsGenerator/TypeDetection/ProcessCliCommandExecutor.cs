@@ -14,13 +14,23 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
     private readonly ILogger<ProcessCliCommandExecutor> _logger;
     private readonly TimeSpan _timeout;
+    private readonly Func<CancellationToken, Task>? _waitForProcessReady;
 
     public ProcessCliCommandExecutor(ILogger<ProcessCliCommandExecutor> logger, TimeSpan? timeout = null)
+        : this(logger, timeout, waitForProcessReady: null)
+    {
+    }
+
+    internal ProcessCliCommandExecutor(
+        ILogger<ProcessCliCommandExecutor> logger,
+        TimeSpan? timeout,
+        Func<CancellationToken, Task>? waitForProcessReady)
     {
         ArgumentNullException.ThrowIfNull(logger);
 
         _logger = logger;
         _timeout = timeout ?? TimeSpan.FromSeconds(30);
+        _waitForProcessReady = waitForProcessReady;
     }
 
     public async Task<CliCommandResult> ExecuteAsync(
@@ -58,7 +68,10 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         {
             using var process = new Process { StartInfo = processLaunch.StartInfo };
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            cts.CancelAfter(_timeout);
+            if (_waitForProcessReady is null)
+            {
+                cts.CancelAfter(_timeout);
+            }
 
             process.Start();
             process.StandardInput.Close();
@@ -75,6 +88,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
                 try
                 {
+                    if (_waitForProcessReady is not null)
+                    {
+                        await _waitForProcessReady(cts.Token).ConfigureAwait(false);
+                        cts.CancelAfter(_timeout);
+                    }
+
                     await process.WaitForExitAsync(cts.Token);
                     await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
                 }

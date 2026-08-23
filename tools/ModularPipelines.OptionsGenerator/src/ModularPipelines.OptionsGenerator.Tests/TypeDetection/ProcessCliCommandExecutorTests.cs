@@ -214,32 +214,25 @@ public class ProcessCliCommandExecutorTests
         {
             var command = await CreateLongRunningChildCommandAsync(
                 childPidPath,
-                parentExits: false);
+                parentExits: false,
+                delayChildStartup: true);
             scriptPath = command.ScriptPath;
-            var executor = new ProcessCliCommandExecutor(
-                NullLogger<ProcessCliCommandExecutor>.Instance,
-                OperatingSystem.IsWindows()
-                    ? TimeSpan.FromMilliseconds(1500)
-                    : TimeSpan.FromSeconds(2));
-
-            var execution = executor.ExecuteAsync(command.Command, command.Arguments);
-            var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
-            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+            var execution = await ExecuteAfterChildStartsAsync(
+                command.Command,
+                command.Arguments,
+                childPidPath);
+            childPid = execution.ChildPid;
 
             using (Assert.Multiple())
             {
-                await Assert.That(result.ExitCode).IsEqualTo(-1);
-                await Assert.That(result.StandardError).Contains("timed out");
-                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+                await Assert.That(execution.Result.ExitCode).IsEqualTo(-1);
+                await Assert.That(execution.Result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(execution.ChildPid)).IsTrue();
             }
         }
         finally
         {
-            if (childPid.HasValue && IsProcessRunning(childPid.Value))
-            {
-                using var childProcess = Process.GetProcessById(childPid.Value);
-                childProcess.Kill();
-            }
+            KillPublishedChildIfRunning(childPidPath, childPid);
 
             File.Delete(childPidPath);
             if (scriptPath is not null)
@@ -263,30 +256,22 @@ public class ProcessCliCommandExecutorTests
                 childPidPath,
                 parentExits: true);
             scriptPath = command.ScriptPath;
-            var executor = new ProcessCliCommandExecutor(
-                NullLogger<ProcessCliCommandExecutor>.Instance,
-                OperatingSystem.IsWindows()
-                    ? TimeSpan.FromMilliseconds(1500)
-                    : TimeSpan.FromSeconds(2));
-
-            var result = await executor.ExecuteAsync(command.Command, command.Arguments)
-                .WaitAsync(TimeSpan.FromSeconds(5));
-            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+            var execution = await ExecuteAfterChildStartsAsync(
+                command.Command,
+                command.Arguments,
+                childPidPath);
+            childPid = execution.ChildPid;
 
             using (Assert.Multiple())
             {
-                await Assert.That(result.ExitCode).IsEqualTo(-1);
-                await Assert.That(result.StandardError).Contains("timed out");
-                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+                await Assert.That(execution.Result.ExitCode).IsEqualTo(-1);
+                await Assert.That(execution.Result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(execution.ChildPid)).IsTrue();
             }
         }
         finally
         {
-            if (childPid.HasValue && IsProcessRunning(childPid.Value))
-            {
-                using var childProcess = Process.GetProcessById(childPid.Value);
-                childProcess.Kill();
-            }
+            KillPublishedChildIfRunning(childPidPath, childPid);
 
             File.Delete(childPidPath);
             if (scriptPath is not null)
@@ -432,26 +417,103 @@ public class ProcessCliCommandExecutorTests
         return !IsProcessRunning(processId);
     }
 
+    private static async Task<int> WaitForPublishedProcessIdAsync(
+        string childPidPath,
+        CancellationToken cancellationToken)
+    {
+        using var startupCancellationTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        startupCancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(10));
+
+        while (true)
+        {
+            if (TryReadProcessId(childPidPath) is { } processId)
+            {
+                return processId;
+            }
+
+            await Task.Delay(
+                TimeSpan.FromMilliseconds(25),
+                startupCancellationTokenSource.Token);
+        }
+    }
+
+    private static async Task<(CliCommandResult Result, int ChildPid)> ExecuteAfterChildStartsAsync(
+        string command,
+        string arguments,
+        string childPidPath)
+    {
+        int? childPid = null;
+        var executor = new ProcessCliCommandExecutor(
+            NullLogger<ProcessCliCommandExecutor>.Instance,
+            TimeSpan.FromMilliseconds(250),
+            async cancellationToken =>
+            {
+                childPid = await WaitForPublishedProcessIdAsync(
+                    childPidPath,
+                    cancellationToken);
+            });
+
+        var result = await executor.ExecuteAsync(command, arguments)
+            .WaitAsync(TimeSpan.FromSeconds(15));
+        return (
+            result,
+            childPid ?? throw new InvalidOperationException("Child PID was not published before timeout."));
+    }
+
+    private static int? TryReadProcessId(string childPidPath)
+    {
+        try
+        {
+            return int.TryParse(File.ReadAllText(childPidPath), out var processId)
+                ? processId
+                : null;
+        }
+        catch (IOException)
+        {
+            return null;
+        }
+    }
+
+    private static void KillPublishedChildIfRunning(string childPidPath, int? childPid)
+    {
+        childPid ??= TryReadProcessId(childPidPath);
+        if (!childPid.HasValue || !IsProcessRunning(childPid.Value))
+        {
+            return;
+        }
+
+        using var childProcess = Process.GetProcessById(childPid.Value);
+        childProcess.Kill();
+    }
+
     private static async Task<(string Command, string Arguments, string? ScriptPath)>
-        CreateLongRunningChildCommandAsync(string childPidPath, bool parentExits)
+        CreateLongRunningChildCommandAsync(
+            string childPidPath,
+            bool parentExits,
+            bool delayChildStartup = false)
     {
         if (!OperatingSystem.IsWindows())
         {
             var parentCommand = parentExits ? "sleep 0.05" : "wait";
+            var startupDelay = delayChildStartup ? "sleep 2; " : string.Empty;
             return (
                 "/bin/sh",
-                $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; {parentCommand}\"",
+                $"-c \"{startupDelay}sleep 30 & child=$!; echo $child > '{childPidPath}'; {parentCommand}\"",
                 null);
         }
 
         var scriptPath = Path.ChangeExtension(childPidPath, ".cmd");
         var escapedPidPath = childPidPath.Replace("'", "''", StringComparison.Ordinal);
         var parentDelayMilliseconds = parentExits ? 0 : 3000;
+        var startupDelayCommand = delayChildStartup
+            ? "powershell.exe -NoProfile -Command \"Start-Sleep -Seconds 2\"\r\n"
+            : string.Empty;
         await File.WriteAllTextAsync(
             scriptPath,
             $"""
             @echo off
-            start "" /b powershell.exe -NoProfile -Command "$PID | Set-Content -LiteralPath '{escapedPidPath}'; Start-Sleep -Seconds 30"
+            {startupDelayCommand}start "" /b powershell.exe -NoProfile -Command "$PID | Set-Content -LiteralPath '{escapedPidPath}'; Start-Sleep -Seconds 30"
             powershell.exe -NoProfile -Command "Start-Sleep -Milliseconds {parentDelayMilliseconds}"
             """);
         return (scriptPath, string.Empty, scriptPath);
