@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "cargo",
-  "toolVersion": "cargo 1.97.1 (c980f4866 2026-06-30)",
+  "toolVersion": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
   "commandCount": 16,
   "commandTreeSha256": "f8b1c0ec09c6f1a8fbc12f34c9e244131aa2869c068c7f752c8da91976b1ec19",
   "commands": [
