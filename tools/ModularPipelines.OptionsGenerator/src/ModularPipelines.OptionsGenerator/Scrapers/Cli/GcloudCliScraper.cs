@@ -226,58 +226,62 @@ public partial class GcloudCliScraper : CliScraperBase
 
         foreach (var argument in argumentGroup.FlattenArguments())
         {
-            var negatable = argument.IsNegatable;
-            var longForm = argument.SwitchName;
-            var valueHint = argument.ValueHint ?? string.Empty;
-
-            if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
+            var option = CreateOption(argument);
+            if (option is null || !seenOptions.Add(option.SwitchName))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
+            options.Add(option);
+        }
 
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
+        return (options, [argumentGroup]);
+    }
 
-            var description = argument.Documentation;
+    private static CliOptionDefinition? CreateOption(CliArgumentDefinition argument)
+    {
+        var longForm = argument.SwitchName;
+        if (string.IsNullOrEmpty(longForm))
+        {
+            return null;
+        }
 
-            var isFlag = string.IsNullOrEmpty(valueHint) || negatable;
-            var acceptsMultipleValues = !isFlag
-                && (valueHint.Contains("...")
-                    || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
-            var isNumeric = IsNumericHint(valueHint);
-            var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
+        var propertyName = NormalizePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
 
-            var enumDef = TryDetectEnum(propertyName, description);
-            var csharpType = DetermineCSharpType(
+        var valueHint = argument.ValueHint ?? string.Empty;
+        var description = argument.Documentation;
+        var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
+        var acceptsMultipleValues = !isFlag
+            && (valueHint.Contains("...")
+                || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
+        var isNumeric = IsNumericHint(valueHint);
+        var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
+        var enumDefinition = TryDetectEnum(propertyName, description);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            PropertyName = propertyName,
+            CSharpType = DetermineCSharpType(
                 isFlag,
                 acceptsMultipleValues,
                 isKeyValue,
                 isNumeric,
-                enumDef);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = acceptsMultipleValues,
-                IsKeyValue = isKeyValue,
-                IsNumeric = isNumeric,
-                ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
-        }
-
-        return (options, [argumentGroup]);
+                enumDefinition),
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = isKeyValue,
+            IsNumeric = isNumeric,
+            ValueSeparator = isFlag ? " " : "=",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
     }
 
     private static CliArgumentDefinition? ParseGcloudArgument(string line)
