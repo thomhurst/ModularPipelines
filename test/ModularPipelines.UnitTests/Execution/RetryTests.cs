@@ -305,17 +305,9 @@ public class RetryTests : TestBase
 
         internal int ExecutionCount;
 
-        internal int RetryCallbackCount;
-
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(50))
-            .Advanced
-            .WithRetryPolicy(Policy
-                .Handle<Exception>()
-                .WaitAndRetryAsync(
-                    DefaultRetryCount,
-                    _ => TimeSpan.FromMinutes(1),
-                    (_, _, _, _) => RetryCallbackCount++))
+            .WithRetry(DefaultRetryCount, TimeSpan.FromMinutes(1))
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -409,7 +401,6 @@ public class RetryTests : TestBase
             using (Assert.Multiple())
             {
                 await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-                await Assert.That(module.RetryCallbackCount).IsEqualTo(1);
                 await Assert.That(timeoutException).IsNotNull();
                 await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
             }

@@ -578,8 +578,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         if (!timeoutResult.WasCancellationTokenRespected)
         {
             policyExecutionState.AbandonedAttemptTimeout = timeoutException;
-            // Let wrapped policies observe the failure, but cancel their retry delay because
-            // re-entering this module while the abandoned attempt is active is unsafe.
+            // Cancel the shield before its retry delay because re-entering this module while
+            // the abandoned attempt is active is unsafe.
             retryCancellationTokenSource?.Cancel();
         }
 
