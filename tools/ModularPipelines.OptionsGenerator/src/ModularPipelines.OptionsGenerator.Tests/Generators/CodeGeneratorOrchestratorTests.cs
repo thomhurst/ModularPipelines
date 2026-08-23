@@ -317,6 +317,45 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
+    public async Task Operand_Coverage_Failure_Leaves_Existing_Output_Untouched()
+    {
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
+        var generatorCalled = false;
+
+        try
+        {
+            var invalidCommand = FakeCommand() with
+            {
+                HasOperandTakingUsage = true,
+                UsageSynopsis = "fake run <target>",
+            };
+            var scraper = new FakeCliScraper { Commands = [invalidCommand] };
+            var generator = new FakeGenerator
+            {
+                OnGenerate = _ =>
+                {
+                    generatorCalled = true;
+                    return [];
+                },
+            };
+
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.HasErrors).IsTrue();
+                await Assert.That(result.Errors[0].Message).Contains("no CliPositionalArgument values");
+                await Assert.That(generatorCalled).IsFalse();
+                await Assert.That(File.Exists(existingFile)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Duplicate_Output_Paths_Fail_Without_Mutating_Existing_Output()
     {
         var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
