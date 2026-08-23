@@ -274,7 +274,8 @@ public partial class PipCliScraper : CliScraperBase
                 }
 
                 var isFlag = string.IsNullOrEmpty(valueHint) && IsBooleanOption(longForm, description);
-                var csharpType = isFlag ? "bool?" : "string?";
+                var acceptsMultipleValues = !isFlag && DescriptionDeclaresRepeatableOption(description);
+                var csharpType = acceptsMultipleValues ? "IEnumerable<string>?" : isFlag ? "bool?" : "string?";
 
                 options.Add(new CliOptionDefinition
                 {
@@ -285,7 +286,7 @@ public partial class PipCliScraper : CliScraperBase
                     Description = description,
                     IsFlag = isFlag,
                     IsRequired = false,
-                    AcceptsMultipleValues = false,
+                    AcceptsMultipleValues = acceptsMultipleValues,
                     IsKeyValue = false,
                     IsNumeric = false,
                     ValueSeparator = isFlag ? " " : " ",
