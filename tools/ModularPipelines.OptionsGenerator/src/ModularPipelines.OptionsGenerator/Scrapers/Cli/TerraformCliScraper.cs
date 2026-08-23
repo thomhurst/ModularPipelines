@@ -315,7 +315,7 @@ public partial class TerraformCliScraper : CliScraperBase
                 isFlag = true;
             }
 
-            var acceptsMultipleValues = !isFlag && DescriptionDeclaresRepeatableOption(description);
+            var acceptsMultipleValues = IsRepeatableValueOption(isFlag, description);
             var scalarType = isFlag ? "bool" : isInteger ? "int" : "string";
             var csharpType = acceptsMultipleValues ? $"IEnumerable<{scalarType}>?" : $"{scalarType}?";
 
@@ -339,6 +339,9 @@ public partial class TerraformCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static bool IsRepeatableValueOption(bool isFlag, string description) =>
+        !isFlag && DescriptionDeclaresRepeatableOption(description);
 
     /// <summary>
     /// Checks if a value hint indicates a numeric type.
