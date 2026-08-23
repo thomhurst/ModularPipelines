@@ -376,7 +376,7 @@ public partial class AzCliScraper : CliScraperBase
         }
 
         // Check for list types (space-separated or multiple values)
-        if (lowerDesc.Contains("space-separated") || lowerDesc.Contains("list of") ||
+        if (HelpDeclaresSpaceSeparatedList(lowerDesc) || lowerDesc.Contains("list of") ||
             lowerDesc.Contains("multiple"))
         {
             return "IEnumerable<string>?";
@@ -386,9 +386,12 @@ public partial class AzCliScraper : CliScraperBase
     }
 
     private static bool HelpDeclaresBooleanList(string description) =>
-        description.Contains("space-separated") ||
+        HelpDeclaresSpaceSeparatedList(description) ||
         description.Contains("list of true") ||
         description.Contains("list of false");
+
+    private static bool HelpDeclaresSpaceSeparatedList(string description) =>
+        description.Contains("space-separated");
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
