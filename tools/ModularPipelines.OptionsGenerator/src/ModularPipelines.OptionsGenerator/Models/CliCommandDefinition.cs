@@ -250,7 +250,7 @@ public record CliCompatibilityConstructor
 public readonly record struct CliCompatibilityConstructorParameter(string PropertyName, string CSharpType);
 
 /// <summary>
-/// Describes an enum-valued property retained on a command-group alias record.
+/// Describes a property retained on a command-group alias record.
 /// </summary>
 public record CliAliasCompatibilityProperty
 {
@@ -260,14 +260,19 @@ public record CliAliasCompatibilityProperty
     public required string PropertyName { get; init; }
 
     /// <summary>
-    /// Previously generated alias enum type exposed to consumers.
+    /// Previously generated alias type exposed to consumers.
     /// </summary>
     public required string AliasCSharpType { get; init; }
 
     /// <summary>
-    /// Canonical enum type used by the base options record.
+    /// Canonical type used by the base options record.
     /// </summary>
     public required string CanonicalCSharpType { get; init; }
+
+    /// <summary>
+    /// Whether the retained property uses an init accessor instead of a setter.
+    /// </summary>
+    public bool UseInitAccessor { get; init; }
 
     /// <summary>
     /// Obsolete diagnostic shown to consumers.
