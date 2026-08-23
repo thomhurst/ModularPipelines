@@ -143,6 +143,18 @@ public partial class WinGetCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    /// <inheritdoc />
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -171,6 +183,7 @@ public partial class WinGetCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
+        var positionalArguments = GetPositionalArguments(usage);
 
         var className = GenerateClassName(commandPath);
 
@@ -184,7 +197,9 @@ public partial class WinGetCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = positionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = positionalArguments.Count > 0,
             SubDomainGroup = null,
             Enums = enums
         };
