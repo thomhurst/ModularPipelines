@@ -879,6 +879,22 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task ScheduleForcefulCancellationAsync_ArmsTimerWhenReadinessFaults()
+    {
+        using var forcefulCancellationToken = new CancellationTokenSource();
+        var readinessFailure = Task.FromException(
+            new InvalidOperationException("readiness failed"));
+
+        await Command.ScheduleForcefulCancellationAsync(
+            forcefulCancellationToken,
+            TimeSpan.Zero,
+            readinessFailure);
+
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Task.Delay(TimeSpan.FromSeconds(1), forcefulCancellationToken.Token));
+    }
+
+    [Test]
     [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
     {

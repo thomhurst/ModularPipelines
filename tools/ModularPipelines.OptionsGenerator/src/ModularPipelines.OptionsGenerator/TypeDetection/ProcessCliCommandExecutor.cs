@@ -132,7 +132,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 await process.WaitForExitAsync(cts.Token);
                 await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
             }
-            catch (OperationCanceledException)
+            catch (Exception)
             {
                 disposeDescendantTracker = !await TryKillProcessAsync(
                         process,

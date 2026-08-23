@@ -818,7 +818,7 @@ internal sealed class Command : ICommandContext
             forcefulCancellationReady);
     }
 
-    private static async Task ScheduleForcefulCancellationAsync(
+    internal static async Task ScheduleForcefulCancellationAsync(
         CancellationTokenSource forcefulCancellationToken,
         TimeSpan gracefulShutdownTimeout,
         Task? forcefulCancellationReady)
@@ -827,7 +827,16 @@ internal sealed class Command : ICommandContext
         {
             if (forcefulCancellationReady is not null)
             {
-                await forcefulCancellationReady.ConfigureAwait(false);
+                try
+                {
+                    await forcefulCancellationReady.ConfigureAwait(false);
+                }
+                catch (Exception exception)
+                {
+                    Trace.TraceError(
+                        "Forceful cancellation readiness failed; arming the timer anyway: {0}",
+                        exception);
+                }
             }
 
             if (forcefulCancellationToken.Token.CanBeCanceled)

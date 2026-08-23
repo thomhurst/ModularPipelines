@@ -282,6 +282,53 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Readiness_Failure_Kills_Started_Child_Process()
+    {
+        var childPidPath = Path.Combine(
+            Path.GetTempPath(),
+            $"mp-cli-readiness-failure-{Guid.NewGuid():N}.pid");
+        string? scriptPath = null;
+        int? childPid = null;
+
+        try
+        {
+            var command = await CreateLongRunningChildCommandAsync(
+                childPidPath,
+                parentExits: false);
+            scriptPath = command.ScriptPath;
+            var executor = new ProcessCliCommandExecutor(
+                NullLogger<ProcessCliCommandExecutor>.Instance,
+                TimeSpan.FromSeconds(10),
+                async cancellationToken =>
+                {
+                    childPid = await WaitForPublishedProcessIdAsync(
+                        childPidPath,
+                        cancellationToken);
+                    throw new InvalidOperationException("readiness failed");
+                });
+
+            var result = await executor.ExecuteAsync(command.Command, command.Arguments);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("readiness failed");
+                await Assert.That(childPid).IsNotNull();
+                await Assert.That(await WaitForProcessExitAsync(childPid!.Value)).IsTrue();
+            }
+        }
+        finally
+        {
+            KillPublishedChildIfRunning(childPidPath, childPid);
+            File.Delete(childPidPath);
+            if (scriptPath is not null)
+            {
+                File.Delete(scriptPath);
+            }
+        }
+    }
+
+    [Test]
     public async Task Executes_Windows_Batch_Files_With_Redirected_Output()
     {
         if (!OperatingSystem.IsWindows())
