@@ -45,6 +45,8 @@ public partial class EksctlCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Eksctl";
 
+    protected override string VersionArguments => "version";
+
     protected override string NormalizeCommandIdentifier(string commandPart) =>
         commandPart.Equals("kubeconfig", StringComparison.OrdinalIgnoreCase)
             ? "Kubeconfig"

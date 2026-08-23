@@ -60,6 +60,8 @@ public partial class CosignCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Cosign";
 
+    protected override string VersionArguments => "version";
+
     /// <summary>
     /// Cosign validates many positional arguments in command code without including them
     /// in the generated usage line. Supply that metadata explicitly from the v3 command
