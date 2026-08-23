@@ -32,6 +32,21 @@ public class TerraformStacksConfiguration
     #region Commands
 
     /// <summary>
+    /// list                List configurations associated with the given stack.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        TerraformStacksConfigurationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformStacksConfigurationOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Fetch the latest configuration VCS.
     /// </summary>
     /// <param name="options">The command options.</param>

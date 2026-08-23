@@ -20,4 +20,10 @@ namespace ModularPipelines.Terraform.Options;
 [CliSubCommand("stacks")]
 public record TerraformStacksOptions : TerraformOptions
 {
+    /// <summary>
+    /// The args operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Args { get; set; }
+
 }

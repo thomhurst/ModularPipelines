@@ -13,29 +13,17 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Reads and outputs a Terraform state or plan file in a human-readable
+/// Retrieves an authentication token for the given hostname, if it supports
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record TerraformShowOptions : TerraformOptions
+[CliSubCommand("login")]
+public record TerraformLoginOptions : TerraformOptions
 {
     /// <summary>
-    /// If specified, output won't contain any color.
-    /// </summary>
-    [CliFlag("-no-color")]
-    public bool? NoColor { get; set; }
-
-    /// <summary>
-    /// If specified, output the Terraform plan or state in a machine-readable form.
-    /// </summary>
-    [CliFlag("-json")]
-    public bool? Json { get; set; }
-
-    /// <summary>
-    /// The path operand.
+    /// The hostname operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Path { get; set; }
+    public string? Hostname { get; set; }
 
 }

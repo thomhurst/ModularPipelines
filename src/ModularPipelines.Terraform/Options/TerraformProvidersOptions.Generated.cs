@@ -32,4 +32,10 @@ public record TerraformProvidersOptions : TerraformOptions
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
 
+    /// <summary>
+    /// The DIR operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Dir { get; set; }
+
 }

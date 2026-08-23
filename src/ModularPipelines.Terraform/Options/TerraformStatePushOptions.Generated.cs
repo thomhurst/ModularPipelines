@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "push")]
-public record TerraformStatePushOptions : TerraformOptions
+public record TerraformStatePushOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
+) : TerraformOptions
 {
+    public TerraformStatePushOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Write the state even if lineages don't match or the remote serial is higher.
     /// </summary>

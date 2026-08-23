@@ -95,11 +95,11 @@ internal partial class Terraform : ITerraform
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ForceUnlockAsync(
-        TerraformForceUnlockOptions? options = null,
+        TerraformForceUnlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformForceUnlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -122,11 +122,11 @@ internal partial class Terraform : ITerraform
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ImportAsync(
-        TerraformImportOptions? options = null,
+        TerraformImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -136,6 +136,33 @@ internal partial class Terraform : ITerraform
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformInitOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> LoginAsync(
+        TerraformLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformLoginOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> LogoutAsync(
+        TerraformLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformLogoutOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> MetadataAsync(
+        TerraformMetadataOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformMetadataOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -194,11 +221,11 @@ internal partial class Terraform : ITerraform
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TaintAsync(
-        TerraformTaintOptions? options = null,
+        TerraformTaintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformTaintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -212,11 +239,11 @@ internal partial class Terraform : ITerraform
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> UntaintAsync(
-        TerraformUntaintOptions? options = null,
+        TerraformUntaintOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformUntaintOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

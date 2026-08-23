@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "new")]
-public record TerraformWorkspaceNewOptions : TerraformOptions
+public record TerraformWorkspaceNewOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
+) : TerraformOptions
 {
+    public TerraformWorkspaceNewOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
