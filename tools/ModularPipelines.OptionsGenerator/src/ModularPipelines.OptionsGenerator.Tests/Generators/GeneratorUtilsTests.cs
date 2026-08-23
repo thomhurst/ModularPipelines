@@ -63,6 +63,11 @@ public class GeneratorUtilsTests
     [Arguments("binarylogger", "BinaryLogger")]
     [Arguments("nologo", "NoLogo")]
     [Arguments("nuget", "NuGet")]
+    [Arguments("agenttask", "AgentTask")]
+    [Arguments("clusterinfo", "ClusterInfo")]
+    [Arguments("gpgkey", "GpgKey")]
+    [Arguments("sshkey", "SshKey")]
+    [Arguments("kubeconfig", "KubeConfig")]
     [Arguments("9p", "_9p")]
     public async Task ToPascalCase_Handles_Compound_Words(
         string input,

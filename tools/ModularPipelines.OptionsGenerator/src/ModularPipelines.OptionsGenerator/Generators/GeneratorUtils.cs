@@ -107,6 +107,7 @@ public static partial class GeneratorUtils
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["accesscontextmanager"] = "AccessContextManager",
+            ["agenttask"] = "AgentTask",
             ["apiserver"] = "ApiServer",
             ["appconfig"] = "AppConfig",
             ["appsettings"] = "AppSettings",
@@ -116,12 +117,14 @@ public static partial class GeneratorUtils
             ["buildserver"] = "BuildServer",
             ["certificatemanager"] = "CertificateManager",
             ["changeset"] = "ChangeSet",
+            ["clusterinfo"] = "ClusterInfo",
             ["compliancemanager"] = "ComplianceManager",
             ["controllermanager"] = "ControllerManager",
             ["cpuset"] = "CpuSet",
             ["dataset"] = "DataSet",
             ["deploymentmanager"] = "DeploymentManager",
             ["diskencryptionset"] = "DiskEncryptionSet",
+            ["gpgkey"] = "GpgKey",
             ["imagetools"] = "ImageTools",
             ["inframanager"] = "InfraManager",
             ["keyset"] = "KeySet",
@@ -138,6 +141,7 @@ public static partial class GeneratorUtils
             ["routeserver"] = "RouteServer",
             ["sourcemanager"] = "SourceManager",
             ["sqlserver"] = "SqlServer",
+            ["sshkey"] = "SshKey",
             ["versionset"] = "VersionSet",
         };
 
