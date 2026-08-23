@@ -1408,7 +1408,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Constructor_Preservation_When_Required_Member_Is_Added()
+    public async Task ApiCompatibilityPreserver_Retains_Constructor_When_Required_Member_Is_Added()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
         {
@@ -1424,10 +1424,14 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(command, []));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, []);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message).Contains("newly required member(s) Package have no baseline value");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public ToolAddOptions()");
+            await Assert.That(generated).Contains(": this(default!)");
+        }
     }
 
     [Test]
@@ -1668,7 +1672,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Optional_Facade_When_Required_Member_Is_Added()
+    public async Task ApiCompatibilityPreserver_Retains_Optional_Facade_When_Required_Member_Is_Added()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
         var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
@@ -1697,10 +1701,15 @@ public class GeneratorHardeningTests
                 ],
             };
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
+            var options = (await new OptionsClassGenerator().GenerateAsync(preserved)).Single().Content;
+            var service = (await new ServiceImplementationGenerator().GenerateAsync(preserved)).Single().Content;
 
-            await Assert.That(exception.Message).Contains("newly required member(s) Package have no baseline value");
+            using (Assert.Multiple())
+            {
+                await Assert.That(options).Contains("public ToolAddOptions()");
+                await Assert.That(service).Contains("ToolAddOptions? options = null");
+            }
         }
         finally
         {

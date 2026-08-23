@@ -223,7 +223,8 @@ internal static class GeneratedApiCompatibilityPreserver
             aliasBaseline.Properties,
             aliasBaseline.Constructors,
             currentRequired,
-            compatibilityConstructors);
+            compatibilityConstructors,
+            allowNewRequiredMembers: false);
         SetCompatibilityEntries(constructorsByAlias, aliasClassName, compatibilityConstructors);
     }
 
@@ -1005,13 +1006,15 @@ internal static class GeneratedApiCompatibilityPreserver
             GetCurrentProperties(positionalArguments, options)
                 .Where(static property => property.IsRequired)
                 .ToArray(),
-            compatibilityConstructors);
+            compatibilityConstructors,
+            allowNewRequiredMembers: true);
 
     private static void PreserveCompatibilityConstructors(
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors,
         IReadOnlyList<GeneratedApiProperty> currentRequired,
-        List<CliCompatibilityConstructor> compatibilityConstructors)
+        List<CliCompatibilityConstructor> compatibilityConstructors,
+        bool allowNewRequiredMembers)
     {
         if (currentRequired.Count == 0)
         {
@@ -1028,7 +1031,8 @@ internal static class GeneratedApiCompatibilityPreserver
                 && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
             .Select(static property => property.PropertyName)
             .ToArray();
-        if (currentRequired.Count > baselineRequired.Length && addedRequired.Length > 0)
+        if (addedRequired.Length > 0
+            && (!allowNewRequiredMembers || baselineRequired.Length > 0))
         {
             throw new InvalidOperationException(
                 "Cannot retain generated constructors because newly required member(s) "
