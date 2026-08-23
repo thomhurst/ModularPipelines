@@ -23,7 +23,7 @@ public record PodmanVolumeExportOptions(
 ) : PodmanOptions
 {
     /// <summary>
-    /// Write to a specified file (default: stdout, which must be redirected) (default "/dev/stdout")
+    /// Write to a specified file (default: stdout, which must be redirected)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }

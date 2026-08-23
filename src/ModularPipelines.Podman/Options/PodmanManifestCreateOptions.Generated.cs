@@ -35,6 +35,12 @@ public record PodmanManifestCreateOptions(
     public bool? Amend { get; set; }
 
     /// <summary>
+    /// set annotations on the new list
+    /// </summary>
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotation { get; set; }
+
+    /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]

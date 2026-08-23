@@ -25,6 +25,68 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PodmanCliScraper : CobraCliScraper
 {
+    private static readonly IReadOnlyList<CliCompatibilityProperty> NoTruncCompatibilityProperties =
+    [
+        RemovedCompatibilityProperty(
+            "NoTrunc",
+            "bool?",
+            "Podman no longer supports --no-trunc and this property has no effect."),
+    ];
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> SaveKeysCompatibilityProperties =
+    [
+        RemovedCompatibilityProperty(
+            "SaveKeys",
+            "bool?",
+            "Podman no longer supports --save-keys and this property has no effect."),
+    ];
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> MachineInitCompatibilityProperties =
+    [
+        new CliCompatibilityProperty
+        {
+            PropertyName = "ImagePath",
+            CSharpType = "string?",
+            ForwardToPropertyName = "Image",
+            ObsoleteMessage = "Use Image instead.",
+        },
+        new CliCompatibilityProperty
+        {
+            PropertyName = "VolumeDriver",
+            CSharpType = "string?",
+            ObsoleteMessage = "Podman no longer supports --volume-driver and this property has no effect.",
+        },
+    ];
+
+    private static readonly CliCompatibilityProperty BuildOutputCompatibilityProperty = new()
+    {
+        PropertyName = "Output",
+        CSharpType = "string?",
+        ForwardToPropertyName = "Outputs",
+        ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+        ObsoleteMessage = "Use Outputs instead.",
+    };
+
+    private static readonly CliCompatibilityProperty BuildTimestampCompatibilityProperty = new()
+    {
+        PropertyName = "Timestamp",
+        CSharpType = "int?",
+        ForwardToPropertyName = "TimestampValue",
+        ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+        ObsoleteMessage = "Use TimestampValue instead.",
+    };
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> BuildCompatibilityProperties =
+    [
+        BuildOutputCompatibilityProperty,
+        BuildTimestampCompatibilityProperty,
+    ];
+
+    private static readonly IReadOnlyList<CliCompatibilityProperty> FarmBuildCompatibilityProperties =
+    [
+        BuildTimestampCompatibilityProperty,
+    ];
+
     public PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -117,8 +179,28 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         return string.Join(' ', commandParts) switch
         {
+            "inspect" => RenamePositionalArgument(positionalArguments, 0, "Container"),
+            "manifest add" or "manifest annotate" or "manifest remove" =>
+                RenamePositionalArgument(positionalArguments, 1, "Image"),
+            "artifact add" => SetPositionalArgument(
+                positionalArguments,
+                index: 1,
+                propertyName: "Path",
+                isRequired: true,
+                isVariadic: true),
             "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
             "exec" or "container exec" => SetRequiredCount(positionalArguments, 2),
+            "artifact rm" or "quadlet rm" => SetPositionalArgument(
+                positionalArguments,
+                index: 0,
+                propertyName: null,
+                isRequired: false,
+                isVariadic: true),
+            "kube down" or "kube play" => PreserveRequiredScalarAndAddVariadic(
+                positionalArguments,
+                index: 0,
+                scalarPropertyName: "Kubefile",
+                variadicPropertyName: "AdditionalKubefiles"),
             "secret exists" or "secret inspect" or "secret rm" => positionalArguments
                 .Select(argument => argument with { IsSecret = false })
                 .ToList(),
@@ -126,20 +208,168 @@ public partial class PodmanCliScraper : CobraCliScraper
         };
     }
 
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var command = string.Join(' ', commandParts);
+        if (command is not ("build" or "farm build" or "image build"))
+        {
+            return options;
+        }
+
+        return options.Select(option => (command, option.PropertyName) switch
+            {
+                ("build" or "image build", "Output") => option with { PropertyName = "Outputs" },
+                (_, "Timestamp") => option with { PropertyName = "TimestampValue" },
+                _ => option,
+            })
+            .ToList();
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> RenamePositionalArgument(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int index,
+        string propertyName)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+        var argument = positionalArguments[index];
+
+        return SetPositionalArgument(
+            positionalArguments,
+            index,
+            propertyName,
+            argument.IsRequired,
+            argument.IsVariadic);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> SetPositionalArgument(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int index,
+        string? propertyName,
+        bool isRequired,
+        bool isVariadic)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+
+        return positionalArguments
+            .Select((argument, argumentIndex) => argumentIndex == index
+                ? ConfigurePositionalArgument(
+                    argument,
+                    propertyName,
+                    isRequired,
+                    isVariadic)
+                : argument)
+            .ToList();
+    }
+
+    private static void EnsurePositionalArgumentExists(
+        IReadOnlyCollection<CliPositionalArgument> positionalArguments,
+        int index)
+    {
+        if (positionalArguments.Count <= index)
+        {
+            throw new InvalidDataException(
+                $"Podman positional fix expected argument at index {index}, but parsed {positionalArguments.Count}.");
+        }
+    }
+
+    private static CliPositionalArgument ConfigurePositionalArgument(
+        CliPositionalArgument argument,
+        string? propertyName,
+        bool isRequired,
+        bool isVariadic)
+    {
+        var resolvedPropertyName = propertyName ?? argument.PropertyName;
+        var elementType = GetPositionalElementType(argument.CSharpType);
+        var csharpType = isVariadic
+            ? $"IEnumerable<{elementType}>"
+            : elementType;
+        return argument with
+        {
+            PropertyName = resolvedPropertyName,
+            CSharpType = isRequired ? csharpType : $"{csharpType}?",
+            IsRequired = isRequired,
+            IsVariadic = isVariadic,
+            Description = propertyName is null
+                ? argument.Description
+                : $"The {resolvedPropertyName.ToUpperInvariant()} operand.",
+        };
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> PreserveRequiredScalarAndAddVariadic(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int index,
+        string scalarPropertyName,
+        string variadicPropertyName)
+    {
+        EnsurePositionalArgumentExists(positionalArguments, index);
+
+        return positionalArguments
+            .SelectMany((argument, argumentIndex) => argumentIndex == index
+                ? new[]
+                {
+                    ConfigurePositionalArgument(
+                        argument,
+                        scalarPropertyName,
+                        isRequired: true,
+                        isVariadic: false),
+                    ConfigurePositionalArgument(
+                        argument with { PositionIndex = argument.PositionIndex + 1 },
+                        variadicPropertyName,
+                        isRequired: false,
+                        isVariadic: true),
+                }
+                : [argumentIndex > index
+                    ? argument with { PositionIndex = argument.PositionIndex + 1 }
+                    : argument])
+            .ToList();
+    }
+
+    private static CliCompatibilityProperty RemovedCompatibilityProperty(
+        string propertyName,
+        string csharpType,
+        string obsoleteMessage) => new()
+        {
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            ObsoleteMessage = obsoleteMessage,
+        };
+
+    private static string GetPositionalElementType(string csharpType)
+    {
+        var nonNullableType = csharpType.TrimEnd('?');
+        const string enumerablePrefix = "IEnumerable<";
+        return nonNullableType.StartsWith(enumerablePrefix, StringComparison.Ordinal)
+               && nonNullableType.EndsWith('>')
+            ? nonNullableType[enumerablePrefix.Length..^1]
+            : nonNullableType;
+    }
+
+    protected override IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
+        string[] commandParts) => string.Join(' ', commandParts) switch
+        {
+            "build" or "image build" => BuildCompatibilityProperties,
+            "farm build" => FarmBuildCompatibilityProperties,
+            "generate kube" or "kube generate" or "kube play" => NoTruncCompatibilityProperties,
+            "machine init" => MachineInitCompatibilityProperties,
+            "machine rm" => SaveKeysCompatibilityProperties,
+            _ => [],
+        };
+
     private static IReadOnlyList<CliPositionalArgument> SetRequiredCount(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int requiredCount) =>
         positionalArguments
-            .Select((argument, index) => index < requiredCount
-                ? argument with
-                {
-                    CSharpType = argument.CSharpType.TrimEnd('?'),
-                    IsRequired = true,
-                }
-                : argument with
-                {
-                    CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
-                    IsRequired = false,
-                })
+            .Select((argument, index) => ConfigurePositionalArgument(
+                argument,
+                propertyName: null,
+                isRequired: index < requiredCount,
+                isVariadic: argument.IsVariadic))
             .ToList();
+
+    /// <inheritdoc />
+    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
+        base.IsSecretOption(propertyName, isFlag)
+        || (!isFlag && propertyName.Equals("Creds", StringComparison.OrdinalIgnoreCase));
 }

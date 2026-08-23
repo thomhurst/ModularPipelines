@@ -27,6 +27,12 @@ public record PodmanVolumeCreateOptions : PodmanOptions
     public string? Driver { get; set; }
 
     /// <summary>
+    /// Set the GID of the volume owner
+    /// </summary>
+    [CliOption("--gid", Format = OptionFormat.EqualsSeparated)]
+    public int? Gid { get; set; }
+
+    /// <summary>
     /// Don't fail if volume already exists
     /// </summary>
     [CliFlag("--ignore")]
@@ -43,6 +49,12 @@ public record PodmanVolumeCreateOptions : PodmanOptions
     /// </summary>
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Opt { get; set; }
+
+    /// <summary>
+    /// Set the UID of the volume owner
+    /// </summary>
+    [CliOption("--uid", Format = OptionFormat.EqualsSeparated)]
+    public int? Uid { get; set; }
 
     /// <summary>
     /// The NAME operand.

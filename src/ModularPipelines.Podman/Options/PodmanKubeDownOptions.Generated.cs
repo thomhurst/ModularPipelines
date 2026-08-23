@@ -28,4 +28,10 @@ public record PodmanKubeDownOptions(
     [CliFlag("--force")]
     public bool? Force { get; set; }
 
+    /// <summary>
+    /// The ADDITIONALKUBEFILES operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? AdditionalKubefiles { get; set; }
+
 }
