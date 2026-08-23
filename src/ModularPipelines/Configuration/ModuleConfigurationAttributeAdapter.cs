@@ -39,7 +39,7 @@ internal static class ModuleConfigurationAttributeAdapter
             PlanningSkipCondition = configured.PlanningSkipCondition,
             Timeout = configured.Timeout,
             RetryConfiguration = configured.RetryConfiguration,
-            AdvancedRetryPolicyFactory = configured.AdvancedRetryPolicyFactory,
+            ResilienceShieldFactory = configured.ResilienceShieldFactory,
             IgnoreFailuresCondition = configured.IgnoreFailuresCondition,
             AlwaysRun = configured.AlwaysRun,
             ParallelConstraintKeys = configured.ParallelConstraintKeys

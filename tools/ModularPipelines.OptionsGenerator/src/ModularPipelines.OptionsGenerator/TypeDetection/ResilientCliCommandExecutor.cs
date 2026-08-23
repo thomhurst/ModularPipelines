@@ -1,13 +1,11 @@
+using Kevlar;
 using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.CircuitBreaker;
-using Polly.Retry;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
 /// <summary>
 /// Decorator that adds resilience patterns (retry and circuit breaker) to CLI command execution.
-/// Uses Polly for:
+/// Uses Kevlar for:
 /// - Exponential backoff retry (3 attempts) for transient failures
 /// - Circuit breaker (5 failures opens circuit for 30 seconds) to prevent cascading failures
 /// </summary>
@@ -15,7 +13,7 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
 {
     private readonly ICliCommandExecutor _inner;
     private readonly ILogger<ResilientCliCommandExecutor> _logger;
-    private readonly ResiliencePipeline<CliCommandResult> _pipeline;
+    private readonly Shield<CliCommandResult> _shield;
 
     /// <summary>
     /// Default retry count for transient failures.
@@ -58,51 +56,45 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
         _inner = inner;
         _logger = logger;
 
-        _pipeline = new ResiliencePipelineBuilder<CliCommandResult>()
-            .AddRetry(new RetryStrategyOptions<CliCommandResult>
+        _shield = Shield.For<CliCommandResult>()
+            .WhenResult(IsTransientFailure)
+            .Retry(options =>
             {
-                MaxRetryAttempts = maxRetries,
-                BackoffType = DelayBackoffType.Exponential,
-                Delay = baseDelay,
-                ShouldHandle = new PredicateBuilder<CliCommandResult>()
-                    .HandleResult(r => IsTransientFailure(r)),
-                OnRetry = args =>
+                options.MaxRetries = maxRetries;
+                options.Backoff = Backoff.Exponential(baseDelay, jitter: false);
+                options.OnRetry = retryEvent =>
                 {
                     _logger.LogWarning(
                         "CLI command failed (attempt {Attempt}/{MaxAttempts}), retrying in {Delay}ms...",
-                        args.AttemptNumber,
+                        retryEvent.Attempt,
                         maxRetries,
-                        args.RetryDelay.TotalMilliseconds);
-                    return default;
-                }
+                        retryEvent.Delay.TotalMilliseconds);
+                };
             })
-            .AddCircuitBreaker(new CircuitBreakerStrategyOptions<CliCommandResult>
+            .CircuitBreaker(options =>
             {
-                FailureRatio = 0.5,
-                MinimumThroughput = circuitBreakerThreshold,
-                SamplingDuration = TimeSpan.FromSeconds(30),
-                BreakDuration = circuitBreakerDuration,
-                ShouldHandle = new PredicateBuilder<CliCommandResult>()
-                    .HandleResult(r => IsTransientFailure(r)),
-                OnOpened = args =>
+                options.FailureRatio = 0.5;
+                options.MinimumThroughput = circuitBreakerThreshold;
+                options.SamplingWindow = TimeSpan.FromSeconds(30);
+                options.BreakDuration = circuitBreakerDuration;
+                options.OnStateChanged = stateChangedEvent =>
                 {
-                    _logger.LogError(
-                        "Circuit breaker OPENED - CLI commands are failing. Will retry after {Duration}s",
-                        args.BreakDuration.TotalSeconds);
-                    return default;
-                },
-                OnClosed = _ =>
-                {
-                    _logger.LogInformation("Circuit breaker CLOSED - CLI commands are healthy again");
-                    return default;
-                },
-                OnHalfOpened = _ =>
-                {
-                    _logger.LogInformation("Circuit breaker HALF-OPEN - Testing if CLI commands are healthy...");
-                    return default;
-                }
-            })
-            .Build();
+                    switch (stateChangedEvent.To)
+                    {
+                        case CircuitState.Open:
+                            _logger.LogError(
+                                "Circuit breaker OPENED - CLI commands are failing. Will retry after {Duration}s",
+                                circuitBreakerDuration.TotalSeconds);
+                            break;
+                        case CircuitState.Closed:
+                            _logger.LogInformation("Circuit breaker CLOSED - CLI commands are healthy again");
+                            break;
+                        case CircuitState.HalfOpen:
+                            _logger.LogInformation("Circuit breaker HALF-OPEN - Testing if CLI commands are healthy...");
+                            break;
+                    }
+                };
+            });
     }
 
     public async Task<CliCommandResult> ExecuteAsync(
@@ -113,11 +105,11 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     {
         try
         {
-            return await _pipeline.ExecuteAsync(
+            return await _shield.ExecuteAsync(
                 async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory),
                 cancellationToken);
         }
-        catch (BrokenCircuitException ex)
+        catch (CircuitOpenException ex)
         {
             _logger.LogError("Circuit breaker is open - CLI execution rejected: {Command} {Arguments}", command, arguments);
             return new CliCommandResult

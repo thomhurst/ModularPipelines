@@ -1,10 +1,10 @@
+using Kevlar;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using Polly;
 
 namespace ModularPipelines.Configuration;
 
@@ -45,7 +45,7 @@ public sealed class ModuleConfigurationBuilder
     private string? _cacheAssemblyVersionKey;
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
-    private Func<IModuleContext, IAsyncPolicy>? _advancedRetryPolicyFactory;
+    private Func<IModuleContext, Shield>? _resilienceShieldFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
     private string[]? _parallelConstraintKeys;
@@ -364,7 +364,7 @@ public sealed class ModuleConfigurationBuilder
         }
 
         _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, shouldRetry);
-        _advancedRetryPolicyFactory = null;
+        _resilienceShieldFactory = null;
         return this;
     }
 
@@ -432,7 +432,7 @@ public sealed class ModuleConfigurationBuilder
             PlanningSkipCondition = ComposePlanningSkipConditions(),
             Timeout = _timeout,
             RetryConfiguration = _retryConfiguration,
-            AdvancedRetryPolicyFactory = _advancedRetryPolicyFactory,
+            ResilienceShieldFactory = _resilienceShieldFactory,
             IgnoreFailuresCondition = _ignoreFailuresCondition,
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
@@ -447,9 +447,9 @@ public sealed class ModuleConfigurationBuilder
         };
     }
 
-    internal ModuleConfigurationBuilder SetAdvancedRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
+    internal ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)
     {
-        _advancedRetryPolicyFactory = factory;
+        _resilienceShieldFactory = factory;
         _retryConfiguration = null;
         return this;
     }

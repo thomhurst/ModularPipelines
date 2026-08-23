@@ -1,3 +1,4 @@
+using Kevlar;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
@@ -12,7 +13,6 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Tracing;
-using Polly;
 
 namespace ModularPipelines.Engine;
 
@@ -486,8 +486,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
-        // Get retry policy if applicable
-        var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
+        // Get resilience shield if applicable
+        var resilienceShield = GetResilienceShield(config, moduleContext);
         var moduleAttemptCount = 0;
         var moduleAttemptRespondedToCancellation = 0;
 
@@ -507,9 +507,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        // Create the execution function that optionally includes retry
-        Func<CancellationToken, Task<T>> executeFunc = retryPolicy != null
-            ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
+        // Create the execution function that optionally includes resilience strategies
+        Func<CancellationToken, Task<T>> executeFunc = resilienceShield != null
+            ? async ct => await resilienceShield.ExecuteAsync(
+                async shieldToken => await ExecuteModuleAttempt(shieldToken).ConfigureAwait(false),
+                ct).ConfigureAwait(false)
             : ExecuteModuleAttempt;
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
@@ -532,7 +534,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         if (timeoutResult.TimedOut)
         {
             var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
-                                                && (retryPolicy is null
+                                                && (resilienceShield is null
                                                     || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
 
             // Create a detailed timeout exception with information about token cooperation
@@ -551,25 +553,25 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return config.Timeout ?? _pipelineOptions.Value.DefaultModuleTimeout;
     }
 
-    private static IAsyncPolicy? GetRetryPolicy<T>(
+    private static Shield? GetResilienceShield(
         ModuleConfiguration config,
         IModuleContext moduleContext)
     {
-        if (config.AdvancedRetryPolicyFactory != null)
+        if (config.ResilienceShieldFactory != null)
         {
-            return config.AdvancedRetryPolicyFactory(moduleContext);
+            return config.ResilienceShieldFactory(moduleContext);
         }
 
         if (config.RetryConfiguration != null)
         {
-            return ModuleRetryPolicyFactory.Create(config.RetryConfiguration);
+            return ModuleRetryShieldFactory.Create(config.RetryConfiguration);
         }
 
         // Check if default retry count is configured
         var defaultRetryCount = moduleContext.Services.Options.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
-            return ModuleRetryPolicyFactory.Create(new ModuleRetryConfiguration(
+            return ModuleRetryShieldFactory.Create(new ModuleRetryConfiguration(
                 defaultRetryCount,
                 ModuleRetryConfiguration.DefaultBaseDelay,
                 ShouldRetry: null));
