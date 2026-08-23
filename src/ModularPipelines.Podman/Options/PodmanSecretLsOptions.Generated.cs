@@ -27,7 +27,7 @@ public record PodmanSecretLsOptions : PodmanOptions
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// Format volume output using Go template (default "{{range .}}{{.ID}}\t{{.Name}}\t{{.Driver}}\t{{.CreatedAt}}\t{{.UpdatedAt}}\n{{end -}}")
+    /// Format secret output using Go template (default "{{range .}}{{.ID}}\t{{.Name}}\t{{.Driver}}\t{{.CreatedAt}}\t{{.UpdatedAt}}\n{{end -}}")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

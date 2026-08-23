@@ -112,6 +112,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public bool? Cleanup { get; set; }
 
     /// <summary>
+    /// preserve the contents of VOLUMEs during RUN instructions
+    /// </summary>
+    [CliFlag("--compat-volumes")]
+    public bool? CompatVolumes { get; set; }
+
+    /// <summary>
     /// set additional flag to pass to C preprocessor (cpp)
     /// </summary>
     [CliOption("--cpp-flag", Format = OptionFormat.EqualsSeparated)]
@@ -148,6 +154,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public string? CpuSetMems { get; set; }
 
     /// <summary>
+    /// set an "org.opencontainers.image.created" annotation in the image (default true)
+    /// </summary>
+    [CliOption("--created-annotation", Format = OptionFormat.EqualsSeparated)]
+    public bool? CreatedAnnotation { get; set; }
+
+    /// <summary>
     /// use [username[:password]] for accessing the registry
     /// </summary>
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
@@ -160,7 +172,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
-    /// additional devices to be used within containers (default [])
+    /// additional devices to provide
     /// </summary>
     [CliOption("--device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Device { get; set; }
@@ -254,6 +266,18 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--iidfile", Format = OptionFormat.EqualsSeparated)]
     public string? Iidfile { get; set; }
+
+    /// <summary>
+    /// inherit the annotations from the base image or base stages. (default true)
+    /// </summary>
+    [CliOption("--inherit-annotations", Format = OptionFormat.EqualsSeparated)]
+    public bool? InheritAnnotations { get; set; }
+
+    /// <summary>
+    /// inherit the labels from the base image or base stages. (default true)
+    /// </summary>
+    [CliOption("--inherit-labels", Format = OptionFormat.EqualsSeparated)]
+    public bool? InheritLabels { get; set; }
 
     /// <summary>
     /// 'private', path of IPC namespace to join, or 'host'
@@ -370,7 +394,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public IEnumerable<string>? Platforms { get; set; }
 
     /// <summary>
-    /// Pull image policy ("always/true"|"missing"|"never/false"|"newer") (default "missing")
+    /// Pull image policy ("always"|"missing"|"never"|"newer") (default "missing")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Pull { get; set; }
@@ -388,10 +412,16 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public int? Retry { get; set; }
 
     /// <summary>
-    /// delay between retries in case of push/pull failures (default "2s")
+    /// delay between retries in case of push/pull failures
     /// </summary>
     [CliOption("--retry-delay", Format = OptionFormat.EqualsSeparated)]
     public string? RetryDelay { get; set; }
+
+    /// <summary>
+    /// set timestamps in layers to no later than the value for --source-date-epoch
+    /// </summary>
+    [CliFlag("--rewrite-timestamp")]
+    public bool? RewriteTimestamp { get; set; }
 
     /// <summary>
     /// remove intermediate containers after a successful build (default true)
@@ -404,6 +434,54 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RuntimeFlag { get; set; }
+
+    /// <summary>
+    /// scan working container using preset configuration
+    /// </summary>
+    [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
+    public string? Sbom { get; set; }
+
+    /// <summary>
+    /// add scan results to image as path
+    /// </summary>
+    [CliOption("--sbom-image-output", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomImageOutput { get; set; }
+
+    /// <summary>
+    /// add scan results to image as path
+    /// </summary>
+    [CliOption("--sbom-image-purl-output", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomImagePurlOutput { get; set; }
+
+    /// <summary>
+    /// merge scan results using strategy
+    /// </summary>
+    [CliOption("--sbom-merge-strategy", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomMergeStrategy { get; set; }
+
+    /// <summary>
+    /// save scan results to file
+    /// </summary>
+    [CliOption("--sbom-output", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomOutput { get; set; }
+
+    /// <summary>
+    /// save scan results to file`
+    /// </summary>
+    [CliOption("--sbom-purl-output", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomPurlOutput { get; set; }
+
+    /// <summary>
+    /// scan working container using command in scanner image
+    /// </summary>
+    [CliOption("--sbom-scanner-command", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomScannerCommand { get; set; }
+
+    /// <summary>
+    /// scan working container using scanner command from image
+    /// </summary>
+    [CliOption("--sbom-scanner-image", Format = OptionFormat.EqualsSeparated)]
+    public string? SbomScannerImage { get; set; }
 
     /// <summary>
     /// secret file to expose to the build
@@ -429,6 +507,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--skip-unused-stages", Format = OptionFormat.EqualsSeparated)]
     public bool? SkipUnusedStages { get; set; }
+
+    /// <summary>
+    /// set new timestamps in image info to seconds after the epoch, defaults to current time
+    /// </summary>
+    [CliOption("--source-date-epoch", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDateEpoch { get; set; }
 
     /// <summary>
     /// squash all image layers into a single layer
@@ -461,10 +545,10 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public string? Target { get; set; }
 
     /// <summary>
-    /// set created timestamp to the specified epoch seconds to allow for deterministic builds, defaults to current time
+    /// set new timestamps in image info and layer to seconds after the epoch, defaults to current times
     /// </summary>
     [CliOption("--timestamp", Format = OptionFormat.EqualsSeparated)]
-    public int? Timestamp { get; set; }
+    public string? Timestamp { get; set; }
 
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry (default true)
@@ -477,6 +561,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ulimit { get; set; }
+
+    /// <summary>
+    /// unset annotation when inheriting annotations from base image
+    /// </summary>
+    [CliOption("--unsetannotation", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Unsetannotation { get; set; }
 
     /// <summary>
     /// unset environment variable from final image

@@ -78,6 +78,12 @@ public record PodmanCreateOptions(
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
+    /// Pathname of a directory containing TLS certificates and keys
+    /// </summary>
+    [CliOption("--cert-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? CertDir { get; set; }
+
+    /// <summary>
     /// Configure cgroup v2 (key=value)
     /// </summary>
     [CliOption("--cgroup-conf", Format = OptionFormat.EqualsSeparated)]
@@ -166,6 +172,12 @@ public record PodmanCreateOptions(
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
     public string? CpuSetMems { get; set; }
+
+    /// <summary>
+    /// credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+    /// </summary>
+    [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
+    public string? Creds { get; set; }
 
     /// <summary>
     /// Key needed to decrypt the image (e.g. /path/to/key.pem)
@@ -276,6 +288,12 @@ public record PodmanCreateOptions(
     public IEnumerable<string>? Gidmap { get; set; }
 
     /// <summary>
+    /// GPU devices to add to the container ('all' to pass all GPUs)
+    /// </summary>
+    [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gpus { get; set; }
+
+    /// <summary>
     /// Add additional groups to the primary container process. 'keep-groups' allows container processes to use supplementary groups.
     /// </summary>
     [CliOption("--group-add", Format = OptionFormat.EqualsSeparated)]
@@ -294,10 +312,28 @@ public record PodmanCreateOptions(
     public string? HealthCmd { get; set; }
 
     /// <summary>
-    /// set an interval for the healthcheck (a value of disable results in no automatic timer setup) (default "30s")
+    /// set an interval for the healthcheck. (a value of disable results in no automatic timer setup)  (default "30s")
     /// </summary>
     [CliOption("--health-interval", Format = OptionFormat.EqualsSeparated)]
     public string? HealthInterval { get; set; }
+
+    /// <summary>
+    /// set the destination of the HealthCheck log. Directory path, local or events_logger (local use container state file)  (default "local")
+    /// </summary>
+    [CliOption("--health-log-destination", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthLogDestination { get; set; }
+
+    /// <summary>
+    /// set maximum number of attempts in the HealthCheck log file. ('0' value means an infinite number of attempts in the log file) (default 5)
+    /// </summary>
+    [CliOption("--health-max-log-count", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthMaxLogCount { get; set; }
+
+    /// <summary>
+    /// set maximum length in characters of stored HealthCheck log. ('0' value means an infinite log length) (default 500)
+    /// </summary>
+    [CliOption("--health-max-log-size", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthMaxLogSize { get; set; }
 
     /// <summary>
     /// action to take once the container turns unhealthy (default "none")
@@ -324,7 +360,7 @@ public record PodmanCreateOptions(
     public string? HealthStartupCmd { get; set; }
 
     /// <summary>
-    /// Set an interval for the startup healthcheck (default "30s")
+    /// Set an interval for the startup healthcheck.  (default "30s")
     /// </summary>
     [CliOption("--health-startup-interval", Format = OptionFormat.EqualsSeparated)]
     public string? HealthStartupInterval { get; set; }
@@ -348,7 +384,7 @@ public record PodmanCreateOptions(
     public string? HealthStartupTimeout { get; set; }
 
     /// <summary>
-    /// the maximum time allowed to complete the healthcheck before an interval is considered failed (default "30s")
+    /// the maximum time allowed to complete the healthcheck before an interval is considered failed and SIGKILL is sent to the healthcheck process (default "30s")
     /// </summary>
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? HealthTimeout { get; set; }
@@ -363,6 +399,12 @@ public record PodmanCreateOptions(
     public string? Hostname { get; set; }
 
     /// <summary>
+    /// Base file to create the /etc/hosts file inside the container, or one of the special values. ("image"|"none")
+    /// </summary>
+    [CliOption("--hosts-file", Format = OptionFormat.EqualsSeparated)]
+    public string? HostsFile { get; set; }
+
+    /// <summary>
     /// Host user account to add to /etc/passwd within container
     /// </summary>
     [CliOption("--hostuser", Format = OptionFormat.EqualsSeparated)]
@@ -375,7 +417,7 @@ public record PodmanCreateOptions(
     public bool? HttpProxy { get; set; }
 
     /// <summary>
-    /// Tells podman how to handle the builtin image volumes ("bind"|"tmpfs"|"ignore") (default "bind")
+    /// Tells podman how to handle the builtin image volumes ("bind"|"tmpfs"|"ignore") (default "anonymous")
     /// </summary>
     [CliOption("--image-volume", Format = OptionFormat.EqualsSeparated)]
     public string? ImageVolume { get; set; }
@@ -399,7 +441,7 @@ public record PodmanCreateOptions(
     public string? InitPath { get; set; }
 
     /// <summary>
-    /// Keep STDIN open even if not attached
+    /// Make STDIN available to the contained process
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }
@@ -435,7 +477,7 @@ public record PodmanCreateOptions(
     public IEnumerable<string>? LabelFile { get; set; }
 
     /// <summary>
-    /// Logging driver for the container (default "journald")
+    /// Logging driver for the container (default "k8s-file")
     /// </summary>
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }
@@ -507,6 +549,12 @@ public record PodmanCreateOptions(
     public bool? NoHealthcheck { get; set; }
 
     /// <summary>
+    /// Do not create /etc/hostname within the container, instead use the version from the image
+    /// </summary>
+    [CliFlag("--no-hostname")]
+    public bool? NoHostname { get; set; }
+
+    /// <summary>
     /// Do not create /etc/hosts within the container, instead use the version from the image
     /// </summary>
     [CliFlag("--no-hosts")]
@@ -555,7 +603,7 @@ public record PodmanCreateOptions(
     public string? Pidfile { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set -1 for unlimited) (default 2048)
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }
@@ -645,6 +693,18 @@ public record PodmanCreateOptions(
     public string? Restart { get; set; }
 
     /// <summary>
+    /// number of times to retry in case of failure when performing pull (default 3)
+    /// </summary>
+    [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
+    public int? Retry { get; set; }
+
+    /// <summary>
+    /// delay between retries in case of pull failures
+    /// </summary>
+    [CliOption("--retry-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? RetryDelay { get; set; }
+
+    /// <summary>
     /// Remove container and any anonymous unnamed volume associated with the container after exit
     /// </summary>
     [CliFlag("--rm")]
@@ -657,7 +717,7 @@ public record PodmanCreateOptions(
     public bool? Rootfs { get; set; }
 
     /// <summary>
-    /// control sd-notify behavior ("container"|"conmon"|"ignore") (default "container")
+    /// control sd-notify behavior ("container"|"conmon"|"healthy"|"ignore") (default "container")
     /// </summary>
     [CliOption("--sdnotify", Format = OptionFormat.EqualsSeparated)]
     public string? Sdnotify { get; set; }

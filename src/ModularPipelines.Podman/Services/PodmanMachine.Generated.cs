@@ -42,6 +42,21 @@ public class PodmanMachine : IPodmanMachine
     #region Commands
 
     /// <summary>
+    /// Securely copy contents between the virtual machine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CpAsync(
+        PodmanMachineCpOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Initialize a virtual machine
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -84,6 +99,21 @@ public class PodmanMachine : IPodmanMachine
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove all machines
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ResetAsync(
+        PodmanMachineResetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineResetOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
 public record PodmanInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Artifact
 ) : PodmanOptions
 {
     /// <summary>
