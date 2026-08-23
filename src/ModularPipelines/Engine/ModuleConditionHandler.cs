@@ -261,7 +261,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
             HasDeferredCondition(deferredTypes, ConditionLogic.Skip),
             HasDeferredCondition(deferredTypes, ConditionLogic.All),
-            HasDeferredCondition(deferredTypes, ConditionLogic.Any));
+            HasDeferredCondition(deferredTypes, ConditionLogic.Any),
+            HasDeferredGroupedAnyCondition(deferredTypes));
     }
 
     private static bool HasDeferredCondition(
@@ -269,6 +270,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         ConditionLogic logic) =>
         attributeTypes.Any(type => GetConditionLogic(type) is not { } conditionLogic
                                    || conditionLogic == logic);
+
+    private static bool HasDeferredGroupedAnyCondition(IEnumerable<Type> attributeTypes) =>
+        attributeTypes.Any(type =>
+            typeof(IGroupedConditionAttribute).IsAssignableFrom(type)
+            && (GetConditionLogic(type) is not { } logic || logic == ConditionLogic.Any));
 
     private static ConditionLogic? GetConditionLogic(Type attributeType)
     {
@@ -351,6 +357,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 attributes.Any,
                 pipelineContext,
                 attributes.HasDeferredAny,
+                attributes.HasDeferredGroupedAny,
                 cancellationToken)
             .ConfigureAwait(false);
         return anyEvaluation.Result ?? new PlanningConditionResult(
@@ -440,6 +447,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IReadOnlyCollection<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool hasDeferredConditions,
+        bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
         foreach (var attribute in attributes.Where(static attribute =>
@@ -469,6 +477,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                     attributes,
                     groupedAttribute.ConditionGroupType,
                     pipelineContext,
+                    hasDeferredGroupedConditions,
                     cancellationToken)
                 .ConfigureAwait(false);
             if (evaluation.Result is not null)
@@ -506,6 +515,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IEnumerable<IConditionAttribute> attributes,
         Type groupType,
         IPipelineContext pipelineContext,
+        bool hasDeferredGroupedConditions,
         CancellationToken cancellationToken)
     {
         var alternatives = attributes
@@ -524,7 +534,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return new PlanningConditionEvaluation(null, IsResolved: true);
         }
 
-        if (planningAlternatives.Length != alternatives.Length)
+        if (hasDeferredGroupedConditions || planningAlternatives.Length != alternatives.Length)
         {
             return new PlanningConditionEvaluation(null, IsResolved: false);
         }
@@ -690,5 +700,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IConditionAttribute[] Any,
         bool HasDeferredSkip = false,
         bool HasDeferredAll = false,
-        bool HasDeferredAny = false);
+        bool HasDeferredAny = false,
+        bool HasDeferredGroupedAny = false);
 }

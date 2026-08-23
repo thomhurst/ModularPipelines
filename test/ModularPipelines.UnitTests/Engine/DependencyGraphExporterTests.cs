@@ -41,6 +41,7 @@ public class DependencyGraphExporterTests
     private static int _globalConfigurationMutations;
     private static int _constructorConfigurationMutations;
     private static int _deferredConditionAttributeConstructions;
+    private static int _deferredGroupedConditionAttributeConstructions;
     private static int _deferredConditionLogicReads;
     private static int _planningCompanionAttributeConstructions;
     private static int _planningPresenceAttributeConstructions;
@@ -1792,6 +1793,22 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
+    private sealed class DeferredPlanningAlternativeConditionAttribute
+        : Attribute, IGroupedConditionAttribute
+    {
+        public DeferredPlanningAlternativeConditionAttribute() =>
+            Interlocked.Increment(ref _deferredGroupedConditionAttributeConstructions);
+
+        public ConditionLogic Logic => ConditionLogic.Any;
+
+        public Type ConditionGroupType => typeof(PlanningAlternativeConditionAttribute);
+
+        public string ConditionNames => nameof(DeferredPlanningAlternativeConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
     private sealed class AsyncPlanningConditionAttribute : RunIfAllAttribute
     {
         public override async Task<bool> EvaluateAsync(IPipelineContext context)
@@ -1880,6 +1897,16 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("safe-false-any-group-with-deferred-any");
+    }
+
+    [PlanningAlternativeCondition(false)]
+    [DeferredPlanningAlternativeCondition]
+    private sealed class SafeFalseAnyGroupWithDeferredAlternativeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("safe-false-any-group-with-deferred-alternative");
     }
 
     private sealed class SingleUseConfigurationFactoryModule : Module<string>
@@ -2991,6 +3018,28 @@ public class DependencyGraphExporterTests
         var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
 
         await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+    }
+
+    [Test]
+    public async Task Safe_False_Any_Group_Defers_When_Alternative_Is_Deferred()
+    {
+        _deferredGroupedConditionAttributeConstructions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SafeFalseAnyGroupWithDeferredAlternativeModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var constructionsBeforeRender = _deferredGroupedConditionAttributeConstructions;
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").ValueKind).IsEqualTo(JsonValueKind.Null);
+            await Assert.That(_deferredGroupedConditionAttributeConstructions)
+                .IsEqualTo(constructionsBeforeRender);
+        }
     }
 
     [Test]
