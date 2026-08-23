@@ -2257,7 +2257,7 @@
 
 "@node-rs/jieba-linux-x64-gnu@1.10.4":
   version "1.10.4"
-  resolved "https://registry.yarnpkg.com/@node-rs/jieba-linux-x64-gnu/-/jieba-linux-x64-gnu-1.10.4.tgz#05187afe917370ef2607564897ec5979f8e67ca9"
+  resolved "https://registry.npmjs.org/@node-rs/jieba-linux-x64-gnu/-/jieba-linux-x64-gnu-1.10.4.tgz"
   integrity sha512-WZO8ykRJpWGE9MHuZpy1lu3nJluPoeB+fIJJn5CWZ9YTVhNDWoCF4i/7nxz1ntulINYGQ8VVuCU9LD86Mek97g==
 
 "@node-rs/jieba-linux-x64-musl@1.10.4":
@@ -2284,7 +2284,7 @@
 
 "@node-rs/jieba-win32-x64-msvc@1.10.4":
   version "1.10.4"
-  resolved "https://registry.npmjs.org/@node-rs/jieba-win32-x64-msvc/-/jieba-win32-x64-msvc-1.10.4.tgz"
+  resolved "https://registry.yarnpkg.com/@node-rs/jieba-win32-x64-msvc/-/jieba-win32-x64-msvc-1.10.4.tgz#fc325ccea3f7b864965d8cfe2ddd6bf10857f9df"
   integrity sha512-+sqemSfS1jjb+Tt7InNbNzrRh1Ua3vProVvC4BZRPg010/leCbGFFiQHpzcPRfpxAXZrzG5Y0YBTsPzN/I4yHQ==
 
 "@node-rs/jieba@^1.6.0":
@@ -3046,7 +3046,7 @@
 
 "@typescript/typescript-linux-x64@7.0.2":
   version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@typescript/typescript-linux-x64/-/typescript-linux-x64-7.0.2.tgz#73269cb0baba50aea0ca060445a6b88e583f1ce2"
+  resolved "https://registry.npmjs.org/@typescript/typescript-linux-x64/-/typescript-linux-x64-7.0.2.tgz"
   integrity sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==
 
 "@typescript/typescript-netbsd-arm64@7.0.2":
@@ -3081,7 +3081,7 @@
 
 "@typescript/typescript-win32-x64@7.0.2":
   version "7.0.2"
-  resolved "https://registry.npmjs.org/@typescript/typescript-win32-x64/-/typescript-win32-x64-7.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/@typescript/typescript-win32-x64/-/typescript-win32-x64-7.0.2.tgz#cf3b7b0d6ce5635daca4c8e01c189cdcde47ec3c"
   integrity sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==
 
 "@ungap/structured-clone@^1.0.0":
@@ -9289,10 +9289,10 @@ utils-merge@1.0.1:
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@14.0.0, uuid@^8.3.2:
-  version "14.0.0"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-14.0.0.tgz"
-  integrity sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==
+uuid@14.0.2, uuid@^8.3.2:
+  version "14.0.2"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-14.0.2.tgz"
+  integrity sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==
 
 value-equal@^1.0.1:
   version "1.0.1"
