@@ -316,12 +316,43 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
     private static bool HasExecutableParentCommand(
         CliToolDefinition tool,
-        CliCommandDefinition command) =>
-        tool.Commands.Any(candidate =>
-            candidate.CommandParts.Length == command.CommandParts.Length - 1
-            && candidate.CommandParts.SequenceEqual(
-                command.CommandParts.Take(candidate.CommandParts.Length),
-                StringComparer.OrdinalIgnoreCase));
+        CliCommandDefinition command)
+    {
+        if (command.CommandParts.Length < 2)
+        {
+            return false;
+        }
+
+        if (command.CommandParts.Length == 2)
+        {
+            var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(
+                tool,
+                command.SubDomainGroup!);
+            return GeneratorUtils.GetSubDomainParentCommands(tool)
+                .Any(candidate => string.Equals(
+                    GeneratorUtils.GetCommandGroupIdentifier(candidate),
+                    subDomainIdentifier,
+                    StringComparison.OrdinalIgnoreCase));
+        }
+
+        var parentPathLength = command.CommandParts.Length - 2;
+        var nodeIdentifier = GeneratorUtils.ToPascalCase(command.CommandParts[^2]);
+        return tool.Commands.Any(candidate =>
+            string.Equals(
+                candidate.SubDomainGroup,
+                command.SubDomainGroup,
+                StringComparison.OrdinalIgnoreCase)
+            && candidate.CommandParts.Length == command.CommandParts.Length - 1
+            && candidate.CommandParts
+                .Take(parentPathLength)
+                .SequenceEqual(
+                    command.CommandParts.Take(parentPathLength),
+                    StringComparer.OrdinalIgnoreCase)
+            && string.Equals(
+                GeneratorUtils.GenerateMethodNameFromLastCommandPart(candidate),
+                nodeIdentifier,
+                StringComparison.OrdinalIgnoreCase));
+    }
 
     private static bool IsCommandPrefix(
         CliCommandDefinition command,
