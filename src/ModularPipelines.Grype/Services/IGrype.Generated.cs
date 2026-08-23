@@ -23,7 +23,7 @@ public partial interface IGrype
     /// <summary>
     /// Gets the db sub-domain service.
     /// </summary>
-    IGrypeDb Db { get; }
+    IGrypeDb Db => throw new System.NotSupportedException();
 
     #endregion
 
