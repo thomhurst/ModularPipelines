@@ -636,7 +636,13 @@ internal static class GeneratedApiCompatibilityPreserver
 
         var replacement = currentProperties.FirstOrDefault(property =>
             HasSameCliIdentity(property, baseline));
-        if (TryRecordRemovedPropertyViolation(command, baseline, replacement, violations))
+        var forwardingKind = GetRenamedPropertyForwardingKind(baseline, replacement);
+        if (TryRecordRemovedPropertyViolation(
+                command,
+                baseline,
+                replacement,
+                forwardingKind,
+                violations))
         {
             return;
         }
@@ -648,6 +654,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 PropertyName = baseline.PropertyName,
                 CSharpType = baseline.CSharpType,
                 ForwardToPropertyName = replacement?.PropertyName,
+                ForwardingKind = forwardingKind ?? CliCompatibilityForwardingKind.Direct,
                 ObsoleteMessage = replacement is null
                     ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
                     : $"Use {replacement.PropertyName} instead.",
@@ -660,9 +667,11 @@ internal static class GeneratedApiCompatibilityPreserver
         CliCommandDefinition command,
         GeneratedApiProperty baseline,
         GeneratedApiProperty? replacement,
+        CliCompatibilityForwardingKind? forwardingKind,
         ICollection<string> violations)
     {
         if (replacement is not null
+            && forwardingKind is null
             && !replacement.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
         {
             violations.Add(
@@ -689,6 +698,22 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return false;
+    }
+
+    private static CliCompatibilityForwardingKind? GetRenamedPropertyForwardingKind(
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty? replacement)
+    {
+        if (replacement is null
+            || replacement.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        {
+            return CliCompatibilityForwardingKind.Direct;
+        }
+
+        return baseline.CSharpType.Equals("string?", StringComparison.Ordinal)
+               && replacement.CSharpType.Equals("string", StringComparison.Ordinal)
+            ? CliCompatibilityForwardingKind.NullableStringToRequiredString
+            : null;
     }
 
     private static void PreserveCompatibilityProperty(
@@ -1608,6 +1633,35 @@ internal static class GeneratedApiCompatibilityPreserver
             .ExpressionBody?.Expression;
         if (expression is IdentifierNameSyntax identifier)
         {
+            var setterExpression = accessorList?.Accessors
+                .FirstOrDefault(accessor =>
+                    accessor.IsKind(SyntaxKind.SetAccessorDeclaration)
+                    || accessor.IsKind(SyntaxKind.InitAccessorDeclaration))?
+                .ExpressionBody?.Expression;
+            if (setterExpression is AssignmentExpressionSyntax
+                {
+                    Left: IdentifierNameSyntax setterTarget,
+                    Right: BinaryExpressionSyntax
+                    {
+                        RawKind: (int) SyntaxKind.CoalesceExpression,
+                        Left: IdentifierNameSyntax { Identifier.ValueText: "value" },
+                        Right: MemberAccessExpressionSyntax
+                        {
+                            Expression: PredefinedTypeSyntax
+                            {
+                                Keyword.RawKind: (int) SyntaxKind.StringKeyword,
+                            },
+                            Name.Identifier.ValueText: "Empty",
+                        },
+                    },
+                }
+                && setterTarget.Identifier.ValueText.Equals(identifier.Identifier.ValueText, StringComparison.Ordinal))
+            {
+                return (
+                    identifier.Identifier.ValueText,
+                    CliCompatibilityForwardingKind.NullableStringToRequiredString);
+            }
+
             return (identifier.Identifier.ValueText, CliCompatibilityForwardingKind.Direct);
         }
 
