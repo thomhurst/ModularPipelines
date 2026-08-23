@@ -1102,7 +1102,44 @@ public class GeneratorHardeningTests
                 .IsEqualTo(CliCompatibilityForwardingKind.NullableStringToRequiredString);
             await Assert.That(generated).Contains("public string? Args");
             await Assert.That(generated).Contains("get => Subcommand;");
-            await Assert.That(generated).Contains("set => Subcommand = value ?? string.Empty;");
+            await Assert.That(generated).Contains("init => Subcommand = value ?? string.Empty;");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Preexisting_Name_When_Required_Member_Is_Restored()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Args",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("Subcommand", "string", argumentPosition: 0, isRequired: true),
+                BaselineProperty("Args", "string?", argumentPosition: 0),
+            ]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Subcommand");
+            await Assert.That(preserved.CompatibilityProperties.Single().CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(generated).Contains("public string? Args");
+            await Assert.That(generated).Contains("get => Subcommand;");
+            await Assert.That(generated).Contains("init => Subcommand = value ?? string.Empty;");
         }
     }
 
