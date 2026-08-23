@@ -17,11 +17,11 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykFailOn
 {
     [EnumValue("all")]
-    All,
+    All = 0,
 
     [EnumValue("upgradable")]
-    Upgradable,
+    Upgradable = 1,
 
     [EnumValue("patchable")]
-    Patchable
+    Patchable = 2
 }
