@@ -256,6 +256,40 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task GenerateAsync_MatchesPascalizedParentCollisions()
+    {
+        var executeCommand = Command(
+            "fake app service_accounts execute",
+            "FakeAppServiceAccountsExecuteOptions",
+            ["app", "service_accounts", "execute"],
+            "app") with
+        {
+            IsSafeForDocumentation = true,
+        };
+        var tool = Tool(
+            "fake",
+            Command(
+                "fake app service-accounts",
+                "FakeAppServiceAccountsOptions",
+                ["app", "service-accounts"],
+                "app"),
+            executeCommand) with
+        {
+            PreferredDocumentationExampleCommand = executeCommand.FullCommand,
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+        var serviceFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var service = serviceFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "FakeAppServiceAccounts.Generated.cs");
+
+        await Assert.That(documentation)
+            .Contains("context.Tools.Fake.App.ServiceAccounts.ExecuteCommandAsync(");
+        await Assert.That(service.Content)
+            .Contains("Task<CommandResult> ExecuteCommandAsync(");
+    }
+
+    [Test]
     public async Task GenerateAsync_UsesTheGeneratedConstructorParameterList()
     {
         var command = Command("fake run", "FakeRunOptions", ["run"]) with

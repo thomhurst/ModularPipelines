@@ -426,12 +426,17 @@ public partial class GcloudCliScraper : CliScraperBase
             return "bool?";
         }
 
+        if (enumDef is not null)
+        {
+            return $"{enumDef.EnumName}?";
+        }
+
         if (isKeyValue)
         {
             return "IReadOnlyList<KeyValue>?";
         }
 
-        var scalarType = enumDef?.EnumName ?? (isNumeric ? "int" : "string");
+        var scalarType = isNumeric ? "int" : "string";
         return acceptsMultipleValues ? $"IEnumerable<{scalarType}>?" : $"{scalarType}?";
     }
 

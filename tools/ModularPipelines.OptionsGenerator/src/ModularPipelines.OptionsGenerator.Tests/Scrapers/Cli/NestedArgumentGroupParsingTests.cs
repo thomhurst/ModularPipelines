@@ -148,6 +148,33 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Prioritizes_Enum_Types_Over_Key_Value_Hints()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --labels=KEY=VALUE,...
+                    Value must be one of: alpha, beta.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+        var labels = command!.Options.Single(option => option.SwitchName == "--labels");
+
+        await Assert.That(labels.CSharpType).IsEqualTo("GcloudLabels?");
+        await Assert.That(labels.EnumDefinition).IsNotNull();
+    }
+
+    [Test]
     public async Task Gcloud_Does_Not_Mask_Secret_Named_File_Path_Options()
     {
         const string helpText = """
