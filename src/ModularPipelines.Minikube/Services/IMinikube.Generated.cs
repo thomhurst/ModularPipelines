@@ -23,37 +23,37 @@ public partial interface IMinikube
     /// <summary>
     /// Gets the addons sub-domain service.
     /// </summary>
-    IMinikubeAddons Addons { get; }
+    IMinikubeAddons Addons => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the cache sub-domain service.
     /// </summary>
-    IMinikubeCache Cache { get; }
+    IMinikubeCache Cache => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    IMinikubeConfig Config { get; }
+    IMinikubeConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    IMinikubeImage Image { get; }
+    IMinikubeImage Image => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the node sub-domain service.
     /// </summary>
-    IMinikubeNode Node { get; }
+    IMinikubeNode Node => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the profile sub-domain service.
     /// </summary>
-    IMinikubeProfile Profile { get; }
+    IMinikubeProfile Profile => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the service sub-domain service.
     /// </summary>
-    IMinikubeService Service { get; }
+    IMinikubeService Service => throw new System.NotSupportedException();
 
     #endregion
 
