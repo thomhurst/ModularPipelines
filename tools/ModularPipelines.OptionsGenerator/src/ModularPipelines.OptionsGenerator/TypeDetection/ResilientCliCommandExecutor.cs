@@ -135,15 +135,6 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
         return _inner.IsAvailableAsync(command, arguments, cancellationToken);
     }
 
-    public Task<bool> IsAvailableAsync(
-        string command,
-        string arguments,
-        CancellationToken cancellationToken = default)
-    {
-        // Availability check doesn't use resilience patterns - we want immediate feedback
-        return _inner.IsAvailableAsync(command, arguments, cancellationToken);
-    }
-
     /// <summary>
     /// Determines if a failure is transient and should trigger retry.
     /// Transient failures include:
