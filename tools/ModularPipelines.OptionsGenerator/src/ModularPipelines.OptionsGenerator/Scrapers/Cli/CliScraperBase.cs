@@ -658,8 +658,11 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Removes terminal formatting that changes the text shape consumed by scraper parsers.
     /// Some CLIs emit ANSI sequences even when output is redirected and <c>NO_COLOR</c> is set.
     /// </summary>
-    protected static string NormalizeHelpText(string helpText) =>
-        AnsiEscapeSequencePattern().Replace(helpText, string.Empty);
+    protected static string NormalizeHelpText(string helpText)
+    {
+        var withoutAnsi = AnsiEscapeSequencePattern().Replace(helpText, string.Empty);
+        return ManPageOverstrikePattern().Replace(withoutAnsi, string.Empty);
+    }
 
     /// <summary>
     /// Parses a command from its help text into a CliCommandDefinition.
@@ -1016,6 +1019,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
     [GeneratedRegex(@"\x1B(?:\][^\x07\x1B]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
     private static partial Regex AnsiEscapeSequencePattern();
+
+    [GeneratedRegex(@".\x08")]
+    private static partial Regex ManPageOverstrikePattern();
 
     #endregion
 }
