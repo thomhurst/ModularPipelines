@@ -872,15 +872,7 @@ public class CodeGeneratorOrchestrator
             toolDefinition,
             outputDirectory,
             enumBaselinePaths);
-        var generatedFiles = new List<GeneratedFile>();
-
-        if (toolDefinition.GenerateCode)
-        {
-            foreach (var generator in _generators)
-            {
-                generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
-            }
-        }
+        var generatedFiles = await GenerateFilesAsync(toolDefinition, cancellationToken).ConfigureAwait(false);
 
         GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
 
@@ -946,15 +938,12 @@ public class CodeGeneratorOrchestrator
 
         // Only after every replacement is on disk is it safe to prune stale files.
         // External generation reconciles only its recorded ownership after this method returns.
-        if (cleanupGeneratedFilesByNamespacePrefix && toolDefinition.GenerateCode)
-        {
-            CleanupGeneratedFiles(
-                outputDirectory,
-                toolDefinition.OutputDirectory,
-                toolDefinition.NamespacePrefix,
-                writtenFullPaths,
-                result.FilesDeleted);
-        }
+        CleanupGeneratedFilesIfEnabled(
+            toolDefinition,
+            outputDirectory,
+            writtenFullPaths,
+            result.FilesDeleted,
+            cleanupGeneratedFilesByNamespacePrefix);
 
         await CommandCoverageGuard.WriteManifestAsync(
             coverage,
@@ -962,16 +951,74 @@ public class CodeGeneratorOrchestrator
             enforceOutputContainment ? outputDirectory : null);
         result.FilesGenerated.Add(Path.GetRelativePath(outputDirectory, coverage.ManifestPath));
 
-        if (writeAssemblyInfo && toolDefinition.GenerateCode)
+        await WriteAssemblyInfoIfEnabledAsync(
+            toolDefinition,
+            outputDirectory,
+            result.FilesGenerated,
+            enforceOutputContainment,
+            writeAssemblyInfo,
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<List<GeneratedFile>> GenerateFilesAsync(
+        CliToolDefinition toolDefinition,
+        CancellationToken cancellationToken)
+    {
+        if (!toolDefinition.GenerateCode)
         {
-            // First-party tools sharing an output directory generate identical package metadata.
-            await WriteAssemblyInfoAsync(
-                outputDirectory,
-                toolDefinition,
-                cancellationToken,
-                enforceOutputContainment);
-            result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+            return [];
         }
+
+        var generatedFiles = new List<GeneratedFile>();
+        foreach (var generator in _generators)
+        {
+            generatedFiles.AddRange(
+                await generator.GenerateAsync(toolDefinition, cancellationToken).ConfigureAwait(false));
+        }
+
+        return generatedFiles;
+    }
+
+    private void CleanupGeneratedFilesIfEnabled(
+        CliToolDefinition toolDefinition,
+        string outputDirectory,
+        IReadOnlySet<string> writtenFullPaths,
+        ICollection<string> deletedPaths,
+        bool cleanupGeneratedFilesByNamespacePrefix)
+    {
+        if (!cleanupGeneratedFilesByNamespacePrefix || !toolDefinition.GenerateCode)
+        {
+            return;
+        }
+
+        CleanupGeneratedFiles(
+            outputDirectory,
+            toolDefinition.OutputDirectory,
+            toolDefinition.NamespacePrefix,
+            writtenFullPaths,
+            deletedPaths);
+    }
+
+    private static async Task WriteAssemblyInfoIfEnabledAsync(
+        CliToolDefinition toolDefinition,
+        string outputDirectory,
+        List<string> generatedPaths,
+        bool enforceOutputContainment,
+        bool writeAssemblyInfo,
+        CancellationToken cancellationToken)
+    {
+        if (!writeAssemblyInfo || !toolDefinition.GenerateCode)
+        {
+            return;
+        }
+
+        // First-party tools sharing an output directory generate identical package metadata.
+        await WriteAssemblyInfoAsync(
+            outputDirectory,
+            toolDefinition,
+            cancellationToken,
+            enforceOutputContainment).ConfigureAwait(false);
+        generatedPaths.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
     }
 
     private static List<string> ParseToolList(string tools)
