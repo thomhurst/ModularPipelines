@@ -383,8 +383,8 @@ internal static class GeneratedApiCompatibilityPreserver
             return;
         }
 
-        AddCompatibilityProperty(
-            compatibilityProperties,
+        PreserveCompatibilityProperty(
+            command,
             new CliCompatibilityProperty
             {
                 PropertyName = baseline.PropertyName,
@@ -393,7 +393,9 @@ internal static class GeneratedApiCompatibilityPreserver
                 ObsoleteMessage = replacement is null
                     ? $"{baseline.PropertyName} is no longer supported by the installed CLI and has no effect."
                     : $"Use {replacement.PropertyName} instead.",
-            });
+            },
+            compatibilityProperties,
+            violations);
     }
 
     private static bool TryRecordRemovedPropertyViolation(
@@ -433,46 +435,55 @@ internal static class GeneratedApiCompatibilityPreserver
         CliCommandDefinition command,
         GeneratedApiProperty baseline,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
+        ICollection<string> violations) =>
+        PreserveCompatibilityProperty(
+            command,
+            new CliCompatibilityProperty
+            {
+                PropertyName = baseline.PropertyName,
+                CSharpType = baseline.CSharpType,
+                ForwardToPropertyName = baseline.ForwardToPropertyName,
+                UseInitAccessor = baseline.UseInitAccessor,
+                ObsoleteMessage = baseline.ObsoleteMessage
+                    ?? $"{baseline.PropertyName} is retained for compatibility.",
+            },
+            compatibilityProperties,
+            violations);
+
+    private static void PreserveCompatibilityProperty(
+        CliCommandDefinition command,
+        CliCompatibilityProperty expected,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
         ICollection<string> violations)
     {
         var supplied = compatibilityProperties.FirstOrDefault(property =>
-            property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
+            property.PropertyName.Equals(expected.PropertyName, StringComparison.Ordinal));
         if (supplied is null)
         {
-            AddCompatibilityProperty(
-                compatibilityProperties,
-                new CliCompatibilityProperty
-                {
-                    PropertyName = baseline.PropertyName,
-                    CSharpType = baseline.CSharpType,
-                    ForwardToPropertyName = baseline.ForwardToPropertyName,
-                    UseInitAccessor = baseline.UseInitAccessor,
-                    ObsoleteMessage = baseline.ObsoleteMessage
-                        ?? $"{baseline.PropertyName} is retained for compatibility.",
-                });
+            compatibilityProperties.Add(expected);
             return;
         }
 
-        if (!supplied.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
+        if (!supplied.CSharpType.Equals(expected.CSharpType, StringComparison.Ordinal))
         {
             violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed type from "
-                + $"{baseline.CSharpType} to {supplied.CSharpType}");
+                $"{command.ClassName}.{expected.PropertyName} compatibility property changed type from "
+                + $"{expected.CSharpType} to {supplied.CSharpType}");
         }
         else if (!string.Equals(
                      supplied.ForwardToPropertyName,
-                     baseline.ForwardToPropertyName,
+                     expected.ForwardToPropertyName,
                      StringComparison.Ordinal))
         {
             violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed forwarding target from "
-                + $"{baseline.ForwardToPropertyName ?? "<none>"} to {supplied.ForwardToPropertyName ?? "<none>"}");
+                $"{command.ClassName}.{expected.PropertyName} compatibility property changed forwarding target from "
+                + $"{expected.ForwardToPropertyName ?? "<none>"} to {supplied.ForwardToPropertyName ?? "<none>"}");
         }
-        else if (supplied.UseInitAccessor != baseline.UseInitAccessor)
+        else if (supplied.UseInitAccessor != expected.UseInitAccessor)
         {
             violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} compatibility property changed accessor from "
-                + $"{(baseline.UseInitAccessor ? "init" : "set")} to {(supplied.UseInitAccessor ? "init" : "set")}");
+                $"{command.ClassName}.{expected.PropertyName} compatibility property changed accessor from "
+                + $"{(expected.UseInitAccessor ? "init" : "set")} to {(supplied.UseInitAccessor ? "init" : "set")}");
         }
     }
 
@@ -806,6 +817,16 @@ internal static class GeneratedApiCompatibilityPreserver
             constructor.Parameters));
         if (existing is not null)
         {
+            if (!HasSameConstructorContract(existing.Parameters, constructor.Parameters)
+                || !existing.PrimaryConstructorArguments.SequenceEqual(
+                    constructor.PrimaryConstructorArguments,
+                    StringComparer.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    $"Compatibility constructor ({string.Join(", ", constructor.Parameters.Select(GetConstructorParameterType))}) "
+                    + "conflicts with the generated baseline contract.");
+            }
+
             if (constructor.PreserveDeconstruct && !existing.PreserveDeconstruct)
             {
                 constructors.Remove(existing);
