@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "yarn",
   "toolVersion": "4.18.0",
-  "commandCount": 50,
-  "commandTreeSha256": "aadb75ed7e1625f7f996663f7fc8c86f99b87dcd4eb8731744b656f494da6aa3",
+  "commandCount": 51,
+  "commandTreeSha256": "70c21bd0c937f69068389a8d15943d3e3c431bfac855a0f563ca0d410c240d69",
   "commands": [
     "yarn add",
     "yarn bin",
@@ -16,6 +16,7 @@
     "yarn constraints query",
     "yarn constraints source",
     "yarn dedupe",
+    "yarn dlx",
     "yarn exec",
     "yarn explain",
     "yarn info",

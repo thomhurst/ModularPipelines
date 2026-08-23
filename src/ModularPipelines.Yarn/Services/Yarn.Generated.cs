@@ -131,6 +131,15 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> DlxAsync(
+        YarnDlxOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnDlxOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ExecAsync(
         YarnExecOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
