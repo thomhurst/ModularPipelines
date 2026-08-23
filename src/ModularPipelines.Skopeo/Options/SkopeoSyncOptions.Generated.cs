@@ -64,6 +64,7 @@ public record SkopeoSyncOptions(
     /// <summary>
     /// Use USERNAME[:PASSWORD] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--dest-creds", Format = OptionFormat.EqualsSeparated)]
     public string? DestCreds { get; set; }
 
@@ -193,6 +194,7 @@ public record SkopeoSyncOptions(
     /// <summary>
     /// Use USERNAME[:PASSWORD] for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--src-creds", Format = OptionFormat.EqualsSeparated)]
     public string? SrcCreds { get; set; }
 
