@@ -107,6 +107,12 @@ public record PodmanContainerRestoreOptions(
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
+    /// Restore a container and close all TCP connections
+    /// </summary>
+    [CliFlag("--tcp-close")]
+    public bool? TcpClose { get; set; }
+
+    /// <summary>
     /// Restore a container with established TCP connections
     /// </summary>
     [CliFlag("--tcp-established")]

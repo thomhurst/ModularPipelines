@@ -18,14 +18,18 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "down")]
-public record PodmanKubeDownOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
-) : PodmanOptions
+public record PodmanKubeDownOptions : PodmanOptions
 {
     /// <summary>
     /// remove volumes
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The [KUBEFILE [KUBEFILE...]] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? KubefileKubefile { get; set; }
 
 }

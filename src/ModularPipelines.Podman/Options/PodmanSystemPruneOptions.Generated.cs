@@ -27,6 +27,12 @@ public record PodmanSystemPruneOptions : PodmanOptions
     public bool? All { get; set; }
 
     /// <summary>
+    /// Remove build containers
+    /// </summary>
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
+
+    /// <summary>
     /// Remove container data in storage not controlled by podman
     /// </summary>
     [CliFlag("--external")]

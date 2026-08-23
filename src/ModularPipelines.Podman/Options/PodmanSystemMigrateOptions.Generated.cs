@@ -21,6 +21,12 @@ namespace ModularPipelines.Podman.Options;
 public record PodmanSystemMigrateOptions : PodmanOptions
 {
     /// <summary>
+    /// Migrate database from BoltDB to SQLite
+    /// </summary>
+    [CliFlag("--migrate-db")]
+    public bool? MigrateDb { get; set; }
+
+    /// <summary>
     /// Specify a new runtime for all containers
     /// </summary>
     [CliOption("--new-runtime", Format = OptionFormat.EqualsSeparated)]

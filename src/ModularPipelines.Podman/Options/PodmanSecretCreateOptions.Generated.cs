@@ -43,6 +43,12 @@ public record PodmanSecretCreateOptions(
     public bool? Env { get; set; }
 
     /// <summary>
+    /// If a secret with the same name exists, ignore and do not create a new secret
+    /// </summary>
+    [CliFlag("--ignore")]
+    public bool? Ignore { get; set; }
+
+    /// <summary>
     /// Specify labels on the secret
     /// </summary>
     [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]

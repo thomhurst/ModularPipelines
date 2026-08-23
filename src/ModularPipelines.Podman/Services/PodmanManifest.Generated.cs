@@ -47,7 +47,7 @@ public class PodmanManifest : IPodmanManifest
     }
 
     /// <summary>
-    /// Add images to a manifest list or image index
+    /// Add images or artifacts to a manifest list or image index
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class PodmanManifest : IPodmanManifest
     }
 
     /// <summary>
-    /// Remove an entry from a manifest list or image index
+    /// Remove an item from a manifest list or image index
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

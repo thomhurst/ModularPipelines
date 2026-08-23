@@ -29,12 +29,6 @@ public record PodmanGenerateKubeOptions(
     public string? Filename { get; set; }
 
     /// <summary>
-    /// Don't truncate annotations to Kubernetes length (63 chars)
-    /// </summary>
-    [CliFlag("--no-trunc")]
-    public bool? NoTrunc { get; set; }
-
-    /// <summary>
     /// Add podman-only reserved annotations to the generated YAML file (Cannot be used by Kubernetes)
     /// </summary>
     [CliFlag("--podman-only")]
