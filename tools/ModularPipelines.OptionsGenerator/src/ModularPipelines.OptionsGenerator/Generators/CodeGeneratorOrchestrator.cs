@@ -899,9 +899,12 @@ public class CodeGeneratorOrchestrator
             enumBaselinePaths);
         var generatedFiles = new List<GeneratedFile>();
 
-        foreach (var generator in _generators)
+        if (toolDefinition.GenerateCode)
         {
-            generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
+            foreach (var generator in _generators)
+            {
+                generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
+            }
         }
 
         GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
@@ -968,7 +971,7 @@ public class CodeGeneratorOrchestrator
 
         // Only after every replacement is on disk is it safe to prune stale files.
         // External generation reconciles only its recorded ownership after this method returns.
-        if (cleanupGeneratedFilesByNamespacePrefix)
+        if (cleanupGeneratedFilesByNamespacePrefix && toolDefinition.GenerateCode)
         {
             CleanupGeneratedFiles(
                 outputDirectory,
@@ -984,7 +987,7 @@ public class CodeGeneratorOrchestrator
             enforceOutputContainment ? outputDirectory : null);
         result.FilesGenerated.Add(Path.GetRelativePath(outputDirectory, coverage.ManifestPath));
 
-        if (writeAssemblyInfo)
+        if (writeAssemblyInfo && toolDefinition.GenerateCode)
         {
             // First-party tools sharing an output directory generate identical package metadata.
             await WriteAssemblyInfoAsync(

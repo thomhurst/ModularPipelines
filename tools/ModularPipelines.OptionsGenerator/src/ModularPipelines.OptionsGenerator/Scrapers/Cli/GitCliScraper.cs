@@ -11,10 +11,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Git uses a different help format than Cobra-style CLIs:
 /// - Commands discovered via 'git help -a'
 /// - Options via 'git <command> -h' with format: -short, --long   description
-/// - Flat command structure (no deep nesting)
+/// - Mostly flat command structure, with usage-derived remote/worktree children
 /// </summary>
 public partial class GitCliScraper : ICliScraper
 {
+    private static readonly HashSet<string> CommandGroups =
+        ["remote", "worktree"];
+
     private readonly ICliCommandExecutor _executor;
     private readonly ILogger<GitCliScraper> _logger;
 
@@ -44,6 +47,7 @@ public partial class GitCliScraper : ICliScraper
             OutputDirectory = "src/ModularPipelines.Git",
             DocumentationOutputDirectory = null,
             GenerateCommandFacade = false,
+            GenerateCode = false,
             Commands = [],
             Errors = [],
         };
@@ -69,12 +73,34 @@ public partial class GitCliScraper : ICliScraper
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var definition = await ParseCommandAsync(command, cancellationToken);
+            var definition = await ParseCommandAsync([command], cancellationToken);
             if (definition is not null)
             {
                 commandCount++;
                 _logger.LogInformation("Yielding command {Count}: git {Command}", commandCount, command);
                 yield return definition;
+            }
+
+            if (!CommandGroups.Contains(command))
+            {
+                continue;
+            }
+
+            foreach (var subcommand in await DiscoverSubcommandsAsync(command, cancellationToken))
+            {
+                var childDefinition = await ParseCommandAsync([command, subcommand], cancellationToken);
+                if (childDefinition is null)
+                {
+                    continue;
+                }
+
+                commandCount++;
+                _logger.LogInformation(
+                    "Yielding command {Count}: git {Command} {Subcommand}",
+                    commandCount,
+                    command,
+                    subcommand);
+                yield return childDefinition;
             }
         }
 
@@ -87,7 +113,7 @@ public partial class GitCliScraper : ICliScraper
     private async Task<List<string>> DiscoverCommandsAsync(CancellationToken cancellationToken)
     {
         var result = await _executor.ExecuteAsync("git", "help -a", cancellationToken);
-        var output = result.StandardOutput ?? result.StandardError ?? "";
+        var output = result.CombinedOutput;
 
         var commands = new List<string>();
 
@@ -143,13 +169,17 @@ public partial class GitCliScraper : ICliScraper
     /// <summary>
     /// Parses a single git command's options from 'git <command> -h'.
     /// </summary>
-    private async Task<CliCommandDefinition?> ParseCommandAsync(string command, CancellationToken cancellationToken)
+    private async Task<CliCommandDefinition?> ParseCommandAsync(
+        IReadOnlyList<string> commandParts,
+        CancellationToken cancellationToken)
     {
+        var command = string.Join(' ', commandParts);
         // Get help text using -h (short help, no pager)
         var result = await _executor.ExecuteAsync("git", $"{command} -h", cancellationToken);
 
-        // Git outputs help to stderr for -h
-        var helpText = result.StandardError ?? result.StandardOutput ?? "";
+        // Git commands differ on which stream receives short help. Some also return
+        // a usage exit code, but the emitted help remains valid scraper input.
+        var helpText = result.CombinedOutput;
 
         if (string.IsNullOrWhiteSpace(helpText))
         {
@@ -169,19 +199,53 @@ public partial class GitCliScraper : ICliScraper
             // Still create command if it has a description (it might just have positional args)
         }
 
-        var className = $"Git{ToPascalCase(command)}Options";
+        var className = $"Git{string.Concat(commandParts.Select(ToPascalCase))}Options";
+        var parentClassName = commandParts.Count == 1
+            ? "GitOptions"
+            : $"Git{string.Concat(commandParts.SkipLast(1).Select(ToPascalCase))}Options";
 
         return new CliCommandDefinition
         {
             FullCommand = $"git {command}",
-            CommandParts = [command],
+            CommandParts = commandParts.ToArray(),
             ClassName = className,
-            ParentClassName = "GitOptions",
+            ParentClassName = parentClassName,
             ToolNamespacePrefix = NamespacePrefix,
             Description = description,
             Options = options,
-            SubDomainGroup = null // Git commands are flat, no sub-domains
+            SubDomainGroup = null // The handwritten Git facade owns command grouping.
         };
+    }
+
+    private async Task<IReadOnlyList<string>> DiscoverSubcommandsAsync(
+        string command,
+        CancellationToken cancellationToken)
+    {
+        var result = await _executor.ExecuteAsync("git", $"{command} -h", cancellationToken);
+        return ExtractSubcommands(command, result.CombinedOutput);
+    }
+
+    internal static IReadOnlyList<string> ExtractSubcommands(string command, string helpText)
+    {
+        var subcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var line in helpText.Split('\n'))
+        {
+            var usage = UsageLineRegex().Match(line);
+            if (!usage.Success
+                || !usage.Groups[1].Value.Equals(command, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var remainder = usage.Groups[2].Value;
+            var subcommand = SubcommandAfterGlobalOptionsRegex().Match(remainder);
+            if (subcommand.Success)
+            {
+                subcommands.Add(subcommand.Groups[1].Value);
+            }
+        }
+
+        return subcommands.Order(StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
     /// <summary>
@@ -415,24 +479,22 @@ public partial class GitCliScraper : ICliScraper
         var skipPrefixes = new[] { "git-", "credential-", "remote-" };
         var skipCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            "gitk", "git-gui", "gui", "citool", "gitweb", "instaweb",
-            "shell", "http-backend", "daemon",
+            "gitk", "git-gui", "gui", "citool", "gitweb",
+            "shell", "http-backend",
             // Skip very low-level plumbing
-            "cat-file", "check-attr", "check-ignore", "check-mailmap",
+            "check-attr", "check-mailmap",
             "check-ref-format", "column", "credential", "credential-cache",
             "credential-store", "fmt-merge-msg", "get-tar-commit-id",
-            "hash-object", "http-fetch", "http-push", "index-pack",
-            "interpret-trailers", "ls-remote", "ls-tree", "mailinfo",
-            "mailsplit", "merge-base", "merge-file", "merge-index",
+            "http-fetch", "http-push", "index-pack",
+            "interpret-trailers", "ls-remote", "mailinfo",
+            "mailsplit", "merge-file", "merge-index",
             "merge-one-file", "merge-tree", "mktag", "mktree",
             "multi-pack-index", "name-rev", "pack-objects", "pack-redundant",
             "pack-refs", "patch-id", "prune-packed", "quiltimport",
-            "read-tree", "receive-pack", "rev-list", "rev-parse",
+            "receive-pack",
             "send-pack", "sh-i18n--envsubst", "sh-setup", "show-index",
-            "show-ref", "stripspace", "symbolic-ref", "unpack-file",
-            "unpack-objects", "update-index", "update-ref", "update-server-info",
-            "upload-archive", "upload-pack", "var", "verify-commit",
-            "verify-pack", "verify-tag", "write-tree"
+            "stripspace", "unpack-file", "unpack-objects",
+            "upload-archive", "upload-pack", "var", "verify-commit", "verify-tag"
         };
 
         if (skipCommands.Contains(command))
@@ -467,4 +529,10 @@ public partial class GitCliScraper : ICliScraper
     /// </summary>
     [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
     private static partial Regex OptionLineRegex();
+
+    [GeneratedRegex(@"^\s*(?:usage:|or:)\s+git\s+(\S+)\s*(.*)$", RegexOptions.IgnoreCase)]
+    private static partial Regex UsageLineRegex();
+
+    [GeneratedRegex(@"^(?:\[[^\r\n]*\]\s*)*([a-z][\w-]*)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex SubcommandAfterGlobalOptionsRegex();
 }

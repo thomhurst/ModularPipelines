@@ -45,6 +45,13 @@ public record CliToolDefinition
     public bool GenerateCommandFacade { get; init; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether code and documentation artifacts should be generated.
+    /// Disable this for integrations that are intentionally maintained by hand but still participate
+    /// in scraping and command-coverage validation.
+    /// </summary>
+    public bool GenerateCode { get; init; } = true;
+
+    /// <summary>
     /// All commands for this tool.
     /// </summary>
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }
