@@ -8,6 +8,22 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PulumiCliScraperTests
 {
     [Test]
+    public async Task Env_Run_Command_Operand_Is_Not_A_Command_Group()
+    {
+        const string helpText = """
+            Run a command within an environment.
+
+            Usage:
+              pulumi env run <environment-name> -- <command> [args]
+
+            Run a command
+              The command receives the environment variables.
+            """;
+
+        await Assert.That(new TestPulumiCliScraper().DeclaresCommandGroup(helpText)).IsFalse();
+    }
+
+    [Test]
     public async Task Env_Get_Preserves_Required_Environment_And_Optional_Path()
     {
         const string helpText = """
@@ -91,5 +107,7 @@ public class PulumiCliScraperTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+
+        public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
     }
 }
