@@ -70,7 +70,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             + $"For projects older than C# 14, import `{tool.TargetNamespace}.Extensions` "
             + $"and use the `context.{tool.NamespacePrefix}()` extension method as a compatibility fallback.");
         sb.AppendLine();
-        AppendExample(sb, tool);
+        AppendExample(sb, tool, commands);
         AppendGlobalOptions(sb, tool);
         AppendCoverageExclusions(sb, tool);
         sb.AppendLine("## Commands");
@@ -180,7 +180,10 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
     }
 
-    private static void AppendExample(StringBuilder sb, CliToolDefinition tool)
+    private static void AppendExample(
+        StringBuilder sb,
+        CliToolDefinition tool,
+        IReadOnlyCollection<CliCommandDefinition> commands)
     {
         sb.AppendLine("## Module example");
         sb.AppendLine();
@@ -188,9 +191,14 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         var command = SelectExampleCommand(tool);
         if (command is null)
         {
+            var onlyUnsafeCommands = commands.Count > 0
+                                     && commands.All(candidate => candidate.IsInteractive || candidate.IsDestructive);
+            var omissionReason = onlyUnsafeCommands
+                ? "Unsafe or destructive commands do not receive runnable examples:"
+                : "A runnable example is omitted when no command has complete safety metadata:";
             sb.AppendLine(
                 "Resolve the service in a module, then select a command from the table below. "
-                + "A runnable example is omitted when no command has complete safety metadata:");
+                + omissionReason);
             sb.AppendLine();
             sb.AppendLine("```csharp");
             sb.AppendLine(

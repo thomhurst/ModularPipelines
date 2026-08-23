@@ -7,6 +7,12 @@ title: newman CLI reference
 
 `ModularPipelines.Newman` provides strongly typed access to the `newman` CLI.
 
+## Executable prerequisite
+
+This package does not install the `newman` executable. Install it separately and ensure `newman` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
 ## Installation
 
 ```shell
@@ -17,7 +23,7 @@ Import `ModularPipelines.Newman.Extensions`, then resolve the service with `cont
 
 ## Module example
 
-Resolve the service in a module, then select a command from the table below. A runnable example is omitted because the remaining command has no complete safety metadata:
+Resolve the service in a module, then select a command from the table below. Unsafe or destructive commands do not receive runnable examples:
 
 ```csharp
 using ModularPipelines.Newman.Extensions;

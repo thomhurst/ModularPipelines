@@ -23,7 +23,7 @@ Resolve the service with `context.Tools.Newman`. For projects older than C# 14, 
 
 ## Module example
 
-Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+Resolve the service in a module, then select a command from the table below. Unsafe or destructive commands do not receive runnable examples:
 
 ```csharp
 var newman = context.Tools.Newman;

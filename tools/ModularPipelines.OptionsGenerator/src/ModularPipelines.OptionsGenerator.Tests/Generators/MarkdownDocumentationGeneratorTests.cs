@@ -575,7 +575,7 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(jqDocumentation).Contains("Filter = \".\"");
         await Assert.That(jqDocumentation).Contains("InputFiles = [\"input.json\"]");
         await Assert.That(newmanDocumentation)
-            .Contains("A runnable example is omitted when no command has complete safety metadata");
+            .Contains("Unsafe or destructive commands do not receive runnable examples");
         await Assert.That(newmanDocumentation).DoesNotContain("context.Tools.Fake.RunAsync(");
         await Assert.That(packerDocumentation).DoesNotContain("context.Tools.Fake.ConsoleAsync(");
         await Assert.That(vaultDocumentation).Contains("context.Tools.Fake.StatusAsync(");
