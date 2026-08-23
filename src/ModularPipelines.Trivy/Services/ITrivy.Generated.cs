@@ -23,22 +23,22 @@ public partial interface ITrivy
     /// <summary>
     /// Gets the module sub-domain service.
     /// </summary>
-    ITrivyModule Module { get; }
+    ITrivyModule Module => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    ITrivyPlugin Plugin { get; }
+    ITrivyPlugin Plugin => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the registry sub-domain service.
     /// </summary>
-    ITrivyRegistry Registry { get; }
+    ITrivyRegistry Registry => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the vex sub-domain service.
     /// </summary>
-    ITrivyVex Vex { get; }
+    ITrivyVex Vex => throw new System.NotSupportedException();
 
     #endregion
 
