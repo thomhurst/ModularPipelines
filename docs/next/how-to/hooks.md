@@ -209,7 +209,7 @@ The order for a successful module is:
 3. Global `OnModuleStartAsync`
 4. Attribute `IModuleStartHandler`
 5. Module `OnBeforeExecuteAsync`
-6. Module `ExecuteAsync` with its retry policy
+6. Module `ExecuteAsync` through its configured resilience shield
 7. Module `OnAfterExecuteAsync`
 8. Global `OnModuleEndAsync`
 9. Attribute `IModuleEndHandler`

@@ -75,7 +75,7 @@
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
 - [Pipeline Execution Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two execution modes:
 - [Requirements](/docs/next/how-to/requirements.md): If you'd like to fail fast, you can register some Requirement classes that do some checks on start up to make sure things are as expected.
-- [Retry Policies](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure() method.
+- [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure() method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](/docs/next/how-to/secrets.md): Use IOptions\
@@ -1270,7 +1270,7 @@ For a module that runs successfully, the phases are:
 11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
 12. The module result is published and dependants become eligible.
 
-`OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete retry policy, not each individual attempt.
+`OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete resilience shield, not each individual attempt.
 
 ## Skipped modules[​](#skipped-modules "Direct link to Skipped modules")
 
@@ -4711,7 +4711,7 @@ public class MyModule : Module<FileInfo>
 | ---------------------------------------------------- | ------------------------------------------------------------------- |
 | `.WithTimeout(TimeSpan)`                             | Maximum execution time before module is cancelled                   |
 | `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter  |
-| `.Advanced.WithRetryPolicy(IAsyncPolicy)`            | Custom Polly policy for advanced scenarios                          |
+| `.Advanced.WithShield(Shield)`                       | Custom Kevlar resilience shield for advanced scenarios              |
 | `.WithSkipWhen(...)`                                 | Condition to skip the module                                        |
 | `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                        |
 | `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                       |
@@ -5634,7 +5634,7 @@ The order for a successful module is:
 3. Global `OnModuleStartAsync`
 4. Attribute `IModuleStartHandler`
 5. Module `OnBeforeExecuteAsync`
-6. Module `ExecuteAsync` with its retry policy
+6. Module `ExecuteAsync` through its configured resilience shield
 7. Module `OnAfterExecuteAsync`
 8. Global `OnModuleEndAsync`
 9. Attribute `IModuleEndHandler`
@@ -7086,7 +7086,7 @@ public class WindowsRequirement : IPipelineRequirement
 
 ---
 
-# Retry Policies
+# Retries and Resilience Shields
 
 When creating modules, you can configure retries per module using the `Configure()` method. The standard API supports exponential backoff, jitter, and exception filtering without exposing the underlying resilience library.
 
@@ -7136,9 +7136,9 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Polly Policy[​](#advanced-polly-policy "Direct link to Advanced Polly Policy")
+### Advanced Resilience Shield[​](#advanced-resilience-shield "Direct link to Advanced Resilience Shield")
 
-For policy features outside the standard API, use the explicit `.Advanced` surface:
+For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -7149,11 +7149,11 @@ public class MyModule : Module<CommandResult>
 
         .Advanced
 
-        .WithRetryPolicy(
+        .WithShield(
 
-            Policy.Handle<HttpRequestException>()
+            Shield.When<HttpRequestException>()
 
-                .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
 
         .Build();
 
@@ -7170,9 +7170,9 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-### Context-Aware Retry Policy[​](#context-aware-retry-policy "Direct link to Context-Aware Retry Policy")
+### Context-Aware Resilience Shield[​](#context-aware-resilience-shield "Direct link to Context-Aware Resilience Shield")
 
-If you need access to the pipeline context when building your policy:
+If you need access to the pipeline context when building your shield:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -7183,15 +7183,15 @@ public class MyModule : Module<CommandResult>
 
         .Advanced
 
-        .WithRetryPolicy(ctx =>
+        .WithShield(ctx =>
 
         {
 
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
 
-            return Policy.Handle<Exception>()
+            return Shield.When<Exception>()
 
-                .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(i));
+                .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
 
         })
 
@@ -7202,7 +7202,7 @@ public class MyModule : Module<CommandResult>
 
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 
-Retry policies can be combined with other module behaviors:
+Retry configuration can be combined with other module behaviors:
 
 ```
 public class ResilientModule : Module<CommandResult>
@@ -7222,9 +7222,9 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
-## Default Retry Policy[​](#default-retry-policy "Direct link to Default Retry Policy")
+## Default Retry Configuration[​](#default-retry-configuration "Direct link to Default Retry Configuration")
 
-Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
+Retries are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
@@ -7254,7 +7254,7 @@ builder.ConfigurePipelineOptions(options => options with
 await builder.ExecutePipelineAsync();
 ```
 
-This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.
+This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.
 
 
 ---
@@ -9165,15 +9165,15 @@ public class MyModule : Module<string>
 
 ### Migration Mapping[​](#migration-mapping "Direct link to Migration Mapping")
 
-| V2 Override                                 | V3 Configure() Method                                               |
-| ------------------------------------------- | ------------------------------------------------------------------- |
-| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                            |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithRetryPolicy(IAsyncPolicy)` |
-| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                                |
-| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)`           |
-| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                                  |
-| `Task OnBeforeExecute()` method             | `OnBeforeExecuteAsync(...)`                                         |
-| `Task OnAfterExecute()` method              | `OnAfterExecuteAsync(...)`                                          |
+| V2 Override                                 | V3 Configure() Method                                     |
+| ------------------------------------------- | --------------------------------------------------------- |
+| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                  |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithShield(Shield)`  |
+| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                      |
+| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
+| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                        |
+| `Task OnBeforeExecute()` method             | `OnBeforeExecuteAsync(...)`                               |
+| `Task OnAfterExecute()` method              | `OnAfterExecuteAsync(...)`                                |
 
 ### Alternative: Lifecycle Hook Overrides[​](#alternative-lifecycle-hook-overrides "Direct link to Alternative: Lifecycle Hook Overrides")
 
@@ -10097,17 +10097,17 @@ The same applies to `WithIgnoreFailuresWhen`:
 
 The following have been removed in V3:
 
-| Removed                         | Replacement                                                |
-| ------------------------------- | ---------------------------------------------------------- |
-| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`       |
-| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                         |
-| `ModuleBase<T>` class           | `Module<T>`                                                |
-| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                               |
-| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                         |
-| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                              |
-| `Timeout` property              | `Configure().WithTimeout()`                                |
-| `RetryPolicy` property          | `Configure().WithRetry()` or `.Advanced.WithRetryPolicy()` |
-| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                             |
+| Removed                         | Replacement                                           |
+| ------------------------------- | ----------------------------------------------------- |
+| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`  |
+| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                    |
+| `ModuleBase<T>` class           | `Module<T>`                                           |
+| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                          |
+| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                    |
+| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                         |
+| `Timeout` property              | `Configure().WithTimeout()`                           |
+| `RetryPolicy` property          | `Configure().WithRetry()` or `.Advanced.WithShield()` |
+| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                        |
 
 ## New Features in V3[​](#new-features-in-v3 "Direct link to New Features in V3")
 

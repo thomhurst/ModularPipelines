@@ -359,15 +359,15 @@ public class MyModule : Module<string>
 
 ### Migration Mapping[​](#migration-mapping "Direct link to Migration Mapping")
 
-| V2 Override                                 | V3 Configure() Method                                               |
-| ------------------------------------------- | ------------------------------------------------------------------- |
-| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                            |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithRetryPolicy(IAsyncPolicy)` |
-| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                                |
-| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)`           |
-| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                                  |
-| `Task OnBeforeExecute()` method             | `OnBeforeExecuteAsync(...)`                                         |
-| `Task OnAfterExecute()` method              | `OnAfterExecuteAsync(...)`                                          |
+| V2 Override                                 | V3 Configure() Method                                     |
+| ------------------------------------------- | --------------------------------------------------------- |
+| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                  |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithShield(Shield)`  |
+| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                      |
+| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
+| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                        |
+| `Task OnBeforeExecute()` method             | `OnBeforeExecuteAsync(...)`                               |
+| `Task OnAfterExecute()` method              | `OnAfterExecuteAsync(...)`                                |
 
 ### Alternative: Lifecycle Hook Overrides[​](#alternative-lifecycle-hook-overrides "Direct link to Alternative: Lifecycle Hook Overrides")
 
@@ -1291,17 +1291,17 @@ The same applies to `WithIgnoreFailuresWhen`:
 
 The following have been removed in V3:
 
-| Removed                         | Replacement                                                |
-| ------------------------------- | ---------------------------------------------------------- |
-| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`       |
-| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                         |
-| `ModuleBase<T>` class           | `Module<T>`                                                |
-| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                               |
-| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                         |
-| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                              |
-| `Timeout` property              | `Configure().WithTimeout()`                                |
-| `RetryPolicy` property          | `Configure().WithRetry()` or `.Advanced.WithRetryPolicy()` |
-| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                             |
+| Removed                         | Replacement                                           |
+| ------------------------------- | ----------------------------------------------------- |
+| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`  |
+| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                    |
+| `ModuleBase<T>` class           | `Module<T>`                                           |
+| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                          |
+| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                    |
+| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                         |
+| `Timeout` property              | `Configure().WithTimeout()`                           |
+| `RetryPolicy` property          | `Configure().WithRetry()` or `.Advanced.WithShield()` |
+| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                        |
 
 ## New Features in V3[​](#new-features-in-v3 "Direct link to New Features in V3")
 
