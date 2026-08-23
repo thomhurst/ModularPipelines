@@ -63,6 +63,39 @@ public class FlywayCommandCoverageTests
     }
 
     [Test]
+    public async Task RewordedSectionHeading_TerminatesCommandTable()
+    {
+        const string rootHelp = """
+            Usage
+                flyway [options] [command]
+
+            Commands
+                migrate                  Migrates the database
+
+            Runtime settings
+                url                      Jdbc url
+            """;
+        const string commandHelp = """
+            Description:
+                Flyway command
+            """;
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FlywayCliScraper(
+            new FlywayExecutor(rootHelp, commandHelp),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["flyway migrate"]);
+    }
+
+    [Test]
     public async Task PinnedFlywayHelp_SatisfiesCommandCoveragePolicy()
     {
         const string rootHelp = """
