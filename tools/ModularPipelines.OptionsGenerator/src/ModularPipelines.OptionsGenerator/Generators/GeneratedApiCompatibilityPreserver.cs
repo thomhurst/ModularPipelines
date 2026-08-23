@@ -535,7 +535,9 @@ internal static class GeneratedApiCompatibilityPreserver
             return true;
         }
 
-        if (baseline.ArgumentPosition is not null && replacement is null)
+        if (baseline.ArgumentPosition is not null
+            && baseline.IsRequired
+            && replacement is null)
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} positional argument was removed");

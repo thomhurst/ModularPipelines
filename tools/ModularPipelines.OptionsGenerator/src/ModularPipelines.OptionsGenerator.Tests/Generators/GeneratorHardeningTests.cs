@@ -1269,14 +1269,19 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Removed_Positional_Operands()
+    public async Task ApiCompatibilityPreserver_Retains_Removed_Optional_Positional_Operands()
     {
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                Command("ToolInstallOptions", "ToolOptions", ["install"]),
-                [BaselineProperty("Name", "string?", argumentPosition: 1)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            Command("ToolInstallOptions", "ToolOptions", ["install"]),
+            [BaselineProperty("Name", "string?", argumentPosition: 1)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message).Contains("Name positional argument was removed");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public string? Name { get; set; }");
+            await Assert.That(generated).Contains("Name is no longer supported");
+            await Assert.That(generated).DoesNotContain("CliArgument(1)");
+        }
     }
 
     [Test]
