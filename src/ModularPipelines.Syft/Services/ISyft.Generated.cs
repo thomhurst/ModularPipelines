@@ -23,12 +23,12 @@ public partial interface ISyft
     /// <summary>
     /// Gets the cataloger sub-domain service.
     /// </summary>
-    ISyftCataloger Cataloger { get; }
+    ISyftCataloger Cataloger => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    ISyftConfig Config { get; }
+    ISyftConfig Config => throw new System.NotSupportedException();
 
     #endregion
 
