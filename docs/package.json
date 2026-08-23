@@ -54,14 +54,14 @@
     "ajv": "8.20.0",
     "http-proxy-middleware": "4.2.0",
     "picomatch": "4.0.5",
-    "serialize-javascript": "7.0.5",
+    "serialize-javascript": "7.1.0",
     "uuid": "14.0.2"
   },
   "resolutions": {
     "ajv": "8.20.0",
     "http-proxy-middleware": "4.2.0",
     "picomatch": "4.0.5",
-    "serialize-javascript": "7.0.5",
+    "serialize-javascript": "7.1.0",
     "uuid": "14.0.2"
   }
 }
