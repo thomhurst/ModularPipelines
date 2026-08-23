@@ -397,6 +397,11 @@ public partial class WinGetCliScraper : CliScraperBase
             return false;
         }
 
+        if (DescriptionEnumValueParser.TryParse(description) is not null)
+        {
+            return false;
+        }
+
         var lowerDesc = description.ToLowerInvariant();
         return lowerDesc.Contains("enable") ||
                lowerDesc.Contains("disable") ||

@@ -26,6 +26,7 @@ public class DescriptionEnumValueParserTests
     [Test]
     [Arguments("Output format (table, json, yaml)", "table,json,yaml")]
     [Arguments("Log types to enable (all, none, api, audit)", "all,none,api,audit")]
+    [Arguments("Specify authentication window preference (silent, silentPreferred, or interactive)", "silent,silentPreferred,interactive")]
     [Arguments("""Set the logging level ("debug", "info", "warn", "error", "fatal")""", "debug,info,warn,error,fatal")]
     public async Task TryParse_Accepts_Contextual_Parenthesized_Values(string description, string expectedValues)
     {
