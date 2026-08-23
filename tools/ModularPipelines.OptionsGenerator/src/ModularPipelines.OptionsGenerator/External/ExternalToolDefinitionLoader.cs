@@ -502,6 +502,8 @@ public static class ExternalToolDefinitionLoader
         var writable = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (var target in writableTargets)
         {
+            // One generated property may represent the same optional operand from multiple
+            // metadata sources. Coalesce it only when every source agrees on its type.
             if (writable.TryGetValue(target.PropertyName, out var existingType)
                 && !existingType.Equals(target.CSharpType, StringComparison.Ordinal))
             {

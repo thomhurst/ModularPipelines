@@ -445,6 +445,8 @@ public class CliScraperTraversalTests
             await Assert.That(definition.PositionalArguments[0].PropertyName).IsEqualTo("Kubefile");
             await Assert.That(definition.PositionalArguments[1].PropertyName).IsEqualTo("AdditionalKubefiles");
             await Assert.That(definition.PositionalArguments[2].PropertyName).IsEqualTo("Input");
+            await Assert.That(definition.PositionalArguments.Select(argument => argument.PositionIndex))
+                .IsEquivalentTo([0, 1, 2]);
         }
     }
 
