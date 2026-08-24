@@ -2448,6 +2448,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedWorkerDoesNotPersistRunReportOrHistory()
     {
         var directory = CreateTemporaryDirectory();
@@ -2727,6 +2728,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedWorkerMetricsTimeoutWhenCoordinatorIgnoresCancellation()
     {
         var coordinator = new Mock<IDistributedCoordinator>();
@@ -2983,6 +2985,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterAggregatesWorkerUnattributedCommands()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
@@ -3180,6 +3183,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     [Arguments(3, 1, 3, 0)]
     [Arguments(1, 1, 3, 2)]
     [Arguments(3, 2, 6, 3)]
@@ -3259,6 +3263,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterReconcilesMatchedMetricsPerWorker()
     {
         var firstContext = new DuplicateAssemblyLoadContext();
@@ -3346,6 +3351,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterWaitsForParticipatingWorkerFinalMetrics()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
@@ -3407,6 +3413,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterMetricsTimeoutWhenCoordinatorIgnoresCancellation()
     {
         var queryCompletion = new TaskCompletionSource<IReadOnlyList<WorkerRegistration>>(
@@ -3455,6 +3462,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterDoesNotWaitForWorkersMissingFromThisRun()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
@@ -3506,6 +3514,7 @@ public class RunReportTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterUsesExecutionIdentifierInsteadOfWorkerClock()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
