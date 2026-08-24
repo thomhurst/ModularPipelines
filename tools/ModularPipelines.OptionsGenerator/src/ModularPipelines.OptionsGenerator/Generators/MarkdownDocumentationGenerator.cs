@@ -346,9 +346,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             }
         }
 
-        return node.Commands
-            .Where(node.EmitsNamedFacade)
-            .ToList();
+        return node.GetNamedFacadeCommands();
     }
 
     private static bool HasExecutableParentCommand(

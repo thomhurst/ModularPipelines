@@ -87,21 +87,9 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Build map of commands that collide with child property names
         // These will become ExecuteAsync() methods on the child classes instead
-        var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
-        foreach (var command in node.Commands)
-        {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
-            var matchingChild = node.Children.Values
-                .FirstOrDefault(c => c.PascalSegment.Equals(methodName, StringComparison.OrdinalIgnoreCase));
-
-            if (matchingChild != null)
-            {
-                collidingCommands[matchingChild.Segment] = command;
-            }
-        }
-
-        var excludedCommands = node.Commands
-            .Where(command => !node.EmitsNamedFacade(command))
+        var collidingCommands = node.GetChildParentCommands();
+        var excludedCommands = collidingCommands.Values
+            .Where(command => !command.PreserveNamedFacade)
             .ToHashSet();
 
         // Generate the command represented by this node as ExecuteAsync(). Root nodes receive

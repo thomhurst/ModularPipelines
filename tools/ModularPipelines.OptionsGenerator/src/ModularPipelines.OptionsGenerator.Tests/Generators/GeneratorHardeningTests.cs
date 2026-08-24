@@ -4220,6 +4220,39 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task SubDomainClassGenerator_Throws_When_Parents_Normalize_To_Same_Child()
+    {
+        var tool = Tool(
+            Command(
+                "ToolAppFooBarOptions",
+                "ToolOptions",
+                ["app", "foo-bar"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-bar",
+            },
+            Command(
+                "ToolAppFooBar2Options",
+                "ToolOptions",
+                ["app", "foo_bar"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo_bar",
+            },
+            Command(
+                "ToolAppFooBarChildOptions",
+                "ToolOptions",
+                ["app", "foo-bar", "child"],
+                subDomainGroup: "app"));
+
+        void Generate() => _ = new SubDomainClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(Generate)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("tool app foo-bar, tool app foo_bar");
+    }
+
+    [Test]
     public async Task SubDomainClassGenerator_Disambiguates_Literal_Async_Command()
     {
         var tool = Tool(
