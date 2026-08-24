@@ -120,7 +120,10 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
         var commandParts = baseline.CommandParts!;
-        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, facadeMethods[0]);
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline, facadeMethods);
+        var subDomainGroup = commandParts.Length > 1
+            ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
+            : null;
 
         return new CliCommandDefinition
         {
@@ -133,8 +136,13 @@ internal static class GeneratedApiCompatibilityPreserver
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
-            SubDomainGroup = commandParts.Length > 1 ? commandParts[0] : null,
+            SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
+            CommandPartIdentifierOverrides = GetRestoredCommandPartIdentifierOverrides(
+                tool,
+                commandParts,
+                groupIdentifier,
+                facadeMethods),
             PreserveExecuteFacade = facadeMethods.Any(static method =>
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveNamedFacade = facadeMethods.Any(static method =>
@@ -143,13 +151,258 @@ internal static class GeneratedApiCompatibilityPreserver
         };
     }
 
+    private static string? GetRestoredSubDomainGroup(
+        CliToolDefinition tool,
+        string rootCommand,
+        string? fallbackIdentifier)
+    {
+        var currentGroups = tool.Commands
+            .Where(command => command.CommandParts.Length > 0
+                              && command.CommandParts[0].Equals(
+                                  rootCommand,
+                                  StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.SubDomainGroup)
+            .OfType<string>()
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        var matchingGroups = currentGroups
+            .Where(group => GeneratorUtils.GetSubDomainIdentifier(tool, group)
+                .Equals(fallbackIdentifier, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        return matchingGroups.Length == 1 ? matchingGroups[0] : fallbackIdentifier;
+    }
+
     private static string? GetRestoredCommandGroupIdentifier(
         CliToolDefinition tool,
-        GeneratedFacadeMethod facade) =>
-        facade.DeclaringType.Length > tool.NamespacePrefix.Length
-        && facade.DeclaringType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            ? facade.DeclaringType[tool.NamespacePrefix.Length..]
+        GeneratedApiBaseline baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        var rootCommand = baseline.CommandParts?[0];
+        if (rootCommand is null)
+        {
+            return null;
+        }
+
+        var defaultIdentifier = GeneratorUtils.ToPascalCase(rootCommand);
+        var facadeIdentifiers = facadeMethods
+            .Select(method => GetRootIdentifierFromFacade(tool, baseline.CommandParts!, method))
+            .Where(static identifier => identifier is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (facadeIdentifiers.Length == 1)
+        {
+            return facadeIdentifiers[0];
+        }
+
+        var currentIdentifiers = tool.Commands
+            .Where(command => command.CommandParts.Length > 0
+                              && command.CommandParts[0].Equals(
+                                  rootCommand,
+                                  StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.SubDomainGroup is { } group
+                ? GeneratorUtils.GetSubDomainIdentifier(tool, group)
+                : command.CommandGroupIdentifierOverride ?? defaultIdentifier)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (currentIdentifiers.Length == 1)
+        {
+            return currentIdentifiers[0];
+        }
+
+        if (baseline.ClassName.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+            && baseline.ClassName.EndsWith("Options", StringComparison.Ordinal))
+        {
+            var recoveredIdentifiers = SplitRecoveredIdentifiers(
+                baseline.ClassName[tool.NamespacePrefix.Length..^"Options".Length],
+                baseline.CommandParts!
+                    .Select(GeneratorUtils.ToPascalCase)
+                    .ToArray());
+            if (recoveredIdentifiers is not null)
+            {
+                return recoveredIdentifiers[0];
+            }
+        }
+
+        return defaultIdentifier;
+    }
+
+    private static string? GetRootIdentifierFromFacade(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts,
+        GeneratedFacadeMethod facadeMethod)
+    {
+        var implementationType = GetFacadeImplementationType(tool, facadeMethod);
+        var commandTail = commandParts.Skip(1).ToArray();
+        var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
+        var facadeCommandParts = isParentExecuteFacade ? commandTail : commandTail.SkipLast(1);
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        var defaultIdentifiers = commandParts
+            .Take(1)
+            .Concat(facadeCommandParts)
+            .Select(GeneratorUtils.ToPascalCase)
+            .ToArray();
+        return SplitRecoveredIdentifiers(
+            implementationType[tool.NamespacePrefix.Length..],
+            defaultIdentifiers)?[0];
+    }
+
+    private static IReadOnlyDictionary<int, string> GetRestoredCommandPartIdentifierOverrides(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts,
+        string? groupIdentifier,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        if (groupIdentifier is null)
+        {
+            return new Dictionary<int, string>();
+        }
+
+        Dictionary<int, string>? recoveredOverrides = null;
+        foreach (var facadeMethod in facadeMethods)
+        {
+            var candidate = GetRecoveredCommandPartIdentifierOverrides(
+                tool,
+                commandParts,
+                groupIdentifier,
+                facadeMethod);
+            if (candidate is null)
+            {
+                continue;
+            }
+
+            recoveredOverrides ??= new Dictionary<int, string>();
+            foreach (var (partIndex, identifier) in candidate)
+            {
+                if (recoveredOverrides.TryGetValue(partIndex, out var recoveredIdentifier)
+                    && !recoveredIdentifier.Equals(identifier, StringComparison.Ordinal))
+                {
+                    return new Dictionary<int, string>();
+                }
+
+                recoveredOverrides[partIndex] = identifier;
+            }
+        }
+
+        return recoveredOverrides ?? new Dictionary<int, string>();
+    }
+
+    private static Dictionary<int, string>? GetRecoveredCommandPartIdentifierOverrides(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts,
+        string groupIdentifier,
+        GeneratedFacadeMethod facadeMethod)
+    {
+        var implementationType = GetFacadeImplementationType(tool, facadeMethod);
+        var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
+        var facadePartCount = commandParts.Count - (isParentExecuteFacade ? 1 : 2);
+        if (facadePartCount <= 0)
+        {
+            return null;
+        }
+
+        var identifiers = commandParts
+            .Skip(1)
+            .Take(facadePartCount)
+            .Select(GeneratorUtils.ToPascalCase)
+            .ToArray();
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        var implementationSuffix = implementationType[tool.NamespacePrefix.Length..];
+        if (!implementationSuffix.StartsWith(groupIdentifier, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var recoveredIdentifiers = SplitRecoveredIdentifiers(
+            implementationSuffix[groupIdentifier.Length..],
+            identifiers);
+        if (recoveredIdentifiers is null)
+        {
+            return null;
+        }
+
+        var recoveredOverrides = new Dictionary<int, string>();
+        for (var index = 0; index < recoveredIdentifiers.Length; index++)
+        {
+            recoveredOverrides[index + 1] = recoveredIdentifiers[index];
+        }
+
+        return recoveredOverrides;
+    }
+
+    private static string[]? SplitRecoveredIdentifiers(
+        string recoveredSuffix,
+        IReadOnlyList<string> defaultIdentifiers)
+    {
+        if (recoveredSuffix.Length < defaultIdentifiers.Count)
+        {
+            return null;
+        }
+
+        var candidates = new Dictionary<int, (int Cost, string[] Identifiers, bool IsUnique)>
+        {
+            [0] = (0, [], true),
+        };
+        for (var partIndex = 0; partIndex < defaultIdentifiers.Count; partIndex++)
+        {
+            var nextCandidates = new Dictionary<int, (int Cost, string[] Identifiers, bool IsUnique)>();
+            var remainingPartCount = defaultIdentifiers.Count - partIndex - 1;
+            foreach (var (offset, candidate) in candidates)
+            {
+                for (var end = offset + 1; end <= recoveredSuffix.Length - remainingPartCount; end++)
+                {
+                    var identifier = recoveredSuffix[offset..end];
+                    var cost = candidate.Cost
+                               + (identifier.Equals(
+                                   defaultIdentifiers[partIndex],
+                                   StringComparison.OrdinalIgnoreCase)
+                                   ? 0
+                                   : 1);
+                    var identifiers = candidate.Identifiers.Append(identifier).ToArray();
+                    if (!nextCandidates.TryGetValue(end, out var current) || cost < current.Cost)
+                    {
+                        nextCandidates[end] = (cost, identifiers, candidate.IsUnique);
+                    }
+                    else if (cost == current.Cost)
+                    {
+                        nextCandidates[end] = (cost, current.Identifiers, false);
+                    }
+                }
+            }
+
+            candidates = nextCandidates;
+        }
+
+        return candidates.TryGetValue(recoveredSuffix.Length, out var result) && result.IsUnique
+            ? result.Identifiers
             : null;
+    }
+
+    private static string GetFacadeImplementationType(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod facadeMethod) =>
+        facadeMethod.DeclaringType.StartsWith($"I{tool.NamespacePrefix}", StringComparison.Ordinal)
+            ? facadeMethod.DeclaringType[1..]
+            : facadeMethod.DeclaringType;
+
+    private static bool IsParentExecuteFacade(
+        string implementationType,
+        GeneratedFacadeMethod facadeMethod)
+    {
+        var optionsImplementationType = facadeMethod.OptionsType.EndsWith("Options", StringComparison.Ordinal)
+            ? facadeMethod.OptionsType[..^"Options".Length]
+            : facadeMethod.OptionsType;
+        return facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
+               && implementationType.Equals(optionsImplementationType, StringComparison.OrdinalIgnoreCase);
+    }
 
     private static CliOptionDefinition[] RestoreRemovedOptions(
         IEnumerable<GeneratedApiProperty> properties) =>

@@ -88,6 +88,13 @@ public record CliCommandDefinition
     public string? CommandGroupIdentifierOverride { get; init; }
 
     /// <summary>
+    /// Optional generated identifiers for nested command parts, keyed by their zero-based
+    /// position in <see cref="CommandParts"/>. Used to retain historical facade casing.
+    /// </summary>
+    public IReadOnlyDictionary<int, string> CommandPartIdentifierOverrides { get; init; }
+        = new Dictionary<int, string>();
+
+    /// <summary>
     /// Enums that need to be generated for this command's options.
     /// </summary>
     public IReadOnlyList<CliEnumDefinition> Enums { get; init; } = [];

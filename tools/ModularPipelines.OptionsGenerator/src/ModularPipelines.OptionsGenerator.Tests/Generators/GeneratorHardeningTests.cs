@@ -1824,6 +1824,614 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Uses_Root_Identifier_For_Restored_Nested_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"child\")] "
+                + "public record ToolGroupChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"child\")] "
+                + "public record ToolGroupNestedChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroup.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroup { "
+                + "public Task ChildAsync(ToolGroupChildOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ChildAsync(ToolGroupNestedChildOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command(
+                    "ToolGroupCurrentOptions",
+                    "ToolOptions",
+                    ["group", "current"],
+                    subDomainGroup: "group",
+                    commandGroupIdentifierOverride: "Group")),
+                root);
+
+            var restored = preserved.Commands
+                .Where(command => command.ClassName != "ToolGroupCurrentOptions")
+                .ToArray();
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored).Count().IsEqualTo(2);
+                await Assert.That(restored.Select(command => command.SubDomainGroup!))
+                    .IsEquivalentTo(["group", "group"]);
+                await Assert.That(restored.Select(command => command.CommandGroupIdentifierOverride!))
+                    .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["group"]);
+                await Assert.That(GeneratorUtils.GetSubDomainIdentifier(preserved, "group"))
+                    .IsEqualTo("Group");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Custom_Root_Identifier_For_Restored_Facades()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolApplicationSetCreateOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"appset\", \"create\")] "
+                + "public record ToolApplicationSetCreateOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolApplicationSet.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolApplicationSet { "
+                + "public Task CreateAsync(ToolApplicationSetCreateOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command => command.SubDomainGroup == "ApplicationSet");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("ApplicationSet");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["ApplicationSet"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Historical_Facade_Casing()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCloudShellScpOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"cloud-shell\", \"scp\")] "
+                + "public record ToolCloudShellScpOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolCloudshell { "
+                + "public Task ScpAsync(ToolCloudShellScpOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolCloudShellScpOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Merges_Compatible_Facade_Casing()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellNestedOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"nested\")] "
+                + "public record ToolGroupCloudShellNestedOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellNestedChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"nested\", \"child\")] "
+                + "public record ToolGroupCloudShellNestedChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task NestedAsync(ToolGroupCloudShellNestedOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshellNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshellNested { "
+                + "public Task ExecuteAsync(ToolGroupCloudShellNestedOptions? options = null) => Task.CompletedTask; "
+                + "public Task ChildAsync(ToolGroupCloudShellNestedChildOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName == "ToolGroupCloudShellNestedOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandPartIdentifierOverrides[1]).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandPartIdentifierOverrides[2]).IsEqualTo("Nested");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Applies_Restored_Casing_To_Live_Siblings()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"old\")] "
+                + "public record ToolGroupCloudShellOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task OldAsync(ToolGroupCloudShellOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolGroupCloudShellCurrentOptions",
+                "ToolOptions",
+                ["group", "cloud-shell", "current"],
+                subDomainGroup: "Group",
+                commandGroupIdentifierOverride: "Group"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolGroupCloudshell.Generated.cs", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generated.Content).Contains("OldAsync(");
+                await Assert.That(generated.Content).Contains("ToolGroupCloudShellOldOptions? options = null");
+                await Assert.That(generated.Content).Contains("CurrentAsync(");
+                await Assert.That(generated.Content).Contains("ToolGroupCloudShellCurrentOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Applies_Restored_Parent_Casing_To_Live_Child()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\")] "
+                + "public record ToolGroupCloudShellOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task ExecuteAsync(ToolGroupCloudShellOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolGroupCloudShellCurrentOptions",
+                "ToolOptions",
+                ["group", "cloud-shell", "current"],
+                subDomainGroup: "Group",
+                commandGroupIdentifierOverride: "Group"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolGroupCloudshell.Generated.cs", StringComparison.Ordinal));
+
+            await Assert.That(generated.Content).Contains("ExecuteAsync(");
+            await Assert.That(generated.Content).Contains("ToolGroupCloudShellOptions? options = null");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Recovers_Length_Changing_Nested_Identifier()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAdminUsersApplicationSetOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"admin\", \"users\", \"appset\", \"old\")] "
+                + "public record ToolAdminUsersApplicationSetOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAdminUsersApplicationSet.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAdminUsersApplicationSet { "
+                + "public Task OldAsync(ToolAdminUsersApplicationSetOldOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName == "ToolAdminUsersApplicationSetOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandPartIdentifierOverrides[1]).IsEqualTo("Users");
+                await Assert.That(restored.CommandPartIdentifierOverrides[2]).IsEqualTo("ApplicationSet");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CommandTreeNode_Rejects_Conflicting_Explicit_Identifiers()
+    {
+        var commands = new[]
+        {
+            Command("ToolGroupFirstOptions", "ToolOptions", ["group", "cloud-shell", "first"]) with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "Cloudshell" },
+            },
+            Command("ToolGroupSecondOptions", "ToolOptions", ["group", "cloud-shell", "second"]) with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "CloudShell" },
+            },
+        };
+
+        await Assert.That(() => CommandTreeNode.BuildTree("Tool", "Group", commands))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Cloudshell, CloudShell");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Live_Group_Casing_For_Restored_Sibling()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCloudShellScpOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"cloud-shell\", \"scp\")] "
+                + "public record ToolCloudShellScpOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolCloudshell { "
+                + "public Task ScpAsync(ToolCloudShellScpOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolCloudShellListOptions",
+                "ToolOptions",
+                ["cloud-shell", "list"],
+                subDomainGroup: "Cloudshell"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolCloudShellScpOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Distinguishes_Literal_Execute_From_Parent_Facade()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCloudShellExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"cloud-shell\", \"execute\")] "
+                + "public record ToolCloudShellExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolCloudshell { "
+                + "public Task ExecuteAsync(ToolCloudShellExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolCloudShellExecuteOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Distinguishes_Execute_When_Parent_Name_Ends_In_Execute()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolRemoteExecuteExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"remote-execute\", \"execute\")] "
+                + "public record ToolRemoteExecuteExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolRemoteExecute.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolRemoteExecute { "
+                + "public Task ExecuteAsync(ToolRemoteExecuteExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolRemoteExecuteExecuteOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("RemoteExecute");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("RemoteExecute");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["RemoteExecute"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Maps_Restored_Identifier_To_Live_Group_Key()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAlphaOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"foo\", \"old\")] "
+                + "public record ToolAlphaOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAlpha.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAlpha { "
+                + "public Task OldAsync(ToolAlphaOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(
+                Command(
+                    "ToolAlphaCurrentOptions",
+                    "ToolOptions",
+                    ["foo", "current"],
+                    subDomainGroup: "foo",
+                    commandGroupIdentifierOverride: "Alpha"),
+                Command(
+                    "ToolBetaCurrentOptions",
+                    "ToolOptions",
+                    ["foo", "beta"],
+                    subDomainGroup: "beta-key",
+                    commandGroupIdentifierOverride: "Beta"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolAlphaOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("foo");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Alpha");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["foo", "beta-key"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Missing_Group_Alongside_Other_Live_Group()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAlphaOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"foo\", \"old\")] "
+                + "public record ToolAlphaOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAlpha.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAlpha { "
+                + "public Task OldAsync(ToolAlphaOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolBetaCurrentOptions",
+                "ToolOptions",
+                ["foo", "beta"],
+                subDomainGroup: "beta-key",
+                commandGroupIdentifierOverride: "Beta"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolAlphaOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Alpha");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Alpha");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["beta-key", "Alpha"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Infers_Root_Through_Historical_Intermediate_Casing()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAlphaCloudShellOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"foo\", \"cloud-shell\", \"old\")] "
+                + "public record ToolAlphaCloudShellOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAlphaCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAlphaCloudshell { "
+                + "public Task OldAsync(ToolAlphaCloudShellOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolBetaCurrentOptions",
+                "ToolOptions",
+                ["foo", "beta"],
+                subDomainGroup: "beta-key",
+                commandGroupIdentifierOverride: "Beta"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolAlphaCloudShellOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Alpha");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Alpha");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["beta-key", "Alpha"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Uses_One_Root_For_Removed_Parent_And_Child()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\")] "
+                + "public record ToolGroupNestedOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"child\")] "
+                + "public record ToolGroupNestedChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ExecuteAsync(ToolGroupNestedOptions? options = null) => Task.CompletedTask; "
+                + "public Task ChildAsync(ToolGroupNestedChildOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands
+                .Where(command => command.ClassName != "ToolCurrentOptions")
+                .ToArray();
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored).Count().IsEqualTo(2);
+                await Assert.That(restored.Select(command => command.SubDomainGroup!))
+                    .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(restored.Select(command => command.CommandGroupIdentifierOverride!))
+                    .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Group"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Optional_Facade_When_Required_Member_Is_Added()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
