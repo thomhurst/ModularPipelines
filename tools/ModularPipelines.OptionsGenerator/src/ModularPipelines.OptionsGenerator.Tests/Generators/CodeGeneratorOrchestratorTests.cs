@@ -149,7 +149,7 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
-    public async Task Existing_Generated_Options_Are_Used_As_Api_Baseline()
+    public async Task Existing_Generated_Options_Do_Not_Change_Current_Cli_Definition()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
         var scraper = new FakeCliScraper { Commands = [FakeCommand()] };
@@ -186,13 +186,7 @@ public class CodeGeneratorOrchestratorTests
             var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
 
             await Assert.That(result.HasErrors).IsFalse();
-            var compatibilityProperty = generatedTool!.Commands.Single().CompatibilityProperties.Single();
-            using (Assert.Multiple())
-            {
-                await Assert.That(compatibilityProperty.PropertyName).IsEqualTo("Removed");
-                await Assert.That(compatibilityProperty.CSharpType).IsEqualTo("bool?");
-                await Assert.That(compatibilityProperty.ForwardToPropertyName).IsNull();
-            }
+            await Assert.That(generatedTool!.Commands.Single().CompatibilityProperties).IsEmpty();
         }
         finally
         {
@@ -201,7 +195,7 @@ public class CodeGeneratorOrchestratorTests
     }
 
     [Test]
-    public async Task Global_Compatibility_Names_Are_Reserved_Before_Collision_Resolution()
+    public async Task Existing_Global_Options_Do_Not_Reserve_Current_Names()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
         await Orchestrator(
@@ -248,9 +242,8 @@ public class CodeGeneratorOrchestratorTests
 
             await Assert.That(result.Errors).IsEmpty();
             await Assert.That(generatedTool!.GlobalOptions.Single().PropertyName)
-                .IsEqualTo("CliArguments2");
-            await Assert.That(generatedTool.GlobalCompatibilityProperties.Single().PropertyName)
                 .IsEqualTo("CliArguments");
+            await Assert.That(generatedTool.GlobalCompatibilityProperties).IsEmpty();
         }
         finally
         {

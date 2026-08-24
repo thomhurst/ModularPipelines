@@ -36,7 +36,7 @@ The main components are:
 | `Generators/` | Emits options, enums, services, subdomains, dependency registration, assembly metadata, and Markdown documentation. |
 | `Generators/CommandCoverageGuard.cs` | Compares the current command tree with its committed baseline before output is accepted. |
 | `External/` | Loads and validates versioned JSON definitions for private or out-of-tree integrations. |
-| `scripts/` | Restricts staging to declared generated paths and checks generated package API compatibility. |
+| `scripts/` | Restricts staging to declared generated paths and validates generated enum attributes. |
 | `src/ModularPipelines.OptionsGenerator.Tests/` | Unit tests for scraping, parsing, type detection, generation, safety, and coverage behavior. |
 
 `CodeGeneratorOrchestrator` prefers an `ICliScraper` when both scraper kinds are registered
@@ -233,11 +233,9 @@ Regenerate outputs instead of changing version attributes in place.
 5. allow `Stage-GeneratedChanges.ps1` to stage only declared generated paths and reject
    binary, oversized, root-level, or checkout-escape artifacts;
 6. build only the affected integration solution;
-7. pack the current integration and compare it with the baseline package through
-   `Test-GeneratedApiCompatibility.ps1`; and
-8. create an automated pull request. Auto-merge is enabled only when API compatibility
-   succeeds.
+7. create an automated pull request and enable auto-merge after the affected solution
+   builds successfully.
 
-Breaking generated API changes remain visible for human review. The workflow's manual
-`approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single run,
-not a permanent weakening of the coverage policy.
+Generated APIs follow the currently installed CLI source. The workflow's manual
+`approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single
+run, not a permanent weakening of the coverage policy.

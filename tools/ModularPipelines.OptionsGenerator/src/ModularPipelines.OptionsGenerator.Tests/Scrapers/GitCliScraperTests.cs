@@ -75,6 +75,46 @@ public class GitCliScraperTests
     }
 
     [Test]
+    public async Task ScrapeAsync_Retries_Repository_Initialization_After_Failure()
+    {
+        var executor = new RetryInitExecutor();
+        using var scraper = new GitCliScraper(
+            executor,
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+
+        await Assert.That(async () => await DrainAsync(scraper, CancellationToken.None))
+            .Throws<InvalidOperationException>();
+        await DrainAsync(scraper, CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(executor.InitializationAttempts).IsEqualTo(2);
+            await Assert.That(executor.FailedRepositoryDirectory).IsNotNull();
+            await Assert.That(Directory.Exists(executor.FailedRepositoryDirectory!)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task ScrapeAsync_Runs_Independent_Help_Commands_Concurrently()
+    {
+        var executor = new ConcurrentHelpExecutor();
+        using var scraper = new GitCliScraper(
+            executor,
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+
+        var scrapeTask = DrainAsync(scraper, CancellationToken.None);
+        var completed = await Task.WhenAny(
+            executor.ConcurrentHelpStarted.Task,
+            Task.Delay(TimeSpan.FromSeconds(1)));
+        executor.AllowHelpToComplete.SetResult();
+        await scrapeTask;
+
+        await Assert.That(completed).IsEqualTo(executor.ConcurrentHelpStarted.Task);
+    }
+
+    [Test]
     public async Task Dispose_Waits_For_InFlight_Repository_Initialization()
     {
         var executor = new BlockingInitExecutor();
@@ -324,6 +364,89 @@ public class GitCliScraperTests
                 "help -a" => Result("Main Porcelain Commands\n   stash                   Stash changes"),
                 "stash -h" => Result("usage: git stash\n   or: git stash pop [--index]"),
                 "stash pop -h" => Result("usage: git stash pop [--index]"),
+                _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
+            };
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class RetryInitExecutor : ICliCommandExecutor
+    {
+        public int InitializationAttempts { get; private set; }
+
+        public string? FailedRepositoryDirectory { get; private set; }
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            if (arguments == "init --quiet")
+            {
+                InitializationAttempts++;
+                if (InitializationAttempts == 1)
+                {
+                    FailedRepositoryDirectory = workingDirectory;
+                    return Task.FromResult(Result(string.Empty, "transient failure", exitCode: 1));
+                }
+            }
+
+            return Task.FromResult(arguments switch
+            {
+                "help -a" => Result("Main Porcelain Commands\n   stash                   Stash changes"),
+                "stash -h" => Result("usage: git stash\n   or: git stash pop [--index]"),
+                "stash pop -h" => Result("usage: git stash pop [--index]"),
+                "init --quiet" => Result(string.Empty),
+                _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class ConcurrentHelpExecutor : ICliCommandExecutor
+    {
+        private int _activeHelpCommands;
+
+        public TaskCompletionSource ConcurrentHelpStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource AllowHelpToComplete { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public async Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            if (arguments is "stash -h" or "status -h")
+            {
+                if (Interlocked.Increment(ref _activeHelpCommands) == 2)
+                {
+                    ConcurrentHelpStarted.SetResult();
+                }
+
+                await AllowHelpToComplete.Task.WaitAsync(cancellationToken);
+                Interlocked.Decrement(ref _activeHelpCommands);
+            }
+
+            return arguments switch
+            {
+                "help -a" => Result(
+                    "Main Porcelain Commands\n"
+                    + "   stash                   Stash changes\n"
+                    + "   status                  Show status"),
+                "stash -h" => Result("usage: git stash [<options>]"),
+                "status -h" => Result("usage: git status [<options>]"),
                 _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
             };
         }

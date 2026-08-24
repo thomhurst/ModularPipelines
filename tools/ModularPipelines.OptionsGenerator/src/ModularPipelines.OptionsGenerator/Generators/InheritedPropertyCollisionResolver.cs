@@ -81,9 +81,18 @@ internal static class InheritedPropertyCollisionResolver
             command.CommandParts,
             occupiedNames,
             renamedProperties);
-        var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
-        options = ResolveDuplicateOptionNames(options, usedLocalNames);
+        var reservedNames = command.CompatibilityProperties
+            .Select(property => property.PropertyName)
+            .Concat(globalPropertyNames)
+            .ToHashSet(StringComparer.Ordinal);
+        var usedLocalNames = new HashSet<string>(reservedNames, StringComparer.Ordinal);
+        options = ResolveDuplicateOptionNames(
+            options,
+            reservedNames,
+            usedLocalNames,
+            renamedProperties);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
+        var retainedArgumentNames = new HashSet<string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
             .Select(argument => argument with
             {
@@ -93,15 +102,11 @@ internal static class InheritedPropertyCollisionResolver
                     occupiedNames,
                     renamedProperties),
             })
-            .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
-                ? argument
-                : argument with
-                {
-                    PropertyName = GetOrCreateArgumentName(
-                        argument.PropertyName,
-                        renamedArgumentNames,
-                        usedLocalNames),
-                })
+            .Select(argument => ResolveArgumentName(
+                argument,
+                renamedArgumentNames,
+                retainedArgumentNames,
+                usedLocalNames))
             .ToArray();
 
         return command with
@@ -120,13 +125,11 @@ internal static class InheritedPropertyCollisionResolver
                 .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
-                    pair => TryGetRename(
+                    pair => ResolveDocumentationPropertyName(
                         pair.Key,
                         renamedProperties,
                         globalRenamedProperties,
-                        out var renamedProperty)
-                            ? renamedProperty
-                            : pair.Key,
+                        renamedArgumentNames),
                     pair => pair.Value,
                     StringComparer.Ordinal),
         };
@@ -134,35 +137,85 @@ internal static class InheritedPropertyCollisionResolver
 
     private static IReadOnlyList<CliOptionDefinition> ResolveDuplicateOptionNames(
         IReadOnlyList<CliOptionDefinition> options,
-        HashSet<string> usedLocalNames) =>
+        IReadOnlySet<string> reservedNames,
+        HashSet<string> usedLocalNames,
+        IDictionary<string, string> renamedProperties) =>
         options
             .Select(option => usedLocalNames.Add(option.PropertyName)
                 ? option
                 : option with
                 {
-                    PropertyName = CreateUniqueLocalName(
+                    PropertyName = RecordReservedRename(
                         option.PropertyName,
-                        "Option",
-                        usedLocalNames),
+                        CreateUniqueLocalName(
+                            option.PropertyName,
+                            "Option",
+                            usedLocalNames),
+                        reservedNames,
+                        renamedProperties),
                 })
             .ToArray();
 
-    private static string GetOrCreateArgumentName(
-        string propertyName,
+    private static CliPositionalArgument ResolveArgumentName(
+        CliPositionalArgument argument,
         IDictionary<string, string> renamedArgumentNames,
+        ISet<string> retainedArgumentNames,
         HashSet<string> usedLocalNames)
     {
-        if (renamedArgumentNames.TryGetValue(propertyName, out var renamedPropertyName))
+        if (retainedArgumentNames.Contains(argument.PropertyName))
         {
-            return renamedPropertyName;
+            return argument;
         }
 
-        renamedPropertyName = CreateUniqueLocalName(
-            propertyName,
+        if (renamedArgumentNames.TryGetValue(argument.PropertyName, out var existingRename))
+        {
+            return argument with { PropertyName = existingRename };
+        }
+
+        if (usedLocalNames.Add(argument.PropertyName))
+        {
+            retainedArgumentNames.Add(argument.PropertyName);
+            return argument;
+        }
+
+        var renamedPropertyName = CreateUniqueLocalName(
+            argument.PropertyName,
             "Argument",
             usedLocalNames);
-        renamedArgumentNames.Add(propertyName, renamedPropertyName);
+        renamedArgumentNames.Add(argument.PropertyName, renamedPropertyName);
+        return argument with { PropertyName = renamedPropertyName };
+    }
+
+    private static string RecordReservedRename(
+        string propertyName,
+        string renamedPropertyName,
+        IReadOnlySet<string> reservedNames,
+        IDictionary<string, string> renamedProperties)
+    {
+        if (reservedNames.Contains(propertyName))
+        {
+            renamedProperties[propertyName] = renamedPropertyName;
+        }
+
         return renamedPropertyName;
+    }
+
+    private static string ResolveDocumentationPropertyName(
+        string propertyName,
+        IReadOnlyDictionary<string, string> commandRenames,
+        IReadOnlyDictionary<string, string> globalRenames,
+        IReadOnlyDictionary<string, string> argumentRenames)
+    {
+        var resolvedName = TryGetRename(
+            propertyName,
+            commandRenames,
+            globalRenames,
+            out var renamedProperty)
+                ? renamedProperty
+                : propertyName;
+        return argumentRenames.TryGetValue(resolvedName, out var renamedArgument)
+            ? renamedArgument
+            : resolvedName;
     }
 
     private static string CreateUniqueLocalName(

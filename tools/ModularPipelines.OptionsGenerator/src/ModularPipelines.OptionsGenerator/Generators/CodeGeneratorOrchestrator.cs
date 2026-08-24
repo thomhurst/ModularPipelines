@@ -860,14 +860,8 @@ public class CodeGeneratorOrchestrator
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = [],
         };
-        var globallyCompatibleTool = GeneratedApiCompatibilityPreserver.PreserveGlobalOptions(
-            normalizedTool,
-            outputDirectory);
-        var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(globallyCompatibleTool);
-        var compatibleTool = GeneratedApiCompatibilityPreserver.Preserve(
-            collisionResolvedTool,
-            outputDirectory);
-        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(compatibleTool);
+        var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(normalizedTool);
+        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(collisionResolvedTool);
         var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
         foreach (var command in toolDefinition.Commands)
         {

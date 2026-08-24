@@ -16,9 +16,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public partial class GitCliScraper : CliScraperBase, IDisposable
 {
     private readonly object _helpRepositoryLock = new();
-    private readonly SemaphoreSlim _helpCommandUsage = new(1, 1);
     private string? _helpRepositoryDirectory;
     private Task<string>? _helpRepositoryTask;
+    private int _activeHelpCommands;
     private bool _disposed;
 
     public override string ToolName => "git";
@@ -64,12 +64,11 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
         var usesHelpRepository = commandPath.Length > 2;
-        await _helpCommandUsage.WaitAsync(cancellationToken);
+        BeginHelpCommand();
 
         CliCommandResult result;
         try
         {
-            ThrowIfDisposed();
             var workingDirectory = usesHelpRepository
                 ? await GetHelpRepositoryAsync()
                 : null;
@@ -81,7 +80,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
         finally
         {
-            _helpCommandUsage.Release();
+            EndHelpCommand();
         }
 
         // Git sends short help to either stream and commonly exits with its usage code.
@@ -104,38 +103,96 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
     }
 
-    private Task<string> GetHelpRepositoryAsync()
+    private void BeginHelpCommand()
     {
         lock (_helpRepositoryLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            return _helpRepositoryTask ??= CreateHelpRepositoryAsync();
+            _activeHelpCommands++;
+        }
+    }
+
+    private void EndHelpCommand()
+    {
+        lock (_helpRepositoryLock)
+        {
+            _activeHelpCommands--;
+            if (_activeHelpCommands == 0)
+            {
+                Monitor.PulseAll(_helpRepositoryLock);
+            }
+        }
+    }
+
+    private async Task<string> GetHelpRepositoryAsync()
+    {
+        Task<string> initialization;
+        lock (_helpRepositoryLock)
+        {
+            initialization = _helpRepositoryTask ??= CreateHelpRepositoryAsync();
+        }
+
+        try
+        {
+            return await initialization.ConfigureAwait(false);
+        }
+        catch
+        {
+            lock (_helpRepositoryLock)
+            {
+                if (ReferenceEquals(_helpRepositoryTask, initialization))
+                {
+                    _helpRepositoryTask = null;
+                }
+            }
+
+            throw;
         }
     }
 
     private async Task<string> CreateHelpRepositoryAsync()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"git-scraper-{Guid.NewGuid():N}");
-        _helpRepositoryDirectory = directory;
-        Directory.CreateDirectory(directory);
-        var result = await Executor.ExecuteAsync(
-            ToolName,
-            "init --quiet",
-            CancellationToken.None,
-            directory).ConfigureAwait(false);
-        if (!result.Success)
+        lock (_helpRepositoryLock)
         {
-            throw new InvalidOperationException(
-                $"Could not initialize the temporary Git help repository: {result.CombinedOutput}");
+            _helpRepositoryDirectory = directory;
         }
 
-        return directory;
+        try
+        {
+            Directory.CreateDirectory(directory);
+            var result = await Executor.ExecuteAsync(
+                ToolName,
+                "init --quiet",
+                CancellationToken.None,
+                directory).ConfigureAwait(false);
+            if (!result.Success)
+            {
+                throw new InvalidOperationException(
+                    $"Could not initialize the temporary Git help repository: {result.CombinedOutput}");
+            }
+
+            return directory;
+        }
+        catch
+        {
+            lock (_helpRepositoryLock)
+            {
+                if (_helpRepositoryDirectory == directory)
+                {
+                    _helpRepositoryDirectory = null;
+                }
+            }
+
+            DeleteHelpRepository(directory);
+            throw;
+        }
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        Task<string>? initialization;
+        string? directory;
         lock (_helpRepositoryLock)
         {
             if (_disposed)
@@ -144,34 +201,22 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             }
 
             _disposed = true;
-            initialization = _helpRepositoryTask;
-        }
-
-        _helpCommandUsage.Wait();
-        string? directory;
-        try
-        {
-            try
+            while (_activeHelpCommands > 0)
             {
-                initialization?.GetAwaiter().GetResult();
-            }
-            catch
-            {
-                // The caller observes initialization failures; disposal still owns cleanup.
+                Monitor.Wait(_helpRepositoryLock);
             }
 
-            lock (_helpRepositoryLock)
-            {
-                directory = _helpRepositoryDirectory;
-                _helpRepositoryDirectory = null;
-                _helpRepositoryTask = null;
-            }
-        }
-        finally
-        {
-            _helpCommandUsage.Release();
+            directory = _helpRepositoryDirectory;
+            _helpRepositoryDirectory = null;
+            _helpRepositoryTask = null;
         }
 
+        DeleteHelpRepository(directory);
+        GC.SuppressFinalize(this);
+    }
+
+    private void DeleteHelpRepository(string? directory)
+    {
         if (directory is null || !Directory.Exists(directory))
         {
             return;
@@ -188,8 +233,6 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                 "Could not delete temporary Git help repository: {Directory}",
                 directory);
         }
-
-        GC.SuppressFinalize(this);
     }
 
     protected override IEnumerable<string> ExtractSubcommands(
