@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -157,12 +158,16 @@ public class RetryTests : TestBase
 
     private class CancellableModuleWithTimeout : Module<bool>
     {
+        internal int ExecutionCount;
+
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .WithRetry(DefaultRetryCount, TimeSpan.Zero)
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            ExecutionCount++;
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
             return true;
         }
@@ -293,14 +298,90 @@ public class RetryTests : TestBase
         }
     }
 
+    private class NonCancellableModuleWithTimeout : Module<bool>
+    {
+        private readonly TaskCompletionSource<bool> _completion =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        internal int ExecutionCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(50))
+            .WithRetry(DefaultRetryCount, TimeSpan.FromMinutes(1))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return await _completion.Task;
+        }
+
+        internal void Complete() => _completion.TrySetResult(true);
+    }
+
+    private class NonCancellableModuleWithAdvancedShield : Module<bool>
+    {
+        private readonly TaskCompletionSource<bool> _completion =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        internal int ExecutionCount;
+        internal int ObservedTimeoutCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(50))
+            .Advanced
+            .WithShield(Shield
+                .When<ModuleTimeoutException>(_ =>
+                {
+                    ObservedTimeoutCount++;
+                    return true;
+                })
+                .Retry(DefaultRetryCount, Backoff.None))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            return await _completion.Task;
+        }
+
+        internal void Complete() => _completion.TrySetResult(true);
+    }
+
+    private class CancelledDuringRetryModule : Module<bool>
+    {
+        private readonly TaskCompletionSource _secondAttemptStarted =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        internal Task SecondAttemptStarted => _secondAttemptStarted.Task;
+
+        internal int ExecutionCount;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromSeconds(2))
+            .WithRetry(1, TimeSpan.FromMilliseconds(250))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+            if (ExecutionCount == 1)
+            {
+                throw new RetryableTestException();
+            }
+
+            _secondAttemptStarted.TrySetResult();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return true;
+        }
+    }
+
     [Test]
-    public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
+    public async Task When_Retry_Backoff_Exceeds_Timeout_Then_All_Attempts_Run()
     {
         var host = await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
-            {
-                DefaultRetryCount = DefaultRetryCount,
-            })
             .AddModule<FailedModuleWithTimeout>()
             .BuildAsync();
 
@@ -308,27 +389,111 @@ public class RetryTests : TestBase
 
         var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
-        await Assert.That(timeoutException).IsNotNull();
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(timeoutException).IsNull();
         }
     }
 
     [Test]
     public async Task When_Retry_Timeouts_During_Module_Then_Report_Token_Respected()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options with
-            {
-                DefaultRetryCount = DefaultRetryCount,
-            })
+        var host = await TestPipelineBuilder.Create()
             .AddModule<CancellableModuleWithTimeout>()
-            .ExecutePipelineAsync());
+            .BuildAsync();
 
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+
+        var module = host.Services.GetServices<IModule>().OfType<CancellableModuleWithTimeout>().Single();
         var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
-        await Assert.That(timeoutException).IsNotNull();
-        await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(timeoutException).IsNotNull();
+            await Assert.That(timeoutException!.WasCancellationTokenRespected).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task When_Timed_Out_Attempt_Remains_Active_Then_Do_Not_Retry()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<NonCancellableModuleWithTimeout>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>().OfType<NonCancellableModuleWithTimeout>().Single();
+
+        try
+        {
+            var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => host.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+            var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+                await Assert.That(timeoutException).IsNotNull();
+                await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+            }
+        }
+        finally
+        {
+            module.Complete();
+        }
+    }
+
+    [Test]
+    public async Task When_Advanced_Shield_Sees_Abandoned_Attempt_Then_Do_Not_Reenter_Module()
+    {
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<NonCancellableModuleWithAdvancedShield>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>()
+            .OfType<NonCancellableModuleWithAdvancedShield>()
+            .Single();
+
+        try
+        {
+            var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => host.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+            var timeoutException = moduleFailedException?.InnerException as ModuleTimeoutException;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+                await Assert.That(module.ObservedTimeoutCount).IsEqualTo(ExpectedSingleExecutionCount);
+                await Assert.That(timeoutException).IsNotNull();
+                await Assert.That(timeoutException!.WasCancellationTokenRespected).IsFalse();
+            }
+        }
+        finally
+        {
+            module.Complete();
+        }
+    }
+
+    [Test]
+    public async Task When_Cancelled_During_Later_Attempt_Then_Report_PipelineTerminated()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var host = await TestPipelineBuilder.Create()
+            .AddModule<CancelledDuringRetryModule>()
+            .BuildAsync();
+        var module = host.Services.GetServices<IModule>().OfType<CancelledDuringRetryModule>().Single();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var pipelineTask = host.RunAsync(cancellationTokenSource.Token);
+
+        await module.SecondAttemptStarted.WaitAsync(TimeSpan.FromSeconds(5));
+        cancellationTokenSource.Cancel();
+
+        await pipelineTask;
+
+        var result = resultRegistry.GetResult(typeof(CancelledDuringRetryModule));
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.ExecutionCount).IsEqualTo(2);
+            await Assert.That(result).IsNotNull();
+            await Assert.That(result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        }
     }
 }

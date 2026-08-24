@@ -88,8 +88,9 @@ public record PipelineOptions
     public ExecutionMode ExecutionMode { get; init; } = ExecutionMode.StopOnFirstException;
 
     /// <summary>
-    /// Gets the default timeout for modules that do not configure their own timeout.
+    /// Gets the default per-attempt timeout for modules that do not configure their own timeout.
     /// Set to <see cref="TimeSpan.Zero"/> to disable the default module timeout.
+    /// Retry delays do not count toward this timeout.
     /// </summary>
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 

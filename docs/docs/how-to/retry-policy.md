@@ -97,6 +97,12 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
+`WithTimeout` applies to each execution attempt, not to the whole retry chain. Backoff delays run
+outside that timeout. A timed-out attempt is passed to the resilience shield as a
+`ModuleTimeoutException`, so exception filters still decide whether it should be retried. If the
+attempt remains active after the cancellation grace period, the engine bypasses retries to avoid
+running the same module instance concurrently with its abandoned attempt.
+
 ## Default Retry Configuration
 
 Retries are off by default. You can set a default retry count on the `PipelineOptions`:

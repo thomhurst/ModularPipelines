@@ -472,80 +472,126 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext)
     {
         var timeout = GetTimeout(config);
-        if (config.Timeout is null)
-        {
-            if (timeout == TimeSpan.Zero)
-            {
-                moduleContext.Logger.LogTrace("No module timeout configured. The pipeline default timeout is disabled");
-            }
-            else
-            {
-                moduleContext.Logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
-            }
-        }
+        LogTimeoutConfiguration(config, timeout, moduleContext.Logger);
 
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
         // Get resilience shield if applicable
         var resilienceShield = GetResilienceShield(config, moduleContext);
-        var moduleAttemptCount = 0;
-        var moduleAttemptRespondedToCancellation = 0;
+        using var retryCancellationTokenSource = resilienceShield is null
+            ? null
+            : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var policyExecutionState = new PolicyExecutionState();
 
-        async Task<T> ExecuteModuleAttempt(CancellationToken ct)
-        {
-            Interlocked.Increment(ref moduleAttemptCount);
-            try
-            {
-                return await module.ExecuteAsync(moduleContext, ct).ConfigureAwait(false);
-            }
-            finally
-            {
-                if (ct.IsCancellationRequested)
-                {
-                    Volatile.Write(ref moduleAttemptRespondedToCancellation, 1);
-                }
-            }
-        }
+        // Keep timeout enforcement inside the resilience shield so each attempt gets a fresh budget
+        // and shield-owned backoff delays are not mistaken for unresponsive module execution.
+        Task<T> ExecuteModuleAttempt(CancellationToken ct) => ExecuteModuleAttemptAsync(
+            module,
+            executionContext,
+            moduleContext,
+            timeout,
+            retryCancellationTokenSource,
+            policyExecutionState,
+            ct);
 
-        // Create the execution function that optionally includes resilience strategies
-        Func<CancellationToken, Task<T>> executeFunc = resilienceShield != null
-            ? async ct => await resilienceShield.ExecuteAsync(
-                async shieldToken => await ExecuteModuleAttempt(shieldToken).ConfigureAwait(false),
-                ct).ConfigureAwait(false)
-            : ExecuteModuleAttempt;
-
-        // Use TimeoutHelper with detailed results to get information about token cooperation
-        TimeoutExecutionResult<T> timeoutResult;
+        T result;
         try
         {
-            timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-                executeFunc,
-                timeout == TimeSpan.Zero ? null : timeout,
-                cancellationToken,
-                $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+            result = resilienceShield != null
+                ? await resilienceShield.ExecuteAsync(
+                    async shieldToken => await ExecuteModuleAttempt(shieldToken).ConfigureAwait(false),
+                    retryCancellationTokenSource!.Token).ConfigureAwait(false)
+                : await ExecuteModuleAttempt(cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (policyExecutionState.AbandonedAttemptTimeout is not null
+                                                 && !cancellationToken.IsCancellationRequested)
+        {
+            return ThrowPreservingStack<T>(policyExecutionState.AbandonedAttemptTimeout);
         }
         finally
         {
             ModuleActivityTracing.RecordModuleRetries(
                 executionContext.ModuleType,
-                Math.Max(0, Volatile.Read(ref moduleAttemptCount) - 1));
+                policyExecutionState.RetryCount);
         }
 
-        if (timeoutResult.TimedOut)
+        if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
         {
-            var wasCancellationTokenRespected = timeoutResult.WasCancellationTokenRespected
-                                                && (resilienceShield is null
-                                                    || Volatile.Read(ref moduleAttemptRespondedToCancellation) == 1);
-
-            // Create a detailed timeout exception with information about token cooperation
-            throw new ModuleTimeoutException(
-                executionContext.ModuleType,
-                timeout,
-                timeoutResult.ElapsedTime,
-                wasCancellationTokenRespected);
+            return ThrowPreservingStack<T>(abandonedAttemptTimeout);
         }
 
-        return timeoutResult.Value!;
+        return result;
+    }
+
+    private static void LogTimeoutConfiguration(
+        ModuleConfiguration config,
+        TimeSpan timeout,
+        IModuleLogger logger)
+    {
+        if (config.Timeout is not null)
+        {
+            return;
+        }
+
+        if (timeout == TimeSpan.Zero)
+        {
+            logger.LogTrace("No module timeout configured. The pipeline default timeout is disabled");
+            return;
+        }
+
+        logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
+    }
+
+    private static async Task<T> ExecuteModuleAttemptAsync<T>(
+        Module<T> module,
+        ModuleExecutionContext<T> executionContext,
+        IModuleContext moduleContext,
+        TimeSpan timeout,
+        CancellationTokenSource? retryCancellationTokenSource,
+        PolicyExecutionState policyExecutionState,
+        CancellationToken cancellationToken)
+    {
+        if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
+        {
+            return ThrowPreservingStack<T>(abandonedAttemptTimeout);
+        }
+
+        policyExecutionState.RecordAttempt();
+
+        var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
+            timeout == TimeSpan.Zero ? null : timeout,
+            cancellationToken,
+            $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+
+        if (!timeoutResult.TimedOut)
+        {
+            return timeoutResult.Value!;
+        }
+
+        var timeoutException = new ModuleTimeoutException(
+            executionContext.ModuleType,
+            timeout,
+            timeoutResult.ElapsedTime,
+            timeoutResult.WasCancellationTokenRespected);
+
+        if (!timeoutResult.WasCancellationTokenRespected)
+        {
+            policyExecutionState.AbandonedAttemptTimeout = timeoutException;
+            // Cancel the shield before its retry delay because re-entering this module while
+            // the abandoned attempt is active is unsafe.
+            retryCancellationTokenSource?.Cancel();
+        }
+
+        throw timeoutException;
+    }
+
+    private static T ThrowPreservingStack<T>(Exception exception)
+    {
+        System.Runtime.ExceptionServices.ExceptionDispatchInfo
+            .Capture(exception)
+            .Throw();
+        throw new System.Diagnostics.UnreachableException();
     }
 
     private TimeSpan GetTimeout(ModuleConfiguration config)
@@ -680,7 +726,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Exception = exception;
 
-        executionContext.Status = ClassifyException(config, executionContext, exception);
+        executionContext.Status = ClassifyException(config, exception);
 
         // Use the enhanced exception type for detailed timeout logging.
         if (exception is ModuleTimeoutException timeoutException)
@@ -693,12 +739,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     timeoutException.ElapsedTime.ToDisplayString());
             }
         }
-
         // Check if we should ignore failures
         if (config.IgnoreFailuresCondition != null
             && (executionContext.Status != Status.PipelineTerminated
-                || exception is ModuleTimeoutException
-                || IsTimeout(config, executionContext, exception)))
+                || exception is ModuleTimeoutException))
         {
             if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
             {
@@ -747,31 +791,23 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
     private Status ClassifyException(
         ModuleConfiguration config,
-        ModuleExecutionContext executionContext,
         Exception exception)
     {
         if (!config.AlwaysRun
-            && _engineCancellationToken.IsCancelled
-            && exception is OperationCanceledException or ModuleTimeoutException)
+            && IsPipelineCancelled(exception))
         {
             return Status.PipelineTerminated;
         }
 
-        return exception is ModuleTimeoutException || IsTimeout(config, executionContext, exception)
+        return exception is ModuleTimeoutException
             ? Status.TimedOut
             : Status.Failed;
     }
 
-    private bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
+    private bool IsPipelineCancelled(Exception exception)
     {
-        var timeout = GetTimeout(config);
-        if (timeout == TimeSpan.Zero)
-        {
-            return false;
-        }
-
-        var isTimeoutExceeded = executionContext.Stopwatch.Elapsed >= timeout;
-        return isTimeoutExceeded && exception is OperationCanceledException;
+        return exception is OperationCanceledException or ModuleTimeoutException
+               && _engineCancellationToken.IsCancelled;
     }
 
     private void CancelPipelineAndThrow(
@@ -839,6 +875,17 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 module.CompletionSource.TrySetResult(result);
             }
         }
+    }
+
+    private sealed class PolicyExecutionState
+    {
+        private int _moduleAttemptCount;
+
+        public ModuleTimeoutException? AbandonedAttemptTimeout { get; set; }
+
+        public int RetryCount => Math.Max(0, Volatile.Read(ref _moduleAttemptCount) - 1);
+
+        public void RecordAttempt() => Interlocked.Increment(ref _moduleAttemptCount);
     }
 
     private static void LogModuleStatus(ModuleExecutionContext executionContext, IModuleLogger logger)
