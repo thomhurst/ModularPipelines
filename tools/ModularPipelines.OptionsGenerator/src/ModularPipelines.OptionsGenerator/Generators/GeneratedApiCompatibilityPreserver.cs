@@ -272,14 +272,17 @@ internal static class GeneratedApiCompatibilityPreserver
                 continue;
             }
 
-            if (recoveredOverrides is not null
-                && !recoveredOverrides.OrderBy(static pair => pair.Key)
-                    .SequenceEqual(candidate.OrderBy(static pair => pair.Key)))
+            recoveredOverrides ??= new Dictionary<int, string>();
+            foreach (var (partIndex, identifier) in candidate)
             {
-                return new Dictionary<int, string>();
-            }
+                if (recoveredOverrides.TryGetValue(partIndex, out var recoveredIdentifier)
+                    && !recoveredIdentifier.Equals(identifier, StringComparison.Ordinal))
+                {
+                    return new Dictionary<int, string>();
+                }
 
-            recoveredOverrides = candidate;
+                recoveredOverrides[partIndex] = identifier;
+            }
         }
 
         return recoveredOverrides ?? new Dictionary<int, string>();

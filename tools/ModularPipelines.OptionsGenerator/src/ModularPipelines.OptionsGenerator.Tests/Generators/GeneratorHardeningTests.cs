@@ -1955,6 +1955,53 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Merges_Compatible_Facade_Casing()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellNestedOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"nested\")] "
+                + "public record ToolGroupCloudShellNestedOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellNestedChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"nested\", \"child\")] "
+                + "public record ToolGroupCloudShellNestedChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task NestedAsync(ToolGroupCloudShellNestedOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshellNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshellNested { "
+                + "public Task ExecuteAsync(ToolGroupCloudShellNestedOptions? options = null) => Task.CompletedTask; "
+                + "public Task ChildAsync(ToolGroupCloudShellNestedChildOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName == "ToolGroupCloudShellNestedOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandPartIdentifierOverrides[1]).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandPartIdentifierOverrides[2]).IsEqualTo("Nested");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Preserves_Live_Group_Casing_For_Restored_Sibling()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
