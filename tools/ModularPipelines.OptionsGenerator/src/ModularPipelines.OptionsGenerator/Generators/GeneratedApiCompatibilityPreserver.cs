@@ -161,11 +161,6 @@ internal static class GeneratedApiCompatibilityPreserver
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        if (currentGroups.Length == 1)
-        {
-            return currentGroups[0];
-        }
-
         var matchingGroups = currentGroups
             .Where(group => GeneratorUtils.GetSubDomainIdentifier(tool, group)
                 .Equals(fallbackIdentifier, StringComparison.OrdinalIgnoreCase))
@@ -185,6 +180,16 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         var defaultIdentifier = GeneratorUtils.ToPascalCase(rootCommand);
+        var facadeIdentifiers = facadeMethods
+            .Select(method => GetRootIdentifierFromFacade(tool, baseline.CommandParts!, method))
+            .Where(static identifier => identifier is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (facadeIdentifiers.Length == 1)
+        {
+            return facadeIdentifiers[0];
+        }
+
         var currentIdentifiers = tool.Commands
             .Where(command => command.CommandParts.Length > 0
                               && command.CommandParts[0].Equals(
@@ -198,16 +203,6 @@ internal static class GeneratedApiCompatibilityPreserver
         if (currentIdentifiers.Length == 1)
         {
             return currentIdentifiers[0];
-        }
-
-        var facadeIdentifiers = facadeMethods
-            .Select(method => GetRootIdentifierFromFacade(tool, baseline.CommandParts!, method))
-            .Where(static identifier => identifier is not null)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        if (facadeIdentifiers.Length == 1)
-        {
-            return facadeIdentifiers[0];
         }
 
         var commandSuffix = string.Concat(

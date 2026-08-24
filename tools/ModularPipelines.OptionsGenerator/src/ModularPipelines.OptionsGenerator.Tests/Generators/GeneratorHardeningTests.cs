@@ -2117,6 +2117,47 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Missing_Group_Alongside_Other_Live_Group()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAlphaOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"foo\", \"old\")] "
+                + "public record ToolAlphaOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAlpha.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAlpha { "
+                + "public Task OldAsync(ToolAlphaOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolBetaCurrentOptions",
+                "ToolOptions",
+                ["foo", "beta"],
+                subDomainGroup: "beta-key",
+                commandGroupIdentifierOverride: "Beta"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolAlphaOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Alpha");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Alpha");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["beta-key", "Alpha"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Uses_One_Root_For_Removed_Parent_And_Child()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
