@@ -338,15 +338,20 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static IEnumerable<(CliCommandDefinition Command, string MethodName)> GetCompatibilityCommands(
         CommandTreeNode node,
         CliCommandDefinition? parentCommand,
-        HashSet<CliCommandDefinition> excludedCommands) =>
-        node.Commands
+        HashSet<CliCommandDefinition> excludedCommands)
+    {
+        var commands = node.Commands
             .Where(command => !excludedCommands.Contains(command))
+            .ToList();
+        return commands
             .OrderBy(command => command.ClassName)
             .Select(command => (
                 command,
                 GeneratorUtils.GenerateSubDomainMethodName(
                     command,
-                    parentCommand is not null)));
+                    parentCommand is not null,
+                    commands)));
+    }
 
     private static void GenerateCompatibilityMethodSignature(
         StringBuilder sb,
@@ -485,7 +490,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         {
             var methodName = GeneratorUtils.GenerateSubDomainMethodName(
                 command,
-                parentCommand is not null);
+                parentCommand is not null,
+                commands);
             GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
             sb.AppendLine();
         }
@@ -607,7 +613,10 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         foreach (var command in commands.OrderBy(c => c.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateSubDomainMethodName(command, parentCommand is not null);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null,
+                commands);
             GeneratorUtils.GenerateServiceMethod(sb, methodName, command);
             sb.AppendLine();
         }
@@ -626,7 +635,8 @@ public class SubDomainClassGenerator : ICodeGenerator
             .Concat(commands
                 .Select(command => GeneratorUtils.GenerateSubDomainMethodName(
                     command,
-                    parentCommand is not null))
+                    parentCommand is not null,
+                    commands))
                 .Select(GeneratorUtils.EnsureAsyncSuffix));
         if (parentCommand is not null)
         {

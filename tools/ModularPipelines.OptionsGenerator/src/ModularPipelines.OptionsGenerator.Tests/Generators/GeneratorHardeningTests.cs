@@ -4219,6 +4219,37 @@ public class GeneratorHardeningTests
             .And.HasMessageContaining("FooBar");
     }
 
+    [Test]
+    public async Task SubDomainClassGenerator_Disambiguates_Literal_Async_Command()
+    {
+        var tool = Tool(
+            Command(
+                "ToolBedrockInvokeDataAutomationOptions",
+                "ToolOptions",
+                ["bedrock", "invoke-data-automation"],
+                subDomainGroup: "bedrock") with
+            {
+                FullCommand = "tool bedrock invoke-data-automation",
+            },
+            Command(
+                "ToolBedrockInvokeDataAutomationAsyncOptions",
+                "ToolOptions",
+                ["bedrock", "invoke-data-automation-async"],
+                subDomainGroup: "bedrock") with
+            {
+                FullCommand = "tool bedrock invoke-data-automation-async",
+            });
+
+        var service = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "ToolBedrock.Generated.cs")
+            .Content;
+
+        await Assert.That(service)
+            .Contains("InvokeDataAutomationAsync(");
+        await Assert.That(service)
+            .Contains("InvokeDataAutomationAsyncCommandAsync(");
+    }
+
     #endregion
 
     #region Root command collision filter

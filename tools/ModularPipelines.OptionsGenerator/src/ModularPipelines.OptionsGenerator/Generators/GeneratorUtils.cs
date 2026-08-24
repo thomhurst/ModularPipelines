@@ -609,9 +609,32 @@ public static partial class GeneratorUtils
     /// <summary>
     /// Generates a method name for a command emitted on a sub-domain service.
     /// A literal <c>execute</c> child is disambiguated from the parent command's
-    /// reserved <c>ExecuteAsync</c> method.
+    /// reserved <c>ExecuteAsync</c> method. A literal <c>*-async</c> command is
+    /// disambiguated when adding the standard async suffix would collide with a sibling.
     /// </summary>
     public static string GenerateSubDomainMethodName(
+        CliCommandDefinition command,
+        bool hasParentCommand,
+        IEnumerable<CliCommandDefinition>? siblingCommands = null)
+    {
+        var methodName = GenerateSubDomainBaseMethodName(command, hasParentCommand);
+
+        if (!methodName.EndsWith("Async", StringComparison.OrdinalIgnoreCase)
+            || siblingCommands is null)
+        {
+            return methodName;
+        }
+
+        var publicMethodName = EnsureAsyncSuffix(methodName);
+        var hasAsyncSuffixCollision = siblingCommands.Any(candidate =>
+            !candidate.FullCommand.Equals(command.FullCommand, StringComparison.OrdinalIgnoreCase)
+            && EnsureAsyncSuffix(GenerateSubDomainBaseMethodName(candidate, hasParentCommand))
+                .Equals(publicMethodName, StringComparison.OrdinalIgnoreCase));
+
+        return hasAsyncSuffixCollision ? $"{methodName}Command" : methodName;
+    }
+
+    private static string GenerateSubDomainBaseMethodName(
         CliCommandDefinition command,
         bool hasParentCommand)
     {

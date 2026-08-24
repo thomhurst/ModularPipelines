@@ -318,9 +318,25 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         var methodName = GeneratorUtils.GenerateSubDomainMethodName(
             command,
-            HasExecutableParentCommand(tool, command));
+            HasExecutableParentCommand(tool, command),
+            GetSiblingCommands(tool, command));
         return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
     }
+
+    private static IEnumerable<CliCommandDefinition> GetSiblingCommands(
+        CliToolDefinition tool,
+        CliCommandDefinition command) =>
+        tool.Commands.Where(candidate =>
+            string.Equals(
+                candidate.SubDomainGroup,
+                command.SubDomainGroup,
+                StringComparison.OrdinalIgnoreCase)
+            && candidate.CommandParts.Length == command.CommandParts.Length
+            && candidate.CommandParts
+                .SkipLast(1)
+                .SequenceEqual(
+                    command.CommandParts.SkipLast(1),
+                    StringComparer.OrdinalIgnoreCase));
 
     private static bool HasExecutableParentCommand(
         CliToolDefinition tool,
