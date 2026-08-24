@@ -1088,6 +1088,64 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Keeps_Historical_Alias_On_Restored_Collision_Target()
+    {
+        var command = Command("ToolLoginOptions", "ToolOptions", ["login"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--server",
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Server",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyServer",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Server",
+                    ObsoleteMessage = "Use Server instead.",
+                },
+            ],
+        };
+        var collisionResolved = InheritedPropertyCollisionResolver.Resolve(Tool(command))
+            .Commands.Single();
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            collisionResolved,
+            [
+                BaselineProperty("Server", "string", argumentPosition: 0, isRequired: true),
+                BaselineProperty(
+                    "LegacyServer",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "Server"),
+            ]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ServerOption");
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName).IsEqualTo("Server");
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("Server");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retargets_Transitive_Compatibility_Aliases()
     {
         var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with

@@ -970,12 +970,20 @@ internal static class GeneratedApiCompatibilityPreserver
                 propertyNames);
             RenameLocalMember(conflictingMember.Value, conflictingName, positionalArguments, options);
             RenameLocalMember(historicalMember.Value, baseline.PropertyName, positionalArguments, options);
+            var historicalForwarders = baselineProperties
+                .Where(property => property is { IsCompatibility: true, ForwardToPropertyName: not null }
+                    && property.ForwardToPropertyName.Equals(
+                        baseline.PropertyName,
+                        StringComparison.Ordinal))
+                .Select(static property => property.PropertyName)
+                .ToHashSet(StringComparer.Ordinal);
             RetargetCompatibilityProperties(
                 compatibilityProperties,
                 new Dictionary<string, string>(StringComparer.Ordinal)
                 {
                     [baseline.PropertyName] = conflictingName,
-                });
+                },
+                historicalForwarders);
             propertyNames.Add(baseline.PropertyName);
         }
     }
@@ -1339,12 +1347,14 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static void RetargetCompatibilityProperties(
         IList<CliCompatibilityProperty> compatibilityProperties,
-        IReadOnlyDictionary<string, string> renamedProperties)
+        IReadOnlyDictionary<string, string> renamedProperties,
+        IReadOnlySet<string>? excludedProperties = null)
     {
         for (var index = 0; index < compatibilityProperties.Count; index++)
         {
             var property = compatibilityProperties[index];
-            if (property.ForwardToPropertyName is { } target
+            if (excludedProperties?.Contains(property.PropertyName) != true
+                && property.ForwardToPropertyName is { } target
                 && renamedProperties.TryGetValue(target, out var replacement))
             {
                 compatibilityProperties[index] = property with
