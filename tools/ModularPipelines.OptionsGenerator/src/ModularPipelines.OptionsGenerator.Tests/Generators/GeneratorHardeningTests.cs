@@ -2066,8 +2066,12 @@ public class GeneratorHardeningTests
                 "using ModularPipelines.Attributes; "
                 + "[CliSubCommand(\"removed\")] "
                 + "public record ToolRemovedOptions : ToolOptions { "
+                + "[Range(0, 6)] "
+                + "[RegularExpression(\"^[0-6]$\")] "
                 + "[CliFlag(\"--force\", ShortForm = \"-f\", PreferShortForm = true, Phase = CommandLinePhase.Terminal)] "
                 + "public int? Force { get; set; } "
+                + "[CliOptionValueRange(1, 3)] "
+                + "[CliOptionValueRegularExpression(\"^[1-3]$\")] "
                 + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
                 + "Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)] "
                 + "public CliOptionValue? Pull { get; set; } "
@@ -2106,11 +2110,17 @@ public class GeneratorHardeningTests
                 await Assert.That(force.ShortForm).IsEqualTo("-f");
                 await Assert.That(force.PreferShortForm).IsTrue();
                 await Assert.That(force.Phase).IsEqualTo(CommandLinePhase.Terminal);
+                await Assert.That(force.ValidationConstraints!.MinValue).IsEqualTo(0);
+                await Assert.That(force.ValidationConstraints.MaxValue).IsEqualTo(6);
+                await Assert.That(force.ValidationConstraints.Pattern).IsEqualTo("^[0-6]$");
                 await Assert.That(pull.IsFlag).IsFalse();
                 await Assert.That(pull.ShortForm).IsEqualTo("-p");
                 await Assert.That(pull.PreferShortForm).IsTrue();
                 await Assert.That(pull.ValueSeparator).IsEqualTo("=");
                 await Assert.That(pull.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+                await Assert.That(pull.ValidationConstraints!.MinValue).IsEqualTo(1);
+                await Assert.That(pull.ValidationConstraints.MaxValue).IsEqualTo(3);
+                await Assert.That(pull.ValidationConstraints.Pattern).IsEqualTo("^[1-3]$");
                 await Assert.That(arguments.GroupValues).IsTrue();
                 await Assert.That(arguments.IsSecret).IsTrue();
                 await Assert.That(arguments.SecretValueKeys).IsEquivalentTo(["password", "token"]);
@@ -2120,6 +2130,11 @@ public class GeneratorHardeningTests
                 await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
                 await Assert.That(generatedOptions)
                     .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
+                await Assert.That(generatedOptions).Contains("[Range(0, 6)]");
+                await Assert.That(generatedOptions).Contains("[RegularExpression(\"^[0-6]$\")]");
+                await Assert.That(generatedOptions).Contains("[CliOptionValueRange(1, 3)]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliOptionValueRegularExpression(\"^[1-3]$\")]");
                 await Assert.That(generatedOptions)
                     .Contains("[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, PrependOptionTerminatorIfValueStartsWithDash = true)]");
                 await Assert.That(generatedOptions).Contains("[SecretValue(\"password\", \"token\")]");

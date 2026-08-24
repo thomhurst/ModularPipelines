@@ -109,6 +109,19 @@ public class GitCliScraperTests
     }
 
     [Test]
+    public async Task ScrapeAsync_Throws_After_Disposal()
+    {
+        var scraper = new GitCliScraper(
+            new StubExecutor(),
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+        scraper.Dispose();
+
+        await Assert.That(async () => await DrainAsync(scraper, CancellationToken.None))
+            .Throws<ObjectDisposedException>();
+    }
+
+    [Test]
     public async Task ExtractSubcommands_Skips_Global_Options_Before_Command_Name()
     {
         const string help = """

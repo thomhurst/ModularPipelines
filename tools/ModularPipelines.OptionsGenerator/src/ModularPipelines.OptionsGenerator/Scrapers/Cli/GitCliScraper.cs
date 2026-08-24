@@ -16,7 +16,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public partial class GitCliScraper : CliScraperBase, IDisposable
 {
     private readonly object _helpRepositoryLock = new();
-    private readonly SemaphoreSlim _helpRepositoryUsage = new(1, 1);
+    private readonly SemaphoreSlim _helpCommandUsage = new(1, 1);
     private string? _helpRepositoryDirectory;
     private Task<string>? _helpRepositoryTask;
     private bool _disposed;
@@ -43,10 +43,17 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             GenerateCode = false,
         };
 
+    public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
+    {
+        ThrowIfDisposed();
+        return base.IsAvailableAsync(cancellationToken);
+    }
+
     protected override async Task<string?> GetHelpTextAsync(
         string[] commandPath,
         CancellationToken cancellationToken)
     {
+        ThrowIfDisposed();
         var cacheKey = string.Join(' ', commandPath);
         if (HelpCache.TryGet(cacheKey, out var cached))
         {
@@ -57,14 +64,12 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
         var usesHelpRepository = commandPath.Length > 2;
-        if (usesHelpRepository)
-        {
-            await _helpRepositoryUsage.WaitAsync(cancellationToken);
-        }
+        await _helpCommandUsage.WaitAsync(cancellationToken);
 
         CliCommandResult result;
         try
         {
+            ThrowIfDisposed();
             var workingDirectory = usesHelpRepository
                 ? await GetHelpRepositoryAsync()
                 : null;
@@ -76,10 +81,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
         finally
         {
-            if (usesHelpRepository)
-            {
-                _helpRepositoryUsage.Release();
-            }
+            _helpCommandUsage.Release();
         }
 
         // Git sends short help to either stream and commonly exits with its usage code.
@@ -92,6 +94,14 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
         HelpCache.Set(cacheKey, helpText);
         return helpText;
+    }
+
+    private void ThrowIfDisposed()
+    {
+        lock (_helpRepositoryLock)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+        }
     }
 
     private Task<string> GetHelpRepositoryAsync()
@@ -137,7 +147,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             initialization = _helpRepositoryTask;
         }
 
-        _helpRepositoryUsage.Wait();
+        _helpCommandUsage.Wait();
         string? directory;
         try
         {
@@ -159,7 +169,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
         finally
         {
-            _helpRepositoryUsage.Release();
+            _helpCommandUsage.Release();
         }
 
         if (directory is null || !Directory.Exists(directory))

@@ -432,6 +432,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 ValueSeparator = property.ValueSeparator,
                 IsSecret = property.IsSecret,
                 SecretValueKeys = property.SecretValueKeys ?? [],
+                ValidationConstraints = property.ValidationConstraints,
             })
             .ToArray();
 
@@ -2342,6 +2343,10 @@ internal static class GeneratedApiCompatibilityPreserver
         var cliFlag = FindAttribute(attributes, "CliFlag");
         var cliSwitch = cliOption ?? cliFlag;
         var secretValue = FindAttribute(attributes, "SecretValue");
+        var range = FindAttribute(attributes, "Range")
+                    ?? FindAttribute(attributes, "CliOptionValueRange");
+        var regularExpression = FindAttribute(attributes, "RegularExpression")
+                                ?? FindAttribute(attributes, "CliOptionValueRegularExpression");
         var obsolete = FindAttribute(attributes, "Obsolete");
         var (targetPropertyName, forwardingKind) = GetForwarding(accessorList);
         bool? isFlag = cliSwitch is null ? null : cliFlag is not null;
@@ -2370,7 +2375,25 @@ internal static class GeneratedApiCompatibilityPreserver
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
             secretValue is not null,
-            GetStringArguments(secretValue));
+            GetStringArguments(secretValue),
+            GetValidationConstraints(range, regularExpression));
+    }
+
+    private static CliValidationConstraints? GetValidationConstraints(
+        AttributeSyntax? range,
+        AttributeSyntax? regularExpression)
+    {
+        var minValue = GetIntegerArgument(range);
+        var maxValue = GetIntegerArgument(range, 1);
+        var pattern = GetStringArgument(regularExpression);
+        return minValue is null && maxValue is null && pattern is null
+            ? null
+            : new CliValidationConstraints
+            {
+                MinValue = minValue,
+                MaxValue = maxValue,
+                Pattern = pattern,
+            };
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -2386,8 +2409,8 @@ internal static class GeneratedApiCompatibilityPreserver
                 ? literal.Token.ValueText
                 : null;
 
-    private static int? GetIntegerArgument(AttributeSyntax? attribute) =>
-        attribute?.ArgumentList?.Arguments.FirstOrDefault()?.Expression is LiteralExpressionSyntax literal
+    private static int? GetIntegerArgument(AttributeSyntax? attribute, int index = 0) =>
+        attribute?.ArgumentList?.Arguments.ElementAtOrDefault(index)?.Expression is LiteralExpressionSyntax literal
             && literal.IsKind(SyntaxKind.NumericLiteralExpression)
             && literal.Token.Value is int value
                 ? value
@@ -2560,7 +2583,8 @@ internal sealed record GeneratedApiProperty(
     bool PrependOptionTerminator = false,
     bool PrependOptionTerminatorIfValueStartsWithDash = false,
     bool IsSecret = false,
-    string[]? SecretValueKeys = null);
+    string[]? SecretValueKeys = null,
+    CliValidationConstraints? ValidationConstraints = null);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,
