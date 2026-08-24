@@ -1,0 +1,262 @@
+using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.TypeDetection;
+
+namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
+
+public class RepeatableOptionAdapterTests
+{
+    private static ICliCommandExecutor Executor { get; } =
+        new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+    private static IHelpTextCache Cache { get; } =
+        new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+
+    [Test]
+    public async Task Terraform_Recognizes_Multiple_Times_Prose()
+    {
+        const string helpText = """
+            Usage: terraform apply [options]
+
+            Options:
+              -var-file=path  Set variables from a file. This flag can be used multiple times.
+            """;
+        var command = await new TestTerraformCliScraper().Parse(["terraform", "apply"], helpText);
+
+        await AssertRepeatable(command, "-var-file");
+    }
+
+    [Test]
+    public async Task Pip_Recognizes_Multiline_Multiple_Times_Prose()
+    {
+        const string helpText = """
+            Usage: pip freeze [options]
+
+            General Options:
+              -r, --requirement <file>  Install from the given requirements file.
+                                        This option can be used multiple times.
+            """;
+        var command = await new TestPipCliScraper().Parse(["pip", "freeze"], helpText);
+
+        await AssertRepeatable(command, "--requirement");
+    }
+
+    [Test]
+    public async Task Packer_Recognizes_Repeatable_Prose()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -var-file=path  Set a variable file; repeatable for additional files.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+
+        await AssertRepeatable(command, "--var-file");
+    }
+
+    [Test]
+    public async Task Packer_Recognizes_Quoted_Repeatable_Value()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -var 'key=value'  Set a variable. Can be repeated.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+
+        await AssertRepeatable(command, "--var");
+    }
+
+    [Test]
+    public async Task Packer_Recognizes_Multiline_Repeatable_Prose()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -var-file=path  Set a variable file.
+                              Can be repeated for additional files.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+
+        await AssertRepeatable(command, "--var-file");
+    }
+
+    [Test]
+    public async Task Packer_Does_Not_Treat_Operational_Repetition_As_Repeatable()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -retry-count=count  Retry the operation multiple times before failing.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--retry-count");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    [Arguments("This argument must be repeated for each entry.", true)]
+    [Arguments("The value is repeated across runs.", true)]
+    [Arguments("Provide one or more paths to scan.", true)]
+    [Arguments("Validates multiple values against a schema.", false)]
+    [Arguments("Retry the operation one or more times before failing.", false)]
+    [Arguments("This operation runs one or more attempts depending on configuration.", false)]
+    [Arguments("One or more attempts are made before failure.", false)]
+    [Arguments("One or more times may be required.", false)]
+    [Arguments("One or more retries may be attempted.", false)]
+    [Arguments("Provide one or more attempts before failing.", false)]
+    [Arguments("Accepts one or more retries.", false)]
+    [Arguments("Give one or more times to retry.", false)]
+    [Arguments("One or more retry attempts before failing.", false)]
+    [Arguments("Zero or more retry attempts may be made.", false)]
+    [Arguments("One or more connection retries before giving up.", false)]
+    [Arguments("One or more polling attempts before timing out.", false)]
+    [Arguments("This option can be specified one or more times.", true)]
+    [Arguments("May be provided zero or more times.", true)]
+    [Arguments("This option should be used more than once.", true)]
+    [Arguments("Supports multiple values.", true)]
+    [Arguments("Takes multiple values.", true)]
+    [Arguments("Value can contain multiple values.", true)]
+    public async Task Packer_Classifies_Explicit_Repeatability_Prose(
+        string description,
+        bool expected)
+    {
+        var helpText = $"""
+            Usage: packer build [options]
+
+            Options:
+              -var-file=path  {description}
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+        var option = command!.Options.Single(item => item.SwitchName == "--var-file");
+
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task Snyk_Recognizes_Repeated_Prose()
+    {
+        const string helpText = """
+            Usage: snyk monitor [<OPTIONS>]
+
+            Options
+              --project-environment=<ENVIRONMENT>
+                  Set the project environment. Can be repeated.
+            """;
+        var command = await new TestSnykCliScraper().Parse(["snyk", "monitor"], helpText);
+
+        await AssertRepeatable(command, "--project-environment");
+    }
+
+    [Test]
+    public async Task Snyk_Preserves_Numeric_Element_Type_For_Repeatable_Options()
+    {
+        const string helpText = """
+            Usage: snyk test [<OPTIONS>]
+
+            Options
+              --max-depth=<DEPTH>
+                  Set the maximum dependency depth. Can be repeated.
+            """;
+        var command = await new TestSnykCliScraper().Parse(["snyk", "test"], helpText);
+
+        await AssertRepeatable(command, "--max-depth", "IEnumerable<int>?");
+    }
+
+    [Test]
+    public async Task Snyk_Preserves_Enum_Element_Type_For_Repeatable_Options()
+    {
+        const string helpText = """
+            Usage: snyk test [<OPTIONS>]
+
+            Options
+              --severity-threshold=<low|medium|high|critical>
+                  Report only vulnerabilities at the selected threshold. Can be repeated.
+            """;
+        var command = await new TestSnykCliScraper().Parse(["snyk", "test"], helpText);
+
+        await AssertRepeatable(
+            command,
+            "--severity-threshold",
+            "IEnumerable<SnykSeverityThreshold>?");
+    }
+
+    private static async Task AssertRepeatable(
+        CliCommandDefinition? command,
+        string switchName,
+        string expectedType = "IEnumerable<string>?")
+    {
+        var option = command!.Options.Single(item => item.SwitchName == switchName);
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo(expectedType);
+        }
+    }
+
+    private sealed class TestTerraformCliScraper()
+        : TerraformCliScraper(
+            RepeatableOptionAdapterTests.Executor,
+            RepeatableOptionAdapterTests.Cache,
+            NullLogger<TerraformCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestPipCliScraper()
+        : PipCliScraper(
+            RepeatableOptionAdapterTests.Executor,
+            RepeatableOptionAdapterTests.Cache,
+            NullLogger<PipCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestPackerCliScraper()
+        : PackerCliScraper(
+            RepeatableOptionAdapterTests.Executor,
+            RepeatableOptionAdapterTests.Cache,
+            NullLogger<PackerCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestSnykCliScraper()
+        : SnykCliScraper(
+            RepeatableOptionAdapterTests.Executor,
+            RepeatableOptionAdapterTests.Cache,
+            NullLogger<SnykCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+}

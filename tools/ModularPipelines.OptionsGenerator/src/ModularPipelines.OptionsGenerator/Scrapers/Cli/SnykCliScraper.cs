@@ -321,6 +321,10 @@ public partial class SnykCliScraper : CliScraperBase
                     && !isNumeric
                     && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
                 var isBoolean = IsBooleanValueHint(valueHint);
+                var acceptsMultipleValues = IsRepeatableValueOption(
+                    description ?? string.Empty,
+                    isFlag,
+                    isBoolean);
                 var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
 
                 CliEnumDefinition? enumDef = null;
@@ -345,6 +349,8 @@ public partial class SnykCliScraper : CliScraperBase
                     }
                 }
 
+                csharpType = AsCSharpType(csharpType, acceptsMultipleValues);
+
                 options.Add(new CliOptionDefinition
                 {
                     SwitchName = longForm,
@@ -354,7 +360,7 @@ public partial class SnykCliScraper : CliScraperBase
                     Description = description,
                     IsFlag = isFlag,
                     IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
-                    AcceptsMultipleValues = false,
+                    AcceptsMultipleValues = acceptsMultipleValues,
                     IsKeyValue = false,
                     IsNumeric = isNumeric,
                     ValueSeparator = isFlag ? " " : "=",

@@ -315,7 +315,8 @@ public partial class TerraformCliScraper : CliScraperBase
                 isFlag = true;
             }
 
-            var csharpType = isFlag ? "bool?" : (isInteger ? "int?" : "string?");
+            var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag, isBoolean);
+            var csharpType = GetCSharpType(isFlag, isInteger, acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
             {
@@ -326,7 +327,7 @@ public partial class TerraformCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = isInteger,
                 ValueSeparator = isFlag ? " " : "=",
@@ -336,6 +337,12 @@ public partial class TerraformCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static string GetCSharpType(bool isFlag, bool isInteger, bool acceptsMultipleValues)
+    {
+        var scalarType = isFlag ? "bool?" : isInteger ? "int?" : "string?";
+        return AsCSharpType(scalarType, acceptsMultipleValues);
     }
 
     /// <summary>

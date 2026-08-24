@@ -179,8 +179,9 @@ public partial class PackerCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
+            var line = lines[i];
             var match = PackerOptionPattern().Match(line);
             if (!match.Success)
             {
@@ -205,14 +206,20 @@ public partial class PackerCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
+            i = AccumulateMultiLineDescription(lines, i, ref description);
+
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
             {
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint) || valueHint.Contains("true") || valueHint.Contains("false");
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isFlag = string.IsNullOrEmpty(valueHint)
+                         || valueHint.Equals("true", StringComparison.OrdinalIgnoreCase)
+                         || valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+            var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
+            var scalarType = isFlag ? "bool?" : "string?";
+            var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
             {
@@ -223,7 +230,7 @@ public partial class PackerCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
                 ValueSeparator = "=",
@@ -233,6 +240,38 @@ public partial class PackerCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static int AccumulateMultiLineDescription(
+        string[] lines,
+        int currentIndex,
+        ref string description)
+    {
+        var descriptionParts = new List<string>();
+        if (!string.IsNullOrEmpty(description))
+        {
+            descriptionParts.Add(description);
+        }
+
+        var optionIndent = lines[currentIndex].Length - lines[currentIndex].TrimStart().Length;
+        var nextIndex = currentIndex + 1;
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            var trimmedNext = nextLine.Trim();
+            if (string.IsNullOrWhiteSpace(trimmedNext)
+                || trimmedNext.StartsWith('-')
+                || nextLine.Length - nextLine.TrimStart().Length <= optionIndent)
+            {
+                break;
+            }
+
+            descriptionParts.Add(trimmedNext);
+            nextIndex++;
+        }
+
+        description = string.Join(" ", descriptionParts);
+        return nextIndex - 1;
     }
 
     /// <summary>
@@ -269,7 +308,7 @@ public partial class PackerCliScraper : CliScraperBase
     ///   -debug             Debug mode enabled
     ///   -var 'key=value'   Variable for templates
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'[^']+')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'(?<value>[^']+)')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex PackerOptionPattern();
 
     #endregion

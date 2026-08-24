@@ -621,6 +621,30 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("Accepts multiple values")]
+    [Arguments("One or more label selectors")]
+    public async Task SharedShapeInference_Preserves_Common_Repeatability_Phrases(string description)
+    {
+        var helpText = $"""
+            Execute a command.
+
+            Usage:
+              fake execute [flags]
+
+            Flags:
+              --tag string   {description}
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        var command = await scraper.Parse(["fake", "execute"], helpText);
+        var tag = command!.Options.Single();
+
+        await Assert.That(tag.AcceptsMultipleValues).IsTrue();
+        await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Optional_Cobra_Option_Values()
     {
         const string helpText = """
@@ -663,11 +687,40 @@ public class CliScraperTraversalTests
         {
             ["--help"] = helpText,
         });
-        var scraper = new ShapeMismatchScraper(executor);
+        var scraper = new OptionShapeScraper(executor);
 
         var commands = await ScrapeAsync(scraper);
 
         await Assert.That(commands).IsEmpty();
+    }
+
+    [Test]
+    public async Task SharedTraversal_Preserves_Boolean_Value_Options_With_Repeatability_Prose()
+    {
+        const string helpText = """
+            Execute a command.
+
+            Usage:
+              fake [flags]
+
+            Flags:
+              --tag=<true|false>   May be specified multiple times
+            """;
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = helpText,
+        });
+        var scraper = new OptionShapeScraper(executor, "bool?");
+
+        var command = (await ScrapeAsync(scraper)).Single();
+        var option = command.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        }
     }
 
     [Test]
@@ -694,7 +747,7 @@ public class CliScraperTraversalTests
     [Test]
     public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
     {
-        var scraper = new ShapeMismatchScraper(new StubExecutor(
+        var scraper = new OptionShapeScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
 
         await Assert.That(scraper.Skips("SSH")).IsFalse();
@@ -875,14 +928,17 @@ public class CliScraperTraversalTests
             Task.FromResult(true);
     }
 
-    private sealed class ShapeMismatchScraper : CliScraperBase
+    private sealed class OptionShapeScraper : CliScraperBase
     {
-        public ShapeMismatchScraper(ICliCommandExecutor executor)
+        private readonly string _csharpType;
+
+        public OptionShapeScraper(ICliCommandExecutor executor, string csharpType = "string?")
             : base(
                 executor,
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<ShapeMismatchScraper>.Instance)
+                NullLogger<OptionShapeScraper>.Instance)
         {
+            _csharpType = csharpType;
         }
 
         public override string ToolName => "fake";
@@ -914,7 +970,7 @@ public class CliScraperTraversalTests
                     {
                         SwitchName = "--tag",
                         PropertyName = "Tag",
-                        CSharpType = "string?",
+                        CSharpType = _csharpType,
                         Description = "May be specified multiple times",
                     },
                 ],
