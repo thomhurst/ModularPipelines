@@ -81,7 +81,8 @@ jobs:
                 tool: .toolName,
                 package: .packageName,
                 prefix: .namespacePrefix,
-                outputDirectory: .outputDirectory
+                outputDirectory: .outputDirectory,
+                generateCommandFacade: .generateCommandFacade
               }]}' \
               "$RUNNER_TEMP/tool-catalog.json"
           }
@@ -189,15 +190,18 @@ jobs:
             fi
           }
 
-          # Only delete specific service interface/implementation files (not all I*.cs files)
-          # These are the exact files the generator will create in Services/
-          remove_legacy_file "$PKG_DIR/I${PREFIX}.cs"
-          remove_legacy_file "$PKG_DIR/${PREFIX}.cs"
+          # Preserve handwritten service APIs during coverage-only generator runs.
+          if [ "${{ matrix.generateCommandFacade }}" = "true" ]; then
+            # Only delete specific service interface/implementation files (not all I*.cs files)
+            # These are the exact files the generator will create in Services/
+            remove_legacy_file "$PKG_DIR/I${PREFIX}.cs"
+            remove_legacy_file "$PKG_DIR/${PREFIX}.cs"
 
-          # Delete only this tool's generated service files. Packages such as
-          # ModularPipelines.Java contain services for multiple CLI tools.
-          remove_legacy_file "$PKG_DIR/Services/I${PREFIX}.Generated.cs"
-          remove_legacy_file "$PKG_DIR/Services/${PREFIX}.Generated.cs"
+            # Delete only this tool's generated service files. Packages such as
+            # ModularPipelines.Java contain services for multiple CLI tools.
+            remove_legacy_file "$PKG_DIR/Services/I${PREFIX}.Generated.cs"
+            remove_legacy_file "$PKG_DIR/Services/${PREFIX}.Generated.cs"
+          fi
 
           echo "Cleanup complete for $PACKAGE"
 
@@ -796,20 +800,23 @@ jobs:
             }
           }
 
-          # Only delete specific service interface/implementation files (not all I*.cs files)
-          # These are the exact files the generator will create in Services/
-          $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
-          $implFile = Join-Path $pkgDir "$prefix.cs"
+          # Preserve handwritten service APIs during coverage-only generator runs.
+          if ('${{ matrix.generateCommandFacade }}' -eq 'true') {
+            # Only delete specific service interface/implementation files (not all I*.cs files)
+            # These are the exact files the generator will create in Services/
+            $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
+            $implFile = Join-Path $pkgDir "$prefix.cs"
 
-          Remove-LegacyFile $interfaceFile
-          Remove-LegacyFile $implFile
+            Remove-LegacyFile $interfaceFile
+            Remove-LegacyFile $implFile
 
-          # Delete only this tool's generated service files. A package may
-          # contain services for multiple CLI tools.
-          $servicesDir = Join-Path $pkgDir "Services"
-          if (Test-Path $servicesDir) {
-            Remove-LegacyFile (Join-Path $servicesDir "I$prefix.Generated.cs")
-            Remove-LegacyFile (Join-Path $servicesDir "$prefix.Generated.cs")
+            # Delete only this tool's generated service files. A package may
+            # contain services for multiple CLI tools.
+            $servicesDir = Join-Path $pkgDir "Services"
+            if (Test-Path $servicesDir) {
+              Remove-LegacyFile (Join-Path $servicesDir "I$prefix.Generated.cs")
+              Remove-LegacyFile (Join-Path $servicesDir "$prefix.Generated.cs")
+            }
           }
 
           Write-Host "Cleanup complete for $package"

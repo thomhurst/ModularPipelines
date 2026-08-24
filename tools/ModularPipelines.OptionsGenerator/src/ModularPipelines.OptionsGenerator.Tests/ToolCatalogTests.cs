@@ -19,6 +19,12 @@ public class ToolCatalogTests
             .IsEquivalentTo(["choco", "winget"]);
         await Assert.That(entries.Single(entry => entry.ToolName == "npm").IncludeInGenerationMatrix)
             .IsFalse();
+        await Assert.That(entries.Single(entry => entry.ToolName == "git").GenerateCommandFacade)
+            .IsFalse();
+        await Assert.That(entries
+                .Where(entry => entry.ToolName != "git")
+                .All(entry => entry.GenerateCommandFacade))
+            .IsTrue();
         await Assert.That(entries
                 .Where(entry => entry.ToolName != "npm")
                 .All(entry => entry.IncludeInGenerationMatrix))
@@ -67,6 +73,7 @@ public class ToolCatalogTests
             .IsEqualTo("src/ModularPipelines.Fake");
         await Assert.That(tool.GetProperty("generationPlatform").GetString()).IsEqualTo("linux");
         await Assert.That(tool.GetProperty("includeInGenerationMatrix").GetBoolean()).IsTrue();
+        await Assert.That(tool.GetProperty("generateCommandFacade").GetBoolean()).IsTrue();
     }
 
     [Test]

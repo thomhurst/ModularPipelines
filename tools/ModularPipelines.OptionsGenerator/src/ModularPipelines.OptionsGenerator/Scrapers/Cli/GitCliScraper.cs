@@ -22,6 +22,7 @@ public partial class GitCliScraper : ICliScraper
     public string NamespacePrefix => "Git";
     public string TargetNamespace => "ModularPipelines.Git";
     public string OutputDirectory => "src/ModularPipelines.Git";
+    public bool GenerateCommandFacade => false;
 
     public GitCliScraper(ICliCommandExecutor executor, ILogger<GitCliScraper> logger)
     {
@@ -43,7 +44,7 @@ public partial class GitCliScraper : ICliScraper
             TargetNamespace = "ModularPipelines.Git",
             OutputDirectory = "src/ModularPipelines.Git",
             DocumentationOutputDirectory = null,
-            GenerateCommandFacade = false,
+            GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             Errors = [],
         };
