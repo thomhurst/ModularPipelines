@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -459,7 +460,7 @@ public class GitCliScraperTests
 
     private sealed class StubHelpTextCache : IHelpTextCache
     {
-        private readonly Dictionary<string, string> _entries =
+        private readonly ConcurrentDictionary<string, string> _entries =
             new(StringComparer.OrdinalIgnoreCase);
 
         public bool TryGet(string cacheKey, out string? helpText) =>

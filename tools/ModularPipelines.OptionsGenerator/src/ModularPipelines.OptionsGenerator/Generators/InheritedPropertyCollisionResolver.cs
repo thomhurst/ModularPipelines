@@ -115,17 +115,19 @@ internal static class InheritedPropertyCollisionResolver
             PositionalArguments = positionalArguments,
             CompatibilityProperties = command.CompatibilityProperties
                 .Select(property => property.ForwardToPropertyName is { } target
-                    && TryGetRename(
-                        target,
-                        renamedProperties,
-                        globalRenamedProperties,
-                        out var renamedTarget)
-                        ? property with { ForwardToPropertyName = renamedTarget }
-                        : property)
+                    ? property with
+                    {
+                        ForwardToPropertyName = ResolveRenamedPropertyName(
+                            target,
+                            renamedProperties,
+                            globalRenamedProperties,
+                            renamedArgumentNames),
+                    }
+                    : property)
                 .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
-                    pair => ResolveDocumentationPropertyName(
+                    pair => ResolveRenamedPropertyName(
                         pair.Key,
                         renamedProperties,
                         globalRenamedProperties,
@@ -200,7 +202,7 @@ internal static class InheritedPropertyCollisionResolver
         return renamedPropertyName;
     }
 
-    private static string ResolveDocumentationPropertyName(
+    private static string ResolveRenamedPropertyName(
         string propertyName,
         IReadOnlyDictionary<string, string> commandRenames,
         IReadOnlyDictionary<string, string> globalRenames,

@@ -667,6 +667,56 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task InheritedPropertyCollisionResolver_Retargets_Aliases_To_Renamed_Arguments()
+    {
+        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Target",
+                    CSharpType = "string",
+                    PositionIndex = 0,
+                    IsRequired = true,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyTarget",
+                    CSharpType = "string",
+                    ForwardToPropertyName = "Target",
+                    ObsoleteMessage = "Use Target instead.",
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--target",
+                    PropertyName = "Target",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(tool).Commands.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(resolved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("TargetArgument");
+            await Assert.That(resolved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("TargetArgument");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
     {
         var command = Command("ToolLoadOptions", "ToolOptions") with
