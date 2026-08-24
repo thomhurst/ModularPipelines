@@ -54,6 +54,38 @@ public class EnumDefinitionValidatorTests
             .WithMessageContaining("duplicate effective numeric value '2'");
     }
 
+    [Test]
+    public async Task Implicit_Numeric_Value_After_Int_MaxValue_Is_Rejected()
+    {
+        var tool = ToolWithValues(
+            new CliEnumValue
+            {
+                MemberName = "Maximum",
+                CliValue = "maximum",
+                NumericValue = int.MaxValue,
+            },
+            new CliEnumValue { MemberName = "Overflow", CliValue = "overflow" });
+
+        await Assert.That(() => EnumDefinitionValidator.Validate(tool))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining($"implicit numeric value after '{int.MaxValue}'");
+    }
+
+    [Test]
+    public void Explicit_Numeric_Value_After_Int_MaxValue_Is_Allowed()
+    {
+        var tool = ToolWithValues(
+            new CliEnumValue
+            {
+                MemberName = "Maximum",
+                CliValue = "maximum",
+                NumericValue = int.MaxValue,
+            },
+            new CliEnumValue { MemberName = "Reset", CliValue = "reset", NumericValue = 1 });
+
+        EnumDefinitionValidator.Validate(tool);
+    }
+
     private static CliToolDefinition ToolWithValues(params CliEnumValue[] values) => new()
     {
         ToolName = "tool",

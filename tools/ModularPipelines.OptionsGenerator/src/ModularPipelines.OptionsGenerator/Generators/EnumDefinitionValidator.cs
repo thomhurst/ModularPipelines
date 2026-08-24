@@ -52,11 +52,15 @@ internal static class EnumDefinitionValidator
     private static void ValidateNumericValues(CliEnumDefinition definition)
     {
         var membersByNumericValue = new Dictionary<int, string>();
-        var nextNumericValue = 0;
+        int? nextNumericValue = 0;
 
         foreach (var value in definition.Values)
         {
-            var numericValue = value.NumericValue ?? nextNumericValue;
+            var numericValue = value.NumericValue
+                ?? nextNumericValue
+                ?? throw new InvalidOperationException(
+                    $"Enum '{definition.EnumName}' member '{value.MemberName}' has an implicit "
+                    + $"numeric value after '{int.MaxValue}'.");
             if (!membersByNumericValue.TryAdd(numericValue, value.MemberName))
             {
                 throw new InvalidOperationException(
@@ -65,7 +69,7 @@ internal static class EnumDefinitionValidator
                     + $"and '{value.MemberName}'.");
             }
 
-            nextNumericValue = numericValue + 1;
+            nextNumericValue = numericValue == int.MaxValue ? null : numericValue + 1;
         }
     }
 }
