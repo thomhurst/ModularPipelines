@@ -162,8 +162,6 @@ public class EksctlCliScraperTests
             .IsEqualTo("alternate kubeconfig path");
     }
 
-
-
     private sealed class TestEksctlCliScraper : EksctlCliScraper
     {
         public TestEksctlCliScraper()

@@ -614,8 +614,6 @@ public class GeneratorHardeningTests
         }
     }
 
-
-
     [Test]
     public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
     {
@@ -713,13 +711,6 @@ public class GeneratorHardeningTests
     #endregion
 
     #region Property generation
-
-
-
-
-
-
-
 
     [Test]
     public async Task Local_Option_And_Argument_Name_Collisions_Are_Disambiguated()
@@ -860,8 +851,6 @@ public class GeneratorHardeningTests
         await Assert.That(generated).DoesNotContain("options = default");
     }
 
-
-
     [Test]
     public async Task ServiceInterfaceGenerator_Emits_Default_Command_Implementations()
     {
@@ -908,7 +897,6 @@ public class GeneratorHardeningTests
 
         await Assert.That(result).IsEqualTo("AppSetCreate");
     }
-
 
     #endregion
 

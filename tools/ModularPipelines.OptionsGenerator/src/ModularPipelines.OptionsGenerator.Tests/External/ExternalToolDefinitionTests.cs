@@ -1405,7 +1405,6 @@ public class ExternalToolDefinitionTests
         }
     }
 
-
     [Test]
     public async Task External_Metadata_Reconciles_Case_Only_Output_Renames()
     {
@@ -1451,9 +1450,6 @@ public class ExternalToolDefinitionTests
             Directory.Delete(workspace, recursive: true);
         }
     }
-
-
-
 
     [Test]
     public async Task External_Metadata_Rejects_Flag_With_Unrenderable_Type()
@@ -1677,8 +1673,6 @@ public class ExternalToolDefinitionTests
         }
     }
 
-
-
     [Test]
     public async Task External_Metadata_Rejects_Execute_Child_Collision()
     {
@@ -1850,7 +1844,6 @@ public class ExternalToolDefinitionTests
             Directory.Delete(workspace, recursive: true);
         }
     }
-
 
     [Test]
     public async Task External_Generation_Releases_Ownership_When_Stale_File_Loses_Marker()

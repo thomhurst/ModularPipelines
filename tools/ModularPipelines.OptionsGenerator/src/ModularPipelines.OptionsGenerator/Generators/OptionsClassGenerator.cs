@@ -323,7 +323,6 @@ public class OptionsClassGenerator : ICodeGenerator
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
-
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)

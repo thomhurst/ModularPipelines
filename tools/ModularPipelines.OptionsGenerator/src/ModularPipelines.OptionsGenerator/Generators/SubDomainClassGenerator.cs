@@ -358,7 +358,6 @@ public class SubDomainClassGenerator : ICodeGenerator
             + $"{BuildAliasOptionsParameter(tool, alias, command)}, "
             + $"{GeneratorUtils.ExecutionOptionsParameter}, "
             + "CancellationToken cancellationToken = default);");
-
     }
 
     private static void GenerateAliasForwardingMethod(
@@ -378,7 +377,6 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine(
             $"        return base.{methodName}(options, executionOptions, cancellationToken);");
         sb.AppendLine("    }");
-
     }
 
     private static string BuildAliasOptionsParameter(

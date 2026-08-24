@@ -362,7 +362,6 @@ public class CodeGeneratorOrchestratorTests
             "invalid HTTPS installation URL");
     }
 
-
     private static async Task AssertMetadataFailureBeforeGeneratorsRun(
         string toolName,
         CliExecutablePrerequisite? prerequisite,

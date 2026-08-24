@@ -32,7 +32,6 @@ public class CommandCoverageGuardTests
         }
     }
 
-
     [Test]
     public async Task DocumentedExclusions_AllowIntentionalRemoval()
     {

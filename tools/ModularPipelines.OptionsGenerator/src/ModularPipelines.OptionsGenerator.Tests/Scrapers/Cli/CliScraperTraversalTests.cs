@@ -493,10 +493,6 @@ public class CliScraperTraversalTests
         }
     }
 
-
-
-
-
     [Test]
     [Arguments("inspect", "Usage: podman inspect [options] ARTIFACT [ARTIFACT...]", "Container")]
     [Arguments("manifest add", "Usage: podman manifest add [options] LIST IMAGEORARTIFACT [IMAGEORARTIFACT...]", "Image")]
