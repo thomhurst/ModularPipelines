@@ -67,7 +67,7 @@ public record CliToolDefinition
     public string? ToolVersion { get; init; }
 
     /// <summary>
-    /// Tool-specific invariants used by the shared command coverage guard.
+    /// Tool-specific invariants used by shared command discovery validation.
     /// </summary>
     public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
 

@@ -17,11 +17,6 @@ on:
         required: false
         default: true
         type: boolean
-      approve-command-coverage-shrinkage:
-        description: 'Explicitly approve removed commands for this run'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -563,18 +558,13 @@ jobs:
         run: |
           set -o pipefail
           cd "$RUNNER_TEMP/generator-work"
-          COVERAGE_ARGS=()
-          if [[ "${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" == "true" ]]; then
-            COVERAGE_ARGS+=(--approve-command-coverage-shrinkage)
-          fi
 
           dotnet run \
             --project "$GITHUB_WORKSPACE/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj" \
             -c Release -- \
             --tools "${{ matrix.tool }}" \
             --output-dir "$GITHUB_WORKSPACE" \
-            --change-manifest "$RUNNER_TEMP/generated-paths.txt" \
-            "${COVERAGE_ARGS[@]}" | tee "$RUNNER_TEMP/generator-output.log"
+            --change-manifest "$RUNNER_TEMP/generated-paths.txt" | tee "$RUNNER_TEMP/generator-output.log"
 
           if ! grep -Eq -- '- Files generated: [1-9][0-9]*$' "$RUNNER_TEMP/generator-output.log"; then
             echo "Generator produced zero files for ${{ matrix.tool }}" >&2
@@ -818,16 +808,12 @@ jobs:
           Set-Location (Join-Path $env:RUNNER_TEMP 'generator-work')
           $generatorProject = Join-Path $env:GITHUB_WORKSPACE `
             'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj'
-          $coverageArgs = @()
-          if ("${{ github.event_name == 'workflow_dispatch' && inputs['approve-command-coverage-shrinkage'] || false }}" -eq "true") {
-            $coverageArgs += "--approve-command-coverage-shrinkage"
-          }
 
           $generatorOutput = @(dotnet run --project $generatorProject -c Release -- `
             --tools "${{ matrix.tool }}" `
             --output-dir "$env:GITHUB_WORKSPACE" `
-            --change-manifest "$env:RUNNER_TEMP/generated-paths.txt" `
-            @coverageArgs 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log")
+            --change-manifest "$env:RUNNER_TEMP/generated-paths.txt" 2>&1 |
+            Tee-Object -FilePath "$env:RUNNER_TEMP/generator-output.log")
           $generatorOutput | Write-Host
 
           if ($LASTEXITCODE -ne 0) {

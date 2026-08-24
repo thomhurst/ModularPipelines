@@ -20,7 +20,7 @@ OptionsGeneratorCommand
      -> OptionTypeEnhancer (HTML scraping only)
      -> CliToolDefinition
      -> ICodeGenerator implementations
-     -> command-coverage validation
+     -> command-discovery validation
      -> generated files, deletion records, and coverage manifest
 ```
 
@@ -34,7 +34,7 @@ The main components are:
 | `TypeDetection/` and `TypeOverrides/` | Improves scraped option types with help-text detectors, heuristics, and reviewed per-tool JSON overrides. |
 | `Models/` | Holds the scraper/generator boundary, principally `CliToolDefinition`, `CliCommandDefinition`, and `CliOptionDefinition`. |
 | `Generators/` | Emits options, enums, services, subdomains, dependency registration, assembly metadata, and Markdown documentation. |
-| `Generators/CommandCoverageGuard.cs` | Compares the current command tree with its committed baseline before output is accepted. |
+| `Generators/CommandCoverageGuard.cs` | Validates current-source discovery invariants and reports command-tree changes. |
 | `External/` | Loads and validates versioned JSON definitions for private or out-of-tree integrations. |
 | `scripts/` | Restricts staging to declared generated paths and validates generated enum attributes. |
 | `src/ModularPipelines.OptionsGenerator.Tests/` | Unit tests for scraping, parsing, type detection, generation, safety, and coverage behavior. |
@@ -50,7 +50,7 @@ leave earlier outputs modified. Obsolete files are removed only when their gener
 markers establish ownership.
 
 External definitions bypass scraper registration. They enter at `CliToolDefinition`, use
-the same generators and coverage guard, and track owned paths under
+the same generators and discovery validation, and track owned paths under
 `.modular-pipelines-options/`. See
 [Generate a private CLI integration](../../docs/docs/how-to/generate-private-cli-integration.md)
 and [`examples/external-tool-definition.json`](examples/external-tool-definition.json).
@@ -83,7 +83,6 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 | `--use-cli-first <true\|false>` | Prefer installed CLI help over HTML documentation. Defaults to `true`. |
 | `--enhance-types <true\|false>` | Run type detection after HTML scraping. Defaults to `true`. |
 | `--change-manifest <path>` | Record every repository-relative generated or deleted path for safe automation. |
-| `--approve-command-coverage-shrinkage` | Acknowledge reviewed command removals for this run. It does not bypass minimum counts or sentinel commands. |
 | `--input <path>` | Generate an external integration from JSON. This cannot be combined with `--tools`. |
 
 For reproducible CI scraping, set `MODULARPIPELINES_CLI_EXECUTABLE` to the verified absolute
@@ -143,21 +142,18 @@ reliably. Use `TypeOverrides/<tool>.json` only for stable, reviewed exceptions. 
 `OptionTypeEnhancerTests` case for new detector behavior and a scraper test for tool-local
 behavior.
 
-## Command-coverage guard
+## Command-discovery validation
 
 Each successful generation writes
 `<integration>/Generated/<NamespacePrefix>.CommandCoverage.json`. The committed manifest
 contains the normalized command list, inferred command groups, tool version, exclusions,
-count, and SHA-256 fingerprint. It is both generated output and the baseline for the next
-run; do not edit it manually.
+count, and SHA-256 fingerprint. It is generated output used to report changes on the next
+run; do not edit it manually. A missing manifest starts a new report baseline.
 
 Generation fails when:
 
-- a generated integration has lost its committed coverage manifest;
 - the current command count is below `MinimumCommandCount`;
 - a configured sentinel command disappeared;
-- a previously generated command disappeared without explicit approval;
-- a known command group lost all children without explicit approval; or
 - an exclusion lacks a full command and non-empty reason.
 
 Configure invariants in `CliToolDefinition.CommandCoverage`. Sentinels should represent
@@ -165,18 +161,18 @@ stable commands from important branches of the CLI. Set a conservative minimum t
 truncated or empty scraping without failing on normal upstream evolution. Every intentional
 exclusion needs a durable explanation.
 
-When commands disappear:
+When commands disappear, generation records the removals and updates output without an
+approval gate. Review the report to distinguish legitimate upstream changes from scraper
+regressions:
 
 1. Inspect the installed tool version and raw help output. A parser regression, missing
    plugin, authentication prompt, preview flag, or wrong executable must not be approved as
    upstream shrinkage.
 2. Fix the scraper when the commands still exist, then regenerate.
-3. If upstream intentionally removed commands, run once with
-   `--approve-command-coverage-shrinkage` and review the generated API and coverage diff.
-4. Add a documented exclusion instead when a command intentionally remains unsupported.
+3. Accept the generated API change when upstream intentionally removed commands.
+4. Add a documented exclusion when a command intentionally remains unsupported.
 
-Shrinkage approval only permits removed commands and groups losing all children. Minimum
-counts and sentinel requirements always remain enforced. Additions need no approval.
+Minimum counts and sentinel requirements still catch truncated or misdirected scraping.
 
 ## Validate a change
 
@@ -236,6 +232,5 @@ Regenerate outputs instead of changing version attributes in place.
 7. create an automated pull request and enable auto-merge after the affected solution
    builds successfully.
 
-Generated APIs follow the currently installed CLI source. The workflow's manual
-`approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single
-run, not a permanent weakening of the coverage policy.
+Generated APIs follow the currently installed CLI source. Command additions and removals
+remain visible in the pull request report but do not block regeneration.

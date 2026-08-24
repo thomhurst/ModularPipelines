@@ -1161,8 +1161,7 @@ public class ExternalToolDefinitionTests
                 outputDirectory);
             var result = await orchestrator.GenerateFromDefinitionAsync(
                 secondTool,
-                outputDirectory,
-                approveCommandCoverageShrinkage: true);
+                outputDirectory);
 
             await Assert.That(File.Exists(oldDocumentation)).IsFalse();
             await Assert.That(File.Exists(Path.Combine(
@@ -1192,8 +1191,7 @@ public class ExternalToolDefinitionTests
                 outputDirectory);
             var thirdResult = await orchestrator.GenerateFromDefinitionAsync(
                 thirdTool,
-                outputDirectory,
-                approveCommandCoverageShrinkage: true);
+                outputDirectory);
 
             await Assert.That(File.Exists(Path.Combine(
                     outputDirectory,
@@ -1251,7 +1249,7 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Preserves_Coverage_Baseline_When_Output_Moves()
+    public async Task External_Metadata_Reports_Coverage_Changes_When_Output_Moves()
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -1285,9 +1283,10 @@ public class ExternalToolDefinitionTests
                 metadataPath,
                 outputDirectory);
 
-            await Assert.That(async () =>
-                    await orchestrator.GenerateFromDefinitionAsync(secondTool, outputDirectory))
-                .Throws<InvalidOperationException>();
+            var result = await orchestrator.GenerateFromDefinitionAsync(secondTool, outputDirectory);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(result.GetSummary()).Contains("Removed: private-widget destroy");
         }
         finally
         {
@@ -1296,7 +1295,7 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Preserves_Coverage_Baseline_Across_Case_Only_Output_Rename()
+    public async Task External_Metadata_Reports_Coverage_Changes_Across_Case_Only_Output_Rename()
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -1334,11 +1333,12 @@ public class ExternalToolDefinitionTests
                 metadataPath,
                 outputDirectory);
 
-            await Assert.That(async () =>
-                    await orchestrator.GenerateFromDefinitionAsync(
-                        secondTool with { OutputDirectory = "Generated" },
-                        outputDirectory))
-                .Throws<InvalidOperationException>();
+            var result = await orchestrator.GenerateFromDefinitionAsync(
+                secondTool with { OutputDirectory = "Generated" },
+                outputDirectory);
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(result.GetSummary()).Contains("Removed: private-widget destroy");
         }
         finally
         {

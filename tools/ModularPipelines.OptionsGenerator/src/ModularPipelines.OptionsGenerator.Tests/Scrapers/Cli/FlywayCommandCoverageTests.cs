@@ -155,8 +155,7 @@ public class FlywayCommandCoverageTests
             var tool = scraper.CreateToolDefinition() with { Commands = commands };
             var evaluation = CommandCoverageGuard.Evaluate(
                 tool,
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
 
             await Assert.That(commands.Select(command => command.FullCommand)).IsEquivalentTo(
             [
@@ -222,8 +221,7 @@ public class FlywayCommandCoverageTests
         {
             var evaluation = CommandCoverageGuard.Evaluate(
                 tool,
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
 
             await Assert.That(evaluation.Violations).Contains(
                 violation => violation.Contains("flyway auth", StringComparison.Ordinal));

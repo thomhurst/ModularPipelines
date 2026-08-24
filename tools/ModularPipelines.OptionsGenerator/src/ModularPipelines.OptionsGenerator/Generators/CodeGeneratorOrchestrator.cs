@@ -57,7 +57,6 @@ public class CodeGeneratorOrchestrator
         string toolsToGenerate,
         string outputDirectory,
         bool useCliFirst = true,
-        bool approveCommandCoverageShrinkage = false,
         CancellationToken cancellationToken = default)
     {
         var result = new GenerationResult();
@@ -82,7 +81,6 @@ public class CodeGeneratorOrchestrator
             emittedPaths,
             fileSystemPathComparer,
             useCliFirst,
-            approveCommandCoverageShrinkage,
             cancellationToken);
 
         await ProcessCliOnlyScrapersAsync(
@@ -93,7 +91,6 @@ public class CodeGeneratorOrchestrator
             emittedPaths,
             fileSystemPathComparer,
             useCliFirst,
-            approveCommandCoverageShrinkage,
             cancellationToken);
 
         if (!result.HasErrors)
@@ -115,7 +112,6 @@ public class CodeGeneratorOrchestrator
     public async Task<GenerationResult> GenerateFromDefinitionAsync(
         CliToolDefinition tool,
         string outputDirectory,
-        bool approveCommandCoverageShrinkage = false,
         CancellationToken cancellationToken = default)
     {
         ExternalToolDefinitionLoader.Validate(tool, outputDirectory);
@@ -161,14 +157,12 @@ public class CodeGeneratorOrchestrator
             result,
             externallyClaimedPaths,
             fileSystemPathComparer,
-            approveCommandCoverageShrinkage,
             cancellationToken,
             enforceOutputContainment: true,
             cleanupGeneratedFilesByNamespacePrefix: false,
             writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath,
             commandCoveragePathComparer: fileSystemPathComparer,
-            allowMissingCommandCoverageManifest: true,
             replaceableExistingPaths: replaceableExistingPaths,
             enumBaselinePaths: enumBaselinePaths,
             beforeWrite: async (candidateOwnedPaths, token) =>
@@ -520,7 +514,6 @@ public class CodeGeneratorOrchestrator
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
         bool useCliFirst,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         foreach (var htmlScraper in _htmlScrapers)
@@ -545,7 +538,6 @@ public class CodeGeneratorOrchestrator
                 emittedPaths,
                 fileSystemPathComparer,
                 useCliFirst,
-                approveCommandCoverageShrinkage,
                 cancellationToken);
         }
     }
@@ -558,7 +550,6 @@ public class CodeGeneratorOrchestrator
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
         bool useCliFirst,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Processing {Tool}...", htmlScraper.ToolName);
@@ -573,7 +564,6 @@ public class CodeGeneratorOrchestrator
                     result,
                     emittedPaths,
                     fileSystemPathComparer,
-                    approveCommandCoverageShrinkage,
                     cancellationToken);
                 if (cliFailureReason is null)
                 {
@@ -589,7 +579,6 @@ public class CodeGeneratorOrchestrator
                 result,
                 emittedPaths,
                 fileSystemPathComparer,
-                approveCommandCoverageShrinkage,
                 cancellationToken);
         }
         catch (Exception ex)
@@ -604,7 +593,6 @@ public class CodeGeneratorOrchestrator
         GenerationResult result,
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
@@ -631,7 +619,6 @@ public class CodeGeneratorOrchestrator
             result,
             emittedPaths,
             fileSystemPathComparer,
-            approveCommandCoverageShrinkage,
             cancellationToken);
 
         _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
@@ -669,7 +656,6 @@ public class CodeGeneratorOrchestrator
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
         bool useCliFirst,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         if (!useCliFirst)
@@ -698,7 +684,6 @@ public class CodeGeneratorOrchestrator
                 result,
                 emittedPaths,
                 fileSystemPathComparer,
-                approveCommandCoverageShrinkage,
                 cancellationToken);
         }
     }
@@ -709,7 +694,6 @@ public class CodeGeneratorOrchestrator
         GenerationResult result,
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
@@ -722,7 +706,6 @@ public class CodeGeneratorOrchestrator
                 result,
                 emittedPaths,
                 fileSystemPathComparer,
-                approveCommandCoverageShrinkage,
                 cancellationToken);
             if (failureReason is not null)
             {
@@ -766,7 +749,6 @@ public class CodeGeneratorOrchestrator
         GenerationResult result,
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken)
     {
         if (!await cliScraper.IsAvailableAsync(cancellationToken))
@@ -817,7 +799,6 @@ public class CodeGeneratorOrchestrator
             result,
             emittedPaths,
             fileSystemPathComparer,
-            approveCommandCoverageShrinkage,
             cancellationToken);
 
         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
@@ -840,14 +821,12 @@ public class CodeGeneratorOrchestrator
         GenerationResult result,
         HashSet<string> emittedPaths,
         StringComparer fileSystemPathComparer,
-        bool approveCommandCoverageShrinkage,
         CancellationToken cancellationToken,
         bool enforceOutputContainment = false,
         bool cleanupGeneratedFilesByNamespacePrefix = true,
         bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null,
         StringComparer? commandCoveragePathComparer = null,
-        bool allowMissingCommandCoverageManifest = false,
         IReadOnlySet<string>? replaceableExistingPaths = null,
         IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
         Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
@@ -895,10 +874,8 @@ public class CodeGeneratorOrchestrator
         var coverage = CommandCoverageGuard.Evaluate(
             toolDefinition,
             outputDirectory,
-            approveCommandCoverageShrinkage,
             commandCoverageBaselinePath,
-            commandCoveragePathComparer,
-            allowMissingCommandCoverageManifest);
+            commandCoveragePathComparer);
         result.CommandCoverage.Add(coverage);
 
         if (coverage.Violations.Count > 0)
@@ -1423,7 +1400,7 @@ public class GenerationResult
             }
 
             AppendDiff(lines, "Added", coverage.AddedCommands);
-            AppendDiff(lines, coverage.ShrinkageApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
+            AppendDiff(lines, "Removed", coverage.RemovedCommands);
             AppendDiff(lines, "Groups without children", coverage.KnownGroupsWithoutChildren);
             AppendDiff(
                 lines,

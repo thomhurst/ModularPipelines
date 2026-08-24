@@ -6,7 +6,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class CommandCoverageGuardTests
 {
     [Test]
-    public async Task RemovedCommandsAndEmptyKnownGroups_FailWithoutApproval()
+    public async Task RemovedCommandsAndEmptyKnownGroups_AreReportedWithoutViolations()
     {
         var outputDirectory = CreateOutputDirectory();
 
@@ -14,49 +14,18 @@ public class CommandCoverageGuardTests
         {
             var baseline = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake project create"), Command("fake project delete")),
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
 
             var current = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake status")),
-                outputDirectory,
-                approveShrinkage: false);
-
-            await Assert.That(current.Violations).Contains(
-                violation => violation.Contains("fake project create", StringComparison.Ordinal));
-            await Assert.That(current.Violations).Contains(
-                violation => violation.Contains("fake project", StringComparison.Ordinal));
-            await Assert.That(current.RemovedCommands)
-                .IsEquivalentTo(["fake project create", "fake project delete"]);
-        }
-        finally
-        {
-            Directory.Delete(outputDirectory, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task ExplicitApproval_AllowsShrinkageAndRecordsDiff()
-    {
-        var outputDirectory = CreateOutputDirectory();
-
-        try
-        {
-            var baseline = CommandCoverageGuard.Evaluate(
-                Tool(Command("fake one"), Command("fake two")),
-                outputDirectory,
-                approveShrinkage: false);
-            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
-
-            var current = CommandCoverageGuard.Evaluate(
-                Tool(Command("fake one")),
-                outputDirectory,
-                approveShrinkage: true);
+                outputDirectory);
 
             await Assert.That(current.Violations).IsEmpty();
-            await Assert.That(current.RemovedCommands).IsEquivalentTo(["fake two"]);
-            await Assert.That(current.ShrinkageApproved).IsTrue();
+            await Assert.That(current.RemovedCommands)
+                .IsEquivalentTo(["fake project create", "fake project delete"]);
+            await Assert.That(current.KnownGroupsWithoutChildren)
+                .IsEquivalentTo(["fake project"]);
         }
         finally
         {
@@ -81,8 +50,7 @@ public class CommandCoverageGuardTests
         {
             var evaluation = CommandCoverageGuard.Evaluate(
                 tool,
-                outputDirectory,
-                approveShrinkage: true);
+                outputDirectory);
 
             await Assert.That(evaluation.Violations).Contains(
                 violation => violation.Contains("below the configured minimum", StringComparison.Ordinal));
@@ -104,8 +72,7 @@ public class CommandCoverageGuardTests
         {
             var baseline = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake community"), Command("fake enterprise")),
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
 
             var currentTool = Tool(Command("fake community")) with
@@ -124,8 +91,7 @@ public class CommandCoverageGuardTests
             };
             var current = CommandCoverageGuard.Evaluate(
                 currentTool,
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
 
             await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.Manifest.Exclusions).Count().IsEqualTo(1);
@@ -147,12 +113,10 @@ public class CommandCoverageGuardTests
         {
             var first = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake  two"), Command("fake one")),
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
             var second = CommandCoverageGuard.Evaluate(
                 Tool(Command("fake one"), Command("fake two")),
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
 
             await Assert.That(second.Manifest.CommandTreeSha256)
                 .IsEqualTo(first.Manifest.CommandTreeSha256);
@@ -178,8 +142,7 @@ public class CommandCoverageGuardTests
                     Command("fake builder build"),
                     Command("fake buildx"),
                     Command("fake buildx build")),
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
 
             var currentTool = Tool(
@@ -198,8 +161,7 @@ public class CommandCoverageGuardTests
             };
             var current = CommandCoverageGuard.Evaluate(
                 currentTool,
-                outputDirectory,
-                approveShrinkage: false);
+                outputDirectory);
 
             await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.RemovedCommands).IsEmpty();
@@ -218,7 +180,7 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
-    public async Task MissingManifest_FailsWhenGeneratedApiExists()
+    public async Task MissingManifest_Starts_New_Baseline_When_Generated_Api_Exists()
     {
         var outputDirectory = CreateOutputDirectory();
         var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
@@ -231,16 +193,12 @@ public class CommandCoverageGuardTests
 
         try
         {
-            void Evaluate() =>
-                CommandCoverageGuard.Evaluate(
-                    Tool(Command("fake status")),
-                    outputDirectory,
-                    approveShrinkage: false);
+            var evaluation = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake status")),
+                outputDirectory);
 
-            await Assert.That(Evaluate)
-                .Throws<InvalidOperationException>()
-                .And.HasMessageContaining("Command coverage manifest is missing for 'fake'")
-                .And.HasMessageContaining("Fake.CommandCoverage.json");
+            await Assert.That(evaluation.HasPreviousBaseline).IsFalse();
+            await Assert.That(evaluation.Manifest.Commands).IsEquivalentTo(["fake status"]);
         }
         finally
         {

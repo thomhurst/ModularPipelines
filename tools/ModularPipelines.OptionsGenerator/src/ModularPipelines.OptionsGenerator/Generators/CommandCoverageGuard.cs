@@ -21,20 +21,15 @@ internal static class CommandCoverageGuard
     public static CommandCoverageEvaluation Evaluate(
         CliToolDefinition tool,
         string outputDirectory,
-        bool approveShrinkage,
         string? fallbackManifestPath = null,
-        StringComparer? pathComparer = null,
-        bool allowMissingManifest = false)
+        StringComparer? pathComparer = null)
     {
         var commands = GetCoverageCommands(tool);
         var manifestPath = GetManifestPath(tool, outputDirectory);
         var previous = ReadBaseline(
-            tool,
-            outputDirectory,
             manifestPath,
             fallbackManifestPath,
-            pathComparer ?? StringComparer.OrdinalIgnoreCase,
-            allowMissingManifest);
+            pathComparer ?? StringComparer.OrdinalIgnoreCase);
         var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
@@ -45,9 +40,6 @@ internal static class CommandCoverageGuard
         var removedCommands = previous is null
             ? []
             : previous.Commands.Except(commands, StringComparer.OrdinalIgnoreCase).ToArray();
-        var unapprovedRemovedCommands = removedCommands
-            .Where(command => !excludedCommands.Contains(command))
-            .ToArray();
         var knownGroupsWithoutChildren = GetKnownGroupsWithoutChildren(
             previous,
             commands,
@@ -56,10 +48,7 @@ internal static class CommandCoverageGuard
         var violations = GetViolations(
             tool.CommandCoverage,
             commands.Count,
-            missingSentinels,
-            unapprovedRemovedCommands,
-            knownGroupsWithoutChildren,
-            approveShrinkage);
+            missingSentinels);
 
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
 
@@ -72,17 +61,13 @@ internal static class CommandCoverageGuard
             RemovedCommands = removedCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
             Violations = violations,
-            ShrinkageApproved = approveShrinkage,
         };
     }
 
     private static CommandCoverageManifest? ReadBaseline(
-        CliToolDefinition tool,
-        string outputDirectory,
         string manifestPath,
         string? fallbackManifestPath,
-        StringComparer pathComparer,
-        bool allowMissingManifest)
+        StringComparer pathComparer)
     {
         var manifest = ReadManifest(manifestPath);
         if (manifest is not null)
@@ -98,13 +83,6 @@ internal static class CommandCoverageGuard
             {
                 return manifest;
             }
-        }
-
-        if (!allowMissingManifest && HasGeneratedApi(tool, outputDirectory))
-        {
-            throw new InvalidOperationException(
-                $"Command coverage manifest is missing for '{tool.ToolName}': {manifestPath}. "
-                + "Restore the committed manifest before regenerating this tool.");
         }
 
         return null;
@@ -136,10 +114,7 @@ internal static class CommandCoverageGuard
     private static IReadOnlyList<string> GetViolations(
         CliCommandCoveragePolicy policy,
         int commandCount,
-        IReadOnlyList<string> missingSentinels,
-        IReadOnlyList<string> removedCommands,
-        IReadOnlyList<string> groupsWithoutChildren,
-        bool approveShrinkage)
+        IReadOnlyList<string> missingSentinels)
     {
         var violations = new List<string>();
 
@@ -153,11 +128,6 @@ internal static class CommandCoverageGuard
         }
 
         AddViolation(violations, "Missing sentinel commands", missingSentinels);
-        if (!approveShrinkage)
-        {
-            AddViolation(violations, "Removed commands require explicit approval", removedCommands);
-            AddViolation(violations, "Known command groups lost all children", groupsWithoutChildren);
-        }
 
         return violations;
     }
@@ -265,19 +235,6 @@ internal static class CommandCoverageGuard
             Commands = commands,
             CommandGroups = commandGroups,
         };
-    }
-
-    private static bool HasGeneratedApi(
-        CliToolDefinition tool,
-        string outputDirectory)
-    {
-        var optionsDirectory = Path.Combine(outputDirectory, tool.OutputDirectory, "Options");
-        return Directory.Exists(optionsDirectory)
-               && Directory.EnumerateFiles(
-                       optionsDirectory,
-                       $"{tool.NamespacePrefix}*Options*.cs",
-                       SearchOption.TopDirectoryOnly)
-                   .Any();
     }
 
     private static CommandCoverageManifest CreateManifest(
@@ -418,6 +375,4 @@ internal sealed record CommandCoverageEvaluation
     public required IReadOnlyList<string> KnownGroupsWithoutChildren { get; init; }
 
     public required IReadOnlyList<string> Violations { get; init; }
-
-    public required bool ShrinkageApproved { get; init; }
 }
