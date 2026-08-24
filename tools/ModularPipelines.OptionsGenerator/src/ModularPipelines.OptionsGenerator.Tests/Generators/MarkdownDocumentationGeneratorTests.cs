@@ -290,6 +290,43 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task GenerateAsync_Ignores_Siblings_Moved_To_Execute()
+    {
+        var asyncCommand = Command(
+            "fake app foo-async",
+            "FakeAppFooAsyncOptions",
+            ["app", "foo-async"],
+            "app") with
+        {
+            IsSafeForDocumentation = true,
+        };
+        var tool = Tool(
+            "fake",
+            Command("fake app foo", "FakeAppFooOptions", ["app", "foo"], "app"),
+            Command(
+                "fake app foo child",
+                "FakeAppFooChildOptions",
+                ["app", "foo", "child"],
+                "app"),
+            asyncCommand) with
+        {
+            PreferredDocumentationExampleCommand = asyncCommand.FullCommand,
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+        var service = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "FakeApp.Generated.cs")
+            .Content;
+
+        await Assert.That(documentation)
+            .Contains("context.Tools.Fake.App.FooAsync(");
+        await Assert.That(documentation)
+            .DoesNotContain("FooAsyncCommandAsync(");
+        await Assert.That(service)
+            .Contains("Task<CommandResult> FooAsync(");
+    }
+
+    [Test]
     public async Task GenerateAsync_UsesTheGeneratedConstructorParameterList()
     {
         var command = Command("fake run", "FakeRunOptions", ["run"]) with

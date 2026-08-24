@@ -336,7 +336,9 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 .SkipLast(1)
                 .SequenceEqual(
                     command.CommandParts.SkipLast(1),
-                    StringComparer.OrdinalIgnoreCase));
+                    StringComparer.OrdinalIgnoreCase)
+            && (candidate.PreserveNamedFacade
+                || !tool.Commands.Any(descendant => IsCommandPrefix(candidate, descendant))));
 
     private static bool HasExecutableParentCommand(
         CliToolDefinition tool,
