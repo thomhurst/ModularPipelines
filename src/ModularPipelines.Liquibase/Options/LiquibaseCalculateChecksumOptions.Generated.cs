@@ -89,4 +89,32 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
+    [Obsolete("Use ChangeSetAuthor instead.")]
+    public string? ChangesetAuthor
+    {
+        get => ChangeSetAuthor;
+        set => ChangeSetAuthor = value;
+    }
+
+    [Obsolete("Use ChangeSetId instead.")]
+    public string? ChangesetId
+    {
+        get => ChangeSetId;
+        set => ChangeSetId = value;
+    }
+
+    [Obsolete("Use ChangeSetIdentifier instead.")]
+    public string? ChangesetIdentifier
+    {
+        get => ChangeSetIdentifier;
+        set => ChangeSetIdentifier = value;
+    }
+
+    [Obsolete("Use ChangeSetPath instead.")]
+    public string? ChangesetPath
+    {
+        get => ChangeSetPath;
+        set => ChangeSetPath = value;
+    }
+
 }

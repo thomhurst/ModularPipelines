@@ -89,6 +89,18 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// </summary>
     protected override int MaxParallelism => 2;
 
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = LiquibaseVersionPattern().Match(result.CombinedOutput);
+        if (match.Success)
+        {
+            return match.Groups["version"].Value;
+        }
+
+        Logger.LogWarning("Could not extract stable {Tool} version identity", ToolName);
+        return null;
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -184,6 +196,17 @@ public partial class LiquibaseCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray();
@@ -218,7 +241,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://docs.liquibase.com/commands/home.html",
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = GetPositionalArguments(usage),
             SubDomainGroup = null,
             Enums = enums
         };
@@ -558,6 +581,11 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     [GeneratedRegex(@"\s*\(defaults file:.*$", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex DefaultsMetadataPattern();
+
+    [GeneratedRegex(
+        @"(?:Liquibase Version:|Liquibase (?:'community' version|\S+))\s*(?<version>\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?)",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex LiquibaseVersionPattern();
 
     #endregion
 }

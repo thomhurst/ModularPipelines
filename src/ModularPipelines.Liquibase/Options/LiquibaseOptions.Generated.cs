@@ -447,4 +447,25 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     [CliFlag("--version", ShortForm = "-v")]
     public virtual bool? Version { get; set; }
 
+    [Obsolete("Use AllowDuplicatedChangeSetIdentifiers instead.")]
+    public virtual bool? AllowDuplicatedChangesetIdentifiers
+    {
+        get => AllowDuplicatedChangeSetIdentifiers;
+        set => AllowDuplicatedChangeSetIdentifiers = value;
+    }
+
+    [Obsolete("Use GenerateChangeSetCreatedValues instead.")]
+    public virtual bool? GenerateChangesetCreatedValues
+    {
+        get => GenerateChangeSetCreatedValues;
+        set => GenerateChangeSetCreatedValues = value;
+    }
+
+    [Obsolete("Use GeneratedChangeSetIdsContainsDescription instead.")]
+    public virtual bool? GeneratedChangesetIdsContainsDescription
+    {
+        get => GeneratedChangeSetIdsContainsDescription;
+        set => GeneratedChangeSetIdsContainsDescription = value;
+    }
+
 }
