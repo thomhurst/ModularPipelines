@@ -1955,6 +1955,43 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Distinguishes_Literal_Execute_From_Parent_Facade()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCloudShellExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"cloud-shell\", \"execute\")] "
+                + "public record ToolCloudShellExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolCloudshell { "
+                + "public Task ExecuteAsync(ToolCloudShellExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolCloudShellExecuteOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Uses_One_Root_For_Removed_Parent_And_Child()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");

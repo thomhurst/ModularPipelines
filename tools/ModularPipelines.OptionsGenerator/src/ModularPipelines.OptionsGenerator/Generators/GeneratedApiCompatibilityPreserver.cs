@@ -220,15 +220,19 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<string> commandParts,
         GeneratedFacadeMethod facadeMethod)
     {
-        var facadeCommandParts = facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
-            ? commandParts.Skip(1)
-            : commandParts.Skip(1).SkipLast(1);
-        var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
         var implementationType = facadeMethod.DeclaringType.StartsWith(
             $"I{tool.NamespacePrefix}",
             StringComparison.Ordinal)
             ? facadeMethod.DeclaringType[1..]
             : facadeMethod.DeclaringType;
+        var commandTail = commandParts.Skip(1).ToArray();
+        var commandTailSuffix = string.Concat(commandTail.Select(GeneratorUtils.ToPascalCase));
+        var isParentExecuteFacade = facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
+                                    && implementationType.EndsWith(commandTailSuffix, StringComparison.Ordinal)
+                                    && implementationType.Length
+                                    > tool.NamespacePrefix.Length + commandTailSuffix.Length;
+        var facadeCommandParts = isParentExecuteFacade ? commandTail : commandTail.SkipLast(1);
+        var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
         if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
             || !implementationType.EndsWith(facadeSuffix, StringComparison.Ordinal)
             || implementationType.Length <= tool.NamespacePrefix.Length + facadeSuffix.Length)
