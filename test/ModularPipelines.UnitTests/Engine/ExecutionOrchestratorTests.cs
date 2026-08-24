@@ -14,6 +14,128 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
+    public async Task FlushesConsoleBeforeCompletingRunReport()
+    {
+        var organizedModules = new OrganizedModules([], []);
+        var summary = new PipelineSummary(
+            [],
+            [],
+            TimeSpan.Zero,
+            DateTimeOffset.UtcNow,
+            DateTimeOffset.UtcNow);
+        var pipelineInitializer = new Mock<IPipelineInitializer>();
+        pipelineInitializer
+            .Setup(x => x.Initialize(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(organizedModules);
+        var ignoredModuleResultRegistrar = new Mock<IIgnoredModuleResultRegistrar>();
+        ignoredModuleResultRegistrar
+            .Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules))
+            .ReturnsAsync(organizedModules);
+        var pipelineExecutor = new Mock<IPipelineExecutor>();
+        pipelineExecutor
+            .Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules))
+            .ReturnsAsync(summary);
+        var outputScope = new Mock<IPipelineOutputScope>();
+        outputScope.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+        var outputCoordinator = new Mock<IPipelineOutputCoordinator>();
+        outputCoordinator.Setup(x => x.InitializeAsync()).ReturnsAsync(outputScope.Object);
+        var consoleWasFlushed = false;
+        outputCoordinator
+            .Setup(x => x.FlushConsoleAsync())
+            .Callback(() => consoleWasFlushed = true)
+            .Returns(Task.CompletedTask);
+        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
+        moduleDisposeExecutor.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+        var wasFlushedBeforeReport = false;
+        var runReportService = new Mock<IRunReportService>();
+        runReportService
+            .Setup(x => x.CompleteAsync(
+                It.IsAny<PipelineSummary>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback(() => wasFlushedBeforeReport = consoleWasFlushed)
+            .ReturnsAsync(new PipelineRunReport());
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var orchestrator = new ExecutionOrchestrator(
+            pipelineInitializer.Object,
+            moduleDisposeExecutor.Object,
+            pipelineExecutor.Object,
+            outputCoordinator.Object,
+            ignoredModuleResultRegistrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            Mock.Of<IPipelineSummaryFactory>(),
+            engineCancellationToken,
+            Mock.Of<IThreadPoolConfigurator>(),
+            Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            Mock.Of<ILogger<ExecutionOrchestrator>>(),
+            runReportService.Object);
+        await orchestrator.ExecuteAsync();
+
+        await Assert.That(wasFlushedBeforeReport).IsTrue();
+    }
+
+    [Test]
+    public async Task ConsoleFlushFailureDoesNotPreventRunReportCompletion()
+    {
+        var organizedModules = new OrganizedModules([], []);
+        var summary = new PipelineSummary(
+            [],
+            [],
+            TimeSpan.Zero,
+            DateTimeOffset.UtcNow,
+            DateTimeOffset.UtcNow);
+        var pipelineInitializer = new Mock<IPipelineInitializer>();
+        pipelineInitializer.Setup(x => x.Initialize(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(organizedModules);
+        var ignoredModuleResultRegistrar = new Mock<IIgnoredModuleResultRegistrar>();
+        ignoredModuleResultRegistrar.Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules))
+            .ReturnsAsync(organizedModules);
+        var pipelineExecutor = new Mock<IPipelineExecutor>();
+        pipelineExecutor.Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules))
+            .ReturnsAsync(summary);
+        var outputScope = new Mock<IPipelineOutputScope>();
+        outputScope.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+        var outputCoordinator = new Mock<IPipelineOutputCoordinator>();
+        outputCoordinator.Setup(x => x.InitializeAsync()).ReturnsAsync(outputScope.Object);
+        outputCoordinator.SetupSequence(x => x.FlushConsoleAsync())
+            .Returns(Task.FromException(new IOException("broken console")))
+            .Returns(Task.CompletedTask);
+        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
+        moduleDisposeExecutor.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+        var runReportService = new Mock<IRunReportService>();
+        runReportService.Setup(x => x.CompleteAsync(
+                It.IsAny<PipelineSummary>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new PipelineRunReport());
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var orchestrator = new ExecutionOrchestrator(
+            pipelineInitializer.Object,
+            moduleDisposeExecutor.Object,
+            pipelineExecutor.Object,
+            outputCoordinator.Object,
+            ignoredModuleResultRegistrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            Mock.Of<IPipelineSummaryFactory>(),
+            engineCancellationToken,
+            Mock.Of<IThreadPoolConfigurator>(),
+            Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            Mock.Of<ILogger<ExecutionOrchestrator>>(),
+            runReportService.Object);
+
+        await orchestrator.ExecuteAsync();
+
+        runReportService.Verify(x => x.CompleteAsync(
+            It.IsAny<PipelineSummary>(),
+            It.IsAny<Exception?>(),
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task CallerCancellationToken_IsPassedToRunReport_AndRegistrationIsDisposed(

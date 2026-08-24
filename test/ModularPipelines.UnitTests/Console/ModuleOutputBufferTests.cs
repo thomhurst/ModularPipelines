@@ -11,6 +11,36 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
+    public async Task OutputExcerptSurvivesConsoleFlush()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            outputExcerptMaximumBytes: 1024);
+        buffer.WriteLine("retained output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(buffer.GetOutputExcerpt()!.StdoutTail).Contains("retained output");
+    }
+
+    [Test]
+    public async Task OutputExcerptIsDisabledByDefault()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.WriteLine("ordinary output");
+
+        await Assert.That(buffer.GetOutputExcerpt()).IsNull();
+    }
+
+    [Test]
     public async Task Flush_Writes_Group_Commands_Without_Markup_Rendering()
     {
         var writer = new StringWriter();
@@ -197,6 +227,40 @@ public class ModuleOutputBufferTests
         logEvent.WriteTo(logger);
 
         await Assert.That(logger.StateTypes).HasSingleItem().And.IsEquivalentTo([typeof(string)]);
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_DoesNotEnumerateArbitraryStructuredState()
+    {
+        var state = new ThrowingEnumerableLogState();
+
+        var logEvent = new BufferedLogEvent<ThrowingEnumerableLogState>(
+            LogLevel.Information,
+            default,
+            state,
+            state,
+            null,
+            static (_, _) => "safe message",
+            new PassthroughSecretObfuscator());
+
+        await Assert.That(logEvent.Stream).IsEqualTo(ModuleOutputStream.StandardOutput);
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_RecognizesIndexedCommandErrorState()
+    {
+        KeyValuePair<string, object?>[] state = [new("CommandError", true)];
+
+        var logEvent = new BufferedLogEvent<KeyValuePair<string, object?>[]>(
+            LogLevel.Error,
+            default,
+            state,
+            state,
+            null,
+            static (_, _) => "command error",
+            new PassthroughSecretObfuscator());
+
+        await Assert.That(logEvent.Stream).IsEqualTo(ModuleOutputStream.StandardError);
     }
 
     [Test]
@@ -1058,6 +1122,16 @@ public class ModuleOutputBufferTests
     {
         public string Obfuscate(string? input, object? optionsObject)
             => input?.Replace("secret", "***", StringComparison.Ordinal) ?? string.Empty;
+    }
+
+    private sealed class ThrowingEnumerableLogState
+        : IEnumerable<KeyValuePair<string, object?>>
+    {
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() =>
+            throw new InvalidOperationException("State must not be enumerated during buffering.");
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 
     private sealed class RecordingLogger : ILogger

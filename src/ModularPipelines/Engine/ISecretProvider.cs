@@ -18,6 +18,12 @@ internal interface ISecretProvider
     SecretSnapshot GetSnapshot();
 
     /// <summary>
+    /// Executes an action while preventing secret registration, provided the
+    /// registered-secret version is still current.
+    /// </summary>
+    bool TryExecuteIfVersionCurrent(long expectedVersion, Action action);
+
+    /// <summary>
     /// Returns any values in the object marked with the [SecretValue] attribute.
     /// </summary>
     /// <param name="value">Object to check for secret values within its properties.</param>

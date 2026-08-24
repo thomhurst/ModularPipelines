@@ -145,6 +145,25 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
     }
 
     /// <inheritdoc />
+    public bool TryExecuteIfVersionCurrent(long expectedVersion, Action action)
+    {
+        var executed = false;
+        ExecuteWithStableSecrets(
+            action,
+            candidateAction =>
+            {
+                if (Version != expectedVersion)
+                {
+                    return;
+                }
+
+                candidateAction();
+                executed = true;
+            });
+        return executed;
+    }
+
+    /// <inheritdoc />
     public void AddSecrets(IEnumerable<string?> secrets)
     {
         foreach (var secret in secrets)

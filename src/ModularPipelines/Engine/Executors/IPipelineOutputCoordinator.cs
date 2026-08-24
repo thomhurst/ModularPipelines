@@ -15,6 +15,11 @@ internal interface IPipelineOutputCoordinator
     Task<IPipelineOutputScope> InitializeAsync();
 
     /// <summary>
+    /// Flushes intercepted console fragments into their module buffers.
+    /// </summary>
+    Task FlushConsoleAsync();
+
+    /// <summary>
     /// Prints the final pipeline results.
     /// </summary>
     void PrintResults(PipelineSummary pipelineSummary);
