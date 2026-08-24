@@ -1829,7 +1829,13 @@ internal static class GeneratedApiCompatibilityPreserver
 
         foreach (var constructor in baselineConstructors)
         {
-            AddCompatibilityConstructor(compatibilityConstructors, constructor, currentRequired);
+            AddCompatibilityConstructor(
+                compatibilityConstructors,
+                RemapPrimaryConstructorArguments(
+                    constructor,
+                    baselineRequired,
+                    currentRequired),
+                currentRequired);
         }
 
         if (HasSameConstructorContract(baselineRequired, currentRequired))
@@ -1858,6 +1864,41 @@ internal static class GeneratedApiCompatibilityPreserver
                 PreserveDeconstruct = baselineParameters.Length > 0,
             },
             currentRequired);
+    }
+
+    private static CliCompatibilityConstructor RemapPrimaryConstructorArguments(
+        CliCompatibilityConstructor constructor,
+        IReadOnlyList<GeneratedApiProperty> baselineRequired,
+        IReadOnlyList<GeneratedApiProperty> currentRequired) =>
+        constructor with
+        {
+            PrimaryConstructorArguments = currentRequired
+                .Select(current => GetPreservedPrimaryConstructorArgument(
+                    constructor,
+                    baselineRequired,
+                    current))
+                .ToArray(),
+        };
+
+    private static string GetPreservedPrimaryConstructorArgument(
+        CliCompatibilityConstructor constructor,
+        IReadOnlyList<GeneratedApiProperty> baselineRequired,
+        GeneratedApiProperty current)
+    {
+        var currentContract = GetConstructorParameterContract(current);
+        var baselineIndex = -1;
+        for (var index = 0; index < baselineRequired.Count; index++)
+        {
+            if (GetConstructorParameterContract(baselineRequired[index]) == currentContract)
+            {
+                baselineIndex = index;
+                break;
+            }
+        }
+
+        return baselineIndex >= 0 && baselineIndex < constructor.PrimaryConstructorArguments.Count
+            ? constructor.PrimaryConstructorArguments[baselineIndex]
+            : GetTypedDefault(current.CSharpType);
     }
 
     private static void AddCompatibilityConstructor(

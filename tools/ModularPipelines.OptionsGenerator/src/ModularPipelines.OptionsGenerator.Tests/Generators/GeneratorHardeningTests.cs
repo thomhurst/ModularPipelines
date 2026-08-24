@@ -2074,6 +2074,8 @@ public class GeneratorHardeningTests
                 await Assert.That(generated)
                     .Contains("public void Deconstruct(out string Source, out string Destination)");
                 await Assert.That(generated).Contains("public ToolMoveOptions(string Source)");
+                await Assert.That(generated)
+                    .Contains(": this(Source, default(string)!, default(string)!)");
             }
         }
         finally
