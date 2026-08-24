@@ -61,7 +61,11 @@ internal static class GeneratedApiCompatibilityPreserver
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
         var commands = compatibleTool.Commands
-            .Select(command => PreserveIdentifierCasing(command, baseline))
+            .Select(command => PreserveIdentifierCasing(
+                compatibleTool,
+                command,
+                baseline,
+                facadeMethods))
             .Concat(RestoreRemovedCommands(compatibleTool, baseline, facadeMethods))
             .DistinctBy(static command => command.ClassName, StringComparer.Ordinal)
             .ToArray();
@@ -448,13 +452,46 @@ internal static class GeneratedApiCompatibilityPreserver
             .ToArray();
 
     private static CliCommandDefinition PreserveIdentifierCasing(
+        CliToolDefinition tool,
         CliCommandDefinition command,
-        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
-        return command with
+        var preserved = command with
         {
             ClassName = FindBaselineIdentifier(command.ClassName, baseline.Keys),
             ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
+        };
+        if (!baseline.TryGetValue(preserved.ClassName, out var commandBaseline)
+            || commandBaseline.CommandParts is not { Length: > 0 })
+        {
+            return preserved;
+        }
+
+        var commandFacadeMethods = facadeMethods
+            .Where(method => method.OptionsType.Equals(preserved.ClassName, StringComparison.Ordinal))
+            .ToArray();
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(
+            tool,
+            commandBaseline,
+            commandFacadeMethods);
+        var recoveredOverrides = GetRestoredCommandPartIdentifierOverrides(
+            tool,
+            commandBaseline.CommandParts,
+            groupIdentifier,
+            commandFacadeMethods);
+        var mergedOverrides = recoveredOverrides
+            .Concat(preserved.CommandPartIdentifierOverrides)
+            .DistinctBy(static pair => pair.Key)
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value);
+
+        return preserved with
+        {
+            CommandGroupIdentifierOverride = preserved.CommandGroupIdentifierOverride
+                                             ?? (preserved.CommandParts.Length > 1
+                                                 ? groupIdentifier
+                                                 : null),
+            CommandPartIdentifierOverrides = mergedOverrides,
         };
     }
 
@@ -779,7 +816,13 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors)
     {
-        var compatibilityProperties = command.CompatibilityProperties.ToList();
+        var livePropertyNames = command.Options
+            .Select(static option => option.PropertyName)
+            .Concat(command.PositionalArguments.Select(static argument => argument.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+        var compatibilityProperties = command.CompatibilityProperties
+            .Where(property => !livePropertyNames.Contains(property.PropertyName))
+            .ToList();
         var compatibilityConstructors = command.CompatibilityConstructors.ToList();
         var positionalArguments = command.PositionalArguments.ToArray();
         var options = command.Options.ToArray();
@@ -821,8 +864,11 @@ internal static class GeneratedApiCompatibilityPreserver
                 baseline,
                 currentProperties,
                 compatibilityProperties,
+                renamedProperties,
                 violations);
         }
+
+        RetargetCompatibilityProperties(compatibilityProperties, renamedProperties);
 
         if (violations.Count > 0)
         {
@@ -976,13 +1022,28 @@ internal static class GeneratedApiCompatibilityPreserver
         GeneratedApiProperty baseline,
         IReadOnlyList<GeneratedApiProperty> currentProperties,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
         List<string> violations)
     {
-        var sameName = currentProperties.FirstOrDefault(property =>
-            property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
+        var sameNameCandidates = currentProperties
+            .Where(property => property.PropertyName.Equals(
+                baseline.PropertyName,
+                StringComparison.Ordinal))
+            .ToArray();
+        var sameName = sameNameCandidates.FirstOrDefault(property =>
+                           HasSameCliIdentity(property, baseline))
+                       ?? sameNameCandidates.FirstOrDefault();
         if (sameName is not null)
         {
-            ValidateMatchingProperty(command, baseline, sameName, violations);
+            if (baseline is { IsCompatibility: true, ForwardToPropertyName: not null })
+            {
+                ValidateMatchingPropertyShape(command, baseline, sameName, violations);
+            }
+            else
+            {
+                ValidateMatchingProperty(command, baseline, sameName, violations);
+            }
+
             return;
         }
 
@@ -1024,6 +1085,28 @@ internal static class GeneratedApiCompatibilityPreserver
             },
             compatibilityProperties,
             violations);
+        if (replacement is not null)
+        {
+            renamedProperties[baseline.PropertyName] = replacement.PropertyName;
+        }
+    }
+
+    private static void RetargetCompatibilityProperties(
+        IList<CliCompatibilityProperty> compatibilityProperties,
+        IReadOnlyDictionary<string, string> renamedProperties)
+    {
+        for (var index = 0; index < compatibilityProperties.Count; index++)
+        {
+            var property = compatibilityProperties[index];
+            if (property.ForwardToPropertyName is { } target
+                && renamedProperties.TryGetValue(target, out var replacement))
+            {
+                compatibilityProperties[index] = property with
+                {
+                    ForwardToPropertyName = replacement,
+                };
+            }
+        }
     }
 
     private static bool TryRecordRemovedPropertyViolation(
@@ -1148,28 +1231,48 @@ internal static class GeneratedApiCompatibilityPreserver
         GeneratedApiProperty current,
         List<string> violations)
     {
+        if (!ValidateMatchingPropertyShape(command, baseline, current, violations))
+        {
+            return;
+        }
+
+        if (!HasSameCliIdentity(current, baseline))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
+        }
+    }
+
+    private static bool ValidateMatchingPropertyShape(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty current,
+        ICollection<string> violations)
+    {
         if (!current.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed type from "
                 + $"{baseline.CSharpType} to {current.CSharpType}");
+            return false;
         }
-        else if (baseline.IsRequired && !current.IsRequired)
+
+        if (baseline.IsRequired && !current.IsRequired)
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed from required to optional");
+            return false;
         }
-        else if (!baseline.IsRequired && current.IsRequired)
+
+        if (!baseline.IsRequired && current.IsRequired)
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed from optional to required "
                 + "and would remove its public setter");
+            return false;
         }
-        else if (!HasSameCliIdentity(current, baseline))
-        {
-            violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
-        }
+
+        return true;
     }
 
     private static void RestoreRequiredMemberNames(

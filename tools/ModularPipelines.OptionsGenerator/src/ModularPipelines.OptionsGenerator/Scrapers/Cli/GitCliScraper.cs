@@ -15,6 +15,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GitCliScraper : CliScraperBase
 {
+    private readonly object _helpRepositoryLock = new();
+    private Task<string>? _helpRepositoryTask;
+
     public override string ToolName => "git";
     public override string NamespacePrefix => "Git";
     public override string TargetNamespace => "ModularPipelines.Git";
@@ -50,7 +53,14 @@ public partial class GitCliScraper : CliScraperBase
         var arguments = commandPath.Length == 1
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
-        var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken);
+        var workingDirectory = commandPath.Length > 2
+            ? await GetHelpRepositoryAsync(cancellationToken)
+            : null;
+        var result = await Executor.ExecuteAsync(
+            ToolName,
+            arguments,
+            cancellationToken,
+            workingDirectory);
 
         // Git sends short help to either stream and commonly exits with its usage code.
         var helpText = result.CombinedOutput;
@@ -62,6 +72,32 @@ public partial class GitCliScraper : CliScraperBase
 
         HelpCache.Set(cacheKey, helpText);
         return helpText;
+    }
+
+    private Task<string> GetHelpRepositoryAsync(CancellationToken cancellationToken)
+    {
+        lock (_helpRepositoryLock)
+        {
+            return _helpRepositoryTask ??= CreateHelpRepositoryAsync(cancellationToken);
+        }
+    }
+
+    private async Task<string> CreateHelpRepositoryAsync(CancellationToken cancellationToken)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"git-scraper-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(directory);
+        var result = await Executor.ExecuteAsync(
+            ToolName,
+            "init --quiet",
+            cancellationToken,
+            directory);
+        if (!result.Success)
+        {
+            throw new InvalidOperationException(
+                $"Could not initialize the temporary Git help repository: {result.CombinedOutput}");
+        }
+
+        return directory;
     }
 
     protected override IEnumerable<string> ExtractSubcommands(

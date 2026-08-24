@@ -42,6 +42,7 @@ public class GitCliScraperTests
                 .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
             await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
             await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
+            await Assert.That(executor.NestedHelpWorkingDirectory).IsNotNull();
         }
     }
 
@@ -186,6 +187,8 @@ public class GitCliScraperTests
 
         public int StatusHelpInvocations { get; private set; }
 
+        public string? NestedHelpWorkingDirectory { get; private set; }
+
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
@@ -200,9 +203,14 @@ public class GitCliScraperTests
             {
                 StatusHelpInvocations++;
             }
+            else if (arguments == "stash pop -h")
+            {
+                NestedHelpWorkingDirectory = workingDirectory;
+            }
 
             return Task.FromResult(arguments switch
             {
+                "init --quiet" => Result(string.Empty),
                 "help -a" => Result(
                     "Main Porcelain Commands\n"
                     + "   stash                   Stash changes\n"
