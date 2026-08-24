@@ -3538,6 +3538,78 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Leaves_Nested_Named_Facades_Nested()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolSourceEditOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"source\", \"edit\")] "
+                + "public record ToolSourceEditOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolSource.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolSource { "
+                + "public Task EditAsync(ToolSourceEditOptions? options = null) => Task.CompletedTask; }");
+            var current = Command(
+                "ToolSourceEditOptions",
+                "ToolOptions",
+                ["source", "edit"],
+                subDomainGroup: "source");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(current), root);
+            var rootFacade = (await new ServiceInterfaceGenerator().GenerateAsync(preserved))
+                .Single().Content;
+            var nestedFacade = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolSource.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(rootFacade).DoesNotContain("SourceEditAsync(");
+                await Assert.That(nestedFacade).Contains("EditAsync(");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Rejects_Live_Class_Name_Collisions()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolOldAOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"a\")] "
+                + "public record ToolOldAOptions : ToolOptions;");
+            var tool = Tool(
+                Command("ToolNewAOptions", "ToolOptions", ["a"]),
+                Command("ToolOldAOptions", "ToolOptions", ["b"]));
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+                Task.FromResult(GeneratedApiCompatibilityPreserver.Preserve(tool, root)));
+
+            await Assert.That(exception!.Message).Contains("ToolOldAOptions (tool, tool)");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Restores_Live_Command_Class_Name_By_Command_Path()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");

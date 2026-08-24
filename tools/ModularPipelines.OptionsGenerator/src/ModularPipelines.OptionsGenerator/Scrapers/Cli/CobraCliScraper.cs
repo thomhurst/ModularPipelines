@@ -82,6 +82,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
             var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
 
+            // Some CLIs omit the colon on real section headings. For those headings,
+            // require an indented command row so title-cased prose cannot open a section.
+            if (!commandsSectionMatch.Value.TrimEnd().EndsWith(':')
+                && !ContainsIndentedCommandRow(section))
+            {
+                continue;
+            }
+
             // Parse command lines: "  command    description"
             var lines = section.Split('\n');
             var sectionCommandCount = 0;
@@ -99,7 +107,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 if (match.Success)
                 {
                     var commandName = match.Groups["name"].Value.Trim();
-                    if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' ') &&
+                    if (IsValidCommandPart(commandName) && !commandName.Contains(' ') &&
                         seenCommands.Add(commandName))
                     {
                         subcommands.Add(commandName);
@@ -124,6 +132,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
         return subcommands;
     }
+
+    protected override bool IsValidDiscoveredSubcommand(string subcommand) =>
+        IsValidCommandPart(subcommand);
+
+    private static bool ContainsIndentedCommandRow(string section) =>
+        section.Split('\n')
+            .Where(static line => line.Length > 0 && char.IsWhiteSpace(line[0]))
+            .Select(line => SubcommandLinePattern().Match(line))
+            .Any(match => match.Success
+                          && IsValidCommandPart(match.Groups["name"].Value.Trim()));
 
     /// <summary>
     /// Parses a Cobra command from its help text.

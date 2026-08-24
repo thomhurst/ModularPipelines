@@ -132,6 +132,11 @@ public record CliCommandDefinition
     public bool PreserveNamedFacade { get; init; }
 
     /// <summary>
+    /// Whether an existing named command facade was declared directly on the root service.
+    /// </summary>
+    public bool PreserveRootNamedFacade { get; init; }
+
+    /// <summary>
     /// Whether an existing facade allowed its options argument to be omitted.
     /// </summary>
     public bool PreserveOptionalOptionsParameter { get; init; }

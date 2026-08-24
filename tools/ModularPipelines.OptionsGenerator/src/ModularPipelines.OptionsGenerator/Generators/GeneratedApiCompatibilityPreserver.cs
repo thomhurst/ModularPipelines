@@ -61,6 +61,11 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(static method => !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
+        var rootNamedFacadeOptionTypes = facadeMethods
+            .Where(method => IsRootFacadeMethod(compatibleTool, method)
+                             && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Select(static method => method.OptionsType)
+            .ToHashSet(StringComparer.Ordinal);
         var optionalFacadeOptionTypes = facadeMethods
             .Where(static method => method.IsOptionsOptional)
             .Select(static method => method.OptionsType)
@@ -72,6 +77,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 baseline,
                 facadeMethods))
             .ToArray();
+        RejectLiveCommandClassNameCollisions(liveCommands);
         var commands = liveCommands
             .Concat(RestoreRemovedCommands(
                 compatibleTool with { Commands = liveCommands },
@@ -95,6 +101,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     : command)
                 .Select(command => namedFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveNamedFacade = true }
+                    : command)
+                .Select(command => rootNamedFacadeOptionTypes.Contains(command.ClassName)
+                    ? command with { PreserveRootNamedFacade = true }
                     : command)
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
@@ -161,6 +170,9 @@ internal static class GeneratedApiCompatibilityPreserver
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveNamedFacade = facadeMethods.Any(static method =>
                 !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveRootNamedFacade = facadeMethods.Any(method =>
+                IsRootFacadeMethod(tool, method)
+                && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
     }
@@ -406,6 +418,32 @@ internal static class GeneratedApiCompatibilityPreserver
         facadeMethod.DeclaringType.StartsWith($"I{tool.NamespacePrefix}", StringComparison.Ordinal)
             ? facadeMethod.DeclaringType[1..]
             : facadeMethod.DeclaringType;
+
+    private static bool IsRootFacadeMethod(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod facadeMethod) =>
+        facadeMethod.DeclaringType.Equals(tool.NamespacePrefix, StringComparison.Ordinal)
+        || facadeMethod.DeclaringType.Equals($"I{tool.NamespacePrefix}", StringComparison.Ordinal);
+
+    private static void RejectLiveCommandClassNameCollisions(
+        IReadOnlyList<CliCommandDefinition> commands)
+    {
+        var collisions = commands
+            .GroupBy(static command => command.ClassName, StringComparer.Ordinal)
+            .Where(static group => group.Skip(1).Any())
+            .ToArray();
+        if (collisions.Length == 0)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            "Generated API compatibility restoration produced duplicate command class name(s): "
+            + string.Join(
+                "; ",
+                collisions.Select(group =>
+                    $"{group.Key} ({string.Join(", ", group.Select(static command => command.FullCommand))})")));
+    }
 
     private static bool IsParentExecuteFacade(
         string implementationType,
