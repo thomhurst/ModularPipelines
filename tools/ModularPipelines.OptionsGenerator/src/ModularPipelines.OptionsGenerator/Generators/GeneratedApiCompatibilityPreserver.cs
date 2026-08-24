@@ -120,7 +120,7 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
         var commandParts = baseline.CommandParts!;
-        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline);
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline, facadeMethods);
 
         return new CliCommandDefinition
         {
@@ -145,7 +145,8 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static string? GetRestoredCommandGroupIdentifier(
         CliToolDefinition tool,
-        GeneratedApiBaseline baseline)
+        GeneratedApiBaseline baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
         var rootCommand = baseline.CommandParts?[0];
         if (rootCommand is null)
@@ -167,6 +168,21 @@ internal static class GeneratedApiCompatibilityPreserver
             return currentIdentifiers[0];
         }
 
+        var facadeSuffix = string.Concat(
+            baseline.CommandParts!
+                .Skip(1)
+                .SkipLast(1)
+                .Select(GeneratorUtils.ToPascalCase));
+        var facadeIdentifiers = facadeMethods
+            .Select(method => GetRootIdentifierFromFacade(tool, method.DeclaringType, facadeSuffix))
+            .Where(static identifier => identifier is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (facadeIdentifiers.Length == 1)
+        {
+            return facadeIdentifiers[0];
+        }
+
         var commandSuffix = string.Concat(
             baseline.CommandParts!
                 .Skip(1)
@@ -181,6 +197,26 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return defaultIdentifier;
+    }
+
+    private static string? GetRootIdentifierFromFacade(
+        CliToolDefinition tool,
+        string declaringType,
+        string facadeSuffix)
+    {
+        var implementationType = declaringType.StartsWith($"I{tool.NamespacePrefix}", StringComparison.Ordinal)
+            ? declaringType[1..]
+            : declaringType;
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+            || !implementationType.EndsWith(facadeSuffix, StringComparison.Ordinal)
+            || implementationType.Length <= tool.NamespacePrefix.Length + facadeSuffix.Length)
+        {
+            return null;
+        }
+
+        return implementationType.Substring(
+            tool.NamespacePrefix.Length,
+            implementationType.Length - tool.NamespacePrefix.Length - facadeSuffix.Length);
     }
 
     private static CliOptionDefinition[] RestoreRemovedOptions(
