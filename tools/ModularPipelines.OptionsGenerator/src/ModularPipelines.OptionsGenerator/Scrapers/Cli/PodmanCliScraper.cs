@@ -367,5 +367,4 @@ public partial class PodmanCliScraper : CobraCliScraper
                 isRequired: index < requiredCount,
                 isVariadic: argument.IsVariadic))
             .ToList();
-
 }
