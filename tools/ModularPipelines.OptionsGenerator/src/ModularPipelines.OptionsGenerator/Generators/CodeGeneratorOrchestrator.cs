@@ -876,52 +876,25 @@ public class CodeGeneratorOrchestrator
 
         if (enforceOutputContainment)
         {
-            foreach (var cleanupDirectory in GeneratedCleanupDirectories)
-            {
-                ValidateContainedPath(
-                    outputDirectory,
-                    Path.Combine(toolDefinition.OutputDirectory, cleanupDirectory),
-                    "generated cleanup directory");
-            }
-
-            ValidateContainedPath(
-                outputDirectory,
-                Path.Combine(
-                    toolDefinition.OutputDirectory,
-                    "Generated",
-                    $"{toolDefinition.NamespacePrefix}.CommandCoverage.json"),
-                "command coverage manifest");
+            ValidateToolOutputContainment(toolDefinition, outputDirectory);
         }
 
         toolDefinition = EnumDefinitionStabilizer.Stabilize(
             toolDefinition,
             outputDirectory,
             enumBaselinePaths);
-        var generatedFiles = new List<GeneratedFile>();
-
-        foreach (var generator in _generators)
-        {
-            generatedFiles.AddRange(await generator.GenerateAsync(toolDefinition, cancellationToken));
-        }
+        var generatedFiles = toolDefinition.GenerateCode
+            ? await GenerateFilesAsync(toolDefinition, cancellationToken).ConfigureAwait(false)
+            : [];
 
         GeneratorUtils.EnsureNoDuplicateFilePaths(generatedFiles, emittedPaths);
 
         if (enforceOutputContainment)
         {
-            foreach (var file in generatedFiles)
-            {
-                var fullPath = ValidateContainedPath(
-                    outputDirectory,
-                    file.RelativePath,
-                    "generated file path");
-                RejectUnownedExistingPath(fullPath, replaceableExistingPaths);
-            }
-
-            RejectUnownedExistingPath(
-                ValidateContainedPath(
-                    outputDirectory,
-                    CommandCoverageGuard.GetManifestPath(toolDefinition, outputDirectory),
-                    "command coverage manifest"),
+            ValidateGeneratedOutputContainment(
+                toolDefinition,
+                generatedFiles,
+                outputDirectory,
                 replaceableExistingPaths);
         }
 
@@ -968,7 +941,7 @@ public class CodeGeneratorOrchestrator
 
         // Only after every replacement is on disk is it safe to prune stale files.
         // External generation reconciles only its recorded ownership after this method returns.
-        if (cleanupGeneratedFilesByNamespacePrefix)
+        if (toolDefinition.GenerateCode && cleanupGeneratedFilesByNamespacePrefix)
         {
             CleanupGeneratedFiles(
                 outputDirectory,
@@ -984,16 +957,74 @@ public class CodeGeneratorOrchestrator
             enforceOutputContainment ? outputDirectory : null);
         result.FilesGenerated.Add(Path.GetRelativePath(outputDirectory, coverage.ManifestPath));
 
-        if (writeAssemblyInfo)
+        if (toolDefinition.GenerateCode && writeAssemblyInfo)
         {
-            // First-party tools sharing an output directory generate identical package metadata.
             await WriteAssemblyInfoAsync(
                 outputDirectory,
                 toolDefinition,
                 cancellationToken,
-                enforceOutputContainment);
-            result.FilesGenerated.Add(Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+                enforceOutputContainment).ConfigureAwait(false);
+            result.FilesGenerated.Add(
+                Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
         }
+    }
+
+    private static void ValidateToolOutputContainment(
+        CliToolDefinition toolDefinition,
+        string outputDirectory)
+    {
+        foreach (var cleanupDirectory in GeneratedCleanupDirectories)
+        {
+            ValidateContainedPath(
+                outputDirectory,
+                Path.Combine(toolDefinition.OutputDirectory, cleanupDirectory),
+                "generated cleanup directory");
+        }
+
+        ValidateContainedPath(
+            outputDirectory,
+            Path.Combine(
+                toolDefinition.OutputDirectory,
+                "Generated",
+                $"{toolDefinition.NamespacePrefix}.CommandCoverage.json"),
+            "command coverage manifest");
+    }
+
+    private static void ValidateGeneratedOutputContainment(
+        CliToolDefinition toolDefinition,
+        IReadOnlyCollection<GeneratedFile> generatedFiles,
+        string outputDirectory,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        foreach (var file in generatedFiles)
+        {
+            var fullPath = ValidateContainedPath(
+                outputDirectory,
+                file.RelativePath,
+                "generated file path");
+            RejectUnownedExistingPath(fullPath, replaceableExistingPaths);
+        }
+
+        RejectUnownedExistingPath(
+            ValidateContainedPath(
+                outputDirectory,
+                CommandCoverageGuard.GetManifestPath(toolDefinition, outputDirectory),
+                "command coverage manifest"),
+            replaceableExistingPaths);
+    }
+
+    private async Task<List<GeneratedFile>> GenerateFilesAsync(
+        CliToolDefinition toolDefinition,
+        CancellationToken cancellationToken)
+    {
+        var generatedFiles = new List<GeneratedFile>();
+        foreach (var generator in _generators)
+        {
+            generatedFiles.AddRange(
+                await generator.GenerateAsync(toolDefinition, cancellationToken).ConfigureAwait(false));
+        }
+
+        return generatedFiles;
     }
 
     private static List<string> ParseToolList(string tools)

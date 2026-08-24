@@ -44,6 +44,8 @@ public class CodeGeneratorOrchestratorTests
 
         public bool GenerateCommandFacade { get; init; } = true;
 
+        public bool GenerateCode { get; init; } = true;
+
         public string? ExecutablePrerequisiteMetadataExemption { get; init; }
 
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
@@ -73,6 +75,7 @@ public class CodeGeneratorOrchestratorTests
             GlobalOptions = GlobalOptions,
             DocumentationOutputDirectory = DocumentationOutputDirectory,
             GenerateCommandFacade = GenerateCommandFacade,
+            GenerateCode = GenerateCode,
             ExecutablePrerequisite = ExecutablePrerequisite,
             ExecutablePrerequisiteMetadataExemption = ExecutablePrerequisiteMetadataExemption,
         };
@@ -248,6 +251,47 @@ public class CodeGeneratorOrchestratorTests
                 .IsEqualTo("CliArguments2");
             await Assert.That(generatedTool.GlobalCompatibilityProperties.Single().PropertyName)
                 .IsEqualTo("CliArguments");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Handwritten_Tool_Validates_Coverage_Without_Generation_Or_Cleanup()
+    {
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
+        var generatorCalled = false;
+        var scraper = new FakeCliScraper
+        {
+            Commands = [FakeCommand()],
+            GenerateCode = false,
+        };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = _ =>
+            {
+                generatorCalled = true;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.HasErrors).IsFalse();
+                await Assert.That(generatorCalled).IsFalse();
+                await Assert.That(File.Exists(existingFile)).IsTrue();
+                await Assert.That(File.Exists(Path.Combine(
+                        outputRoot,
+                        ToolOutputDirectory,
+                        "AssemblyInfo.Generated.cs")))
+                    .IsFalse();
+            }
         }
         finally
         {
