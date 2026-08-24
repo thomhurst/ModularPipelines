@@ -134,6 +134,33 @@ public class WinGetCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Search_Query_Usage_Is_Covered_By_Named_Option()
+    {
+        const string helpText = """
+            Searches for packages from configured sources.
+
+            usage: winget search [[-q] <query>] [<options>]
+
+            The following arguments are available:
+              -q,--query   The query used to search for a package
+            """;
+        var scraper = new TestWinGetCliScraper();
+        var command = await scraper.Parse(["winget", "search"], helpText);
+        var usage = scraper.ParseUsage(["winget", "search"], helpText);
+
+        command!.ValidateOperandCoverage();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Single().PropertyName).IsEqualTo("Query");
+            await Assert.That(command.PositionalArguments).IsEmpty();
+            await Assert.That(command.UsagePositionalArguments).HasSingleItem();
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+                .IsEqualTo("-q");
+        }
+    }
+
     private sealed class TestWinGetCliScraper : WinGetCliScraper
     {
         public TestWinGetCliScraper(ICliCommandExecutor? executor = null)
@@ -150,11 +177,17 @@ public class WinGetCliScraperTests
         public IReadOnlyList<string> Extract(string helpText) =>
             ExtractSubcommands(helpText).ToList();
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
-            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+            var command = await ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+            return command is null
+                ? null
+                : command with { UsagePositionalArguments = usage.PositionalArguments };
         }
+
+        public UsageSynopsisParseResult ParseUsage(string[] commandPath, string helpText) =>
+            ParseUsageSynopsis(commandPath, helpText);
     }
 
     private sealed class StubExecutor(string rootHelp, string listHelp) : ICliCommandExecutor

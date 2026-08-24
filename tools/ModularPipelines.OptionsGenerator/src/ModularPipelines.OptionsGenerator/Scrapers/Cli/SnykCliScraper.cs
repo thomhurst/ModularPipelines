@@ -145,8 +145,18 @@ public partial class SnykCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    /// <inheritdoc />
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
+        usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
         var commandParts = commandPath.Skip(1).ToArray();
 
         if (commandParts.Length == 0)
@@ -157,7 +167,9 @@ public partial class SnykCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
         AddDocumentedOptions(commandParts, options);
-        var positionalArguments = GetPositionalArguments(commandParts);
+        var positionalArguments = CliPositionalArgument.MergeDuplicates(
+            GetPositionalArguments(commandParts)
+                .Concat(GetPositionalArguments(usage)));
         var enums = options
             .Where(x => x.EnumDefinition is not null)
             .Select(x => x.EnumDefinition!)
@@ -178,6 +190,8 @@ public partial class SnykCliScraper : CliScraperBase
             DocumentationUrl = "https://docs.snyk.io/snyk-cli/commands",
             Options = options,
             PositionalArguments = positionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
             Enums = enums
         };
