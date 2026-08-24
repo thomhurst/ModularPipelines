@@ -867,7 +867,7 @@ The following have been removed in V3:
 | `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()` |
 | `ModuleRunType` property | `Configure().WithAlwaysRun()` |
 | `Timeout` property | `Configure().WithTimeout()` |
-| `RetryPolicy` property | `Configure().WithRetry()` or `.Advanced.WithShield()` |
+| `RetryPolicy` property | `Configure().WithRetry(count, ...)` or `.Advanced.WithShield(shield)` |
 | `GetModule<T>()` on module | `context.GetModule<TModule>()` |
 
 ## New Features in V3
@@ -1192,7 +1192,7 @@ public class DeployModule : Module<bool>
 | `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
 | `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()` | Fluent builder |
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
-| `RetryPolicy` property override | `Configure().WithRetry()` | Fluent builder |
+| `RetryPolicy` property override | `Configure().WithRetry(count, ...)` | Fluent builder |
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
 | `OnBeforeExecute()` override | `OnBeforeExecuteAsync()` | Override the module virtual |
 | `OnAfterExecute()` override | `OnAfterExecuteAsync()` | Override the module virtual |
