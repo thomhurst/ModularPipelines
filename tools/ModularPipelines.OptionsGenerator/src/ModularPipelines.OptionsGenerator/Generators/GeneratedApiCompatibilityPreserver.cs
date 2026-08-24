@@ -157,11 +157,20 @@ internal static class GeneratedApiCompatibilityPreserver
                                   rootCommand,
                                   StringComparison.OrdinalIgnoreCase))
             .Select(command => command.SubDomainGroup)
-            .Where(static group => group is not null)
+            .OfType<string>()
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        return currentGroups.Length == 1 ? currentGroups[0] : fallbackIdentifier;
+        if (currentGroups.Length == 1)
+        {
+            return currentGroups[0];
+        }
+
+        var matchingGroups = currentGroups
+            .Where(group => GeneratorUtils.GetSubDomainIdentifier(tool, group)
+                .Equals(fallbackIdentifier, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        return matchingGroups.Length == 1 ? matchingGroups[0] : fallbackIdentifier;
     }
 
     private static string? GetRestoredCommandGroupIdentifier(
@@ -226,11 +235,13 @@ internal static class GeneratedApiCompatibilityPreserver
             ? facadeMethod.DeclaringType[1..]
             : facadeMethod.DeclaringType;
         var commandTail = commandParts.Skip(1).ToArray();
-        var commandTailSuffix = string.Concat(commandTail.Select(GeneratorUtils.ToPascalCase));
+        var optionsImplementationType = facadeMethod.OptionsType.EndsWith("Options", StringComparison.Ordinal)
+            ? facadeMethod.OptionsType[..^"Options".Length]
+            : facadeMethod.OptionsType;
         var isParentExecuteFacade = facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
-                                    && implementationType.EndsWith(commandTailSuffix, StringComparison.Ordinal)
-                                    && implementationType.Length
-                                    > tool.NamespacePrefix.Length + commandTailSuffix.Length;
+                                    && implementationType.Equals(
+                                        optionsImplementationType,
+                                        StringComparison.OrdinalIgnoreCase);
         var facadeCommandParts = isParentExecuteFacade ? commandTail : commandTail.SkipLast(1);
         var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
         if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
