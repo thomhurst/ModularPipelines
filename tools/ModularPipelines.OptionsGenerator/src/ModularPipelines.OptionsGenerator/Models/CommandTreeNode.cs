@@ -66,38 +66,46 @@ public class CommandTreeNode
             Depth = 0
         };
 
-        foreach (var command in commands)
-        {
-            InsertCommand(root, command, toolPrefix, 1);
-        }
+        PopulateNode(root, commands, 1);
 
         return root;
     }
 
-    private static void InsertCommand(CommandTreeNode node, CliCommandDefinition command, string toolPrefix, int partIndex)
+    private static void PopulateNode(
+        CommandTreeNode node,
+        IReadOnlyList<CliCommandDefinition> commands,
+        int partIndex)
     {
-        // CommandParts are the parts after the tool name
-        // e.g., for "gcloud workspace-add-ons deployments create", parts are ["workspace-add-ons", "deployments", "create"]
-        var parts = command.CommandParts;
-
-        // If we're at the last part, this command belongs to the CURRENT node (not a child)
-        // The method name will be the last segment
-        if (partIndex >= parts.Length - 1)
+        foreach (var command in commands.Where(command => partIndex >= command.CommandParts.Length - 1))
         {
-            // We're at the parent of the leaf command
             node.Commands.Add(command);
-            return;
         }
 
-        // Create child nodes for intermediate segments
-        var segment = parts[partIndex];
-        var pascalSegment = command.CommandPartIdentifierOverrides.TryGetValue(partIndex, out var identifierOverride)
-            ? identifierOverride
-            : ToPascalCase(segment);
-
-        if (!node.Children.TryGetValue(segment, out var child))
+        var childCommandGroups = commands
+            .Where(command => partIndex < command.CommandParts.Length - 1)
+            .GroupBy(command => command.CommandParts[partIndex], StringComparer.OrdinalIgnoreCase);
+        foreach (var childCommandGroup in childCommandGroups)
         {
-            child = new CommandTreeNode
+            var segment = childCommandGroup.Key;
+            var childCommands = childCommandGroup.ToArray();
+            var identifierOverrides = childCommands
+                .Select(command => command.CommandPartIdentifierOverrides.TryGetValue(
+                    partIndex,
+                    out var identifierOverride)
+                        ? identifierOverride
+                        : null)
+                .OfType<string>()
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            if (identifierOverrides.Length > 1)
+            {
+                throw new InvalidOperationException(
+                    $"Command part '{segment}' has conflicting generated identifiers: "
+                    + $"{string.Join(", ", identifierOverrides)}.");
+            }
+
+            var pascalSegment = identifierOverrides.SingleOrDefault() ?? ToPascalCase(segment);
+            var child = new CommandTreeNode
             {
                 Segment = segment,
                 PascalSegment = pascalSegment,
@@ -105,15 +113,8 @@ public class CommandTreeNode
                 Depth = partIndex
             };
             node.Children[segment] = child;
+            PopulateNode(child, childCommands, partIndex + 1);
         }
-        else if (!child.PascalSegment.Equals(pascalSegment, StringComparison.Ordinal))
-        {
-            throw new InvalidOperationException(
-                $"Command part '{segment}' has conflicting generated identifiers: "
-                + $"{child.PascalSegment}, {pascalSegment}.");
-        }
-
-        InsertCommand(child, command, toolPrefix, partIndex + 1);
     }
 
     private static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);

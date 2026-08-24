@@ -2002,6 +2002,69 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Applies_Restored_Casing_To_Live_Siblings()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\", \"old\")] "
+                + "public record ToolGroupCloudShellOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task OldAsync(ToolGroupCloudShellOldOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolGroupCloudShellCurrentOptions",
+                "ToolOptions",
+                ["group", "cloud-shell", "current"],
+                subDomainGroup: "Group",
+                commandGroupIdentifierOverride: "Group"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolGroupCloudshell.Generated.cs", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generated.Content).Contains("OldAsync(");
+                await Assert.That(generated.Content).Contains("ToolGroupCloudShellOldOptions? options = null");
+                await Assert.That(generated.Content).Contains("CurrentAsync(");
+                await Assert.That(generated.Content).Contains("ToolGroupCloudShellCurrentOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task CommandTreeNode_Rejects_Conflicting_Explicit_Identifiers()
+    {
+        var commands = new[]
+        {
+            Command("ToolGroupFirstOptions", "ToolOptions", ["group", "cloud-shell", "first"]) with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "Cloudshell" },
+            },
+            Command("ToolGroupSecondOptions", "ToolOptions", ["group", "cloud-shell", "second"]) with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "CloudShell" },
+            },
+        };
+
+        await Assert.That(() => CommandTreeNode.BuildTree("Tool", "Group", commands))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Cloudshell, CloudShell");
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Preserves_Live_Group_Casing_For_Restored_Sibling()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
