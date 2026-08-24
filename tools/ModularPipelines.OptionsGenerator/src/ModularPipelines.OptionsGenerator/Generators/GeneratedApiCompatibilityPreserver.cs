@@ -167,11 +167,17 @@ internal static class GeneratedApiCompatibilityPreserver
             return currentIdentifiers[0];
         }
 
+        var commandSuffix = string.Concat(
+            baseline.CommandParts!
+                .Skip(1)
+                .Select(GeneratorUtils.ToPascalCase)) + "Options";
         if (baseline.ClassName.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            && baseline.ClassName.AsSpan(tool.NamespacePrefix.Length)
-                .StartsWith(defaultIdentifier, StringComparison.OrdinalIgnoreCase))
+            && baseline.ClassName.EndsWith(commandSuffix, StringComparison.Ordinal)
+            && baseline.ClassName.Length > tool.NamespacePrefix.Length + commandSuffix.Length)
         {
-            return baseline.ClassName.Substring(tool.NamespacePrefix.Length, defaultIdentifier.Length);
+            return baseline.ClassName.Substring(
+                tool.NamespacePrefix.Length,
+                baseline.ClassName.Length - tool.NamespacePrefix.Length - commandSuffix.Length);
         }
 
         return defaultIdentifier;
