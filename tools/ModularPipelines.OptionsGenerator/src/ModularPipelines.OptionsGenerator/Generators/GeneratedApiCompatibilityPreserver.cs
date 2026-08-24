@@ -210,17 +210,18 @@ internal static class GeneratedApiCompatibilityPreserver
             return currentIdentifiers[0];
         }
 
-        var commandSuffix = string.Concat(
-            baseline.CommandParts!
-                .Skip(1)
-                .Select(GeneratorUtils.ToPascalCase)) + "Options";
         if (baseline.ClassName.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            && baseline.ClassName.EndsWith(commandSuffix, StringComparison.Ordinal)
-            && baseline.ClassName.Length > tool.NamespacePrefix.Length + commandSuffix.Length)
+            && baseline.ClassName.EndsWith("Options", StringComparison.Ordinal))
         {
-            return baseline.ClassName.Substring(
-                tool.NamespacePrefix.Length,
-                baseline.ClassName.Length - tool.NamespacePrefix.Length - commandSuffix.Length);
+            var recoveredIdentifiers = SplitRecoveredIdentifiers(
+                baseline.ClassName[tool.NamespacePrefix.Length..^"Options".Length],
+                baseline.CommandParts!
+                    .Select(GeneratorUtils.ToPascalCase)
+                    .ToArray());
+            if (recoveredIdentifiers is not null)
+            {
+                return recoveredIdentifiers[0];
+            }
         }
 
         return defaultIdentifier;
