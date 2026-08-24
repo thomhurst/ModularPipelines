@@ -29,6 +29,7 @@ public static class PodmanExtensions
     public static IServiceCollection RegisterPodmanContext(this IServiceCollection services)
     {
         services.TryAddScoped<IPodman, Services.Podman>();
+        services.TryAddScoped<IPodmanArtifact, PodmanArtifact>();
         services.TryAddScoped<IPodmanCompose, PodmanCompose>();
         services.TryAddScoped<IPodmanContainer, PodmanContainer>();
         services.TryAddScoped<IPodmanFarm, PodmanFarm>();
@@ -40,6 +41,7 @@ public static class PodmanExtensions
         services.TryAddScoped<IPodmanManifest, PodmanManifest>();
         services.TryAddScoped<IPodmanNetwork, PodmanNetwork>();
         services.TryAddScoped<IPodmanPod, PodmanPod>();
+        services.TryAddScoped<IPodmanQuadlet, PodmanQuadlet>();
         services.TryAddScoped<IPodmanSecret, PodmanSecret>();
         services.TryAddScoped<IPodmanSystem, PodmanSystem>();
         services.TryAddScoped<IPodmanVolume, PodmanVolume>();

@@ -24,6 +24,12 @@ public record PodmanExecOptions(
 ) : PodmanOptions
 {
     /// <summary>
+    /// File to read the container ID from
+    /// </summary>
+    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated)]
+    public string? Cidfile { get; set; }
+
+    /// <summary>
     /// Run the exec session in detached mode (backgrounded)
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
@@ -48,7 +54,7 @@ public record PodmanExecOptions(
     public IEnumerable<string>? EnvFile { get; set; }
 
     /// <summary>
-    /// Keep STDIN open even if not attached
+    /// Make STDIN available to the contained process
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }
@@ -58,6 +64,18 @@ public record PodmanExecOptions(
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
+
+    /// <summary>
+    /// Do not create a database session for the exec process
+    /// </summary>
+    [CliFlag("--no-session")]
+    public bool? NoSession { get; set; }
+
+    /// <summary>
+    /// Pass a list of additional file descriptors to the container (default [])
+    /// </summary>
+    [CliOption("--preserve-fd", Format = OptionFormat.EqualsSeparated)]
+    public string? PreserveFd { get; set; }
 
     /// <summary>
     /// Pass N additional file descriptors to the container

@@ -56,6 +56,7 @@ public record PodmanImagePushOptions(
     /// <summary>
     /// Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 
@@ -108,6 +109,18 @@ public record PodmanImagePushOptions(
     public bool? RemoveSignatures { get; set; }
 
     /// <summary>
+    /// number of times to retry in case of failure when performing push (default 3)
+    /// </summary>
+    [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
+    public int? Retry { get; set; }
+
+    /// <summary>
+    /// delay between retries in case of push failures
+    /// </summary>
+    [CliOption("--retry-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? RetryDelay { get; set; }
+
+    /// <summary>
     /// Add a signature at the destination using the specified key
     /// </summary>
     [CliOption("--sign-by", Format = OptionFormat.EqualsSeparated)]
@@ -125,6 +138,12 @@ public record PodmanImagePushOptions(
     [SecretValue]
     [CliOption("--sign-by-sigstore-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? SignBySigstorePrivateKey { get; set; }
+
+    /// <summary>
+    /// Sign the image using a Sequoia-PGP key with the specified FINGERPRINT
+    /// </summary>
+    [CliOption("--sign-by-sq-fingerprint", Format = OptionFormat.EqualsSeparated)]
+    public string? SignBySqFingerprint { get; set; }
 
     /// <summary>
     /// Read a passphrase for signing an image from PATH

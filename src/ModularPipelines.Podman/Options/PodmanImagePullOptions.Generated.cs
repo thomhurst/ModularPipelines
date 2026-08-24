@@ -49,6 +49,7 @@ public record PodmanImagePullOptions(
     /// <summary>
     /// Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
     /// </summary>
+    [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
 
@@ -77,10 +78,28 @@ public record PodmanImagePullOptions(
     public string? Platform { get; set; }
 
     /// <summary>
+    /// Pull image policy ("always"|"missing"|"never"|"newer") (default "always")
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
     /// Suppress output information when pulling images
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// number of times to retry in case of failure when performing pull (default 3)
+    /// </summary>
+    [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
+    public int? Retry { get; set; }
+
+    /// <summary>
+    /// delay between retries in case of pull failures
+    /// </summary>
+    [CliOption("--retry-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? RetryDelay { get; set; }
 
     /// <summary>
     /// Require HTTPS and verify certificates when contacting registries (default true)

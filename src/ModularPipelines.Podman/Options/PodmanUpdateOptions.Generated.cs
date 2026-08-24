@@ -107,6 +107,102 @@ public record PodmanUpdateOptions(
     public IEnumerable<string>? DeviceWriteIops { get; set; }
 
     /// <summary>
+    /// Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin])
+    /// </summary>
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Env { get; set; }
+
+    /// <summary>
+    /// set a healthcheck command for the container ('none' disables the existing healthcheck)
+    /// </summary>
+    [CliOption("--health-cmd", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthCmd { get; set; }
+
+    /// <summary>
+    /// set an interval for the healthcheck. (a value of disable results in no automatic timer setup) Changing this setting resets timer. (default "30s")
+    /// </summary>
+    [CliOption("--health-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthInterval { get; set; }
+
+    /// <summary>
+    /// set the destination of the HealthCheck log. Directory path, local or events_logger (local use container state file) Warning: Changing this setting may cause the loss of previous logs! (default "local")
+    /// </summary>
+    [CliOption("--health-log-destination", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthLogDestination { get; set; }
+
+    /// <summary>
+    /// set maximum number of attempts in the HealthCheck log file. ('0' value means an infinite number of attempts in the log file) (default 5)
+    /// </summary>
+    [CliOption("--health-max-log-count", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthMaxLogCount { get; set; }
+
+    /// <summary>
+    /// set maximum length in characters of stored HealthCheck log. ('0' value means an infinite log length) (default 500)
+    /// </summary>
+    [CliOption("--health-max-log-size", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthMaxLogSize { get; set; }
+
+    /// <summary>
+    /// action to take once the container turns unhealthy (default "none")
+    /// </summary>
+    [CliOption("--health-on-failure", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthOnFailure { get; set; }
+
+    /// <summary>
+    /// the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
+    /// </summary>
+    [CliOption("--health-retries", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthRetries { get; set; }
+
+    /// <summary>
+    /// the initialization time needed for a container to bootstrap (default "0s")
+    /// </summary>
+    [CliOption("--health-start-period", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthStartPeriod { get; set; }
+
+    /// <summary>
+    /// Set a startup healthcheck command for the container
+    /// </summary>
+    [CliOption("--health-startup-cmd", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthStartupCmd { get; set; }
+
+    /// <summary>
+    /// Set an interval for the startup healthcheck. Changing this setting resets the timer, depending on the state of the container. (default "30s")
+    /// </summary>
+    [CliOption("--health-startup-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthStartupInterval { get; set; }
+
+    /// <summary>
+    /// Set the maximum number of retries before the startup healthcheck will restart the container
+    /// </summary>
+    [CliOption("--health-startup-retries", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthStartupRetries { get; set; }
+
+    /// <summary>
+    /// Set the number of consecutive successes before the startup healthcheck is marked as successful and the normal healthcheck begins (0 indicates any success will start the regular healthcheck)
+    /// </summary>
+    [CliOption("--health-startup-success", Format = OptionFormat.EqualsSeparated)]
+    public int? HealthStartupSuccess { get; set; }
+
+    /// <summary>
+    /// Set the maximum amount of time that the startup healthcheck may take before it is considered failed (default "30s")
+    /// </summary>
+    [CliOption("--health-startup-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthStartupTimeout { get; set; }
+
+    /// <summary>
+    /// the maximum time allowed to complete the healthcheck before an interval is considered failed and SIGKILL is sent to the healthcheck process (default "30s")
+    /// </summary>
+    [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthTimeout { get; set; }
+
+    /// <summary>
+    /// Act on the latest container podman is aware of Not supported with the "--remote" flag
+    /// </summary>
+    [CliFlag("--latest", ShortForm = "-l")]
+    public bool? Latest { get; set; }
+
+    /// <summary>
     /// Memory limit (format: &lt;number&gt;[&lt;unit&gt;], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
@@ -131,9 +227,33 @@ public record PodmanUpdateOptions(
     public int? MemorySwappiness { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set -1 for unlimited) (default 2048)
+    /// Disable healthchecks on container
+    /// </summary>
+    [CliFlag("--no-healthcheck")]
+    public bool? NoHealthcheck { get; set; }
+
+    /// <summary>
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }
+
+    /// <summary>
+    /// Restart policy to apply when a container exits ("always"|"no"|"never"|"on-failure"|"unless-stopped")
+    /// </summary>
+    [CliOption("--restart", Format = OptionFormat.EqualsSeparated)]
+    public string? Restart { get; set; }
+
+    /// <summary>
+    /// Ulimit options
+    /// </summary>
+    [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Ulimit { get; set; }
+
+    /// <summary>
+    /// Unset environment default variables in container
+    /// </summary>
+    [CliOption("--unsetenv", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Unsetenv { get; set; }
 
 }

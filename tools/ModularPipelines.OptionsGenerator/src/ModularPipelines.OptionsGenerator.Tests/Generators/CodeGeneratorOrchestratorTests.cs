@@ -326,6 +326,52 @@ public class CodeGeneratorOrchestratorTests
             "invalid HTTPS installation URL");
     }
 
+    [Test]
+    public async Task Cli_Compatibility_Forwarding_Is_Validated_Before_Generation()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var generatorCalled = false;
+        var command = FakeCommand() with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyValue",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "MissingValue",
+                    ObsoleteMessage = "Use MissingValue.",
+                },
+            ],
+        };
+        var scraper = new FakeCliScraper { Commands = [command] };
+        var generator = new FakeGenerator
+        {
+            OnGenerate = _ =>
+            {
+                generatorCalled = true;
+                return [];
+            },
+        };
+
+        try
+        {
+            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
+
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.Errors.Single().Message)
+                .Contains("forwards to missing property 'MissingValue'");
+            await Assert.That(generatorCalled).IsFalse();
+        }
+        finally
+        {
+            if (Directory.Exists(outputRoot))
+            {
+                Directory.Delete(outputRoot, recursive: true);
+            }
+        }
+    }
+
     private static async Task AssertMetadataFailureBeforeGeneratorsRun(
         string toolName,
         CliExecutablePrerequisite? prerequisite,

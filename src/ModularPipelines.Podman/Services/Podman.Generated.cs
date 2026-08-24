@@ -25,6 +25,7 @@ internal partial class Podman : IPodman
     /// Initializes a new instance of the <see cref="Podman"/> class.
     /// </summary>
     public Podman(
+        IPodmanArtifact artifact,
         IPodmanCompose compose,
         IPodmanContainer container,
         IPodmanFarm farm,
@@ -36,12 +37,14 @@ internal partial class Podman : IPodman
         IPodmanManifest manifest,
         IPodmanNetwork network,
         IPodmanPod pod,
+        IPodmanQuadlet quadlet,
         IPodmanSecret secret,
         IPodmanSystem system,
         IPodmanVolume volume,
         ICommandContext command
     )
     {
+        Artifact = artifact;
         Compose = compose;
         Container = container;
         Farm = farm;
@@ -53,6 +56,7 @@ internal partial class Podman : IPodman
         Manifest = manifest;
         Network = network;
         Pod = pod;
+        Quadlet = quadlet;
         Secret = secret;
         System = system;
         Volume = volume;
@@ -60,6 +64,9 @@ internal partial class Podman : IPodman
     }
 
     #region Sub-domain Services
+
+    /// <inheritdoc />
+    public IPodmanArtifact Artifact { get; }
 
     /// <inheritdoc />
     public IPodmanCompose Compose { get; }
@@ -93,6 +100,9 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public IPodmanPod Pod { get; }
+
+    /// <inheritdoc />
+    public IPodmanQuadlet Quadlet { get; }
 
     /// <inheritdoc />
     public IPodmanSecret Secret { get; }

@@ -21,6 +21,12 @@ namespace ModularPipelines.Podman.Options;
 public record PodmanMachineListOptions : PodmanOptions
 {
     /// <summary>
+    /// Show machines from all providers
+    /// </summary>
+    [CliFlag("--all-providers")]
+    public bool? AllProviders { get; set; }
+
+    /// <summary>
     /// Format volume output using JSON or a Go template (default "{{range .}}{{.Name}}\t{{.VMType}}\t{{.Created}}\t{{.LastUp}}\t{{.CPUs}}\t{{.Memory}}\t{{.DiskSize}}\n{{end -}}")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]

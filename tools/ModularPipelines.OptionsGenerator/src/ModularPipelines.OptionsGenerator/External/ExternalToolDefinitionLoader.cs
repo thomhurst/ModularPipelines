@@ -462,11 +462,11 @@ public static class ExternalToolDefinitionLoader
         propertiesBySwitch.Add(switchName, propertyName);
     }
 
-    private static void ValidateCompatibilityMetadata(
+    internal static void ValidateCompatibilityMetadata(
         CliCommandDefinition command,
         IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var (forwardingTargets, writableForwardingTargets) =
+        var (forwardingTargets, writableForwardingTargets, initOnlyForwardingTargets) =
             GetCompatibilityForwardingTargets(command, globalOptions);
 
         foreach (var property in command.CompatibilityProperties)
@@ -475,7 +475,8 @@ public static class ExternalToolDefinitionLoader
                 property,
                 command,
                 forwardingTargets,
-                writableForwardingTargets);
+                writableForwardingTargets,
+                initOnlyForwardingTargets);
         }
 
         foreach (var method in command.CompatibilityMethods)
@@ -488,18 +489,27 @@ public static class ExternalToolDefinitionLoader
 
     private static (
         IReadOnlySet<string> All,
-        IReadOnlyDictionary<string, string> Writable) GetCompatibilityForwardingTargets(
+        IReadOnlyDictionary<string, string> Writable,
+        IReadOnlyDictionary<string, string> InitOnly) GetCompatibilityForwardingTargets(
             CliCommandDefinition command,
             IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var writable = command.Options
+        var writableTargets = command.Options
             .Where(option => !option.IsRequired)
             .Select(option => (option.PropertyName, CSharpType: option.PropertyType))
             .Concat(command.PositionalArguments
                 .Where(argument => !argument.IsRequired)
                 .Select(argument => (argument.PropertyName, argument.CSharpType)))
-            .Concat(globalOptions.Select(option => (option.PropertyName, CSharpType: option.PropertyType)))
-            .ToDictionary(target => target.PropertyName, target => target.CSharpType, StringComparer.Ordinal);
+            .Concat(globalOptions.Select(option => (option.PropertyName, CSharpType: option.PropertyType)));
+        var initOnlyTargets = command.Options
+            .Where(option => option.IsRequired)
+            .Select(option => (option.PropertyName, CSharpType: option.PropertyType))
+            .Concat(command.PositionalArguments
+                .Where(argument => argument.IsRequired)
+                .Select(argument => (argument.PropertyName, argument.CSharpType)));
+        var writable = CreateCompatibilityTargetMap(command, writableTargets, "writable");
+        var initOnly = CreateCompatibilityTargetMap(command, initOnlyTargets, "init-only");
+
         var all = writable.Keys
             .Concat(command.Options.Select(option => option.PropertyName))
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
@@ -508,14 +518,39 @@ public static class ExternalToolDefinitionLoader
                 .Select(property => property.Name))
             .ToHashSet(StringComparer.Ordinal);
 
-        return (all, writable);
+        return (all, writable, initOnly);
+    }
+
+    private static IReadOnlyDictionary<string, string> CreateCompatibilityTargetMap(
+        CliCommandDefinition command,
+        IEnumerable<(string PropertyName, string CSharpType)> targets,
+        string targetKind)
+    {
+        var result = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var target in targets)
+        {
+            // One generated property may represent the same operand from multiple
+            // metadata sources. Coalesce it only when every source agrees on its type.
+            if (result.TryGetValue(target.PropertyName, out var existingType)
+                && !existingType.Equals(target.CSharpType, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Command '{command.FullCommand}' defines {targetKind} compatibility target "
+                    + $"'{target.PropertyName}' with conflicting types '{existingType}' and '{target.CSharpType}'.");
+            }
+
+            result[target.PropertyName] = target.CSharpType;
+        }
+
+        return result;
     }
 
     private static void ValidateCompatibilityProperty(
         CliCompatibilityProperty property,
         CliCommandDefinition command,
         IReadOnlySet<string> forwardingTargets,
-        IReadOnlyDictionary<string, string> writableForwardingTargets)
+        IReadOnlyDictionary<string, string> writableForwardingTargets,
+        IReadOnlyDictionary<string, string> initOnlyForwardingTargets)
     {
         RequireIdentifier(
             property.PropertyName,
@@ -539,22 +574,59 @@ public static class ExternalToolDefinitionLoader
                 + $"'{property.ForwardToPropertyName}'.");
         }
 
-        if (!writableForwardingTargets.TryGetValue(
-                property.ForwardToPropertyName,
-                out var forwardingTargetType))
+        var forwardingTargetType = GetCompatibilityForwardingTargetType(
+            property,
+            command,
+            writableForwardingTargets,
+            initOnlyForwardingTargets);
+        ValidateCompatibilityForwardingTypes(property, command, forwardingTargetType);
+    }
+
+    private static string GetCompatibilityForwardingTargetType(
+        CliCompatibilityProperty property,
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, string> writableForwardingTargets,
+        IReadOnlyDictionary<string, string> initOnlyForwardingTargets)
+    {
+        if (writableForwardingTargets.TryGetValue(property.ForwardToPropertyName!, out var targetType)
+            || (property.UseInitAccessor
+                && initOnlyForwardingTargets.TryGetValue(property.ForwardToPropertyName!, out targetType)))
         {
-            throw new InvalidDataException(
-                $"Compatibility property '{property.PropertyName}' on command "
-                + $"'{command.FullCommand}' forwards to init-only property "
-                + $"'{property.ForwardToPropertyName}'.");
+            return targetType;
         }
 
-        if (!SyntaxFactory.ParseTypeName(property.CSharpType)
-                .IsEquivalentTo(SyntaxFactory.ParseTypeName(forwardingTargetType)))
+        throw new InvalidDataException(
+            $"Compatibility property '{property.PropertyName}' on command "
+            + $"'{command.FullCommand}' forwards to init-only property "
+            + $"'{property.ForwardToPropertyName}'.");
+    }
+
+    private static void ValidateCompatibilityForwardingTypes(
+        CliCompatibilityProperty property,
+        CliCommandDefinition command,
+        string forwardingTargetType)
+    {
+        var propertyType = SyntaxFactory.ParseTypeName(property.CSharpType);
+        var targetType = SyntaxFactory.ParseTypeName(forwardingTargetType);
+        var typesAreCompatible = property.ForwardingKind switch
+        {
+            CliCompatibilityForwardingKind.Direct => propertyType.IsEquivalentTo(targetType),
+            CliCompatibilityForwardingKind.ScalarToCollection =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("IEnumerable<string>?")),
+            CliCompatibilityForwardingKind.NullableInt32ToString =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
+            CliCompatibilityForwardingKind.NullableStringToRequiredString =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string")),
+            _ => false,
+        };
+        if (!typesAreCompatible)
         {
             throw new InvalidDataException(
                 $"Compatibility property '{property.PropertyName}' on command "
-                + $"'{command.FullCommand}' cannot forward type '{property.CSharpType}' "
+                + $"'{command.FullCommand}' cannot use {property.ForwardingKind} forwarding from type '{property.CSharpType}' "
                 + $"to '{forwardingTargetType}' property '{property.ForwardToPropertyName}'.");
         }
     }

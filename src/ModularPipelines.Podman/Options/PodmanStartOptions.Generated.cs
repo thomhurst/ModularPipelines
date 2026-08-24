@@ -47,7 +47,7 @@ public record PodmanStartOptions(
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// Keep STDIN open even if not attached
+    /// Make STDIN available to the contained process
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }

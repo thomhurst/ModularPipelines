@@ -116,6 +116,12 @@ public record PodmanPodCreateOptions : PodmanOptions
     [CliOption("--gidmap", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gidmap { get; set; }
 
+    /// <summary>
+    /// GPU devices to add to the container ('all' to pass all GPUs)
+    /// </summary>
+    [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gpus { get; set; }
+
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
@@ -124,6 +130,12 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// </summary>
     [CliOption("--hostname", ShortForm = "-h", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
+
+    /// <summary>
+    /// Base file to create the /etc/hosts file inside the container, or one of the special values. ("image"|"none")
+    /// </summary>
+    [CliOption("--hosts-file", Format = OptionFormat.EqualsSeparated)]
+    public string? HostsFile { get; set; }
 
     /// <summary>
     /// Create an infra container associated with the pod to share namespaces with (default true)
@@ -214,6 +226,12 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// </summary>
     [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkAlias { get; set; }
+
+    /// <summary>
+    /// Do not create /etc/hostname within the container, instead use the version from the image
+    /// </summary>
+    [CliFlag("--no-hostname")]
+    public bool? NoHostname { get; set; }
 
     /// <summary>
     /// Do not create /etc/hosts within the container, instead use the version from the image

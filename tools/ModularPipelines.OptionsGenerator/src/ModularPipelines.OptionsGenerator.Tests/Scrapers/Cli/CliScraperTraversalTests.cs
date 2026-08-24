@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -316,6 +317,288 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task Podman_Creds_Option_Is_Secret()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = """
+            Usage: podman pull [options] IMAGE
+
+            Flags:
+              --creds string   Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+              --creds-helper string   Select a credential helper by name
+            """;
+
+        var definition = await scraper.Parse(["podman", "pull"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.Options.Single(option => option.PropertyName == "Creds").IsSecret)
+                .IsTrue();
+            await Assert.That(definition.Options.Single(option => option.PropertyName == "CredsHelper").IsSecret)
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("artifact rm", "ARTIFACT [ARTIFACT...]")]
+    [Arguments("quadlet rm", "QUADLET [QUADLET...]")]
+    public async Task Podman_All_Removal_Operands_Are_Optional(
+        string command,
+        string operands)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var argument = definition!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(GeneratorUtils.BuildOptionsParameter(definition))
+                .IsEqualTo($"{definition.ClassName}? options = null");
+        }
+    }
+
+    [Test]
+    public async Task Podman_Artifact_Add_Accepts_Multiple_Paths()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman artifact add [options] ARTIFACT PATH";
+
+        var definition = await scraper.Parse(["podman", "artifact", "add"], helpText);
+        var arguments = definition!.PositionalArguments;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments).Count().IsEqualTo(2);
+            await Assert.That(arguments[0].PropertyName).IsEqualTo("Artifact");
+            await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(arguments[0].IsRequired).IsTrue();
+            await Assert.That(arguments[1].PropertyName).IsEqualTo("Path");
+            await Assert.That(arguments[1].CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(arguments[1].IsRequired).IsTrue();
+            await Assert.That(arguments[1].IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Podman_Positional_Fix_Fails_When_Expected_Operand_Is_Missing()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman artifact add [options] ARTIFACT";
+
+        await Assert.That(async () =>
+                await scraper.Parse(["podman", "artifact", "add"], helpText))
+            .Throws<InvalidDataException>();
+    }
+
+    [Test]
+    [Arguments("kube down")]
+    [Arguments("kube play")]
+    public async Task Podman_Kube_Files_Preserve_The_Required_Scalar_And_Add_Repeatability(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] [KUBEFILE [KUBEFILE...]]|-";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var arguments = definition!.PositionalArguments;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments).Count().IsEqualTo(2);
+            await Assert.That(arguments[0].PropertyName).IsEqualTo("Kubefile");
+            await Assert.That(arguments[0].IsRequired).IsTrue();
+            await Assert.That(arguments[0].IsVariadic).IsFalse();
+            await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(arguments[1].PropertyName).IsEqualTo("AdditionalKubefiles");
+            await Assert.That(arguments[1].IsRequired).IsFalse();
+            await Assert.That(arguments[1].IsVariadic).IsTrue();
+            await Assert.That(arguments[1].CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    public async Task Podman_Variadic_Fix_Preserves_The_Parsed_Element_Type()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var fixedArguments = scraper.ApplyPositionalFixes(
+            "artifact add",
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Artifact",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Path",
+                    CSharpType = "int?",
+                },
+            ]);
+
+        await Assert.That(fixedArguments[1].CSharpType).IsEqualTo("IEnumerable<int>");
+    }
+
+    [Test]
+    public async Task Podman_Kube_File_Fix_Preserves_Additional_Parsed_Operands()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman kube play [options] [KUBEFILE...] INPUT";
+
+        var definition = await scraper.Parse(["podman", "kube", "play"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(3);
+            await Assert.That(definition.PositionalArguments[0].PropertyName).IsEqualTo("Kubefile");
+            await Assert.That(definition.PositionalArguments[1].PropertyName).IsEqualTo("AdditionalKubefiles");
+            await Assert.That(definition.PositionalArguments[2].PropertyName).IsEqualTo("Input");
+            await Assert.That(definition.PositionalArguments.Select(argument => argument.PositionIndex))
+                .IsEquivalentTo([0, 1, 2]);
+        }
+    }
+
+    [Test]
+    [Arguments("generate kube", "NoTrunc")]
+    [Arguments("kube generate", "NoTrunc")]
+    [Arguments("kube play", "NoTrunc")]
+    [Arguments("machine rm", "SaveKeys")]
+    public async Task Podman_Removed_Flags_Are_Retained_As_Compatibility_Properties(
+        string command,
+        string propertyName)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var operands = command == "kube play" ? " [KUBEFILE...]" : string.Empty;
+        var helpText = $"Usage: podman {command} [options]{operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var property = definition!.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(property.PropertyName).IsEqualTo(propertyName);
+            await Assert.That(property.CSharpType).IsEqualTo("bool?");
+            await Assert.That(property.ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Podman_Machine_Init_Retains_Removed_Compatibility_Properties()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman machine init [options] [NAME]";
+
+        var definition = await scraper.Parse(["podman", "machine", "init"], helpText);
+        var properties = definition!.CompatibilityProperties.ToDictionary(property => property.PropertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(properties.Keys).IsEquivalentTo(["ImagePath", "VolumeDriver"]);
+            await Assert.That(properties["ImagePath"].CSharpType).IsEqualTo("string?");
+            await Assert.That(properties["ImagePath"].ForwardToPropertyName).IsEqualTo("Image");
+            await Assert.That(properties["VolumeDriver"].CSharpType).IsEqualTo("string?");
+            await Assert.That(properties["VolumeDriver"].ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("image build")]
+    public async Task Podman_Build_Output_Preserves_Scalar_And_Exposes_Collection(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"""
+            Usage: podman {command} [options] CONTEXT
+
+            Flags:
+              -o, --output strings   output destination
+            """;
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var outputs = definition!.Options.Single(option => option.PropertyName == "Outputs");
+        var output = definition.CompatibilityProperties.Single(property => property.PropertyName == "Output");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output.CSharpType).IsEqualTo("string?");
+            await Assert.That(output.ForwardToPropertyName).IsEqualTo("Outputs");
+            await Assert.That(output.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.ScalarToCollection);
+            await Assert.That(outputs.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(outputs.AcceptsMultipleValues).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("farm build")]
+    [Arguments("image build")]
+    public async Task Podman_Build_Timestamp_Preserves_Integer_And_Exposes_String(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"""
+            Usage: podman {command} [options] CONTEXT
+
+            Flags:
+                  --timestamp string   set build timestamp
+            """;
+
+        var definition = await scraper.Parse(commandPath, helpText);
+        var timestampValue = definition!.Options.Single(option => option.PropertyName == "TimestampValue");
+        var timestamp = definition.CompatibilityProperties.Single(property => property.PropertyName == "Timestamp");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(timestamp.CSharpType).IsEqualTo("int?");
+            await Assert.That(timestamp.ForwardToPropertyName).IsEqualTo("TimestampValue");
+            await Assert.That(timestamp.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToString);
+            await Assert.That(timestampValue.CSharpType).IsEqualTo("string?");
+            await Assert.That(timestampValue.IsNumeric).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("inspect", "Usage: podman inspect [options] ARTIFACT [ARTIFACT...]", "Container")]
+    [Arguments("manifest add", "Usage: podman manifest add [options] LIST IMAGEORARTIFACT [IMAGEORARTIFACT...]", "Image")]
+    [Arguments("manifest annotate", "Usage: podman manifest annotate [options] LIST IMAGEORARTIFACT", "Image")]
+    [Arguments("manifest remove", "Usage: podman manifest remove [options] LIST DIGEST", "Image")]
+    public async Task Podman_Retains_Existing_Positional_Property_Names(
+        string command,
+        string helpText,
+        string expectedPropertyName)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        await Assert.That(definition!.PositionalArguments.Last().PropertyName)
+            .IsEqualTo(expectedPropertyName);
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
@@ -495,6 +778,11 @@ public class CliScraperTraversalTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+
+        public IReadOnlyList<CliPositionalArgument> ApplyPositionalFixes(
+            string command,
+            IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+            ApplyPositionalArgumentFixes(command.Split(' '), positionalArguments);
     }
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor

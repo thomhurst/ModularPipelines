@@ -39,15 +39,12 @@ public record PodmanMachineRmOptions : PodmanOptions
     public bool? SaveImage { get; set; }
 
     /// <summary>
-    /// Do not delete SSH keys
-    /// </summary>
-    [CliFlag("--save-keys")]
-    public bool? SaveKeys { get; set; }
-
-    /// <summary>
     /// The MACHINE operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Machine { get; set; }
+
+    [Obsolete("Podman no longer supports --save-keys and this property has no effect.")]
+    public bool? SaveKeys { get; set; }
 
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -328,7 +329,8 @@ public class GeneratorHardeningTests
             .Contains("public class ToolApplicationSet : IToolApplicationSet");
         await Assert.That(subDomainInterface.Content)
             .Contains("Task<CommandResult> ExecuteAsync(ToolApplicationSetOptions? options = null");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolApplicationSet ApplicationSet => throw new System.NotSupportedException();");
         await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
         await Assert.That(implementationFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -364,7 +366,8 @@ public class GeneratorHardeningTests
             Path.GetFileName(file.RelativePath) == "ToolWorkspaceAddOns.Generated.cs");
 
         await Assert.That(subDomainClass.RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolWorkspaceAddOns WorkspaceAddOns { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolWorkspaceAddOns WorkspaceAddOns => throw new System.NotSupportedException();");
     }
 
     [Test]
@@ -405,7 +408,8 @@ public class GeneratorHardeningTests
             .Contains("public virtual async Task<CommandResult> ExecuteAsync(");
         await Assert.That(groupService.Content)
             .Contains("public virtual async Task<CommandResult> ChildAsync(");
-        await Assert.That(interfaceFiles.Single().Content).Contains("IToolGroup Group { get; }");
+        await Assert.That(interfaceFiles.Single().Content)
+            .Contains("IToolGroup Group => throw new System.NotSupportedException();");
         await Assert.That(optionFiles.Single(file =>
                 file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
             .Contains("[CliSubCommand(\"group\")]");
@@ -481,7 +485,7 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("public virtual async Task<CommandResult> DumpAsync(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
+            .Contains("IKubernetesClusterInfo ClusterInfo => throw new System.NotSupportedException();");
         await Assert.That(implementationFiles.Single().Content)
             .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -742,6 +746,61 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("set => NewName = value;");
         await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
         await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Emits_Converted_Compatibility_Properties()
+    {
+        var command = Command("ToolBuildOptions", "ToolOptions") with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Outputs",
+                    CSharpType = "IEnumerable<string>?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--timestamp",
+                    PropertyName = "TimestampValue",
+                    CSharpType = "string?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Outputs",
+                    ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                    ObsoleteMessage = "Use Outputs instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Timestamp",
+                    CSharpType = "int?",
+                    ForwardToPropertyName = "TimestampValue",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+                    ObsoleteMessage = "Use TimestampValue instead.",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public IEnumerable<string>? Outputs { get; set; }");
+            await Assert.That(generated).Contains("public string? TimestampValue { get; set; }");
+            await Assert.That(generated).Contains("get => Outputs?.FirstOrDefault();");
+            await Assert.That(generated).Contains("set => Outputs = value is null ? null : [value];");
+            await Assert.That(generated).Contains("int.TryParse(TimestampValue");
+            await Assert.That(generated).Contains(
+                "set => TimestampValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+        }
     }
 
     [Test]
@@ -1053,6 +1112,7 @@ public class GeneratorHardeningTests
         var preserved = GeneratedApiCompatibilityPreserver.Preserve(
             command,
             [BaselineProperty("Args", "string?", argumentPosition: 0)]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
         using (Assert.Multiple())
@@ -2635,6 +2695,21 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("Task<CommandResult> RunAsync(");
         await Assert.That(generated)
             .Contains("    => throw new System.NotSupportedException();");
+    }
+
+    [Test]
+    public async Task ServiceInterfaceGenerator_Emits_Default_SubDomain_Implementations()
+    {
+        var tool = Tool(Command(
+            "ToolArtifactAddOptions",
+            "ToolOptions",
+            ["artifact", "add"],
+            subDomainGroup: "Artifact"));
+
+        var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated)
+            .Contains("IToolArtifact Artifact => throw new System.NotSupportedException();");
     }
 
     #endregion
