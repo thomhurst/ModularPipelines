@@ -419,6 +419,27 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task SubDomain_Generators_Deduplicate_Identical_Executable_Parents()
+    {
+        var parent = Command("ToolGroupOptions", "ToolOptions", ["group"]);
+        var tool = Tool(
+            parent,
+            parent,
+            Command(
+                "ToolGroupChildOptions",
+                "ToolOptions",
+                ["group", "child"],
+                subDomainGroup: "group"));
+
+        var groupService = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                "ToolGroup.Generated.cs",
+                StringComparison.Ordinal));
+
+        await Assert.That(groupService.Content.Split("ExecuteAsync(")).Count().IsEqualTo(2);
+    }
+
+    [Test]
     public async Task SubDomain_Parent_Requires_Options_When_It_Has_Required_Operands()
     {
         var parent = Command("ToolServiceOptions", "ToolOptions", ["service"]) with
@@ -983,6 +1004,312 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Prefers_Matching_Cli_Identity_For_Duplicate_Names()
+    {
+        var command = Command("ToolLoginOptions", "ToolOptions", ["login"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--server",
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Server", "string", argumentPosition: 0, isRequired: true)]);
+
+        await Assert.That(preserved.PositionalArguments.Single().CSharpType).IsEqualTo("string");
+        await Assert.That(preserved.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Name_After_Local_Collision_Rename()
+    {
+        var command = Command("ToolLoginOptions", "ToolOptions", ["login"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--server",
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Server",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyServer",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Server",
+                    ObsoleteMessage = "Use Server instead.",
+                },
+            ],
+        };
+        var collisionResolved = InheritedPropertyCollisionResolver.Resolve(Tool(command))
+            .Commands.Single();
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            collisionResolved,
+            [BaselineProperty("Server", "string", argumentPosition: 0, isRequired: true)]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ServerOption");
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName).IsEqualTo("Server");
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("ServerOption");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Keeps_Historical_Alias_On_Restored_Collision_Target()
+    {
+        var command = Command("ToolLoginOptions", "ToolOptions", ["login"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--server",
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Server",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyServer",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Server",
+                    ObsoleteMessage = "Use Server instead.",
+                },
+            ],
+        };
+        var collisionResolved = InheritedPropertyCollisionResolver.Resolve(Tool(command))
+            .Commands.Single();
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            collisionResolved,
+            [
+                BaselineProperty("Server", "string", argumentPosition: 0, isRequired: true),
+                BaselineProperty(
+                    "LegacyServer",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "Server"),
+            ]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ServerOption");
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName).IsEqualTo("Server");
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("Server");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retargets_Transitive_Compatibility_Aliases()
+    {
+        var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--changeset-author",
+                    PropertyName = "ChangesetAuthor",
+                    CSharpType = "string?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyAuthor",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "ChangeSetAuthor",
+                    ObsoleteMessage = "Use ChangeSetAuthor instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty(
+                    "ChangeSetAuthor",
+                    "string?",
+                    switchName: "--changeset-author"),
+                BaselineProperty(
+                    "LegacyAuthor",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "ChangeSetAuthor"),
+            ]);
+
+        var aliases = preserved.CompatibilityProperties.ToDictionary(
+            static property => property.PropertyName,
+            StringComparer.Ordinal);
+        using (Assert.Multiple())
+        {
+            await Assert.That(aliases["ChangeSetAuthor"].ForwardToPropertyName)
+                .IsEqualTo("ChangesetAuthor");
+            await Assert.That(aliases["LegacyAuthor"].ForwardToPropertyName)
+                .IsEqualTo("ChangesetAuthor");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Drops_Alias_Shadowed_By_Live_Property()
+    {
+        var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--changeset-author",
+                    PropertyName = "ChangesetAuthor",
+                    CSharpType = "string?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "ChangesetAuthor",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "ChangeSetAuthor",
+                    ObsoleteMessage = "Use ChangeSetAuthor instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty(
+                    "ChangeSetAuthor",
+                    "string?",
+                    switchName: "--changeset-author"),
+                BaselineProperty(
+                    "ChangesetAuthor",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "ChangeSetAuthor"),
+            ]);
+
+        await Assert.That(preserved.CompatibilityProperties).HasSingleItem();
+        var alias = preserved.CompatibilityProperties.Single();
+        await Assert.That(alias.PropertyName).IsEqualTo("ChangeSetAuthor");
+        await Assert.That(alias.ForwardToPropertyName).IsEqualTo("ChangesetAuthor");
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Renames_Live_Property_Shadowing_Forwarded_Alias()
+    {
+        var command = Command("ToolPushOptions", "ToolOptions", ["push"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--legacy-output",
+                    PropertyName = "LegacyOutput",
+                    CSharpType = "string?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "ScrapedLegacyOutput",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "LegacyOutput",
+                    ObsoleteMessage = "Use LegacyOutput instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("Output", "string?", switchName: "--output"),
+                BaselineProperty(
+                    "LegacyOutput",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "Output"),
+                BaselineProperty(
+                    "VeryLegacyOutput",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "LegacyOutput"),
+            ]);
+
+        var options = preserved.Options.ToDictionary(
+            static option => option.PropertyName,
+            StringComparer.Ordinal);
+        var aliases = preserved.CompatibilityProperties.ToDictionary(
+            static property => property.PropertyName,
+            StringComparer.Ordinal);
+        using (Assert.Multiple())
+        {
+            await Assert.That(options["Output"].SwitchName).IsEqualTo("--output");
+            await Assert.That(options["LegacyOutputOption"].SwitchName).IsEqualTo("--legacy-output");
+            await Assert.That(aliases["LegacyOutput"].ForwardToPropertyName).IsEqualTo("Output");
+            await Assert.That(aliases["VeryLegacyOutput"].ForwardToPropertyName)
+                .IsEqualTo("LegacyOutput");
+            await Assert.That(aliases["ScrapedLegacyOutput"].ForwardToPropertyName)
+                .IsEqualTo("LegacyOutputOption");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Scalar_To_Collection_Changes()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
@@ -1213,7 +1540,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Cli_Identity()
+    public async Task ApiCompatibilityPreserver_Allows_Reintroduced_Compatibility_Property()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
         {
@@ -1228,13 +1555,15 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]);
 
-        await Assert.That(exception.Message)
-            .Contains("ToolCopyOptions.RemovedFlag changed CLI switch or argument position");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("RemovedFlag");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+        }
     }
 
     [Test]
@@ -1795,7 +2124,22 @@ public class GeneratorHardeningTests
                 "using ModularPipelines.Attributes; "
                 + "[CliSubCommand(\"removed\")] "
                 + "public record ToolRemovedOptions : ToolOptions { "
-                + "[CliFlag(\"--force\")] public bool? Force { get; set; } }");
+                + "[Range(0, 6)] "
+                + "[RegularExpression(\"^[0-6]$\")] "
+                + "[CliFlag(\"--force\", ShortForm = \"-f\", PreferShortForm = true, Phase = CommandLinePhase.Terminal)] "
+                + "public int? Force { get; set; } "
+                + "[CliOptionValueRange(1, 3)] "
+                + "[CliOptionValueRegularExpression(\"^[1-3]$\")] "
+                + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
+                + "Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)] "
+                + "public CliOptionValue? Pull { get; set; } "
+                + "[SecretValue(\"password\", \"token\")] "
+                + "[CliOption(\"--arguments\", GroupValues = true)] "
+                + "public IEnumerable<string>? Arguments { get; set; } "
+                + "[SecretValue] "
+                + "[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, "
+                + "PrependOptionTerminatorIfValueStartsWithDash = true)] "
+                + "public string? Operand { get; set; } }");
             await File.WriteAllTextAsync(
                 Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
                 "namespace ModularPipelines.Tool.Services; "
@@ -1806,14 +2150,52 @@ public class GeneratorHardeningTests
                 root);
             var restored = preserved.Commands.Single(command =>
                 command.ClassName.Equals("ToolRemovedOptions", StringComparison.Ordinal));
+            var force = restored.Options.Single(option => option.PropertyName == "Force");
+            var pull = restored.Options.Single(option => option.PropertyName == "Pull");
+            var arguments = restored.Options.Single(option => option.PropertyName == "Arguments");
+            var operand = restored.PositionalArguments.Single();
             var generated = (await new ServiceInterfaceGenerator().GenerateAsync(preserved))
                 .Single(file => file.RelativePath.EndsWith("ITool.Generated.cs", StringComparison.Ordinal))
+                .Content;
+            var generatedOptions = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolRemovedOptions.Generated.cs", StringComparison.Ordinal))
                 .Content;
 
             using (Assert.Multiple())
             {
                 await Assert.That(restored.CommandParts).IsEquivalentTo(["removed"]);
-                await Assert.That(restored.Options.Single().PropertyName).IsEqualTo("Force");
+                await Assert.That(force.IsFlag).IsTrue();
+                await Assert.That(force.ShortForm).IsEqualTo("-f");
+                await Assert.That(force.PreferShortForm).IsTrue();
+                await Assert.That(force.Phase).IsEqualTo(CommandLinePhase.Terminal);
+                await Assert.That(force.ValidationConstraints!.MinValue).IsEqualTo(0);
+                await Assert.That(force.ValidationConstraints.MaxValue).IsEqualTo(6);
+                await Assert.That(force.ValidationConstraints.Pattern).IsEqualTo("^[0-6]$");
+                await Assert.That(pull.IsFlag).IsFalse();
+                await Assert.That(pull.ShortForm).IsEqualTo("-p");
+                await Assert.That(pull.PreferShortForm).IsTrue();
+                await Assert.That(pull.ValueSeparator).IsEqualTo("=");
+                await Assert.That(pull.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+                await Assert.That(pull.ValidationConstraints!.MinValue).IsEqualTo(1);
+                await Assert.That(pull.ValidationConstraints.MaxValue).IsEqualTo(3);
+                await Assert.That(pull.ValidationConstraints.Pattern).IsEqualTo("^[1-3]$");
+                await Assert.That(arguments.GroupValues).IsTrue();
+                await Assert.That(arguments.IsSecret).IsTrue();
+                await Assert.That(arguments.SecretValueKeys).IsEquivalentTo(["password", "token"]);
+                await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+                await Assert.That(operand.IsSecret).IsTrue();
+                await Assert.That(operand.PrependOptionTerminator).IsTrue();
+                await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
+                await Assert.That(generatedOptions)
+                    .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
+                await Assert.That(generatedOptions).Contains("[Range(0, 6)]");
+                await Assert.That(generatedOptions).Contains("[RegularExpression(\"^[0-6]$\")]");
+                await Assert.That(generatedOptions).Contains("[CliOptionValueRange(1, 3)]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliOptionValueRegularExpression(\"^[1-3]$\")]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, PrependOptionTerminatorIfValueStartsWithDash = true)]");
+                await Assert.That(generatedOptions).Contains("[SecretValue(\"password\", \"token\")]");
                 await Assert.That(generated).Contains("RemovedAsync(ToolRemovedOptions? options = null");
             }
         }
@@ -1946,6 +2328,56 @@ public class GeneratorHardeningTests
                 await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
                 await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
                 await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Historical_Facade_Casing_For_Live_Command()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAgentTaskCreateOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"agent-task\", \"create\")] "
+                + "public record ToolAgentTaskCreateOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAgenttask.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAgenttask { "
+                + "public Task CreateAsync(ToolAgentTaskCreateOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolAgentTaskCreateOptions",
+                "ToolOptions",
+                ["agent-task", "create"],
+                subDomainGroup: "agent-task") with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string>
+                {
+                    [0] = "AgentTask",
+                },
+            });
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var command = preserved.Commands.Single();
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                    "ToolAgenttask.Generated.cs",
+                    StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(command.CommandGroupIdentifierOverride).IsEqualTo("Agenttask");
+                await Assert.That(command.CommandPartIdentifierOverrides[0]).IsEqualTo("AgentTask");
+                await Assert.That(generated.Content).Contains("CreateAsync(");
             }
         }
         finally
@@ -3009,7 +3441,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Required_Rename_Collisions()
+    public async Task ApiCompatibilityPreserver_Resolves_Required_Rename_Collisions()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
         {
@@ -3034,12 +3466,17 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]);
 
-        await Assert.That(exception.Message).Contains("would duplicate a member name");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("StableName");
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("StableNameOption");
+        }
     }
 
     [Test]
@@ -3123,6 +3560,43 @@ public class GeneratorHardeningTests
             await Assert.That(generated).Contains("set => LegacyArguments = value;");
             await Assert.That(generated)
                 .Contains("public virtual IEnumerable<string>? LegacyArguments { get; set; }");
+        }
+    }
+
+    [Test]
+    public async Task Local_Option_And_Argument_Name_Collisions_Are_Disambiguated()
+    {
+        var command = Command("ToolCreateOptions", "ToolOptions", ["create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--filename",
+                    PropertyName = "Filename",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Filename",
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 0,
+                },
+            ],
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(Tool(command));
+        var resolvedCommand = resolved.Commands.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(resolvedCommand.Options.Single().PropertyName)
+                .IsEqualTo("Filename");
+            await Assert.That(resolvedCommand.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("FilenameArgument");
         }
     }
 

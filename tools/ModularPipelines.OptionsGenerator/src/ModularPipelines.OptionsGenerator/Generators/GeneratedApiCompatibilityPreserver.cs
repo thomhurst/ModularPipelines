@@ -15,6 +15,11 @@ internal static class GeneratedApiCompatibilityPreserver
         Rejected,
     }
 
+    private readonly record struct LocalMemberLocation(
+        bool IsOption,
+        int Index,
+        string PropertyName);
+
     public static CliToolDefinition Preserve(CliToolDefinition tool, string outputDirectory)
     {
         var optionsDirectory = Path.Combine(
@@ -61,7 +66,11 @@ internal static class GeneratedApiCompatibilityPreserver
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
         var commands = compatibleTool.Commands
-            .Select(command => PreserveIdentifierCasing(command, baseline))
+            .Select(command => PreserveIdentifierCasing(
+                compatibleTool,
+                command,
+                baseline,
+                facadeMethods))
             .Concat(RestoreRemovedCommands(compatibleTool, baseline, facadeMethods))
             .DistinctBy(static command => command.ClassName, StringComparer.Ordinal)
             .ToArray();
@@ -411,10 +420,19 @@ internal static class GeneratedApiCompatibilityPreserver
             .Select(static property => new CliOptionDefinition
             {
                 SwitchName = property.SwitchName!,
+                ShortForm = property.ShortForm,
+                PreferShortForm = property.PreferShortForm,
                 PropertyName = property.PropertyName,
                 CSharpType = property.CSharpType,
                 IsRequired = property.IsRequired,
-                IsFlag = property.CSharpType is "bool" or "bool?",
+                IsFlag = property.IsFlag ?? property.CSharpType is "bool" or "bool?",
+                ValueArity = property.ValueArity,
+                Phase = property.Phase ?? CommandLinePhase.Normal,
+                GroupValues = property.GroupValues,
+                ValueSeparator = property.ValueSeparator,
+                IsSecret = property.IsSecret,
+                SecretValueKeys = property.SecretValueKeys ?? [],
+                ValidationConstraints = property.ValidationConstraints,
             })
             .ToArray();
 
@@ -428,6 +446,11 @@ internal static class GeneratedApiCompatibilityPreserver
                 CSharpType = property.CSharpType,
                 PositionIndex = property.ArgumentPosition!.Value,
                 IsRequired = property.IsRequired,
+                Phase = property.Phase ?? CommandLinePhase.Passthrough,
+                PrependOptionTerminator = property.PrependOptionTerminator,
+                PrependOptionTerminatorIfValueStartsWithDash =
+                    property.PrependOptionTerminatorIfValueStartsWithDash,
+                IsSecret = property.IsSecret,
             })
             .ToArray();
 
@@ -448,13 +471,46 @@ internal static class GeneratedApiCompatibilityPreserver
             .ToArray();
 
     private static CliCommandDefinition PreserveIdentifierCasing(
+        CliToolDefinition tool,
         CliCommandDefinition command,
-        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
-        return command with
+        var preserved = command with
         {
             ClassName = FindBaselineIdentifier(command.ClassName, baseline.Keys),
             ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
+        };
+        if (!baseline.TryGetValue(preserved.ClassName, out var commandBaseline)
+            || commandBaseline.CommandParts is not { Length: > 0 })
+        {
+            return preserved;
+        }
+
+        var commandFacadeMethods = facadeMethods
+            .Where(method => method.OptionsType.Equals(preserved.ClassName, StringComparison.Ordinal))
+            .ToArray();
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(
+            tool,
+            commandBaseline,
+            commandFacadeMethods);
+        var recoveredOverrides = GetRestoredCommandPartIdentifierOverrides(
+            tool,
+            commandBaseline.CommandParts,
+            groupIdentifier,
+            commandFacadeMethods);
+        var mergedOverrides = preserved.CommandPartIdentifierOverrides
+            .Concat(recoveredOverrides)
+            .DistinctBy(static pair => pair.Key)
+            .ToDictionary(static pair => pair.Key, static pair => pair.Value);
+
+        return preserved with
+        {
+            CommandGroupIdentifierOverride = preserved.CommandGroupIdentifierOverride
+                                             ?? (preserved.CommandParts.Length > 1
+                                                 ? groupIdentifier
+                                                 : null),
+            CommandPartIdentifierOverrides = mergedOverrides,
         };
     }
 
@@ -779,12 +835,28 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors)
     {
-        var compatibilityProperties = command.CompatibilityProperties.ToList();
+        var livePropertyNames = command.Options
+            .Select(static option => option.PropertyName)
+            .Concat(command.PositionalArguments.Select(static argument => argument.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+        var compatibilityProperties = command.CompatibilityProperties
+            .Where(property => !livePropertyNames.Contains(property.PropertyName))
+            .ToList();
         var compatibilityConstructors = command.CompatibilityConstructors.ToList();
         var positionalArguments = command.PositionalArguments.ToArray();
         var options = command.Options.ToArray();
-        var violations = new List<string>();
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
+        RestoreNamesChangedByLocalCollisions(
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties);
+        RestoreForwardedAliasCollisions(
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties);
+        var violations = new List<string>();
         var preservedTypeChanges = PreserveScalarToCollectionChanges(
             command,
             baselineProperties,
@@ -819,10 +891,14 @@ internal static class GeneratedApiCompatibilityPreserver
             PreserveBaselineProperty(
                 command,
                 baseline,
+                baselineProperties,
                 currentProperties,
                 compatibilityProperties,
+                renamedProperties,
                 violations);
         }
+
+        RetargetCompatibilityProperties(compatibilityProperties, renamedProperties);
 
         if (violations.Count > 0)
         {
@@ -849,6 +925,202 @@ internal static class GeneratedApiCompatibilityPreserver
                 command.DocumentationExampleValues,
                 renamedProperties),
         };
+    }
+
+    private static void RestoreNamesChangedByLocalCollisions(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options,
+        IList<CliCompatibilityProperty> compatibilityProperties)
+    {
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property => !property.IsCompatibility))
+        {
+            var historicalMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => HasSameCliIdentity(property, baseline));
+            if (historicalMember is null
+                || historicalMember.Value.PropertyName.Equals(
+                    baseline.PropertyName,
+                    StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var conflictingMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => property.PropertyName.Equals(
+                    baseline.PropertyName,
+                    StringComparison.Ordinal));
+            if (conflictingMember is null)
+            {
+                continue;
+            }
+
+            propertyNames.Remove(historicalMember.Value.PropertyName);
+            propertyNames.Remove(conflictingMember.Value.PropertyName);
+            var conflictingName = GetUniquePropertyName(
+                baseline.PropertyName + (conflictingMember.Value.IsOption ? "Option" : "Argument"),
+                propertyNames);
+            RenameLocalMember(conflictingMember.Value, conflictingName, positionalArguments, options);
+            RenameLocalMember(historicalMember.Value, baseline.PropertyName, positionalArguments, options);
+            var historicalForwarders = baselineProperties
+                .Where(property => property is { IsCompatibility: true, ForwardToPropertyName: not null }
+                    && property.ForwardToPropertyName.Equals(
+                        baseline.PropertyName,
+                        StringComparison.Ordinal))
+                .Select(static property => property.PropertyName)
+                .ToHashSet(StringComparer.Ordinal);
+            RetargetCompatibilityProperties(
+                compatibilityProperties,
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    [baseline.PropertyName] = conflictingName,
+                },
+                historicalForwarders);
+            propertyNames.Add(baseline.PropertyName);
+        }
+    }
+
+    private static void RestoreForwardedAliasCollisions(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options,
+        IList<CliCompatibilityProperty> compatibilityProperties)
+    {
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var alias in baselineProperties.Where(static property =>
+                     property is { IsCompatibility: true, ForwardToPropertyName: not null }))
+        {
+            var aliasMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => property.PropertyName.Equals(alias.PropertyName, StringComparison.Ordinal));
+            var targetBaseline = FindForwardingTargetBaseline(baselineProperties, alias);
+            if (aliasMember is null
+                || targetBaseline is null
+                || HasSameCliIdentity(GetLocalMember(aliasMember.Value, positionalArguments, options), targetBaseline))
+            {
+                continue;
+            }
+
+            var targetMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => HasSameCliIdentity(property, targetBaseline));
+            if (targetMember is null)
+            {
+                continue;
+            }
+
+            propertyNames.Remove(alias.PropertyName);
+            var replacementName = GetUniquePropertyName(
+                alias.PropertyName + (aliasMember.Value.IsOption ? "Option" : "Argument"),
+                propertyNames);
+            RenameLocalMember(aliasMember.Value, replacementName, positionalArguments, options);
+            RetargetCompatibilityProperties(
+                compatibilityProperties,
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    [alias.PropertyName] = replacementName,
+                });
+            compatibilityProperties.Add(ToCompatibilityProperty(alias));
+            propertyNames.Add(alias.PropertyName);
+        }
+    }
+
+    private static GeneratedApiProperty? FindForwardingTargetBaseline(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        GeneratedApiProperty alias)
+    {
+        var targetName = alias.ForwardToPropertyName;
+        var visited = new HashSet<string>(StringComparer.Ordinal);
+        while (targetName is not null && visited.Add(targetName))
+        {
+            var target = baselineProperties.FirstOrDefault(property =>
+                property.PropertyName.Equals(targetName, StringComparison.Ordinal));
+            if (target is null || !target.IsCompatibility)
+            {
+                return target;
+            }
+
+            targetName = target.ForwardToPropertyName;
+        }
+
+        return null;
+    }
+
+    private static GeneratedApiProperty GetLocalMember(
+        LocalMemberLocation location,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        location.IsOption
+            ? ToGeneratedProperty(options[location.Index])
+            : ToGeneratedProperty(positionalArguments[location.Index]);
+
+    private static LocalMemberLocation? FindLocalMember(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> options,
+        Func<GeneratedApiProperty, bool> predicate)
+    {
+        for (var index = 0; index < options.Count; index++)
+        {
+            if (predicate(ToGeneratedProperty(options[index])))
+            {
+                return new LocalMemberLocation(true, index, options[index].PropertyName);
+            }
+        }
+
+        for (var index = 0; index < positionalArguments.Count; index++)
+        {
+            if (predicate(ToGeneratedProperty(positionalArguments[index])))
+            {
+                return new LocalMemberLocation(false, index, positionalArguments[index].PropertyName);
+            }
+        }
+
+        return null;
+    }
+
+    private static void RenameLocalMember(
+        LocalMemberLocation location,
+        string propertyName,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options)
+    {
+        if (location.IsOption)
+        {
+            options[location.Index] = options[location.Index] with { PropertyName = propertyName };
+            return;
+        }
+
+        positionalArguments[location.Index] = positionalArguments[location.Index] with
+        {
+            PropertyName = propertyName,
+        };
+    }
+
+    private static string GetUniquePropertyName(
+        string candidate,
+        HashSet<string> propertyNames)
+    {
+        var root = candidate;
+        for (var suffix = 2; !propertyNames.Add(candidate); suffix++)
+        {
+            candidate = root + suffix;
+        }
+
+        return candidate;
     }
 
     private static HashSet<string> PreserveScalarToCollectionChanges(
@@ -974,15 +1246,19 @@ internal static class GeneratedApiCompatibilityPreserver
     private static void PreserveBaselineProperty(
         CliCommandDefinition command,
         GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<GeneratedApiProperty> currentProperties,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
         List<string> violations)
     {
-        var sameName = currentProperties.FirstOrDefault(property =>
-            property.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal));
-        if (sameName is not null)
+        if (TryValidateSameNameProperty(
+                command,
+                baseline,
+                baselineProperties,
+                currentProperties,
+                violations))
         {
-            ValidateMatchingProperty(command, baseline, sameName, violations);
             return;
         }
 
@@ -1024,6 +1300,69 @@ internal static class GeneratedApiCompatibilityPreserver
             },
             compatibilityProperties,
             violations);
+        if (replacement is not null)
+        {
+            renamedProperties[baseline.PropertyName] = replacement.PropertyName;
+        }
+    }
+
+    private static bool TryValidateSameNameProperty(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<GeneratedApiProperty> currentProperties,
+        List<string> violations)
+    {
+        var candidates = currentProperties
+            .Where(property => property.PropertyName.Equals(
+                baseline.PropertyName,
+                StringComparison.Ordinal))
+            .ToArray();
+        var match = candidates.FirstOrDefault(property => HasSameCliIdentity(property, baseline))
+                    ?? candidates.FirstOrDefault();
+        if (match is null)
+        {
+            return false;
+        }
+
+        var forwardingTarget = FindForwardingTargetBaseline(baselineProperties, baseline);
+        if (baseline.IsCompatibility
+            && baseline.ForwardToPropertyName is not null
+            && (forwardingTarget is null || !HasSameCliIdentity(match, forwardingTarget)))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} compatibility alias now resolves to a different CLI switch or argument position");
+        }
+        else if (baseline.IsCompatibility)
+        {
+            ValidateMatchingPropertyShape(command, baseline, match, violations);
+        }
+        else
+        {
+            ValidateMatchingProperty(command, baseline, match, violations);
+        }
+
+        return true;
+    }
+
+    private static void RetargetCompatibilityProperties(
+        IList<CliCompatibilityProperty> compatibilityProperties,
+        IReadOnlyDictionary<string, string> renamedProperties,
+        IReadOnlySet<string>? excludedProperties = null)
+    {
+        for (var index = 0; index < compatibilityProperties.Count; index++)
+        {
+            var property = compatibilityProperties[index];
+            if (excludedProperties?.Contains(property.PropertyName) != true
+                && property.ForwardToPropertyName is { } target
+                && renamedProperties.TryGetValue(target, out var replacement))
+            {
+                compatibilityProperties[index] = property with
+                {
+                    ForwardToPropertyName = replacement,
+                };
+            }
+        }
     }
 
     private static bool TryRecordRemovedPropertyViolation(
@@ -1086,18 +1425,21 @@ internal static class GeneratedApiCompatibilityPreserver
         ICollection<string> violations) =>
         PreserveCompatibilityProperty(
             command,
-            new CliCompatibilityProperty
-            {
-                PropertyName = baseline.PropertyName,
-                CSharpType = baseline.CSharpType,
-                ForwardToPropertyName = baseline.ForwardToPropertyName,
-                UseInitAccessor = baseline.UseInitAccessor,
-                ForwardingKind = baseline.ForwardingKind,
-                ObsoleteMessage = baseline.ObsoleteMessage
-                    ?? $"{baseline.PropertyName} is retained for compatibility.",
-            },
+            ToCompatibilityProperty(baseline),
             compatibilityProperties,
             violations);
+
+    private static CliCompatibilityProperty ToCompatibilityProperty(GeneratedApiProperty baseline) =>
+        new()
+        {
+            PropertyName = baseline.PropertyName,
+            CSharpType = baseline.CSharpType,
+            ForwardToPropertyName = baseline.ForwardToPropertyName,
+            UseInitAccessor = baseline.UseInitAccessor,
+            ForwardingKind = baseline.ForwardingKind,
+            ObsoleteMessage = baseline.ObsoleteMessage
+                ?? $"{baseline.PropertyName} is retained for compatibility.",
+        };
 
     private static void PreserveCompatibilityProperty(
         CliCommandDefinition command,
@@ -1148,28 +1490,48 @@ internal static class GeneratedApiCompatibilityPreserver
         GeneratedApiProperty current,
         List<string> violations)
     {
+        if (!ValidateMatchingPropertyShape(command, baseline, current, violations))
+        {
+            return;
+        }
+
+        if (!HasSameCliIdentity(current, baseline))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
+        }
+    }
+
+    private static bool ValidateMatchingPropertyShape(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        GeneratedApiProperty current,
+        ICollection<string> violations)
+    {
         if (!current.CSharpType.Equals(baseline.CSharpType, StringComparison.Ordinal))
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed type from "
                 + $"{baseline.CSharpType} to {current.CSharpType}");
+            return false;
         }
-        else if (baseline.IsRequired && !current.IsRequired)
+
+        if (baseline.IsRequired && !current.IsRequired)
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed from required to optional");
+            return false;
         }
-        else if (!baseline.IsRequired && current.IsRequired)
+
+        if (!baseline.IsRequired && current.IsRequired)
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed from optional to required "
                 + "and would remove its public setter");
+            return false;
         }
-        else if (!HasSameCliIdentity(current, baseline))
-        {
-            violations.Add(
-                $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
-        }
+
+        return true;
     }
 
     private static void RestoreRequiredMemberNames(
@@ -1987,24 +2349,61 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         var attributes = attributeLists.SelectMany(list => list.Attributes).ToArray();
         var cliArgument = FindAttribute(attributes, "CliArgument");
-        var cliOption = FindAttribute(attributes, "CliOption")
-                        ?? FindAttribute(attributes, "CliFlag");
+        var cliOption = FindAttribute(attributes, "CliOption");
+        var cliFlag = FindAttribute(attributes, "CliFlag");
+        var cliSwitch = cliOption ?? cliFlag;
+        var secretValue = FindAttribute(attributes, "SecretValue");
+        var range = FindAttribute(attributes, "Range")
+                    ?? FindAttribute(attributes, "CliOptionValueRange");
+        var regularExpression = FindAttribute(attributes, "RegularExpression")
+                                ?? FindAttribute(attributes, "CliOptionValueRegularExpression");
         var obsolete = FindAttribute(attributes, "Obsolete");
-        var forwarding = GetForwarding(accessorList);
+        var (targetPropertyName, forwardingKind) = GetForwarding(accessorList);
+        bool? isFlag = cliSwitch is null ? null : cliFlag is not null;
 
         return new GeneratedApiProperty(
             propertyName,
             cSharpType,
-            GetStringArgument(cliOption),
+            GetStringArgument(cliSwitch),
             GetIntegerArgument(cliArgument),
-            isRequired,
+            isRequired || GetBooleanNamedArgument(cliArgument, "Required"),
             obsolete is not null,
-            forwarding.TargetPropertyName,
+            targetPropertyName,
             GetStringArgument(obsolete),
             isRequired
             || accessorList?.Accessors.Any(static accessor =>
                 accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true,
-            forwarding.Kind);
+            forwardingKind,
+            isFlag,
+            GetStringNamedArgument(cliSwitch, "ShortForm"),
+            GetBooleanNamedArgument(cliSwitch, "PreferShortForm"),
+            GetOptionValueSeparator(cliOption),
+            GetEnumNamedArgument(cliOption, "ValueArity", CliOptionValueArity.Required),
+            GetBooleanNamedArgument(cliOption, "GroupValues"),
+            GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
+            ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
+            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
+            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
+            secretValue is not null,
+            GetStringArguments(secretValue),
+            GetValidationConstraints(range, regularExpression));
+    }
+
+    private static CliValidationConstraints? GetValidationConstraints(
+        AttributeSyntax? range,
+        AttributeSyntax? regularExpression)
+    {
+        var minValue = GetIntegerArgument(range);
+        var maxValue = GetIntegerArgument(range, 1);
+        var pattern = GetStringArgument(regularExpression);
+        return minValue is null && maxValue is null && pattern is null
+            ? null
+            : new CliValidationConstraints
+            {
+                MinValue = minValue,
+                MaxValue = maxValue,
+                Pattern = pattern,
+            };
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -2020,12 +2419,81 @@ internal static class GeneratedApiCompatibilityPreserver
                 ? literal.Token.ValueText
                 : null;
 
-    private static int? GetIntegerArgument(AttributeSyntax? attribute) =>
-        attribute?.ArgumentList?.Arguments.FirstOrDefault()?.Expression is LiteralExpressionSyntax literal
+    private static int? GetIntegerArgument(AttributeSyntax? attribute, int index = 0) =>
+        attribute?.ArgumentList?.Arguments.ElementAtOrDefault(index)?.Expression is LiteralExpressionSyntax literal
             && literal.IsKind(SyntaxKind.NumericLiteralExpression)
             && literal.Token.Value is int value
                 ? value
                 : null;
+
+    private static string[]? GetStringArguments(AttributeSyntax? attribute)
+    {
+        if (attribute is null)
+        {
+            return null;
+        }
+
+        return
+        [
+            .. attribute.ArgumentList?.Arguments
+                .Select(static argument => argument.Expression)
+                .OfType<LiteralExpressionSyntax>()
+                .Where(static literal => literal.IsKind(SyntaxKind.StringLiteralExpression))
+                .Select(static literal => literal.Token.ValueText)
+                ?? [],
+        ];
+    }
+
+    private static string? GetStringNamedArgument(AttributeSyntax? attribute, string name) =>
+        FindNamedArgument(attribute, name)?.Expression is LiteralExpressionSyntax literal
+        && literal.IsKind(SyntaxKind.StringLiteralExpression)
+            ? literal.Token.ValueText
+            : null;
+
+    private static bool GetBooleanNamedArgument(AttributeSyntax? attribute, string name) =>
+        FindNamedArgument(attribute, name)?.Expression.Kind() == SyntaxKind.TrueLiteralExpression;
+
+    private static TEnum GetEnumNamedArgument<TEnum>(
+        AttributeSyntax? attribute,
+        string name,
+        TEnum defaultValue)
+        where TEnum : struct, Enum =>
+        GetNullableEnumNamedArgument<TEnum>(attribute, name) ?? defaultValue;
+
+    private static string GetOptionValueSeparator(AttributeSyntax? attribute) =>
+        GetNamedEnumMember(attribute, "Format") switch
+        {
+            "EqualsSeparated" => "=",
+            "ColonSeparated" => ":",
+            "NoSeparator" => string.Empty,
+            _ => " ",
+        };
+
+    private static TEnum? GetNullableEnumNamedArgument<TEnum>(
+        AttributeSyntax? attribute,
+        string name)
+        where TEnum : struct, Enum
+    {
+        var memberName = GetNamedEnumMember(attribute, name);
+        return Enum.TryParse<TEnum>(memberName, out var value) ? value : null;
+    }
+
+    private static string? GetNamedEnumMember(AttributeSyntax? attribute, string name)
+    {
+        var expression = FindNamedArgument(attribute, name)?.Expression;
+        return expression switch
+        {
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+            IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+            _ => null,
+        };
+    }
+
+    private static AttributeArgumentSyntax? FindNamedArgument(
+        AttributeSyntax? attribute,
+        string name) =>
+        attribute?.ArgumentList?.Arguments.FirstOrDefault(argument =>
+            argument.NameEquals?.Name.Identifier.ValueText.Equals(name, StringComparison.Ordinal) == true);
 
     private static (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) GetForwarding(
         AccessorListSyntax? accessorList)
@@ -2114,7 +2582,19 @@ internal sealed record GeneratedApiProperty(
     string? ForwardToPropertyName,
     string? ObsoleteMessage,
     bool UseInitAccessor = false,
-    CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct);
+    CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct,
+    bool? IsFlag = null,
+    string? ShortForm = null,
+    bool PreferShortForm = false,
+    string ValueSeparator = " ",
+    CliOptionValueArity ValueArity = CliOptionValueArity.Required,
+    bool GroupValues = false,
+    CommandLinePhase? Phase = null,
+    bool PrependOptionTerminator = false,
+    bool PrependOptionTerminatorIfValueStartsWithDash = false,
+    bool IsSecret = false,
+    string[]? SecretValueKeys = null,
+    CliValidationConstraints? ValidationConstraints = null);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,

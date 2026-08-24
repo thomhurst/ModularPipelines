@@ -198,10 +198,9 @@ jobs:
             remove_legacy_file "$PKG_DIR/I${PREFIX}.cs"
             remove_legacy_file "$PKG_DIR/${PREFIX}.cs"
 
-            # Delete only this tool's generated service files. Packages such as
-            # ModularPipelines.Java contain services for multiple CLI tools.
-            remove_legacy_file "$PKG_DIR/Services/I${PREFIX}.Generated.cs"
-            remove_legacy_file "$PKG_DIR/Services/${PREFIX}.Generated.cs"
+            # Keep generated service files until generation succeeds. They are the API
+            # baseline used to restore commands that disappeared from newer CLI help,
+            # and successful generation overwrites these exact paths atomically.
           fi
 
           echo "Cleanup complete for $PACKAGE"
@@ -811,13 +810,9 @@ jobs:
             Remove-LegacyFile $interfaceFile
             Remove-LegacyFile $implFile
 
-            # Delete only this tool's generated service files. A package may
-            # contain services for multiple CLI tools.
-            $servicesDir = Join-Path $pkgDir "Services"
-            if (Test-Path $servicesDir) {
-              Remove-LegacyFile (Join-Path $servicesDir "I$prefix.Generated.cs")
-              Remove-LegacyFile (Join-Path $servicesDir "$prefix.Generated.cs")
-            }
+            # Keep generated service files until generation succeeds. They are the API
+            # baseline used to restore commands that disappeared from newer CLI help,
+            # and successful generation overwrites these exact paths atomically.
           }
 
           Write-Host "Cleanup complete for $package"

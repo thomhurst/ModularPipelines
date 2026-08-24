@@ -25,24 +25,31 @@ public class GitCliScraperTests
     public async Task ScrapeAsync_Discovers_Generic_Groups_Without_Repeating_Parent_Help()
     {
         var executor = new GroupedHelpExecutor();
-        var scraper = new GitCliScraper(
-            executor,
-            new StubHelpTextCache(),
-            NullLogger<GitCliScraper>.Instance);
-        var commands = new List<CliCommandDefinition>();
-
-        await foreach (var command in scraper.ScrapeAsync())
+        string helpRepository;
+        using (var scraper = new GitCliScraper(
+                   executor,
+                   new StubHelpTextCache(),
+                   NullLogger<GitCliScraper>.Instance))
         {
-            commands.Add(command);
+            var commands = new List<CliCommandDefinition>();
+            await foreach (var command in scraper.ScrapeAsync())
+            {
+                commands.Add(command);
+            }
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(commands.Select(command => command.FullCommand))
+                    .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
+                await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
+                await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
+                await Assert.That(executor.NestedHelpWorkingDirectory).IsNotNull();
+            }
+
+            helpRepository = executor.NestedHelpWorkingDirectory!;
         }
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(commands.Select(command => command.FullCommand))
-                .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
-            await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
-            await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
-        }
+        await Assert.That(Directory.Exists(helpRepository)).IsFalse();
     }
 
     [Test]
@@ -65,6 +72,53 @@ public class GitCliScraperTests
             await Assert.That(commands[0].FullCommand).IsEqualTo("git switch");
             await Assert.That(commands[0].Options.Single().SwitchName).IsEqualTo("--force");
         }
+    }
+
+    [Test]
+    public async Task Dispose_Waits_For_InFlight_Repository_Initialization()
+    {
+        var executor = new BlockingInitExecutor();
+        var scraper = new GitCliScraper(
+            executor,
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        var scrapeTask = DrainAsync(scraper, cancellationTokenSource.Token);
+        await executor.InitializationStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        cancellationTokenSource.Cancel();
+        var disposalStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var disposeTask = Task.Run(() =>
+        {
+            disposalStarted.SetResult();
+            scraper.Dispose();
+        });
+        await disposalStarted.Task;
+        await Task.Delay(50);
+
+        await Assert.That(disposeTask.IsCompleted).IsFalse();
+        executor.AllowInitialization.SetResult();
+        await Assert.That(async () => await scrapeTask).Throws<OperationCanceledException>();
+        await disposeTask;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(executor.RepositoryExistedAfterInitialization).IsTrue();
+            await Assert.That(Directory.Exists(executor.RepositoryDirectory!)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task ScrapeAsync_Throws_After_Disposal()
+    {
+        var scraper = new GitCliScraper(
+            new StubExecutor(),
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+        scraper.Dispose();
+
+        await Assert.That(async () => await DrainAsync(scraper, CancellationToken.None))
+            .Throws<ObjectDisposedException>();
     }
 
     [Test]
@@ -142,6 +196,15 @@ public class GitCliScraperTests
             ExitCode = exitCode,
         };
 
+    private static async Task DrainAsync(
+        GitCliScraper scraper,
+        CancellationToken cancellationToken)
+    {
+        await foreach (var _ in scraper.ScrapeAsync(cancellationToken))
+        {
+        }
+    }
+
     private sealed class StubExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -186,6 +249,8 @@ public class GitCliScraperTests
 
         public int StatusHelpInvocations { get; private set; }
 
+        public string? NestedHelpWorkingDirectory { get; private set; }
+
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
@@ -200,9 +265,14 @@ public class GitCliScraperTests
             {
                 StatusHelpInvocations++;
             }
+            else if (arguments == "stash pop -h")
+            {
+                NestedHelpWorkingDirectory = workingDirectory;
+            }
 
             return Task.FromResult(arguments switch
             {
+                "init --quiet" => Result(string.Empty),
                 "help -a" => Result(
                     "Main Porcelain Commands\n"
                     + "   stash                   Stash changes\n"
@@ -213,6 +283,49 @@ public class GitCliScraperTests
                 "status -h" => Result("usage: git status [<options>]"),
                 _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
             });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class BlockingInitExecutor : ICliCommandExecutor
+    {
+        public TaskCompletionSource InitializationStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource AllowInitialization { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public string? RepositoryDirectory { get; private set; }
+
+        public bool RepositoryExistedAfterInitialization { get; private set; }
+
+        public async Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            if (arguments == "init --quiet")
+            {
+                RepositoryDirectory = workingDirectory;
+                InitializationStarted.SetResult();
+                await AllowInitialization.Task;
+                RepositoryExistedAfterInitialization = Directory.Exists(workingDirectory);
+                return Result(string.Empty);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return arguments switch
+            {
+                "help -a" => Result("Main Porcelain Commands\n   stash                   Stash changes"),
+                "stash -h" => Result("usage: git stash\n   or: git stash pop [--index]"),
+                "stash pop -h" => Result("usage: git stash pop [--index]"),
+                _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
+            };
         }
 
         public Task<bool> IsAvailableAsync(

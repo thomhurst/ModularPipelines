@@ -1112,6 +1112,9 @@ public static partial class GeneratorUtils
             .Where(command => command.SubDomainGroup is null)
             .Where(command => command.CommandParts.Length == 1)
             .Where(command => subDomainNames.Contains(GetCommandGroupIdentifier(command)))
+            .DistinctBy(
+                command => $"{GetCommandGroupIdentifier(command)}\u001F{command.ClassName}",
+                StringComparer.OrdinalIgnoreCase)
             .ToList();
 
         var duplicateParentGroups = GetDuplicateCommandGroups(

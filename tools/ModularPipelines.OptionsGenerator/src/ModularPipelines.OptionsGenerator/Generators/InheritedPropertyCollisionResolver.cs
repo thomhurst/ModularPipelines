@@ -76,6 +76,9 @@ internal static class InheritedPropertyCollisionResolver
             command.CommandParts,
             occupiedNames,
             renamedProperties);
+        var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
+        options = ResolveDuplicateOptionNames(options, usedLocalNames);
+        var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
             .Select(argument => argument with
             {
@@ -85,6 +88,15 @@ internal static class InheritedPropertyCollisionResolver
                     occupiedNames,
                     renamedProperties),
             })
+            .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
+                ? argument
+                : argument with
+                {
+                    PropertyName = GetOrCreateArgumentName(
+                        argument.PropertyName,
+                        renamedArgumentNames,
+                        usedLocalNames),
+                })
             .ToArray();
 
         return command with
@@ -113,6 +125,60 @@ internal static class InheritedPropertyCollisionResolver
                     pair => pair.Value,
                     StringComparer.Ordinal),
         };
+    }
+
+    private static IReadOnlyList<CliOptionDefinition> ResolveDuplicateOptionNames(
+        IReadOnlyList<CliOptionDefinition> options,
+        HashSet<string> usedLocalNames) =>
+        options
+            .Select(option => usedLocalNames.Add(option.PropertyName)
+                ? option
+                : option with
+                {
+                    PropertyName = CreateUniqueLocalName(
+                        option.PropertyName,
+                        "Option",
+                        usedLocalNames),
+                })
+            .ToArray();
+
+    private static string GetOrCreateArgumentName(
+        string propertyName,
+        IDictionary<string, string> renamedArgumentNames,
+        HashSet<string> usedLocalNames)
+    {
+        if (renamedArgumentNames.TryGetValue(propertyName, out var renamedPropertyName))
+        {
+            return renamedPropertyName;
+        }
+
+        renamedPropertyName = CreateUniqueLocalName(
+            propertyName,
+            "Argument",
+            usedLocalNames);
+        renamedArgumentNames.Add(propertyName, renamedPropertyName);
+        return renamedPropertyName;
+    }
+
+    private static string CreateUniqueLocalName(
+        string propertyName,
+        string suffix,
+        HashSet<string> usedLocalNames)
+    {
+        var candidate = propertyName + suffix;
+        if (usedLocalNames.Add(candidate))
+        {
+            return candidate;
+        }
+
+        for (var index = 2; ; index++)
+        {
+            candidate = propertyName + suffix + index;
+            if (usedLocalNames.Add(candidate))
+            {
+                return candidate;
+            }
+        }
     }
 
     private static bool TryGetRename(

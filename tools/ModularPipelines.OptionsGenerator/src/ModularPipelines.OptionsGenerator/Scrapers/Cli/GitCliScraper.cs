@@ -13,8 +13,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// - Options via 'git <command> -h' with format: -short, --long   description
 /// - Mostly flat command structure, with usage-derived child commands
 /// </summary>
-public partial class GitCliScraper : CliScraperBase
+public partial class GitCliScraper : CliScraperBase, IDisposable
 {
+    private readonly object _helpRepositoryLock = new();
+    private readonly SemaphoreSlim _helpCommandUsage = new(1, 1);
+    private string? _helpRepositoryDirectory;
+    private Task<string>? _helpRepositoryTask;
+    private bool _disposed;
+
     public override string ToolName => "git";
     public override string NamespacePrefix => "Git";
     public override string TargetNamespace => "ModularPipelines.Git";
@@ -37,10 +43,17 @@ public partial class GitCliScraper : CliScraperBase
             GenerateCode = false,
         };
 
+    public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
+    {
+        ThrowIfDisposed();
+        return base.IsAvailableAsync(cancellationToken);
+    }
+
     protected override async Task<string?> GetHelpTextAsync(
         string[] commandPath,
         CancellationToken cancellationToken)
     {
+        ThrowIfDisposed();
         var cacheKey = string.Join(' ', commandPath);
         if (HelpCache.TryGet(cacheKey, out var cached))
         {
@@ -50,7 +63,26 @@ public partial class GitCliScraper : CliScraperBase
         var arguments = commandPath.Length == 1
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
-        var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken);
+        var usesHelpRepository = commandPath.Length > 2;
+        await _helpCommandUsage.WaitAsync(cancellationToken);
+
+        CliCommandResult result;
+        try
+        {
+            ThrowIfDisposed();
+            var workingDirectory = usesHelpRepository
+                ? await GetHelpRepositoryAsync()
+                : null;
+            result = await Executor.ExecuteAsync(
+                ToolName,
+                arguments,
+                cancellationToken,
+                workingDirectory);
+        }
+        finally
+        {
+            _helpCommandUsage.Release();
+        }
 
         // Git sends short help to either stream and commonly exits with its usage code.
         var helpText = result.CombinedOutput;
@@ -62,6 +94,102 @@ public partial class GitCliScraper : CliScraperBase
 
         HelpCache.Set(cacheKey, helpText);
         return helpText;
+    }
+
+    private void ThrowIfDisposed()
+    {
+        lock (_helpRepositoryLock)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+        }
+    }
+
+    private Task<string> GetHelpRepositoryAsync()
+    {
+        lock (_helpRepositoryLock)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+            return _helpRepositoryTask ??= CreateHelpRepositoryAsync();
+        }
+    }
+
+    private async Task<string> CreateHelpRepositoryAsync()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"git-scraper-{Guid.NewGuid():N}");
+        _helpRepositoryDirectory = directory;
+        Directory.CreateDirectory(directory);
+        var result = await Executor.ExecuteAsync(
+            ToolName,
+            "init --quiet",
+            CancellationToken.None,
+            directory).ConfigureAwait(false);
+        if (!result.Success)
+        {
+            throw new InvalidOperationException(
+                $"Could not initialize the temporary Git help repository: {result.CombinedOutput}");
+        }
+
+        return directory;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Task<string>? initialization;
+        lock (_helpRepositoryLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            initialization = _helpRepositoryTask;
+        }
+
+        _helpCommandUsage.Wait();
+        string? directory;
+        try
+        {
+            try
+            {
+                initialization?.GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // The caller observes initialization failures; disposal still owns cleanup.
+            }
+
+            lock (_helpRepositoryLock)
+            {
+                directory = _helpRepositoryDirectory;
+                _helpRepositoryDirectory = null;
+                _helpRepositoryTask = null;
+            }
+        }
+        finally
+        {
+            _helpCommandUsage.Release();
+        }
+
+        if (directory is null || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        try
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            Logger.LogWarning(
+                exception,
+                "Could not delete temporary Git help repository: {Directory}",
+                directory);
+        }
+
+        GC.SuppressFinalize(this);
     }
 
     protected override IEnumerable<string> ExtractSubcommands(
