@@ -439,12 +439,9 @@ public partial class WinGetCliScraper : CliScraperBase
         var declaresRepeatability = DescriptionDeclaresRepeatableOption(description);
         var isFlag = IsKnownBooleanOption(className, longForm)
                      || (!declaresRepeatability && IsBooleanDescription(description));
-        var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
-        var csharpType = isFlag
-            ? "bool?"
-            : acceptsMultipleValues
-                ? "IEnumerable<string>?"
-                : "string?";
+        var acceptsMultipleValues = !isFlag && declaresRepeatability;
+        var scalarType = isFlag ? "bool?" : "string?";
+        var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
         return new CliOptionDefinition
         {

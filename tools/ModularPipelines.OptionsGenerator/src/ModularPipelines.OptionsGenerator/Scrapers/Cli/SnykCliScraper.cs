@@ -349,10 +349,7 @@ public partial class SnykCliScraper : CliScraperBase
                     }
                 }
 
-                if (acceptsMultipleValues)
-                {
-                    csharpType = $"IEnumerable<{csharpType.TrimEnd('?')}>?";
-                }
+                csharpType = AsCSharpType(csharpType, acceptsMultipleValues);
 
                 options.Add(new CliOptionDefinition
                 {

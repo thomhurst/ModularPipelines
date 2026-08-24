@@ -100,6 +100,12 @@ public class RepeatableOptionAdapterTests
     [Arguments("One or more attempts are made before failure.", false)]
     [Arguments("One or more times may be required.", false)]
     [Arguments("One or more retries may be attempted.", false)]
+    [Arguments("Provide one or more attempts before failing.", false)]
+    [Arguments("Accepts one or more retries.", false)]
+    [Arguments("Give one or more times to retry.", false)]
+    [Arguments("Supports multiple values.", true)]
+    [Arguments("Takes multiple values.", true)]
+    [Arguments("Value can contain multiple values.", true)]
     public async Task Packer_Classifies_Explicit_Repeatability_Prose(
         string description,
         bool expected)

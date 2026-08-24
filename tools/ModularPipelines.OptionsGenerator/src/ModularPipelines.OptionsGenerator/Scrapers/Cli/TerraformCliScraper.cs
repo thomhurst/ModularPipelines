@@ -341,8 +341,8 @@ public partial class TerraformCliScraper : CliScraperBase
 
     private static string GetCSharpType(bool isFlag, bool isInteger, bool acceptsMultipleValues)
     {
-        var scalarType = isFlag ? "bool" : isInteger ? "int" : "string";
-        return acceptsMultipleValues ? $"IEnumerable<{scalarType}>?" : $"{scalarType}?";
+        var scalarType = isFlag ? "bool?" : isInteger ? "int?" : "string?";
+        return AsCSharpType(scalarType, acceptsMultipleValues);
     }
 
     /// <summary>

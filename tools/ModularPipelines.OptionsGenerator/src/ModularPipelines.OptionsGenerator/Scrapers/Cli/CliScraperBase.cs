@@ -981,6 +981,14 @@ public abstract partial class CliScraperBase : ICliScraper
         !isFlag && !isBoolean && DescriptionDeclaresRepeatableOption(description);
 
     /// <summary>
+    /// Converts a scalar C# type into its repeatable collection representation when needed.
+    /// </summary>
+    protected static string AsCSharpType(string scalarType, bool acceptsMultipleValues) =>
+        acceptsMultipleValues
+            ? $"IEnumerable<{scalarType.TrimEnd('?')}>?"
+            : scalarType;
+
+    /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
     /// The adapter only recognizes one tool-specific declaration line; traversal,
     /// documentation boundaries, group classification, and flattening stay shared.
@@ -1059,27 +1067,24 @@ public abstract partial class CliScraperBase : ICliScraper
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
-    [GeneratedRegex(
-        """
-        \b(?:
-            repeatable
-            |(?:can|may|must|should)\s+be\s+repeated
-            |(?:is|are)\s+repeated
-            |\A(?:one|zero)\s+or\s+more\s+
-                (?!(?:attempts?|times?|retries?)\b)[\w-]+
-            |(?:can|may|must|should)\s+be\s+
-                (?:specified|supplied|provided|used|passed|set|given)\s+
-                (?:multiple\s+times|more\s+than\s+once)
-            |(?:accepts?|specify|supply|provide|use|pass|set|give)\s+
-                (?:
-                    multiple\s+times
-                    |more\s+than\s+once
-                    |(?:one|zero)\s+or\s+more\s+[\w-]+
-                    |multiple\s+[\w-]+
-                )
-        )\b
-        """,
-        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
+    private const string RepeatableItemCountPattern =
+        @"(?:one|zero)\s+or\s+more\s+(?!(?:attempts?|times?|retries?)\b)[\w-]+";
+
+    private const string RepeatableValueRegex =
+        @"\b(?:"
+        + @"repeatable"
+        + @"|(?:can|may|must|should)\s+be\s+repeated"
+        + @"|(?:is|are)\s+repeated"
+        + @"|\A" + RepeatableItemCountPattern
+        + @"|(?:can|may|must|should)\s+be\s+"
+        + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
+        + @"(?:multiple\s+times|more\s+than\s+once)"
+        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?|contains?)\s+"
+        + @"(?:multiple\s+times|more\s+than\s+once|"
+        + RepeatableItemCountPattern
+        + @"|multiple\s+[\w-]+))\b";
+
+    [GeneratedRegex(RepeatableValueRegex, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex RepeatableValuePattern();
 
     [GeneratedRegex(@"\x1B(?:\][^\x07\x1B]*(?:\x07|\x1B\\)|\[[0-?]*[ -/]*[@-~])")]
