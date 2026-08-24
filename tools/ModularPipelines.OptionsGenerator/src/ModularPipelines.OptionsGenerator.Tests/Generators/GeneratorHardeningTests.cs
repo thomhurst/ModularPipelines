@@ -1852,17 +1852,24 @@ public class GeneratorHardeningTests
                 + "public Task ChildAsync(ToolGroupNestedChildOptions? options = null) => Task.CompletedTask; }");
 
             var preserved = GeneratedApiCompatibilityPreserver.Preserve(
-                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                Tool(Command(
+                    "ToolGroupCurrentOptions",
+                    "ToolOptions",
+                    ["group", "current"],
+                    subDomainGroup: "Group")),
                 root);
 
             var restored = preserved.Commands
-                .Where(command => command.SubDomainGroup == "group")
+                .Where(command => command.ClassName != "ToolGroupCurrentOptions")
                 .ToArray();
             using (Assert.Multiple())
             {
                 await Assert.That(restored).Count().IsEqualTo(2);
+                await Assert.That(restored.Select(command => command.SubDomainGroup!))
+                    .IsEquivalentTo(["Group", "Group"]);
                 await Assert.That(restored.Select(command => command.CommandGroupIdentifierOverride!))
                     .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Group"]);
                 await Assert.That(GeneratorUtils.GetSubDomainIdentifier(preserved, "group"))
                     .IsEqualTo("Group");
             }
@@ -1896,8 +1903,12 @@ public class GeneratorHardeningTests
                 Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
                 root);
 
-            var restored = preserved.Commands.Single(command => command.SubDomainGroup == "appset");
-            await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("ApplicationSet");
+            var restored = preserved.Commands.Single(command => command.SubDomainGroup == "ApplicationSet");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("ApplicationSet");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["ApplicationSet"]);
+            }
         }
         finally
         {

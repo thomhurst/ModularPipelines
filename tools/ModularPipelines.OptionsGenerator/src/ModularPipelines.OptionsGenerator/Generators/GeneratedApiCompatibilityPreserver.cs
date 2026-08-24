@@ -133,7 +133,7 @@ internal static class GeneratedApiCompatibilityPreserver
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
-            SubDomainGroup = commandParts.Length > 1 ? commandParts[0] : null,
+            SubDomainGroup = commandParts.Length > 1 ? groupIdentifier : null,
             CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
             PreserveExecuteFacade = facadeMethods.Any(static method =>
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
