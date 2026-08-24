@@ -2480,7 +2480,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task Global_Compatibility_Targets_Follow_Inherited_Property_Renames()
+    public async Task Global_Compatibility_Aliases_Follow_Inherited_Renames_And_Preserve_Dispatch()
     {
         var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
         {
@@ -2511,8 +2511,10 @@ public class GeneratorHardeningTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).Contains("public virtual IEnumerable<string>? CliArguments");
-            await Assert.That(generated).Contains("get => CliArguments;");
-            await Assert.That(generated).Contains("set => CliArguments = value;");
+            await Assert.That(generated).Contains("get => LegacyArguments;");
+            await Assert.That(generated).Contains("set => LegacyArguments = value;");
+            await Assert.That(generated)
+                .Contains("public virtual IEnumerable<string>? LegacyArguments { get; set; }");
         }
     }
 

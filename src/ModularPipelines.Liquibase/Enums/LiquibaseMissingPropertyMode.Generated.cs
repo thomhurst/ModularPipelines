@@ -17,11 +17,11 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseMissingPropertyMode
 {
     [EnumValue("preserve")]
-    Preserve,
+    Preserve = 0,
 
     [EnumValue("empty")]
-    Empty,
+    Empty = 1,
 
     [EnumValue("error")]
-    Error
+    Error = 2
 }

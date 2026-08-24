@@ -17,17 +17,17 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseDuplicateFileMode
 {
     [EnumValue("silent")]
-    Silent,
+    Silent = 0,
 
     [EnumValue("debug")]
-    Debug,
+    Debug = 1,
 
     [EnumValue("info")]
-    Info,
+    Info = 2,
 
     [EnumValue("warn")]
-    Warn,
+    Warn = 3,
 
     [EnumValue("error")]
-    Error
+    Error = 4
 }
