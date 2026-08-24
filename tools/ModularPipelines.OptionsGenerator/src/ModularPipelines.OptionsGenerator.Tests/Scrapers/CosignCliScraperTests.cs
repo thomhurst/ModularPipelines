@@ -34,6 +34,54 @@ public class CosignCliScraperTests
     }
 
     [Test]
+    public async Task Extracts_Cosign_V3_All_Word_Command_Table()
+    {
+        const string helpText = """
+            Tools for interacting with a Sigstore protobuf bundle
+
+            Usage:
+            cosign bundle [command]
+
+            Available Commands:
+            create      Create a Sigstore protobuf bundle
+            inspect     Inspect a Sigstore protobuf bundle
+            upgrade     Upgrade a Sigstore protobuf bundle
+
+            Flags:
+                -h, --help=false:
+            """;
+
+        var subcommands = new TestCosignCliScraper().Extract(helpText);
+
+        await Assert.That(subcommands).IsEquivalentTo(["create", "inspect", "upgrade"]);
+    }
+
+    [Test]
+    [Arguments("signing-config", "signing config")]
+    [Arguments("trusted-root", "trusted root")]
+    public async Task Extracts_Cosign_V3_Single_Row_All_Word_Command_Tables(
+        string commandGroup,
+        string description)
+    {
+        var helpText = $"""
+            Tools for interacting with a Sigstore protobuf {description}
+
+            Usage:
+            cosign {commandGroup} [command]
+
+            Available Commands:
+            create      Create a Sigstore protobuf {description}
+
+            Flags:
+                -h, --help=false:
+            """;
+
+        var subcommands = new TestCosignCliScraper().Extract(helpText);
+
+        await Assert.That(subcommands).IsEquivalentTo(["create"]);
+    }
+
+    [Test]
     public async Task Parses_Cosign_V3_Default_Value_Flag_Format()
     {
         const string helpText = """

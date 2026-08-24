@@ -56,18 +56,26 @@ public class SnykCliScraperTests
     }
 
     [Test]
-    public async Task Command_Help_Does_Not_Treat_Examples_As_Subcommands()
+    public async Task Command_Help_Does_Not_Treat_Examples_As_A_Command_Group()
     {
         const string helpText = """
-            Test a project for vulnerabilities.
-
+            Test
             Usage
               snyk test [<OPTIONS>]
 
-            See code test, container test, and iac test for related commands.
+            Options for build tools
+              The format is snyk <command> -- [<context-specific_options>]
+
+            Examples for the snyk test command
+              $ snyk test
             """;
 
-        await Assert.That(new TestSnykCliScraper().Extract(helpText)).IsEmpty();
+        var scraper = new TestSnykCliScraper();
+        using (Assert.Multiple())
+        {
+            await Assert.That(scraper.Extract(helpText)).IsEmpty();
+            await Assert.That(scraper.DeclaresCommandGroup(helpText)).IsFalse();
+        }
     }
 
     [Test]
@@ -395,6 +403,8 @@ public class SnykCliScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public bool CanGenerate(string helpText) => HasOptions(helpText);
 
