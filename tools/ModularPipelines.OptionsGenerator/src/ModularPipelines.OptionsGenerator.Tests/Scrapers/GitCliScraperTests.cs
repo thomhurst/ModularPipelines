@@ -178,7 +178,6 @@ public class GitCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
-
     }
 
     private sealed class GroupedHelpExecutor : ICliCommandExecutor
@@ -220,7 +219,6 @@ public class GitCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
-
     }
 
     private sealed class StubHelpTextCache : IHelpTextCache
