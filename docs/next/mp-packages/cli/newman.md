@@ -2,7 +2,13 @@
 
 `ModularPipelines.Newman` provides strongly typed access to the `newman` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `newman` executable. Install it separately and ensure `newman` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Newman
@@ -12,38 +18,10 @@ Resolve the service with `context.Tools.Newman`. For projects older than C# 14, 
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. Unsafe or destructive commands do not receive runnable examples:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Newman.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Tools.Newman.UrlAsync(
-
-            new NewmanUrlOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var newman = context.Tools.Newman;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")
@@ -51,4 +29,3 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command  | Options record     |
 | ------------ | ------------------ |
 | `newman run` | `NewmanRunOptions` |
-| `newman URL` | `NewmanUrlOptions` |
