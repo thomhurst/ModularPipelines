@@ -574,20 +574,38 @@ public static class ExternalToolDefinitionLoader
                 + $"'{property.ForwardToPropertyName}'.");
         }
 
-        if (!writableForwardingTargets.TryGetValue(
-                property.ForwardToPropertyName,
-                out var forwardingTargetType)
-            && (!property.UseInitAccessor
-                || !initOnlyForwardingTargets.TryGetValue(
-                    property.ForwardToPropertyName,
-                    out forwardingTargetType)))
+        var forwardingTargetType = GetCompatibilityForwardingTargetType(
+            property,
+            command,
+            writableForwardingTargets,
+            initOnlyForwardingTargets);
+        ValidateCompatibilityForwardingTypes(property, command, forwardingTargetType);
+    }
+
+    private static string GetCompatibilityForwardingTargetType(
+        CliCompatibilityProperty property,
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, string> writableForwardingTargets,
+        IReadOnlyDictionary<string, string> initOnlyForwardingTargets)
+    {
+        if (writableForwardingTargets.TryGetValue(property.ForwardToPropertyName!, out var targetType)
+            || (property.UseInitAccessor
+                && initOnlyForwardingTargets.TryGetValue(property.ForwardToPropertyName!, out targetType)))
         {
-            throw new InvalidDataException(
-                $"Compatibility property '{property.PropertyName}' on command "
-                + $"'{command.FullCommand}' forwards to init-only property "
-                + $"'{property.ForwardToPropertyName}'.");
+            return targetType;
         }
 
+        throw new InvalidDataException(
+            $"Compatibility property '{property.PropertyName}' on command "
+            + $"'{command.FullCommand}' forwards to init-only property "
+            + $"'{property.ForwardToPropertyName}'.");
+    }
+
+    private static void ValidateCompatibilityForwardingTypes(
+        CliCompatibilityProperty property,
+        CliCommandDefinition command,
+        string forwardingTargetType)
+    {
         var propertyType = SyntaxFactory.ParseTypeName(property.CSharpType);
         var targetType = SyntaxFactory.ParseTypeName(forwardingTargetType);
         var typesAreCompatible = property.ForwardingKind switch
