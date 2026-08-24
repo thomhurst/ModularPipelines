@@ -58,6 +58,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <inheritdoc />
     public virtual bool IncludeInGenerationMatrix => true;
 
+    /// <inheritdoc />
+    public virtual bool GenerateCommandFacade => true;
+
     #endregion
 
     #region Virtual Properties - Can Override
@@ -596,6 +599,7 @@ public abstract partial class CliScraperBase : ICliScraper
             NamespacePrefix = NamespacePrefix,
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
+            GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             CommandGroupAliases = _commandGroupAliases.Values
                 .OrderBy(alias => alias.Alias, StringComparer.OrdinalIgnoreCase)

@@ -20,7 +20,7 @@ public partial class GitCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.Git";
     public override string OutputDirectory => "src/ModularPipelines.Git";
 
-    public bool GenerateCommandFacade => false;
+    public override bool GenerateCommandFacade => false;
 
     public GitCliScraper(
         ICliCommandExecutor executor,
