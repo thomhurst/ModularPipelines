@@ -1067,8 +1067,11 @@ public abstract partial class CliScraperBase : ICliScraper
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
+    private const string OperationalCountPhrasePattern =
+        @"(?:[\w-]+\s+){0,2}(?:attempts?|times?|retries?)\b";
+
     private const string RepeatableItemCountPattern =
-        @"(?:one|zero)\s+or\s+more\s+(?!(?:attempts?|times?|retries?)\b)[\w-]+";
+        @"(?:one|zero)\s+or\s+more\s+(?!" + OperationalCountPhrasePattern + @")[\w-]+";
 
     private const string RepeatableValueRegex =
         @"\b(?:"
