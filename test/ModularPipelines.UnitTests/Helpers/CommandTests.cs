@@ -879,6 +879,22 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task ScheduleForcefulCancellationAsync_ArmsTimerWhenReadinessFaults()
+    {
+        using var forcefulCancellationToken = new CancellationTokenSource();
+        var readinessFailure = Task.FromException(
+            new InvalidOperationException("readiness failed"));
+
+        await Command.ScheduleForcefulCancellationAsync(
+            forcefulCancellationToken,
+            TimeSpan.Zero,
+            readinessFailure);
+
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Task.Delay(TimeSpan.FromSeconds(1), forcefulCancellationToken.Token));
+    }
+
+    [Test]
     [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
     {
@@ -889,6 +905,9 @@ public class CommandTests : TestBase
         var grandchildPidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-grandchild-{fileSuffix}.pid");
         Process? intermediateProcess = null;
         Process? grandchildProcess = null;
+        Task<CommandResult>? executionTask = null;
+        var forcefulCancellationReady = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
 
         try
         {
@@ -909,7 +928,7 @@ public class CommandTests : TestBase
                 $"Set-Content -LiteralPath '{EscapePowerShellLiteral(intermediatePidFile)}' -Value $intermediate.Id",
                 "Wait-Process -Id $intermediate.Id");
 
-            var executionTask = command.ExecuteCommandLineToolAsync(
+            executionTask = command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", parentScript],
@@ -917,6 +936,7 @@ public class CommandTests : TestBase
                 new CommandExecutionOptions
                 {
                     GracefulShutdownTimeout = TimeSpan.FromSeconds(1),
+                    InternalForcefulCancellationReady = forcefulCancellationReady.Task,
                 },
                 cancellationTokenSource.Token);
 
@@ -934,6 +954,7 @@ public class CommandTests : TestBase
                 grandchildPidFile,
                 grandchildPidFileTimeout.Token);
             grandchildProcess = Process.GetProcessById(grandchildProcessId);
+            forcefulCancellationReady.SetResult();
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
 
             var grandchildExited = await WaitForExitAsync(grandchildProcess, TimeSpan.FromSeconds(2));
@@ -941,6 +962,25 @@ public class CommandTests : TestBase
         }
         finally
         {
+            forcefulCancellationReady.TrySetResult();
+            if (executionTask is not null)
+            {
+                try
+                {
+                    await executionTask.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                catch (OperationCanceledException)
+                {
+                    // Expected after the fixture requests command cancellation.
+                }
+                catch (TimeoutException)
+                {
+                    // Process handles below provide the final cleanup fallback.
+                }
+            }
+
+            grandchildProcess ??= TryGetPublishedProcess(grandchildPidFile);
+
             foreach (var process in new[] { intermediateProcess, grandchildProcess })
             {
                 if (process is { HasExited: false })
@@ -960,6 +1000,20 @@ public class CommandTests : TestBase
     }
 
     private static string EscapePowerShellLiteral(string value) => value.Replace("'", "''");
+
+    private static Process? TryGetPublishedProcess(string pidFile)
+    {
+        try
+        {
+            return int.TryParse(File.ReadAllText(pidFile), out var processId)
+                ? Process.GetProcessById(processId)
+                : null;
+        }
+        catch (Exception exception) when (exception is IOException or ArgumentException)
+        {
+            return null;
+        }
+    }
 
     private static async Task<int> WaitForProcessIdAsync(string pidFile, CancellationToken cancellationToken)
     {

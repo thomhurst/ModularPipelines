@@ -70,4 +70,6 @@ public record CommandExecutionOptions
     public int MaxCapturedOutputLength { get; init; } = DefaultMaxCapturedOutputLength;
 
     internal bool InternalDryRun { get; set; }
+
+    internal Task? InternalForcefulCancellationReady { get; init; }
 }
