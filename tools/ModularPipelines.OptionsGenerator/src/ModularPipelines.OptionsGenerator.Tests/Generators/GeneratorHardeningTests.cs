@@ -750,6 +750,32 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Record_Clone_Member_Is_Renamed_From_Command_Path()
+    {
+        var command = Command("ToolRepoCreateOptions", "ToolOptions", ["repo", "create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--clone",
+                    PropertyName = "Clone",
+                    CSharpType = "bool?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("[CliOption(\"--clone\")]");
+            await Assert.That(generated).Contains("public bool? RepoClone");
+            await Assert.That(generated).DoesNotContain("public bool? Clone");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Marks_Secret_Positional_Arguments()
     {
         var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with

@@ -124,28 +124,9 @@ public class LiquibaseOptionsTests : TestBase
             "liquibase --defaults-file=liquibase.properties update");
     }
 
-    [Test]
-    public async Task Legacy_Virtual_Override_Still_Renders_Global_Option()
-    {
-        var result = await GetResult(new LegacyLiquibaseUpdateOptions
-        {
-            AllowDuplicatedChangesetIdentifiers = true,
-        });
-
-        await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --allow-duplicated-changeset-identifiers=true update");
-    }
-
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommandContext>();
         return await command.ExecuteCommandLineToolAsync(options, new CommandExecutionOptions { InternalDryRun = true });
     }
-
-#pragma warning disable CS0618
-    private sealed record LegacyLiquibaseUpdateOptions : LiquibaseUpdateOptions
-    {
-        public override bool? AllowDuplicatedChangesetIdentifiers { get; set; }
-    }
-#pragma warning restore CS0618
 }

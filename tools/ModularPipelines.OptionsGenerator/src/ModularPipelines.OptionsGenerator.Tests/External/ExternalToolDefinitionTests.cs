@@ -125,7 +125,9 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Rejects_Unknown_Schema_Version()
+    [Arguments(1)]
+    [Arguments(3)]
+    public async Task External_Metadata_Rejects_Unsupported_Schema_Version(int schemaVersion)
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -135,7 +137,7 @@ public class ExternalToolDefinitionTests
         {
             await File.WriteAllTextAsync(
                 metadataPath,
-                ValidMetadata("generated", schemaVersion: 2));
+                ValidMetadata("generated", schemaVersion));
 
             await Assert.That(async () =>
                     await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory))
@@ -2005,7 +2007,7 @@ public class ExternalToolDefinitionTests
         }
     }
 
-    private static string ValidMetadata(string outputDirectory, int schemaVersion = 1) =>
+    private static string ValidMetadata(string outputDirectory, int schemaVersion = 2) =>
         $$"""
           {
             "schemaVersion": {{schemaVersion}},
