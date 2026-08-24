@@ -57,6 +57,20 @@ public class RepeatableOptionAdapterTests
     }
 
     [Test]
+    public async Task Packer_Recognizes_Quoted_Repeatable_Value()
+    {
+        const string helpText = """
+            Usage: packer build [options]
+
+            Options:
+              -var 'key=value'  Set a variable. Can be repeated.
+            """;
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+
+        await AssertRepeatable(command, "--var");
+    }
+
+    [Test]
     public async Task Packer_Recognizes_Multiline_Repeatable_Prose()
     {
         const string helpText = """

@@ -214,7 +214,9 @@ public partial class PackerCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint) || valueHint.Contains("true") || valueHint.Contains("false");
+            var isFlag = string.IsNullOrEmpty(valueHint)
+                         || valueHint.Equals("true", StringComparison.OrdinalIgnoreCase)
+                         || valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
             var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
             var scalarType = isFlag ? "bool?" : "string?";
             var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
@@ -306,7 +308,7 @@ public partial class PackerCliScraper : CliScraperBase
     ///   -debug             Debug mode enabled
     ///   -var 'key=value'   Variable for templates
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'[^']+')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'(?<value>[^']+)')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex PackerOptionPattern();
 
     #endregion
