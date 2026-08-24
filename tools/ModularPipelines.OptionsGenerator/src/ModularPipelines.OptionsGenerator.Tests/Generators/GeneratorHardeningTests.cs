@@ -4283,6 +4283,44 @@ public class GeneratorHardeningTests
             .Contains("InvokeDataAutomationAsyncCommandAsync(");
     }
 
+    [Test]
+    public async Task SubDomainClassGenerator_Selects_Unique_Async_Disambiguator()
+    {
+        var tool = Tool(
+            Command(
+                "ToolAppFooOptions",
+                "ToolOptions",
+                ["app", "foo"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo",
+            },
+            Command(
+                "ToolAppFooAsyncOptions",
+                "ToolOptions",
+                ["app", "foo-async"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-async",
+            },
+            Command(
+                "ToolAppFooAsyncCommandOptions",
+                "ToolOptions",
+                ["app", "foo-async-command"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-async-command",
+            });
+
+        var service = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "ToolApp.Generated.cs")
+            .Content;
+
+        await Assert.That(service).Contains("FooAsync(");
+        await Assert.That(service).Contains("FooAsyncCommandAsync(");
+        await Assert.That(service).Contains("FooAsyncCommand2Async(");
+    }
+
     #endregion
 
     #region Root command collision filter

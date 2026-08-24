@@ -625,13 +625,27 @@ public static partial class GeneratorUtils
             return methodName;
         }
 
-        var publicMethodName = EnsureAsyncSuffix(methodName);
-        var hasAsyncSuffixCollision = siblingCommands.Any(candidate =>
-            !candidate.FullCommand.Equals(command.FullCommand, StringComparison.OrdinalIgnoreCase)
-            && EnsureAsyncSuffix(GenerateSubDomainBaseMethodName(candidate, hasParentCommand))
-                .Equals(publicMethodName, StringComparison.OrdinalIgnoreCase));
+        var siblingPublicMethodNames = siblingCommands
+            .Where(candidate => !candidate.FullCommand.Equals(
+                command.FullCommand,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(candidate => EnsureAsyncSuffix(
+                GenerateSubDomainBaseMethodName(candidate, hasParentCommand)))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        if (!siblingPublicMethodNames.Contains(EnsureAsyncSuffix(methodName)))
+        {
+            return methodName;
+        }
 
-        return hasAsyncSuffixCollision ? $"{methodName}Command" : methodName;
+        var disambiguatedMethodName = $"{methodName}Command";
+        for (var suffix = 2;
+             siblingPublicMethodNames.Contains(EnsureAsyncSuffix(disambiguatedMethodName));
+             suffix++)
+        {
+            disambiguatedMethodName = $"{methodName}Command{suffix}";
+        }
+
+        return disambiguatedMethodName;
     }
 
     private static string GenerateSubDomainBaseMethodName(
