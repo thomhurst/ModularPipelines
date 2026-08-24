@@ -1037,6 +1037,45 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Name_After_Local_Collision_Rename()
+    {
+        var command = Command("ToolLoginOptions", "ToolOptions", ["login"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--server",
+                    PropertyName = "Server",
+                    CSharpType = "string?",
+                },
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Server",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                },
+            ],
+        };
+        var collisionResolved = InheritedPropertyCollisionResolver.Resolve(Tool(command))
+            .Commands.Single();
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            collisionResolved,
+            [BaselineProperty("Server", "string", argumentPosition: 0, isRequired: true)]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ServerOption");
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName).IsEqualTo("Server");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retargets_Transitive_Compatibility_Aliases()
     {
         var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with
@@ -2128,7 +2167,13 @@ public class GeneratorHardeningTests
                 "ToolAgentTaskCreateOptions",
                 "ToolOptions",
                 ["agent-task", "create"],
-                subDomainGroup: "agent-task"));
+                subDomainGroup: "agent-task") with
+            {
+                CommandPartIdentifierOverrides = new Dictionary<int, string>
+                {
+                    [0] = "AgentTask",
+                },
+            });
 
             var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
             var command = preserved.Commands.Single();
@@ -2140,6 +2185,7 @@ public class GeneratorHardeningTests
             using (Assert.Multiple())
             {
                 await Assert.That(command.CommandGroupIdentifierOverride).IsEqualTo("Agenttask");
+                await Assert.That(command.CommandPartIdentifierOverrides[0]).IsEqualTo("AgentTask");
                 await Assert.That(generated.Content).Contains("CreateAsync(");
             }
         }
@@ -3204,7 +3250,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Required_Rename_Collisions()
+    public async Task ApiCompatibilityPreserver_Resolves_Required_Rename_Collisions()
     {
         var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
         {
@@ -3229,12 +3275,17 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("StableName", "string", argumentPosition: 0, isRequired: true)]);
 
-        await Assert.That(exception.Message).Contains("would duplicate a member name");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("StableName");
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("StableNameOption");
+        }
     }
 
     [Test]

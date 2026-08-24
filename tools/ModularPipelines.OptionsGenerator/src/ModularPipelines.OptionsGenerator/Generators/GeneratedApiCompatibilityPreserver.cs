@@ -15,6 +15,11 @@ internal static class GeneratedApiCompatibilityPreserver
         Rejected,
     }
 
+    private readonly record struct LocalMemberLocation(
+        bool IsOption,
+        int Index,
+        string PropertyName);
+
     public static CliToolDefinition Preserve(CliToolDefinition tool, string outputDirectory)
     {
         var optionsDirectory = Path.Combine(
@@ -480,8 +485,8 @@ internal static class GeneratedApiCompatibilityPreserver
             commandBaseline.CommandParts,
             groupIdentifier,
             commandFacadeMethods);
-        var mergedOverrides = recoveredOverrides
-            .Concat(preserved.CommandPartIdentifierOverrides)
+        var mergedOverrides = preserved.CommandPartIdentifierOverrides
+            .Concat(recoveredOverrides)
             .DistinctBy(static pair => pair.Key)
             .ToDictionary(static pair => pair.Key, static pair => pair.Value);
 
@@ -826,6 +831,11 @@ internal static class GeneratedApiCompatibilityPreserver
         var compatibilityConstructors = command.CompatibilityConstructors.ToList();
         var positionalArguments = command.PositionalArguments.ToArray();
         var options = command.Options.ToArray();
+        RestoreNamesChangedByLocalCollisions(
+            baselineProperties,
+            positionalArguments,
+            options,
+            command.CompatibilityProperties);
         var violations = new List<string>();
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var preservedTypeChanges = PreserveScalarToCollectionChanges(
@@ -895,6 +905,108 @@ internal static class GeneratedApiCompatibilityPreserver
                 command.DocumentationExampleValues,
                 renamedProperties),
         };
+    }
+
+    private static void RestoreNamesChangedByLocalCollisions(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options,
+        IReadOnlyList<CliCompatibilityProperty> compatibilityProperties)
+    {
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property => !property.IsCompatibility))
+        {
+            var historicalMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => HasSameCliIdentity(property, baseline));
+            if (historicalMember is null
+                || historicalMember.Value.PropertyName.Equals(
+                    baseline.PropertyName,
+                    StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var conflictingMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => property.PropertyName.Equals(
+                    baseline.PropertyName,
+                    StringComparison.Ordinal));
+            if (conflictingMember is null)
+            {
+                continue;
+            }
+
+            propertyNames.Remove(historicalMember.Value.PropertyName);
+            propertyNames.Remove(conflictingMember.Value.PropertyName);
+            var conflictingName = GetUniquePropertyName(
+                baseline.PropertyName + (conflictingMember.Value.IsOption ? "Option" : "Argument"),
+                propertyNames);
+            RenameLocalMember(conflictingMember.Value, conflictingName, positionalArguments, options);
+            RenameLocalMember(historicalMember.Value, baseline.PropertyName, positionalArguments, options);
+            propertyNames.Add(baseline.PropertyName);
+        }
+    }
+
+    private static LocalMemberLocation? FindLocalMember(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> options,
+        Func<GeneratedApiProperty, bool> predicate)
+    {
+        for (var index = 0; index < options.Count; index++)
+        {
+            if (predicate(ToGeneratedProperty(options[index])))
+            {
+                return new LocalMemberLocation(true, index, options[index].PropertyName);
+            }
+        }
+
+        for (var index = 0; index < positionalArguments.Count; index++)
+        {
+            if (predicate(ToGeneratedProperty(positionalArguments[index])))
+            {
+                return new LocalMemberLocation(false, index, positionalArguments[index].PropertyName);
+            }
+        }
+
+        return null;
+    }
+
+    private static void RenameLocalMember(
+        LocalMemberLocation location,
+        string propertyName,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options)
+    {
+        if (location.IsOption)
+        {
+            options[location.Index] = options[location.Index] with { PropertyName = propertyName };
+            return;
+        }
+
+        positionalArguments[location.Index] = positionalArguments[location.Index] with
+        {
+            PropertyName = propertyName,
+        };
+    }
+
+    private static string GetUniquePropertyName(
+        string candidate,
+        HashSet<string> propertyNames)
+    {
+        var root = candidate;
+        for (var suffix = 2; !propertyNames.Add(candidate); suffix++)
+        {
+            candidate = root + suffix;
+        }
+
+        return candidate;
     }
 
     private static HashSet<string> PreserveScalarToCollectionChanges(

@@ -54,7 +54,7 @@ public partial class GitCliScraper : CliScraperBase
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
         var workingDirectory = commandPath.Length > 2
-            ? await GetHelpRepositoryAsync(cancellationToken)
+            ? await GetHelpRepositoryAsync()
             : null;
         var result = await Executor.ExecuteAsync(
             ToolName,
@@ -74,22 +74,22 @@ public partial class GitCliScraper : CliScraperBase
         return helpText;
     }
 
-    private Task<string> GetHelpRepositoryAsync(CancellationToken cancellationToken)
+    private Task<string> GetHelpRepositoryAsync()
     {
         lock (_helpRepositoryLock)
         {
-            return _helpRepositoryTask ??= CreateHelpRepositoryAsync(cancellationToken);
+            return _helpRepositoryTask ??= CreateHelpRepositoryAsync();
         }
     }
 
-    private async Task<string> CreateHelpRepositoryAsync(CancellationToken cancellationToken)
+    private async Task<string> CreateHelpRepositoryAsync()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"git-scraper-{Guid.NewGuid():N}");
         Directory.CreateDirectory(directory);
         var result = await Executor.ExecuteAsync(
             ToolName,
             "init --quiet",
-            cancellationToken,
+            CancellationToken.None,
             directory);
         if (!result.Success)
         {
