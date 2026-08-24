@@ -24428,7 +24428,13 @@ var kustomize = context.Tools.Kustomize;
 
 `ModularPipelines.Liquibase` provides strongly typed access to the `liquibase` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `liquibase` executable. Install it separately and ensure `liquibase` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Liquibase
@@ -24438,38 +24444,10 @@ Resolve the service with `context.Tools.Liquibase`. For projects older than C# 1
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Liquibase.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Tools.Liquibase.CalculateChecksumAsync(
-
-            new LiquibaseCalculateChecksumOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var liquibase = context.Tools.Liquibase;
 ```
 
 ## Global options[​](#global-options "Direct link to Global options")
@@ -24478,7 +24456,7 @@ Global options are rendered before the selected subcommand.
 
 | CLI option                                                                                                 | Property                                     | Availability                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--allow-duplicated-changeset-identifiers`                                                                 | `AllowDuplicatedChangesetIdentifiers`        | All editions                                   | Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `--allow-duplicated-changeset-identifiers`                                                                 | `AllowDuplicatedChangeSetIdentifiers`        | All editions                                   | Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `--allow-inherit-logical-file-path`                                                                        | `AllowInheritLogicalFilePath`                | All editions                                   | If true, included changelogs without an explicit logicalFilePath will inherit their parent changelog's logicalFilePath, and explicit logicalFilePath attributes on include statements are honored (Liquibase 4.31.0+ behavior). If false, included changelogs use their physical file paths, ignoring both implicit inheritance and explicit logicalFilePath attributes on include statements. Only logicalFilePath set directly on the changelog itself is respected. Defaults to true for backward compatibility. DEFAULT: true |
 | `--always-drop-instead-of-replace`                                                                         | `AlwaysDropInsteadOfReplace`                 | All editions                                   | If true, drop and recreate a view instead of replacing it. DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `--always-override-stored-logic-schema`                                                                    | `AlwaysOverrideStoredLogicSchema`            | All editions                                   | When generating SQL for createProcedure, should the procedure schema be forced to the default schema if no schemaName attribute is set? DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                            |
@@ -24505,8 +24483,8 @@ Global options are rendered before the selected subcommand.
 | `--fail-on-null-snapshot-id`                                                                               | `FailOnNullSnapshotId`                       | All editions                                   | If true, referenced objects which do not have a snapshot ID will cause snapshot failure DEFAULT: true                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `--file-encoding`                                                                                          | `FileEncoding`                               | All editions                                   | Encoding to use when reading files. Valid values include: UTF-8, UTF-16, UTF-16BE, UTF-16LE, US-ASCII, or OS to use the system configured encoding. DEFAULT: UTF-8                                                                                                                                                                                                                                                                                                                                                                |
 | `--filter-log-messages`                                                                                    | `FilterLogMessages`                          | All editions                                   | DEPRECATED: No longer used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `--generate-changeset-created-values`                                                                      | `GenerateChangesetCreatedValues`             | All editions                                   | Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `--generated-changeset-ids-contains-description`                                                           | `GeneratedChangesetIdsContainsDescription`   | All editions                                   | Should Liquibase include the change description in the id when generating changesets? DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `--generate-changeset-created-values`                                                                      | `GenerateChangeSetCreatedValues`             | All editions                                   | Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `--generated-changeset-ids-contains-description`                                                           | `GeneratedChangeSetIdsContainsDescription`   | All editions                                   | Should Liquibase include the change description in the id when generating changesets? DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `--headless`                                                                                               | `Headless`                                   | All editions                                   | Force Liquibase to think it has no access to a keyboard DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `--help`                                                                                                   | `Help`                                       | All editions                                   | Show this help message and exit                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `--include-catalog-in-specification`                                                                       | `IncludeCatalogInSpecification`              | All editions                                   | Should Liquibase include the catalog name when determining equality? DEFAULT: false                                                                                                                                                                                                                                                                                                                                                                                                                                               |
