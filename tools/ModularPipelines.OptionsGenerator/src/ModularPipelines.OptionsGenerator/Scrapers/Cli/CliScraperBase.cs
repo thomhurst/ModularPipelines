@@ -474,6 +474,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        usage = NormalizeUsageSynopsis(command, usage);
         command = command with
         {
             UsagePositionalArguments = usage.PositionalArguments,
@@ -729,6 +730,14 @@ public abstract partial class CliScraperBase : ICliScraper
             helpText,
             commandPath,
             GetAdditionalUsageSynopses(commandPath, helpText));
+
+    /// <summary>
+    /// Lets a tool associate ambiguous usage operands with named options using its help metadata.
+    /// </summary>
+    protected virtual UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        usage;
 
     /// <summary>
     /// Returns true positional operands, excluding values syntactically owned by an option switch.

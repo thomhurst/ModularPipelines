@@ -39,6 +39,26 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class WinGetCliScraper : CliScraperBase
 {
+    private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "--allow-reboot",
+        "--blocking",
+        "--dependencies-only",
+        "--details",
+        "--exact",
+        "--force",
+        "--history",
+        "--include-versions",
+        "--installed",
+        "--msix",
+        "--preserve",
+        "--suppress-initial-details",
+        "--uninstall-previous",
+        "--upgrade-available",
+        "--versions",
+        "--wait",
+    };
+
     public WinGetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<WinGetCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -53,6 +73,11 @@ public partial class WinGetCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.WinGet";
 
     public override CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Windows;
+
+    /// <summary>
+    /// WinGet help processes fail nondeterministically when many commands run concurrently.
+    /// </summary>
+    protected override int MaxParallelism => 1;
 
     /// <summary>
     /// Skip utility commands.
@@ -179,7 +204,10 @@ public partial class WinGetCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-        var positionalArguments = GetPositionalArguments(usage);
+        var usageArguments = AssociateNamedOptionOperands(options, usage.PositionalArguments);
+        var positionalArguments = usageArguments
+            .Where(argument => argument.AssociatedOptionSwitch is null)
+            .ToArray();
 
         var className = GenerateClassName(commandPath);
 
@@ -203,6 +231,40 @@ public partial class WinGetCliScraper : CliScraperBase
         return Task.FromResult<CliCommandDefinition?>(command);
     }
 
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        usage with
+        {
+            PositionalArguments = AssociateNamedOptionOperands(
+                command.Options,
+                usage.PositionalArguments),
+        };
+
+    private static IReadOnlyList<CliPositionalArgument> AssociateNamedOptionOperands(
+        IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliPositionalArgument> arguments) =>
+        arguments.Select(argument =>
+        {
+            if (argument.AssociatedOptionSwitch is not null)
+            {
+                return argument;
+            }
+
+            var option = options.FirstOrDefault(candidate =>
+                !candidate.IsFlag
+                && candidate.PropertyName.Equals(
+                    argument.PropertyName,
+                    StringComparison.OrdinalIgnoreCase));
+            return option is null
+                ? argument
+                : argument with
+                {
+                    AssociatedOptionSwitch = option.ShortForm ?? option.SwitchName,
+                };
+        }).ToArray();
+
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
@@ -223,6 +285,8 @@ public partial class WinGetCliScraper : CliScraperBase
             // Skip copyright/version lines
             if (trimmed.StartsWith("Windows Package Manager") ||
                 trimmed.StartsWith("Copyright") ||
+                trimmed.StartsWith('©') ||
+                trimmed.Contains("All rights reserved", StringComparison.OrdinalIgnoreCase) ||
                 trimmed.StartsWith("usage:"))
             {
                 continue;
@@ -372,7 +436,7 @@ public partial class WinGetCliScraper : CliScraperBase
 
         // WinGet options are generally strings or booleans
         // Boolean flags typically have descriptions like "Enable...", "Disable...", etc.
-        var isFlag = IsBooleanDescription(description);
+        var isFlag = IsKnownBooleanOption(className, longForm) || IsBooleanDescription(description);
         var acceptsMultipleValues = !isFlag && DescriptionDeclaresRepeatableOption(description);
         var csharpType = isFlag
             ? "bool?"
@@ -426,6 +490,11 @@ public partial class WinGetCliScraper : CliScraperBase
                lowerDesc.Contains("all user") ||
                lowerDesc.StartsWith("use ");
     }
+
+    private static bool IsKnownBooleanOption(string className, string longForm) =>
+        BooleanOptions.Contains(longForm)
+        || (className.Equals("WingetSourceAddOptions", StringComparison.Ordinal)
+            && longForm.Equals("--explicit", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>
     /// Accumulates multi-line descriptions.
