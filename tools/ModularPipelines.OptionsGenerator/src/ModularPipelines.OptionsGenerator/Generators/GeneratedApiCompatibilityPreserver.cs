@@ -120,7 +120,7 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
         var commandParts = baseline.CommandParts!;
-        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, facadeMethods[0]);
+        var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline);
 
         return new CliCommandDefinition
         {
@@ -145,11 +145,37 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static string? GetRestoredCommandGroupIdentifier(
         CliToolDefinition tool,
-        GeneratedFacadeMethod facade) =>
-        facade.DeclaringType.Length > tool.NamespacePrefix.Length
-        && facade.DeclaringType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            ? facade.DeclaringType[tool.NamespacePrefix.Length..]
-            : null;
+        GeneratedApiBaseline baseline)
+    {
+        var rootCommand = baseline.CommandParts?[0];
+        if (rootCommand is null)
+        {
+            return null;
+        }
+
+        var defaultIdentifier = GeneratorUtils.ToPascalCase(rootCommand);
+        var currentIdentifiers = tool.Commands
+            .Where(command => command.CommandParts.Length > 0
+                              && command.CommandParts[0].Equals(
+                                  rootCommand,
+                                  StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.CommandGroupIdentifierOverride ?? defaultIdentifier)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (currentIdentifiers.Length == 1)
+        {
+            return currentIdentifiers[0];
+        }
+
+        if (baseline.ClassName.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+            && baseline.ClassName.AsSpan(tool.NamespacePrefix.Length)
+                .StartsWith(defaultIdentifier, StringComparison.OrdinalIgnoreCase))
+        {
+            return baseline.ClassName.Substring(tool.NamespacePrefix.Length, defaultIdentifier.Length);
+        }
+
+        return defaultIdentifier;
+    }
 
     private static CliOptionDefinition[] RestoreRemovedOptions(
         IEnumerable<GeneratedApiProperty> properties) =>
