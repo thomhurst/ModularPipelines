@@ -138,6 +138,11 @@ internal static class GeneratedApiCompatibilityPreserver
             CompatibilityConstructors = baseline.Constructors,
             SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
+            CommandPartIdentifierOverrides = GetRestoredCommandPartIdentifierOverrides(
+                tool,
+                commandParts,
+                groupIdentifier,
+                facadeMethods),
             PreserveExecuteFacade = facadeMethods.Any(static method =>
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveNamedFacade = facadeMethods.Any(static method =>
@@ -226,23 +231,13 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<string> commandParts,
         GeneratedFacadeMethod facadeMethod)
     {
-        var implementationType = facadeMethod.DeclaringType.StartsWith(
-            $"I{tool.NamespacePrefix}",
-            StringComparison.Ordinal)
-            ? facadeMethod.DeclaringType[1..]
-            : facadeMethod.DeclaringType;
+        var implementationType = GetFacadeImplementationType(tool, facadeMethod);
         var commandTail = commandParts.Skip(1).ToArray();
-        var optionsImplementationType = facadeMethod.OptionsType.EndsWith("Options", StringComparison.Ordinal)
-            ? facadeMethod.OptionsType[..^"Options".Length]
-            : facadeMethod.OptionsType;
-        var isParentExecuteFacade = facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
-                                    && implementationType.Equals(
-                                        optionsImplementationType,
-                                        StringComparison.OrdinalIgnoreCase);
+        var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
         var facadeCommandParts = isParentExecuteFacade ? commandTail : commandTail.SkipLast(1);
         var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
         if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            || !implementationType.EndsWith(facadeSuffix, StringComparison.Ordinal)
+            || !implementationType.EndsWith(facadeSuffix, StringComparison.OrdinalIgnoreCase)
             || implementationType.Length <= tool.NamespacePrefix.Length + facadeSuffix.Length)
         {
             return null;
@@ -251,6 +246,91 @@ internal static class GeneratedApiCompatibilityPreserver
         return implementationType.Substring(
             tool.NamespacePrefix.Length,
             implementationType.Length - tool.NamespacePrefix.Length - facadeSuffix.Length);
+    }
+
+    private static IReadOnlyDictionary<int, string> GetRestoredCommandPartIdentifierOverrides(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts,
+        string? groupIdentifier,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        if (groupIdentifier is null)
+        {
+            return new Dictionary<int, string>();
+        }
+
+        Dictionary<int, string>? recoveredOverrides = null;
+        foreach (var facadeMethod in facadeMethods)
+        {
+            var implementationType = GetFacadeImplementationType(tool, facadeMethod);
+            var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
+            var facadePartCount = commandParts.Count - (isParentExecuteFacade ? 1 : 2);
+            if (facadePartCount <= 0)
+            {
+                continue;
+            }
+
+            var identifiers = commandParts
+                .Skip(1)
+                .Take(facadePartCount)
+                .Select(GeneratorUtils.ToPascalCase)
+                .ToArray();
+            var suffixLength = identifiers.Sum(static identifier => identifier.Length);
+            if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+                || implementationType.Length <= tool.NamespacePrefix.Length + suffixLength
+                || !implementationType.EndsWith(
+                    string.Concat(identifiers),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var suffixStart = implementationType.Length - suffixLength;
+            var recoveredGroup = implementationType.Substring(
+                tool.NamespacePrefix.Length,
+                suffixStart - tool.NamespacePrefix.Length);
+            if (!recoveredGroup.Equals(groupIdentifier, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var candidate = new Dictionary<int, string>();
+            var offset = suffixStart;
+            for (var index = 0; index < identifiers.Length; index++)
+            {
+                candidate[index + 1] = implementationType.Substring(offset, identifiers[index].Length);
+                offset += identifiers[index].Length;
+            }
+
+            if (recoveredOverrides is not null
+                && !recoveredOverrides.OrderBy(static pair => pair.Key)
+                    .SequenceEqual(candidate.OrderBy(static pair => pair.Key)))
+            {
+                return new Dictionary<int, string>();
+            }
+
+            recoveredOverrides = candidate;
+        }
+
+        return recoveredOverrides ?? new Dictionary<int, string>();
+    }
+
+    private static string GetFacadeImplementationType(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod facadeMethod) =>
+        facadeMethod.DeclaringType.StartsWith($"I{tool.NamespacePrefix}", StringComparison.Ordinal)
+            ? facadeMethod.DeclaringType[1..]
+            : facadeMethod.DeclaringType;
+
+    private static bool IsParentExecuteFacade(
+        string implementationType,
+        GeneratedFacadeMethod facadeMethod)
+    {
+        var optionsImplementationType = facadeMethod.OptionsType.EndsWith("Options", StringComparison.Ordinal)
+            ? facadeMethod.OptionsType[..^"Options".Length]
+            : facadeMethod.OptionsType;
+        return facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
+               && implementationType.Equals(optionsImplementationType, StringComparison.OrdinalIgnoreCase);
     }
 
     private static CliOptionDefinition[] RestoreRemovedOptions(

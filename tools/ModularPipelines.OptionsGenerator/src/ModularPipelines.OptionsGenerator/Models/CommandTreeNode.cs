@@ -91,7 +91,9 @@ public class CommandTreeNode
 
         // Create child nodes for intermediate segments
         var segment = parts[partIndex];
-        var pascalSegment = ToPascalCase(segment);
+        var pascalSegment = command.CommandPartIdentifierOverrides.TryGetValue(partIndex, out var identifierOverride)
+            ? identifierOverride
+            : ToPascalCase(segment);
 
         if (!node.Children.TryGetValue(segment, out var child))
         {
@@ -103,6 +105,12 @@ public class CommandTreeNode
                 Depth = partIndex
             };
             node.Children[segment] = child;
+        }
+        else if (!child.PascalSegment.Equals(pascalSegment, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Command part '{segment}' has conflicting generated identifiers: "
+                + $"{child.PascalSegment}, {pascalSegment}.");
         }
 
         InsertCommand(child, command, toolPrefix, partIndex + 1);
