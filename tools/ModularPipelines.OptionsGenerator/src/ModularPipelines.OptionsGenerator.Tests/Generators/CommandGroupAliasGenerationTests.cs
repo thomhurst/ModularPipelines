@@ -68,7 +68,7 @@ public class CommandGroupAliasGenerationTests
         await Assert.That(historyLogsOptions.Content)
             .DoesNotContain("public new DockerBuilderHistoryLogsProgress? OptionalProgress");
         await Assert.That(historyLogsOptions.Content)
-            .Contains("CliOptionValue RequiredOptionalProgress");
+            .Contains("CliOptionValue? RequiredOptionalProgress");
         await Assert.That(historyLogsOptions.Content)
             .Contains("using ModularPipelines.Models;");
         await Assert.That(historyLogsOptions.Content)

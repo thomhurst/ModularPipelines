@@ -1233,15 +1233,14 @@ public static partial class GeneratorUtils
         CliToolDefinition tool,
         CliCommandGroupAlias alias)
     {
-        var type = parameter.CSharpType.TrimEnd('?');
         var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
         if (canonicalEnumName is null)
         {
-            return type;
+            return parameter.CSharpType;
         }
 
         var aliasEnumName = GetAliasedClassName(tool, alias, canonicalEnumName);
-        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
+        return parameter.CSharpType.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
     }
 
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>

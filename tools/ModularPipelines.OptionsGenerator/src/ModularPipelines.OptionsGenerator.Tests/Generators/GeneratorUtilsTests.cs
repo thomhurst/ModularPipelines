@@ -643,6 +643,77 @@ public class GeneratorUtilsTests
 
     #endregion
 
+    #region Command Signature Tests
+
+    [Test]
+    public async Task Aliased_Constructor_Parameter_Types_Preserve_Nullability()
+    {
+        var enumDefinition = new CliEnumDefinition
+        {
+            EnumName = "ToolBuildxBakeMode",
+            Values = [],
+        };
+        var enumOption = new CliOptionDefinition
+        {
+            SwitchName = "--mode",
+            PropertyName = "Mode",
+            CSharpType = "ToolBuildxBakeMode?",
+            EnumDefinition = enumDefinition,
+        };
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "tool buildx bake",
+            CommandParts = ["buildx", "bake"],
+            ClassName = "ToolBuildxBakeOptions",
+            ParentClassName = "ToolOptions",
+            ToolNamespacePrefix = "Tool",
+            Options = [],
+            SubDomainGroup = "Buildx",
+        };
+        var tool = new CliToolDefinition
+        {
+            ToolName = "tool",
+            NamespacePrefix = "Tool",
+            TargetNamespace = "ModularPipelines.Tool",
+            OutputDirectory = "src/ModularPipelines.Tool",
+            Commands = [command],
+        };
+        var alias = new CliCommandGroupAlias
+        {
+            Alias = "builder",
+            CanonicalCommand = "buildx",
+            ObsoleteMessage = "Use Buildx.",
+        };
+        var nonEnumParameter = new GeneratorUtils.RequiredConstructorParameter(
+            "Input",
+            "string?",
+            IsSecret: false,
+            Option: null,
+            PositionalArgument: null);
+        var enumParameter = new GeneratorUtils.RequiredConstructorParameter(
+            "Mode",
+            "ToolBuildxBakeMode?",
+            IsSecret: false,
+            Option: enumOption,
+            PositionalArgument: null);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GeneratorUtils.GetAliasedRequiredConstructorParameterType(
+                    nonEnumParameter,
+                    tool,
+                    alias))
+                .IsEqualTo("string?");
+            await Assert.That(GeneratorUtils.GetAliasedRequiredConstructorParameterType(
+                    enumParameter,
+                    tool,
+                    alias))
+                .IsEqualTo("ToolBuilderBakeMode?");
+        }
+    }
+
+    #endregion
+
     #region IsSecretOption Tests
 
     [Test]
