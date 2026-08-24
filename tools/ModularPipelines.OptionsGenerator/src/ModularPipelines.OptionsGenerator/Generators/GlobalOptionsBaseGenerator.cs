@@ -53,7 +53,11 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
 
-        if (globalOptions.Any(o => o.EnumDefinition is not null))
+        if (globalOptions.Any(o => o.EnumDefinition is not null)
+            || tool.GlobalCompatibilityProperties.Any(property => tool.AllEnums.Any(definition =>
+                definition.EnumName.Equals(
+                    GeneratorUtils.GetEnumTypeName(property.CSharpType),
+                    StringComparison.Ordinal))))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
@@ -83,6 +87,19 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         foreach (var option in globalOptions.OrderBy(o => o.PropertyName))
         {
             GenerateProperty(sb, option);
+            sb.AppendLine();
+        }
+
+        foreach (var compatibilityProperty in tool.GlobalCompatibilityProperties)
+        {
+            var newModifier = InheritedPropertyCollisionResolver.IsInheritedPropertyName(
+                compatibilityProperty.PropertyName)
+                ? "new "
+                : string.Empty;
+            GeneratorUtils.GenerateCompatibilityProperty(
+                sb,
+                compatibilityProperty,
+                $"{newModifier}virtual ");
             sb.AppendLine();
         }
 

@@ -87,8 +87,11 @@ public partial class CosignCliScraper : CobraCliScraper
         };
     }
 
-    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
-        base.IsSecretOption(propertyName, isFlag) ||
+    protected override bool IsSecretOption(
+        string propertyName,
+        bool isFlag,
+        string description) =>
+        base.IsSecretOption(propertyName, isFlag, description) ||
         (!isFlag &&
          (propertyName.Equals("NewKey", StringComparison.OrdinalIgnoreCase) ||
           propertyName.Equals("OldKey", StringComparison.OrdinalIgnoreCase) ||

@@ -36,7 +36,7 @@ public static class KustomizeExtensions
     }
 
     /// <summary>
-    /// Gets the kustomize service from the pipeline context for compatibility.
+    /// Gets the kustomize service from the pipeline context.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKustomize"/> service for executing kustomize commands.</returns>

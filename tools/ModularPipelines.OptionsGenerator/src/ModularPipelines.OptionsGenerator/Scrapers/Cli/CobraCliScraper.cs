@@ -265,7 +265,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var seenOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Flags, Options, and Global Flags sections
@@ -313,13 +313,25 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     continue;
                 }
 
+                var scrapedLongForm = longForm;
+                longForm = NormalizeOptionSwitchName(commandParts, longForm);
+
                 // Skip duplicates
-                if (seenOptions.Contains(longForm))
+                if (seenOptions.TryGetValue(longForm, out var existingScrapedLongForm))
                 {
+                    if (!existingScrapedLongForm.Equals(
+                            scrapedLongForm,
+                            StringComparison.Ordinal))
+                    {
+                        throw new InvalidOperationException(
+                            $"Option switch normalization for '{string.Join(' ', commandParts)}' "
+                            + $"maps both '{existingScrapedLongForm}' and '{scrapedLongForm}' to '{longForm}'.");
+                    }
+
                     continue;
                 }
 
-                seenOptions.Add(longForm);
+                seenOptions.Add(longForm, scrapedLongForm);
 
                 var propertyName = NormalizeOptionPropertyName(longForm);
                 if (propertyName is null)
@@ -375,7 +387,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                         ? CliOptionValueArity.Optional
                         : CliOptionValueArity.Required,
                     EnumDefinition = enumDef,
-                    IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag)
+                    IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag, description)
                 });
             }
         }
@@ -429,13 +441,23 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Determines whether a tool option value must be masked in command logs.
     /// </summary>
-    protected virtual bool IsSecretOption(string propertyName, bool isFlag) =>
-        GeneratorUtils.IsSecretOption(propertyName, isFlag);
+    protected virtual bool IsSecretOption(
+        string propertyName,
+        bool isFlag,
+        string description) =>
+        GeneratorUtils.IsSecretOption(propertyName, isFlag, description);
 
     /// <summary>
     /// Determines whether an option's documented values form a closed set.
     /// </summary>
     protected virtual bool ShouldGenerateEnum(string[] commandParts, string switchName) => true;
+
+    /// <summary>
+    /// Applies tool-specific corrections to an option's canonical switch spelling.
+    /// </summary>
+    protected virtual string NormalizeOptionSwitchName(
+        string[] commandParts,
+        string switchName) => switchName;
 
     /// <summary>
     /// Applies tool-specific corrections when CLI help omits or misreports an option type.

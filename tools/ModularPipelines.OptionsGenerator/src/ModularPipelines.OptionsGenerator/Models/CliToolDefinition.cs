@@ -76,6 +76,11 @@ public record CliToolDefinition
     public IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions { get; init; } = [];
 
     /// <summary>
+    /// Public global properties retained for source and binary compatibility but excluded from CLI rendering.
+    /// </summary>
+    public IReadOnlyList<CliCompatibilityProperty> GlobalCompatibilityProperties { get; init; } = [];
+
+    /// <summary>
     /// Returns the validated, deterministic union of scraped and supplemental global options.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> GetGlobalOptions() =>
@@ -124,8 +129,14 @@ public record CliToolDefinition
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
+        .Concat(CompatibilityEnums)
         .DistinctBy(e => e.EnumName)
         .ToList();
+
+    /// <summary>
+    /// Generated enum types retained after the installed CLI stops advertising them.
+    /// </summary>
+    public IReadOnlyList<CliEnumDefinition> CompatibilityEnums { get; init; } = [];
 
     /// <summary>
     /// Any scraping errors encountered.
