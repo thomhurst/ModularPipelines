@@ -25,28 +25,31 @@ public class GitCliScraperTests
     public async Task ScrapeAsync_Discovers_Generic_Groups_Without_Repeating_Parent_Help()
     {
         var executor = new GroupedHelpExecutor();
-        var scraper = new GitCliScraper(
-            executor,
-            new StubHelpTextCache(),
-            NullLogger<GitCliScraper>.Instance);
-        var commands = new List<CliCommandDefinition>();
-
-        await foreach (var command in scraper.ScrapeAsync())
+        string helpRepository;
+        using (var scraper = new GitCliScraper(
+                   executor,
+                   new StubHelpTextCache(),
+                   NullLogger<GitCliScraper>.Instance))
         {
-            commands.Add(command);
+            var commands = new List<CliCommandDefinition>();
+            await foreach (var command in scraper.ScrapeAsync())
+            {
+                commands.Add(command);
+            }
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(commands.Select(command => command.FullCommand))
+                    .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
+                await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
+                await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
+                await Assert.That(executor.NestedHelpWorkingDirectory).IsNotNull();
+            }
+
+            helpRepository = executor.NestedHelpWorkingDirectory!;
         }
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(commands.Select(command => command.FullCommand))
-                .IsEquivalentTo(["git stash", "git stash pop", "git status"]);
-            await Assert.That(executor.StashHelpInvocations).IsEqualTo(1);
-            await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
-            await Assert.That(executor.NestedHelpWorkingDirectory).IsNotNull();
-        }
-
-        scraper.Dispose();
-        await Assert.That(Directory.Exists(executor.NestedHelpWorkingDirectory!)).IsFalse();
+        await Assert.That(Directory.Exists(helpRepository)).IsFalse();
     }
 
     [Test]

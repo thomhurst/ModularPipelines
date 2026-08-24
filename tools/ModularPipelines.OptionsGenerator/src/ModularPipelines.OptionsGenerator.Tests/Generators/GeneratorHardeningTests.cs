@@ -1186,6 +1186,72 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Renames_Live_Property_Shadowing_Forwarded_Alias()
+    {
+        var command = Command("ToolPushOptions", "ToolOptions", ["push"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "string?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--legacy-output",
+                    PropertyName = "LegacyOutput",
+                    CSharpType = "string?",
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "ScrapedLegacyOutput",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "LegacyOutput",
+                    ObsoleteMessage = "Use LegacyOutput instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty("Output", "string?", switchName: "--output"),
+                BaselineProperty(
+                    "LegacyOutput",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "Output"),
+                BaselineProperty(
+                    "VeryLegacyOutput",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "LegacyOutput"),
+            ]);
+
+        var options = preserved.Options.ToDictionary(
+            static option => option.PropertyName,
+            StringComparer.Ordinal);
+        var aliases = preserved.CompatibilityProperties.ToDictionary(
+            static property => property.PropertyName,
+            StringComparer.Ordinal);
+        using (Assert.Multiple())
+        {
+            await Assert.That(options["Output"].SwitchName).IsEqualTo("--output");
+            await Assert.That(options["LegacyOutputOption"].SwitchName).IsEqualTo("--legacy-output");
+            await Assert.That(aliases["LegacyOutput"].ForwardToPropertyName).IsEqualTo("Output");
+            await Assert.That(aliases["VeryLegacyOutput"].ForwardToPropertyName)
+                .IsEqualTo("LegacyOutput");
+            await Assert.That(aliases["ScrapedLegacyOutput"].ForwardToPropertyName)
+                .IsEqualTo("LegacyOutputOption");
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Scalar_To_Collection_Changes()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with

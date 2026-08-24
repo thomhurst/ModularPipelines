@@ -841,13 +841,18 @@ internal static class GeneratedApiCompatibilityPreserver
         var compatibilityConstructors = command.CompatibilityConstructors.ToList();
         var positionalArguments = command.PositionalArguments.ToArray();
         var options = command.Options.ToArray();
+        var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         RestoreNamesChangedByLocalCollisions(
             baselineProperties,
             positionalArguments,
             options,
             compatibilityProperties);
+        RestoreForwardedAliasCollisions(
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties);
         var violations = new List<string>();
-        var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var preservedTypeChanges = PreserveScalarToCollectionChanges(
             command,
             baselineProperties,
@@ -882,6 +887,7 @@ internal static class GeneratedApiCompatibilityPreserver
             PreserveBaselineProperty(
                 command,
                 baseline,
+                baselineProperties,
                 currentProperties,
                 compatibilityProperties,
                 renamedProperties,
@@ -969,6 +975,86 @@ internal static class GeneratedApiCompatibilityPreserver
             propertyNames.Add(baseline.PropertyName);
         }
     }
+
+    private static void RestoreForwardedAliasCollisions(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options,
+        IList<CliCompatibilityProperty> compatibilityProperties)
+    {
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var alias in baselineProperties.Where(static property =>
+                     property is { IsCompatibility: true, ForwardToPropertyName: not null }))
+        {
+            var aliasMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => property.PropertyName.Equals(alias.PropertyName, StringComparison.Ordinal));
+            var targetBaseline = FindForwardingTargetBaseline(baselineProperties, alias);
+            if (aliasMember is null
+                || targetBaseline is null
+                || HasSameCliIdentity(GetLocalMember(aliasMember.Value, positionalArguments, options), targetBaseline))
+            {
+                continue;
+            }
+
+            var targetMember = FindLocalMember(
+                positionalArguments,
+                options,
+                property => HasSameCliIdentity(property, targetBaseline));
+            if (targetMember is null)
+            {
+                continue;
+            }
+
+            propertyNames.Remove(alias.PropertyName);
+            var replacementName = GetUniquePropertyName(
+                alias.PropertyName + (aliasMember.Value.IsOption ? "Option" : "Argument"),
+                propertyNames);
+            RenameLocalMember(aliasMember.Value, replacementName, positionalArguments, options);
+            RetargetCompatibilityProperties(
+                compatibilityProperties,
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    [alias.PropertyName] = replacementName,
+                });
+            compatibilityProperties.Add(ToCompatibilityProperty(alias));
+            propertyNames.Add(alias.PropertyName);
+        }
+    }
+
+    private static GeneratedApiProperty? FindForwardingTargetBaseline(
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        GeneratedApiProperty alias)
+    {
+        var targetName = alias.ForwardToPropertyName;
+        var visited = new HashSet<string>(StringComparer.Ordinal);
+        while (targetName is not null && visited.Add(targetName))
+        {
+            var target = baselineProperties.FirstOrDefault(property =>
+                property.PropertyName.Equals(targetName, StringComparison.Ordinal));
+            if (target is null || !target.IsCompatibility)
+            {
+                return target;
+            }
+
+            targetName = target.ForwardToPropertyName;
+        }
+
+        return null;
+    }
+
+    private static GeneratedApiProperty GetLocalMember(
+        LocalMemberLocation location,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        location.IsOption
+            ? ToGeneratedProperty(options[location.Index])
+            : ToGeneratedProperty(positionalArguments[location.Index]);
 
     private static LocalMemberLocation? FindLocalMember(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
@@ -1148,6 +1234,7 @@ internal static class GeneratedApiCompatibilityPreserver
     private static void PreserveBaselineProperty(
         CliCommandDefinition command,
         GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<GeneratedApiProperty> currentProperties,
         ICollection<CliCompatibilityProperty> compatibilityProperties,
         IDictionary<string, string> renamedProperties,
@@ -1156,6 +1243,7 @@ internal static class GeneratedApiCompatibilityPreserver
         if (TryValidateSameNameProperty(
                 command,
                 baseline,
+                baselineProperties,
                 currentProperties,
                 violations))
         {
@@ -1209,6 +1297,7 @@ internal static class GeneratedApiCompatibilityPreserver
     private static bool TryValidateSameNameProperty(
         CliCommandDefinition command,
         GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<GeneratedApiProperty> currentProperties,
         List<string> violations)
     {
@@ -1224,7 +1313,15 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
-        if (baseline.IsCompatibility)
+        var forwardingTarget = FindForwardingTargetBaseline(baselineProperties, baseline);
+        if (baseline.IsCompatibility
+            && baseline.ForwardToPropertyName is not null
+            && (forwardingTarget is null || !HasSameCliIdentity(match, forwardingTarget)))
+        {
+            violations.Add(
+                $"{command.ClassName}.{baseline.PropertyName} compatibility alias now resolves to a different CLI switch or argument position");
+        }
+        else if (baseline.IsCompatibility)
         {
             ValidateMatchingPropertyShape(command, baseline, match, violations);
         }
@@ -1314,18 +1411,21 @@ internal static class GeneratedApiCompatibilityPreserver
         ICollection<string> violations) =>
         PreserveCompatibilityProperty(
             command,
-            new CliCompatibilityProperty
-            {
-                PropertyName = baseline.PropertyName,
-                CSharpType = baseline.CSharpType,
-                ForwardToPropertyName = baseline.ForwardToPropertyName,
-                UseInitAccessor = baseline.UseInitAccessor,
-                ForwardingKind = baseline.ForwardingKind,
-                ObsoleteMessage = baseline.ObsoleteMessage
-                    ?? $"{baseline.PropertyName} is retained for compatibility.",
-            },
+            ToCompatibilityProperty(baseline),
             compatibilityProperties,
             violations);
+
+    private static CliCompatibilityProperty ToCompatibilityProperty(GeneratedApiProperty baseline) =>
+        new()
+        {
+            PropertyName = baseline.PropertyName,
+            CSharpType = baseline.CSharpType,
+            ForwardToPropertyName = baseline.ForwardToPropertyName,
+            UseInitAccessor = baseline.UseInitAccessor,
+            ForwardingKind = baseline.ForwardingKind,
+            ObsoleteMessage = baseline.ObsoleteMessage
+                ?? $"{baseline.PropertyName} is retained for compatibility.",
+        };
 
     private static void PreserveCompatibilityProperty(
         CliCommandDefinition command,
