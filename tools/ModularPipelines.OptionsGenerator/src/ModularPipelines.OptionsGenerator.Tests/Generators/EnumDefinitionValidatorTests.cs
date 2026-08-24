@@ -29,6 +29,31 @@ public class EnumDefinitionValidatorTests
             .WithMessageContaining("duplicate member 'Same'");
     }
 
+    [Test]
+    public async Task Duplicate_Explicit_Numeric_Values_Are_Rejected()
+    {
+        var tool = ToolWithValues(
+            new CliEnumValue { MemberName = "First", CliValue = "first", NumericValue = 1 },
+            new CliEnumValue { MemberName = "Second", CliValue = "second", NumericValue = 1 });
+
+        await Assert.That(() => EnumDefinitionValidator.Validate(tool))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining("duplicate effective numeric value '1'");
+    }
+
+    [Test]
+    public async Task Duplicate_Implicit_And_Explicit_Numeric_Values_Are_Rejected()
+    {
+        var tool = ToolWithValues(
+            new CliEnumValue { MemberName = "First", CliValue = "first", NumericValue = 1 },
+            new CliEnumValue { MemberName = "Second", CliValue = "second" },
+            new CliEnumValue { MemberName = "Third", CliValue = "third", NumericValue = 2 });
+
+        await Assert.That(() => EnumDefinitionValidator.Validate(tool))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining("duplicate effective numeric value '2'");
+    }
+
     private static CliToolDefinition ToolWithValues(params CliEnumValue[] values) => new()
     {
         ToolName = "tool",

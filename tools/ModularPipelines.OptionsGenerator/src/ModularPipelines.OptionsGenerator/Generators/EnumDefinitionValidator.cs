@@ -38,12 +38,34 @@ internal static class EnumDefinitionValidator
                 $"Enum '{definition.EnumName}' contains duplicate member '{duplicateMember.Key}'.");
         }
 
+        ValidateNumericValues(definition);
+
         var suspiciousValue = definition.Values
             .FirstOrDefault(value => SuspiciousProseValues.Contains(value.CliValue));
         if (suspiciousValue is not null)
         {
             throw new InvalidOperationException(
                 $"Enum '{definition.EnumName}' contains suspicious prose value '{suspiciousValue.CliValue}'.");
+        }
+    }
+
+    private static void ValidateNumericValues(CliEnumDefinition definition)
+    {
+        var membersByNumericValue = new Dictionary<int, string>();
+        var nextNumericValue = 0;
+
+        foreach (var value in definition.Values)
+        {
+            var numericValue = value.NumericValue ?? nextNumericValue;
+            if (!membersByNumericValue.TryAdd(numericValue, value.MemberName))
+            {
+                throw new InvalidOperationException(
+                    $"Enum '{definition.EnumName}' contains duplicate effective numeric value "
+                    + $"'{numericValue}' for members '{membersByNumericValue[numericValue]}' "
+                    + $"and '{value.MemberName}'.");
+            }
+
+            nextNumericValue = numericValue + 1;
         }
     }
 }
