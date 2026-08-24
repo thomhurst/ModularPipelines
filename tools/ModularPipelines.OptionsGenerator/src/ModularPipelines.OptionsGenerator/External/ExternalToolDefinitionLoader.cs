@@ -466,7 +466,7 @@ public static class ExternalToolDefinitionLoader
         CliCommandDefinition command,
         IReadOnlyList<CliOptionDefinition> globalOptions)
     {
-        var (forwardingTargets, writableForwardingTargets) =
+        var (forwardingTargets, writableForwardingTargets, initOnlyForwardingTargets) =
             GetCompatibilityForwardingTargets(command, globalOptions);
 
         foreach (var property in command.CompatibilityProperties)
@@ -475,7 +475,8 @@ public static class ExternalToolDefinitionLoader
                 property,
                 command,
                 forwardingTargets,
-                writableForwardingTargets);
+                writableForwardingTargets,
+                initOnlyForwardingTargets);
         }
 
         foreach (var method in command.CompatibilityMethods)
@@ -488,7 +489,8 @@ public static class ExternalToolDefinitionLoader
 
     private static (
         IReadOnlySet<string> All,
-        IReadOnlyDictionary<string, string> Writable) GetCompatibilityForwardingTargets(
+        IReadOnlyDictionary<string, string> Writable,
+        IReadOnlyDictionary<string, string> InitOnly) GetCompatibilityForwardingTargets(
             CliCommandDefinition command,
             IReadOnlyList<CliOptionDefinition> globalOptions)
     {
@@ -499,21 +501,14 @@ public static class ExternalToolDefinitionLoader
                 .Where(argument => !argument.IsRequired)
                 .Select(argument => (argument.PropertyName, argument.CSharpType)))
             .Concat(globalOptions.Select(option => (option.PropertyName, CSharpType: option.PropertyType)));
-        var writable = new Dictionary<string, string>(StringComparer.Ordinal);
-        foreach (var target in writableTargets)
-        {
-            // One generated property may represent the same optional operand from multiple
-            // metadata sources. Coalesce it only when every source agrees on its type.
-            if (writable.TryGetValue(target.PropertyName, out var existingType)
-                && !existingType.Equals(target.CSharpType, StringComparison.Ordinal))
-            {
-                throw new InvalidDataException(
-                    $"Command '{command.FullCommand}' defines writable compatibility target "
-                    + $"'{target.PropertyName}' with conflicting types '{existingType}' and '{target.CSharpType}'.");
-            }
-
-            writable[target.PropertyName] = target.CSharpType;
-        }
+        var initOnlyTargets = command.Options
+            .Where(option => option.IsRequired)
+            .Select(option => (option.PropertyName, CSharpType: option.PropertyType))
+            .Concat(command.PositionalArguments
+                .Where(argument => argument.IsRequired)
+                .Select(argument => (argument.PropertyName, argument.CSharpType)));
+        var writable = CreateCompatibilityTargetMap(command, writableTargets, "writable");
+        var initOnly = CreateCompatibilityTargetMap(command, initOnlyTargets, "init-only");
 
         var all = writable.Keys
             .Concat(command.Options.Select(option => option.PropertyName))
@@ -523,14 +518,39 @@ public static class ExternalToolDefinitionLoader
                 .Select(property => property.Name))
             .ToHashSet(StringComparer.Ordinal);
 
-        return (all, writable);
+        return (all, writable, initOnly);
+    }
+
+    private static IReadOnlyDictionary<string, string> CreateCompatibilityTargetMap(
+        CliCommandDefinition command,
+        IEnumerable<(string PropertyName, string CSharpType)> targets,
+        string targetKind)
+    {
+        var result = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var target in targets)
+        {
+            // One generated property may represent the same operand from multiple
+            // metadata sources. Coalesce it only when every source agrees on its type.
+            if (result.TryGetValue(target.PropertyName, out var existingType)
+                && !existingType.Equals(target.CSharpType, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Command '{command.FullCommand}' defines {targetKind} compatibility target "
+                    + $"'{target.PropertyName}' with conflicting types '{existingType}' and '{target.CSharpType}'.");
+            }
+
+            result[target.PropertyName] = target.CSharpType;
+        }
+
+        return result;
     }
 
     private static void ValidateCompatibilityProperty(
         CliCompatibilityProperty property,
         CliCommandDefinition command,
         IReadOnlySet<string> forwardingTargets,
-        IReadOnlyDictionary<string, string> writableForwardingTargets)
+        IReadOnlyDictionary<string, string> writableForwardingTargets,
+        IReadOnlyDictionary<string, string> initOnlyForwardingTargets)
     {
         RequireIdentifier(
             property.PropertyName,
@@ -556,7 +576,11 @@ public static class ExternalToolDefinitionLoader
 
         if (!writableForwardingTargets.TryGetValue(
                 property.ForwardToPropertyName,
-                out var forwardingTargetType))
+                out var forwardingTargetType)
+            && (!property.UseInitAccessor
+                || !initOnlyForwardingTargets.TryGetValue(
+                    property.ForwardToPropertyName,
+                    out forwardingTargetType)))
         {
             throw new InvalidDataException(
                 $"Compatibility property '{property.PropertyName}' on command "
@@ -575,6 +599,9 @@ public static class ExternalToolDefinitionLoader
             CliCompatibilityForwardingKind.NullableInt32ToString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?")),
+            CliCompatibilityForwardingKind.NullableStringToRequiredString =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string")),
             _ => false,
         };
         if (!typesAreCompatible)

@@ -1,5 +1,6 @@
 using System.Text;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -1111,6 +1112,7 @@ public class GeneratorHardeningTests
         var preserved = GeneratedApiCompatibilityPreserver.Preserve(
             command,
             [BaselineProperty("Args", "string?", argumentPosition: 0)]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
         using (Assert.Multiple())
