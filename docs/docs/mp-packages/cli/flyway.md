@@ -7,7 +7,13 @@ title: flyway CLI reference
 
 `ModularPipelines.Flyway` provides strongly typed access to the `flyway` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `flyway` executable. Install it separately and ensure `flyway` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Flyway
@@ -17,33 +23,26 @@ Resolve the service with `context.Tools.Flyway`. For projects older than C# 14, 
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Flyway.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Flyway.InfoAsync(
-            new FlywayInfoOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var flyway = context.Tools.Flyway;
 ```
 
 ## Commands
 
 | CLI command | Options record |
 | --- | --- |
+| `flyway add` | `FlywayAddOptions` |
+| `flyway auth` | `FlywayAuthOptions` |
 | `flyway baseline` | `FlywayBaselineOptions` |
 | `flyway check` | `FlywayCheckOptions` |
 | `flyway clean` | `FlywayCleanOptions` |
 | `flyway deploy` | `FlywayDeployOptions` |
+| `flyway diff` | `FlywayDiffOptions` |
+| `flyway diffApply` | `FlywayDiffApplyOptions` |
+| `flyway diffText` | `FlywayDiffTextOptions` |
+| `flyway generate` | `FlywayGenerateOptions` |
 | `flyway info` | `FlywayInfoOptions` |
 | `flyway init` | `FlywayInitOptions` |
 | `flyway list-engines` | `FlywayListEnginesOptions` |
@@ -51,4 +50,5 @@ public class RunCommandModule : Module<CommandResult>
 | `flyway prepare` | `FlywayPrepareOptions` |
 | `flyway repair` | `FlywayRepairOptions` |
 | `flyway snapshot` | `FlywaySnapshotOptions` |
+| `flyway undo` | `FlywayUndoOptions` |
 | `flyway validate` | `FlywayValidateOptions` |

@@ -46,6 +46,15 @@ public partial class FlywayCliScraper : CliScraperBase
 
     protected override string VersionArguments => "-v";
 
+    /// <inheritdoc />
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = FlywayVersionPattern().Match(result.CombinedOutput);
+        return match.Success
+            ? match.Groups["version"].Value
+            : base.ParseVersionOutput(result);
+    }
+
     /// <summary>
     /// Flyway is a single-level CLI (flyway [options] command), not multi-level.
     /// Limit depth to prevent the scraper from treating repeated help output as nested subcommands.
@@ -98,30 +107,35 @@ public partial class FlywayCliScraper : CliScraperBase
         }
 
         var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-        var sectionEnd = helpText.Length;
-
-        // Find where this section ends
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
-        {
-            sectionEnd = nextSection.Index;
-        }
-
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..];
         var lines = section.Split('\n');
+        var foundCommand = false;
 
         foreach (var line in lines)
         {
-            var match = FlywayCommandLinePattern().Match(line);
-            if (match.Success)
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var commandName = match.Groups["command"].Value.Trim();
-                if (!string.IsNullOrEmpty(commandName) &&
-                    !commandName.Contains(' ') &&
-                    seenCommands.Add(commandName))
+                continue;
+            }
+
+            var match = FlywayCommandLinePattern().Match(line);
+            if (!match.Success)
+            {
+                if (foundCommand)
                 {
-                    subcommands.Add(commandName);
+                    break;
                 }
+
+                continue;
+            }
+
+            foundCommand = true;
+            var commandName = match.Groups["command"].Value.Trim();
+            if (!string.IsNullOrEmpty(commandName) &&
+                !commandName.Contains(' ') &&
+                seenCommands.Add(commandName))
+            {
+                subcommands.Add(commandName);
             }
         }
 
@@ -264,7 +278,10 @@ public partial class FlywayCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("Configuration") || helpText.Contains("-url=");
+        return helpText.Contains("Description:", StringComparison.OrdinalIgnoreCase)
+            || ConfigurationSectionPattern().IsMatch(helpText)
+            || helpText.Contains("-url=", StringComparison.OrdinalIgnoreCase)
+            || base.HasOptions(helpText);
     }
 
     #region Regex Patterns
@@ -283,17 +300,18 @@ public partial class FlywayCliScraper : CliScraperBase
     private static partial Regex ConfigurationSectionPattern();
 
     /// <summary>
-    /// Matches next section headers.
-    /// </summary>
-    [GeneratedRegex(@"\n\w+\s*[-=]+\s*\n")]
-    private static partial Regex NextSectionPattern();
-
-    /// <summary>
     /// Matches Flyway command lines: "migrate  : Migrates the database"
     /// Also matches "  migrate         Migrates the database" format (no colon).
     /// </summary>
-    [GeneratedRegex(@"^(?:\s*)(?<command>[\w-]+)(?:\s+:\s+|\s{2,})", RegexOptions.Multiline)]
+    [GeneratedRegex(
+        @"^[ \t]*(?<command>[\w-]+)(?:[ \t]+\([^\r\n)]+\))?(?:,[ \t]*-{1,2}[\w-]+)*(?:[ \t]+:[ \t]+|[ \t]{2,})",
+        RegexOptions.Multiline)]
     private static partial Regex FlywayCommandLinePattern();
+
+    [GeneratedRegex(
+        @"\bFlyway\s+(?:Community|Teams|Enterprise)\s+Edition\s+(?<version>\d+(?:\.\d+){1,3}(?:[-+][0-9A-Za-z.-]+)?)\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex FlywayVersionPattern();
 
     /// <summary>
     /// Matches Flyway-style option lines:
