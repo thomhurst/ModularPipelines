@@ -430,6 +430,8 @@ internal static class GeneratedApiCompatibilityPreserver
                 Phase = property.Phase ?? CommandLinePhase.Normal,
                 GroupValues = property.GroupValues,
                 ValueSeparator = property.ValueSeparator,
+                IsSecret = property.IsSecret,
+                SecretValueKeys = property.SecretValueKeys ?? [],
             })
             .ToArray();
 
@@ -447,6 +449,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 PrependOptionTerminator = property.PrependOptionTerminator,
                 PrependOptionTerminatorIfValueStartsWithDash =
                     property.PrependOptionTerminatorIfValueStartsWithDash,
+                IsSecret = property.IsSecret,
             })
             .ToArray();
 
@@ -2338,6 +2341,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var cliOption = FindAttribute(attributes, "CliOption");
         var cliFlag = FindAttribute(attributes, "CliFlag");
         var cliSwitch = cliOption ?? cliFlag;
+        var secretValue = FindAttribute(attributes, "SecretValue");
         var obsolete = FindAttribute(attributes, "Obsolete");
         var (targetPropertyName, forwardingKind) = GetForwarding(accessorList);
         bool? isFlag = cliSwitch is null ? null : cliFlag is not null;
@@ -2364,7 +2368,9 @@ internal static class GeneratedApiCompatibilityPreserver
             GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
             ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
-            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"));
+            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
+            secretValue is not null,
+            GetStringArguments(secretValue));
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -2386,6 +2392,24 @@ internal static class GeneratedApiCompatibilityPreserver
             && literal.Token.Value is int value
                 ? value
                 : null;
+
+    private static string[]? GetStringArguments(AttributeSyntax? attribute)
+    {
+        if (attribute is null)
+        {
+            return null;
+        }
+
+        return
+        [
+            .. attribute.ArgumentList?.Arguments
+                .Select(static argument => argument.Expression)
+                .OfType<LiteralExpressionSyntax>()
+                .Where(static literal => literal.IsKind(SyntaxKind.StringLiteralExpression))
+                .Select(static literal => literal.Token.ValueText)
+                ?? [],
+        ];
+    }
 
     private static string? GetStringNamedArgument(AttributeSyntax? attribute, string name) =>
         FindNamedArgument(attribute, name)?.Expression is LiteralExpressionSyntax literal
@@ -2534,7 +2558,9 @@ internal sealed record GeneratedApiProperty(
     bool GroupValues = false,
     CommandLinePhase? Phase = null,
     bool PrependOptionTerminator = false,
-    bool PrependOptionTerminatorIfValueStartsWithDash = false);
+    bool PrependOptionTerminatorIfValueStartsWithDash = false,
+    bool IsSecret = false,
+    string[]? SecretValueKeys = null);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,

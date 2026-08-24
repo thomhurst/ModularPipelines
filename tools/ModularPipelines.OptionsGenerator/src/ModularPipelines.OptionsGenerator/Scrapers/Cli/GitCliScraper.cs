@@ -16,8 +16,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public partial class GitCliScraper : CliScraperBase, IDisposable
 {
     private readonly object _helpRepositoryLock = new();
+    private readonly SemaphoreSlim _helpRepositoryUsage = new(1, 1);
     private string? _helpRepositoryDirectory;
     private Task<string>? _helpRepositoryTask;
+    private bool _disposed;
 
     public override string ToolName => "git";
     public override string NamespacePrefix => "Git";
@@ -54,14 +56,31 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         var arguments = commandPath.Length == 1
             ? "help -a"
             : $"{string.Join(' ', commandPath.Skip(1))} -h";
-        var workingDirectory = commandPath.Length > 2
-            ? await GetHelpRepositoryAsync()
-            : null;
-        var result = await Executor.ExecuteAsync(
-            ToolName,
-            arguments,
-            cancellationToken,
-            workingDirectory);
+        var usesHelpRepository = commandPath.Length > 2;
+        if (usesHelpRepository)
+        {
+            await _helpRepositoryUsage.WaitAsync(cancellationToken);
+        }
+
+        CliCommandResult result;
+        try
+        {
+            var workingDirectory = usesHelpRepository
+                ? await GetHelpRepositoryAsync()
+                : null;
+            result = await Executor.ExecuteAsync(
+                ToolName,
+                arguments,
+                cancellationToken,
+                workingDirectory);
+        }
+        finally
+        {
+            if (usesHelpRepository)
+            {
+                _helpRepositoryUsage.Release();
+            }
+        }
 
         // Git sends short help to either stream and commonly exits with its usage code.
         var helpText = result.CombinedOutput;
@@ -79,6 +98,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     {
         lock (_helpRepositoryLock)
         {
+            ObjectDisposedException.ThrowIf(_disposed, this);
             return _helpRepositoryTask ??= CreateHelpRepositoryAsync();
         }
     }
@@ -92,7 +112,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             ToolName,
             "init --quiet",
             CancellationToken.None,
-            directory);
+            directory).ConfigureAwait(false);
         if (!result.Success)
         {
             throw new InvalidOperationException(
@@ -105,12 +125,41 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        string? directory;
+        Task<string>? initialization;
         lock (_helpRepositoryLock)
         {
-            directory = _helpRepositoryDirectory;
-            _helpRepositoryDirectory = null;
-            _helpRepositoryTask = null;
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            initialization = _helpRepositoryTask;
+        }
+
+        _helpRepositoryUsage.Wait();
+        string? directory;
+        try
+        {
+            try
+            {
+                initialization?.GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // The caller observes initialization failures; disposal still owns cleanup.
+            }
+
+            lock (_helpRepositoryLock)
+            {
+                directory = _helpRepositoryDirectory;
+                _helpRepositoryDirectory = null;
+                _helpRepositoryTask = null;
+            }
+        }
+        finally
+        {
+            _helpRepositoryUsage.Release();
         }
 
         if (directory is null || !Directory.Exists(directory))
@@ -129,6 +178,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                 "Could not delete temporary Git help repository: {Directory}",
                 directory);
         }
+
+        GC.SuppressFinalize(this);
     }
 
     protected override IEnumerable<string> ExtractSubcommands(

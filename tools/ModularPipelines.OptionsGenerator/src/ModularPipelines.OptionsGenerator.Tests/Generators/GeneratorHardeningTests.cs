@@ -2071,8 +2071,10 @@ public class GeneratorHardeningTests
                 + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
                 + "Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)] "
                 + "public CliOptionValue? Pull { get; set; } "
+                + "[SecretValue(\"password\", \"token\")] "
                 + "[CliOption(\"--arguments\", GroupValues = true)] "
                 + "public IEnumerable<string>? Arguments { get; set; } "
+                + "[SecretValue] "
                 + "[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, "
                 + "PrependOptionTerminatorIfValueStartsWithDash = true)] "
                 + "public string? Operand { get; set; } }");
@@ -2110,13 +2112,17 @@ public class GeneratorHardeningTests
                 await Assert.That(pull.ValueSeparator).IsEqualTo("=");
                 await Assert.That(pull.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
                 await Assert.That(arguments.GroupValues).IsTrue();
+                await Assert.That(arguments.IsSecret).IsTrue();
+                await Assert.That(arguments.SecretValueKeys).IsEquivalentTo(["password", "token"]);
                 await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+                await Assert.That(operand.IsSecret).IsTrue();
                 await Assert.That(operand.PrependOptionTerminator).IsTrue();
                 await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
                 await Assert.That(generatedOptions)
                     .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
                 await Assert.That(generatedOptions)
                     .Contains("[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, PrependOptionTerminatorIfValueStartsWithDash = true)]");
+                await Assert.That(generatedOptions).Contains("[SecretValue(\"password\", \"token\")]");
                 await Assert.That(generated).Contains("RemovedAsync(ToolRemovedOptions? options = null");
             }
         }
