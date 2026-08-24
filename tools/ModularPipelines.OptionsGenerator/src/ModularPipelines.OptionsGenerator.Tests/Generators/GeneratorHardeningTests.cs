@@ -463,7 +463,7 @@ public class GeneratorHardeningTests
                 "KubernetesClusterInfoDumpOptions",
                 "KubernetesOptions",
                 ["cluster-info", "dump"],
-                subDomainGroup: "ClusterInfo")) with
+                subDomainGroup: "clusterinfo")) with
         {
             ToolName = "kubectl",
             NamespacePrefix = "Kubernetes",

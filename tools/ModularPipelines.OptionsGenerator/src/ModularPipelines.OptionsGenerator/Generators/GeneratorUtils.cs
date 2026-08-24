@@ -107,6 +107,7 @@ public static partial class GeneratorUtils
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["accesscontextmanager"] = "AccessContextManager",
+            ["agenttask"] = "AgentTask",
             ["apiserver"] = "ApiServer",
             ["appconfig"] = "AppConfig",
             ["appsettings"] = "AppSettings",
@@ -116,12 +117,14 @@ public static partial class GeneratorUtils
             ["buildserver"] = "BuildServer",
             ["certificatemanager"] = "CertificateManager",
             ["changeset"] = "ChangeSet",
+            ["clusterinfo"] = "ClusterInfo",
             ["compliancemanager"] = "ComplianceManager",
             ["controllermanager"] = "ControllerManager",
             ["cpuset"] = "CpuSet",
             ["dataset"] = "DataSet",
             ["deploymentmanager"] = "DeploymentManager",
             ["diskencryptionset"] = "DiskEncryptionSet",
+            ["gpgkey"] = "GpgKey",
             ["imagetools"] = "ImageTools",
             ["inframanager"] = "InfraManager",
             ["keyset"] = "KeySet",
@@ -138,6 +141,7 @@ public static partial class GeneratorUtils
             ["routeserver"] = "RouteServer",
             ["sourcemanager"] = "SourceManager",
             ["sqlserver"] = "SqlServer",
+            ["sshkey"] = "SshKey",
             ["versionset"] = "VersionSet",
         };
 
@@ -1229,15 +1233,14 @@ public static partial class GeneratorUtils
         CliToolDefinition tool,
         CliCommandGroupAlias alias)
     {
-        var type = parameter.CSharpType.TrimEnd('?');
         var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
         if (canonicalEnumName is null)
         {
-            return type;
+            return parameter.CSharpType;
         }
 
         var aliasEnumName = GetAliasedClassName(tool, alias, canonicalEnumName);
-        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
+        return parameter.CSharpType.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
     }
 
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
