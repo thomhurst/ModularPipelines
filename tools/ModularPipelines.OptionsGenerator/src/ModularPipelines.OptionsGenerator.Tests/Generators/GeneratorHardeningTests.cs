@@ -539,7 +539,7 @@ public class GeneratorHardeningTests
             await Assert.That(rootClass.Content)
                 .Contains("public ToolParentImageTools ImageTools =>");
             await Assert.That(rootInterface.Content)
-                .Contains("ToolParentImageTools ImageTools { get; }");
+                .Contains("ToolParentImageTools ImageTools => throw new System.NotSupportedException();");
             await Assert.That(rootInterface.Content)
                 .Contains("only this top-level facade is interface-backed");
             await Assert.That(childClass.Content)
