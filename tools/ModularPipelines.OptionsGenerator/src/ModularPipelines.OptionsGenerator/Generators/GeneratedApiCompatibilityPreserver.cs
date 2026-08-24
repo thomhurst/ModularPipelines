@@ -1025,25 +1025,12 @@ internal static class GeneratedApiCompatibilityPreserver
         IDictionary<string, string> renamedProperties,
         List<string> violations)
     {
-        var sameNameCandidates = currentProperties
-            .Where(property => property.PropertyName.Equals(
-                baseline.PropertyName,
-                StringComparison.Ordinal))
-            .ToArray();
-        var sameName = sameNameCandidates.FirstOrDefault(property =>
-                           HasSameCliIdentity(property, baseline))
-                       ?? sameNameCandidates.FirstOrDefault();
-        if (sameName is not null)
+        if (TryValidateSameNameProperty(
+                command,
+                baseline,
+                currentProperties,
+                violations))
         {
-            if (baseline is { IsCompatibility: true, ForwardToPropertyName: not null })
-            {
-                ValidateMatchingPropertyShape(command, baseline, sameName, violations);
-            }
-            else
-            {
-                ValidateMatchingProperty(command, baseline, sameName, violations);
-            }
-
             return;
         }
 
@@ -1089,6 +1076,36 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             renamedProperties[baseline.PropertyName] = replacement.PropertyName;
         }
+    }
+
+    private static bool TryValidateSameNameProperty(
+        CliCommandDefinition command,
+        GeneratedApiProperty baseline,
+        IReadOnlyList<GeneratedApiProperty> currentProperties,
+        List<string> violations)
+    {
+        var candidates = currentProperties
+            .Where(property => property.PropertyName.Equals(
+                baseline.PropertyName,
+                StringComparison.Ordinal))
+            .ToArray();
+        var match = candidates.FirstOrDefault(property => HasSameCliIdentity(property, baseline))
+                    ?? candidates.FirstOrDefault();
+        if (match is null)
+        {
+            return false;
+        }
+
+        if (baseline is { IsCompatibility: true, ForwardToPropertyName: not null })
+        {
+            ValidateMatchingPropertyShape(command, baseline, match, violations);
+        }
+        else
+        {
+            ValidateMatchingProperty(command, baseline, match, violations);
+        }
+
+        return true;
     }
 
     private static void RetargetCompatibilityProperties(
