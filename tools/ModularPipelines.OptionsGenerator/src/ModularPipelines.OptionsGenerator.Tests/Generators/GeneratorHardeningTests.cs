@@ -2000,7 +2000,16 @@ public class GeneratorHardeningTests
                 "using ModularPipelines.Attributes; "
                 + "[CliSubCommand(\"removed\")] "
                 + "public record ToolRemovedOptions : ToolOptions { "
-                + "[CliFlag(\"--force\")] public bool? Force { get; set; } }");
+                + "[CliFlag(\"--force\", ShortForm = \"-f\", PreferShortForm = true, Phase = CommandLinePhase.Terminal)] "
+                + "public int? Force { get; set; } "
+                + "[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, "
+                + "Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)] "
+                + "public CliOptionValue? Pull { get; set; } "
+                + "[CliOption(\"--arguments\", GroupValues = true)] "
+                + "public IEnumerable<string>? Arguments { get; set; } "
+                + "[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, "
+                + "PrependOptionTerminatorIfValueStartsWithDash = true)] "
+                + "public string? Operand { get; set; } }");
             await File.WriteAllTextAsync(
                 Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
                 "namespace ModularPipelines.Tool.Services; "
@@ -2011,14 +2020,37 @@ public class GeneratorHardeningTests
                 root);
             var restored = preserved.Commands.Single(command =>
                 command.ClassName.Equals("ToolRemovedOptions", StringComparison.Ordinal));
+            var force = restored.Options.Single(option => option.PropertyName == "Force");
+            var pull = restored.Options.Single(option => option.PropertyName == "Pull");
+            var arguments = restored.Options.Single(option => option.PropertyName == "Arguments");
+            var operand = restored.PositionalArguments.Single();
             var generated = (await new ServiceInterfaceGenerator().GenerateAsync(preserved))
                 .Single(file => file.RelativePath.EndsWith("ITool.Generated.cs", StringComparison.Ordinal))
+                .Content;
+            var generatedOptions = (await new OptionsClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolRemovedOptions.Generated.cs", StringComparison.Ordinal))
                 .Content;
 
             using (Assert.Multiple())
             {
                 await Assert.That(restored.CommandParts).IsEquivalentTo(["removed"]);
-                await Assert.That(restored.Options.Single().PropertyName).IsEqualTo("Force");
+                await Assert.That(force.IsFlag).IsTrue();
+                await Assert.That(force.ShortForm).IsEqualTo("-f");
+                await Assert.That(force.PreferShortForm).IsTrue();
+                await Assert.That(force.Phase).IsEqualTo(CommandLinePhase.Terminal);
+                await Assert.That(pull.IsFlag).IsFalse();
+                await Assert.That(pull.ShortForm).IsEqualTo("-p");
+                await Assert.That(pull.PreferShortForm).IsTrue();
+                await Assert.That(pull.ValueSeparator).IsEqualTo("=");
+                await Assert.That(pull.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+                await Assert.That(arguments.GroupValues).IsTrue();
+                await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+                await Assert.That(operand.PrependOptionTerminator).IsTrue();
+                await Assert.That(operand.PrependOptionTerminatorIfValueStartsWithDash).IsTrue();
+                await Assert.That(generatedOptions)
+                    .Contains("[CliOption(\"--pull\", ShortForm = \"-p\", PreferShortForm = true, Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]");
+                await Assert.That(generatedOptions)
+                    .Contains("[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, PrependOptionTerminatorIfValueStartsWithDash = true)]");
                 await Assert.That(generated).Contains("RemovedAsync(ToolRemovedOptions? options = null");
             }
         }

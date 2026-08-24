@@ -420,10 +420,16 @@ internal static class GeneratedApiCompatibilityPreserver
             .Select(static property => new CliOptionDefinition
             {
                 SwitchName = property.SwitchName!,
+                ShortForm = property.ShortForm,
+                PreferShortForm = property.PreferShortForm,
                 PropertyName = property.PropertyName,
                 CSharpType = property.CSharpType,
                 IsRequired = property.IsRequired,
-                IsFlag = property.CSharpType is "bool" or "bool?",
+                IsFlag = property.IsFlag ?? property.CSharpType is "bool" or "bool?",
+                ValueArity = property.ValueArity,
+                Phase = property.Phase ?? CommandLinePhase.Normal,
+                GroupValues = property.GroupValues,
+                ValueSeparator = property.ValueSeparator,
             })
             .ToArray();
 
@@ -437,6 +443,10 @@ internal static class GeneratedApiCompatibilityPreserver
                 CSharpType = property.CSharpType,
                 PositionIndex = property.ArgumentPosition!.Value,
                 IsRequired = property.IsRequired,
+                Phase = property.Phase ?? CommandLinePhase.Passthrough,
+                PrependOptionTerminator = property.PrependOptionTerminator,
+                PrependOptionTerminatorIfValueStartsWithDash =
+                    property.PrependOptionTerminatorIfValueStartsWithDash,
             })
             .ToArray();
 
@@ -2225,24 +2235,36 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         var attributes = attributeLists.SelectMany(list => list.Attributes).ToArray();
         var cliArgument = FindAttribute(attributes, "CliArgument");
-        var cliOption = FindAttribute(attributes, "CliOption")
-                        ?? FindAttribute(attributes, "CliFlag");
+        var cliOption = FindAttribute(attributes, "CliOption");
+        var cliFlag = FindAttribute(attributes, "CliFlag");
+        var cliSwitch = cliOption ?? cliFlag;
         var obsolete = FindAttribute(attributes, "Obsolete");
-        var forwarding = GetForwarding(accessorList);
+        var (targetPropertyName, forwardingKind) = GetForwarding(accessorList);
+        bool? isFlag = cliSwitch is null ? null : cliFlag is not null;
 
         return new GeneratedApiProperty(
             propertyName,
             cSharpType,
-            GetStringArgument(cliOption),
+            GetStringArgument(cliSwitch),
             GetIntegerArgument(cliArgument),
-            isRequired,
+            isRequired || GetBooleanNamedArgument(cliArgument, "Required"),
             obsolete is not null,
-            forwarding.TargetPropertyName,
+            targetPropertyName,
             GetStringArgument(obsolete),
             isRequired
             || accessorList?.Accessors.Any(static accessor =>
                 accessor.IsKind(SyntaxKind.InitAccessorDeclaration)) == true,
-            forwarding.Kind);
+            forwardingKind,
+            isFlag,
+            GetStringNamedArgument(cliSwitch, "ShortForm"),
+            GetBooleanNamedArgument(cliSwitch, "PreferShortForm"),
+            GetOptionValueSeparator(cliOption),
+            GetEnumNamedArgument(cliOption, "ValueArity", CliOptionValueArity.Required),
+            GetBooleanNamedArgument(cliOption, "GroupValues"),
+            GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
+            ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
+            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
+            GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"));
     }
 
     private static AttributeSyntax? FindAttribute(
@@ -2264,6 +2286,57 @@ internal static class GeneratedApiCompatibilityPreserver
             && literal.Token.Value is int value
                 ? value
                 : null;
+
+    private static string? GetStringNamedArgument(AttributeSyntax? attribute, string name) =>
+        FindNamedArgument(attribute, name)?.Expression is LiteralExpressionSyntax literal
+        && literal.IsKind(SyntaxKind.StringLiteralExpression)
+            ? literal.Token.ValueText
+            : null;
+
+    private static bool GetBooleanNamedArgument(AttributeSyntax? attribute, string name) =>
+        FindNamedArgument(attribute, name)?.Expression.Kind() == SyntaxKind.TrueLiteralExpression;
+
+    private static TEnum GetEnumNamedArgument<TEnum>(
+        AttributeSyntax? attribute,
+        string name,
+        TEnum defaultValue)
+        where TEnum : struct, Enum =>
+        GetNullableEnumNamedArgument<TEnum>(attribute, name) ?? defaultValue;
+
+    private static string GetOptionValueSeparator(AttributeSyntax? attribute) =>
+        GetNamedEnumMember(attribute, "Format") switch
+        {
+            "EqualsSeparated" => "=",
+            "ColonSeparated" => ":",
+            "NoSeparator" => string.Empty,
+            _ => " ",
+        };
+
+    private static TEnum? GetNullableEnumNamedArgument<TEnum>(
+        AttributeSyntax? attribute,
+        string name)
+        where TEnum : struct, Enum
+    {
+        var memberName = GetNamedEnumMember(attribute, name);
+        return Enum.TryParse<TEnum>(memberName, out var value) ? value : null;
+    }
+
+    private static string? GetNamedEnumMember(AttributeSyntax? attribute, string name)
+    {
+        var expression = FindNamedArgument(attribute, name)?.Expression;
+        return expression switch
+        {
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+            IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+            _ => null,
+        };
+    }
+
+    private static AttributeArgumentSyntax? FindNamedArgument(
+        AttributeSyntax? attribute,
+        string name) =>
+        attribute?.ArgumentList?.Arguments.FirstOrDefault(argument =>
+            argument.NameEquals?.Name.Identifier.ValueText.Equals(name, StringComparison.Ordinal) == true);
 
     private static (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) GetForwarding(
         AccessorListSyntax? accessorList)
@@ -2352,7 +2425,16 @@ internal sealed record GeneratedApiProperty(
     string? ForwardToPropertyName,
     string? ObsoleteMessage,
     bool UseInitAccessor = false,
-    CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct);
+    CliCompatibilityForwardingKind ForwardingKind = CliCompatibilityForwardingKind.Direct,
+    bool? IsFlag = null,
+    string? ShortForm = null,
+    bool PreferShortForm = false,
+    string ValueSeparator = " ",
+    CliOptionValueArity ValueArity = CliOptionValueArity.Required,
+    bool GroupValues = false,
+    CommandLinePhase? Phase = null,
+    bool PrependOptionTerminator = false,
+    bool PrependOptionTerminatorIfValueStartsWithDash = false);
 
 internal sealed record GeneratedApiBaseline(
     string ClassName,
