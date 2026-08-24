@@ -620,6 +620,12 @@ public static class ExternalToolDefinitionLoader
             CliCompatibilityForwardingKind.NullableStringToRequiredString =>
                 propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string?"))
                 && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string")),
+            CliCompatibilityForwardingKind.NullableInt32ToRequiredString =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("string")),
+            CliCompatibilityForwardingKind.NullableInt32ToStringCollection =>
+                propertyType.IsEquivalentTo(SyntaxFactory.ParseTypeName("int?"))
+                && targetType.IsEquivalentTo(SyntaxFactory.ParseTypeName("IEnumerable<string>?")),
             _ => false,
         };
         if (!typesAreCompatible)

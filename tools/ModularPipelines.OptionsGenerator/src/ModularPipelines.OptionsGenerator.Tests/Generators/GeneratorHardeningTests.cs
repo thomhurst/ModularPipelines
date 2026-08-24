@@ -91,6 +91,38 @@ public class GeneratorHardeningTests
         await Assert.That(generated).DoesNotContain("[RegularExpression(\"^[1-3]$\")]");
     }
 
+    [Test]
+    public async Task OptionsClassGenerator_Imports_Preserved_Enum_Types()
+    {
+        var command = Command(
+            "ToolEventsOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Output",
+                    CSharpType = "ToolEventsOutput?",
+                },
+            ]);
+        var tool = Tool(command) with
+        {
+            CompatibilityEnums =
+            [
+                new CliEnumDefinition
+                {
+                    EnumName = "ToolEventsOutput",
+                    Values = [new CliEnumValue { MemberName = "Json", CliValue = "json" }],
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Tool.Enums;");
+    }
+
     private static CliToolDefinition Tool(params CliCommandDefinition[] commands) =>
         new()
         {
@@ -110,7 +142,8 @@ public class GeneratorHardeningTests
         bool isCompatibility = false,
         string? forwardToPropertyName = null,
         bool useInitAccessor = false,
-        CommandLinePhase? phase = null) =>
+        CommandLinePhase? phase = null,
+        bool omitPhase = false) =>
         new(
             propertyName,
             cSharpType,
@@ -121,7 +154,9 @@ public class GeneratorHardeningTests
             forwardToPropertyName,
             null,
             useInitAccessor,
-            Phase: phase);
+            Phase: phase ?? (argumentPosition is not null && !omitPhase
+                ? CommandLinePhase.EarlyOperand
+                : null));
 
     private static CliOptionDefinition RequiredOption(string switchName, string propertyName) =>
         new()
@@ -1200,6 +1235,170 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Drops_Forwarding_When_Target_Was_Removed()
+    {
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            Command("ToolChecksumOptions", "ToolOptions", ["checksum"]),
+            [
+                BaselineProperty(
+                    "ChangeSetAuthor",
+                    "string?",
+                    switchName: "--changeset-author"),
+                BaselineProperty(
+                    "ChangesetAuthor",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "ChangeSetAuthor"),
+            ]);
+        var aliases = preserved.CompatibilityProperties.ToDictionary(
+            static property => property.PropertyName,
+            StringComparer.Ordinal);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(aliases["ChangeSetAuthor"].ForwardToPropertyName).IsNull();
+            await Assert.That(aliases["ChangesetAuthor"].ForwardToPropertyName).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Composes_Forwarding_Conversions()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options = [RequiredOption("--count", "Count")],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyCount",
+                    CSharpType = "int?",
+                    ForwardToPropertyName = "NullableCount",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+                    ObsoleteMessage = "Use Count instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "NullableCount",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Count",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableStringToRequiredString,
+                    UseInitAccessor = true,
+                    ObsoleteMessage = "Use Count instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, []);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var legacyCount = preserved.CompatibilityProperties.Single(property =>
+            property.PropertyName.Equals("LegacyCount", StringComparison.Ordinal));
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(legacyCount.ForwardToPropertyName).IsEqualTo("Count");
+            await Assert.That(legacyCount.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToRequiredString);
+            await Assert.That(generated).Contains("value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "Count",
+            CliCompatibilityForwardingKind.NullableInt32ToRequiredString);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Composes_Integer_To_Collection_Forwarding()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--count",
+                    PropertyName = "CountValues",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                    IsCollection = true,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyCount",
+                    CSharpType = "int?",
+                    ForwardToPropertyName = "Count",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+                    ObsoleteMessage = "Use CountValues instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Count",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "CountValues",
+                    ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
+                    ObsoleteMessage = "Use CountValues instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, []);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var legacyCount = preserved.CompatibilityProperties.Single(property =>
+            property.PropertyName.Equals("LegacyCount", StringComparison.Ordinal));
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(legacyCount.ForwardToPropertyName).IsEqualTo("CountValues");
+            await Assert.That(legacyCount.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+            await Assert.That(generated).Contains("CountValues = value is null ? null : [value.Value.ToString(");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "CountValues",
+            CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+    }
+
+    private static async Task AssertCompatibilityForwardingRoundTrips(
+        CliCommandDefinition generatedCommand,
+        string expectedTarget,
+        CliCompatibilityForwardingKind expectedKind)
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(generatedCommand)))
+                .Single().Content;
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, $"{generatedCommand.ClassName}.Generated.cs"),
+                generated);
+            var current = generatedCommand with { CompatibilityProperties = [] };
+            var roundTripped = GeneratedApiCompatibilityPreserver.Preserve(Tool(current), root);
+            var alias = roundTripped.Commands.Single().CompatibilityProperties.Single(property =>
+                property.PropertyName.Equals("LegacyCount", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(alias.ForwardToPropertyName).IsEqualTo(expectedTarget);
+                await Assert.That(alias.ForwardingKind).IsEqualTo(expectedKind);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Drops_Alias_Shadowed_By_Live_Property()
     {
         var command = Command("ToolChecksumOptions", "ToolOptions", ["checksum"]) with
@@ -1305,7 +1504,7 @@ public class GeneratorHardeningTests
             await Assert.That(options["LegacyOutputOption"].SwitchName).IsEqualTo("--legacy-output");
             await Assert.That(aliases["LegacyOutput"].ForwardToPropertyName).IsEqualTo("Output");
             await Assert.That(aliases["VeryLegacyOutput"].ForwardToPropertyName)
-                .IsEqualTo("LegacyOutput");
+                .IsEqualTo("Output");
             await Assert.That(aliases["ScrapedLegacyOutput"].ForwardToPropertyName)
                 .IsEqualTo("LegacyOutputOption");
         }
@@ -1869,19 +2068,195 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Removed_Required_Members()
+    public async Task ApiCompatibilityPreserver_Restores_Removed_Required_Positional_Operands()
     {
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                Command("ToolAddOptions", "ToolOptions", ["add"]),
-                [BaselineProperty(
-                    "Package",
-                    "string",
-                    argumentPosition: 0,
-                    isRequired: true)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            Command("ToolAddOptions", "ToolOptions", ["add"]),
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("ToolAddOptions.Package positional argument was removed");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)");
+            await Assert.That(generated).Contains("string Package");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Renames_Option_Colliding_With_Restored_Operand()
+    {
+        var command = Command(
+            "ToolAddOptions",
+            "ToolOptions",
+            ["add"],
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--package",
+                    PropertyName = "Package",
+                    CSharpType = "string?",
+                },
+            ]) with
+        {
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["Package"] = "current-package",
+            },
+        };
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Package");
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("PackageOption");
+            await Assert.That(preserved.DocumentationExampleValues.Keys)
+                .IsEquivalentTo(["Package", "PackageOption"]);
+            await Assert.That(preserved.DocumentationExampleValues["Package"])
+                .IsEqualTo("current-package");
+            await Assert.That(preserved.DocumentationExampleValues["PackageOption"])
+                .IsEqualTo("current-package");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Explicit_Collision_Documentation()
+    {
+        var command = Command(
+            "ToolAddOptions",
+            "ToolOptions",
+            ["add"],
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--package",
+                    PropertyName = "Package",
+                    CSharpType = "string?",
+                },
+            ]) with
+        {
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["Package"] = "operand-package",
+                ["PackageOption"] = "option-package",
+            },
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.DocumentationExampleValues["Package"])
+                .IsEqualTo("operand-package");
+            await Assert.That(preserved.DocumentationExampleValues["PackageOption"])
+                .IsEqualTo("option-package");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Reuses_Occupied_Positional_Slot()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Replacement",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                    Phase = CommandLinePhase.Passthrough,
+                    PrependOptionTerminator = true,
+                },
+            ],
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["Replacement"] = "package",
+            },
+        };
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+
+        await Assert.That(preserved.PositionalArguments).HasSingleItem();
+        var argument = preserved.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Package");
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.PrependOptionTerminator).IsTrue();
+            await Assert.That(preserved.DocumentationExampleValues.Keys)
+                .IsEquivalentTo(["Package"]);
+            await Assert.That(preserved.DocumentationExampleValues["Package"])
+                .IsEqualTo("package");
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Prefers_Explicit_Occupied_Slot_Documentation()
+    {
+        var command = Command("ToolAddOptions", "ToolOptions", ["add"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Replacement",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                    Phase = CommandLinePhase.Passthrough,
+                },
+            ],
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["Replacement"] = "fallback-package",
+                ["Package"] = "explicit-package",
+            },
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.DocumentationExampleValues.Keys)
+                .IsEquivalentTo(["Package"]);
+            await Assert.That(preserved.DocumentationExampleValues["Package"])
+                .IsEqualTo("explicit-package");
+        }
     }
 
     [Test]
@@ -2982,6 +3357,7 @@ public class GeneratorHardeningTests
         var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
         Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
         Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Enums"));
         try
         {
             await File.WriteAllTextAsync(
@@ -2991,11 +3367,47 @@ public class GeneratorHardeningTests
                 Path.Combine(packageDirectory, "Services", "ToolGroup.Generated.cs"),
                 "namespace ModularPipelines.Tool.Services; "
                 + "public class ToolGroup { public Task KubeconfigAsync(ToolGroupKubeconfigOptions? options = null) => Task.CompletedTask; }");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Enums", "ToolGroupKubeconfigLogformat.Generated.cs"),
+                "public enum ToolGroupKubeconfigLogformat { [EnumValue(\"text\")] Text }");
+            var enumDefinition = new CliEnumDefinition
+            {
+                EnumName = "ToolGroupKubeConfigLogformat",
+                Values = [new CliEnumValue { MemberName = "Text", CliValue = "text" }],
+            };
             var command = Command(
                 "ToolGroupKubeConfigOptions",
                 "ToolOptions",
                 ["group", "kubeconfig"],
-                subDomainGroup: "group");
+                subDomainGroup: "group",
+                enums: [enumDefinition],
+                options:
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--logformat",
+                        PropertyName = "Logformat",
+                        CSharpType = "ToolGroupKubeConfigLogformat?",
+                        EnumDefinition = enumDefinition,
+                    },
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--detached-logformat",
+                        PropertyName = "DetachedLogformat",
+                        CSharpType = "ToolGroupKubeConfigLogformat?",
+                    },
+                ]) with
+            {
+                CompatibilityProperties =
+                [
+                    new CliCompatibilityProperty
+                    {
+                        PropertyName = "LegacyLogformat",
+                        CSharpType = "ToolGroupKubeConfigLogformat?",
+                        ObsoleteMessage = "Legacy output format.",
+                    },
+                ],
+            };
 
             var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(command), root);
             var preservedCommand = preserved.Commands.Single();
@@ -3008,6 +3420,19 @@ public class GeneratorHardeningTests
             {
                 await Assert.That(preservedCommand.ClassName)
                     .IsEqualTo("ToolGroupKubeconfigOptions");
+                await Assert.That(preservedCommand.Options.Single(option =>
+                        option.PropertyName.Equals("Logformat", StringComparison.Ordinal)).EnumDefinition!.EnumName)
+                    .IsEqualTo("ToolGroupKubeconfigLogformat");
+                await Assert.That(preservedCommand.Options.Single(option =>
+                        option.PropertyName.Equals("Logformat", StringComparison.Ordinal)).CSharpType)
+                    .IsEqualTo("ToolGroupKubeconfigLogformat?");
+                await Assert.That(preservedCommand.Options.Single(option =>
+                        option.PropertyName.Equals("DetachedLogformat", StringComparison.Ordinal)).CSharpType)
+                    .IsEqualTo("ToolGroupKubeconfigLogformat?");
+                await Assert.That(preservedCommand.CompatibilityProperties.Single().CSharpType)
+                    .IsEqualTo("ToolGroupKubeconfigLogformat?");
+                await Assert.That(preserved.AllEnums.Select(static definition => definition.EnumName))
+                    .IsEquivalentTo(["ToolGroupKubeconfigLogformat"]);
                 await Assert.That(generated)
                     .Contains("KubeConfigAsync(");
                 await Assert.That(generated)
@@ -3385,6 +3810,64 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Forwarding_To_Global_Option()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
+        var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
+        Directory.CreateDirectory(optionsDirectory);
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(optionsDirectory, "ToolRunOptions.Generated.cs"),
+                "public record ToolRunOptions;");
+            var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+            {
+                CompatibilityProperties =
+                [
+                    new CliCompatibilityProperty
+                    {
+                        PropertyName = "LegacyEndpoint",
+                        CSharpType = "string?",
+                        ForwardToPropertyName = "Endpoint",
+                        ObsoleteMessage = "Use Endpoint instead.",
+                    },
+                ],
+            };
+            var tool = Tool(command) with
+            {
+                GlobalOptions =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--endpoint",
+                        PropertyName = "NewEndpoint",
+                        CSharpType = "string?",
+                    },
+                ],
+                GlobalCompatibilityProperties =
+                [
+                    new CliCompatibilityProperty
+                    {
+                        PropertyName = "Endpoint",
+                        CSharpType = "string?",
+                        ForwardToPropertyName = "NewEndpoint",
+                        ObsoleteMessage = "Use NewEndpoint instead.",
+                    },
+                ],
+            };
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var alias = preserved.Commands.Single().CompatibilityProperties.Single();
+
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("NewEndpoint");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Rejects_Alias_Enum_Nullability_Changes()
     {
         const string aliasClassName = "ToolBuilderBakeOptions";
@@ -3679,6 +4162,44 @@ public class GeneratorHardeningTests
                 .IsEqualTo("CommandOptions");
             await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
                 .IsNull();
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Defaults_Historical_Positional_Phase_Before_Matching()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Prefix",
+                    CSharpType = "string",
+                    IsRequired = true,
+                    PositionIndex = 0,
+                    Phase = CommandLinePhase.EarlyOperand,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty(
+                "Package",
+                "string",
+                argumentPosition: 0,
+                isRequired: true,
+                omitPhase: true)]);
+        var arguments = preserved.PositionalArguments.ToDictionary(
+            static argument => argument.PropertyName,
+            StringComparer.Ordinal);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments.Keys).IsEquivalentTo(["Package", "Prefix"]);
+            await Assert.That(arguments["Package"].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(arguments["Prefix"].Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
         }
     }
 
