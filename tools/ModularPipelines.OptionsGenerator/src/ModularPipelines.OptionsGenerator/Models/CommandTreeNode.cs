@@ -43,6 +43,48 @@ public class CommandTreeNode
     public bool HasChildren => Children.Count > 0;
 
     /// <summary>
+    /// Commands that move to <c>ExecuteAsync</c> on matching child command groups.
+    /// </summary>
+    internal IReadOnlyDictionary<string, CliCommandDefinition> GetChildParentCommands()
+    {
+        var collisions = Commands
+            .Select(command => new
+            {
+                Command = command,
+                Child = Children.Values.FirstOrDefault(child => child.PascalSegment.Equals(
+                    GeneratorUtils.GenerateMethodNameFromLastCommandPart(command),
+                    StringComparison.OrdinalIgnoreCase)),
+            })
+            .Where(collision => collision.Child is not null)
+            .ToList();
+        var ambiguousCollision = collisions
+            .GroupBy(collision => collision.Child!.Segment, StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Skip(1).Any());
+        if (ambiguousCollision is not null)
+        {
+            throw new InvalidOperationException(
+                $"Command group '{ambiguousCollision.Key}' has multiple executable parent commands: "
+                + $"{string.Join(", ", ambiguousCollision.Select(collision => collision.Command.FullCommand))}.");
+        }
+
+        return collisions.ToDictionary(
+            collision => collision.Child!.Segment,
+            collision => collision.Command,
+            StringComparer.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Direct commands that remain named facades on this node.
+    /// </summary>
+    internal IReadOnlyList<CliCommandDefinition> GetNamedFacadeCommands()
+    {
+        var movedCommands = GetChildParentCommands().Values
+            .Where(command => !command.PreserveNamedFacade)
+            .ToHashSet();
+        return Commands.Where(command => !movedCommands.Contains(command)).ToList();
+    }
+
+    /// <summary>
     /// Depth in the tree (0 = root).
     /// </summary>
     public int Depth { get; set; }

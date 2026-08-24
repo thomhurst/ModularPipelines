@@ -4219,6 +4219,108 @@ public class GeneratorHardeningTests
             .And.HasMessageContaining("FooBar");
     }
 
+    [Test]
+    public async Task SubDomainClassGenerator_Throws_When_Parents_Normalize_To_Same_Child()
+    {
+        var tool = Tool(
+            Command(
+                "ToolAppFooBarOptions",
+                "ToolOptions",
+                ["app", "foo-bar"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-bar",
+            },
+            Command(
+                "ToolAppFooBar2Options",
+                "ToolOptions",
+                ["app", "foo_bar"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo_bar",
+            },
+            Command(
+                "ToolAppFooBarChildOptions",
+                "ToolOptions",
+                ["app", "foo-bar", "child"],
+                subDomainGroup: "app"));
+
+        void Generate() => _ = new SubDomainClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(Generate)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("tool app foo-bar, tool app foo_bar");
+    }
+
+    [Test]
+    public async Task SubDomainClassGenerator_Disambiguates_Literal_Async_Command()
+    {
+        var tool = Tool(
+            Command(
+                "ToolBedrockInvokeDataAutomationOptions",
+                "ToolOptions",
+                ["bedrock", "invoke-data-automation"],
+                subDomainGroup: "bedrock") with
+            {
+                FullCommand = "tool bedrock invoke-data-automation",
+            },
+            Command(
+                "ToolBedrockInvokeDataAutomationAsyncOptions",
+                "ToolOptions",
+                ["bedrock", "invoke-data-automation-async"],
+                subDomainGroup: "bedrock") with
+            {
+                FullCommand = "tool bedrock invoke-data-automation-async",
+            });
+
+        var service = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "ToolBedrock.Generated.cs")
+            .Content;
+
+        await Assert.That(service)
+            .Contains("InvokeDataAutomationAsync(");
+        await Assert.That(service)
+            .Contains("InvokeDataAutomationAsyncCommandAsync(");
+    }
+
+    [Test]
+    public async Task SubDomainClassGenerator_Selects_Unique_Async_Disambiguator()
+    {
+        var tool = Tool(
+            Command(
+                "ToolAppFooOptions",
+                "ToolOptions",
+                ["app", "foo"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo",
+            },
+            Command(
+                "ToolAppFooAsyncOptions",
+                "ToolOptions",
+                ["app", "foo-async"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-async",
+            },
+            Command(
+                "ToolAppFooAsyncCommandOptions",
+                "ToolOptions",
+                ["app", "foo-async-command"],
+                subDomainGroup: "app") with
+            {
+                FullCommand = "tool app foo-async-command",
+            });
+
+        var service = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "ToolApp.Generated.cs")
+            .Content;
+
+        await Assert.That(service).Contains("FooAsync(");
+        await Assert.That(service).Contains("FooAsyncCommandAsync(");
+        await Assert.That(service).Contains("FooAsyncCommand2Async(");
+    }
+
     #endregion
 
     #region Root command collision filter

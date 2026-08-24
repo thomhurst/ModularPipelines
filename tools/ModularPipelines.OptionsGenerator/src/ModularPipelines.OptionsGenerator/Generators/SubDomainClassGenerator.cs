@@ -87,21 +87,9 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Build map of commands that collide with child property names
         // These will become ExecuteAsync() methods on the child classes instead
-        var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
-        foreach (var command in node.Commands)
-        {
-            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
-            var matchingChild = node.Children.Values
-                .FirstOrDefault(c => c.PascalSegment.Equals(methodName, StringComparison.OrdinalIgnoreCase));
-
-            if (matchingChild != null)
-            {
-                collidingCommands[matchingChild.Segment] = command;
-            }
-        }
-
+        var collidingCommands = node.GetChildParentCommands();
         var excludedCommands = collidingCommands.Values
-            .Where(static command => !command.PreserveNamedFacade)
+            .Where(command => !command.PreserveNamedFacade)
             .ToHashSet();
 
         // Generate the command represented by this node as ExecuteAsync(). Root nodes receive
@@ -338,15 +326,20 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static IEnumerable<(CliCommandDefinition Command, string MethodName)> GetCompatibilityCommands(
         CommandTreeNode node,
         CliCommandDefinition? parentCommand,
-        HashSet<CliCommandDefinition> excludedCommands) =>
-        node.Commands
+        HashSet<CliCommandDefinition> excludedCommands)
+    {
+        var commands = node.Commands
             .Where(command => !excludedCommands.Contains(command))
+            .ToList();
+        return commands
             .OrderBy(command => command.ClassName)
             .Select(command => (
                 command,
                 GeneratorUtils.GenerateSubDomainMethodName(
                     command,
-                    parentCommand is not null)));
+                    parentCommand is not null,
+                    commands)));
+    }
 
     private static void GenerateCompatibilityMethodSignature(
         StringBuilder sb,
@@ -485,7 +478,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         {
             var methodName = GeneratorUtils.GenerateSubDomainMethodName(
                 command,
-                parentCommand is not null);
+                parentCommand is not null,
+                commands);
             GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
             sb.AppendLine();
         }
@@ -607,7 +601,10 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         foreach (var command in commands.OrderBy(c => c.ClassName))
         {
-            var methodName = GeneratorUtils.GenerateSubDomainMethodName(command, parentCommand is not null);
+            var methodName = GeneratorUtils.GenerateSubDomainMethodName(
+                command,
+                parentCommand is not null,
+                commands);
             GeneratorUtils.GenerateServiceMethod(sb, methodName, command);
             sb.AppendLine();
         }
@@ -626,7 +623,8 @@ public class SubDomainClassGenerator : ICodeGenerator
             .Concat(commands
                 .Select(command => GeneratorUtils.GenerateSubDomainMethodName(
                     command,
-                    parentCommand is not null))
+                    parentCommand is not null,
+                    commands))
                 .Select(GeneratorUtils.EnsureAsyncSuffix));
         if (parentCommand is not null)
         {

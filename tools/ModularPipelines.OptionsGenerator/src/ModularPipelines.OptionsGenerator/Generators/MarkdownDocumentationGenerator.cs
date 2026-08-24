@@ -318,8 +318,35 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         var methodName = GeneratorUtils.GenerateSubDomainMethodName(
             command,
-            HasExecutableParentCommand(tool, command));
+            HasExecutableParentCommand(tool, command),
+            GetSiblingCommands(tool, command));
         return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
+    }
+
+    private static IReadOnlyList<CliCommandDefinition> GetSiblingCommands(
+        CliToolDefinition tool,
+        CliCommandDefinition command)
+    {
+        var subDomainCommands = tool.Commands
+            .Where(candidate => string.Equals(
+                candidate.SubDomainGroup,
+                command.SubDomainGroup,
+                StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var node = CommandTreeNode.BuildTree(
+            tool.NamespacePrefix,
+            GeneratorUtils.GetSubDomainIdentifier(tool, command.SubDomainGroup!),
+            subDomainCommands);
+
+        for (var partIndex = 1; partIndex < command.CommandParts.Length - 1; partIndex++)
+        {
+            if (!node.Children.TryGetValue(command.CommandParts[partIndex], out node))
+            {
+                return [];
+            }
+        }
+
+        return node.GetNamedFacadeCommands();
     }
 
     private static bool HasExecutableParentCommand(
