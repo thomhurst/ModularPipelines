@@ -7,6 +7,12 @@ title: newman CLI reference
 
 `ModularPipelines.Newman` provides strongly typed access to the `newman` CLI.
 
+## Executable prerequisite
+
+This package does not install the `newman` executable. Install it separately and ensure `newman` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
 ## Installation
 
 ```shell
@@ -17,24 +23,12 @@ Import `ModularPipelines.Newman.Extensions`, then resolve the service with `cont
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Newman.Extensions;
-using ModularPipelines.Newman.Options;
+Resolve the service in a module, then select a command from the table below. Unsafe or destructive commands do not receive runnable examples:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Newman().Url(
-            new NewmanUrlOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+using ModularPipelines.Newman.Extensions;
+
+var newman = context.Newman();
 ```
 
 ## Commands
@@ -42,4 +36,3 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `newman run` | `NewmanRunOptions` |
-| `newman URL` | `NewmanUrlOptions` |

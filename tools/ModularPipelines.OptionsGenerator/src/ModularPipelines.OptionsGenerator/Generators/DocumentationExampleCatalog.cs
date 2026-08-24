@@ -127,7 +127,6 @@ internal static class DocumentationExampleCatalog
                 null,
                 [
                     Unsafe("newman run", isDestructive: true),
-                    Unsafe("newman URL"),
                 ]),
             ["nbgv"] = new(
                 "nbgv get-version",
