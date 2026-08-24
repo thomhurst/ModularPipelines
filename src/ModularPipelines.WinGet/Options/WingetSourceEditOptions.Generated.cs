@@ -13,30 +13,24 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Edit properties of an existing source. A source provides the data for you to discover and install packages.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("source", "edit")]
+public record WingetSourceEditOptions : WingetOptions
 {
     /// <summary>
-    /// Get the resource manifest
+    /// Excludes a source from discovery (true or false)
     /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
-
-    /// <summary>
-    /// Directory where the results are to be written
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
+    [CliOption("--explicit", ShortForm = "-e")]
+    public string? Explicit { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -55,5 +49,11 @@ public record WingetDscv3Options : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the source
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

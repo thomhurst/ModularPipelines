@@ -13,30 +13,30 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Reset all existing pins.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("pin", "reset")]
+public record WingetPinResetOptions : WingetOptions
 {
     /// <summary>
-    /// Get the resource manifest
+    /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
-    /// Directory where the results are to be written
+    /// Find package using the specified source
     /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

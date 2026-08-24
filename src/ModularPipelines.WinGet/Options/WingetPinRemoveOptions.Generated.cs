@@ -13,12 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
+/// Remove a specific package pin.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("list")]
-public record WingetListOptions : WingetOptions
+[CliSubCommand("pin", "remove")]
+public record WingetPinRemoveOptions : WingetOptions
 {
     /// <summary>
     /// Filter results by id
@@ -51,22 +51,10 @@ public record WingetListOptions : WingetOptions
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Show no more than specified number of results (between 1 and 1000)
-    /// </summary>
-    [CliOption("--count", ShortForm = "-n")]
-    public string? Count { get; set; }
-
-    /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
-
-    /// <summary>
-    /// Select installed package scope filter (user or machine)
-    /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -77,8 +65,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
-    [CliFlag("--authentication-mode")]
-    public bool? AuthenticationMode { get; set; }
+    [CliOption("--authentication-mode")]
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -93,28 +81,16 @@ public record WingetListOptions : WingetOptions
     public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
-    /// Lists only packages which have an upgrade available
+    /// Pin a specific installed version
     /// </summary>
-    [CliOption("--upgrade-available")]
-    public string? UpgradeAvailable { get; set; }
-
-    /// <summary>
-    /// Show detailed information about packages
-    /// </summary>
-    [CliFlag("--details")]
-    public bool? Details { get; set; }
-
-    /// <summary>
-    /// Sort results by a property (can be repeated)
-    /// </summary>
-    [CliOption("--sort")]
-    public IEnumerable<string>? Sort { get; set; }
+    [CliFlag("--installed")]
+    public bool? Installed { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

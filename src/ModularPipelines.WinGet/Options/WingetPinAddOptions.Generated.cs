@@ -13,12 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
+/// Add a new pin. A pin can limit the Windows Package Manager from upgrade a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager. By default, a pinned package can be upgraded by mentioning it explicitly in the 'upgrade' command or by adding the '--include-pinned' flag to 'winget upgrade --all'.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("list")]
-public record WingetListOptions : WingetOptions
+[CliSubCommand("pin", "add")]
+public record WingetPinAddOptions : WingetOptions
 {
     /// <summary>
     /// Filter results by id
@@ -39,34 +39,28 @@ public record WingetListOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Find package using the specified source
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
-
-    /// <summary>
     /// Filter results by tag
     /// </summary>
     [CliOption("--tag")]
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Show no more than specified number of results (between 1 and 1000)
-    /// </summary>
-    [CliOption("--count", ShortForm = "-n")]
-    public string? Count { get; set; }
-
-    /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
-    /// Select installed package scope filter (user or machine)
+    /// Version to which to pin the package. The wildcard '*' can be used as the last version part
     /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// Find package using the specified source
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -77,8 +71,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
-    [CliFlag("--authentication-mode")]
-    public bool? AuthenticationMode { get; set; }
+    [CliOption("--authentication-mode")]
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -93,28 +87,28 @@ public record WingetListOptions : WingetOptions
     public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
-    /// Lists only packages which have an upgrade available
+    /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--upgrade-available")]
-    public string? UpgradeAvailable { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
-    /// Show detailed information about packages
+    /// Block from upgrading until the pin is removed, preventing override arguments
     /// </summary>
-    [CliFlag("--details")]
-    public bool? Details { get; set; }
+    [CliFlag("--blocking")]
+    public bool? Blocking { get; set; }
 
     /// <summary>
-    /// Sort results by a property (can be repeated)
+    /// Pin a specific installed version
     /// </summary>
-    [CliOption("--sort")]
-    public IEnumerable<string>? Sort { get; set; }
+    [CliFlag("--installed")]
+    public bool? Installed { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

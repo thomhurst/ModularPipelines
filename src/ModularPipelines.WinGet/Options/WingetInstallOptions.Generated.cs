@@ -141,6 +141,12 @@ public record WingetInstallOptions : WingetOptions
     public bool? SkipDependencies { get; set; }
 
     /// <summary>
+    /// Installs only the dependencies of the package
+    /// </summary>
+    [CliFlag("--dependencies-only")]
+    public bool? DependenciesOnly { get; set; }
+
+    /// <summary>
     /// Ignore the malware scan performed as part of installing an archive type package from local manifest
     /// </summary>
     [CliFlag("--ignore-local-archive-malware-scan")]

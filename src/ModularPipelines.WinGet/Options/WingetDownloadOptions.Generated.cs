@@ -141,6 +141,12 @@ public record WingetDownloadOptions : WingetOptions
     public string? Platform { get; set; }
 
     /// <summary>
+    /// Target OS version
+    /// </summary>
+    [CliOption("--os-version")]
+    public string? OsVersion { get; set; }
+
+    /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
     [CliOption("--wait")]

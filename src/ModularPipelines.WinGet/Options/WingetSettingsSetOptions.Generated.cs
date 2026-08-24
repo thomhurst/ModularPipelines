@@ -13,30 +13,18 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Sets the value of an admin setting.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("settings", "set")]
+public record WingetSettingsSetOptions : WingetOptions
 {
-    /// <summary>
-    /// Get the resource manifest
-    /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
-
-    /// <summary>
-    /// Directory where the results are to be written
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
-
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -55,5 +43,17 @@ public record WingetDscv3Options : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the setting to modify
+    /// </summary>
+    [CliOption("--setting")]
+    public string? Setting { get; set; }
+
+    /// <summary>
+    /// Value to set for the setting.
+    /// </summary>
+    [CliOption("--value")]
+    public string? Value { get; set; }
 
 }

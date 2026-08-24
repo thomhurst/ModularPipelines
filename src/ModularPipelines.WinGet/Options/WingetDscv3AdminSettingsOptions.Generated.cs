@@ -13,13 +13,43 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Manage the administrator settings of WinGet.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("dscv3", "admin-settings")]
+public record WingetDscv3AdminSettingsOptions : WingetOptions
 {
+    /// <summary>
+    /// Get the resource state
+    /// </summary>
+    [CliOption("--get")]
+    public string? Get { get; set; }
+
+    /// <summary>
+    /// Set the resource state
+    /// </summary>
+    [CliOption("--set")]
+    public string? Set { get; set; }
+
+    /// <summary>
+    /// Test the resource state
+    /// </summary>
+    [CliOption("--test")]
+    public string? Test { get; set; }
+
+    /// <summary>
+    /// Get all state instances
+    /// </summary>
+    [CliOption("--export")]
+    public string? Export { get; set; }
+
+    /// <summary>
+    /// Get the resource schema
+    /// </summary>
+    [CliOption("--schema")]
+    public string? Schema { get; set; }
+
     /// <summary>
     /// Get the resource manifest
     /// </summary>
@@ -27,7 +57,7 @@ public record WingetDscv3Options : WingetOptions
     public string? Manifest { get; set; }
 
     /// <summary>
-    /// Directory where the results are to be written
+    /// File where the result is to be written
     /// </summary>
     [CliOption("--output", ShortForm = "-o")]
     public string? Output { get; set; }
@@ -35,8 +65,8 @@ public record WingetDscv3Options : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

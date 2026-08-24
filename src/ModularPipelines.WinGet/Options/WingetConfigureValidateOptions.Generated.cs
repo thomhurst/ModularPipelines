@@ -13,30 +13,24 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Validates a configuration file for correctness.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("configure", "validate")]
+public record WingetConfigureValidateOptions : WingetOptions
 {
     /// <summary>
-    /// Get the resource manifest
+    /// Specify the path to the configuration processor
     /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
-
-    /// <summary>
-    /// Directory where the results are to be written
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
+    [CliOption("--processor-path")]
+    public string? ProcessorPath { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -55,5 +49,17 @@ public record WingetDscv3Options : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// The path to the configuration file
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Specifies the location on the local computer to store modules. Default %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
+    /// </summary>
+    [CliOption("--module-path")]
+    public string? ModulePath { get; set; }
 
 }

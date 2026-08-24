@@ -13,30 +13,30 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// MCP (Model Context Protocol) information for the Windows Package Manager.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("mcp")]
+public record WingetMcpOptions : WingetOptions
 {
     /// <summary>
-    /// Get the resource manifest
+    /// Enable extended features. Requires store access.
     /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
+    [CliFlag("--enable")]
+    public bool? Enable { get; set; }
 
     /// <summary>
-    /// Directory where the results are to be written
+    /// Disable extended features. Requires store access.
     /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
+    [CliFlag("--disable")]
+    public bool? Disable { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

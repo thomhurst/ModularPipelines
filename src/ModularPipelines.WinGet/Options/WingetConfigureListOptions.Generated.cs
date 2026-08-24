@@ -13,30 +13,36 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
+/// Shows the high level details for configurations that have been applied to the system. This data can then be used with `configure` commands to get more details.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("dscv3")]
-public record WingetDscv3Options : WingetOptions
+[CliSubCommand("configure", "list")]
+public record WingetConfigureListOptions : WingetOptions
 {
     /// <summary>
-    /// Get the resource manifest
+    /// Select items from history
     /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
+    [CliFlag("--history", ShortForm = "-h")]
+    public bool? History { get; set; }
 
     /// <summary>
-    /// Directory where the results are to be written
+    /// File where the result is to be written
     /// </summary>
     [CliOption("--output", ShortForm = "-o")]
     public string? Output { get; set; }
 
     /// <summary>
+    /// Remove the item from history
+    /// </summary>
+    [CliOption("--remove")]
+    public string? Remove { get; set; }
+
+    /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

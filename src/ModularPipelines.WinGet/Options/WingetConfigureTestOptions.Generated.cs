@@ -13,12 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
+/// Checks that the system matches the desired state as described by the provided configuration. May download/execute processors in order to test the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before executing them.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("configure")]
-public record WingetConfigureOptions : WingetOptions
+[CliSubCommand("configure", "test")]
+public record WingetConfigureTestOptions : WingetOptions
 {
     /// <summary>
     /// Specify the path to the configuration processor
@@ -29,8 +29,14 @@ public record WingetConfigureOptions : WingetOptions
     /// <summary>
     /// Select items from history
     /// </summary>
-    [CliOption("--history", ShortForm = "-h")]
-    public string? History { get; set; }
+    [CliFlag("--history", ShortForm = "-h")]
+    public bool? History { get; set; }
+
+    /// <summary>
+    /// Suppress showing initial configuration details when possible
+    /// </summary>
+    [CliFlag("--suppress-initial-details")]
+    public bool? SuppressInitialDetails { get; set; }
 
     /// <summary>
     /// Accepts the configuration warning, preventing an interactive prompt
@@ -39,28 +45,10 @@ public record WingetConfigureOptions : WingetOptions
     public bool? AcceptConfigurationAgreements { get; set; }
 
     /// <summary>
-    /// Suppress showing initial configuration details when possible
-    /// </summary>
-    [CliOption("--suppress-initial-details")]
-    public string? SuppressInitialDetails { get; set; }
-
-    /// <summary>
-    /// Enable extended features. Requires store access.
-    /// </summary>
-    [CliFlag("--enable")]
-    public bool? Enable { get; set; }
-
-    /// <summary>
-    /// Disable extended features. Requires store access.
-    /// </summary>
-    [CliFlag("--disable")]
-    public bool? Disable { get; set; }
-
-    /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

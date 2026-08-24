@@ -161,6 +161,123 @@ public class WinGetCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Named_Argument_Usage_Remains_A_Named_Option()
+    {
+        const string helpText = """
+            Writes installed packages to a file.
+
+            usage: winget export [-o] <output> [<options>]
+
+            The following arguments are available:
+              -o,--output   File where the result is to be written
+            """;
+        var command = await new TestWinGetCliScraper().Parse(["winget", "export"], helpText);
+
+        command!.ValidateOperandCoverage();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Single().PropertyName).IsEqualTo("Output");
+            await Assert.That(command.Options.Single().IsRequired).IsFalse();
+            await Assert.That(command.PositionalArguments).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Skips_Unicode_Copyright_Banner_When_Extracting_Description()
+    {
+        const string helpText = """
+            Windows Package Manager v1.29.290
+            © 2026 Microsoft. All rights reserved.
+
+            Add a new package pin.
+
+            usage: winget pin add [<options>]
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "pin", "add"], helpText);
+
+        await Assert.That(command!.Description).IsEqualTo("Add a new package pin.");
+    }
+
+    [Test]
+    public async Task Models_Known_No_Value_Options_As_Flags()
+    {
+        const string helpText = """
+            Add a package pin.
+
+            usage: winget pin add [<options>]
+
+            The following options are available:
+              -e,--exact     Find package using exact match
+              --force        Direct run the command and continue with non security related issues
+              --blocking     Block from upgrading until the pin is removed
+              --installed    Pin a specific installed version
+              --wait         Prompts the user to press any key before exiting
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "pin", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--exact", "--force", "--blocking", "--installed", "--wait"]);
+            await Assert.That(command.Options.All(option => option.IsFlag)).IsTrue();
+            await Assert.That(command.Options.All(option => option.CSharpType == "bool?")).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Source_Add_Explicit_Is_A_Flag()
+    {
+        const string helpText = """
+            Add a source.
+
+            usage: winget source add [<options>]
+
+            The following options are available:
+              --explicit   Excludes a source from discovery unless specified
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "source", "add"], helpText);
+        var explicitOption = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(explicitOption.IsFlag).IsTrue();
+            await Assert.That(explicitOption.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Source_Edit_Explicit_Remains_A_Valued_Option()
+    {
+        const string helpText = """
+            Edit a source.
+
+            usage: winget source edit [<options>]
+
+            The following options are available:
+              --explicit   Determines whether the source is explicit. Valid values: true, false
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "source", "edit"], helpText);
+        var explicitOption = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(explicitOption.IsFlag).IsFalse();
+            await Assert.That(explicitOption.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Uses_Serial_Help_Traversal()
+    {
+        await Assert.That(new TestWinGetCliScraper().Parallelism).IsEqualTo(1);
+    }
+
     private sealed class TestWinGetCliScraper : WinGetCliScraper
     {
         public TestWinGetCliScraper(ICliCommandExecutor? executor = null)
@@ -181,6 +298,11 @@ public class WinGetCliScraperTests
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
             var command = await ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+            if (command is not null)
+            {
+                usage = NormalizeUsageSynopsis(command, usage);
+            }
+
             return command is null
                 ? null
                 : command with { UsagePositionalArguments = usage.PositionalArguments };
@@ -188,6 +310,8 @@ public class WinGetCliScraperTests
 
         public UsageSynopsisParseResult ParseUsage(string[] commandPath, string helpText) =>
             ParseUsageSynopsis(commandPath, helpText);
+
+        public int Parallelism => MaxParallelism;
     }
 
     private sealed class StubExecutor(string rootHelp, string listHelp) : ICliCommandExecutor
