@@ -1003,6 +1003,7 @@ public abstract partial class CliScraperBase : ICliScraper
         foreach (var option in command.Options)
         {
             var description = option.Description ?? string.Empty;
+            var isBoolean = option.CSharpType is "bool" or "bool?";
             if (HelpDeclaresExplicitBooleanValue(description) && option.IsFlag)
             {
                 throw new InvalidOperationException(
@@ -1011,6 +1012,7 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             if (!option.IsFlag
+                && !isBoolean
                 && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
                 && !option.AcceptsMultipleValues)
             {
