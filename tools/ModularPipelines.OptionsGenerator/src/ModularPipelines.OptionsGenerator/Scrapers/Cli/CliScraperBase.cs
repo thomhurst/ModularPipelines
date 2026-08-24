@@ -390,7 +390,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
-        var subcommands = ExtractSubcommands(helpText).ToList();
+        var subcommands = ExtractSubcommands(path, helpText).ToList();
         try
         {
             ValidateSubcommandDiscovery(path, helpText, subcommands);
@@ -652,10 +652,19 @@ public abstract partial class CliScraperBase : ICliScraper
     #region Abstract Methods - Must Implement
 
     /// <summary>
-    /// Extracts subcommand names from help text.
-    /// Each CLI has different formatting - must be implemented per CLI type.
+    /// Extracts subcommand names from help text for a specific command path.
+    /// Adapters that need the path can override this overload while existing adapters
+    /// continue to use the help-only hook.
     /// </summary>
-    protected abstract IEnumerable<string> ExtractSubcommands(string helpText);
+    protected virtual IEnumerable<string> ExtractSubcommands(
+        string[] commandPath,
+        string helpText) => ExtractSubcommands(helpText);
+
+    /// <summary>
+    /// Extracts subcommand names from help text.
+    /// Each CLI has different formatting.
+    /// </summary>
+    protected virtual IEnumerable<string> ExtractSubcommands(string helpText) => [];
 
     /// <summary>
     /// Removes terminal formatting that changes the text shape consumed by scraper parsers.

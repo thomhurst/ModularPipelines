@@ -12,6 +12,7 @@ public class GitCliScraperTests
     {
         var scraper = new GitCliScraper(
             new StubExecutor(),
+            new StubHelpTextCache(),
             NullLogger<GitCliScraper>.Instance);
 
         var tool = scraper.CreateToolDefinition();
@@ -26,6 +27,7 @@ public class GitCliScraperTests
         var executor = new GroupedHelpExecutor();
         var scraper = new GitCliScraper(
             executor,
+            new StubHelpTextCache(),
             NullLogger<GitCliScraper>.Instance);
         var commands = new List<CliCommandDefinition>();
 
@@ -48,6 +50,7 @@ public class GitCliScraperTests
     {
         var scraper = new GitCliScraper(
             new StdoutHelpExecutor(),
+            new StubHelpTextCache(),
             NullLogger<GitCliScraper>.Instance);
         var commands = new List<CliCommandDefinition>();
 
@@ -78,6 +81,66 @@ public class GitCliScraperTests
 
         await Assert.That(subcommands).IsEquivalentTo(["get-url", "set-url", "show"]);
     }
+
+    [Test]
+    public async Task ExtractSubcommands_Recognizes_Optional_Default_Command()
+    {
+        const string help = """
+                            or: git stash [push] [-p | --patch]
+                            or: git stash pop [--index]
+                            """;
+
+        var subcommands = GitCliScraper.ExtractSubcommands("stash", help);
+
+        await Assert.That(subcommands).IsEquivalentTo(["pop", "push"]);
+    }
+
+    [Test]
+    public async Task ExtractSubcommands_Rejects_Optional_Operand_Labels()
+    {
+        const string help = "usage: git request-pull [options] start url [end]";
+
+        var subcommands = GitCliScraper.ExtractSubcommands("request-pull", help);
+
+        await Assert.That(subcommands).IsEmpty();
+    }
+
+    [Test]
+    public async Task ExtractSubcommands_Handles_Nested_Option_Brackets()
+    {
+        const string help = """
+                            usage: git notes [--ref <notes-ref>] [list [<object>]]
+                               or: git notes [--ref <notes-ref>] add [-f] [--[no-]stripspace]
+                               or: git notes [--ref <notes-ref>] append [--[no-]stripspace]
+                            """;
+
+        var subcommands = GitCliScraper.ExtractSubcommands("notes", help);
+
+        await Assert.That(subcommands).IsEquivalentTo(["add", "append", "list"]);
+        await Assert.That(subcommands.Contains("stripspace")).IsFalse();
+    }
+
+    [Test]
+    public async Task ExtractSubcommands_Allows_Alternatives_After_Bare_Command()
+    {
+        const string help =
+            "or: git submodule [--quiet] add [-f | --force] <repository>";
+
+        var subcommands = GitCliScraper.ExtractSubcommands("submodule", help);
+
+        await Assert.That(subcommands).IsEquivalentTo(["add"]);
+    }
+
+    private static CliCommandResult Result(
+        string standardOutput,
+        string standardError = "",
+        int exitCode = 0) =>
+        new()
+        {
+            StandardOutput = standardOutput,
+            StandardError = standardError,
+            ExitCode = exitCode,
+        };
 
     private sealed class StubExecutor : ICliCommandExecutor
     {
@@ -116,16 +179,6 @@ public class GitCliScraperTests
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
 
-        private static CliCommandResult Result(
-            string standardOutput,
-            string standardError = "",
-            int exitCode = 0) =>
-            new()
-            {
-                StandardOutput = standardOutput,
-                StandardError = standardError,
-                ExitCode = exitCode,
-            };
     }
 
     private sealed class GroupedHelpExecutor : ICliCommandExecutor
@@ -168,15 +221,24 @@ public class GitCliScraperTests
             CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
 
-        private static CliCommandResult Result(
-            string standardOutput,
-            string standardError = "",
-            int exitCode = 0) =>
-            new()
-            {
-                StandardOutput = standardOutput,
-                StandardError = standardError,
-                ExitCode = exitCode,
-            };
+    }
+
+    private sealed class StubHelpTextCache : IHelpTextCache
+    {
+        private readonly Dictionary<string, string> _entries =
+            new(StringComparer.OrdinalIgnoreCase);
+
+        public bool TryGet(string cacheKey, out string? helpText) =>
+            _entries.TryGetValue(cacheKey, out helpText);
+
+        public void Set(string cacheKey, string helpText) =>
+            _entries[cacheKey] = helpText;
+
+        public void Clear() => _entries.Clear();
+
+        public CacheStatistics GetStatistics() => new()
+        {
+            EntryCount = _entries.Count,
+        };
     }
 }

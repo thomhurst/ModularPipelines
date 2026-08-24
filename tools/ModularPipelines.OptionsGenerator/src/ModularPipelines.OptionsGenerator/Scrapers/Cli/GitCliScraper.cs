@@ -11,230 +11,321 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Git uses a different help format than Cobra-style CLIs:
 /// - Commands discovered via 'git help -a'
 /// - Options via 'git <command> -h' with format: -short, --long   description
-/// - Mostly flat command structure, with usage-derived remote/worktree children
+/// - Mostly flat command structure, with usage-derived child commands
 /// </summary>
-public partial class GitCliScraper : ICliScraper
+public partial class GitCliScraper : CliScraperBase
 {
-    private readonly ICliCommandExecutor _executor;
-    private readonly ILogger<GitCliScraper> _logger;
+    public override string ToolName => "git";
+    public override string NamespacePrefix => "Git";
+    public override string TargetNamespace => "ModularPipelines.Git";
+    public override string OutputDirectory => "src/ModularPipelines.Git";
 
-    public string ToolName => "git";
-    public string NamespacePrefix => "Git";
-    public string TargetNamespace => "ModularPipelines.Git";
-    public string OutputDirectory => "src/ModularPipelines.Git";
     public bool GenerateCommandFacade => false;
 
-    public GitCliScraper(ICliCommandExecutor executor, ILogger<GitCliScraper> logger)
+    public GitCliScraper(
+        ICliCommandExecutor executor,
+        IHelpTextCache helpCache,
+        ILogger<GitCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
-        _executor = executor;
-        _logger = logger;
     }
 
-    public async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
-    {
-        return await _executor.IsAvailableAsync("git", cancellationToken);
-    }
-
-    public CliToolDefinition CreateToolDefinition()
-    {
-        return new CliToolDefinition
+    public override CliToolDefinition CreateToolDefinition() =>
+        base.CreateToolDefinition() with
         {
-            ToolName = "git",
-            NamespacePrefix = "Git",
-            TargetNamespace = "ModularPipelines.Git",
-            OutputDirectory = "src/ModularPipelines.Git",
             DocumentationOutputDirectory = null,
             GenerateCode = false,
-            Commands = [],
-            Errors = [],
         };
-    }
 
-    public async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
-        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Discovering git commands via 'git help -a'...");
-
-        if (!await IsAvailableAsync(cancellationToken))
+        var cacheKey = string.Join(' ', commandPath);
+        if (HelpCache.TryGet(cacheKey, out var cached))
         {
-            _logger.LogError("Git is not available on this system");
-            yield break;
+            return cached;
         }
 
-        // Get all commands from 'git help -a'
-        var commands = await DiscoverCommandsAsync(cancellationToken);
-        _logger.LogInformation("Discovered {Count} git commands", commands.Count);
+        var arguments = commandPath.Length == 1
+            ? "help -a"
+            : $"{string.Join(' ', commandPath.Skip(1))} -h";
+        var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken);
 
-        var commandCount = 0;
-        foreach (var command in commands)
+        // Git sends short help to either stream and commonly exits with its usage code.
+        var helpText = result.CombinedOutput;
+        if (string.IsNullOrWhiteSpace(helpText))
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            Logger.LogWarning("No help text for command: {Command}", cacheKey);
+            return null;
+        }
 
-            var (definition, helpText) = await ParseCommandAsync([command], cancellationToken);
-            if (definition is null)
+        HelpCache.Set(cacheKey, helpText);
+        return helpText;
+    }
+
+    protected override IEnumerable<string> ExtractSubcommands(
+        string[] commandPath,
+        string helpText) =>
+        commandPath.Length == 1
+            ? ExtractTopLevelCommands(helpText)
+            : ExtractSubcommands(commandPath.Skip(1).ToArray(), helpText);
+
+    protected override bool HelpMatchesCommandPath(string[] commandPath, string helpText)
+    {
+        if (commandPath.Length == 1)
+        {
+            return true;
+        }
+
+        return helpText
+            .Split('\n')
+            .Select(line => UsageInvocationRegex().Match(line))
+            .Where(match => match.Success)
+            .Select(match => match.Groups[1].Value.Trim())
+            .Any(invocation => TryConsumeCommandPath(invocation, commandPath, out _));
+    }
+
+    protected override bool HasOptions(string helpText) => true;
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        CancellationToken cancellationToken) =>
+        ParseCommandAsync(
+            commandPath,
+            helpText,
+            ParseUsageSynopsis(commandPath, helpText),
+            cancellationToken);
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken)
+    {
+        var commandParts = commandPath.Skip(1).ToArray();
+        var command = string.Join(' ', commandParts);
+        var options = ParseOptions(helpText);
+        var className = $"Git{string.Concat(commandParts.Select(ToPascalCase))}Options";
+        var parentClassName = commandParts.Length == 1
+            ? "GitOptions"
+            : $"Git{string.Concat(commandParts.SkipLast(1).Select(ToPascalCase))}Options";
+
+        return Task.FromResult<CliCommandDefinition?>(new CliCommandDefinition
+        {
+            FullCommand = $"git {command}",
+            CommandParts = commandParts,
+            ClassName = className,
+            ParentClassName = parentClassName,
+            ToolNamespacePrefix = NamespacePrefix,
+            Description = ExtractDescription(helpText, command),
+            Options = options,
+            PositionalArguments = usage.PositionalArguments,
+            SubDomainGroup = null, // The handwritten Git facade owns command grouping.
+        });
+    }
+
+    internal static IReadOnlyList<string> ExtractSubcommands(string command, string helpText) =>
+        ExtractSubcommands([command], helpText);
+
+    private static IReadOnlyList<string> ExtractSubcommands(
+        IReadOnlyList<string> commandParts,
+        string helpText)
+    {
+        var expectedCommandParts = new[] { "git" }.Concat(commandParts).ToArray();
+        var requiredSubcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var optionalSubcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var line in helpText.Split('\n'))
+        {
+            var usage = UsageInvocationRegex().Match(line);
+            if (!usage.Success)
             {
                 continue;
             }
 
-            commandCount++;
-            _logger.LogInformation("Yielding command {Count}: git {Command}", commandCount, command);
-            yield return definition;
-
-            foreach (var subcommand in ExtractSubcommands(command, helpText))
+            var invocation = usage.Groups[1].Value.Trim();
+            if (!TryConsumeCommandPath(invocation, expectedCommandParts, out var remainder))
             {
-                var (childDefinition, _) = await ParseCommandAsync(
-                    [command, subcommand],
-                    cancellationToken);
-                if (childDefinition is null)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                commandCount++;
-                _logger.LogInformation(
-                    "Yielding command {Count}: git {Command} {Subcommand}",
-                    commandCount,
-                    command,
-                    subcommand);
-                yield return childDefinition;
+            if (TryExtractLeadingSubcommand(
+                    remainder.AsSpan(),
+                    out var candidate,
+                    out _,
+                    out var isOptional))
+            {
+                (isOptional ? optionalSubcommands : requiredSubcommands).Add(candidate);
             }
         }
 
-        _logger.LogInformation("Finished scraping git. Total commands: {Count}", commandCount);
+        return requiredSubcommands
+            .Concat(requiredSubcommands.Count == 0 ? [] : optionalSubcommands)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
     }
 
-    /// <summary>
-    /// Discovers all git commands from 'git help -a'.
-    /// </summary>
-    private async Task<List<string>> DiscoverCommandsAsync(CancellationToken cancellationToken)
+    private static IReadOnlyList<string> ExtractTopLevelCommands(string helpText)
     {
-        var result = await _executor.ExecuteAsync("git", "help -a", cancellationToken);
-        var output = result.CombinedOutput;
-
-        var commands = new List<string>();
-
-        // Parse the help -a output to extract command names
-        // Format is like:
-        //    add                     Add file contents to the index
-        //    am                      Apply a series of patches from a mailbox
-        var lines = output.Split('\n');
+        var commands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var inCommandSection = false;
 
-        foreach (var line in lines)
+        foreach (var line in helpText.Split('\n'))
         {
-            // Skip empty lines
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                continue;
-            }
-
-            // Detect section headers
-            if (line.Contains("Main Porcelain Commands") ||
-                line.Contains("Ancillary Commands") ||
-                line.Contains("Interacting with Others") ||
-                line.Contains("Low-level Commands"))
+            if (line.Contains("Main Porcelain Commands")
+                || line.Contains("Ancillary Commands")
+                || line.Contains("Interacting with Others")
+                || line.Contains("Low-level Commands"))
             {
                 inCommandSection = true;
                 continue;
             }
 
-            // Skip non-command lines
-            if (line.StartsWith("See ") || line.StartsWith("'git ") || line.Contains("concept"))
+            if (!inCommandSection
+                || line.StartsWith("See ", StringComparison.Ordinal)
+                || line.StartsWith("'git ", StringComparison.Ordinal)
+                || line.Contains("concept", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
-            // Parse command lines (3 spaces + command name + spaces + description)
-            if (inCommandSection)
+            var match = CommandLineRegex().Match(line);
+            if (match.Success && !ShouldSkipCommand(match.Groups[1].Value))
             {
-                var match = CommandLineRegex().Match(line);
-                if (match.Success)
-                {
-                    var commandName = match.Groups[1].Value.Trim();
-                    if (!string.IsNullOrEmpty(commandName) && !ShouldSkipCommand(commandName))
-                    {
-                        commands.Add(commandName);
-                    }
-                }
+                commands.Add(match.Groups[1].Value);
             }
         }
 
-        return commands.Distinct().OrderBy(c => c).ToList();
+        return commands.Order(StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
-    /// <summary>
-    /// Parses a single git command's options from 'git <command> -h'.
-    /// </summary>
-    private async Task<(CliCommandDefinition? Definition, string HelpText)> ParseCommandAsync(
-        IReadOnlyList<string> commandParts,
-        CancellationToken cancellationToken)
+    private static bool TryConsumeCommandPath(
+        string invocation,
+        IReadOnlyList<string> expectedCommandParts,
+        out string remainder)
     {
-        var command = string.Join(' ', commandParts);
-        // Get help text using -h (short help, no pager)
-        var result = await _executor.ExecuteAsync("git", $"{command} -h", cancellationToken);
-
-        // Git commands differ on which stream receives short help. Some also return
-        // a usage exit code, but the emitted help remains valid scraper input.
-        var helpText = result.CombinedOutput;
-
-        if (string.IsNullOrWhiteSpace(helpText))
+        var remaining = invocation.AsSpan();
+        foreach (var expectedPart in expectedCommandParts)
         {
-            _logger.LogWarning("No help text for git {Command}", command);
-            return (null, helpText);
-        }
-
-        // Extract description from usage line
-        var description = ExtractDescription(helpText, command);
-
-        // Parse options
-        var options = ParseOptions(helpText);
-
-        if (options.Count == 0)
-        {
-            _logger.LogDebug("No options found for git {Command}", command);
-            // Still create command if it has a description (it might just have positional args)
-        }
-
-        var className = $"Git{string.Concat(commandParts.Select(ToPascalCase))}Options";
-        var parentClassName = commandParts.Count == 1
-            ? "GitOptions"
-            : $"Git{string.Concat(commandParts.SkipLast(1).Select(ToPascalCase))}Options";
-
-        return (new CliCommandDefinition
+            if (!TryExtractLeadingSubcommand(
+                    remaining,
+                    out var actualPart,
+                    out var consumed,
+                    out _)
+                || !actualPart.Equals(expectedPart, StringComparison.OrdinalIgnoreCase))
             {
-                FullCommand = $"git {command}",
-                CommandParts = commandParts.ToArray(),
-                ClassName = className,
-                ParentClassName = parentClassName,
-                ToolNamespacePrefix = NamespacePrefix,
-                Description = description,
-                Options = options,
-                SubDomainGroup = null // The handwritten Git facade owns command grouping.
-            },
-            helpText);
+                remainder = string.Empty;
+                return false;
+            }
+
+            remaining = remaining[consumed..];
+        }
+
+        remainder = remaining.ToString();
+        return true;
     }
 
-    internal static IReadOnlyList<string> ExtractSubcommands(string command, string helpText)
+    private static bool TryExtractLeadingSubcommand(
+        ReadOnlySpan<char> text,
+        out string command,
+        out int consumed,
+        out bool isOptional)
     {
-        var subcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var line in helpText.Split('\n'))
+        var remaining = text.TrimStart();
+        var offset = text.Length - remaining.Length;
+        while (!remaining.IsEmpty && remaining[0] == '[')
         {
-            var usage = UsageLineRegex().Match(line);
-            if (!usage.Success
-                || !usage.Groups[1].Value.Equals(command, StringComparison.OrdinalIgnoreCase))
+            if (!TryReadBracketGroup(remaining, out var content, out var groupLength))
             {
-                continue;
+                command = string.Empty;
+                consumed = 0;
+                isOptional = false;
+                return false;
             }
 
-            var remainder = usage.Groups[2].Value;
-            var subcommand = SubcommandAfterGlobalOptionsRegex().Match(remainder);
-            if (subcommand.Success)
+            var optionalCommand = ExtractCommandToken(content, rejectAlternatives: true);
+            if (optionalCommand is not null)
             {
-                subcommands.Add(subcommand.Groups[1].Value);
+                command = optionalCommand;
+                consumed = offset + groupLength;
+                isOptional = true;
+                return true;
+            }
+
+            remaining = remaining[groupLength..].TrimStart();
+            offset = text.Length - remaining.Length;
+        }
+
+        var requiredCommand = ExtractCommandToken(remaining, rejectAlternatives: false);
+        if (requiredCommand is null)
+        {
+            command = string.Empty;
+            consumed = 0;
+            isOptional = false;
+            return false;
+        }
+
+        command = requiredCommand;
+        consumed = offset + requiredCommand.Length;
+        isOptional = false;
+        return true;
+    }
+
+    private static bool TryReadBracketGroup(
+        ReadOnlySpan<char> text,
+        out ReadOnlySpan<char> content,
+        out int consumed)
+    {
+        var depth = 0;
+        for (var index = 0; index < text.Length; index++)
+        {
+            depth += text[index] switch
+            {
+                '[' => 1,
+                ']' => -1,
+                _ => 0,
+            };
+
+            if (depth == 0)
+            {
+                content = text[1..index];
+                consumed = index + 1;
+                return true;
             }
         }
 
-        return subcommands.Order(StringComparer.OrdinalIgnoreCase).ToArray();
+        content = default;
+        consumed = 0;
+        return false;
+    }
+
+    private static string? ExtractCommandToken(
+        ReadOnlySpan<char> text,
+        bool rejectAlternatives)
+    {
+        var value = text.TrimStart();
+        if (value.IsEmpty
+            || value[0] is '-' or '<' or '('
+            || (rejectAlternatives && value.Contains('|')))
+        {
+            return null;
+        }
+
+        var length = 0;
+        while (length < value.Length
+               && (char.IsLetterOrDigit(value[length]) || value[length] is '-' or '_'))
+        {
+            length++;
+        }
+
+        if (length == 0 || !char.IsLetter(value[0]))
+        {
+            return null;
+        }
+
+        return value[..length].ToString();
     }
 
     /// <summary>
@@ -295,7 +386,7 @@ public partial class GitCliScraper : ICliScraper
             seenOptions.Add(primaryFlag);
 
             // Generate property name
-            var propertyName = NormalizePropertyName(primaryFlag);
+            var propertyName = NormalizeGitPropertyName(primaryFlag);
             if (string.IsNullOrEmpty(propertyName))
             {
                 continue;
@@ -387,7 +478,7 @@ public partial class GitCliScraper : ICliScraper
     /// <summary>
     /// Normalizes an option name to a C# property name.
     /// </summary>
-    private static string? NormalizePropertyName(string optionName)
+    private static string? NormalizeGitPropertyName(string optionName)
     {
         var cleaned = optionName.TrimStart('-');
         if (string.IsNullOrWhiteSpace(cleaned))
@@ -455,11 +546,6 @@ public partial class GitCliScraper : ICliScraper
     }
 
     /// <summary>
-    /// Converts to PascalCase.
-    /// </summary>
-    private static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
-
-    /// <summary>
     /// Determines if a command should be skipped.
     /// </summary>
     private static bool ShouldSkipCommand(string command)
@@ -519,9 +605,6 @@ public partial class GitCliScraper : ICliScraper
     [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
     private static partial Regex OptionLineRegex();
 
-    [GeneratedRegex(@"^\s*(?:usage:|or:)\s+git\s+(\S+)\s*(.*)$", RegexOptions.IgnoreCase)]
-    private static partial Regex UsageLineRegex();
-
-    [GeneratedRegex(@"^(?:\[[^\r\n]*\]\s*)*([a-z][\w-]*)\b", RegexOptions.IgnoreCase)]
-    private static partial Regex SubcommandAfterGlobalOptionsRegex();
+    [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]
+    private static partial Regex UsageInvocationRegex();
 }
