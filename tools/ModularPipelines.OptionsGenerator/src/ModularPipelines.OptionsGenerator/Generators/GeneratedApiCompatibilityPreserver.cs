@@ -65,13 +65,18 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(static method => method.IsOptionsOptional)
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
-        var commands = compatibleTool.Commands
+        var liveCommands = compatibleTool.Commands
             .Select(command => PreserveIdentifierCasing(
                 compatibleTool,
                 command,
                 baseline,
                 facadeMethods))
-            .Concat(RestoreRemovedCommands(compatibleTool, baseline, facadeMethods))
+            .ToArray();
+        var commands = liveCommands
+            .Concat(RestoreRemovedCommands(
+                compatibleTool with { Commands = liveCommands },
+                baseline,
+                facadeMethods))
             .DistinctBy(static command => command.ClassName, StringComparer.Ordinal)
             .ToArray();
         var preservedTool = compatibleTool with
@@ -476,9 +481,11 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
+        var matchingBaseline = FindCommandBaseline(command, baseline);
         var preserved = command with
         {
-            ClassName = FindBaselineIdentifier(command.ClassName, baseline.Keys),
+            ClassName = matchingBaseline?.ClassName
+                        ?? FindBaselineIdentifier(command.ClassName, baseline.Keys),
             ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
         };
         if (!baseline.TryGetValue(preserved.ClassName, out var commandBaseline)
@@ -512,6 +519,29 @@ internal static class GeneratedApiCompatibilityPreserver
                                                  : null),
             CommandPartIdentifierOverrides = mergedOverrides,
         };
+    }
+
+    private static GeneratedApiBaseline? FindCommandBaseline(
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+    {
+        if (baseline.TryGetValue(command.ClassName, out var exact))
+        {
+            return exact;
+        }
+
+        var matches = baseline.Values
+            .Where(candidate => candidate.CommandParts is not null
+                                && string.Equals(
+                                    candidate.ParentClassName,
+                                    command.ParentClassName,
+                                    StringComparison.OrdinalIgnoreCase)
+                                && candidate.CommandParts.SequenceEqual(
+                                    command.CommandParts,
+                                    StringComparer.OrdinalIgnoreCase))
+            .Take(2)
+            .ToArray();
+        return matches.Length == 1 ? matches[0] : null;
     }
 
     private static string FindBaselineIdentifier(
@@ -1790,8 +1820,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
             .Select(static property => property.PropertyName)
             .ToArray();
-        if (addedRequired.Length > 0
-            && (!allowNewRequiredMembers || baselineRequired.Length > 0))
+        if (addedRequired.Length > 0 && !allowNewRequiredMembers)
         {
             throw new InvalidOperationException(
                 "Cannot retain generated constructors because newly required member(s) "
@@ -1961,7 +1990,11 @@ internal static class GeneratedApiCompatibilityPreserver
             false,
             null,
             null,
-            argument.IsRequired);
+            UseInitAccessor: argument.IsRequired,
+            Phase: argument.Phase,
+            PrependOptionTerminator: argument.PrependOptionTerminator,
+            PrependOptionTerminatorIfValueStartsWithDash:
+                argument.PrependOptionTerminatorIfValueStartsWithDash);
 
     private static GeneratedApiProperty ToGeneratedProperty(CliOptionDefinition option) =>
         new(
@@ -1981,7 +2014,11 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         if (left.ArgumentPosition is not null || right.ArgumentPosition is not null)
         {
-            return left.ArgumentPosition == right.ArgumentPosition;
+            return left.ArgumentPosition == right.ArgumentPosition
+                   && (left.Phase is null || right.Phase is null || left.Phase == right.Phase)
+                   && left.PrependOptionTerminator == right.PrependOptionTerminator
+                   && left.PrependOptionTerminatorIfValueStartsWithDash
+                   == right.PrependOptionTerminatorIfValueStartsWithDash;
         }
 
         if (left.SwitchName is not null || right.SwitchName is not null)
