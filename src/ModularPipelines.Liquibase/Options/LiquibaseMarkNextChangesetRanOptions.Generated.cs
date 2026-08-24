@@ -20,7 +20,7 @@ namespace ModularPipelines.Liquibase.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mark-next-changeset-ran")]
-public record LiquibaseMarkNextChangesetRanOptions : LiquibaseOptions
+public record LiquibaseMarkNextChangeSetRanOptions : LiquibaseOptions
 {
     /// <summary>
     /// The root changelog file
@@ -39,6 +39,18 @@ public record LiquibaseMarkNextChangesetRanOptions : LiquibaseOptions
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator)]
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
+
+    /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
 
     /// <summary>
     /// Label expression to use for filtering
@@ -64,11 +76,5 @@ public record LiquibaseMarkNextChangesetRanOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
 
 }

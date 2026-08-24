@@ -213,20 +213,20 @@ internal partial class Liquibase : ILiquibase
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> MarkNextChangeSetRanAsync(
-        LiquibaseMarkNextChangesetRanOptions? options = null,
+        LiquibaseMarkNextChangeSetRanOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangesetRanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangeSetRanOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> MarkNextChangeSetRanSqlAsync(
-        LiquibaseMarkNextChangesetRanSqlOptions? options = null,
+        LiquibaseMarkNextChangeSetRanSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangesetRanSqlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangeSetRanSqlOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

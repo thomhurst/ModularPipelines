@@ -23,6 +23,12 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseInitProjectOptions : LiquibaseOptions
 {
     /// <summary>
+    /// Relative or fully qualified path to the changelog file DEFAULT: example-changelog
+    /// </summary>
+    [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangelogFile { get; set; }
+
+    /// <summary>
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator)]
@@ -35,6 +41,12 @@ public record LiquibaseInitProjectOptions : LiquibaseOptions
     public string? Format { get; set; }
 
     /// <summary>
+    /// For remote project locations, do not delete temporary project files DEFAULT: false
+    /// </summary>
+    [CliOption("--keep-temp-files", Format = OptionFormat.EqualsSeparated)]
+    public bool? KeepTempFiles { get; set; }
+
+    /// <summary>
     /// Password to use to connect to the database DEFAULT: letmein
     /// </summary>
     [SecretValue]
@@ -42,10 +54,22 @@ public record LiquibaseInitProjectOptions : LiquibaseOptions
     public string? Password { get; set; }
 
     /// <summary>
+    /// File with default Liquibase properties DEFAULT: liquibase.properties
+    /// </summary>
+    [CliOption("--project-defaults-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectDefaultsFile { get; set; }
+
+    /// <summary>
     /// Relative or fully qualified path to the directory where the project files will be created DEFAULT: ./
     /// </summary>
     [CliOption("--project-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ProjectDir { get; set; }
+
+    /// <summary>
+    /// Allow interactive prompts for init project DEFAULT: true
+    /// </summary>
+    [CliOption("--project-guide", Format = OptionFormat.EqualsSeparated)]
+    public bool? ProjectGuide { get; set; }
 
     /// <summary>
     /// The JDBC database connection URL DEFAULT: jdbc:h2:tcp://localhost:9090/mem:dev
@@ -58,17 +82,5 @@ public record LiquibaseInitProjectOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("ChangelogFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangelogFile { get; set; }
-
-    [Obsolete("KeepTempFiles is no longer supported by the installed CLI and has no effect.")]
-    public bool? KeepTempFiles { get; set; }
-
-    [Obsolete("ProjectDefaultsFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ProjectDefaultsFile { get; set; }
-
-    [Obsolete("ProjectGuide is no longer supported by the installed CLI and has no effect.")]
-    public bool? ProjectGuide { get; set; }
 
 }

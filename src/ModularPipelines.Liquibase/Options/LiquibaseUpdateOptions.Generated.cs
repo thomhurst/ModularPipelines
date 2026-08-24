@@ -24,6 +24,18 @@ namespace ModularPipelines.Liquibase.Options;
 public record LiquibaseUpdateOptions : LiquibaseOptions
 {
     /// <summary>
+    /// Fully-qualified class which specifies a ChangeExecListener
+    /// </summary>
+    [CliOption("--change-exec-listener-class", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeExecListenerClass { get; set; }
+
+    /// <summary>
+    /// Path to a properties file for the ChangeExecListenerClass
+    /// </summary>
+    [CliOption("--change-exec-listener-properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeExecListenerPropertiesFile { get; set; }
+
+    /// <summary>
     /// The root changelog
     /// </summary>
     [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
@@ -40,6 +52,18 @@ public record LiquibaseUpdateOptions : LiquibaseOptions
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator)]
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
+
+    /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
 
     /// <summary>
     /// Changeset labels to match
@@ -61,6 +85,12 @@ public record LiquibaseUpdateOptions : LiquibaseOptions
     public LiquibaseShowSummary? ShowSummary { get; set; }
 
     /// <summary>
+    /// Summary output to report update summary results. Values can be 'log', 'console', or 'all'. DEFAULT: ALL
+    /// </summary>
+    [CliOption("--show-summary-output", Format = OptionFormat.EqualsSeparated)]
+    public LiquibaseShowSummaryOutput? ShowSummaryOutput { get; set; }
+
+    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
@@ -71,20 +101,5 @@ public record LiquibaseUpdateOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("ChangeExecListenerClass is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangeExecListenerClass { get; set; }
-
-    [Obsolete("ChangeExecListenerPropertiesFile is no longer supported by the installed CLI and has no effect.")]
-    public string? ChangeExecListenerPropertiesFile { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
-
-    [Obsolete("ShowSummaryOutput is no longer supported by the installed CLI and has no effect.")]
-    public LiquibaseShowSummaryOutput? ShowSummaryOutput { get; set; }
 
 }

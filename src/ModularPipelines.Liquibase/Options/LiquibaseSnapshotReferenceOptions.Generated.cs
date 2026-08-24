@@ -21,34 +21,35 @@ namespace ModularPipelines.Liquibase.Options;
 [CliSubCommand("snapshot-reference")]
 public record LiquibaseSnapshotReferenceOptions : LiquibaseOptions
 {
-    [Obsolete("ReferenceDefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-default-catalog-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceDefaultCatalogName { get; set; }
 
-    [Obsolete("ReferenceDefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-default-schema-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceDefaultSchemaName { get; set; }
 
-    [Obsolete("ReferenceDriver is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-driver", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceDriver { get; set; }
 
-    [Obsolete("ReferenceDriverPropertiesFile is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-driver-properties-file", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceDriverPropertiesFile { get; set; }
 
-    [Obsolete("ReferenceLiquibaseCatalogName is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-liquibase-catalog-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceLiquibaseCatalogName { get; set; }
 
-    [Obsolete("ReferenceLiquibaseSchemaName is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-liquibase-schema-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceLiquibaseSchemaName { get; set; }
 
-    [Obsolete("ReferencePassword is no longer supported by the installed CLI and has no effect.")]
+    [SecretValue]
+    [CliOption("--reference-password", Format = OptionFormat.EqualsSeparated)]
     public string? ReferencePassword { get; set; }
 
-    [Obsolete("ReferenceUrl is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-url", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceUrl { get; set; }
 
-    [Obsolete("ReferenceUsername is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--reference-username", Format = OptionFormat.EqualsSeparated)]
     public string? ReferenceUsername { get; set; }
 
-    [Obsolete("SnapshotFormat is no longer supported by the installed CLI and has no effect.")]
+    [CliOption("--snapshot-format", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotFormat { get; set; }
 
 }

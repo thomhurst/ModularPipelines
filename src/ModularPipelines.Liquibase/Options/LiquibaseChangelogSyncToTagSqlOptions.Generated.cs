@@ -41,10 +41,34 @@ public record LiquibaseChangelogSyncToTagSqlOptions : LiquibaseOptions
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
+    /// The default catalog name to use for the database connection
+    /// </summary>
+    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultCatalogName { get; set; }
+
+    /// <summary>
+    /// The default schema name to use for the database connection
+    /// </summary>
+    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSchemaName { get; set; }
+
+    /// <summary>
     /// Label expression to use for filtering
     /// </summary>
     [CliOption("--label-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LabelFilter { get; set; }
+
+    /// <summary>
+    /// Control whether names of objects in the default catalog are fully qualified or not. If true they are. If false, only objects outside the default catalog are fully qualified DEFAULT: true
+    /// </summary>
+    [CliOption("--output-default-catalog", Format = OptionFormat.EqualsSeparated)]
+    public bool? OutputDefaultCatalog { get; set; }
+
+    /// <summary>
+    /// Control whether names of objects in the default schema are fully qualified or not. If true they are. If false, only objects outside the default schema are fully qualified DEFAULT: true
+    /// </summary>
+    [CliOption("--output-default-schema", Format = OptionFormat.EqualsSeparated)]
+    public bool? OutputDefaultSchema { get; set; }
 
     /// <summary>
     /// Password to use to connect to the database
@@ -70,17 +94,5 @@ public record LiquibaseChangelogSyncToTagSqlOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
-
-    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultCatalogName { get; set; }
-
-    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultSchemaName { get; set; }
-
-    [Obsolete("OutputDefaultCatalog is no longer supported by the installed CLI and has no effect.")]
-    public bool? OutputDefaultCatalog { get; set; }
-
-    [Obsolete("OutputDefaultSchema is no longer supported by the installed CLI and has no effect.")]
-    public bool? OutputDefaultSchema { get; set; }
 
 }
