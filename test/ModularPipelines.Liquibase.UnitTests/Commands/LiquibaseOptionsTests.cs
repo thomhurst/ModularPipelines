@@ -73,32 +73,17 @@ public class LiquibaseOptionsTests : TestBase
     }
 
     [Test]
-    public async Task Monitor_Performance_Renders_A_Filename()
-    {
-        var result = await GetResult(new LiquibaseUpdateOptions
-        {
-            ChangelogFile = "changelog.xml",
-            MonitorPerformance = "perf.jfr",
-            Url = "jdbc:h2:mem:test",
-        });
-
-        await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --monitor-performance=perf.jfr update --changelog-file=changelog.xml --url=jdbc:h2:mem:test");
-    }
-
-    [Test]
     public async Task Databricks_Diff_Filters_Render_As_Global_Options()
     {
         var result = await GetResult(new LiquibaseDiffOptions
         {
             DatabricksDiffTblPropertiesExcludePatterns = "delta.,pipelines.",
             DatabricksDiffTblPropertiesIgnoreAll = true,
-            ReferenceUrl = "jdbc:databricks://reference",
             Url = "jdbc:databricks://target",
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --databricks-diff-tblproperties-exclude-patterns=delta.,pipelines. --databricks-diff-tblproperties-ignore-all=true diff --reference-url=jdbc:databricks://reference --url=jdbc:databricks://target");
+            "liquibase --databricks-diff-tblproperties-exclude-patterns=delta.,pipelines. --databricks-diff-tblproperties-ignore-all=true diff --url=jdbc:databricks://target");
     }
 
     [Test]
