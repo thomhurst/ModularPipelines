@@ -70,17 +70,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
         foreach (Match commandsSectionMatch in commandsSectionMatches)
         {
-            var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-
-            // Find where this section ends (next section header or end of text)
-            var sectionEnd = normalizedText.Length;
-            var nextSectionMatch = SectionHeaderPattern().Match(normalizedText, sectionStart);
-            if (nextSectionMatch.Success)
-            {
-                sectionEnd = nextSectionMatch.Index;
-            }
-
-            var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = GetCommandSection(normalizedText, commandsSectionMatch);
 
             // Some CLIs omit the colon on real section headings. For those headings,
             // require an indented command row so title-cased prose cannot open a section.
@@ -90,31 +80,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
-            // Parse command lines: "  command    description"
-            var lines = section.Split('\n');
-            var sectionCommandCount = 0;
-            foreach (var line in lines)
-            {
-                // Cobra separates its command table from trailing guidance with a blank line.
-                // Stop there so prose such as `Use ...` and `Learn More` cannot become
-                // recursive command paths when an unrecognised command prints parent help.
-                if (sectionCommandCount > 0 && string.IsNullOrWhiteSpace(line))
-                {
-                    break;
-                }
-
-                var match = SubcommandLinePattern().Match(line);
-                if (match.Success)
-                {
-                    var commandName = match.Groups["name"].Value.Trim();
-                    if (IsValidCommandPart(commandName) && !commandName.Contains(' ') &&
-                        seenCommands.Add(commandName))
-                    {
-                        subcommands.Add(commandName);
-                        sectionCommandCount++;
-                    }
-                }
-            }
+            var sectionCommandCount = AddSectionSubcommands(section, seenCommands, subcommands);
 
             Logger.LogDebug("[{Tool}] Extracted {Count} commands from section '{Section}'",
                 ToolName, sectionCommandCount, commandsSectionMatch.Value.Trim());
@@ -131,6 +97,49 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         return subcommands;
+    }
+
+    private static string GetCommandSection(string helpText, Match header)
+    {
+        var sectionStart = header.Index + header.Length;
+        var nextSection = SectionHeaderPattern().Match(helpText, sectionStart);
+        var sectionEnd = nextSection.Success ? nextSection.Index : helpText.Length;
+        return helpText.Substring(sectionStart, sectionEnd - sectionStart);
+    }
+
+    private static int AddSectionSubcommands(
+        string section,
+        HashSet<string> seenCommands,
+        ICollection<string> subcommands)
+    {
+        var count = 0;
+        foreach (var line in section.Split('\n'))
+        {
+            // Cobra separates its command table from trailing guidance with a blank line.
+            if (count > 0 && string.IsNullOrWhiteSpace(line))
+            {
+                break;
+            }
+
+            var match = SubcommandLinePattern().Match(line);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var commandName = match.Groups["name"].Value.Trim();
+            if (!IsValidCommandPart(commandName)
+                || commandName.Contains(' ')
+                || !seenCommands.Add(commandName))
+            {
+                continue;
+            }
+
+            subcommands.Add(commandName);
+            count++;
+        }
+
+        return count;
     }
 
     protected override bool IsValidDiscoveredSubcommand(string subcommand) =>
