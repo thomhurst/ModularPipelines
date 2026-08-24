@@ -2014,11 +2014,7 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         if (left.ArgumentPosition is not null || right.ArgumentPosition is not null)
         {
-            return left.ArgumentPosition == right.ArgumentPosition
-                   && (left.Phase is null || right.Phase is null || left.Phase == right.Phase)
-                   && left.PrependOptionTerminator == right.PrependOptionTerminator
-                   && left.PrependOptionTerminatorIfValueStartsWithDash
-                   == right.PrependOptionTerminatorIfValueStartsWithDash;
+            return HasSamePositionalIdentity(left, right);
         }
 
         if (left.SwitchName is not null || right.SwitchName is not null)
@@ -2027,6 +2023,20 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return true;
+    }
+
+    private static bool HasSamePositionalIdentity(
+        GeneratedApiProperty left,
+        GeneratedApiProperty right)
+    {
+        var phasesMatch = left.Phase is null
+                          || right.Phase is null
+                          || left.Phase == right.Phase;
+        return left.ArgumentPosition == right.ArgumentPosition
+               && phasesMatch
+               && left.PrependOptionTerminator == right.PrependOptionTerminator
+               && left.PrependOptionTerminatorIfValueStartsWithDash
+               == right.PrependOptionTerminatorIfValueStartsWithDash;
     }
 
     private static Dictionary<string, GeneratedApiBaseline> ReadBaseline(
