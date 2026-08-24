@@ -52,6 +52,47 @@ public class AwsCliScraperTests
             .IsEquivalentTo(["aws ec2 describe-instances"]);
     }
 
+    [Test]
+    public async Task Enum_Detection_Deduplicates_Case_Variant_Values()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "TrafficRoutingConfig",
+            "AwsDeployCreateDeploymentConfigOptions",
+            "Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary timeBasedLinear");
+        var values = definition!.Values;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(values.Select(value => value.CliValue))
+                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce"]);
+            await Assert.That(values.Select(value => value.MemberName).Distinct().Count())
+                .IsEqualTo(values.Count);
+        }
+    }
+
+    [Test]
+    public async Task Structure_Options_Are_Rendered_As_A_Single_Value()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsStructureHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsKeyValue).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.EnumDefinition).IsNull();
+        }
+    }
+
     private sealed class AwsHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -104,6 +145,40 @@ public class AwsCliScraperTests
                 StandardError = string.Empty,
                 ExitCode = 0,
             });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsStructureHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o deploy",
+                "deploy help" => "AVAILABLE COMMANDS\n       o create-deployment-config",
+                "deploy create-deployment-config help" => """
+                    OPTIONS
+                           --traffic-routing-config (structure)
+                            Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = output,
+                StandardError = string.Empty,
+                ExitCode = string.IsNullOrEmpty(output) ? 1 : 0,
+            });
+        }
 
         public Task<bool> IsAvailableAsync(
             string command,

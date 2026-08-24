@@ -355,9 +355,13 @@ public partial class AwsCliScraper : CliScraperBase
             var isFlag = IsAwsBooleanType(typeHint);
             var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
             var isNumeric = IsNumericType(typeHint);
-            var isKeyValue = typeHint.Contains("map") || typeHint.Contains("structure") || (description?.Contains("key=value") ?? false);
+            var isStructure = typeHint.Contains("structure");
+            var isKeyValue = !isStructure
+                             && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
 
-            var enumDef = TryDetectEnum(propertyName, className, description);
+            var enumDef = isStructure || isKeyValue
+                ? null
+                : TryDetectEnum(propertyName, className, description);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
 
             options.Add(new CliOptionDefinition
@@ -405,7 +409,7 @@ public partial class AwsCliScraper : CliScraperBase
         return lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
     }
 
-    private static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -420,7 +424,7 @@ public partial class AwsCliScraper : CliScraperBase
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 30 && IsValidEnumValue(v))
-                .Distinct()
+                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
             if (values.Length >= 2 && values.Length <= 15)
