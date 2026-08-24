@@ -189,13 +189,8 @@ internal static class GeneratedApiCompatibilityPreserver
             return currentIdentifiers[0];
         }
 
-        var facadeSuffix = string.Concat(
-            baseline.CommandParts!
-                .Skip(1)
-                .SkipLast(1)
-                .Select(GeneratorUtils.ToPascalCase));
         var facadeIdentifiers = facadeMethods
-            .Select(method => GetRootIdentifierFromFacade(tool, method.DeclaringType, facadeSuffix))
+            .Select(method => GetRootIdentifierFromFacade(tool, baseline.CommandParts!, method))
             .Where(static identifier => identifier is not null)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
@@ -222,12 +217,18 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static string? GetRootIdentifierFromFacade(
         CliToolDefinition tool,
-        string declaringType,
-        string facadeSuffix)
+        IReadOnlyList<string> commandParts,
+        GeneratedFacadeMethod facadeMethod)
     {
-        var implementationType = declaringType.StartsWith($"I{tool.NamespacePrefix}", StringComparison.Ordinal)
-            ? declaringType[1..]
-            : declaringType;
+        var facadeCommandParts = facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
+            ? commandParts.Skip(1)
+            : commandParts.Skip(1).SkipLast(1);
+        var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
+        var implementationType = facadeMethod.DeclaringType.StartsWith(
+            $"I{tool.NamespacePrefix}",
+            StringComparison.Ordinal)
+            ? facadeMethod.DeclaringType[1..]
+            : facadeMethod.DeclaringType;
         if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
             || !implementationType.EndsWith(facadeSuffix, StringComparison.Ordinal)
             || implementationType.Length <= tool.NamespacePrefix.Length + facadeSuffix.Length)

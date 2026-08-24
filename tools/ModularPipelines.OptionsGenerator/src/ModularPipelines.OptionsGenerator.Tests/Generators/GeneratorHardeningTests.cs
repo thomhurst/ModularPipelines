@@ -1955,6 +1955,54 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Uses_One_Root_For_Removed_Parent_And_Child()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\")] "
+                + "public record ToolGroupNestedOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedChildOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"child\")] "
+                + "public record ToolGroupNestedChildOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ExecuteAsync(ToolGroupNestedOptions? options = null) => Task.CompletedTask; "
+                + "public Task ChildAsync(ToolGroupNestedChildOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands
+                .Where(command => command.ClassName != "ToolCurrentOptions")
+                .ToArray();
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored).Count().IsEqualTo(2);
+                await Assert.That(restored.Select(command => command.SubDomainGroup!))
+                    .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(restored.Select(command => command.CommandGroupIdentifierOverride!))
+                    .IsEquivalentTo(["Group", "Group"]);
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Group"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Retains_Optional_Facade_When_Required_Member_Is_Added()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
