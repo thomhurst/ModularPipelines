@@ -222,7 +222,11 @@ public class RepeatableOptionAdapterTests
             NullLogger<PipCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
     }
 
     private sealed class TestPackerCliScraper()
@@ -246,6 +250,10 @@ public class RepeatableOptionAdapterTests
             NullLogger<SnykCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
     }
 }
