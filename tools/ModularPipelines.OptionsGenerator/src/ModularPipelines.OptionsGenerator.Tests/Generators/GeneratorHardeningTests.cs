@@ -752,6 +752,21 @@ public class GeneratorHardeningTests
     {
         var command = Command("ToolBuildOptions", "ToolOptions") with
         {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--output",
+                    PropertyName = "Outputs",
+                    CSharpType = "IEnumerable<string>?",
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--timestamp",
+                    PropertyName = "TimestampValue",
+                    CSharpType = "string?",
+                },
+            ],
             CompatibilityProperties =
             [
                 new CliCompatibilityProperty
@@ -777,6 +792,8 @@ public class GeneratorHardeningTests
 
         using (Assert.Multiple())
         {
+            await Assert.That(generated).Contains("public IEnumerable<string>? Outputs { get; set; }");
+            await Assert.That(generated).Contains("public string? TimestampValue { get; set; }");
             await Assert.That(generated).Contains("get => Outputs?.FirstOrDefault();");
             await Assert.That(generated).Contains("set => Outputs = value is null ? null : [value];");
             await Assert.That(generated).Contains("int.TryParse(TimestampValue");
