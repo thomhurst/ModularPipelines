@@ -190,7 +190,9 @@ internal static class GeneratedApiCompatibilityPreserver
                               && command.CommandParts[0].Equals(
                                   rootCommand,
                                   StringComparison.OrdinalIgnoreCase))
-            .Select(command => command.CommandGroupIdentifierOverride ?? defaultIdentifier)
+            .Select(command => command.SubDomainGroup is { } group
+                ? GeneratorUtils.GetSubDomainIdentifier(tool, group)
+                : command.CommandGroupIdentifierOverride ?? defaultIdentifier)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
         if (currentIdentifiers.Length == 1)

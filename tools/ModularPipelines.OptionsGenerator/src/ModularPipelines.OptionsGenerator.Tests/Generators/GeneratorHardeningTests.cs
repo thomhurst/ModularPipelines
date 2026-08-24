@@ -1955,6 +1955,46 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Live_Group_Casing_For_Restored_Sibling()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolCloudShellScpOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"cloud-shell\", \"scp\")] "
+                + "public record ToolCloudShellScpOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolCloudshell { "
+                + "public Task ScpAsync(ToolCloudShellScpOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolCloudShellListOptions",
+                "ToolOptions",
+                ["cloud-shell", "list"],
+                subDomainGroup: "Cloudshell"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+
+            var restored = preserved.Commands.Single(command => command.ClassName == "ToolCloudShellScpOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsEqualTo("Cloudshell");
+                await Assert.That(restored.CommandGroupIdentifierOverride).IsEqualTo("Cloudshell");
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Cloudshell"]);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Distinguishes_Literal_Execute_From_Parent_Facade()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
