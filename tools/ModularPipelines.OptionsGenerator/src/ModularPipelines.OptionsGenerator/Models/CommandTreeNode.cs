@@ -43,6 +43,16 @@ public class CommandTreeNode
     public bool HasChildren => Children.Count > 0;
 
     /// <summary>
+    /// Whether a direct command remains a named facade on this node instead of moving
+    /// to <c>ExecuteAsync</c> on a matching child command group.
+    /// </summary>
+    internal bool EmitsNamedFacade(CliCommandDefinition command) =>
+        command.PreserveNamedFacade
+        || Children.Values.All(child => !child.PascalSegment.Equals(
+            GeneratorUtils.GenerateMethodNameFromLastCommandPart(command),
+            StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>
     /// Depth in the tree (0 = root).
     /// </summary>
     public int Depth { get; set; }

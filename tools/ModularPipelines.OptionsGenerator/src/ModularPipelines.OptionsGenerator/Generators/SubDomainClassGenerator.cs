@@ -100,8 +100,8 @@ public class SubDomainClassGenerator : ICodeGenerator
             }
         }
 
-        var excludedCommands = collidingCommands.Values
-            .Where(static command => !command.PreserveNamedFacade)
+        var excludedCommands = node.Commands
+            .Where(command => !node.EmitsNamedFacade(command))
             .ToHashSet();
 
         // Generate the command represented by this node as ExecuteAsync(). Root nodes receive
