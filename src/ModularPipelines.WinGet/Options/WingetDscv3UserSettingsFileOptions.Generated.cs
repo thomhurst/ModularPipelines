@@ -17,15 +17,50 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+[CliSubCommand("dscv3", "user-settings-file")]
+public record WingetDscv3UserSettingsFileOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Get the resource state
+    /// </summary>
+    [CliOption("--get")]
+    public string? Get { get; set; }
+
+    /// <summary>
+    /// Set the resource state
+    /// </summary>
+    [CliOption("--set")]
+    public string? Set { get; set; }
+
+    /// <summary>
+    /// Test the resource state
+    /// </summary>
+    [CliOption("--test")]
+    public string? Test { get; set; }
+
+    /// <summary>
+    /// Get all state instances
+    /// </summary>
+    [CliOption("--export")]
+    public string? Export { get; set; }
+
+    /// <summary>
+    /// Get the resource schema
+    /// </summary>
+    [CliOption("--schema")]
+    public string? Schema { get; set; }
+
+    /// <summary>
+    /// Get the resource manifest
+    /// </summary>
+    [CliOption("--manifest")]
+    public string? Manifest { get; set; }
+
+    /// <summary>
+    /// File where the result is to be written
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

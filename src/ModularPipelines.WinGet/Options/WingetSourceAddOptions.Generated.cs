@@ -17,15 +17,35 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
+[CliSubCommand("source", "add")]
+public record WingetSourceAddOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Arg
 ) : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Trust level of the source (none or trusted)
+    /// </summary>
+    [CliOption("--trust-level")]
+    public string? TrustLevel { get; set; }
+
+    /// <summary>
+    /// Optional Windows-Package-Manager REST source HTTP header
+    /// </summary>
+    [CliOption("--header")]
+    public string? Header { get; set; }
+
+    /// <summary>
+    /// Accept all source agreements during source operations
+    /// </summary>
+    [CliFlag("--accept-source-agreements")]
+    public bool? AcceptSourceAgreements { get; set; }
+
+    /// <summary>
+    /// Excludes a source from discovery unless specified
+    /// </summary>
+    [CliOption("--explicit")]
+    public string? Explicit { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -50,5 +70,11 @@ public record WingetValidateOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Type of the source
+    /// </summary>
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

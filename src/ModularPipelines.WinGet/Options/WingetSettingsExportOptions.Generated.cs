@@ -17,16 +17,9 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+[CliSubCommand("settings", "export")]
+public record WingetSettingsExportOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>

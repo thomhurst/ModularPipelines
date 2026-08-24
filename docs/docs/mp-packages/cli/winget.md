@@ -7,7 +7,13 @@ title: winget CLI reference
 
 `ModularPipelines.WinGet` provides strongly typed access to the `winget` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `winget` executable. Install it separately and ensure `winget` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.WinGet
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Winget`. For projects older than C# 14, 
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.WinGet.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Winget.InstallAsync(
-            new WingetInstallOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var winget = context.Tools.Winget;
 ```
 
 ## Commands
@@ -41,20 +34,44 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `winget configure` | `WingetConfigureOptions` |
+| `winget configure export` | `WingetConfigureExportOptions` |
+| `winget configure list` | `WingetConfigureListOptions` |
+| `winget configure show` | `WingetConfigureShowOptions` |
+| `winget configure test` | `WingetConfigureTestOptions` |
+| `winget configure validate` | `WingetConfigureValidateOptions` |
 | `winget download` | `WingetDownloadOptions` |
 | `winget dscv3` | `WingetDscv3Options` |
+| `winget dscv3 admin-settings` | `WingetDscv3AdminSettingsOptions` |
+| `winget dscv3 package` | `WingetDscv3PackageOptions` |
+| `winget dscv3 source` | `WingetDscv3SourceOptions` |
+| `winget dscv3 user-settings-file` | `WingetDscv3UserSettingsFileOptions` |
 | `winget export` | `WingetExportOptions` |
 | `winget features` | `WingetFeaturesOptions` |
 | `winget hash` | `WingetHashOptions` |
 | `winget import` | `WingetImportOptions` |
 | `winget install` | `WingetInstallOptions` |
 | `winget list` | `WingetListOptions` |
+| `winget mcp` | `WingetMcpOptions` |
 | `winget pin` | `WingetPinOptions` |
+| `winget pin add` | `WingetPinAddOptions` |
+| `winget pin list` | `WingetPinListOptions` |
+| `winget pin remove` | `WingetPinRemoveOptions` |
+| `winget pin reset` | `WingetPinResetOptions` |
 | `winget repair` | `WingetRepairOptions` |
 | `winget search` | `WingetSearchOptions` |
 | `winget settings` | `WingetSettingsOptions` |
+| `winget settings export` | `WingetSettingsExportOptions` |
+| `winget settings reset` | `WingetSettingsResetOptions` |
+| `winget settings set` | `WingetSettingsSetOptions` |
 | `winget show` | `WingetShowOptions` |
 | `winget source` | `WingetSourceOptions` |
+| `winget source add` | `WingetSourceAddOptions` |
+| `winget source edit` | `WingetSourceEditOptions` |
+| `winget source export` | `WingetSourceExportOptions` |
+| `winget source list` | `WingetSourceListOptions` |
+| `winget source remove` | `WingetSourceRemoveOptions` |
+| `winget source reset` | `WingetSourceResetOptions` |
+| `winget source update` | `WingetSourceUpdateOptions` |
 | `winget uninstall` | `WingetUninstallOptions` |
 | `winget upgrade` | `WingetUpgradeOptions` |
 | `winget validate` | `WingetValidateOptions` |

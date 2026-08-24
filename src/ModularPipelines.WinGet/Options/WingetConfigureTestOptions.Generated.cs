@@ -17,45 +17,32 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("import")]
-public record WingetImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ImportFile
-) : WingetOptions
+[CliSubCommand("configure", "test")]
+public record WingetConfigureTestOptions : WingetOptions
 {
-    public WingetImportOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Specify the path to the configuration processor
+    /// </summary>
+    [CliOption("--processor-path")]
+    public string? ProcessorPath { get; set; }
 
     /// <summary>
-    /// Ignore unavailable packages
+    /// Select items from history
     /// </summary>
-    [CliFlag("--ignore-unavailable")]
-    public bool? IgnoreUnavailable { get; set; }
+    [CliOption("--history", ShortForm = "-h")]
+    public string? History { get; set; }
 
     /// <summary>
-    /// Ignore package versions in import file
+    /// Suppress showing initial configuration details when possible
     /// </summary>
-    [CliFlag("--ignore-versions")]
-    public bool? IgnoreVersions { get; set; }
+    [CliOption("--suppress-initial-details")]
+    public string? SuppressInitialDetails { get; set; }
 
     /// <summary>
-    /// Skips upgrade if an installed version already exists
+    /// Accepts the configuration warning, preventing an interactive prompt
     /// </summary>
-    [CliFlag("--no-upgrade")]
-    public bool? NoUpgrade { get; set; }
-
-    /// <summary>
-    /// Accept all license agreements for packages
-    /// </summary>
-    [CliFlag("--accept-package-agreements")]
-    public bool? AcceptPackageAgreements { get; set; }
-
-    /// <summary>
-    /// Accept all source agreements during source operations
-    /// </summary>
-    [CliFlag("--accept-source-agreements")]
-    public bool? AcceptSourceAgreements { get; set; }
+    [CliFlag("--accept-configuration-agreements")]
+    public bool? AcceptConfigurationAgreements { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -80,5 +67,17 @@ public record WingetImportOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// The path to the configuration file
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Specifies the location on the local computer to store modules. Default %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
+    /// </summary>
+    [CliOption("--module-path")]
+    public string? ModulePath { get; set; }
 
 }

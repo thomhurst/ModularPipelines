@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
+/// © 2026 Microsoft. All rights reserved.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -45,13 +45,13 @@ public record WingetConfigureOptions : WingetOptions
     public string? SuppressInitialDetails { get; set; }
 
     /// <summary>
-    /// Enable configuration components. Requires store access.
+    /// Enable extended features. Requires store access.
     /// </summary>
     [CliFlag("--enable")]
     public bool? Enable { get; set; }
 
     /// <summary>
-    /// Disable configuration components. Requires store access.
+    /// Disable extended features. Requires store access.
     /// </summary>
     [CliFlag("--disable")]
     public bool? Disable { get; set; }

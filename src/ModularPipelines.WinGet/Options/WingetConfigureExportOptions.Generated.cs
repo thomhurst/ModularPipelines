@@ -17,39 +17,56 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("import")]
-public record WingetImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ImportFile
-) : WingetOptions
+[CliSubCommand("configure", "export")]
+public record WingetConfigureExportOptions : WingetOptions
 {
-    public WingetImportOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// File where the result is to be written
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
-    /// Ignore unavailable packages
+    /// The package identifier to export.
     /// </summary>
-    [CliFlag("--ignore-unavailable")]
-    public bool? IgnoreUnavailable { get; set; }
+    [CliOption("--package-id")]
+    public string? PackageId { get; set; }
 
     /// <summary>
-    /// Ignore package versions in import file
+    /// The module of the resource to export.
     /// </summary>
-    [CliFlag("--ignore-versions")]
-    public bool? IgnoreVersions { get; set; }
+    [CliOption("--module")]
+    public string? Module { get; set; }
 
     /// <summary>
-    /// Skips upgrade if an installed version already exists
+    /// The configuration resource to export.
     /// </summary>
-    [CliFlag("--no-upgrade")]
-    public bool? NoUpgrade { get; set; }
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
 
     /// <summary>
-    /// Accept all license agreements for packages
+    /// Specifies the location on the local computer to store modules. Default %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
     /// </summary>
-    [CliFlag("--accept-package-agreements")]
-    public bool? AcceptPackageAgreements { get; set; }
+    [CliOption("--module-path")]
+    public string? ModulePath { get; set; }
+
+    /// <summary>
+    /// Specify the path to the configuration processor
+    /// </summary>
+    [CliOption("--processor-path")]
+    public string? ProcessorPath { get; set; }
+
+    /// <summary>
+    /// Export packages from the specified source
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Include package versions in export file
+    /// </summary>
+    [CliOption("--include-versions")]
+    public string? IncludeVersions { get; set; }
 
     /// <summary>
     /// Accept all source agreements during source operations

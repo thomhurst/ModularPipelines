@@ -17,15 +17,26 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+[CliSubCommand("configure", "list")]
+public record WingetConfigureListOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Select items from history
+    /// </summary>
+    [CliOption("--history", ShortForm = "-h")]
+    public string? History { get; set; }
+
+    /// <summary>
+    /// File where the result is to be written
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// Remove the item from history
+    /// </summary>
+    [CliOption("--remove")]
+    public string? Remove { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

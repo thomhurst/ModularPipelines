@@ -17,15 +17,16 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
+[CliSubCommand("configure", "validate")]
+public record WingetConfigureValidateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string File
 ) : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Specify the path to the configuration processor
+    /// </summary>
+    [CliOption("--processor-path")]
+    public string? ProcessorPath { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -50,5 +51,11 @@ public record WingetValidateOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Specifies the location on the local computer to store modules. Default %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
+    /// </summary>
+    [CliOption("--module-path")]
+    public string? ModulePath { get; set; }
 
 }

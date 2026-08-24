@@ -13,13 +13,20 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
+/// © 2026 Microsoft. All rights reserved.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export")]
-public record WingetExportOptions : WingetOptions
+public record WingetExportOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Output
+) : WingetOptions
 {
+    public WingetExportOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Export packages from the specified source
     /// </summary>
@@ -61,11 +68,5 @@ public record WingetExportOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
-
-    /// <summary>
-    /// File where the result is to be written
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
 
 }

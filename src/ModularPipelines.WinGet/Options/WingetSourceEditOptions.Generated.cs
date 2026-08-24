@@ -17,15 +17,16 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
+[CliSubCommand("source", "edit")]
+public record WingetSourceEditOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Excludes a source from discovery (true or false)
+    /// </summary>
+    [CliOption("--explicit", ShortForm = "-e")]
+    public string? Explicit { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

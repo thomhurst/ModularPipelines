@@ -21,166 +21,424 @@ public partial interface IWinget
     #region Commands
 
     /// <summary>
-    /// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigureAsync(WingetConfigureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureExportAsync(WingetConfigureExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Downloads the installer from the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, download command will download the appropriate installer to the user's Downloads folder.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DownloadAsync(WingetDownloadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureListAsync(WingetConfigureListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring winget and packages.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Dscv3Async(WingetDscv3Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureAsync(WingetConfigureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExportAsync(WingetExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureShowAsync(WingetConfigureShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Shows the status of experimental features. Experimental features can be turned on via 'winget settings'.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FeaturesAsync(WingetFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureTestAsync(WingetConfigureTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> HashAsync(WingetHashOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ConfigureValidateAsync(WingetConfigureValidateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Installs all the packages listed in a file.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ImportAsync(WingetImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DownloadAsync(WingetDownloadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Installs the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, install command will check package installed status and try to perform an upgrade if applicable. Override with --force to perform a direct install.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallAsync(WingetInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3AdminSettingsAsync(WingetDscv3AdminSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(WingetListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3Async(WingetDscv3Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Manage package pins with the sub-commands. A pin can limit the Windows Package Manager from upgrading a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PinAsync(WingetPinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3PackageAsync(WingetDscv3PackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RepairAsync(WingetRepairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3SourceAsync(WingetDscv3SourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Searches for packages from configured sources.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SearchAsync(WingetSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dscv3UserSettingsFileAsync(WingetDscv3UserSettingsFileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SettingsAsync(WingetSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExportAsync(WingetExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Shows information on a specific package. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowAsync(WingetShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> FeaturesAsync(WingetFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Manage sources with the sub-commands. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SourceAsync(WingetSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> HashAsync(WingetHashOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Uninstalls the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UninstallAsync(WingetUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ImportAsync(WingetImportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Upgrades the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. When no arguments are given, shows the packages with upgrades available
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpgradeAsync(WingetUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(WingetInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
+    /// © 2026 Microsoft. All rights reserved.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ValidateAsync(WingetValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ListAsync(WingetListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> McpAsync(WingetMcpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> PinAddAsync(WingetPinAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> PinListAsync(WingetPinListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> PinAsync(WingetPinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> PinRemoveAsync(WingetPinRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> PinResetAsync(WingetPinResetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> RepairAsync(WingetRepairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SearchAsync(WingetSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SettingsExportAsync(WingetSettingsExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SettingsAsync(WingetSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SettingsResetAsync(WingetSettingsResetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SettingsSetAsync(WingetSettingsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> ShowAsync(WingetShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceAddAsync(WingetSourceAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceEditAsync(WingetSourceEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceExportAsync(WingetSourceExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceListAsync(WingetSourceListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceAsync(WingetSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceRemoveAsync(WingetSourceRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceResetAsync(WingetSourceResetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> SourceUpdateAsync(WingetSourceUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> UninstallAsync(WingetUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> UpgradeAsync(WingetUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// © 2026 Microsoft. All rights reserved.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> ValidateAsync(WingetValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

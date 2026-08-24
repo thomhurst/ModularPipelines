@@ -17,16 +17,9 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+[CliSubCommand("source", "export")]
+public record WingetSourceExportOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
@@ -50,5 +43,11 @@ public record WingetValidateOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the source
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

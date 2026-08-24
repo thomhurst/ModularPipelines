@@ -17,15 +17,9 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record WingetShowOptions : WingetOptions
+[CliSubCommand("pin", "add")]
+public record WingetPinAddOptions : WingetOptions
 {
-    /// <summary>
-    /// The path to the manifest of the package
-    /// </summary>
-    [CliOption("--manifest", ShortForm = "-m")]
-    public string? Manifest { get; set; }
-
     /// <summary>
     /// Filter results by id
     /// </summary>
@@ -45,16 +39,10 @@ public record WingetShowOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Use the specified version; default is the latest version
+    /// Filter results by tag
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
-
-    /// <summary>
-    /// Find package using the specified source
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Find package using exact match
@@ -63,34 +51,16 @@ public record WingetShowOptions : WingetOptions
     public string? Exact { get; set; }
 
     /// <summary>
-    /// Select install scope (user or machine)
+    /// Version to which to pin the package. The wildcard '*' can be used as the last version part
     /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
     /// <summary>
-    /// Select the architecture
+    /// Find package using the specified source
     /// </summary>
-    [CliOption("--architecture", ShortForm = "-a")]
-    public string? Architecture { get; set; }
-
-    /// <summary>
-    /// Select the installer type
-    /// </summary>
-    [CliOption("--installer-type")]
-    public string? InstallerType { get; set; }
-
-    /// <summary>
-    /// Locale to use (BCP47 format)
-    /// </summary>
-    [CliOption("--locale")]
-    public string? Locale { get; set; }
-
-    /// <summary>
-    /// Show available versions of the package
-    /// </summary>
-    [CliOption("--versions")]
-    public string? Versions { get; set; }
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -101,8 +71,8 @@ public record WingetShowOptions : WingetOptions
     /// <summary>
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
-    [CliFlag("--authentication-mode")]
-    public bool? AuthenticationMode { get; set; }
+    [CliOption("--authentication-mode")]
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication
@@ -115,6 +85,24 @@ public record WingetShowOptions : WingetOptions
     /// </summary>
     [CliFlag("--accept-source-agreements")]
     public bool? AcceptSourceAgreements { get; set; }
+
+    /// <summary>
+    /// Direct run the command and continue with non security related issues
+    /// </summary>
+    [CliOption("--force")]
+    public string? Force { get; set; }
+
+    /// <summary>
+    /// Block from upgrading until the pin is removed, preventing override arguments
+    /// </summary>
+    [CliOption("--blocking")]
+    public string? Blocking { get; set; }
+
+    /// <summary>
+    /// Pin a specific installed version
+    /// </summary>
+    [CliOption("--installed")]
+    public string? Installed { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

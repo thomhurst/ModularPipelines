@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Searches for packages from configured sources.
+/// © 2026 Microsoft. All rights reserved.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

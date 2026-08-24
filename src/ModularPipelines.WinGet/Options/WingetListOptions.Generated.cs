@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
+/// © 2026 Microsoft. All rights reserved.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -97,6 +97,18 @@ public record WingetListOptions : WingetOptions
     /// </summary>
     [CliOption("--upgrade-available")]
     public string? UpgradeAvailable { get; set; }
+
+    /// <summary>
+    /// Show detailed information about packages
+    /// </summary>
+    [CliOption("--details")]
+    public string? Details { get; set; }
+
+    /// <summary>
+    /// Sort results by a property (can be repeated)
+    /// </summary>
+    [CliOption("--sort")]
+    public IEnumerable<string>? Sort { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

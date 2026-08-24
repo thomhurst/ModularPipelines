@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
+/// © 2026 Microsoft. All rights reserved.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

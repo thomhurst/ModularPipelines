@@ -17,15 +17,9 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record WingetShowOptions : WingetOptions
+[CliSubCommand("pin", "list")]
+public record WingetPinListOptions : WingetOptions
 {
-    /// <summary>
-    /// The path to the manifest of the package
-    /// </summary>
-    [CliOption("--manifest", ShortForm = "-m")]
-    public string? Manifest { get; set; }
-
     /// <summary>
     /// Filter results by id
     /// </summary>
@@ -45,52 +39,22 @@ public record WingetShowOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Use the specified version; default is the latest version
-    /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
-
-    /// <summary>
     /// Find package using the specified source
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
     public string? Source { get; set; }
 
     /// <summary>
+    /// Filter results by tag
+    /// </summary>
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
+
+    /// <summary>
     /// Find package using exact match
     /// </summary>
     [CliOption("--exact", ShortForm = "-e")]
     public string? Exact { get; set; }
-
-    /// <summary>
-    /// Select install scope (user or machine)
-    /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
-
-    /// <summary>
-    /// Select the architecture
-    /// </summary>
-    [CliOption("--architecture", ShortForm = "-a")]
-    public string? Architecture { get; set; }
-
-    /// <summary>
-    /// Select the installer type
-    /// </summary>
-    [CliOption("--installer-type")]
-    public string? InstallerType { get; set; }
-
-    /// <summary>
-    /// Locale to use (BCP47 format)
-    /// </summary>
-    [CliOption("--locale")]
-    public string? Locale { get; set; }
-
-    /// <summary>
-    /// Show available versions of the package
-    /// </summary>
-    [CliOption("--versions")]
-    public string? Versions { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -101,8 +65,8 @@ public record WingetShowOptions : WingetOptions
     /// <summary>
     /// Specify authentication window preference (silent, silentPreferred, or interactive)
     /// </summary>
-    [CliFlag("--authentication-mode")]
-    public bool? AuthenticationMode { get; set; }
+    [CliOption("--authentication-mode")]
+    public string? AuthenticationMode { get; set; }
 
     /// <summary>
     /// Specify the account to be used for authentication

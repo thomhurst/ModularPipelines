@@ -17,15 +17,20 @@ namespace ModularPipelines.WinGet.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+[CliSubCommand("pin", "reset")]
+public record WingetPinResetOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// Direct run the command and continue with non security related issues
+    /// </summary>
+    [CliOption("--force")]
+    public string? Force { get; set; }
+
+    /// <summary>
+    /// Find package using the specified source
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
