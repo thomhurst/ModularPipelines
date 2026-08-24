@@ -368,8 +368,4 @@ public partial class PodmanCliScraper : CobraCliScraper
                 isVariadic: argument.IsVariadic))
             .ToList();
 
-    /// <inheritdoc />
-    protected override bool IsSecretOption(string propertyName, bool isFlag) =>
-        base.IsSecretOption(propertyName, isFlag)
-        || (!isFlag && propertyName.Equals("Creds", StringComparison.OrdinalIgnoreCase));
 }
