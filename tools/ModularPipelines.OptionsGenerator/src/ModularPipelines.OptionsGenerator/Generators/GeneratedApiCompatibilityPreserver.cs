@@ -61,17 +61,28 @@ internal static class GeneratedApiCompatibilityPreserver
             .Where(static method => !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
+        var rootNamedFacadeOptionTypes = facadeMethods
+            .Where(method => IsRootFacadeMethod(compatibleTool, method)
+                             && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Select(static method => method.OptionsType)
+            .ToHashSet(StringComparer.Ordinal);
         var optionalFacadeOptionTypes = facadeMethods
             .Where(static method => method.IsOptionsOptional)
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
-        var commands = compatibleTool.Commands
+        var liveCommands = compatibleTool.Commands
             .Select(command => PreserveIdentifierCasing(
                 compatibleTool,
                 command,
                 baseline,
                 facadeMethods))
-            .Concat(RestoreRemovedCommands(compatibleTool, baseline, facadeMethods))
+            .ToArray();
+        RejectLiveCommandClassNameCollisions(liveCommands);
+        var commands = liveCommands
+            .Concat(RestoreRemovedCommands(
+                compatibleTool with { Commands = liveCommands },
+                baseline,
+                facadeMethods))
             .DistinctBy(static command => command.ClassName, StringComparer.Ordinal)
             .ToArray();
         var preservedTool = compatibleTool with
@@ -90,6 +101,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     : command)
                 .Select(command => namedFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveNamedFacade = true }
+                    : command)
+                .Select(command => rootNamedFacadeOptionTypes.Contains(command.ClassName)
+                    ? command with { PreserveRootNamedFacade = true }
                     : command)
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
@@ -156,6 +170,9 @@ internal static class GeneratedApiCompatibilityPreserver
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveNamedFacade = facadeMethods.Any(static method =>
                 !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveRootNamedFacade = facadeMethods.Any(method =>
+                IsRootFacadeMethod(tool, method)
+                && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
     }
@@ -402,6 +419,32 @@ internal static class GeneratedApiCompatibilityPreserver
             ? facadeMethod.DeclaringType[1..]
             : facadeMethod.DeclaringType;
 
+    private static bool IsRootFacadeMethod(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod facadeMethod) =>
+        facadeMethod.DeclaringType.Equals(tool.NamespacePrefix, StringComparison.Ordinal)
+        || facadeMethod.DeclaringType.Equals($"I{tool.NamespacePrefix}", StringComparison.Ordinal);
+
+    private static void RejectLiveCommandClassNameCollisions(
+        IReadOnlyList<CliCommandDefinition> commands)
+    {
+        var collisions = commands
+            .GroupBy(static command => command.ClassName, StringComparer.Ordinal)
+            .Where(static group => group.Skip(1).Any())
+            .ToArray();
+        if (collisions.Length == 0)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            "Generated API compatibility restoration produced duplicate command class name(s): "
+            + string.Join(
+                "; ",
+                collisions.Select(group =>
+                    $"{group.Key} ({string.Join(", ", group.Select(static command => command.FullCommand))})")));
+    }
+
     private static bool IsParentExecuteFacade(
         string implementationType,
         GeneratedFacadeMethod facadeMethod)
@@ -476,9 +519,11 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
+        var matchingBaseline = FindCommandBaseline(command, baseline);
         var preserved = command with
         {
-            ClassName = FindBaselineIdentifier(command.ClassName, baseline.Keys),
+            ClassName = matchingBaseline?.ClassName
+                        ?? FindBaselineIdentifier(command.ClassName, baseline.Keys),
             ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
         };
         if (!baseline.TryGetValue(preserved.ClassName, out var commandBaseline)
@@ -512,6 +557,29 @@ internal static class GeneratedApiCompatibilityPreserver
                                                  : null),
             CommandPartIdentifierOverrides = mergedOverrides,
         };
+    }
+
+    private static GeneratedApiBaseline? FindCommandBaseline(
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+    {
+        if (baseline.TryGetValue(command.ClassName, out var exact))
+        {
+            return exact;
+        }
+
+        var matches = baseline.Values
+            .Where(candidate => candidate.CommandParts is not null
+                                && string.Equals(
+                                    candidate.ParentClassName,
+                                    command.ParentClassName,
+                                    StringComparison.OrdinalIgnoreCase)
+                                && candidate.CommandParts.SequenceEqual(
+                                    command.CommandParts,
+                                    StringComparer.OrdinalIgnoreCase))
+            .Take(2)
+            .ToArray();
+        return matches.Length == 1 ? matches[0] : null;
     }
 
     private static string FindBaselineIdentifier(
@@ -1790,8 +1858,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
             .Select(static property => property.PropertyName)
             .ToArray();
-        if (addedRequired.Length > 0
-            && (!allowNewRequiredMembers || baselineRequired.Length > 0))
+        if (addedRequired.Length > 0 && !allowNewRequiredMembers)
         {
             throw new InvalidOperationException(
                 "Cannot retain generated constructors because newly required member(s) "
@@ -1800,7 +1867,13 @@ internal static class GeneratedApiCompatibilityPreserver
 
         foreach (var constructor in baselineConstructors)
         {
-            AddCompatibilityConstructor(compatibilityConstructors, constructor, currentRequired);
+            AddCompatibilityConstructor(
+                compatibilityConstructors,
+                RemapPrimaryConstructorArguments(
+                    constructor,
+                    baselineRequired,
+                    currentRequired),
+                currentRequired);
         }
 
         if (HasSameConstructorContract(baselineRequired, currentRequired))
@@ -1829,6 +1902,41 @@ internal static class GeneratedApiCompatibilityPreserver
                 PreserveDeconstruct = baselineParameters.Length > 0,
             },
             currentRequired);
+    }
+
+    private static CliCompatibilityConstructor RemapPrimaryConstructorArguments(
+        CliCompatibilityConstructor constructor,
+        IReadOnlyList<GeneratedApiProperty> baselineRequired,
+        IReadOnlyList<GeneratedApiProperty> currentRequired) =>
+        constructor with
+        {
+            PrimaryConstructorArguments = currentRequired
+                .Select(current => GetPreservedPrimaryConstructorArgument(
+                    constructor,
+                    baselineRequired,
+                    current))
+                .ToArray(),
+        };
+
+    private static string GetPreservedPrimaryConstructorArgument(
+        CliCompatibilityConstructor constructor,
+        IReadOnlyList<GeneratedApiProperty> baselineRequired,
+        GeneratedApiProperty current)
+    {
+        var currentContract = GetConstructorParameterContract(current);
+        var baselineIndex = -1;
+        for (var index = 0; index < baselineRequired.Count; index++)
+        {
+            if (GetConstructorParameterContract(baselineRequired[index]) == currentContract)
+            {
+                baselineIndex = index;
+                break;
+            }
+        }
+
+        return baselineIndex >= 0 && baselineIndex < constructor.PrimaryConstructorArguments.Count
+            ? constructor.PrimaryConstructorArguments[baselineIndex]
+            : GetTypedDefault(current.CSharpType);
     }
 
     private static void AddCompatibilityConstructor(
@@ -1961,7 +2069,11 @@ internal static class GeneratedApiCompatibilityPreserver
             false,
             null,
             null,
-            argument.IsRequired);
+            UseInitAccessor: argument.IsRequired,
+            Phase: argument.Phase,
+            PrependOptionTerminator: argument.PrependOptionTerminator,
+            PrependOptionTerminatorIfValueStartsWithDash:
+                argument.PrependOptionTerminatorIfValueStartsWithDash);
 
     private static GeneratedApiProperty ToGeneratedProperty(CliOptionDefinition option) =>
         new(
@@ -1981,7 +2093,7 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         if (left.ArgumentPosition is not null || right.ArgumentPosition is not null)
         {
-            return left.ArgumentPosition == right.ArgumentPosition;
+            return HasSamePositionalIdentity(left, right);
         }
 
         if (left.SwitchName is not null || right.SwitchName is not null)
@@ -1990,6 +2102,20 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return true;
+    }
+
+    private static bool HasSamePositionalIdentity(
+        GeneratedApiProperty left,
+        GeneratedApiProperty right)
+    {
+        var phasesMatch = left.Phase is null
+                          || right.Phase is null
+                          || left.Phase == right.Phase;
+        return left.ArgumentPosition == right.ArgumentPosition
+               && phasesMatch
+               && left.PrependOptionTerminator == right.PrependOptionTerminator
+               && left.PrependOptionTerminatorIfValueStartsWithDash
+               == right.PrependOptionTerminatorIfValueStartsWithDash;
     }
 
     private static Dictionary<string, GeneratedApiBaseline> ReadBaseline(

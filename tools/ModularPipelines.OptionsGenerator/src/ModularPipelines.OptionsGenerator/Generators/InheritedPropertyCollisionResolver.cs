@@ -11,6 +11,11 @@ internal static class InheritedPropertyCollisionResolver
             .Select(property => property.Name)
             .ToHashSet(StringComparer.Ordinal);
 
+    private static readonly HashSet<string> RecordReservedPropertyNames =
+    [
+        "Clone",
+    ];
+
     public static bool IsInheritedPropertyName(string propertyName) =>
         InheritedPropertyNames.Contains(propertyName);
 
@@ -216,7 +221,8 @@ internal static class InheritedPropertyCollisionResolver
             return existingRename;
         }
 
-        if (!IsInheritedPropertyName(propertyName))
+        if (!IsInheritedPropertyName(propertyName)
+            && !RecordReservedPropertyNames.Contains(propertyName))
         {
             return propertyName;
         }

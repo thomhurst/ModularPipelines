@@ -1075,8 +1075,8 @@ public static partial class GeneratorUtils
         var subDomainNames = GetSubDomainIdentifiers(tool);
 
         var rootCommands = tool.Commands
-            .Where(c => c.SubDomainGroup is null)
-            .Where(c => c.PreserveNamedFacade
+            .Where(c => c.SubDomainGroup is null || c.PreserveRootNamedFacade)
+            .Where(c => c.PreserveRootNamedFacade
                         || !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 

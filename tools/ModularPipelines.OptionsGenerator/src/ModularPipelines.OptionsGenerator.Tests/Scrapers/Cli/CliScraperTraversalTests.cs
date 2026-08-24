@@ -200,6 +200,28 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task CobraTraversal_Does_Not_Treat_Title_Cased_Prose_As_Command_Section()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake [command]
+
+                List Installed Commands
+                Use "fake [command] --help" for more information.
+                guidance    Read the CLI reference.
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+        await Assert.That(executor.Arguments).IsEquivalentTo(["--help"]);
+    }
+
+    [Test]
     public async Task CobraTraversal_Stops_When_Nested_Command_Reprints_Parent_Help()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)

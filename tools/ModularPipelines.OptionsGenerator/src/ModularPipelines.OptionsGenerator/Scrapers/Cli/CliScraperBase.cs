@@ -557,7 +557,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         foreach (var subcommand in subcommands)
         {
-            if (IsSkippableSubcommand(subcommand))
+            if (!IsValidDiscoveredSubcommand(subcommand) || IsSkippableSubcommand(subcommand))
             {
                 continue;
             }
@@ -574,6 +574,12 @@ public abstract partial class CliScraperBase : ICliScraper
             await workChannel.Writer.WriteAsync(childPath, cancellationToken);
         }
     }
+
+    /// <summary>
+    /// Validates a subcommand name before traversal queues its command path.
+    /// </summary>
+    protected virtual bool IsValidDiscoveredSubcommand(string subcommand) =>
+        !string.IsNullOrWhiteSpace(subcommand);
 
     private static async Task CompleteCommandChannelAsync(
         IReadOnlyCollection<Task> workerTasks,

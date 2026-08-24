@@ -57,6 +57,24 @@ public class CosignCliScraperTests
     }
 
     [Test]
+    public async Task Does_Not_Treat_Description_Ending_In_Commands_As_Command_Section()
+    {
+        const string helpText = """
+            List installed extension commands
+
+            USAGE
+              cosign extension list [flags]
+
+            LEARN MORE
+              Use `cosign <command> <subcommand> --help` for more information.
+            """;
+
+        var subcommands = new TestCosignCliScraper().Extract(helpText);
+
+        await Assert.That(subcommands).IsEmpty();
+    }
+
+    [Test]
     [Arguments("signing-config", "signing config")]
     [Arguments("trusted-root", "trusted root")]
     public async Task Extracts_Cosign_V3_Single_Row_All_Word_Command_Tables(
