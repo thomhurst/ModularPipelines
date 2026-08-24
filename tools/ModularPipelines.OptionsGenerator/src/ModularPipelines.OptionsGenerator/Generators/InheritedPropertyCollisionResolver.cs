@@ -96,6 +96,10 @@ internal static class InheritedPropertyCollisionResolver
                 retainedArgumentNames,
                 usedLocalNames))
             .ToArray();
+        var optionAndGlobalPropertyNames = options
+            .Select(option => option.PropertyName)
+            .Concat(globalPropertyNames)
+            .ToHashSet(StringComparer.Ordinal);
 
         return command with
         {
@@ -107,6 +111,7 @@ internal static class InheritedPropertyCollisionResolver
                         pair.Key,
                         renamedProperties,
                         globalRenamedProperties,
+                        optionAndGlobalPropertyNames,
                         renamedArgumentNames),
                     pair => pair.Value,
                     StringComparer.Ordinal),
@@ -182,6 +187,7 @@ internal static class InheritedPropertyCollisionResolver
         string propertyName,
         IReadOnlyDictionary<string, string> commandRenames,
         IReadOnlyDictionary<string, string> globalRenames,
+        IReadOnlySet<string> optionAndGlobalPropertyNames,
         IReadOnlyDictionary<string, string> argumentRenames)
     {
         var resolvedName = TryGetRename(
@@ -191,6 +197,11 @@ internal static class InheritedPropertyCollisionResolver
             out var renamedProperty)
                 ? renamedProperty
                 : propertyName;
+        if (optionAndGlobalPropertyNames.Contains(resolvedName))
+        {
+            return resolvedName;
+        }
+
         return argumentRenames.TryGetValue(resolvedName, out var renamedArgument)
             ? renamedArgument
             : resolvedName;

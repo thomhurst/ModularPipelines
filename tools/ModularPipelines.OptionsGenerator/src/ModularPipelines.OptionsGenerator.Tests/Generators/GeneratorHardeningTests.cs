@@ -750,6 +750,44 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Documentation_Value_Remains_Bound_To_Option_When_Argument_Is_Renamed()
+    {
+        var command = Command("ToolCreateOptions", "ToolOptions", ["create"]) with
+        {
+            Options =
+            [
+                RequiredOption("--filename", "Filename"),
+            ],
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Filename",
+                    CSharpType = "string?",
+                    PositionIndex = 0,
+                },
+            ],
+            DocumentationExampleValues = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["Filename"] = "\"example.txt\"",
+            },
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(Tool(command));
+        var resolvedCommand = resolved.Commands.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(resolvedCommand.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("FilenameArgument");
+            await Assert.That(resolvedCommand.DocumentationExampleValues)
+                .ContainsKey("Filename");
+            await Assert.That(resolvedCommand.DocumentationExampleValues)
+                .DoesNotContainKey("FilenameArgument");
+        }
+    }
+
+    [Test]
     public async Task Record_Clone_Member_Is_Renamed_From_Command_Path()
     {
         var command = Command("ToolRepoCreateOptions", "ToolOptions", ["repo", "create"]) with
