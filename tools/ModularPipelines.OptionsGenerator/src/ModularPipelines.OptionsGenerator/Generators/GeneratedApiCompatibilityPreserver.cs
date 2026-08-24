@@ -262,44 +262,14 @@ internal static class GeneratedApiCompatibilityPreserver
         Dictionary<int, string>? recoveredOverrides = null;
         foreach (var facadeMethod in facadeMethods)
         {
-            var implementationType = GetFacadeImplementationType(tool, facadeMethod);
-            var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
-            var facadePartCount = commandParts.Count - (isParentExecuteFacade ? 1 : 2);
-            if (facadePartCount <= 0)
+            var candidate = GetRecoveredCommandPartIdentifierOverrides(
+                tool,
+                commandParts,
+                groupIdentifier,
+                facadeMethod);
+            if (candidate is null)
             {
                 continue;
-            }
-
-            var identifiers = commandParts
-                .Skip(1)
-                .Take(facadePartCount)
-                .Select(GeneratorUtils.ToPascalCase)
-                .ToArray();
-            var suffixLength = identifiers.Sum(static identifier => identifier.Length);
-            if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-                || implementationType.Length <= tool.NamespacePrefix.Length + suffixLength
-                || !implementationType.EndsWith(
-                    string.Concat(identifiers),
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            var suffixStart = implementationType.Length - suffixLength;
-            var recoveredGroup = implementationType.Substring(
-                tool.NamespacePrefix.Length,
-                suffixStart - tool.NamespacePrefix.Length);
-            if (!recoveredGroup.Equals(groupIdentifier, StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            var candidate = new Dictionary<int, string>();
-            var offset = suffixStart;
-            for (var index = 0; index < identifiers.Length; index++)
-            {
-                candidate[index + 1] = implementationType.Substring(offset, identifiers[index].Length);
-                offset += identifiers[index].Length;
             }
 
             if (recoveredOverrides is not null
@@ -313,6 +283,55 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return recoveredOverrides ?? new Dictionary<int, string>();
+    }
+
+    private static Dictionary<int, string>? GetRecoveredCommandPartIdentifierOverrides(
+        CliToolDefinition tool,
+        IReadOnlyList<string> commandParts,
+        string groupIdentifier,
+        GeneratedFacadeMethod facadeMethod)
+    {
+        var implementationType = GetFacadeImplementationType(tool, facadeMethod);
+        var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
+        var facadePartCount = commandParts.Count - (isParentExecuteFacade ? 1 : 2);
+        if (facadePartCount <= 0)
+        {
+            return null;
+        }
+
+        var identifiers = commandParts
+            .Skip(1)
+            .Take(facadePartCount)
+            .Select(GeneratorUtils.ToPascalCase)
+            .ToArray();
+        var suffixLength = identifiers.Sum(static identifier => identifier.Length);
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
+            || implementationType.Length <= tool.NamespacePrefix.Length + suffixLength
+            || !implementationType.EndsWith(
+                string.Concat(identifiers),
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var suffixStart = implementationType.Length - suffixLength;
+        var recoveredGroup = implementationType.Substring(
+            tool.NamespacePrefix.Length,
+            suffixStart - tool.NamespacePrefix.Length);
+        if (!recoveredGroup.Equals(groupIdentifier, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var recoveredOverrides = new Dictionary<int, string>();
+        var offset = suffixStart;
+        for (var index = 0; index < identifiers.Length; index++)
+        {
+            recoveredOverrides[index + 1] = implementationType.Substring(offset, identifiers[index].Length);
+            offset += identifiers[index].Length;
+        }
+
+        return recoveredOverrides;
     }
 
     private static string GetFacadeImplementationType(
