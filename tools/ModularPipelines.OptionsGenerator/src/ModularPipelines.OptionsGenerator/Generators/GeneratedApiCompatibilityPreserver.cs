@@ -121,6 +121,9 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         var commandParts = baseline.CommandParts!;
         var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline, facadeMethods);
+        var subDomainGroup = commandParts.Length > 1
+            ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
+            : null;
 
         return new CliCommandDefinition
         {
@@ -133,7 +136,7 @@ internal static class GeneratedApiCompatibilityPreserver
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
-            SubDomainGroup = commandParts.Length > 1 ? groupIdentifier : null,
+            SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
             PreserveExecuteFacade = facadeMethods.Any(static method =>
                 method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
@@ -141,6 +144,24 @@ internal static class GeneratedApiCompatibilityPreserver
                 !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
+    }
+
+    private static string? GetRestoredSubDomainGroup(
+        CliToolDefinition tool,
+        string rootCommand,
+        string? fallbackIdentifier)
+    {
+        var currentGroups = tool.Commands
+            .Where(command => command.CommandParts.Length > 0
+                              && command.CommandParts[0].Equals(
+                                  rootCommand,
+                                  StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.SubDomainGroup)
+            .Where(static group => group is not null)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        return currentGroups.Length == 1 ? currentGroups[0] : fallbackIdentifier;
     }
 
     private static string? GetRestoredCommandGroupIdentifier(

@@ -1856,7 +1856,8 @@ public class GeneratorHardeningTests
                     "ToolGroupCurrentOptions",
                     "ToolOptions",
                     ["group", "current"],
-                    subDomainGroup: "Group")),
+                    subDomainGroup: "group",
+                    commandGroupIdentifierOverride: "Group")),
                 root);
 
             var restored = preserved.Commands
@@ -1866,10 +1867,10 @@ public class GeneratorHardeningTests
             {
                 await Assert.That(restored).Count().IsEqualTo(2);
                 await Assert.That(restored.Select(command => command.SubDomainGroup!))
-                    .IsEquivalentTo(["Group", "Group"]);
+                    .IsEquivalentTo(["group", "group"]);
                 await Assert.That(restored.Select(command => command.CommandGroupIdentifierOverride!))
                     .IsEquivalentTo(["Group", "Group"]);
-                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["Group"]);
+                await Assert.That(preserved.SubDomainGroups).IsEquivalentTo(["group"]);
                 await Assert.That(GeneratorUtils.GetSubDomainIdentifier(preserved, "group"))
                     .IsEqualTo("Group");
             }
