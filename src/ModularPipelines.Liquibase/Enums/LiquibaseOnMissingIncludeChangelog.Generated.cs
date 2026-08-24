@@ -17,8 +17,8 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseOnMissingIncludeChangelog
 {
     [EnumValue("warn")]
-    Warn,
+    Warn = 0,
 
     [EnumValue("fail")]
-    Fail
+    Fail = 1
 }

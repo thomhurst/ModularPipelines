@@ -17,11 +17,11 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseShowSummary
 {
     [EnumValue("off")]
-    Off,
+    Off = 0,
 
     [EnumValue("summary")]
-    Summary,
+    Summary = 1,
 
     [EnumValue("verbose")]
-    Verbose
+    Verbose = 2
 }

@@ -148,6 +148,31 @@ public class LiquibaseCliScraperTests
     }
 
     [Test]
+    public async Task ParseCommand_Preserves_Usage_Operands()
+    {
+        const string helpText = "Usage: liquibase init [OPTIONS] [COMMAND]";
+
+        var command = await _scraper.ParseLiquibaseCommand(["liquibase", "init"], helpText);
+
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Command"]);
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task ParseVersion_Extracts_Stable_Liquibase_Version()
+    {
+        var version = _scraper.ParseVersion(new CliCommandResult
+        {
+            StandardOutput = "Starting Liquibase\nLiquibase Version: 5.0.3\n",
+            StandardError = string.Empty,
+            ExitCode = 0,
+        });
+
+        await Assert.That(version).IsEqualTo("5.0.3");
+    }
+
+    [Test]
     public async Task Scrape_Separates_Global_Options_From_Command_Options()
     {
         const string rootHelp = """
@@ -242,7 +267,7 @@ public class LiquibaseCliScraperTests
             ExitCode = 0,
         };
 
-        var version = _scraper.ParseLiquibaseVersion(result);
+        var version = _scraper.ParseVersion(result);
 
         await Assert.That(version).IsEqualTo("5.0.3");
     }
@@ -260,7 +285,7 @@ public class LiquibaseCliScraperTests
         public Task<CliCommandDefinition?> ParseLiquibaseCommand(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
 
-        public string? ParseLiquibaseVersion(CliCommandResult result) => ParseVersionOutput(result);
+        public string? ParseVersion(CliCommandResult result) => ParseVersionOutput(result);
     }
 
     private sealed class StubExecutor(string? rootHelp = null, string? updateHelp = null) : ICliCommandExecutor
