@@ -13,20 +13,18 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Remove a specific source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "remove")]
-public record WingetSourceRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : WingetOptions
+public record WingetSourceRemoveOptions : WingetOptions
 {
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -45,5 +43,11 @@ public record WingetSourceRemoveOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the source
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

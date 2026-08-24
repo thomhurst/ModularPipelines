@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Reset all existing pins.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,8 +23,8 @@ public record WingetPinResetOptions : WingetOptions
     /// <summary>
     /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Find package using the specified source
@@ -35,8 +35,8 @@ public record WingetPinResetOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

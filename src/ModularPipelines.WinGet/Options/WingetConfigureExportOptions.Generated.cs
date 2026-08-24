@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Exports configuration resources to a configuration file. When used with --all, exports all package configurations. When used with --packageId, exports a WinGetPackage resource of the given package id. When used with --module and --resource, gets the settings of the resource and exports it to the configuration file. If the output configuration file already exists, appends the exported configuration resources.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -65,8 +65,8 @@ public record WingetConfigureExportOptions : WingetOptions
     /// <summary>
     /// Include package versions in export file
     /// </summary>
-    [CliOption("--include-versions")]
-    public string? IncludeVersions { get; set; }
+    [CliFlag("--include-versions")]
+    public bool? IncludeVersions { get; set; }
 
     /// <summary>
     /// Accept all source agreements during source operations
@@ -77,8 +77,8 @@ public record WingetConfigureExportOptions : WingetOptions
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

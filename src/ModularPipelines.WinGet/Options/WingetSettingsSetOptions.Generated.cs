@@ -13,21 +13,18 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Sets the value of an admin setting.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("settings", "set")]
-public record WingetSettingsSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Setting,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Value
-) : WingetOptions
+public record WingetSettingsSetOptions : WingetOptions
 {
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -46,5 +43,17 @@ public record WingetSettingsSetOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the setting to modify
+    /// </summary>
+    [CliOption("--setting")]
+    public string? Setting { get; set; }
+
+    /// <summary>
+    /// Value to set for the setting.
+    /// </summary>
+    [CliOption("--value")]
+    public string? Value { get; set; }
 
 }

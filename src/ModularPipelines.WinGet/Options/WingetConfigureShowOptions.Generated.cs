@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Shows details of the provided configuration. By default, will not modify the system, but some options will cause files to be downloaded and/or loaded.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,14 +29,14 @@ public record WingetConfigureShowOptions : WingetOptions
     /// <summary>
     /// Select items from history
     /// </summary>
-    [CliOption("--history", ShortForm = "-h")]
-    public string? History { get; set; }
+    [CliFlag("--history", ShortForm = "-h")]
+    public bool? History { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

@@ -13,20 +13,13 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Installs all the packages listed in a file.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
-public record WingetImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ImportFile
-) : WingetOptions
+public record WingetImportOptions : WingetOptions
 {
-    public WingetImportOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Ignore unavailable packages
     /// </summary>
@@ -80,5 +73,11 @@ public record WingetImportOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// File describing the packages to install
+    /// </summary>
+    [CliOption("--import-file", ShortForm = "-i")]
+    public string? ImportFile { get; set; }
 
 }

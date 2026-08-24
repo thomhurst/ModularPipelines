@@ -13,20 +13,13 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("validate")]
-public record WingetValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : WingetOptions
+public record WingetValidateOptions : WingetOptions
 {
-    public WingetValidateOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
@@ -50,5 +43,11 @@ public record WingetValidateOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// The path to the manifest to be validated
+    /// </summary>
+    [CliOption("--manifest")]
+    public string? Manifest { get; set; }
 
 }

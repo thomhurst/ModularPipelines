@@ -13,14 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Validates a configuration file for correctness.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configure", "validate")]
-public record WingetConfigureValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string File
-) : WingetOptions
+public record WingetConfigureValidateOptions : WingetOptions
 {
     /// <summary>
     /// Specify the path to the configuration processor
@@ -31,8 +29,8 @@ public record WingetConfigureValidateOptions(
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -51,6 +49,12 @@ public record WingetConfigureValidateOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// The path to the configuration file
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Specifies the location on the local computer to store modules. Default %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules

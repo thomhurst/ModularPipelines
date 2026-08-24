@@ -13,20 +13,13 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]
-public record WingetHashOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string File
-) : WingetOptions
+public record WingetHashOptions : WingetOptions
 {
-    public WingetHashOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Input file will be treated as msix; signature hash will be provided if signed
     /// </summary>
@@ -56,5 +49,11 @@ public record WingetHashOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// File to be hashed
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
 }

@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Remove a specific package pin.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -53,8 +53,8 @@ public record WingetPinRemoveOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -83,14 +83,14 @@ public record WingetPinRemoveOptions : WingetOptions
     /// <summary>
     /// Pin a specific installed version
     /// </summary>
-    [CliOption("--installed")]
-    public string? Installed { get; set; }
+    [CliFlag("--installed")]
+    public bool? Installed { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts

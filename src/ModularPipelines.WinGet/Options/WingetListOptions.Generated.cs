@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -101,8 +101,8 @@ public record WingetListOptions : WingetOptions
     /// <summary>
     /// Show detailed information about packages
     /// </summary>
-    [CliOption("--details")]
-    public string? Details { get; set; }
+    [CliFlag("--details")]
+    public bool? Details { get; set; }
 
     /// <summary>
     /// Sort results by a property (can be repeated)

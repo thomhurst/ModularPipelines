@@ -13,15 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Add a new source. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "add")]
-public record WingetSourceAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Arg
-) : WingetOptions
+public record WingetSourceAddOptions : WingetOptions
 {
     /// <summary>
     /// Trust level of the source (none or trusted)
@@ -44,14 +41,14 @@ public record WingetSourceAddOptions(
     /// <summary>
     /// Excludes a source from discovery unless specified
     /// </summary>
-    [CliOption("--explicit")]
-    public string? Explicit { get; set; }
+    [CliFlag("--explicit")]
+    public bool? Explicit { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
@@ -70,6 +67,18 @@ public record WingetSourceAddOptions(
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Name of the source
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Argument given to the source
+    /// </summary>
+    [CliOption("--arg", ShortForm = "-a")]
+    public string? Arg { get; set; }
 
     /// <summary>
     /// Type of the source

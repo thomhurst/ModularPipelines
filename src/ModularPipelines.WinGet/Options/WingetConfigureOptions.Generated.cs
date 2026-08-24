@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

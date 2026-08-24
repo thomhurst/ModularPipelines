@@ -21,7 +21,7 @@ public partial interface IWinget
     #region Commands
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Exports configuration resources to a configuration file. When used with --all, exports all package configurations. When used with --packageId, exports a WinGetPackage resource of the given package id. When used with --module and --resource, gets the settings of the resource and exports it to the configuration file. If the output configuration file already exists, appends the exported configuration resources.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -31,7 +31,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Shows the high level details for configurations that have been applied to the system. This data can then be used with `configure` commands to get more details.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -41,7 +41,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -51,7 +51,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Shows details of the provided configuration. By default, will not modify the system, but some options will cause files to be downloaded and/or loaded.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -61,7 +61,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Checks that the system matches the desired state as described by the provided configuration. May download/execute processors in order to test the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before executing them.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -71,17 +71,17 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Validates a configuration file for correctness.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigureValidateAsync(WingetConfigureValidateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    Task<CommandResult> ConfigureValidateAsync(WingetConfigureValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Downloads the installer from the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, download command will download the appropriate installer to the user's Downloads folder.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -91,7 +91,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage the administrator settings of WinGet.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -101,7 +101,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring WinGet and packages.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -111,7 +111,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage packages through WinGet.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -121,7 +121,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage the sources of WinGet.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -131,7 +131,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage the user settings of WinGet.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -141,7 +141,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -151,7 +151,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Shows the status of experimental features. Experimental features can be turned on via 'winget settings'.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -161,7 +161,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -171,7 +171,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Installs all the packages listed in a file.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -181,7 +181,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Installs the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, install command will check package installed status and try to perform an upgrade if applicable. Override with --force to perform a direct install.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -191,7 +191,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -201,7 +201,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// MCP (Model Context Protocol) information for the Windows Package Manager.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -211,7 +211,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Add a new pin. A pin can limit the Windows Package Manager from upgrade a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager. By default, a pinned package can be upgraded by mentioning it explicitly in the 'upgrade' command or by adding the '--include-pinned' flag to 'winget upgrade --all'.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -221,7 +221,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// List all current pins, or full details of a specific pin.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -231,7 +231,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage package pins with the sub-commands. A pin can limit the Windows Package Manager from upgrading a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -241,7 +241,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Remove a specific package pin.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -251,7 +251,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Reset all existing pins.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -261,7 +261,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -271,7 +271,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Searches for packages from configured sources.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -281,7 +281,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Export settings as JSON
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -291,7 +291,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -301,7 +301,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Resets an admin setting to its default value.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -311,17 +311,17 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Sets the value of an admin setting.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SettingsSetAsync(WingetSettingsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    Task<CommandResult> SettingsSetAsync(WingetSettingsSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Shows information on a specific package. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -331,27 +331,27 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Add a new source. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SourceAddAsync(WingetSourceAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    Task<CommandResult> SourceAddAsync(WingetSourceAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Edit properties of an existing source. A source provides the data for you to discover and install packages.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SourceEditAsync(WingetSourceEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    Task<CommandResult> SourceEditAsync(WingetSourceEditOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Export current sources as JSON for Group Policy.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -361,7 +361,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// List all current sources, or full details of a specific source.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -371,7 +371,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Manage sources with the sub-commands. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -381,17 +381,17 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Remove a specific source.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SourceRemoveAsync(WingetSourceRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    Task<CommandResult> SourceRemoveAsync(WingetSourceRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// This command drops existing sources, potentially leaving any local data behind. Without any argument, it will drop all sources and add the defaults. If a named source is provided, only that source will be dropped.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -401,7 +401,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Update all sources, or only a specific source.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -411,7 +411,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Uninstalls the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -421,7 +421,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Upgrades the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. When no arguments are given, shows the packages with upgrades available
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -431,7 +431,7 @@ public partial interface IWinget
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// © 2026 Microsoft. All rights reserved.
+    /// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

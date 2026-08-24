@@ -78,11 +78,11 @@ internal partial class Winget : IWinget
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConfigureValidateAsync(
-        WingetConfigureValidateOptions options,
+        WingetConfigureValidateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new WingetConfigureValidateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -294,11 +294,11 @@ internal partial class Winget : IWinget
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SettingsSetAsync(
-        WingetSettingsSetOptions options,
+        WingetSettingsSetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new WingetSettingsSetOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -312,20 +312,20 @@ internal partial class Winget : IWinget
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SourceAddAsync(
-        WingetSourceAddOptions options,
+        WingetSourceAddOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new WingetSourceAddOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SourceEditAsync(
-        WingetSourceEditOptions options,
+        WingetSourceEditOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new WingetSourceEditOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -357,11 +357,11 @@ internal partial class Winget : IWinget
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SourceRemoveAsync(
-        WingetSourceRemoveOptions options,
+        WingetSourceRemoveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new WingetSourceRemoveOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

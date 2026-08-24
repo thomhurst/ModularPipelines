@@ -13,7 +13,7 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// © 2026 Microsoft. All rights reserved.
+/// Add a new pin. A pin can limit the Windows Package Manager from upgrade a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager. By default, a pinned package can be upgraded by mentioning it explicitly in the 'upgrade' command or by adding the '--include-pinned' flag to 'winget upgrade --all'.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -47,8 +47,8 @@ public record WingetPinAddOptions : WingetOptions
     /// <summary>
     /// Find package using exact match
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--exact", ShortForm = "-e")]
+    public bool? Exact { get; set; }
 
     /// <summary>
     /// Version to which to pin the package. The wildcard '*' can be used as the last version part
@@ -89,26 +89,26 @@ public record WingetPinAddOptions : WingetOptions
     /// <summary>
     /// Direct run the command and continue with non security related issues
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Block from upgrading until the pin is removed, preventing override arguments
     /// </summary>
-    [CliOption("--blocking")]
-    public string? Blocking { get; set; }
+    [CliFlag("--blocking")]
+    public bool? Blocking { get; set; }
 
     /// <summary>
     /// Pin a specific installed version
     /// </summary>
-    [CliOption("--installed")]
-    public string? Installed { get; set; }
+    [CliFlag("--installed")]
+    public bool? Installed { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
-    [CliOption("--wait")]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     /// <summary>
     /// Disable interactive prompts
