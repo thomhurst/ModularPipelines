@@ -19,4 +19,12 @@ internal interface IModuleActivator
     /// <param name="serviceProvider">The service provider for resolving dependencies.</param>
     /// <returns>The created module instance.</returns>
     IModule CreateModule(Type moduleType, IServiceProvider serviceProvider);
+
+    /// <summary>
+    /// Creates a module for planning without evaluating its configuration.
+    /// </summary>
+    /// <param name="moduleType">The type of module to create.</param>
+    /// <param name="serviceProvider">The service provider for resolving dependencies.</param>
+    /// <returns>The unconfigured module instance.</returns>
+    IModule CreatePlanningModule(Type moduleType, IServiceProvider serviceProvider);
 }

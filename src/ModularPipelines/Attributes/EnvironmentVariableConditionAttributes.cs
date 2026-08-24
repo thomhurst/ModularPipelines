@@ -6,7 +6,7 @@ namespace ModularPipelines.Attributes;
 /// Runs a module when an environment variable is set or equals an expected value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableAttribute : RunIfAllAttribute
+public sealed class RunIfEnvironmentVariableAttribute : RunIfAllAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableAttribute"/> class.
@@ -44,7 +44,7 @@ public sealed class RunIfEnvironmentVariableAttribute : RunIfAllAttribute
 /// Skips a module when an environment variable is set or equals an expected value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute
+public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SkipIfEnvironmentVariableAttribute"/> class.
@@ -82,7 +82,7 @@ public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute
 /// Runs a module when an environment variable is not set.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAllAttribute
+public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAllAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableUnsetAttribute"/> class.
@@ -111,7 +111,7 @@ public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAllAttribute
 /// Skips a module when an environment variable is not set.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class SkipIfEnvironmentVariableUnsetAttribute : SkipIfAttribute
+public sealed class SkipIfEnvironmentVariableUnsetAttribute : SkipIfAttribute, IPlanningConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SkipIfEnvironmentVariableUnsetAttribute"/> class.

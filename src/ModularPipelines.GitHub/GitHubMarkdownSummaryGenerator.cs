@@ -1,5 +1,6 @@
 using System.Text;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
@@ -12,49 +13,95 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
     private readonly ISummaryLogger _summaryLogger;
+    private readonly IDependencyGraphExporter _dependencyGraphExporter;
 
-    public GitHubMarkdownSummaryGenerator(ISummaryLogger summaryLogger)
+    public GitHubMarkdownSummaryGenerator(
+        ISummaryLogger summaryLogger,
+        IDependencyGraphExporter dependencyGraphExporter)
     {
         _summaryLogger = summaryLogger;
+        _dependencyGraphExporter = dependencyGraphExporter;
     }
 
-    public Task OnStartAsync(IPipelineContext pipelineContext)
+    public Task OnPipelineStartAsync(IPipelineContext pipelineContext)
     {
         return Task.CompletedTask;
     }
 
-    public async Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary)
+    public async Task OnPipelineEndAsync(
+        IPipelineContext pipelineContext,
+        PipelineSummary pipelineSummary)
     {
-        var mermaid = GenerateMermaidSummary(pipelineSummary);
-        var table = GenerateTableSummary(pipelineSummary);
-        var exception = GetException(pipelineSummary);
-
-        var stepSummaryVariable = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
-
+        var stepSummaryVariable = pipelineContext.Environment.Variables
+            .GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
         if (string.IsNullOrEmpty(stepSummaryVariable))
         {
             return;
         }
 
-        await WriteFile(pipelineContext, stepSummaryVariable, mermaid, table, exception);
+        var mermaid = GenerateMermaidSummary(pipelineSummary);
+        var dependencyGraph = await GenerateDependencyGraphAsync(pipelineSummary).ConfigureAwait(false);
+        var table = GenerateTableSummary(pipelineSummary);
+        var exception = GetException(pipelineSummary);
+
+        await WriteFile(
+            pipelineContext,
+            stepSummaryVariable,
+            dependencyGraph,
+            mermaid,
+            table,
+            exception);
     }
 
-    private async Task WriteFile(IPipelineContext pipelineContext, string stepSummaryVariable, string mermaid,
-        string table, string exception)
+    private async Task WriteFile(
+        IPipelineContext pipelineContext,
+        string stepSummaryVariable,
+        string dependencyGraph,
+        string mermaid,
+        string table,
+        string exception)
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
-        var contents = $"{mermaid}\n\n{table}\n\n{_summaryLogger.GetOutput()}{exception}";
-        long newContentSize = Encoding.UTF8.GetByteCount(contents);
-        var newSize = currentFileSize + newContentSize;
+        var existingSummary = $"{mermaid}\n\n{table}\n\n{_summaryLogger.GetOutput()}{exception}";
+        var contents = SelectContentsToAppend(currentFileSize, dependencyGraph, existingSummary);
 
-        if (newSize > MaxFileSizeInBytes)
+        if (contents is null)
         {
             System.Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
             return;
         }
 
         await pipelineContext.Files.GetFile(stepSummaryVariable).AppendAsync(contents);
+    }
+
+    private static string? SelectContentsToAppend(
+        long currentFileSize,
+        string dependencyGraph,
+        string existingSummary)
+    {
+        if (currentFileSize + Encoding.UTF8.GetByteCount(existingSummary) > MaxFileSizeInBytes)
+        {
+            return null;
+        }
+
+        var contentsWithGraph = $"{dependencyGraph}\n\n{existingSummary}";
+        return currentFileSize + Encoding.UTF8.GetByteCount(contentsWithGraph) <= MaxFileSizeInBytes
+            ? contentsWithGraph
+            : existingSummary;
+    }
+
+    private async Task<string> GenerateDependencyGraphAsync(PipelineSummary pipelineSummary)
+    {
+        var graph = await _dependencyGraphExporter
+            .RenderSummaryAsync(DependencyGraphFormat.Mermaid, pipelineSummary)
+            .ConfigureAwait(false);
+        return $"""
+               ### Dependency Graph
+               ```mermaid
+               {graph}
+               ```
+               """;
     }
 
     private static string GetException(PipelineSummary pipelineSummary)

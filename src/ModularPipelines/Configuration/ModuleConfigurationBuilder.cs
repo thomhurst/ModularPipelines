@@ -40,6 +40,7 @@ public sealed class ModuleConfigurationBuilder
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>> _planningSkipConditions = [];
+    private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _synchronousPlanningSkipConditions = [];
     private readonly List<string> _cacheKeyParts = [];
     private readonly HashSet<string> _cacheEnvironmentVariables = [with(StringComparer.Ordinal)];
     private string? _cacheAssemblyVersionKey;
@@ -48,6 +49,7 @@ public sealed class ModuleConfigurationBuilder
     private Func<IModuleContext, Shield>? _resilienceShieldFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
+    private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
     private ModulePriority? _priority;
     private ExecutionType? _executionType;
@@ -75,6 +77,7 @@ public sealed class ModuleConfigurationBuilder
         var adaptedCondition = AdaptSkipCondition(condition);
         _skipConditions.Add(adaptedCondition);
         _planningSkipConditions.Add(AdaptPlanningSkipCondition(adaptedCondition));
+        AddSynchronousPlanningSkipCondition(adaptedCondition);
         return this;
     }
 
@@ -93,6 +96,7 @@ public sealed class ModuleConfigurationBuilder
         ArgumentNullException.ThrowIfNull(condition);
         _skipConditions.Add(condition);
         _planningSkipConditions.Add(AdaptPlanningSkipCondition(condition));
+        _hasAsyncSkipCondition = true;
         return this;
     }
 
@@ -111,8 +115,10 @@ public sealed class ModuleConfigurationBuilder
         ValidateSkipConditionGroup(conditions);
 
         var adaptedConditions = Array.ConvertAll(conditions, AdaptSkipCondition);
-        _skipConditions.Add(ComposeAllSkipConditions(adaptedConditions));
+        var composedCondition = ComposeAllSkipConditions(adaptedConditions);
+        _skipConditions.Add(composedCondition);
         _planningSkipConditions.Add(ComposeAllPlanningSkipConditions(adaptedConditions));
+        AddSynchronousPlanningSkipCondition(composedCondition);
         return this;
     }
 
@@ -132,6 +138,7 @@ public sealed class ModuleConfigurationBuilder
 
         _skipConditions.Add(ComposeAllSkipConditions([.. conditions]));
         _planningSkipConditions.Add(ComposeAllPlanningSkipConditions(conditions));
+        _hasAsyncSkipCondition = true;
         return this;
     }
 
@@ -434,6 +441,7 @@ public sealed class ModuleConfigurationBuilder
         {
             SkipCondition = ComposeSkipConditions(),
             PlanningSkipCondition = ComposePlanningSkipConditions(),
+            SynchronousPlanningSkipCondition = ComposeSynchronousPlanningSkipConditions(),
             Timeout = _timeout,
             RetryConfiguration = _retryConfiguration,
             ResilienceShieldFactory = _resilienceShieldFactory,
@@ -458,14 +466,18 @@ public sealed class ModuleConfigurationBuilder
         return this;
     }
 
-    private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? ComposeSkipConditions()
+    private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? ComposeSkipConditions() =>
+        ComposeSkipConditions(_skipConditions);
+
+    private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? ComposeSkipConditions(
+        IReadOnlyCollection<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> skipConditions)
     {
-        if (_skipConditions.Count == 0)
+        if (skipConditions.Count == 0)
         {
             return null;
         }
 
-        var conditions = _skipConditions.ToArray();
+        var conditions = skipConditions.ToArray();
         return async (context, cancellationToken) =>
         {
             foreach (var condition in conditions)
@@ -505,6 +517,28 @@ public sealed class ModuleConfigurationBuilder
 
             return hasUnknownDecision ? null : SkipDecision.DoNotSkip;
         };
+    }
+
+    private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? ComposeSynchronousPlanningSkipConditions()
+    {
+        var condition = ComposeSkipConditions(_synchronousPlanningSkipConditions);
+        if (condition is null)
+        {
+            return null;
+        }
+
+        var hasAsyncSkipCondition = _hasAsyncSkipCondition;
+        return async (context, cancellationToken) =>
+        {
+            var decision = await condition(context, cancellationToken).ConfigureAwait(false);
+            return decision.ShouldSkip || !hasAsyncSkipCondition ? decision : null;
+        };
+    }
+
+    private void AddSynchronousPlanningSkipCondition(
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition)
+    {
+        _synchronousPlanningSkipConditions.Add(condition);
     }
 
     private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> ComposeAllSkipConditions(

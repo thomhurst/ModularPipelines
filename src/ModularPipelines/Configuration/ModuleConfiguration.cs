@@ -57,6 +57,8 @@ public sealed class ModuleConfiguration
 
     internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? PlanningSkipCondition { get; init; }
 
+    internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? SynchronousPlanningSkipCondition { get; init; }
+
     /// <summary>
     /// Gets the timeout duration for each module execution attempt.
     /// </summary>

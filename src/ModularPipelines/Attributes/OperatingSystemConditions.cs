@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using ModularPipelines.Conditions;
+using ModularPipelines.Engine.Attributes;
 
 namespace ModularPipelines.Attributes;
 
@@ -48,6 +50,38 @@ internal static class OperatingSystemConditions
     public static bool HasImpossibleCombination(IEnumerable<IConditionAttribute> attributes)
     {
         HashSet<string>? supportedOperatingSystems = null;
+
+        foreach (var attribute in attributes)
+        {
+            var attributeOperatingSystems = GetSupportedOperatingSystems(attribute);
+            if (attributeOperatingSystems is null)
+            {
+                continue;
+            }
+
+            if (supportedOperatingSystems is null)
+            {
+                supportedOperatingSystems = attributeOperatingSystems;
+            }
+            else
+            {
+                supportedOperatingSystems.IntersectWith(attributeOperatingSystems);
+            }
+        }
+
+        return supportedOperatingSystems is { Count: 0 };
+    }
+
+    /// <summary>
+    /// Returns whether declared all-platform attributes require mutually exclusive operating systems
+    /// without constructing condition attributes.
+    /// </summary>
+    public static bool HasImpossibleCombination(Type moduleType)
+    {
+        HashSet<string>? supportedOperatingSystems = null;
+        var attributes = CustomAttributeMetadata.GetApplicable(
+            moduleType,
+            static type => typeof(RunIfAllAttribute).IsAssignableFrom(type));
 
         foreach (var attribute in attributes)
         {
@@ -148,6 +182,61 @@ internal static class OperatingSystemConditions
         }
 
         return supportedOperatingSystems;
+    }
+
+    private static HashSet<string>? GetSupportedOperatingSystems(CustomAttributeData attribute)
+    {
+        if (attribute.AttributeType == typeof(RunIfOperatingSystemAttribute))
+        {
+            return GetOperatingSystemsFromConstructor(attribute);
+        }
+
+        var conditionTypes = attribute.AttributeType.GetGenericArguments();
+        if (conditionTypes.Length == 0)
+        {
+            return null;
+        }
+
+        HashSet<string>? supportedOperatingSystems = null;
+        foreach (var conditionType in conditionTypes)
+        {
+            var operatingSystem = GetOperatingSystem(conditionType);
+            if (operatingSystem is null)
+            {
+                return null;
+            }
+
+            if (supportedOperatingSystems is null)
+            {
+                supportedOperatingSystems = new HashSet<string>(
+                    [operatingSystem],
+                    StringComparer.OrdinalIgnoreCase);
+            }
+            else
+            {
+                supportedOperatingSystems.IntersectWith([operatingSystem]);
+            }
+        }
+
+        return supportedOperatingSystems;
+    }
+
+    private static HashSet<string>? GetOperatingSystemsFromConstructor(CustomAttributeData attribute)
+    {
+        if (attribute.ConstructorArguments is not [{ Value: IReadOnlyCollection<CustomAttributeTypedArgument> values }])
+        {
+            return null;
+        }
+
+        var operatingSystems = values
+            .Select(static value => value.Value is null
+                ? OperatingSystemIdentifier.Unknown
+                : (OperatingSystemIdentifier) Enum.ToObject(typeof(OperatingSystemIdentifier), value.Value))
+            .Select(GetOperatingSystem)
+            .ToArray();
+        return operatingSystems.Length == 0 || operatingSystems.Any(static value => value is null)
+            ? null
+            : new HashSet<string>(operatingSystems!, StringComparer.OrdinalIgnoreCase);
     }
 
     [UnconditionalSuppressMessage(

@@ -124,21 +124,25 @@ internal sealed class PipelineImpl : IPipeline
             {
                 summary = commandResult;
             }
-            else if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
-            {
-                var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
-                Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
-                var now = DateTimeOffset.UtcNow;
-                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
-                {
-                    StatusOverride = Status.Successful,
-                };
-            }
             else
             {
-                summary = await Services.GetRequiredService<IExecutionOrchestrator>()
-                    .ExecuteAsync(cancellationToken)
-                    .ConfigureAwait(false);
+                Services.GetRequiredService<PipelineExecutionState>().MarkExecutionStarted();
+                if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
+                {
+                    var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
+                    Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
+                    var now = DateTimeOffset.UtcNow;
+                    summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
+                    {
+                        StatusOverride = Status.Successful,
+                    };
+                }
+                else
+                {
+                    summary = await Services.GetRequiredService<IExecutionOrchestrator>()
+                        .ExecuteAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
             }
 
             ModuleActivityTracing.RecordPipelineCompletion(
@@ -157,6 +161,14 @@ internal sealed class PipelineImpl : IPipeline
             throw;
         }
     }
+
+    /// <inheritdoc />
+    public Task ExportDependencyGraphAsync(
+        DependencyGraphFormat format,
+        string path,
+        CancellationToken cancellationToken = default) =>
+        Services.GetRequiredService<IDependencyGraphExporter>()
+            .ExportAsync(format, path, cancellationToken);
 
     /// <inheritdoc />
     public ValueTask DisposeAsync()
