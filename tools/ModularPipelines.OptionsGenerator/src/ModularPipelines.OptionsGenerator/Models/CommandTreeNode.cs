@@ -88,7 +88,11 @@ public class CommandTreeNode
         {
             var segment = childCommandGroup.Key;
             var childCommands = childCommandGroup.ToArray();
-            var identifierOverrides = childCommands
+            var identifierOverrides = commands
+                .Where(command => partIndex < command.CommandParts.Length
+                                  && command.CommandParts[partIndex].Equals(
+                                      segment,
+                                      StringComparison.OrdinalIgnoreCase))
                 .Select(command => command.CommandPartIdentifierOverrides.TryGetValue(
                     partIndex,
                     out var identifierOverride)

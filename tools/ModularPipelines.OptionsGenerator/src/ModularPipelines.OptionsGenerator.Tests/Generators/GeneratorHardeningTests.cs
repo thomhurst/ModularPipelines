@@ -2045,6 +2045,81 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Applies_Restored_Parent_Casing_To_Live_Child()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupCloudShellOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"cloud-shell\")] "
+                + "public record ToolGroupCloudShellOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupCloudshell.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupCloudshell { "
+                + "public Task ExecuteAsync(ToolGroupCloudShellOptions? options = null) => Task.CompletedTask; }");
+            var tool = Tool(Command(
+                "ToolGroupCloudShellCurrentOptions",
+                "ToolOptions",
+                ["group", "cloud-shell", "current"],
+                subDomainGroup: "Group",
+                commandGroupIdentifierOverride: "Group"));
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("ToolGroupCloudshell.Generated.cs", StringComparison.Ordinal));
+
+            await Assert.That(generated.Content).Contains("ExecuteAsync(");
+            await Assert.That(generated.Content).Contains("ToolGroupCloudShellOptions? options = null");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Recovers_Length_Changing_Nested_Identifier()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAdminUsersApplicationSetOldOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"admin\", \"users\", \"appset\", \"old\")] "
+                + "public record ToolAdminUsersApplicationSetOldOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAdminUsersApplicationSet.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolAdminUsersApplicationSet { "
+                + "public Task OldAsync(ToolAdminUsersApplicationSetOldOptions? options = null) => Task.CompletedTask; }");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(Command("ToolCurrentOptions", "ToolOptions", ["current"])),
+                root);
+
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName == "ToolAdminUsersApplicationSetOldOptions");
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.CommandPartIdentifierOverrides[1]).IsEqualTo("Users");
+                await Assert.That(restored.CommandPartIdentifierOverrides[2]).IsEqualTo("ApplicationSet");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task CommandTreeNode_Rejects_Conflicting_Explicit_Identifiers()
     {
         var commands = new[]

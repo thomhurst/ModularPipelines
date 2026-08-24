@@ -307,34 +307,80 @@ internal static class GeneratedApiCompatibilityPreserver
             .Take(facadePartCount)
             .Select(GeneratorUtils.ToPascalCase)
             .ToArray();
-        var suffixLength = identifiers.Sum(static identifier => identifier.Length);
-        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            || implementationType.Length <= tool.NamespacePrefix.Length + suffixLength
-            || !implementationType.EndsWith(
-                string.Concat(identifiers),
-                StringComparison.OrdinalIgnoreCase))
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
         {
             return null;
         }
 
-        var suffixStart = implementationType.Length - suffixLength;
-        var recoveredGroup = implementationType.Substring(
-            tool.NamespacePrefix.Length,
-            suffixStart - tool.NamespacePrefix.Length);
-        if (!recoveredGroup.Equals(groupIdentifier, StringComparison.OrdinalIgnoreCase))
+        var implementationSuffix = implementationType[tool.NamespacePrefix.Length..];
+        if (!implementationSuffix.StartsWith(groupIdentifier, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var recoveredIdentifiers = SplitRecoveredIdentifiers(
+            implementationSuffix[groupIdentifier.Length..],
+            identifiers);
+        if (recoveredIdentifiers is null)
         {
             return null;
         }
 
         var recoveredOverrides = new Dictionary<int, string>();
-        var offset = suffixStart;
-        for (var index = 0; index < identifiers.Length; index++)
+        for (var index = 0; index < recoveredIdentifiers.Length; index++)
         {
-            recoveredOverrides[index + 1] = implementationType.Substring(offset, identifiers[index].Length);
-            offset += identifiers[index].Length;
+            recoveredOverrides[index + 1] = recoveredIdentifiers[index];
         }
 
         return recoveredOverrides;
+    }
+
+    private static string[]? SplitRecoveredIdentifiers(
+        string recoveredSuffix,
+        IReadOnlyList<string> defaultIdentifiers)
+    {
+        if (recoveredSuffix.Length < defaultIdentifiers.Count)
+        {
+            return null;
+        }
+
+        var candidates = new Dictionary<int, (int Cost, string[] Identifiers, bool IsUnique)>
+        {
+            [0] = (0, [], true),
+        };
+        for (var partIndex = 0; partIndex < defaultIdentifiers.Count; partIndex++)
+        {
+            var nextCandidates = new Dictionary<int, (int Cost, string[] Identifiers, bool IsUnique)>();
+            var remainingPartCount = defaultIdentifiers.Count - partIndex - 1;
+            foreach (var (offset, candidate) in candidates)
+            {
+                for (var end = offset + 1; end <= recoveredSuffix.Length - remainingPartCount; end++)
+                {
+                    var identifier = recoveredSuffix[offset..end];
+                    var cost = candidate.Cost
+                               + (identifier.Equals(
+                                   defaultIdentifiers[partIndex],
+                                   StringComparison.OrdinalIgnoreCase)
+                                   ? 0
+                                   : 1);
+                    var identifiers = candidate.Identifiers.Append(identifier).ToArray();
+                    if (!nextCandidates.TryGetValue(end, out var current) || cost < current.Cost)
+                    {
+                        nextCandidates[end] = (cost, identifiers, candidate.IsUnique);
+                    }
+                    else if (cost == current.Cost)
+                    {
+                        nextCandidates[end] = (cost, current.Identifiers, false);
+                    }
+                }
+            }
+
+            candidates = nextCandidates;
+        }
+
+        return candidates.TryGetValue(recoveredSuffix.Length, out var result) && result.IsUnique
+            ? result.Identifiers
+            : null;
     }
 
     private static string GetFacadeImplementationType(
