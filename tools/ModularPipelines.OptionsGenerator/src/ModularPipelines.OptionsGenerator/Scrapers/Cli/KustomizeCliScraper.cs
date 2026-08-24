@@ -54,6 +54,8 @@ public partial class KustomizeCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
+    protected override string VersionArguments => "version";
+
     /// <summary>
     /// Kustomize renders the build directory as required in its Cobra usage line even
     /// though omitting it is documented to use the current directory.

@@ -14,6 +14,8 @@ public class KubectlCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Kubernetes";
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
+    protected override string VersionArguments => "version --client";
+
     public KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger)
         : base(executor, helpCache, logger)
     {

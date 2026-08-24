@@ -256,19 +256,28 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         .Select(pathDirectory => pathDirectory.Trim('"'))
         ?? [];
 
-    public async Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default)
+    public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+        IsAvailableAsync(command, "--version", cancellationToken);
+
+    public async Task<bool> IsAvailableAsync(
+        string command,
+        string arguments,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            // Try to get version/help to check if command exists
-            var result = await ExecuteAsync(command, "--version", cancellationToken);
+            var result = await ExecuteAsync(command, arguments, cancellationToken);
             if (result.Success)
             {
                 return true;
             }
 
-            // Some commands don't support --version, try --help
-            result = await ExecuteAsync(command, "--help", cancellationToken);
+            // Some commands don't support the preferred probe, so preserve the help fallback.
+            if (!arguments.Equals("--help", StringComparison.Ordinal))
+            {
+                result = await ExecuteAsync(command, "--help", cancellationToken);
+            }
+
             return result.ExitCode != -1; // -1 indicates execution failure (command not found)
         }
         catch
