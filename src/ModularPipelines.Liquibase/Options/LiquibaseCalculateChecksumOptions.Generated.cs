@@ -32,25 +32,25 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     /// ChangeSet Author attribute
     /// </summary>
     [CliOption("--changeset-author", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetAuthor { get; set; }
+    public string? ChangeSetAuthor { get; set; }
 
     /// <summary>
     /// ChangeSet ID attribute
     /// </summary>
     [CliOption("--changeset-id", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetId { get; set; }
+    public string? ChangeSetId { get; set; }
 
     /// <summary>
     /// ChangeSet identifier of form filepath::id::author
     /// </summary>
     [CliOption("--changeset-identifier", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetIdentifier { get; set; }
+    public string? ChangeSetIdentifier { get; set; }
 
     /// <summary>
     /// Changelog path in which the changeSet is included
     /// </summary>
     [CliOption("--changeset-path", Format = OptionFormat.EqualsSeparated)]
-    public string? ChangesetPath { get; set; }
+    public string? ChangeSetPath { get; set; }
 
     /// <summary>
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
@@ -88,5 +88,33 @@ public record LiquibaseCalculateChecksumOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("Use ChangeSetAuthor instead.")]
+    public string? ChangesetAuthor
+    {
+        get => ChangeSetAuthor;
+        set => ChangeSetAuthor = value;
+    }
+
+    [Obsolete("Use ChangeSetId instead.")]
+    public string? ChangesetId
+    {
+        get => ChangeSetId;
+        set => ChangeSetId = value;
+    }
+
+    [Obsolete("Use ChangeSetIdentifier instead.")]
+    public string? ChangesetIdentifier
+    {
+        get => ChangeSetIdentifier;
+        set => ChangeSetIdentifier = value;
+    }
+
+    [Obsolete("Use ChangeSetPath instead.")]
+    public string? ChangesetPath
+    {
+        get => ChangeSetPath;
+        set => ChangeSetPath = value;
+    }
 
 }

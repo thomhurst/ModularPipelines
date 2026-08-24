@@ -212,7 +212,7 @@ internal partial class Liquibase : ILiquibase
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> MarkNextChangesetRanAsync(
+    public virtual async Task<CommandResult> MarkNextChangeSetRanAsync(
         LiquibaseMarkNextChangesetRanOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -220,13 +220,31 @@ internal partial class Liquibase : ILiquibase
         return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangesetRanOptions(), executionOptions, cancellationToken);
     }
 
+    [Obsolete("Use MarkNextChangeSetRanAsync instead.")]
+    public virtual async Task<CommandResult> MarkNextChangesetRanAsync(
+        LiquibaseMarkNextChangesetRanOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await MarkNextChangeSetRanAsync(options, executionOptions, cancellationToken);
+    }
+
     /// <inheritdoc />
-    public virtual async Task<CommandResult> MarkNextChangesetRanSqlAsync(
+    public virtual async Task<CommandResult> MarkNextChangeSetRanSqlAsync(
         LiquibaseMarkNextChangesetRanSqlOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new LiquibaseMarkNextChangesetRanSqlOptions(), executionOptions, cancellationToken);
+    }
+
+    [Obsolete("Use MarkNextChangeSetRanSqlAsync instead.")]
+    public virtual async Task<CommandResult> MarkNextChangesetRanSqlAsync(
+        LiquibaseMarkNextChangesetRanSqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await MarkNextChangeSetRanSqlAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

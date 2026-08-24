@@ -17,11 +17,11 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseShowSummaryOutput
 {
     [EnumValue("log")]
-    Log,
+    Log = 0,
 
     [EnumValue("console")]
-    Console,
+    Console = 1,
 
     [EnumValue("all")]
-    All
+    All = 2
 }

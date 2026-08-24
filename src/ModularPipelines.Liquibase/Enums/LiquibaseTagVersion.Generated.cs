@@ -17,8 +17,8 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseTagVersion
 {
     [EnumValue("oldest")]
-    Oldest,
+    Oldest = 0,
 
     [EnumValue("newest")]
-    Newest
+    Newest = 1
 }
