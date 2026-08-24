@@ -306,7 +306,6 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             PositionalArguments = [],
             SubDomainGroup = subDomain,
             Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList(),
-            CompatibilityMethods = AzCliCompatibility.GetMethods(commandParts),
         };
     }
 

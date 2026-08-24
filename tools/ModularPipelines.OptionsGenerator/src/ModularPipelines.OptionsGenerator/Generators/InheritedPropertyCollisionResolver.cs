@@ -26,7 +26,6 @@ internal static class InheritedPropertyCollisionResolver
         var globalNames = tool.GlobalOptions
             .Concat(tool.SupplementalGlobalOptions)
             .Select(option => option.PropertyName)
-            .Concat(tool.GlobalCompatibilityProperties.Select(property => property.PropertyName))
             .ToHashSet(StringComparer.Ordinal);
         var globalRenamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var globalOptions = ResolveOptions(
@@ -42,7 +41,6 @@ internal static class InheritedPropertyCollisionResolver
         var resolvedGlobalNames = globalOptions
             .Concat(supplementalGlobalOptions)
             .Select(option => option.PropertyName)
-            .Concat(tool.GlobalCompatibilityProperties.Select(property => property.PropertyName))
             .ToHashSet(StringComparer.Ordinal);
 
         return tool with
@@ -55,12 +53,6 @@ internal static class InheritedPropertyCollisionResolver
                 .ToArray(),
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = supplementalGlobalOptions,
-            GlobalCompatibilityProperties = tool.GlobalCompatibilityProperties
-                .Select(property => property.ForwardToPropertyName is { } target
-                    && globalRenamedProperties.TryGetValue(target, out var renamedTarget)
-                        ? property with { ForwardToPropertyName = renamedTarget }
-                        : property)
-                .ToArray(),
         };
     }
 
@@ -72,7 +64,6 @@ internal static class InheritedPropertyCollisionResolver
         var occupiedNames = command.Options
             .Select(option => option.PropertyName)
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
-            .Concat(command.CompatibilityProperties.Select(property => property.PropertyName))
             .Concat(globalPropertyNames)
             .ToHashSet(StringComparer.Ordinal);
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -81,10 +72,7 @@ internal static class InheritedPropertyCollisionResolver
             command.CommandParts,
             occupiedNames,
             renamedProperties);
-        var reservedNames = command.CompatibilityProperties
-            .Select(property => property.PropertyName)
-            .Concat(globalPropertyNames)
-            .ToHashSet(StringComparer.Ordinal);
+        var reservedNames = globalPropertyNames;
         var usedLocalNames = new HashSet<string>(reservedNames, StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(
             options,
@@ -113,18 +101,6 @@ internal static class InheritedPropertyCollisionResolver
         {
             Options = options,
             PositionalArguments = positionalArguments,
-            CompatibilityProperties = command.CompatibilityProperties
-                .Select(property => property.ForwardToPropertyName is { } target
-                    ? property with
-                    {
-                        ForwardToPropertyName = ResolveRenamedPropertyName(
-                            target,
-                            renamedProperties,
-                            globalRenamedProperties,
-                            renamedArgumentNames),
-                    }
-                    : property)
-                .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
                     pair => ResolveRenamedPropertyName(

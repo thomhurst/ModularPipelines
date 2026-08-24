@@ -69,28 +69,6 @@ public partial class FlywayCliScraper : CliScraperBase
         "--help", "-h", "--version", "help", "version"
     };
 
-    /// <inheritdoc />
-    public override CliToolDefinition CreateToolDefinition()
-    {
-        return base.CreateToolDefinition() with
-        {
-            CommandCoverage = new CliCommandCoveragePolicy
-            {
-                MinimumCommandCount = 19,
-                SentinelCommands =
-                [
-                    "flyway add",
-                    "flyway auth",
-                    "flyway diff",
-                    "flyway diffApply",
-                    "flyway diffText",
-                    "flyway generate",
-                    "flyway undo",
-                ],
-            },
-        };
-    }
-
     /// <summary>
     /// Extracts subcommand names from Flyway help text.
     /// </summary>

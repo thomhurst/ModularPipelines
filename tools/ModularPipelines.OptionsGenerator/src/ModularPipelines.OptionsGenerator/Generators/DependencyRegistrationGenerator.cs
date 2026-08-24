@@ -42,7 +42,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         // Usings
         if (tool.CommandGroupAliases.Count > 0)
         {
-            sb.AppendLine("#pragma warning disable CS0618 // Compatibility aliases are intentionally registered.");
+            sb.AppendLine("#pragma warning disable CS0618 // Current CLI aliases are intentionally registered.");
             sb.AppendLine();
         }
 

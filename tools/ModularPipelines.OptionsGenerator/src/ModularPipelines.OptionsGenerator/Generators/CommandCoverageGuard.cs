@@ -44,12 +44,6 @@ internal static class CommandCoverageGuard
             previous,
             commands,
             excludedCommands);
-        var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, excludedCommands);
-        var violations = GetViolations(
-            tool.CommandCoverage,
-            commands.Count,
-            missingSentinels);
-
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
 
         return new CommandCoverageEvaluation
@@ -60,7 +54,6 @@ internal static class CommandCoverageGuard
             AddedCommands = addedCommands,
             RemovedCommands = removedCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
-            Violations = violations,
         };
     }
 
@@ -99,49 +92,6 @@ internal static class CommandCoverageGuard
                 .All(excludedCommands.Contains))
             .ToArray()
         ?? [];
-
-    private static IReadOnlyList<string> GetMissingSentinels(
-        CliCommandCoveragePolicy policy,
-        IReadOnlyList<string> commands,
-        IReadOnlySet<string> excludedCommands) =>
-        policy.SentinelCommands
-            .Select(NormalizeCommand)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Where(sentinel => !commands.Contains(sentinel, StringComparer.OrdinalIgnoreCase))
-            .Where(sentinel => !excludedCommands.Contains(sentinel))
-            .ToArray();
-
-    private static IReadOnlyList<string> GetViolations(
-        CliCommandCoveragePolicy policy,
-        int commandCount,
-        IReadOnlyList<string> missingSentinels)
-    {
-        var violations = new List<string>();
-
-        if (policy.MinimumCommandCount is < 1)
-        {
-            violations.Add("MinimumCommandCount must be greater than zero when configured.");
-        }
-        else if (policy.MinimumCommandCount is { } minimum && commandCount < minimum)
-        {
-            violations.Add($"Command count {commandCount} is below the configured minimum of {minimum}.");
-        }
-
-        AddViolation(violations, "Missing sentinel commands", missingSentinels);
-
-        return violations;
-    }
-
-    private static void AddViolation(
-        ICollection<string> violations,
-        string message,
-        IReadOnlyCollection<string> values)
-    {
-        if (values.Count > 0)
-        {
-            violations.Add($"{message}: {string.Join(", ", values)}.");
-        }
-    }
 
     public static async Task WriteManifestAsync(
         CommandCoverageEvaluation evaluation,
@@ -373,6 +323,4 @@ internal sealed record CommandCoverageEvaluation
     public required IReadOnlyList<string> RemovedCommands { get; init; }
 
     public required IReadOnlyList<string> KnownGroupsWithoutChildren { get; init; }
-
-    public required IReadOnlyList<string> Violations { get; init; }
 }

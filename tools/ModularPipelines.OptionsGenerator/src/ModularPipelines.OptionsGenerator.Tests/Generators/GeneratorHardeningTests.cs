@@ -21,8 +21,7 @@ public class GeneratorHardeningTests
         string? subDomainGroup = null,
         string? commandGroupIdentifierOverride = null,
         IReadOnlyList<CliEnumDefinition>? enums = null,
-        IReadOnlyList<CliOptionDefinition>? options = null,
-        IReadOnlyList<CliCompatibilityMethod>? compatibilityMethods = null) =>
+        IReadOnlyList<CliOptionDefinition>? options = null) =>
         new()
         {
             FullCommand = "tool",
@@ -34,7 +33,6 @@ public class GeneratorHardeningTests
             SubDomainGroup = subDomainGroup,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums ?? [],
-            CompatibilityMethods = compatibilityMethods ?? [],
         };
 
     [Test]
@@ -616,105 +614,7 @@ public class GeneratorHardeningTests
         }
     }
 
-    [Test]
-    public async Task InheritedPropertyCollisionResolver_Reserves_Compatibility_Names_For_Local_Collisions()
-    {
-        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
-        {
-            Options =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--target",
-                    PropertyName = "Target",
-                    CSharpType = "string?",
-                },
-            ],
-            PositionalArguments =
-            [
-                new CliPositionalArgument
-                {
-                    PropertyName = "Target",
-                    CSharpType = "string",
-                    PositionIndex = 0,
-                    IsRequired = true,
-                },
-            ],
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "TargetArgument",
-                    CSharpType = "string?",
-                    ObsoleteMessage = "Compatibility reservation.",
-                },
-            ],
-            DocumentationExampleValues = new Dictionary<string, string>
-            {
-                ["Target"] = "\"destination\"",
-            },
-        };
 
-        var resolved = InheritedPropertyCollisionResolver.Resolve(Tool(command)).Commands.Single();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(resolved.PositionalArguments.Single().PropertyName)
-                .IsEqualTo("TargetArgument2");
-            await Assert.That(resolved.DocumentationExampleValues)
-                .ContainsKey("TargetArgument2");
-        }
-    }
-
-    [Test]
-    public async Task InheritedPropertyCollisionResolver_Retargets_Aliases_To_Renamed_Arguments()
-    {
-        var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
-        {
-            PositionalArguments =
-            [
-                new CliPositionalArgument
-                {
-                    PropertyName = "Target",
-                    CSharpType = "string",
-                    PositionIndex = 0,
-                    IsRequired = true,
-                },
-            ],
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "LegacyTarget",
-                    CSharpType = "string",
-                    ForwardToPropertyName = "Target",
-                    ObsoleteMessage = "Use Target instead.",
-                },
-            ],
-        };
-        var tool = Tool(command) with
-        {
-            GlobalOptions =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--target",
-                    PropertyName = "Target",
-                    CSharpType = "string?",
-                },
-            ],
-        };
-
-        var resolved = InheritedPropertyCollisionResolver.Resolve(tool).Commands.Single();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(resolved.PositionalArguments.Single().PropertyName)
-                .IsEqualTo("TargetArgument");
-            await Assert.That(resolved.CompatibilityProperties.Single().ForwardToPropertyName)
-                .IsEqualTo("TargetArgument");
-        }
-    }
 
     [Test]
     public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
@@ -812,274 +712,14 @@ public class GeneratorHardeningTests
 
     #endregion
 
-    #region Compatibility properties
+    #region Property generation
 
-    [Test]
-    public async Task OptionsClassGenerator_Emits_NonCli_Compatibility_Properties()
-    {
-        const string obsoleteMessage = "Use \"NewName\".\r\nPath:\tC:\\tool";
-        var command = Command("ToolBuildOptions", "ToolOptions") with
-        {
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "OldName",
-                    CSharpType = "bool?",
-                    ForwardToPropertyName = "NewName",
-                    ObsoleteMessage = obsoleteMessage,
-                },
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "RemovedFlag",
-                    CSharpType = "bool?",
-                    ObsoleteMessage = "This flag has no effect.",
-                },
-            ],
-        };
 
-        var files = await new OptionsClassGenerator().GenerateAsync(Tool(command));
-        var generated = files.Single().Content;
 
-        await Assert.That(generated)
-            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
-        await Assert.That(generated).Contains("get => NewName;");
-        await Assert.That(generated).Contains("set => NewName = value;");
-        await Assert.That(generated).Contains("public bool? RemovedFlag { get; set; }");
-        await Assert.That(generated).DoesNotContain("CliFlag(\"--removed-flag\")");
-    }
 
-    [Test]
-    public async Task OptionsClassGenerator_Emits_Converted_Compatibility_Properties()
-    {
-        var command = Command("ToolBuildOptions", "ToolOptions") with
-        {
-            Options =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--output",
-                    PropertyName = "Outputs",
-                    CSharpType = "IEnumerable<string>?",
-                },
-                new CliOptionDefinition
-                {
-                    SwitchName = "--timestamp",
-                    PropertyName = "TimestampValue",
-                    CSharpType = "string?",
-                },
-            ],
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "Output",
-                    CSharpType = "string?",
-                    ForwardToPropertyName = "Outputs",
-                    ForwardingKind = CliCompatibilityForwardingKind.ScalarToCollection,
-                    ObsoleteMessage = "Use Outputs instead.",
-                },
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "Timestamp",
-                    CSharpType = "int?",
-                    ForwardToPropertyName = "TimestampValue",
-                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
-                    ObsoleteMessage = "Use TimestampValue instead.",
-                },
-            ],
-        };
 
-        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(generated).Contains("public IEnumerable<string>? Outputs { get; set; }");
-            await Assert.That(generated).Contains("public string? TimestampValue { get; set; }");
-            await Assert.That(generated).Contains("get => Outputs?.FirstOrDefault();");
-            await Assert.That(generated).Contains("set => Outputs = value is null ? null : [value];");
-            await Assert.That(generated).Contains("int.TryParse(TimestampValue");
-            await Assert.That(generated).Contains(
-                "set => TimestampValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
-        }
-    }
 
-    [Test]
-    public async Task OptionsClassGenerator_Emits_Case_Variant_Compatibility_Alias()
-    {
-        var command = Command("ToolBuildOptions", "ToolOptions") with
-        {
-            Options =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--nologo",
-                    PropertyName = "NoLogo",
-                    CSharpType = "bool?",
-                    IsFlag = true,
-                },
-            ],
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "Nologo",
-                    CSharpType = "bool?",
-                    ForwardToPropertyName = "NoLogo",
-                    ObsoleteMessage = "Use NoLogo instead.",
-                },
-            ],
-        };
-
-        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
-
-        await Assert.That(generated).Contains("public bool? NoLogo { get; set; }");
-        await Assert.That(generated).Contains("public bool? Nologo");
-        await Assert.That(generated).Contains("get => NoLogo;");
-    }
-
-    [Test]
-    public async Task OptionsClassGenerator_Renames_Global_Compatibility_Targets()
-    {
-        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
-        {
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "LegacyArguments",
-                    CSharpType = "IEnumerable<string>?",
-                    ForwardToPropertyName = "Arguments",
-                    ObsoleteMessage = "Use Arguments instead.",
-                },
-            ],
-        };
-        var tool = Tool(command) with
-        {
-            GlobalOptions =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--arguments",
-                    PropertyName = "Arguments",
-                    CSharpType = "IEnumerable<string>?",
-                },
-            ],
-        };
-
-        var generated = (await new OptionsClassGenerator().GenerateAsync(tool))
-            .Single(file => file.Content.Contains("record ToolRunOptions", StringComparison.Ordinal))
-            .Content;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(generated).Contains("get => CliArguments;");
-            await Assert.That(generated).Contains("set => CliArguments = value;");
-        }
-    }
-
-    [Test]
-    public async Task CommandTreeNode_Rejects_Conflicting_Explicit_Identifiers()
-    {
-        var commands = new[]
-        {
-            Command("ToolGroupFirstOptions", "ToolOptions", ["group", "cloud-shell", "first"]) with
-            {
-                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "Cloudshell" },
-            },
-            Command("ToolGroupSecondOptions", "ToolOptions", ["group", "cloud-shell", "second"]) with
-            {
-                CommandPartIdentifierOverrides = new Dictionary<int, string> { [1] = "CloudShell" },
-            },
-        };
-
-        await Assert.That(() => CommandTreeNode.BuildTree("Tool", "Group", commands))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("Cloudshell, CloudShell");
-    }
-
-    [Test]
-    public async Task OptionsClassGenerator_Rejects_Alias_Enum_Nullability_Changes()
-    {
-        const string aliasClassName = "ToolBuilderBakeOptions";
-        var command = Command(
-            "ToolBuildxBakeOptions",
-            "ToolOptions",
-            ["buildx", "bake"],
-            subDomainGroup: "Buildx") with
-        {
-            AliasCompatibilityProperties = new Dictionary<string, IReadOnlyList<CliAliasCompatibilityProperty>>
-            {
-                [aliasClassName] =
-                [
-                    new CliAliasCompatibilityProperty
-                    {
-                        PropertyName = "Progress",
-                        AliasCSharpType = "ToolBuilderBakeProgress?",
-                        CanonicalCSharpType = "ToolBuildxBakeProgress",
-                        ObsoleteMessage = "Use the canonical property instead.",
-                    },
-                ],
-            },
-        };
-        var tool = Tool(command) with
-        {
-            CommandGroupAliases =
-            [
-                new CliCommandGroupAlias
-                {
-                    Alias = "builder",
-                    CanonicalCommand = "buildx",
-                    ObsoleteMessage = "Use buildx instead.",
-                },
-            ],
-        };
-
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            new OptionsClassGenerator().GenerateAsync(tool));
-
-        await Assert.That(exception.Message)
-            .Contains("alias property Progress because its nullability changed");
-    }
-
-    [Test]
-    public async Task Global_Compatibility_Aliases_Follow_Inherited_Renames_And_Preserve_Dispatch()
-    {
-        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
-        {
-            GlobalOptions =
-            [
-                new CliOptionDefinition
-                {
-                    SwitchName = "--arguments",
-                    PropertyName = "Arguments",
-                    CSharpType = "IEnumerable<string>?",
-                },
-            ],
-            GlobalCompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "LegacyArguments",
-                    CSharpType = "IEnumerable<string>?",
-                    ForwardToPropertyName = "Arguments",
-                    ObsoleteMessage = "Use Arguments instead.",
-                },
-            ],
-        };
-
-        var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
-        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(resolved)).Single().Content;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(generated).Contains("public virtual IEnumerable<string>? CliArguments");
-            await Assert.That(generated).Contains("get => LegacyArguments;");
-            await Assert.That(generated).Contains("set => LegacyArguments = value;");
-            await Assert.That(generated)
-                .Contains("public virtual IEnumerable<string>? LegacyArguments { get; set; }");
-        }
-    }
 
     [Test]
     public async Task Local_Option_And_Argument_Name_Collisions_Are_Disambiguated()
@@ -1220,72 +860,7 @@ public class GeneratorHardeningTests
         await Assert.That(generated).DoesNotContain("options = default");
     }
 
-    [Test]
-    public async Task GenerateServiceMethod_Emits_Obsolete_Forwarding_Alias()
-    {
-        const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";
-        var sb = new StringBuilder();
-        var command = Command(
-            "ToolCreateOrUpdateOptions",
-            "ToolOptions",
-            compatibilityMethods:
-            [
-                new CliCompatibilityMethod
-                {
-                    MethodName = "Create_or_update",
-                    ObsoleteMessage = obsoleteMessage,
-                },
-            ]);
 
-        GeneratorUtils.GenerateServiceMethod(sb, "CreateOrUpdate", command);
-
-        var generated = sb.ToString();
-        var expectedObsoleteMessage = obsoleteMessage.Replace(
-            "CreateOrUpdate",
-            "CreateOrUpdateAsync",
-            StringComparison.Ordinal);
-
-        await Assert.That(generated)
-            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
-        await Assert.That(generated).DoesNotContain("CreateOrUpdateAsyncAsync");
-        await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
-        await Assert.That(generated).Contains(
-            "return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);");
-    }
-
-    [Test]
-    public async Task ServiceInterfaceGenerator_Delegates_Current_Member_To_Obsolete_Compatibility_Signature()
-    {
-        const string obsoleteMessage = "Use \"CreateOrUpdate\".\r\nPath:\tC:\\tool";
-        var tool = Tool(Command(
-            "ToolCreateOrUpdateOptions",
-            "ToolOptions",
-            ["create_or_update"],
-            compatibilityMethods:
-            [
-                new CliCompatibilityMethod
-                {
-                    MethodName = "Create_or_update",
-                    ObsoleteMessage = obsoleteMessage,
-                },
-            ]));
-
-        var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
-        var expectedObsoleteMessage = obsoleteMessage.Replace(
-            "CreateOrUpdate",
-            "CreateOrUpdateAsync",
-            StringComparison.Ordinal);
-
-        await Assert.That(generated)
-            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
-        await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
-        await Assert.That(generated).Contains("    #pragma warning disable CS0618");
-        await Assert.That(generated)
-            .Contains("    => Create_or_updateAsync(options, executionOptions, cancellationToken);");
-        await Assert.That(generated).Contains("    #pragma warning restore CS0618");
-        await Assert.That(generated)
-            .Contains("    => throw new System.NotSupportedException();");
-    }
 
     [Test]
     public async Task ServiceInterfaceGenerator_Emits_Default_Command_Implementations()
@@ -1334,17 +909,6 @@ public class GeneratorHardeningTests
         await Assert.That(result).IsEqualTo("AppSetCreate");
     }
 
-    [Test]
-    public async Task Az_Compatibility_Preserves_Known_Snake_Case_Methods()
-    {
-        var automationMethods = AzCliCompatibility.GetMethods(
-            ["security", "automation", "create_or_update"]);
-        var suppressionRuleMethods = AzCliCompatibility.GetMethods(
-            ["security", "alerts-suppression-rule", "upsert_scope"]);
-
-        await Assert.That(automationMethods.Single().MethodName).IsEqualTo("Create_or_update");
-        await Assert.That(suppressionRuleMethods.Single().MethodName).IsEqualTo("Upsert_scope");
-    }
 
     #endregion
 

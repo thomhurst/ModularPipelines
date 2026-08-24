@@ -3,7 +3,7 @@ using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers;
 
-internal static partial class DockerCliCompatibility
+internal static partial class DockerCliAliases
 {
     private static readonly CliCommandGroupAlias BuilderAlias = new()
     {

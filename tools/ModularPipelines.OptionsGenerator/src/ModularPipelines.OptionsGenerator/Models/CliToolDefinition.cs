@@ -67,7 +67,7 @@ public record CliToolDefinition
     public string? ToolVersion { get; init; }
 
     /// <summary>
-    /// Tool-specific invariants used by shared command discovery validation.
+    /// Tool-specific exclusions included in command coverage reporting.
     /// </summary>
     public CliCommandCoveragePolicy CommandCoverage { get; init; } = new();
 
@@ -81,11 +81,6 @@ public record CliToolDefinition
     /// or environment. These use the same metadata and generation path as scraped options.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions { get; init; } = [];
-
-    /// <summary>
-    /// Public global properties retained for source and binary compatibility but excluded from CLI rendering.
-    /// </summary>
-    public IReadOnlyList<CliCompatibilityProperty> GlobalCompatibilityProperties { get; init; } = [];
 
     /// <summary>
     /// Returns the validated, deterministic union of scraped and supplemental global options.
@@ -136,14 +131,8 @@ public record CliToolDefinition
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
-        .Concat(CompatibilityEnums)
         .DistinctBy(e => e.EnumName)
         .ToList();
-
-    /// <summary>
-    /// Generated enum types retained after the installed CLI stops advertising them.
-    /// </summary>
-    public IReadOnlyList<CliEnumDefinition> CompatibilityEnums { get; init; } = [];
 
     /// <summary>
     /// Any scraping errors encountered.
@@ -157,7 +146,7 @@ public record CliToolDefinition
 public record CliCommandGroupAlias
 {
     /// <summary>
-    /// Alias command segment exposed for compatibility.
+    /// Alias command segment exposed by the CLI.
     /// </summary>
     public required string Alias { get; init; }
 
@@ -173,20 +162,10 @@ public record CliCommandGroupAlias
 }
 
 /// <summary>
-/// Configures command coverage invariants for a CLI tool.
+/// Configures command coverage reporting for a CLI tool.
 /// </summary>
 public record CliCommandCoveragePolicy
 {
-    /// <summary>
-    /// Minimum number of distinct commands that a successful scrape must contain.
-    /// </summary>
-    public int? MinimumCommandCount { get; init; }
-
-    /// <summary>
-    /// Commands that must remain discoverable unless they have a documented exclusion.
-    /// </summary>
-    public IReadOnlyList<string> SentinelCommands { get; init; } = [];
-
     /// <summary>
     /// Commands intentionally omitted from generation, with machine-readable reasons.
     /// </summary>

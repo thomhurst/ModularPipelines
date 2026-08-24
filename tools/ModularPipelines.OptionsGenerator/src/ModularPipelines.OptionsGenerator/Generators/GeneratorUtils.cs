@@ -14,71 +14,12 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
-    internal static string GetEnumTypeName(string cSharpType)
-    {
-        var type = cSharpType.TrimEnd('?');
-        const string enumerablePrefix = "IEnumerable<";
-        return type.StartsWith(enumerablePrefix, StringComparison.Ordinal)
-            ? type[enumerablePrefix.Length..^1]
-            : type;
-    }
-
     private static readonly string[] KnownRunnerHomeDirectories =
     [
         "/home/runner",
         "/Users/runner",
         @"C:\Users\runneradmin",
     ];
-
-    internal static void GenerateCompatibilityProperty(
-        StringBuilder sb,
-        CliCompatibilityProperty property,
-        string modifiers = "")
-    {
-        sb.AppendLine($"    [Obsolete({FormatStringLiteral(property.ObsoleteMessage)})]");
-
-        if (property.ForwardToPropertyName is null)
-        {
-            if (property.ForwardingKind != CliCompatibilityForwardingKind.Direct)
-            {
-                throw new InvalidOperationException(
-                    $"Compatibility property '{property.PropertyName}' requires a forwarding target for {property.ForwardingKind} conversion.");
-            }
-
-            sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName} {{ get; set; }}");
-            return;
-        }
-
-        sb.AppendLine($"    public {modifiers}{property.CSharpType} {property.PropertyName}");
-        sb.AppendLine("    {");
-        var setter = property.UseInitAccessor ? "init" : "set";
-        switch (property.ForwardingKind)
-        {
-            case CliCompatibilityForwardingKind.Direct:
-                sb.AppendLine($"        get => {property.ForwardToPropertyName};");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value;");
-                break;
-            case CliCompatibilityForwardingKind.ScalarToCollection:
-                sb.AppendLine($"        get => {property.ForwardToPropertyName}?.FirstOrDefault();");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value is null ? null : [value];");
-                break;
-            case CliCompatibilityForwardingKind.NullableInt32ToString:
-                sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
-                break;
-            case CliCompatibilityForwardingKind.NullableStringToRequiredString:
-                sb.AppendLine($"        get => {property.ForwardToPropertyName};");
-                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(property.ForwardingKind),
-                    property.ForwardingKind,
-                    "Unsupported compatibility-property forwarding kind.");
-        }
-
-        sb.AppendLine("    }");
-    }
 
     internal readonly record struct RequiredConstructorParameter(
         string PropertyName,
@@ -736,7 +677,7 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        return HasRequiredParameters(command) && !command.PreserveOptionalOptionsParameter;
+        return HasRequiredParameters(command);
     }
 
     /// <summary>
@@ -761,44 +702,17 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
         }
 
-        var compatibilityMethods = GetCompatibilityMethods(command, methodName).ToList();
-        AppendDefaultServiceMethod(
-            sb,
-            methodName,
-            command,
-            indent,
-            compatibilityMethods.FirstOrDefault()?.MethodName);
-
-        foreach (var compatibilityMethod in compatibilityMethods)
-        {
-            sb.AppendLine();
-            sb.AppendLine(
-                $"{indent}[Obsolete({FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-            AppendDefaultServiceMethod(sb, compatibilityMethod.MethodName, command, indent);
-        }
+        AppendDefaultServiceMethod(sb, methodName, command, indent);
     }
 
     private static void AppendDefaultServiceMethod(
         StringBuilder sb,
         string methodName,
         CliCommandDefinition command,
-        string indent,
-        string? fallbackMethodName = null)
+        string indent)
     {
-        if (fallbackMethodName is not null)
-        {
-            sb.AppendLine($"{indent}#pragma warning disable CS0618");
-        }
-
         sb.AppendLine($"{indent}Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default)");
-        sb.AppendLine(fallbackMethodName is null
-            ? $"{indent}    => throw new System.NotSupportedException();"
-            : $"{indent}    => {fallbackMethodName}(options, executionOptions, cancellationToken);");
-
-        if (fallbackMethodName is not null)
-        {
-            sb.AppendLine($"{indent}#pragma warning restore CS0618");
-        }
+        sb.AppendLine($"{indent}    => throw new System.NotSupportedException();");
     }
 
     /// <summary>
@@ -853,17 +767,6 @@ public static partial class GeneratorUtils
         }
 
         sb.AppendLine($"{indent}}}");
-
-        foreach (var compatibilityMethod in GetCompatibilityMethods(command, methodName))
-        {
-            sb.AppendLine();
-            GenerateCompatibilityServiceMethod(
-                sb,
-                compatibilityMethod,
-                methodName,
-                command,
-                indent);
-        }
     }
 
     /// <summary>
@@ -878,62 +781,6 @@ public static partial class GeneratorUtils
         return methodName.EndsWith("Async", StringComparison.Ordinal)
             ? methodName
             : $"{methodName}Async";
-    }
-
-    internal static IEnumerable<CliCompatibilityMethod> GetCompatibilityMethods(
-        CliCommandDefinition command,
-        string currentMethodName)
-    {
-        return command.CompatibilityMethods
-            .Select(method => method with
-            {
-                MethodName = EnsureAsyncSuffix(method.MethodName),
-                ObsoleteMessage = EnsureAsyncCompatibilityMessage(
-                    method.ObsoleteMessage,
-                    currentMethodName),
-            })
-            .Where(method => !string.Equals(method.MethodName, currentMethodName, StringComparison.Ordinal))
-            .DistinctBy(method => method.MethodName, StringComparer.Ordinal);
-    }
-
-    private static string EnsureAsyncCompatibilityMessage(
-        string obsoleteMessage,
-        string currentMethodName)
-    {
-        const string asyncSuffix = "Async";
-        if (!currentMethodName.EndsWith(asyncSuffix, StringComparison.Ordinal))
-        {
-            return obsoleteMessage;
-        }
-
-        if (obsoleteMessage.Contains(currentMethodName, StringComparison.Ordinal))
-        {
-            return obsoleteMessage;
-        }
-
-        var unsuffixedMethodName = currentMethodName[..^asyncSuffix.Length];
-        return obsoleteMessage.Replace(
-            unsuffixedMethodName,
-            currentMethodName,
-            StringComparison.Ordinal);
-    }
-
-    private static void GenerateCompatibilityServiceMethod(
-        StringBuilder sb,
-        CliCompatibilityMethod compatibilityMethod,
-        string currentMethodName,
-        CliCommandDefinition command,
-        string indent)
-    {
-        sb.AppendLine(
-            $"{indent}[Obsolete({FormatStringLiteral(compatibilityMethod.ObsoleteMessage)})]");
-        sb.AppendLine($"{indent}public virtual async Task<CommandResult> {compatibilityMethod.MethodName}(");
-        sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
-        sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");
-        sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
-        sb.AppendLine($"{indent}{{");
-        sb.AppendLine($"{indent}    return await {currentMethodName}(options, executionOptions, cancellationToken);");
-        sb.AppendLine($"{indent}}}");
     }
 
     /// <summary>
@@ -1112,9 +959,8 @@ public static partial class GeneratorUtils
         var subDomainNames = GetSubDomainIdentifiers(tool);
 
         var rootCommands = tool.Commands
-            .Where(c => c.SubDomainGroup is null || c.PreserveRootNamedFacade)
-            .Where(c => c.PreserveRootNamedFacade
-                        || !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
+            .Where(c => c.SubDomainGroup is null)
+            .Where(c => !subDomainNames.Contains(GetCommandGroupIdentifier(c)))
             .ToList();
 
         // Distinct commands can normalize to the same method name (e.g. "build-server"
@@ -1172,8 +1018,7 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Gets the generated identifier for a sub-domain while preserving legacy casing unless
-    /// the scraper supplied an explicit tool-specific override.
+    /// Gets the generated identifier for a sub-domain, including any tool-specific override.
     /// </summary>
     public static string GetSubDomainIdentifier(CliToolDefinition tool, string subDomainGroup)
     {

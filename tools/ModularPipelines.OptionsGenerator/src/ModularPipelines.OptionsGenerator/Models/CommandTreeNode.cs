@@ -130,27 +130,7 @@ public class CommandTreeNode
         {
             var segment = childCommandGroup.Key;
             var childCommands = childCommandGroup.ToArray();
-            var identifierOverrides = commands
-                .Where(command => partIndex < command.CommandParts.Length
-                                  && command.CommandParts[partIndex].Equals(
-                                      segment,
-                                      StringComparison.OrdinalIgnoreCase))
-                .Select(command => command.CommandPartIdentifierOverrides.TryGetValue(
-                    partIndex,
-                    out var identifierOverride)
-                        ? identifierOverride
-                        : null)
-                .OfType<string>()
-                .Distinct(StringComparer.Ordinal)
-                .ToArray();
-            if (identifierOverrides.Length > 1)
-            {
-                throw new InvalidOperationException(
-                    $"Command part '{segment}' has conflicting generated identifiers: "
-                    + $"{string.Join(", ", identifierOverrides)}.");
-            }
-
-            var pascalSegment = identifierOverrides.SingleOrDefault() ?? ToPascalCase(segment);
+            var pascalSegment = ToPascalCase(segment);
             var child = new CommandTreeNode
             {
                 Segment = segment,

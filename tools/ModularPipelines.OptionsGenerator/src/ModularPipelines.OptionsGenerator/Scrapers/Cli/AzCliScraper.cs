@@ -193,7 +193,6 @@ public partial class AzCliScraper : CliScraperBase
             PositionalArguments = [],
             SubDomainGroup = subDomain,
             Enums = enums,
-            CompatibilityMethods = AzCliCompatibility.GetMethods(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);

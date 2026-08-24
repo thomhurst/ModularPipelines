@@ -6,7 +6,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class CommandCoverageGuardTests
 {
     [Test]
-    public async Task RemovedCommandsAndEmptyKnownGroups_AreReportedWithoutViolations()
+    public async Task RemovedCommandsAndEmptyKnownGroups_AreReported()
     {
         var outputDirectory = CreateOutputDirectory();
 
@@ -21,7 +21,6 @@ public class CommandCoverageGuardTests
                 Tool(Command("fake status")),
                 outputDirectory);
 
-            await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.RemovedCommands)
                 .IsEquivalentTo(["fake project create", "fake project delete"]);
             await Assert.That(current.KnownGroupsWithoutChildren)
@@ -33,35 +32,6 @@ public class CommandCoverageGuardTests
         }
     }
 
-    [Test]
-    public async Task SentinelsAndMinimumCoverage_ProtectFirstGeneration()
-    {
-        var outputDirectory = CreateOutputDirectory();
-        var tool = Tool(Command("fake run")) with
-        {
-            CommandCoverage = new CliCommandCoveragePolicy
-            {
-                MinimumCommandCount = 2,
-                SentinelCommands = ["fake deploy"],
-            },
-        };
-
-        try
-        {
-            var evaluation = CommandCoverageGuard.Evaluate(
-                tool,
-                outputDirectory);
-
-            await Assert.That(evaluation.Violations).Contains(
-                violation => violation.Contains("below the configured minimum", StringComparison.Ordinal));
-            await Assert.That(evaluation.Violations).Contains(
-                violation => violation.Contains("fake deploy", StringComparison.Ordinal));
-        }
-        finally
-        {
-            Directory.Delete(outputDirectory, recursive: true);
-        }
-    }
 
     [Test]
     public async Task DocumentedExclusions_AllowIntentionalRemoval()
@@ -93,7 +63,6 @@ public class CommandCoverageGuardTests
                 currentTool,
                 outputDirectory);
 
-            await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.Manifest.Exclusions).Count().IsEqualTo(1);
             await Assert.That(current.Manifest.Exclusions[0].Reason)
                 .IsEqualTo("Requires an enterprise license.");
@@ -163,7 +132,6 @@ public class CommandCoverageGuardTests
                 currentTool,
                 outputDirectory);
 
-            await Assert.That(current.Violations).IsEmpty();
             await Assert.That(current.RemovedCommands).IsEmpty();
             await Assert.That(current.Manifest.Commands).IsEquivalentTo(
             [

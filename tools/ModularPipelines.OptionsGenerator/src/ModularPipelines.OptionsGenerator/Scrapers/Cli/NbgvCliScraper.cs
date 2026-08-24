@@ -28,25 +28,6 @@ public partial class NbgvCliScraper(
 
     protected override int MaxCommandDepth => 2;
 
-    public override CliToolDefinition CreateToolDefinition() =>
-        base.CreateToolDefinition() with
-        {
-            CommandCoverage = new CliCommandCoveragePolicy
-            {
-                MinimumCommandCount = 7,
-                SentinelCommands =
-                [
-                    "nbgv install",
-                    "nbgv get-version",
-                    "nbgv set-version",
-                    "nbgv tag",
-                    "nbgv get-commits",
-                    "nbgv cloud",
-                    "nbgv prepare-release",
-                ],
-            },
-        };
-
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
         var commandsSection = CommandsSectionPattern().Match(helpText);

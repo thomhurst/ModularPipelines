@@ -30,7 +30,7 @@ public class DockerCliScraper : CobraCliScraper
     protected override CliCommandGroupAlias? DetectCommandGroupAlias(
         string[] commandPath,
         string helpText) =>
-        DockerCliCompatibility.DetectCommandGroupAlias(commandPath, helpText);
+        DockerCliAliases.DetectCommandGroupAlias(commandPath, helpText);
 
     /// <inheritdoc />
     protected override string NormalizeOptionSwitchName(

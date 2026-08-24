@@ -145,7 +145,6 @@ public class CodeGeneratorOrchestrator
             .ToArray();
         var replaceableExistingPaths = previouslyOwnedFullPaths
             .ToHashSet(fileSystemPathComparer);
-        var enumBaselinePaths = GetOwnedEnumPaths(previouslyOwnedFullPaths);
 
         var result = new GenerationResult
         {
@@ -164,7 +163,6 @@ public class CodeGeneratorOrchestrator
             commandCoverageBaselinePath: previousCoverageManifestPath,
             commandCoveragePathComparer: fileSystemPathComparer,
             replaceableExistingPaths: replaceableExistingPaths,
-            enumBaselinePaths: enumBaselinePaths,
             beforeWrite: async (candidateOwnedPaths, token) =>
             {
                 var journalOwnedPaths = previousOwnership.OwnedPaths
@@ -393,27 +391,6 @@ public class CodeGeneratorOrchestrator
         }
 
         return retainedPaths;
-    }
-
-    private static IReadOnlyDictionary<string, string> GetOwnedEnumPaths(
-        IEnumerable<string> ownedFullPaths)
-    {
-        const string generatedSuffix = ".Generated.cs";
-        return ownedFullPaths
-            .Where(path => string.Equals(
-                Path.GetFileName(Path.GetDirectoryName(path)),
-                "Enums",
-                StringComparison.Ordinal))
-            .Where(path => Path.GetFileName(path).EndsWith(
-                generatedSuffix,
-                StringComparison.Ordinal))
-            .GroupBy(
-                path => Path.GetFileName(path)[..^generatedSuffix.Length],
-                StringComparer.Ordinal)
-            .ToDictionary(
-                group => group.Key,
-                group => group.FirstOrDefault(File.Exists) ?? group.First(),
-                StringComparer.Ordinal);
     }
 
     private static StringComparer GetFileSystemPathComparer(string outputDirectory)
@@ -828,7 +805,6 @@ public class CodeGeneratorOrchestrator
         string? commandCoverageBaselinePath = null,
         StringComparer? commandCoveragePathComparer = null,
         IReadOnlySet<string>? replaceableExistingPaths = null,
-        IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
         Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
     {
         var globalOptions = tool.GetGlobalOptions();
@@ -841,21 +817,12 @@ public class CodeGeneratorOrchestrator
         };
         var collisionResolvedTool = InheritedPropertyCollisionResolver.Resolve(normalizedTool);
         var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(collisionResolvedTool);
-        var resolvedGlobalOptions = toolDefinition.GetGlobalOptions();
-        foreach (var command in toolDefinition.Commands)
-        {
-            ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(command, resolvedGlobalOptions);
-        }
-
         if (enforceOutputContainment)
         {
             ValidateToolOutputContainment(toolDefinition, outputDirectory);
         }
 
-        toolDefinition = EnumDefinitionStabilizer.Stabilize(
-            toolDefinition,
-            outputDirectory,
-            enumBaselinePaths);
+        EnumDefinitionValidator.Validate(toolDefinition);
         var generatedFiles = toolDefinition.GenerateCode
             ? await GenerateFilesAsync(toolDefinition, cancellationToken).ConfigureAwait(false)
             : [];
@@ -877,13 +844,6 @@ public class CodeGeneratorOrchestrator
             commandCoverageBaselinePath,
             commandCoveragePathComparer);
         result.CommandCoverage.Add(coverage);
-
-        if (coverage.Violations.Count > 0)
-        {
-            throw new InvalidOperationException(
-                $"Command coverage validation failed for {tool.ToolName}:{Environment.NewLine}"
-                    + string.Join(Environment.NewLine, coverage.Violations.Select(violation => $"- {violation}")));
-        }
 
         if (beforeWrite is not null)
         {
@@ -1362,7 +1322,7 @@ public class GenerationResult
     public IEnumerable<string> ChangedPaths => FilesGenerated
         .Concat(FilesDeleted)
         .Select(path => path.Replace('\\', '/'))
-        .Distinct(StringComparer.OrdinalIgnoreCase);
+        .Distinct(StringComparer.Ordinal);
 
     public bool HasErrors => Errors.Count > 0;
 
@@ -1408,7 +1368,6 @@ public class GenerationResult
                 coverage.Manifest.Exclusions
                     .Select(exclusion => $"{exclusion.Command} ({exclusion.Reason})")
                     .ToArray());
-            AppendDiff(lines, "Violations", coverage.Violations);
         }
 
         return string.Join(Environment.NewLine, lines);

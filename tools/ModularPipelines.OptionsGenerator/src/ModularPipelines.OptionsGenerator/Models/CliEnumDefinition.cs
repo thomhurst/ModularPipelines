@@ -42,7 +42,7 @@ public record CliEnumValue
     public string? Description { get; init; }
 
     /// <summary>
-    /// Stable numeric value preserved from an existing generated enum.
+    /// Optional explicit numeric value.
     /// </summary>
     public int? NumericValue { get; init; }
 }

@@ -186,7 +186,7 @@ public class CodeGeneratorOrchestratorTests
             var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
 
             await Assert.That(result.HasErrors).IsFalse();
-            await Assert.That(generatedTool!.Commands.Single().CompatibilityProperties).IsEmpty();
+            await Assert.That(generatedTool!.Commands.Single().Options).IsEmpty();
         }
         finally
         {
@@ -243,7 +243,6 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(result.Errors).IsEmpty();
             await Assert.That(generatedTool!.GlobalOptions.Single().PropertyName)
                 .IsEqualTo("CliArguments");
-            await Assert.That(generatedTool.GlobalCompatibilityProperties).IsEmpty();
         }
         finally
         {
@@ -363,51 +362,6 @@ public class CodeGeneratorOrchestratorTests
             "invalid HTTPS installation URL");
     }
 
-    [Test]
-    public async Task Cli_Compatibility_Forwarding_Is_Validated_Before_Generation()
-    {
-        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
-        var generatorCalled = false;
-        var command = FakeCommand() with
-        {
-            CompatibilityProperties =
-            [
-                new CliCompatibilityProperty
-                {
-                    PropertyName = "LegacyValue",
-                    CSharpType = "string?",
-                    ForwardToPropertyName = "MissingValue",
-                    ObsoleteMessage = "Use MissingValue.",
-                },
-            ],
-        };
-        var scraper = new FakeCliScraper { Commands = [command] };
-        var generator = new FakeGenerator
-        {
-            OnGenerate = _ =>
-            {
-                generatorCalled = true;
-                return [];
-            },
-        };
-
-        try
-        {
-            var result = await Orchestrator(scraper, generator).GenerateAsync("fake", outputRoot);
-
-            await Assert.That(result.HasErrors).IsTrue();
-            await Assert.That(result.Errors.Single().Message)
-                .Contains("forwards to missing property 'MissingValue'");
-            await Assert.That(generatorCalled).IsFalse();
-        }
-        finally
-        {
-            if (Directory.Exists(outputRoot))
-            {
-                Directory.Delete(outputRoot, recursive: true);
-            }
-        }
-    }
 
     private static async Task AssertMetadataFailureBeforeGeneratorsRun(
         string toolName,
@@ -689,6 +643,20 @@ public class CodeGeneratorOrchestratorTests
         {
             Directory.Delete(outputRoot, recursive: true);
         }
+    }
+
+    [Test]
+    public async Task ChangedPaths_Preserves_Case_Only_Renames()
+    {
+        var result = new GenerationResult();
+        result.FilesGenerated.Add("src/Tool/ThingName.Generated.cs");
+        result.FilesDeleted.Add("src/Tool/Thingname.Generated.cs");
+
+        await Assert.That(result.ChangedPaths).IsEquivalentTo(
+        [
+            "src/Tool/ThingName.Generated.cs",
+            "src/Tool/Thingname.Generated.cs",
+        ]);
     }
 
     [Test]

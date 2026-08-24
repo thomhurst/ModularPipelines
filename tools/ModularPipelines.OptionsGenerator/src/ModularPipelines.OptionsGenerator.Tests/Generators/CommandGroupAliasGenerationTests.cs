@@ -14,7 +14,7 @@ public class CommandGroupAliasGenerationTests
     };
 
     [Test]
-    public async Task Generators_Emit_One_Canonical_Tree_With_Compatibility_Wrappers()
+    public async Task Generators_Emit_One_Canonical_Tree_With_Current_Cli_Aliases()
     {
         var tool = CreateTool();
 

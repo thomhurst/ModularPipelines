@@ -150,7 +150,6 @@ public partial class DotNetCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
-        DotNetCliCompatibility.NormalizeOptions(commandParts, options);
 
         // Parse positional arguments
         var positionalArgs = ParsePositionalArguments(helpText);
@@ -185,7 +184,6 @@ public partial class DotNetCliScraper : CliScraperBase
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             Enums = enums,
-            CompatibilityProperties = DotNetCliCompatibility.GetProperties(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -488,17 +486,10 @@ public partial class DotNetCliScraper : CliScraperBase
     /// Returns names with hyphens so NormalizePropertyName can properly PascalCase them.
     /// "PROJECT | SOLUTION | FILE" becomes "Project-Solution" → "ProjectSolution"
     /// "PROJECT | SOLUTION" becomes "Project-Solution" → "ProjectSolution"
-    /// "root" becomes "Path" (for nuget push compatibility)
     /// "PACKAGE_ID" stays as "Package-Id" → "PackageId"
     /// </summary>
     private static string SimplifyPositionalArgName(string argName)
     {
-        // Handle specific name mappings for backward compatibility
-        if (string.Equals(argName, "root", StringComparison.OrdinalIgnoreCase))
-        {
-            return "Path";
-        }
-
         // Handle common combined patterns - use hyphen separator for proper PascalCase conversion
         if (argName.Contains("PROJECT", StringComparison.OrdinalIgnoreCase) &&
             argName.Contains("SOLUTION", StringComparison.OrdinalIgnoreCase))

@@ -6,12 +6,12 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class DockerCliCompatibilityTests
+public class DockerCliAliasesTests
 {
     [Test]
     public async Task SupportedAliases_IncludeAlias_WhenCanonicalCommandWasScraped()
     {
-        var aliases = DockerCliCompatibility.GetSupportedCommandGroupAliases(
+        var aliases = DockerCliAliases.GetSupportedCommandGroupAliases(
             [CreateCommand("buildx")]);
 
         var alias = aliases.Single();
@@ -22,7 +22,7 @@ public class DockerCliCompatibilityTests
     [Test]
     public async Task SupportedAliases_ExcludeAlias_WhenCanonicalCommandWasNotScraped()
     {
-        var aliases = DockerCliCompatibility.GetSupportedCommandGroupAliases(
+        var aliases = DockerCliAliases.GetSupportedCommandGroupAliases(
             [CreateCommand("container")]);
 
         await Assert.That(aliases).IsEmpty();

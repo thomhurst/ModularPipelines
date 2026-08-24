@@ -190,7 +190,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         // Get the first subcommand for grouping. Record only tool-specific identifier
-        // overrides so shared generators preserve existing public names for other tools.
+        // overrides required to disambiguate the current CLI command tree.
         var commandGroupIdentifier = NormalizeCommandIdentifier(commandParts[0]);
         var commandGroupIdentifierOverride = commandGroupIdentifier.Equals(
             ToPascalCase(commandParts[0]),
@@ -203,7 +203,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ApplyOptionFixes(commandParts, ParseOptions(helpText, commandParts));
+        var options = ParseOptions(helpText, commandParts);
 
         // Parse positional arguments from usage/synopsis text
         var positionalArgs = ApplyPositionalArgumentFixes(commandParts, usage.PositionalArguments);
@@ -227,13 +227,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
             DocumentationUrl = null, // CLI-first, no URL
             Options = options,
             PositionalArguments = positionalArgs,
-            CompatibilityProperties = GetCompatibilityProperties(commandParts),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             Enums = enums,
-            CompatibilityMethods = GetCompatibilityMethods(commandParts),
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -361,7 +359,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
                 seenOptions.Add(longForm, scrapedLongForm);
 
-                var propertyName = NormalizeOptionPropertyName(longForm);
+                var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)
                 {
                     continue;
@@ -500,19 +498,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// Applies tool-specific normalization before option descriptions are generated.
     /// </summary>
     protected virtual string NormalizeOptionDescription(string description) => description;
-
-    /// <summary>
-    /// Normalizes an option switch to its public property name. Tool-specific scrapers may
-    /// override established spellings that predate the shared compound-word conventions.
-    /// </summary>
-    protected virtual string? NormalizeOptionPropertyName(string switchName) =>
-        NormalizePropertyName(switchName);
-
-    /// <summary>
-    /// Returns obsolete forwarding methods that preserve established public API names.
-    /// </summary>
-    protected virtual IReadOnlyList<CliCompatibilityMethod> GetCompatibilityMethods(
-        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether an option accepts repeated values when the source type is scalar.
@@ -840,20 +825,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
     protected virtual IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => positionalArguments;
-
-    /// <summary>
-    /// Applies tool-specific corrections when Cobra's option metadata would change
-    /// an established generated API.
-    /// </summary>
-    protected virtual IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
-        string[] commandParts,
-        IReadOnlyList<CliOptionDefinition> options) => options;
-
-    /// <summary>
-    /// Returns public properties that remain available after the installed CLI removes a switch.
-    /// </summary>
-    protected virtual IReadOnlyList<CliCompatibilityProperty> GetCompatibilityProperties(
-        string[] commandParts) => [];
 
     /// <summary>
     /// Determines whether a Boolean must be emitted with an explicit value instead of

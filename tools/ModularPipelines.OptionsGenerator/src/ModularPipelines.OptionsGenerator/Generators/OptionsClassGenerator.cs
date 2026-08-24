@@ -36,14 +36,14 @@ public class OptionsClassGenerator : ICodeGenerator
                              alias.CanonicalCommand,
                              StringComparison.OrdinalIgnoreCase)))
             {
-                files.Add(GenerateCompatibilityOptionsAlias(command, tool, alias));
+                files.Add(GenerateOptionsAlias(command, tool, alias));
             }
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
     }
 
-    private static GeneratedFile GenerateCompatibilityOptionsAlias(
+    private static GeneratedFile GenerateOptionsAlias(
         CliCommandDefinition command,
         CliToolDefinition tool,
         CliCommandGroupAlias alias)
@@ -52,21 +52,11 @@ public class OptionsClassGenerator : ICodeGenerator
             tool,
             alias,
             command.ClassName);
-        var compatibilityConstructors = command.AliasCompatibilityConstructors
-            .GetValueOrDefault(aliasClassName, []);
-        var compatibilityProperties = command.AliasCompatibilityProperties
-            .GetValueOrDefault(aliasClassName, []);
-        var compatibilityPropertyNames = compatibilityProperties
-            .Select(static property => property.PropertyName)
-            .ToHashSet(StringComparer.Ordinal);
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
             .Where(option => option.EnumDefinition is not null
-                             && option.ValueArity != CliOptionValueArity.Optional
-                             && !compatibilityPropertyNames.Contains(option.PropertyName))
+                             && option.ValueArity != CliOptionValueArity.Optional)
             .ToArray();
-        var usesCompatibilityEnums = compatibilityProperties.Any(property =>
-            !property.AliasCSharpType.Equals(property.CanonicalCSharpType, StringComparison.Ordinal));
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
@@ -77,13 +67,9 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
-        if (enumOptions.Length > 0 || usesCompatibilityEnums)
+        if (enumOptions.Length > 0)
         {
-            if (enumOptions.Length > 0)
-            {
-                sb.AppendLine("using ModularPipelines.Attributes;");
-            }
-
+            sb.AppendLine("using ModularPipelines.Attributes;");
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
 
@@ -92,10 +78,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        if (enumOptions.Length == 0
-            && requiredParameters.Count == 0
-            && compatibilityConstructors.Count == 0
-            && compatibilityProperties.Count == 0)
+        if (enumOptions.Length == 0 && requiredParameters.Count == 0)
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
         }
@@ -103,24 +86,15 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName}");
             sb.AppendLine("{");
-            GenerateCompatibilityConstructor(
+            GenerateAliasConstructor(
                 sb,
                 aliasClassName,
                 requiredParameters,
                 tool,
                 alias);
-            GenerateCompatibilityConstructors(
-                sb,
-                aliasClassName,
-                compatibilityConstructors);
             foreach (var option in enumOptions)
             {
-                GenerateCompatibilityEnumProperty(sb, option, tool, alias);
-            }
-
-            foreach (var property in compatibilityProperties)
-            {
-                GenerateAliasCompatibilityProperty(sb, property);
+                GenerateAliasEnumProperty(sb, option, tool, alias);
             }
 
             sb.AppendLine("}");
@@ -136,7 +110,7 @@ public class OptionsClassGenerator : ICodeGenerator
         };
     }
 
-    private static void GenerateCompatibilityConstructor(
+    private static void GenerateAliasConstructor(
         StringBuilder sb,
         string aliasClassName,
         IReadOnlyList<GeneratorUtils.RequiredConstructorParameter> requiredParameters,
@@ -151,7 +125,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var parameterDeclarations = requiredParameters.Select(parameter =>
             $"        {GeneratorUtils.GetAliasedRequiredConstructorParameterType(parameter, tool, alias)} {parameter.PropertyName}");
         var baseArguments = requiredParameters.Select(parameter =>
-            GetCompatibilityBaseArgument(parameter, parameter.PropertyName));
+            GetAliasBaseArgument(parameter, parameter.PropertyName));
         sb.AppendLine($"    public {aliasClassName}(");
         sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
         sb.AppendLine("    )");
@@ -161,7 +135,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
     }
 
-    private static string GetCompatibilityBaseArgument(
+    private static string GetAliasBaseArgument(
         GeneratorUtils.RequiredConstructorParameter parameter,
         string parameterName)
     {
@@ -177,7 +151,7 @@ public class OptionsClassGenerator : ICodeGenerator
             : $"({canonicalEnumName})(int){parameterName}";
     }
 
-    private static void GenerateCompatibilityEnumProperty(
+    private static void GenerateAliasEnumProperty(
         StringBuilder sb,
         CliOptionDefinition option,
         CliToolDefinition tool,
@@ -204,7 +178,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         if (isEnumerable)
         {
-            GenerateCompatibilityEnumCollectionAccessors(
+            GenerateAliasEnumCollectionAccessors(
                 sb,
                 option,
                 canonicalEnumName,
@@ -230,7 +204,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    }");
     }
 
-    private static void GenerateCompatibilityEnumCollectionAccessors(
+    private static void GenerateAliasEnumCollectionAccessors(
         StringBuilder sb,
         CliOptionDefinition option,
         string canonicalEnumName,
@@ -245,69 +219,6 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine(
             $"        set => base.{option.PropertyName} = value{nullableOperator}.Select("
             + $"static value => ({canonicalEnumName})(int)value);");
-    }
-
-    private static void GenerateAliasCompatibilityProperty(
-        StringBuilder sb,
-        CliAliasCompatibilityProperty property)
-    {
-        var isDirectForward = property.AliasCSharpType.Equals(
-            property.CanonicalCSharpType,
-            StringComparison.Ordinal);
-        var aliasEnumName = GeneratorUtils.GetEnumTypeName(property.AliasCSharpType);
-        var canonicalEnumName = GeneratorUtils.GetEnumTypeName(property.CanonicalCSharpType);
-        var aliasIsEnumerable = property.AliasCSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal);
-        var canonicalIsEnumerable = property.CanonicalCSharpType.StartsWith("IEnumerable<", StringComparison.Ordinal);
-        if (aliasIsEnumerable != canonicalIsEnumerable)
-        {
-            throw new InvalidOperationException(
-                $"Cannot retain alias property {property.PropertyName} because its collection shape changed.");
-        }
-
-        var aliasIsNullable = property.AliasCSharpType.EndsWith('?');
-        var canonicalIsNullable = property.CanonicalCSharpType.EndsWith('?');
-        if (aliasIsNullable != canonicalIsNullable)
-        {
-            throw new InvalidOperationException(
-                $"Cannot retain alias property {property.PropertyName} because its nullability changed.");
-        }
-
-        sb.AppendLine($"    [Obsolete({GeneratorUtils.FormatStringLiteral(property.ObsoleteMessage)})]");
-        sb.AppendLine($"    public new {property.AliasCSharpType} {property.PropertyName}");
-        sb.AppendLine("    {");
-        var accessor = property.UseInitAccessor ? "init" : "set";
-        if (isDirectForward)
-        {
-            sb.AppendLine($"        get => base.{property.PropertyName};");
-            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = value;");
-        }
-        else if (aliasIsEnumerable)
-        {
-            var baseNullableOperator = canonicalIsNullable ? "?" : string.Empty;
-            var aliasNullableOperator = aliasIsNullable ? "?" : string.Empty;
-            sb.AppendLine(
-                $"        get => base.{property.PropertyName}{baseNullableOperator}.Select("
-                + $"static value => ({aliasEnumName})(int)value);");
-            sb.AppendLine(
-                $"        {accessor} => base.{property.PropertyName} = value{aliasNullableOperator}.Select("
-                + $"static value => ({canonicalEnumName})(int)value);");
-        }
-        else if (aliasIsNullable)
-        {
-            sb.AppendLine($"        get => base.{property.PropertyName} is null");
-            sb.AppendLine("            ? null");
-            sb.AppendLine($"            : ({aliasEnumName})(int)base.{property.PropertyName}.Value;");
-            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = value is null");
-            sb.AppendLine("            ? null");
-            sb.AppendLine($"            : ({canonicalEnumName})(int)value.Value;");
-        }
-        else
-        {
-            sb.AppendLine($"        get => ({aliasEnumName})(int)base.{property.PropertyName};");
-            sb.AppendLine($"        {accessor} => base.{property.PropertyName} = ({canonicalEnumName})(int)value;");
-        }
-
-        sb.AppendLine("    }");
     }
 
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)
@@ -335,46 +246,10 @@ public class OptionsClassGenerator : ICodeGenerator
         var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
 
         sb.AppendLine("{");
-        GenerateCompatibilityConstructors(
-            sb,
-            command.ClassName,
-            command.CompatibilityConstructors);
         GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
         sb.AppendLine("}");
 
         return sb.ToString();
-    }
-
-    private static void GenerateCompatibilityConstructors(
-        StringBuilder sb,
-        string className,
-        IReadOnlyList<CliCompatibilityConstructor> constructors)
-    {
-        foreach (var constructor in constructors)
-        {
-            var parameters = constructor.Parameters
-                .Select(parameter => $"{parameter.CSharpType} {parameter.PropertyName}");
-            sb.AppendLine($"    public {className}({string.Join(", ", parameters)})");
-            sb.AppendLine($"        : this({string.Join(", ", constructor.PrimaryConstructorArguments)})");
-            sb.AppendLine("    {");
-            sb.AppendLine("    }");
-            sb.AppendLine();
-
-            if (constructor.PreserveDeconstruct)
-            {
-                var deconstructParameters = constructor.Parameters
-                    .Select(parameter => $"out {parameter.CSharpType} {parameter.PropertyName}");
-                sb.AppendLine($"    public void Deconstruct({string.Join(", ", deconstructParameters)})");
-                sb.AppendLine("    {");
-                foreach (var parameter in constructor.Parameters)
-                {
-                    sb.AppendLine($"        {parameter.PropertyName} = this.{parameter.PropertyName};");
-                }
-
-                sb.AppendLine("    }");
-                sb.AppendLine();
-            }
-        }
     }
 
     private static void GenerateUsings(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
@@ -397,11 +272,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Include enums namespace if any options use enum types
-        if (command.Options.Any(o => o.EnumDefinition is not null)
-            || command.CompatibilityProperties.Any(property => tool.AllEnums.Any(definition =>
-                definition.EnumName.Equals(
-                    GeneratorUtils.GetEnumTypeName(property.CSharpType),
-                    StringComparison.Ordinal))))
+        if (command.Options.Any(o => o.EnumDefinition is not null))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
@@ -453,22 +324,6 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        // Compatibility aliases may intentionally differ from current members only by casing.
-        // CLR and C# member names are case-sensitive, unlike scraper duplicate detection.
-        var emittedCompatibilityNames = existingPropertyNames.ToHashSet(StringComparer.Ordinal);
-        foreach (var compatibilityProperty in command.CompatibilityProperties)
-        {
-            if (!emittedCompatibilityNames.Add(compatibilityProperty.PropertyName))
-            {
-                continue;
-            }
-
-            GeneratorUtils.GenerateCompatibilityProperty(
-                sb,
-                compatibilityProperty,
-                GetNewModifier(compatibilityProperty.PropertyName));
-            sb.AppendLine();
-        }
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)

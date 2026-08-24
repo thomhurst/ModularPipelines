@@ -107,7 +107,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             OutputDirectory = OutputDirectory,
             Commands = commands,
             CommandGroupAliases =
-                DockerCliCompatibility.GetSupportedCommandGroupAliases(commands),
+                DockerCliAliases.GetSupportedCommandGroupAliases(commands),
             Errors = errors
         };
     }
