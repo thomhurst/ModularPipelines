@@ -296,13 +296,12 @@ public partial class AzCliScraper : CliScraperBase
                 }
 
                 // Determine type based on value hint
-                var isFlag = string.IsNullOrEmpty(valueHint) ||
-                             valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                             valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+                var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
+                var isFlag = IsPresenceOnlyFlag(valueHint, explicitBooleanValue);
 
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
-                var csharpType = DetermineType(valueHint, description, isFlag);
+                var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
 
                 options.Add(new CliOptionDefinition
                 {
@@ -327,9 +326,28 @@ public partial class AzCliScraper : CliScraperBase
     }
 
     /// <summary>
+    /// Determines whether an option is rendered without a value.
+    /// </summary>
+    private static bool IsPresenceOnlyFlag(string valueHint, bool explicitBooleanValue)
+    {
+        if (explicitBooleanValue)
+        {
+            return false;
+        }
+
+        return string.IsNullOrEmpty(valueHint) ||
+               valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+               valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     /// Determines the C# type based on value hint and description.
     /// </summary>
-    private static string DetermineType(string valueHint, string description, bool isFlag)
+    private static string DetermineType(
+        string valueHint,
+        string description,
+        bool isFlag,
+        bool explicitBooleanValue)
     {
         if (isFlag)
         {
@@ -347,8 +365,18 @@ public partial class AzCliScraper : CliScraperBase
             return "int?";
         }
 
+        // Explicit Boolean values stay scalar unless the help specifically describes
+        // the Boolean values themselves as a collection. Words such as "multiple"
+        // may instead describe the resources affected by one Boolean value.
+        if (explicitBooleanValue)
+        {
+            return HelpDeclaresBooleanList(lowerDesc)
+                ? "IEnumerable<string>?"
+                : "bool?";
+        }
+
         // Check for list types (space-separated or multiple values)
-        if (lowerDesc.Contains("space-separated") || lowerDesc.Contains("list of") ||
+        if (HelpDeclaresSpaceSeparatedList(lowerDesc) || lowerDesc.Contains("list of") ||
             lowerDesc.Contains("multiple"))
         {
             return "IEnumerable<string>?";
@@ -356,6 +384,15 @@ public partial class AzCliScraper : CliScraperBase
 
         return "string?";
     }
+
+    private static bool HelpDeclaresBooleanList(string description) =>
+        HelpDeclaresSpaceSeparatedList(description) ||
+        DescriptionDeclaresRepeatableOption(description) ||
+        description.Contains("list of true") ||
+        description.Contains("list of false");
+
+    private static bool HelpDeclaresSpaceSeparatedList(string description) =>
+        description.Contains("space-separated");
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.

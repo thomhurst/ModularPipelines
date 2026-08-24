@@ -75,6 +75,31 @@ public class WinGetCliScraperTests
     }
 
     [Test]
+    public async Task Authentication_Mode_With_Explicit_Choices_Is_A_Value_Option()
+    {
+        const string helpText = """
+            Add a package pin.
+
+            usage: winget pin add [<options>]
+
+            The following options are available:
+              --authentication-mode   Specify authentication window preference (silent, silentPreferred, or interactive)
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(
+            ["winget", "pin", "add"],
+            helpText);
+        var authenticationMode = command!.Options.Single(option =>
+            option.SwitchName == "--authentication-mode");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(authenticationMode.IsFlag).IsFalse();
+            await Assert.That(authenticationMode.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Traversal_Keeps_Boolean_Flags_With_Repeatability_Wording()
     {
         const string rootHelp = """
