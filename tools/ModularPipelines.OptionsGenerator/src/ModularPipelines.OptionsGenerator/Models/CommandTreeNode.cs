@@ -78,9 +78,7 @@ public class CommandTreeNode
     /// </summary>
     internal IReadOnlyList<CliCommandDefinition> GetNamedFacadeCommands()
     {
-        var movedCommands = GetChildParentCommands().Values
-            .Where(command => !command.PreserveNamedFacade)
-            .ToHashSet();
+        var movedCommands = GetChildParentCommands().Values.ToHashSet();
         return Commands.Where(command => !movedCommands.Contains(command)).ToList();
     }
 
