@@ -235,17 +235,19 @@ internal static class GeneratedApiCompatibilityPreserver
         var commandTail = commandParts.Skip(1).ToArray();
         var isParentExecuteFacade = IsParentExecuteFacade(implementationType, facadeMethod);
         var facadeCommandParts = isParentExecuteFacade ? commandTail : commandTail.SkipLast(1);
-        var facadeSuffix = string.Concat(facadeCommandParts.Select(GeneratorUtils.ToPascalCase));
-        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal)
-            || !implementationType.EndsWith(facadeSuffix, StringComparison.OrdinalIgnoreCase)
-            || implementationType.Length <= tool.NamespacePrefix.Length + facadeSuffix.Length)
+        if (!implementationType.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
         {
             return null;
         }
 
-        return implementationType.Substring(
-            tool.NamespacePrefix.Length,
-            implementationType.Length - tool.NamespacePrefix.Length - facadeSuffix.Length);
+        var defaultIdentifiers = commandParts
+            .Take(1)
+            .Concat(facadeCommandParts)
+            .Select(GeneratorUtils.ToPascalCase)
+            .ToArray();
+        return SplitRecoveredIdentifiers(
+            implementationType[tool.NamespacePrefix.Length..],
+            defaultIdentifiers)?[0];
     }
 
     private static IReadOnlyDictionary<int, string> GetRestoredCommandPartIdentifierOverrides(
