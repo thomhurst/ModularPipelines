@@ -52,6 +52,24 @@ public class AwsCliScraperTests
             .IsEquivalentTo(["aws ec2 describe-instances"]);
     }
 
+    [Test]
+    public async Task Enum_Detection_Deduplicates_Case_Variant_Values()
+    {
+        var definition = AwsCliScraper.TryDetectEnum(
+            "TrafficRoutingConfig",
+            "AwsDeployCreateDeploymentConfigOptions",
+            "Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary timeBasedLinear");
+        var values = definition!.Values;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(values.Select(value => value.CliValue))
+                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce"]);
+            await Assert.That(values.Select(value => value.MemberName).Distinct().Count())
+                .IsEqualTo(values.Count);
+        }
+    }
+
     private sealed class AwsHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(

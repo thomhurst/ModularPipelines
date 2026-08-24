@@ -405,7 +405,7 @@ public partial class AwsCliScraper : CliScraperBase
         return lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
     }
 
-    private static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -420,7 +420,7 @@ public partial class AwsCliScraper : CliScraperBase
                 .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 30 && IsValidEnumValue(v))
-                .Distinct()
+                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
             if (values.Length >= 2 && values.Length <= 15)
