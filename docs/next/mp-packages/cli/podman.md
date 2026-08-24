@@ -28,6 +28,13 @@ var podman = context.Tools.Podman;
 
 | CLI command                                    | Options record                                    |
 | ---------------------------------------------- | ------------------------------------------------- |
+| `podman artifact add`                          | `PodmanArtifactAddOptions`                        |
+| `podman artifact extract`                      | `PodmanArtifactExtractOptions`                    |
+| `podman artifact inspect`                      | `PodmanArtifactInspectOptions`                    |
+| `podman artifact ls`                           | `PodmanArtifactLsOptions`                         |
+| `podman artifact pull`                         | `PodmanArtifactPullOptions`                       |
+| `podman artifact push`                         | `PodmanArtifactPushOptions`                       |
+| `podman artifact rm`                           | `PodmanArtifactRmOptions`                         |
 | `podman attach`                                | `PodmanAttachOptions`                             |
 | `podman auto-update`                           | `PodmanAutoUpdateOptions`                         |
 | `podman build`                                 | `PodmanBuildOptions`                              |
@@ -158,10 +165,12 @@ var podman = context.Tools.Podman;
 | `podman login`                                 | `PodmanLoginOptions`                              |
 | `podman logout`                                | `PodmanLogoutOptions`                             |
 | `podman logs`                                  | `PodmanLogsOptions`                               |
+| `podman machine cp`                            | `PodmanMachineCpOptions`                          |
 | `podman machine init`                          | `PodmanMachineInitOptions`                        |
 | `podman machine inspect`                       | `PodmanMachineInspectOptions`                     |
 | `podman machine list`                          | `PodmanMachineListOptions`                        |
 | `podman machine os apply`                      | `PodmanMachineOsApplyOptions`                     |
+| `podman machine reset`                         | `PodmanMachineResetOptions`                       |
 | `podman machine rm`                            | `PodmanMachineRmOptions`                          |
 | `podman machine set`                           | `PodmanMachineSetOptions`                         |
 | `podman machine ssh`                           | `PodmanMachineSshOptions`                         |
@@ -208,6 +217,10 @@ var podman = context.Tools.Podman;
 | `podman ps`                                    | `PodmanPsOptions`                                 |
 | `podman pull`                                  | `PodmanPullOptions`                               |
 | `podman push`                                  | `PodmanPushOptions`                               |
+| `podman quadlet install`                       | `PodmanQuadletInstallOptions`                     |
+| `podman quadlet list`                          | `PodmanQuadletListOptions`                        |
+| `podman quadlet print`                         | `PodmanQuadletPrintOptions`                       |
+| `podman quadlet rm`                            | `PodmanQuadletRmOptions`                          |
 | `podman rename`                                | `PodmanRenameOptions`                             |
 | `podman restart`                               | `PodmanRestartOptions`                            |
 | `podman rm`                                    | `PodmanRmOptions`                                 |
@@ -223,6 +236,7 @@ var podman = context.Tools.Podman;
 | `podman start`                                 | `PodmanStartOptions`                              |
 | `podman stats`                                 | `PodmanStatsOptions`                              |
 | `podman stop`                                  | `PodmanStopOptions`                               |
+| `podman system check`                          | `PodmanSystemCheckOptions`                        |
 | `podman system connection add`                 | `PodmanSystemConnectionAddOptions`                |
 | `podman system connection default`             | `PodmanSystemConnectionDefaultOptions`            |
 | `podman system connection list`                | `PodmanSystemConnectionListOptions`               |
