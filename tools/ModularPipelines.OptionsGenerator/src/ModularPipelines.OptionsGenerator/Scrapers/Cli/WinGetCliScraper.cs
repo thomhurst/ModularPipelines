@@ -196,7 +196,6 @@ public partial class WinGetCliScraper : CliScraperBase
             PositionalArguments = positionalArguments,
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
-            UsagePositionalArguments = usage.PositionalArguments,
             SubDomainGroup = null,
             Enums = enums
         };

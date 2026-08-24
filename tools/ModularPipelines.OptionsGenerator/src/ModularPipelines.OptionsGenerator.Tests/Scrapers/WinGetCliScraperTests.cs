@@ -152,10 +152,13 @@ public class WinGetCliScraperTests
         public IReadOnlyList<string> Extract(string helpText) =>
             ExtractSubcommands(helpText).ToList();
 
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
-            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+            var command = await ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+            return command is null
+                ? null
+                : command with { UsagePositionalArguments = usage.PositionalArguments };
         }
 
         public UsageSynopsisParseResult ParseUsage(string[] commandPath, string helpText) =>
