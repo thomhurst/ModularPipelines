@@ -44,6 +44,9 @@ public class GitCliScraperTests
             await Assert.That(executor.StatusHelpInvocations).IsEqualTo(1);
             await Assert.That(executor.NestedHelpWorkingDirectory).IsNotNull();
         }
+
+        scraper.Dispose();
+        await Assert.That(Directory.Exists(executor.NestedHelpWorkingDirectory!)).IsFalse();
     }
 
     [Test]

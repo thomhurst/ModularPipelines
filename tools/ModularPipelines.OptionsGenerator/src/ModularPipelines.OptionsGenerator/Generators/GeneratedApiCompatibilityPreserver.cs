@@ -1208,7 +1208,7 @@ internal static class GeneratedApiCompatibilityPreserver
             return false;
         }
 
-        if (baseline is { IsCompatibility: true, ForwardToPropertyName: not null })
+        if (baseline.IsCompatibility)
         {
             ValidateMatchingPropertyShape(command, baseline, match, violations);
         }

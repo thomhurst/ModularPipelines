@@ -13,9 +13,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// - Options via 'git <command> -h' with format: -short, --long   description
 /// - Mostly flat command structure, with usage-derived child commands
 /// </summary>
-public partial class GitCliScraper : CliScraperBase
+public partial class GitCliScraper : CliScraperBase, IDisposable
 {
     private readonly object _helpRepositoryLock = new();
+    private string? _helpRepositoryDirectory;
     private Task<string>? _helpRepositoryTask;
 
     public override string ToolName => "git";
@@ -85,6 +86,7 @@ public partial class GitCliScraper : CliScraperBase
     private async Task<string> CreateHelpRepositoryAsync()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"git-scraper-{Guid.NewGuid():N}");
+        _helpRepositoryDirectory = directory;
         Directory.CreateDirectory(directory);
         var result = await Executor.ExecuteAsync(
             ToolName,
@@ -98,6 +100,35 @@ public partial class GitCliScraper : CliScraperBase
         }
 
         return directory;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        string? directory;
+        lock (_helpRepositoryLock)
+        {
+            directory = _helpRepositoryDirectory;
+            _helpRepositoryDirectory = null;
+            _helpRepositoryTask = null;
+        }
+
+        if (directory is null || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        try
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            Logger.LogWarning(
+                exception,
+                "Could not delete temporary Git help repository: {Directory}",
+                directory);
+        }
     }
 
     protected override IEnumerable<string> ExtractSubcommands(

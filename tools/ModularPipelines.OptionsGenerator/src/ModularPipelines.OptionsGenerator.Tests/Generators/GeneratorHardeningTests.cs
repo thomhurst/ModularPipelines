@@ -1404,7 +1404,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Reused_Compatibility_Property_With_Cli_Identity()
+    public async Task ApiCompatibilityPreserver_Allows_Reintroduced_Compatibility_Property()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
         {
@@ -1419,13 +1419,15 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("RemovedFlag", "bool?", isCompatibility: true)]);
 
-        await Assert.That(exception.Message)
-            .Contains("ToolCopyOptions.RemovedFlag changed CLI switch or argument position");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("RemovedFlag");
+            await Assert.That(preserved.CompatibilityProperties).IsEmpty();
+        }
     }
 
     [Test]
