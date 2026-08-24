@@ -1060,6 +1060,16 @@ public class GeneratorHardeningTests
                     PositionIndex = 0,
                 },
             ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyServer",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "Server",
+                    ObsoleteMessage = "Use Server instead.",
+                },
+            ],
         };
         var collisionResolved = InheritedPropertyCollisionResolver.Resolve(Tool(command))
             .Commands.Single();
@@ -1072,6 +1082,8 @@ public class GeneratorHardeningTests
         {
             await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ServerOption");
             await Assert.That(preserved.PositionalArguments.Single().PropertyName).IsEqualTo("Server");
+            await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
+                .IsEqualTo("ServerOption");
         }
     }
 

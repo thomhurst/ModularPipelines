@@ -835,7 +835,7 @@ internal static class GeneratedApiCompatibilityPreserver
             baselineProperties,
             positionalArguments,
             options,
-            command.CompatibilityProperties);
+            compatibilityProperties);
         var violations = new List<string>();
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var preservedTypeChanges = PreserveScalarToCollectionChanges(
@@ -911,7 +911,7 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         CliPositionalArgument[] positionalArguments,
         CliOptionDefinition[] options,
-        IReadOnlyList<CliCompatibilityProperty> compatibilityProperties)
+        IList<CliCompatibilityProperty> compatibilityProperties)
     {
         var propertyNames = options.Select(static option => option.PropertyName)
             .Concat(positionalArguments.Select(static argument => argument.PropertyName))
@@ -950,6 +950,12 @@ internal static class GeneratedApiCompatibilityPreserver
                 propertyNames);
             RenameLocalMember(conflictingMember.Value, conflictingName, positionalArguments, options);
             RenameLocalMember(historicalMember.Value, baseline.PropertyName, positionalArguments, options);
+            RetargetCompatibilityProperties(
+                compatibilityProperties,
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    [baseline.PropertyName] = conflictingName,
+                });
             propertyNames.Add(baseline.PropertyName);
         }
     }
