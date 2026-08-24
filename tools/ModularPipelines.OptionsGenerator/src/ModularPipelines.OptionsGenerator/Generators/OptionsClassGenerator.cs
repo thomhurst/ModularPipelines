@@ -397,11 +397,13 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Include enums namespace if any options use enum types
-        if (command.Options.Any(o => o.EnumDefinition is not null)
-            || command.CompatibilityProperties.Any(property => tool.AllEnums.Any(definition =>
-                definition.EnumName.Equals(
-                    GeneratorUtils.GetEnumTypeName(property.CSharpType),
-                    StringComparison.Ordinal))))
+        var generatedEnumNames = tool.AllEnums
+            .Select(static definition => definition.EnumName)
+            .ToHashSet(StringComparer.Ordinal);
+        if (command.Options.Any(option => option.EnumDefinition is not null
+                || generatedEnumNames.Contains(GeneratorUtils.GetEnumTypeName(option.PropertyType)))
+            || command.CompatibilityProperties.Any(property => generatedEnumNames.Contains(
+                GeneratorUtils.GetEnumTypeName(property.CSharpType))))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }

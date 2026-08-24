@@ -70,6 +70,14 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        get => {property.ForwardToPropertyName};");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");
                 break;
+            case CliCompatibilityForwardingKind.NullableInt32ToRequiredString:
+                sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty;");
+                break;
+            case CliCompatibilityForwardingKind.NullableInt32ToStringCollection:
+                sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}?.FirstOrDefault(), global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
+                break;
             default:
                 throw new ArgumentOutOfRangeException(
                     nameof(property.ForwardingKind),
