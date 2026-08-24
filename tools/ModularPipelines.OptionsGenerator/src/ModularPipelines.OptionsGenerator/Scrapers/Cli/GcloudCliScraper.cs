@@ -99,7 +99,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var description = ExtractDescription(helpText);
-        var parsedOptions = ParseOptions(helpText, commandParts);
+        var parsedOptions = ParseOptions(helpText);
         var options = parsedOptions.Options;
         var positionalArgs = ParsePositionalArguments(helpText);
 
@@ -202,13 +202,11 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
-        string helpText,
-        string[] commandParts)
+    private static (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+        string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find FLAGS section
         var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
@@ -228,51 +226,62 @@ public partial class GcloudCliScraper : CliScraperBase
 
         foreach (var argument in argumentGroup.FlattenArguments())
         {
-            var negatable = argument.IsNegatable;
-            var longForm = argument.SwitchName;
-            var valueHint = argument.ValueHint ?? string.Empty;
-
-            if (string.IsNullOrEmpty(longForm) || seenOptions.Contains(longForm))
+            var option = CreateOption(argument);
+            if (option is null || !seenOptions.Add(option.SwitchName))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var description = argument.Documentation;
-
-            var isFlag = string.IsNullOrEmpty(valueHint) || negatable;
-            var isArray = valueHint.Contains("...") || (description?.Contains("may be repeated") ?? false);
-            var isNumeric = IsNumericHint(valueHint);
-            var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
-
-            var enumDef = TryDetectEnum(propertyName, className, description);
-            var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = isArray,
-                IsKeyValue = isKeyValue,
-                IsNumeric = isNumeric,
-                ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            options.Add(option);
         }
 
         return (options, [argumentGroup]);
+    }
+
+    private static CliOptionDefinition? CreateOption(CliArgumentDefinition argument)
+    {
+        var longForm = argument.SwitchName;
+        if (string.IsNullOrEmpty(longForm))
+        {
+            return null;
+        }
+
+        var propertyName = NormalizePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var valueHint = argument.ValueHint ?? string.Empty;
+        var description = argument.Documentation;
+        var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
+        var acceptsMultipleValues = !isFlag
+            && (valueHint.Contains("...")
+                || DescriptionDeclaresRepeatableOption(description ?? string.Empty));
+        var isNumeric = IsNumericHint(valueHint);
+        var isKeyValue = valueHint.Contains("KEY=VALUE") || valueHint.Contains("=VALUE,");
+        var enumDefinition = TryDetectEnum(propertyName, description);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            PropertyName = propertyName,
+            CSharpType = DetermineCSharpType(
+                isFlag,
+                acceptsMultipleValues,
+                isKeyValue,
+                isNumeric,
+                enumDefinition),
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = isKeyValue,
+            IsNumeric = isNumeric,
+            ValueSeparator = isFlag ? " " : "=",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
+        };
     }
 
     private static CliArgumentDefinition? ParseGcloudArgument(string line)
@@ -344,7 +353,7 @@ public partial class GcloudCliScraper : CliScraperBase
                lower.Contains("timeout") || lower.Contains("seconds") || lower.Contains("iops");
     }
 
-    private static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -405,14 +414,30 @@ public partial class GcloudCliScraper : CliScraperBase
         };
     }
 
-    private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
+    private static string DetermineCSharpType(
+        bool isFlag,
+        bool acceptsMultipleValues,
+        bool isKeyValue,
+        bool isNumeric,
+        CliEnumDefinition? enumDef)
     {
-        if (isFlag) return "bool?";
-        if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
-        if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
-        return "string?";
+        if (isFlag)
+        {
+            return "bool?";
+        }
+
+        if (enumDef is not null)
+        {
+            return $"{enumDef.EnumName}?";
+        }
+
+        if (isKeyValue)
+        {
+            return "IReadOnlyList<KeyValue>?";
+        }
+
+        var scalarType = isNumeric ? "int" : "string";
+        return acceptsMultipleValues ? $"IEnumerable<{scalarType}>?" : $"{scalarType}?";
     }
 
     #endregion

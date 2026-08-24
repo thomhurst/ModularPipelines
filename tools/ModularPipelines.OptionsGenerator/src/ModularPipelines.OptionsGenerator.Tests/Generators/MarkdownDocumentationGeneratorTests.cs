@@ -205,16 +205,39 @@ public class MarkdownDocumentationGeneratorTests
             PreferredDocumentationExampleCommand = nestedCommand.FullCommand,
         };
 
+        var executeCommand = Command(
+            "fake app execute",
+            "FakeAppExecuteOptions",
+            ["app", "execute"],
+            "app") with
+        {
+            IsSafeForDocumentation = true,
+        };
+        var executeCollisionTool = Tool(
+            "fake",
+            Command("fake app", "FakeAppOptions", ["app"]),
+            executeCommand) with
+        {
+            PreferredDocumentationExampleCommand = executeCommand.FullCommand,
+        };
+
         var testCases = new[]
         {
             (Tool: rootCollisionTool,
                 Invocation: "context.Tools.Fake.App.ExecuteAsync(",
+                Method: "ExecuteAsync(",
                 ServiceFile: "FakeApp.Generated.cs",
                 OptionsType: "FakeAppOptions"),
             (Tool: nestedCollisionTool,
                 Invocation: "context.Tools.Fake.App.Get.ExecuteAsync(",
+                Method: "ExecuteAsync(",
                 ServiceFile: "FakeAppGet.Generated.cs",
                 OptionsType: "FakeAppGetOptions"),
+            (Tool: executeCollisionTool,
+                Invocation: "context.Tools.Fake.App.ExecuteCommandAsync(",
+                Method: "ExecuteCommandAsync(",
+                ServiceFile: "FakeApp.Generated.cs",
+                OptionsType: "FakeAppExecuteOptions"),
         };
 
         foreach (var testCase in testCases)
@@ -226,10 +249,44 @@ public class MarkdownDocumentationGeneratorTests
 
             await Assert.That(documentation).Contains(testCase.Invocation);
             await Assert.That(collisionService.Content)
-                .Contains("Task<CommandResult> ExecuteAsync(");
+                .Contains($"Task<CommandResult> {testCase.Method}");
             await Assert.That(collisionService.Content).Contains(testCase.OptionsType);
             await AssertDocumentationExampleCompiles(testCase.Tool);
         }
+    }
+
+    [Test]
+    public async Task GenerateAsync_MatchesPascalizedParentCollisions()
+    {
+        var executeCommand = Command(
+            "fake app service_accounts execute",
+            "FakeAppServiceAccountsExecuteOptions",
+            ["app", "service_accounts", "execute"],
+            "app") with
+        {
+            IsSafeForDocumentation = true,
+        };
+        var tool = Tool(
+            "fake",
+            Command(
+                "fake app service-accounts",
+                "FakeAppServiceAccountsOptions",
+                ["app", "service-accounts"],
+                "app"),
+            executeCommand) with
+        {
+            PreferredDocumentationExampleCommand = executeCommand.FullCommand,
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+        var serviceFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var service = serviceFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "FakeAppServiceAccounts.Generated.cs");
+
+        await Assert.That(documentation)
+            .Contains("context.Tools.Fake.App.ServiceAccounts.ExecuteCommandAsync(");
+        await Assert.That(service.Content)
+            .Contains("Task<CommandResult> ExecuteCommandAsync(");
     }
 
     [Test]
