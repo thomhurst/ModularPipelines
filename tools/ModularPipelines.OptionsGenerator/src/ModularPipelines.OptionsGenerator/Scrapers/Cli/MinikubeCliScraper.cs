@@ -83,4 +83,11 @@ public partial class MinikubeCliScraper : CobraCliScraper
                 .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
                 .ToArray()
             : positionalArguments;
+
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        command.CommandParts is ["addons"] or ["config"]
+            ? UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage)
+            : usage;
 }

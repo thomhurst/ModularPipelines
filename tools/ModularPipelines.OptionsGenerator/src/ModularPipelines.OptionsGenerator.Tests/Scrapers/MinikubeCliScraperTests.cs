@@ -53,11 +53,21 @@ public class MinikubeCliScraperTests
     public async Task Command_Groups_Do_Not_Model_Subcommand_Placeholders(string group)
     {
         var helpText = $"Usage:\n  minikube {group} SUBCOMMAND [flags]";
-        var command = await new TestMinikubeCliScraper().Parse(
-            ["minikube", group],
+        var scraper = new TestMinikubeCliScraper();
+        var commandPath = new[] { "minikube", group };
+        var command = await scraper.Parse(
+            commandPath,
             helpText);
+        var usage = scraper.Normalize(
+            command!,
+            UsageSynopsisParser.Parse(helpText, commandPath));
 
-        await Assert.That(command!.PositionalArguments).IsEmpty();
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments).IsEmpty();
+            await Assert.That(usage.PositionalArguments).IsEmpty();
+            await Assert.That(usage.HasOperandTokens).IsFalse();
+        }
     }
 
     private sealed class TestMinikubeCliScraper()
@@ -72,6 +82,11 @@ public class MinikubeCliScraperTests
                 helpText,
                 UsageSynopsisParser.Parse(helpText, commandPath),
                 CancellationToken.None);
+
+        public UsageSynopsisParseResult Normalize(
+            CliCommandDefinition command,
+            UsageSynopsisParseResult usage) =>
+            NormalizeUsageSynopsis(command, usage);
     }
 
     private sealed class RecordingExecutor : ICliCommandExecutor

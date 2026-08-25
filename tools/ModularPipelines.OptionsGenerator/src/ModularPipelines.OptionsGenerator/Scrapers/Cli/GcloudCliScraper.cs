@@ -99,7 +99,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var description = ExtractDescription(helpText);
-        var parsedOptions = ParseOptions(helpText);
+        var parsedOptions = ParseOptions(helpText, commandParts);
         var options = parsedOptions.Options;
         var positionalArgs = ParsePositionalArguments(helpText);
 
@@ -207,8 +207,9 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private static (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
-        string helpText)
+    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+        string helpText,
+        IReadOnlyList<string> commandParts)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -235,6 +236,22 @@ public partial class GcloudCliScraper : CliScraperBase
             if (option is null || !seenOptions.Add(option.SwitchName))
             {
                 continue;
+            }
+
+            if (!option.IsFlag
+                && option.CSharpType is not ("bool" or "bool?")
+                && !option.AcceptsMultipleValues
+                && !ShouldTreatOptionAsScalar(commandParts, option.SwitchName)
+                && HelpDeclaresRepeatableOption(
+                    helpText,
+                    option.SwitchName,
+                    option.Description ?? string.Empty))
+            {
+                option = option with
+                {
+                    AcceptsMultipleValues = true,
+                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+                };
             }
 
             options.Add(option);

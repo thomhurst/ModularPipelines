@@ -239,12 +239,15 @@ internal static class GeneratedApiCompatibilityPreserver
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
             CompatibilityMethods = [.. facadeMethods
-                .Where(method => IsRootFacadeMethod(tool, method)
-                                 && IsNamedFacadeMethod(tool, method))
+                .Where(method => IsNamedFacadeMethod(tool, method))
                 .Select(method => new CliCompatibilityMethod
                 {
                     MethodName = method.MethodName,
-                    ObsoleteMessage = $"Use {currentRootMethodName} instead.",
+                    ObsoleteMessage = method.MethodName.Equals(
+                        currentRootMethodName,
+                        StringComparison.Ordinal)
+                        ? "Use the current command facade instead."
+                        : $"Use {currentRootMethodName} instead.",
                 })
                 .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)],
             SubDomainGroup = subDomainGroup,

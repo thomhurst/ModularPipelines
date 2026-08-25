@@ -22,6 +22,19 @@ public class KubectlCliScraper : CobraCliScraper
     {
     }
 
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage)
+    {
+        var positionalArguments = GetPositionalArguments(usage, command.Options);
+        return usage with
+        {
+            HasOperandTokens = positionalArguments.Count > 0
+                               || usage.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
+        };
+    }
+
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.
     /// </summary>

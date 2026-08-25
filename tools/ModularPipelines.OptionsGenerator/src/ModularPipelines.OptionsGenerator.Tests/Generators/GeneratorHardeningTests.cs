@@ -3200,6 +3200,50 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Literal_Execute_Overload_Beside_Parent()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"execute\")] "
+                + "public record ToolGroupNestedExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ExecuteAsync(ToolGroupNestedExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var parent = Command(
+                "ToolGroupNestedOptions",
+                "ToolOptions",
+                ["group", "nested"],
+                subDomainGroup: "group");
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(parent), root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                    "ToolGroupNested.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generated).Contains("ExecuteCommandAsync(");
+                await Assert.That(generated).Contains("ToolGroupNestedExecuteOptions? options = null");
+                await Assert.That(generated).Contains("ToolGroupNestedOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Distinguishes_Execute_When_Parent_Name_Ends_In_Execute()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");

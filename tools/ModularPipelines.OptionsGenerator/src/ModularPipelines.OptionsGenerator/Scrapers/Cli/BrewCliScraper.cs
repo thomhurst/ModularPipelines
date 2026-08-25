@@ -325,6 +325,10 @@ public partial class BrewCliScraper : CliScraperBase
                     PrependOptionTerminator = true,
                 },
             ],
+            ["generate-zap"] =>
+            [
+                RequiredArgument("CaskOrName", 0),
+            ],
             _ => arguments,
         };
 

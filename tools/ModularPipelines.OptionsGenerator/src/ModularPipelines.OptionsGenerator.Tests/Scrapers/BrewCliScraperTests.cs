@@ -100,6 +100,27 @@ public class BrewCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Models_Generate_Zap_Cask_Operand_After_Name_Flag()
+    {
+        const string helpText = """
+            Usage: brew generate-zap [--name] cask_or_name
+
+                  --name   Treat the operand as a cask name.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "generate-zap"],
+            helpText);
+
+        var operand = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("CaskOrName");
+            await Assert.That(operand.IsRequired).IsTrue();
+        }
+    }
+
     private sealed class TestBrewCliScraper : BrewCliScraper
     {
         public TestBrewCliScraper(ICliCommandExecutor? executor = null)

@@ -63,6 +63,32 @@ public class KubectlCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Kuberc_Set_Option_Values_Do_Not_Keep_Operand_Usage()
+    {
+        const string helpText = """
+            Usage:
+              kubectl kuberc set --section (defaults|aliases) --command COMMAND [options]
+
+            Options:
+                  --section string   Section to update.
+                  --command string   Command to update.
+            """;
+        var commandPath = new[] { "kubectl", "kuberc", "set" };
+        var scraper = new TestKubectlCliScraper();
+        var command = await scraper.Parse(commandPath, helpText);
+        var usage = scraper.Normalize(
+            command!,
+            UsageSynopsisParser.Parse(helpText, commandPath));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments).IsEmpty();
+            await Assert.That(usage.PositionalArguments).IsEmpty();
+            await Assert.That(usage.HasOperandTokens).IsFalse();
+        }
+    }
+
     private sealed class TestKubectlCliScraper()
         : KubectlCliScraper(
             new RecordingExecutor(),
@@ -75,6 +101,11 @@ public class KubectlCliScraperTests
                 helpText,
                 UsageSynopsisParser.Parse(helpText, commandPath),
                 CancellationToken.None);
+
+        public UsageSynopsisParseResult Normalize(
+            CliCommandDefinition command,
+            UsageSynopsisParseResult usage) =>
+            NormalizeUsageSynopsis(command, usage);
     }
 
     private sealed class RecordingExecutor : ICliCommandExecutor

@@ -1082,7 +1082,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Pattern to match option lines (e.g., "-f, --flag" or "--option").
     /// </summary>
     [GeneratedRegex(
-        @"^[ \t]*(?:-\w(?:[ \t]+[^,\s]+)?[ \t]*,[ \t]*)?--[\w-]+(?:[ \t]|,|$)",
+        @"^[ \t]*(?:-\w(?:[ \t]+[^,\s]+)?[ \t]*,[ \t]*)?--[\w-]+(?:[ \t]|,|=|$)",
         RegexOptions.Multiline)]
     protected static partial Regex OptionLinePattern();
 
