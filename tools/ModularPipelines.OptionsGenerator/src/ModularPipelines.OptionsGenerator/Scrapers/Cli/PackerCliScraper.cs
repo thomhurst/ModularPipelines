@@ -100,7 +100,7 @@ public partial class PackerCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
-        usage = NormalizeInspectUsage(commandParts, usage);
+        usage = NormalizeUsage(commandParts, usage);
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
@@ -127,23 +127,46 @@ public partial class PackerCliScraper : CliScraperBase
         return Task.FromResult<CliCommandDefinition?>(command);
     }
 
-    private static UsageSynopsisParseResult NormalizeInspectUsage(
+    private static UsageSynopsisParseResult NormalizeUsage(
         IReadOnlyList<string> commandParts,
-        UsageSynopsisParseResult usage) =>
-        commandParts is ["inspect"]
-            ? usage with
+        UsageSynopsisParseResult usage)
+    {
+        if (commandParts is ["inspect"])
+        {
+            return usage with
             {
                 PositionalArguments = usage.PositionalArguments
                     .Select(argument => argument with { Phase = CommandLinePhase.Passthrough })
                     .ToArray(),
-            }
-            : usage;
+            };
+        }
+
+        if (commandParts is not ["plugins"])
+        {
+            return usage;
+        }
+
+        return usage with
+        {
+            PositionalArguments = usage.PositionalArguments
+                .Select(argument => argument.PropertyName is "Args" or "Arguments" or "CliArguments"
+                    ? argument with
+                    {
+                        CSharpType = argument.IsRequired
+                            ? "IEnumerable<string>"
+                            : "IEnumerable<string>?",
+                        IsVariadic = true,
+                    }
+                    : argument)
+                .ToArray(),
+        };
+    }
 
     /// <inheritdoc />
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
         UsageSynopsisParseResult usage) =>
-        NormalizeInspectUsage(command.CommandParts, usage);
+        NormalizeUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.

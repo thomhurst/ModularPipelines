@@ -43,6 +43,25 @@ public class PositionalOperandAdapterTests
         await AssertArgument(command, "Packages", isRequired: false, isVariadic: true);
         await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["Packages"]);
+        await Assert.That(command.PositionalArguments.Single().Phase)
+            .IsEqualTo(CommandLinePhase.Passthrough);
+    }
+
+    [Test]
+    public async Task Go_Mod_Preserves_Generic_Arguments_As_Separate_Tokens()
+    {
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "mod"],
+            "usage: go mod <command> [arguments]");
+
+        var arguments = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "Arguments");
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments.IsVariadic).IsTrue();
+            await Assert.That(arguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(arguments.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
     }
 
     [Test]
@@ -91,6 +110,22 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task Pip_Install_Treats_Package_Index_Syntax_As_Option_Label()
+    {
+        var command = await new TestPipCliScraper().Parse(
+            ["pip", "install"],
+            "Usage: pip install [options] <requirement specifier> [package-index-options] ...");
+
+        var requirement = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(requirement.PropertyName).IsEqualTo("RequirementSpecifier");
+            await Assert.That(requirement.IsVariadic).IsTrue();
+            await Assert.That(requirement.CSharpType).IsEqualTo("IEnumerable<string>");
+        }
+    }
+
+    [Test]
     [Arguments("cache", "Usage: pip cache list [<pattern>]\n  pip cache purge")]
     [Arguments("config", "Usage: pip config [<file-option>] list\n  pip config get command.option")]
     [Arguments("index", "Usage: pip index versions <package>")]
@@ -111,6 +146,8 @@ public class PositionalOperandAdapterTests
             "Usage: pnpm add <name>");
 
         await AssertArgument(command, "Name", isRequired: true, isVariadic: false);
+        await Assert.That(command!.PositionalArguments.Single().Phase)
+            .IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]
@@ -176,6 +213,23 @@ public class PositionalOperandAdapterTests
         await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("Template");
         await Assert.That(command.PositionalArguments.Single().Phase)
             .IsEqualTo(CommandLinePhase.Passthrough);
+    }
+
+    [Test]
+    public async Task Packer_Plugins_Preserves_Trailing_Arguments_As_Separate_Tokens()
+    {
+        var command = await new TestPackerCliScraper().Parse(
+            ["packer", "plugins"],
+            "Usage: packer plugins <subcommand> [options] [args]");
+
+        var arguments = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "Args");
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments.IsVariadic).IsTrue();
+            await Assert.That(arguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(arguments.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
     }
 
     private static async Task AssertArgument(

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -199,8 +200,9 @@ public partial class PnpmCliScraper : CliScraperBase
 
     private static UsageSynopsisParseResult NormalizeParentGroupUsage(
         IReadOnlyList<string> commandParts,
-        UsageSynopsisParseResult usage) =>
-        commandParts is ["stage"]
+        UsageSynopsisParseResult usage)
+    {
+        var normalized = commandParts is ["stage"]
             ? usage with
             {
                 HasOperandTokens = false,
@@ -208,6 +210,13 @@ public partial class PnpmCliScraper : CliScraperBase
                 UnparsedOperandTokens = [],
             }
             : usage;
+        return normalized with
+        {
+            PositionalArguments = normalized.PositionalArguments
+                .Select(argument => argument with { Phase = CommandLinePhase.Passthrough })
+                .ToArray(),
+        };
+    }
 
     /// <inheritdoc />
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(

@@ -173,8 +173,9 @@ public partial class PipCliScraper : CliScraperBase
 
     private static UsageSynopsisParseResult NormalizeParentGroupUsage(
         IReadOnlyList<string> commandParts,
-        UsageSynopsisParseResult usage) =>
-        commandParts is ["cache" or "config" or "index"]
+        UsageSynopsisParseResult usage)
+    {
+        var normalized = commandParts is ["cache" or "config" or "index"]
             ? usage with
             {
                 HasOperandTokens = false,
@@ -182,6 +183,33 @@ public partial class PipCliScraper : CliScraperBase
                 UnparsedOperandTokens = [],
             }
             : usage;
+        var hasPackageIndexLabel = normalized.PositionalArguments.Any(argument =>
+            argument.PropertyName.Equals("PackageIndexOptions", StringComparison.Ordinal));
+        if (!hasPackageIndexLabel)
+        {
+            return normalized;
+        }
+
+        return normalized with
+        {
+            PositionalArguments = normalized.PositionalArguments
+                .Where(argument => !argument.PropertyName.Equals(
+                    "PackageIndexOptions",
+                    StringComparison.Ordinal))
+                .Select(argument => argument.PropertyName.Equals(
+                    "RequirementSpecifier",
+                    StringComparison.Ordinal)
+                    ? argument with
+                    {
+                        CSharpType = argument.IsRequired
+                            ? "IEnumerable<string>"
+                            : "IEnumerable<string>?",
+                        IsVariadic = true,
+                    }
+                    : argument)
+                .ToArray(),
+        };
+    }
 
     /// <inheritdoc />
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
