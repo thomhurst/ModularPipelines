@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -185,6 +186,31 @@ public class GitCliScraperTests
         await Assert.That(subcommands).IsEquivalentTo(["add"]);
     }
 
+    [Test]
+    public async Task Parses_Negatable_Option_Without_Colliding_With_Operand()
+    {
+        const string helpText = """
+            usage: git merge [<options>] [<commit>...]
+
+                --[no-]commit       perform a commit if the merge succeeds (default)
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "merge"], helpText);
+        var resolved = InheritedPropertyCollisionResolver.Resolve(
+                scraper.CreateToolDefinition() with { Commands = [command!] })
+            .Commands.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(resolved.Options.Single().SwitchName).IsEqualTo("--commit");
+            await Assert.That(resolved.Options.Single().PropertyName).IsEqualTo("Commit");
+            await Assert.That(resolved.Options.Single().IsFlag).IsTrue();
+            await Assert.That(resolved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("CommitArgument");
+            await Assert.That(resolved.PositionalArguments.Single().IsVariadic).IsTrue();
+        }
+    }
+
     private static CliCommandResult Result(
         string standardOutput,
         string standardError = "",
@@ -218,6 +244,24 @@ public class GitCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             throw new NotSupportedException();
+    }
+
+    private sealed class TestGitCliScraper : GitCliScraper
+    {
+        public TestGitCliScraper()
+            : base(
+                new StubExecutor(),
+                new StubHelpTextCache(),
+                NullLogger<GitCliScraper>.Instance)
+        {
+        }
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                UsageSynopsisParser.Parse(helpText, commandPath),
+                CancellationToken.None);
     }
 
     private sealed class StdoutHelpExecutor : ICliCommandExecutor

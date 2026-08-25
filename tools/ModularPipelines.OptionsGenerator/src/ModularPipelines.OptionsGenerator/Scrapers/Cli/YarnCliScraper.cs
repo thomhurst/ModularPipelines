@@ -301,6 +301,13 @@ public partial class YarnCliScraper : CliScraperBase
     protected override Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
+        CancellationToken cancellationToken) =>
+        throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
+
+    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
         var commandParts = commandPath.Skip(1).ToArray(); // Skip tool name
@@ -338,7 +345,9 @@ public partial class YarnCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = usage.PositionalArguments,
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -537,7 +546,8 @@ public partial class YarnCliScraper : CliScraperBase
             }
 
             // Determine if this is a flag (boolean) or takes a value
-            var isFlag = IsBooleanOption(longForm, description);
+            var isFlag = !match.Groups["value"].Success
+                         && IsBooleanOption(longForm, description);
             var csharpType = isFlag ? "bool?" : "string?";
 
             options.Add(new CliOptionDefinition
@@ -586,6 +596,7 @@ public partial class YarnCliScraper : CliScraperBase
         // Common boolean option patterns
         if (cleanName.StartsWith("no-") ||
             cleanName == "json" ||
+            cleanName == "quiet" ||
             cleanName == "verbose" ||
             cleanName == "silent" ||
             cleanName == "offline" ||
@@ -772,7 +783,7 @@ public partial class YarnCliScraper : CliScraperBase
     /// --json                     Description
     /// -F,--fixed                 Description
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)(?:\s+(?<value>#\d+|<[^>]+>))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex YarnOptionPattern();
 
     [GeneratedRegex(@"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$")]

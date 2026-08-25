@@ -460,11 +460,6 @@ public abstract partial class CliScraperBase : ICliScraper
         CancellationToken cancellationToken)
     {
         var usage = ParseUsageSynopsis(path, helpText);
-        if (subcommands.Count > 0)
-        {
-            usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
-        }
-
         LogUsageSynopsisSelection(path, usage);
         if (ShouldSkipCommand(path, helpText, subcommands, usage))
         {

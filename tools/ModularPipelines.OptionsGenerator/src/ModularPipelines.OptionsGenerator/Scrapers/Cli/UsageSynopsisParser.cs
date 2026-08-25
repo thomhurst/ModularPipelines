@@ -373,6 +373,13 @@ public static class UsageSynopsisParser
     private static bool TryReadUsageHeading(string line, out string synopsis)
     {
         synopsis = "";
+        if (line.Trim(' ', '\t', '━', '─').Equals(
+                "Usage",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
         if (!line.StartsWith("usage", StringComparison.OrdinalIgnoreCase))
         {
             return false;
@@ -397,6 +404,7 @@ public static class UsageSynopsisParser
 
     private static int ReadIndentedSynopses(string[] lines, int startIndex, List<string> synopses)
     {
+        var initialSynopsisCount = synopses.Count;
         var index = startIndex;
         for (; index < lines.Length; index++)
         {
@@ -404,6 +412,11 @@ public static class UsageSynopsisParser
             var trimmed = line.Trim();
             if (string.IsNullOrWhiteSpace(trimmed))
             {
+                if (synopses.Count == initialSynopsisCount)
+                {
+                    continue;
+                }
+
                 break;
             }
 

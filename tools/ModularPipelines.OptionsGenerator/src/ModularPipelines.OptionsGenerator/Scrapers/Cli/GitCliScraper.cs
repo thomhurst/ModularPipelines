@@ -490,7 +490,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             // Long flag
             if (match.Groups[2].Success)
             {
-                longFlag = match.Groups[2].Value.Trim();
+                longFlag = NormalizeNegatableLongFlag(match.Groups[2].Value.Trim());
             }
 
             // Description
@@ -641,6 +641,11 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         return result;
     }
 
+    private static string NormalizeNegatableLongFlag(string optionName) =>
+        optionName.StartsWith("--[no-]", StringComparison.Ordinal)
+            ? "--" + optionName[7..]
+            : optionName;
+
     /// <summary>
     /// Converts a leading digit to a word (e.g., "3way" -> "ThreeWay").
     /// </summary>
@@ -730,7 +735,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
+    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]

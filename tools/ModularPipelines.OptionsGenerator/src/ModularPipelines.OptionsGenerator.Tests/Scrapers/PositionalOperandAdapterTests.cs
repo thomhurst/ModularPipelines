@@ -45,17 +45,17 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
-    public async Task Liquibase_Help_Option_Description_Is_Not_An_Operand()
+    public async Task Liquibase_Command_Group_Preserves_Executable_Command_Operand()
     {
         const string helpText = "Usage: liquibase init [OPTIONS] [COMMAND]\n  -h, --help   Show this help message and exit";
 
-        var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
-            UsageSynopsisParser.Parse(helpText, ["liquibase", "init"]));
+        var usage = UsageSynopsisParser.Parse(helpText, ["liquibase", "init"]);
 
         using (Assert.Multiple())
         {
-            await Assert.That(usage.HasOperandTokens).IsFalse();
-            await Assert.That(usage.PositionalArguments).IsEmpty();
+            await Assert.That(usage.HasOperandTokens).IsTrue();
+            await Assert.That(usage.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Command");
         }
     }
 

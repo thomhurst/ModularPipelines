@@ -9,7 +9,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class VaultCliScraperTests
 {
     [Test]
-    public async Task Command_Group_Args_Remain_Optional_After_Placeholder_Removal()
+    public async Task Command_Group_Preserves_Subcommand_And_Optional_Args()
     {
         const string helpText = """
             Usage: vault audit <subcommand> [options] [args]
@@ -25,9 +25,12 @@ public class VaultCliScraperTests
             ["vault", "audit"],
             helpText);
 
-        var argument = command!.PositionalArguments.Single();
+        var subcommand = command!.PositionalArguments[0];
+        var argument = command.PositionalArguments[1];
         using (Assert.Multiple())
         {
+            await Assert.That(subcommand.PropertyName).IsEqualTo("Subcommand");
+            await Assert.That(subcommand.IsRequired).IsTrue();
             await Assert.That(argument.PropertyName).IsEqualTo("Args");
             await Assert.That(argument.CSharpType).IsEqualTo("string?");
             await Assert.That(argument.IsRequired).IsFalse();
@@ -47,8 +50,7 @@ public class VaultCliScraperTests
 
         public Task<CliCommandDefinition?> ParseGroup(string[] commandPath, string helpText)
         {
-            var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
-                ParseUsageSynopsis(commandPath, helpText));
+            var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
     }
