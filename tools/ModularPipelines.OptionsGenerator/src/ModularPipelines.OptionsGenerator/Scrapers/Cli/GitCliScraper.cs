@@ -497,7 +497,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             return false;
         }
 
-        var shortFlag = GetGroupValue(match, 1) ?? GetGroupValue(match, 4);
+        var shortFlag = GetShortFlag(match);
         var advertisedLongFlag = GetGroupValue(match, 2);
         var longFlag = advertisedLongFlag is null
             ? null
@@ -512,7 +512,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             return false;
         }
 
-        var description = GetGroupValue(match, 3) ?? GetGroupValue(match, 5) ?? "";
+        var description = GetDescription(match);
         var (csharpType, isFlag) = InferType(primaryFlag, description, line);
         option = new CliOptionDefinition
         {
@@ -532,6 +532,12 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         match.Groups[index] is { Success: true, Value.Length: > 0 } group
             ? group.Value.Trim()
             : null;
+
+    private static string? GetShortFlag(Match match) =>
+        GetGroupValue(match, 1) ?? GetGroupValue(match, 4);
+
+    private static string GetDescription(Match match) =>
+        GetGroupValue(match, 3) ?? GetGroupValue(match, 5) ?? "";
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
