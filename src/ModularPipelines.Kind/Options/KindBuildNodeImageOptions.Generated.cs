@@ -28,7 +28,7 @@ public record KindBuildNodeImageOptions : KindOptions
     public string? Arch { get; set; }
 
     /// <summary>
-    /// name:tag of the base image to use for the build (default "docker.io/kindest/base:v20260601-995e8fa5")
+    /// name:tag of the base image to use for the build (default "docker.io/kindest/base:v20260820-69b56db7")
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -62,5 +62,11 @@ public record KindBuildNodeImageOptions : KindOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
+
+    /// <summary>
+    /// The kubernetes-source operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? KubernetesSource { get; set; }
 
 }

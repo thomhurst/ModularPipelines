@@ -36,7 +36,7 @@ public record KindExportKubeconfigOptions : KindOptions
     /// sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// the cluster context name (default "kind")
@@ -55,5 +55,12 @@ public record KindExportKubeconfigOptions : KindOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }
