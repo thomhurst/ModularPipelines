@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "reconcile")]
-public record KubernetesAuthReconcileOptions : KubernetesOptions
+public record KubernetesAuthReconcileOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string FilenameArgument
+) : KubernetesOptions
 {
+    public KubernetesAuthReconcileOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>

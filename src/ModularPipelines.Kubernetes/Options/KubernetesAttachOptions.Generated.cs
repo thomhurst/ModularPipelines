@@ -18,8 +18,16 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attach")]
-public record KubernetesAttachOptions : KubernetesOptions
+public record KubernetesAttachOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pod,
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ContainerArgument
+) : KubernetesOptions
 {
+    public KubernetesAttachOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>

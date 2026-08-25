@@ -18,8 +18,16 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record KubernetesConfigSetOptions : KubernetesOptions
+public record KubernetesConfigSetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyValue
+) : KubernetesOptions
 {
+    public KubernetesConfigSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
     /// </summary>

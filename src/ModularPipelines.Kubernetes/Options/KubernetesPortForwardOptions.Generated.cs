@@ -18,8 +18,17 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port-forward")]
-public record KubernetesPortForwardOptions : KubernetesOptions
+public record KubernetesPortForwardOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TypeOrName,
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LocalPortRemotePort,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string LocalPortNRemotePortN
+) : KubernetesOptions
 {
+    public KubernetesPortForwardOptions()
+        : this(default(string)!, default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Addresses to listen on (comma separated). Only accepts IP addresses or localhost as a value. When localhost is supplied, kubectl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these addresses are available to bind.
     /// </summary>

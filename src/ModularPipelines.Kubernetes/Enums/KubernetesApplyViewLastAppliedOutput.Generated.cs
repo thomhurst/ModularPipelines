@@ -17,8 +17,8 @@ namespace ModularPipelines.Kubernetes.Enums;
 public enum KubernetesApplyViewLastAppliedOutput
 {
     [EnumValue("yaml")]
-    Yaml,
+    Yaml = 0,
 
     [EnumValue("json")]
-    Json
+    Json = 1
 }

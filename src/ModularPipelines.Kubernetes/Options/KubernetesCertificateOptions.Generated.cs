@@ -18,6 +18,13 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate")]
-public record KubernetesCertificateOptions : KubernetesOptions
+public record KubernetesCertificateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : KubernetesOptions
 {
+    public KubernetesCertificateOptions()
+        : this(default(string)!)
+    {
+    }
+
 }
