@@ -2074,6 +2074,9 @@ internal static class GeneratedApiCompatibilityPreserver
             (CliCompatibilityForwardingKind.NullableInt32ToString,
                 CliCompatibilityForwardingKind.ScalarToCollection) =>
                 CliCompatibilityForwardingKind.NullableInt32ToStringCollection,
+            (CliCompatibilityForwardingKind.NullableInt32ToString,
+                CliCompatibilityForwardingKind.NullableStringToCliOptionValue) =>
+                CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue,
             _ => throw new InvalidOperationException(
                 $"Compatibility property '{property.PropertyName}' has unsupported composed forwarding "
                 + $"conversions {first} and {second}."),

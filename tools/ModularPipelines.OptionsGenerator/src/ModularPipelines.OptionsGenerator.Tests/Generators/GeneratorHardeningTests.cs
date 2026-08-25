@@ -1369,6 +1369,61 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Composes_Integer_To_Optional_Value_Forwarding()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--color",
+                    PropertyName = "ColorOption",
+                    CSharpType = "CliOptionValue?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ],
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyColor",
+                    CSharpType = "int?",
+                    ForwardToPropertyName = "Color",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableInt32ToString,
+                    ObsoleteMessage = "Use ColorOption instead.",
+                },
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "Color",
+                    CSharpType = "string?",
+                    ForwardToPropertyName = "ColorOption",
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableStringToCliOptionValue,
+                    ObsoleteMessage = "Use ColorOption instead.",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, []);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var legacyColor = preserved.CompatibilityProperties.Single(property =>
+            property.PropertyName.Equals("LegacyColor", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(legacyColor.ForwardToPropertyName).IsEqualTo("ColorOption");
+            await Assert.That(legacyColor.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "LegacyColor",
+            "ColorOption",
+            CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Composes_Forwarding_When_Target_Is_Renamed()
     {
         var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
