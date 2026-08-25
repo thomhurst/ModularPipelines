@@ -172,6 +172,22 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task Go_Clean_Does_Not_Treat_Prose_Examples_As_Options()
+    {
+        const string helpText = """
+            usage: go clean [-i] [packages]
+
+            The -i flag removes installed archives.
+            DIR.test(.exe) from go test -c
+            """;
+
+        var command = await new TestGoCliScraper().Parse(["go", "clean"], helpText);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-i"]);
+    }
+
+    [Test]
     public async Task Go_Usage_Parses_Inline_Option_Values()
     {
         const string helpText = "usage: go tool compile -o=FILE [packages]";

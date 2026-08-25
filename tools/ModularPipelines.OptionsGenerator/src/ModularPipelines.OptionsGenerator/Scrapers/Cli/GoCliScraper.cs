@@ -172,7 +172,7 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(helpText, usage.Synopsis);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -303,12 +303,12 @@ public partial class GoCliScraper : CliScraperBase
     /// Format: -flag    description
     ///         -flag value    description
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string? usageSynopsis)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         AddDocumentedOptions(GetOptionSectionLines(helpText), options, seenOptions);
-        AddUsageOptions(helpText, options, seenOptions);
+        AddUsageOptions(usageSynopsis ?? string.Empty, options, seenOptions);
         return options;
     }
 
@@ -521,7 +521,7 @@ public partial class GoCliScraper : CliScraperBase
     private static partial Regex GoOptionPattern();
 
     /// <summary>
-    /// Matches options declared directly in Go usage and prose, including commands whose
+    /// Matches options declared directly in a Go usage synopsis, including commands whose
     /// help does not expose a dedicated flags table.
     /// </summary>
     [GeneratedRegex(@"(?<![\w-])(?<flag>-[a-z][\w-]*)(?:(?<separator>=|[ \t]+)(?<value>(?!(?:flag|flags|option|options)\b)[A-Za-z][\w-]*))?", RegexOptions.IgnoreCase)]
