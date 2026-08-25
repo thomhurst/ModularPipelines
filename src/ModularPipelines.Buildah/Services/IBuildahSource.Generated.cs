@@ -28,7 +28,7 @@ public interface IBuildahSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(BuildahSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ExecuteAsync(BuildahSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IBuildahSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddAsync(BuildahSourceAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddAsync(BuildahSourceAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IBuildahSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(BuildahSourceCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAsync(BuildahSourceCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IBuildahSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PullAsync(BuildahSourcePullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PullAsync(BuildahSourcePullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IBuildahSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PushAsync(BuildahSourcePushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PushAsync(BuildahSourcePushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }
