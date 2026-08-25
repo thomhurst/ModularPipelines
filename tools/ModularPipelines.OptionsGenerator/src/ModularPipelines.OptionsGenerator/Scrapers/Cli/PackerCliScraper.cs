@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -99,6 +100,8 @@ public partial class PackerCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        usage = NormalizeInspectUsage(commandParts, usage);
+
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
 
@@ -123,6 +126,24 @@ public partial class PackerCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static UsageSynopsisParseResult NormalizeInspectUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage) =>
+        commandParts is ["inspect"]
+            ? usage with
+            {
+                PositionalArguments = usage.PositionalArguments
+                    .Select(argument => argument with { Phase = CommandLinePhase.Passthrough })
+                    .ToArray(),
+            }
+            : usage;
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        NormalizeInspectUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.

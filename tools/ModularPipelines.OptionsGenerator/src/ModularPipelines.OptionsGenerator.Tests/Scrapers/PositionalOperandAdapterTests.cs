@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -149,6 +150,34 @@ public class PositionalOperandAdapterTests
             .IsEqualTo("IEnumerable<string>?");
     }
 
+    [Test]
+    [Arguments("eval")]
+    [Arguments("eval-all")]
+    public async Task Yq_Expressions_And_Files_Render_After_Options(string commandName)
+    {
+        var command = await new TestYqCliScraper().Parse(
+            ["yq", commandName],
+            $"Usage: yq {commandName} [expression] [yaml_file1]...");
+
+        await Assert.That(command!.PositionalArguments).Count().IsEqualTo(2);
+        await Assert.That(command.PositionalArguments.All(argument =>
+                argument.Phase == CommandLinePhase.Passthrough
+                && argument.PrependOptionTerminatorIfValueStartsWithDash))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Packer_Inspect_Template_Renders_After_Options()
+    {
+        var command = await new TestPackerCliScraper().Parse(
+            ["packer", "inspect"],
+            "Usage: packer inspect TEMPLATE");
+
+        await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("Template");
+        await Assert.That(command.PositionalArguments.Single().Phase)
+            .IsEqualTo(CommandLinePhase.Passthrough);
+    }
+
     private static async Task AssertArgument(
         CliCommandDefinition? command,
         string propertyName,
@@ -238,6 +267,34 @@ public class PositionalOperandAdapterTests
             PositionalOperandAdapterTests.Executor,
             PositionalOperandAdapterTests.Cache,
             NullLogger<TerraformCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestYqCliScraper()
+        : YqCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<YqCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestPackerCliScraper()
+        : PackerCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<PackerCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
