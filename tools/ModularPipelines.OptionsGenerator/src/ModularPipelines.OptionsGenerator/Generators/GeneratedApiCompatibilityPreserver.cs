@@ -36,11 +36,12 @@ internal static class GeneratedApiCompatibilityPreserver
             return tool;
         }
 
+        var baseline = ReadBaseline(optionsDirectory);
         var enumBaseline = ReadEnumBaseline(Path.Combine(
                 outputDirectory,
                 tool.OutputDirectory,
                 "Enums"))
-            .Where(pair => pair.Key.StartsWith(tool.NamespacePrefix, StringComparison.Ordinal))
+            .Where(pair => IsEnumOwnedByTool(pair.Key, tool.NamespacePrefix, baseline))
             .ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal);
         MergeCurrentAliasEnumValues(tool, enumBaseline);
         tool = tool with
@@ -50,14 +51,14 @@ internal static class GeneratedApiCompatibilityPreserver
                 .DistinctBy(static definition => definition.EnumName)
                 .ToArray(),
         };
-        var baseline = ReadBaseline(optionsDirectory);
         var compatibleTool = baseline.TryGetValue($"{tool.NamespacePrefix}Options", out var globalBaseline)
             ? PreserveGlobalOptions(tool, globalBaseline.Properties)
             : tool;
         var facadeMethods = ReadFacadeMethods(
             Path.Combine(outputDirectory, tool.OutputDirectory, "Services"),
             $"{tool.TargetNamespace}.Services",
-            tool.NamespacePrefix);
+            tool.NamespacePrefix,
+            baseline);
         var executeFacadeOptionTypes = facadeMethods
             .Where(static method => method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
             .Select(static method => method.OptionsType)
@@ -135,18 +136,79 @@ internal static class GeneratedApiCompatibilityPreserver
         var currentOptionTypes = tool.Commands
             .Select(static command => command.ClassName)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        foreach (var methods in facadeMethods
-                     .Where(method => !currentOptionTypes.Contains(method.OptionsType))
-                     .GroupBy(static method => method.OptionsType, StringComparer.Ordinal))
+        var facadeMethodsByOptionsType = facadeMethods
+            .GroupBy(static method => method.OptionsType, StringComparer.Ordinal)
+            .ToDictionary(
+                static group => group.Key,
+                static group => (IReadOnlyList<GeneratedFacadeMethod>)group.ToArray(),
+                StringComparer.Ordinal);
+        foreach (var commandBaseline in baseline.Values
+                     .Where(command => command.CommandParts is { Length: > 0 }
+                                       && HasToolOptionsAncestor(command, tool.NamespacePrefix, baseline)
+                                       && !tool.Commands.Any(current => current.CommandParts.SequenceEqual(
+                                           command.CommandParts,
+                                           StringComparer.OrdinalIgnoreCase))
+                                       && !currentOptionTypes.Contains(command.ClassName))
+                     .OrderBy(static command => command.ClassName, StringComparer.Ordinal))
         {
-            if (!baseline.TryGetValue(methods.Key, out var commandBaseline)
-                || commandBaseline.CommandParts is not { Length: > 0 })
+            yield return RestoreRemovedCommand(
+                tool,
+                commandBaseline,
+                facadeMethodsByOptionsType.GetValueOrDefault(commandBaseline.ClassName) ?? []);
+        }
+    }
+
+    private static bool HasToolOptionsAncestor(
+        GeneratedApiBaseline command,
+        string namespacePrefix,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
+    {
+        var expectedRoot = $"{namespacePrefix}Options";
+        var parentClassName = command.ParentClassName;
+        var visited = new HashSet<string>(StringComparer.Ordinal);
+        while (parentClassName is not null && visited.Add(parentClassName))
+        {
+            if (parentClassName.Equals(expectedRoot, StringComparison.Ordinal))
             {
-                continue;
+                return true;
             }
 
-            yield return RestoreRemovedCommand(tool, commandBaseline, methods.ToArray());
+            parentClassName = baseline.GetValueOrDefault(parentClassName)?.ParentClassName;
         }
+
+        return false;
+    }
+
+    private static bool IsEnumOwnedByTool(
+        string enumName,
+        string namespacePrefix,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline) =>
+        baseline.Values
+            .Where(candidate => candidate.ClassName.Equals(
+                                    $"{namespacePrefix}Options",
+                                    StringComparison.Ordinal)
+                                || HasToolOptionsAncestor(candidate, namespacePrefix, baseline))
+            .SelectMany(static candidate => candidate.Properties)
+            .Any(property => TypeReferencesIdentifier(property.CSharpType, enumName));
+
+    private static bool TypeReferencesIdentifier(string typeName, string identifier)
+    {
+        for (var startIndex = 0;
+             (startIndex = typeName.IndexOf(identifier, startIndex, StringComparison.Ordinal)) >= 0;
+             startIndex += identifier.Length)
+        {
+            var beforeIsIdentifier = startIndex > 0
+                                     && SyntaxFacts.IsIdentifierPartCharacter(typeName[startIndex - 1]);
+            var endIndex = startIndex + identifier.Length;
+            var afterIsIdentifier = endIndex < typeName.Length
+                                    && SyntaxFacts.IsIdentifierPartCharacter(typeName[endIndex]);
+            if (!beforeIsIdentifier && !afterIsIdentifier)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static CliCommandDefinition RestoreRemovedCommand(
@@ -531,12 +593,13 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
-        var matchingBaseline = FindCommandBaseline(command, baseline);
+        var matchingBaseline = FindCommandBaseline(tool, command, baseline);
         var preserved = command with
         {
             ClassName = matchingBaseline?.ClassName
                         ?? FindBaselineIdentifier(command.ClassName, baseline.Keys),
-            ParentClassName = FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
+            ParentClassName = matchingBaseline?.ParentClassName
+                              ?? FindBaselineIdentifier(command.ParentClassName, baseline.Keys),
         };
         preserved = PreserveCommandScopedEnumCasing(command, preserved);
         if (!baseline.TryGetValue(preserved.ClassName, out var commandBaseline)
@@ -561,13 +624,17 @@ internal static class GeneratedApiCompatibilityPreserver
             .Concat(recoveredOverrides)
             .DistinctBy(static pair => pair.Key)
             .ToDictionary(static pair => pair.Key, static pair => pair.Value);
+        var commandGroupIdentifierOverride = preserved.CommandGroupIdentifierOverride;
+        if (preserved.CommandParts.Length > 1)
+        {
+            commandGroupIdentifierOverride = commandFacadeMethods.Length > 0
+                ? groupIdentifier
+                : commandGroupIdentifierOverride ?? groupIdentifier;
+        }
 
         return preserved with
         {
-            CommandGroupIdentifierOverride = preserved.CommandGroupIdentifierOverride
-                                             ?? (preserved.CommandParts.Length > 1
-                                                 ? groupIdentifier
-                                                 : null),
+            CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             CommandPartIdentifierOverrides = mergedOverrides,
         };
     }
@@ -643,6 +710,7 @@ internal static class GeneratedApiCompatibilityPreserver
             : className;
 
     private static GeneratedApiBaseline? FindCommandBaseline(
+        CliToolDefinition tool,
         CliCommandDefinition command,
         IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
     {
@@ -651,18 +719,26 @@ internal static class GeneratedApiCompatibilityPreserver
             return exact;
         }
 
-        var matches = baseline.Values
+        var pathMatches = baseline.Values
             .Where(candidate => candidate.CommandParts is not null
-                                && string.Equals(
-                                    candidate.ParentClassName,
-                                    command.ParentClassName,
-                                    StringComparison.OrdinalIgnoreCase)
+                                && HasToolOptionsAncestor(candidate, tool.NamespacePrefix, baseline)
                                 && candidate.CommandParts.SequenceEqual(
                                     command.CommandParts,
                                     StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+        if (pathMatches.Length == 1)
+        {
+            return pathMatches[0];
+        }
+
+        var parentMatches = pathMatches
+            .Where(candidate => string.Equals(
+                candidate.ParentClassName,
+                command.ParentClassName,
+                StringComparison.OrdinalIgnoreCase))
             .Take(2)
             .ToArray();
-        return matches.Length == 1 ? matches[0] : null;
+        return parentMatches.Length == 1 ? parentMatches[0] : null;
     }
 
     private static string FindBaselineIdentifier(
@@ -2587,8 +2663,9 @@ internal static class GeneratedApiCompatibilityPreserver
         var baseline = new Dictionary<string, GeneratedApiBaseline>(StringComparer.Ordinal);
         foreach (var path in Directory.EnumerateFiles(
                      optionsDirectory,
-                     "*.Generated.cs",
-                     SearchOption.TopDirectoryOnly))
+                     "*.cs",
+                     SearchOption.TopDirectoryOnly)
+                     .Where(IsGeneratedBaselineFile))
         {
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
             foreach (var declaration in root.DescendantNodes().OfType<RecordDeclarationSyntax>())
@@ -2604,8 +2681,13 @@ internal static class GeneratedApiCompatibilityPreserver
         string optionsDirectory,
         string className)
     {
-        var path = Path.Combine(optionsDirectory, $"{className}.Generated.cs");
-        if (!File.Exists(path))
+        var path = new[]
+            {
+                Path.Combine(optionsDirectory, $"{className}.Generated.cs"),
+                Path.Combine(optionsDirectory, $"{className}.cs"),
+            }
+            .FirstOrDefault(candidate => File.Exists(candidate) && IsGeneratedBaselineFile(candidate));
+        if (path is null)
         {
             return null;
         }
@@ -2651,8 +2733,9 @@ internal static class GeneratedApiCompatibilityPreserver
 
         foreach (var path in Directory.EnumerateFiles(
                      enumsDirectory,
-                     "*.Generated.cs",
-                     SearchOption.TopDirectoryOnly))
+                     "*.cs",
+                     SearchOption.TopDirectoryOnly)
+                     .Where(IsGeneratedBaselineFile))
         {
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path)).GetRoot();
             foreach (var declaration in root.DescendantNodes().OfType<EnumDeclarationSyntax>())
@@ -2829,7 +2912,8 @@ internal static class GeneratedApiCompatibilityPreserver
     private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
         string servicesDirectory,
         string targetNamespace,
-        string namespacePrefix)
+        string namespacePrefix,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline)
     {
         if (!Directory.Exists(servicesDirectory))
         {
@@ -2838,10 +2922,40 @@ internal static class GeneratedApiCompatibilityPreserver
 
         var sources = Directory.EnumerateFiles(
                 servicesDirectory,
-                $"{namespacePrefix}*.Generated.cs",
+                "*.cs",
                 SearchOption.TopDirectoryOnly)
+            .Where(IsGeneratedBaselineFile)
             .Select(File.ReadAllText);
-        return ReadFacadeMethods(sources, targetNamespace);
+        return ReadFacadeMethods(sources, targetNamespace)
+            .Where(method => IsFacadeOwnedByTool(method, namespacePrefix, baseline))
+            .ToArray();
+    }
+
+    private static bool IsFacadeOwnedByTool(
+        GeneratedFacadeMethod method,
+        string namespacePrefix,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline) =>
+        method.OptionsType.Equals($"{namespacePrefix}Options", StringComparison.Ordinal)
+        || (baseline.TryGetValue(method.OptionsType, out var optionsBaseline)
+            && HasToolOptionsAncestor(optionsBaseline, namespacePrefix, baseline));
+
+    private static bool IsGeneratedBaselineFile(string path)
+    {
+        if (path.EndsWith(".Generated.cs", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        using var reader = new StreamReader(path);
+        for (var lineNumber = 0; lineNumber < 5 && !reader.EndOfStream; lineNumber++)
+        {
+            if (reader.ReadLine() is { } line && GeneratorUtils.ContainsAutoGeneratedMarker(line))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static IReadOnlyList<GeneratedFacadeMethod> ReadFacadeMethods(
@@ -2858,7 +2972,7 @@ internal static class GeneratedApiCompatibilityPreserver
                              .FirstOrDefault()?.Name.ToString().Equals(
                                  targetNamespace,
                                  StringComparison.Ordinal) == true)
-                         .Where(method => method.Modifiers.Any(SyntaxKind.PublicKeyword)))
+                         .Where(IsPublicFacadeMethod))
             {
                 var optionsParameter = method.ParameterList.Parameters.FirstOrDefault();
                 var optionsType = optionsParameter?.Type?.ToString();
@@ -2880,6 +2994,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         return methods;
     }
+
+    private static bool IsPublicFacadeMethod(MethodDeclarationSyntax method) =>
+        method.Modifiers.Any(SyntaxKind.PublicKeyword)
+        || (method.Parent is InterfaceDeclarationSyntax
+            && method.Modifiers.Count == 0);
 
     private static List<GeneratedApiProperty> ReadProperties(
         RecordDeclarationSyntax declaration)
