@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -60,5 +62,65 @@ public partial class PulumiCliScraper : CobraCliScraper
         {
             yield return "pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [path]";
         }
+    }
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        commandParts is ["env", "run"]
+            ? NormalizeEnvRunArguments(positionalArguments)
+            : positionalArguments;
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        command.CommandParts is ["env", "run"]
+            ? usage with { PositionalArguments = NormalizeEnvRunArguments(usage.PositionalArguments) }
+            : usage;
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizeEnvRunArguments(
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var arguments = positionalArguments
+            .Select(NormalizeEnvRunArgument)
+            .ToList();
+        if (arguments.All(argument => !argument.PropertyName.Equals("Args", StringComparison.OrdinalIgnoreCase)))
+        {
+            arguments.Add(new CliPositionalArgument
+            {
+                PropertyName = "Args",
+                CSharpType = "IEnumerable<string>?",
+                Description = "Arguments passed to the command.",
+                Phase = CommandLinePhase.Passthrough,
+                PositionIndex = 1,
+                IsVariadic = true,
+            });
+        }
+
+        return arguments;
+    }
+
+    private static CliPositionalArgument NormalizeEnvRunArgument(CliPositionalArgument argument)
+    {
+        if (argument.PropertyName.Equals("Command", StringComparison.OrdinalIgnoreCase))
+        {
+            return argument with
+            {
+                CSharpType = "string",
+                IsRequired = true,
+            };
+        }
+
+        return argument.PropertyName.Equals("Args", StringComparison.OrdinalIgnoreCase)
+            ? argument with
+            {
+                CSharpType = "IEnumerable<string>?",
+                Phase = CommandLinePhase.Passthrough,
+                PositionIndex = 1,
+                IsVariadic = true,
+            }
+            : argument;
     }
 }
