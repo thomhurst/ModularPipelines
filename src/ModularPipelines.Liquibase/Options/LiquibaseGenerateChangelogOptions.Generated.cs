@@ -47,64 +47,10 @@ public record LiquibaseGenerateChangelogOptions : LiquibaseOptions
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
-    /// Specifies a directory to send the loadData output of a diff-changelog/generate-changelog command as a CSV file.
-    /// </summary>
-    [CliOption("--data-output-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? DataOutputDirectory { get; set; }
-
-    /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
-
-    /// <summary>
     /// Types of objects to compare
     /// </summary>
     [CliOption("--diff-types", Format = OptionFormat.EqualsSeparated)]
     public string? DiffTypes { get; set; }
-
-    /// <summary>
-    /// Objects to exclude from diff. Supports regular expressions. Defaults to null.
-    /// </summary>
-    [CliOption("--exclude-objects", Format = OptionFormat.EqualsSeparated)]
-    public string? ExcludeObjects { get; set; }
-
-    /// <summary>
-    /// If true, diff operations will ignore referenced objects which are not found in a snapshot. DEFAULT: false
-    /// </summary>
-    [CliOption("--ignore-missing-references", Format = OptionFormat.EqualsSeparated)]
-    public bool? IgnoreMissingReferences { get; set; }
-
-    /// <summary>
-    /// If true, the catalog will be included in generated changeSets. Defaults to false. DEFAULT: false
-    /// </summary>
-    [CliOption("--include-catalog", Format = OptionFormat.EqualsSeparated)]
-    public bool? IncludeCatalog { get; set; }
-
-    /// <summary>
-    /// Objects to include in diff. Supports regular expressions. Defaults to null.
-    /// </summary>
-    [CliOption("--include-objects", Format = OptionFormat.EqualsSeparated)]
-    public string? IncludeObjects { get; set; }
-
-    /// <summary>
-    /// If true, the schema will be included in generated changeSets. Defaults to false. DEFAULT: false
-    /// </summary>
-    [CliOption("--include-schema", Format = OptionFormat.EqualsSeparated)]
-    public bool? IncludeSchema { get; set; }
-
-    /// <summary>
-    /// Include the tablespace attribute in the changelog. Defaults to false. DEFAULT: false
-    /// </summary>
-    [CliOption("--include-tablespace", Format = OptionFormat.EqualsSeparated)]
-    public bool? IncludeTablespace { get; set; }
 
     /// <summary>
     /// Changeset labels to generate
@@ -119,29 +65,11 @@ public record LiquibaseGenerateChangelogOptions : LiquibaseOptions
     public string? OutputSchemas { get; set; }
 
     /// <summary>
-    /// Flag to allow overwriting of output changelog file. Default: false DEFAULT: false
-    /// </summary>
-    [CliOption("--overwrite-output-file", Format = OptionFormat.EqualsSeparated)]
-    public bool? OverwriteOutputFile { get; set; }
-
-    /// <summary>
     /// Password to use to connect to the database
     /// </summary>
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
-
-    /// <summary>
-    /// Sets replaceIfExists="true" for changes of these types (supported types: createProcedure, createView) DEFAULT: none
-    /// </summary>
-    [CliOption("--replace-if-exists-types", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplaceIfExistsTypes { get; set; }
-
-    /// <summary>
-    /// Sets runOnChange="true" for changesets containing solely changes of these types (e. g. createView, createProcedure, ...). DEFAULT: none
-    /// </summary>
-    [CliOption("--run-on-change-types", Format = OptionFormat.EqualsSeparated)]
-    public string? RunOnChangeTypes { get; set; }
 
     /// <summary>
     /// Schemas to include in diff
@@ -150,27 +78,57 @@ public record LiquibaseGenerateChangelogOptions : LiquibaseOptions
     public string? Schemas { get; set; }
 
     /// <summary>
-    /// When true will skip object sorting. This can be useful on databases that have a lot of packages/procedures that are linked to each other DEFAULT: false
-    /// </summary>
-    [CliOption("--skip-object-sorting", Format = OptionFormat.EqualsSeparated)]
-    public bool? SkipObjectSorting { get; set; }
-
-    /// <summary>
     /// The JDBC database connection URL
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
     public string? Url { get; set; }
 
     /// <summary>
-    /// If true, will add 'OR REPLACE' option to the create view change object DEFAULT: false
-    /// </summary>
-    [CliOption("--use-or-replace-option", Format = OptionFormat.EqualsSeparated)]
-    public bool? UseOrReplaceOption { get; set; }
-
-    /// <summary>
     /// Username to use to connect to the database
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("DataOutputDirectory is no longer supported by the installed CLI and has no effect.")]
+    public string? DataOutputDirectory { get; set; }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
+
+    [Obsolete("ExcludeObjects is no longer supported by the installed CLI and has no effect.")]
+    public string? ExcludeObjects { get; set; }
+
+    [Obsolete("IgnoreMissingReferences is no longer supported by the installed CLI and has no effect.")]
+    public bool? IgnoreMissingReferences { get; set; }
+
+    [Obsolete("IncludeCatalog is no longer supported by the installed CLI and has no effect.")]
+    public bool? IncludeCatalog { get; set; }
+
+    [Obsolete("IncludeObjects is no longer supported by the installed CLI and has no effect.")]
+    public string? IncludeObjects { get; set; }
+
+    [Obsolete("IncludeSchema is no longer supported by the installed CLI and has no effect.")]
+    public bool? IncludeSchema { get; set; }
+
+    [Obsolete("IncludeTablespace is no longer supported by the installed CLI and has no effect.")]
+    public bool? IncludeTablespace { get; set; }
+
+    [Obsolete("OverwriteOutputFile is no longer supported by the installed CLI and has no effect.")]
+    public bool? OverwriteOutputFile { get; set; }
+
+    [Obsolete("ReplaceIfExistsTypes is no longer supported by the installed CLI and has no effect.")]
+    public string? ReplaceIfExistsTypes { get; set; }
+
+    [Obsolete("RunOnChangeTypes is no longer supported by the installed CLI and has no effect.")]
+    public string? RunOnChangeTypes { get; set; }
+
+    [Obsolete("SkipObjectSorting is no longer supported by the installed CLI and has no effect.")]
+    public bool? SkipObjectSorting { get; set; }
+
+    [Obsolete("UseOrReplaceOption is no longer supported by the installed CLI and has no effect.")]
+    public bool? UseOrReplaceOption { get; set; }
 
 }

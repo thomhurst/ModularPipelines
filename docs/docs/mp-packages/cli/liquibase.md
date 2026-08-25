@@ -35,76 +35,29 @@ Global options are rendered before the selected subcommand.
 
 | CLI option | Property | Availability | Description |
 | --- | --- | --- | --- |
-| `--allow-duplicated-changeset-identifiers` | `AllowDuplicatedChangeSetIdentifiers` | All editions | Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false |
-| `--allow-inherit-logical-file-path` | `AllowInheritLogicalFilePath` | All editions | If true, included changelogs without an explicit logicalFilePath will inherit their parent changelog's logicalFilePath, and explicit logicalFilePath attributes on include statements are honored (Liquibase 4.31.0+ behavior). If false, included changelogs use their physical file paths, ignoring both implicit inheritance and explicit logicalFilePath attributes on include statements. Only logicalFilePath set directly on the changelog itself is respected. Defaults to true for backward compatibility. DEFAULT: true |
-| `--always-drop-instead-of-replace` | `AlwaysDropInsteadOfReplace` | All editions | If true, drop and recreate a view instead of replacing it. DEFAULT: false |
-| `--always-override-stored-logic-schema` | `AlwaysOverrideStoredLogicSchema` | All editions | When generating SQL for createProcedure, should the procedure schema be forced to the default schema if no schemaName attribute is set? DEFAULT: false |
-| `--analytics-enabled` | `AnalyticsEnabled` | All editions | Enable or disable sending product usage data and analytics to Liquibase. Learn more at https: //docs.liquibase.com/analytics. |
 | `--auto-reorg` | `AutoReorg` | All editions | Should Liquibase automatically include REORG TABLE commands when needed? DEFAULT: true |
-| `--changelog-lock-poll-rate` | `ChangelogLockPollRate` | All editions | Number of seconds wait between checks to the changelog lock when it is locked DEFAULT: 10 |
-| `--changelog-lock-wait-time-in-minutes` | `ChangelogLockWaitTimeInMinutes` | All editions | Number of minutes to wait for the changelog lock to be available before giving up DEFAULT: 5 |
-| `--changelog-parse-mode` | `ChangelogParseMode` | All editions | Configures how to handle unknown fields in changelog files. Possible values: STRICT which causes parsing to fail, and LAX which continues with the parsing. DEFAULT: STRICT |
 | `--classpath` | `Classpath` | All editions | Additional classpath entries to use |
-| `--convert-data-types` | `ConvertDataTypes` | All editions | Should Liquibase convert to/from STANDARD data types. Applies to both snapshot and update commands. DEFAULT: true |
-| `--database-changelog-lock-table-name` | `DatabaseChangelogLockTableName` | All editions | Name of table to use for tracking concurrent Liquibase usage DEFAULT: DATABASECHANGELOGLOCK |
-| `--database-changelog-table-name` | `DatabaseChangelogTableName` | All editions | Name of table to use for tracking change history DEFAULT: DATABASECHANGELOG |
 | `--database-class` | `DatabaseClass` | All editions | Class to use for Database implementation |
 | `--databricks-diff-tblproperties-exclude-patterns` | `DatabricksDiffTblPropertiesExcludePatterns` | Liquibase Secure with the Databricks extension | Comma-separated TBLPROPERTIES key prefixes to exclude from Databricks diff operations. |
 | `--databricks-diff-tblproperties-ignore-all` | `DatabricksDiffTblPropertiesIgnoreAll` | Liquibase Secure with the Databricks extension | Ignore all TBLPROPERTIES during Databricks diff operations. |
-| `--ddl-lock-timeout` | `DdlLockTimeout` | All editions | The DDL_LOCK_TIMEOUT parameter indicates the number of seconds a DDL command should wait for the locks to become available before throwing the resource busy error message. This applies only to Oracle databases. |
 | `--defaults-file` | `DefaultsFile` | All editions | File with default Liquibase properties DEFAULT: liquibase.properties |
-| `--diff-column-default-value-constraint-name` | `DiffColumnDefaultValueConstraintName` | All editions | Should Liquibase compare column default value constraint name in diff operation? DEFAULT: true |
-| `--diff-column-order` | `DiffColumnOrder` | All editions | Should Liquibase compare column order in diff operation? DEFAULT: true |
 | `--driver` | `Driver` | All editions | Database driver class |
-| `--driver-properties-file` | `DriverPropertiesFile` | All editions | Driver-specific properties |
-| `--duplicate-file-mode` | `DuplicateFileMode` | All editions | How to handle multiple files being found in the search path that have duplicate paths. Options are SILENT (do not log and choose one at random), DEBUG, INFO, WARN (log at the given level and choose one at random), or ERROR (fail current operation). DEFAULT: ERROR |
-| `--error-on-circular-include-all` | `ErrorOnCircularIncludeAll` | All editions | Throw an error if Liquibase detects that an includeAll will cause a circular reference (and thus a changelog parse error). DEFAULT: true |
-| `--fail-on-null-snapshot-id` | `FailOnNullSnapshotId` | All editions | If true, referenced objects which do not have a snapshot ID will cause snapshot failure DEFAULT: true |
 | `--file-encoding` | `FileEncoding` | All editions | Encoding to use when reading files. Valid values include: UTF-8, UTF-16, UTF-16BE, UTF-16LE, US-ASCII, or OS to use the system configured encoding. DEFAULT: UTF-8 |
-| `--filter-log-messages` | `FilterLogMessages` | All editions | DEPRECATED: No longer used |
-| `--generate-changeset-created-values` | `GenerateChangeSetCreatedValues` | All editions | Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false |
-| `--generated-changeset-ids-contains-description` | `GeneratedChangeSetIdsContainsDescription` | All editions | Should Liquibase include the change description in the id when generating changesets? DEFAULT: false |
 | `--headless` | `Headless` | All editions | Force Liquibase to think it has no access to a keyboard DEFAULT: false |
 | `--help` | `Help` | All editions | Show this help message and exit |
-| `--include-catalog-in-specification` | `IncludeCatalogInSpecification` | All editions | Should Liquibase include the catalog name when determining equality? DEFAULT: false |
-| `--include-relations-for-computed-columns` | `IncludeRelationsForComputedColumns` | All editions | If true, the parent relationship for computed columns is preserved in snapshot-dependent commands: snapshot and diff DEFAULT: false |
-| `--include-schema-name-for-default` | `IncludeSchemaNameForDefault` | All editions | If true, the schema name is included for the default schema when loading a snapshot DEFAULT: false |
-| `--include-system-classpath` | `IncludeSystemClasspath` | All editions | Include the system classpath when resolving classes at runtime DEFAULT: true |
 | [`--license-key`](https://docs.liquibase.com/community/reference-guide-5-0/parameters/what-are-parameters) | `LicenseKey` | Liquibase Secure | Specifies the license key that enables Liquibase Secure functionality. |
-| `--liquibase-catalog-name` | `LiquibaseCatalogName` | All editions | Catalog to use for Liquibase objects |
-| `--liquibase-schema-name` | `LiquibaseSchemaName` | All editions | Schema to use for Liquibase objects |
-| `--liquibase-tablespace-name` | `LiquibaseTablespaceName` | All editions | Tablespace to use for Liquibase objects |
 | `--log-channels` | `LogChannels` | All editions | DEFAULT: Controls which log channels have their level set by the liquibase.logLevel setting. Comma separate multiple values. To set the level of all channels, use 'all'. Example: liquibase, org.mariadb.jdbc |
 | `--log-file` | `LogFile` | All editions | Users can use .gz file extension to enable log files compression. |
 | `--log-format` | `LogFormat` | All editions | Sets the format of log output to console or log files. Community users default to unstructured "TEXT" logs to the console or output log files. Pro users have the option to set value as "JSON" or "JSON_PRETTY" to enable json-structured log files to the console or output log files. DEFAULT: TEXT |
 | `--log-level` | `LogLevel` | All editions | DEFAULT: Controls which logs get set to stderr AND to any log file. The CLI defaults, if log file set, to SEVERE. Others vary by integration. The official log levels are: OFF, SEVERE, WARNING, INFO, FINE |
-| `--mirror-console-messages-to-log` | `MirrorConsoleMessagesToLog` | All editions | When set to true, the console messages are mirrored to the logs as [liquibase.ui] to provide a more complete picture of liquibase operations to log analysis tools. Set to false to change this behavior. DEFAULT: true |
-| `--missing-property-mode` | `MissingPropertyMode` | All editions | How to handle changelog property expressions where a value is not set. For example, a string 'null' when no 'address' property was defined. Values can be: 'preserve' which leaves the string as-is, 'empty' which replaces it with an empty string, or 'error' which stops processing with an error. DEFAULT: PRESERVE |
-| `--monitor-performance` | `MonitorPerformance` | All editions | Enable performance tracking. Set to 'false' to disable. If set to 'true', data is stored to a `liquibase-TIMESTAMP.jfr` file in your working directory. Any other value will enable tracking and be used as the name of the file to write the data to. DEFAULT: false |
-| `--mssql-bytes-per-char` | `MssqlBytesPerChar` | All editions | Number of bytes needed to store one character (depends on database's character encoding) DEFAULT: 1 |
-| `--on-missing-include-changelog` | `OnMissingIncludeChangelog` | All editions | If set to WARN, then liquibase will not throw exception on missing changelog file, instead will show a warning message. DEFAULT: FAIL |
 | `--output-file` | `OutputFile` | All editions |  |
-| `--output-file-encoding` | `OutputFileEncoding` | All editions | Encoding to use when writing files DEFAULT: UTF-8 |
-| `--output-line-separator` | `OutputLineSeparator` | All editions | Line separator for output DEFAULT: Line separator(LF or CRLF) for output. Defaults to OS default |
-| `--preserve-classpath-prefix-in-normalized-paths` | `PreserveClasspathPrefixInNormalizedPaths` | All editions | If true 'classpath:' prefix will be preserved in normalized paths, allowing to resolve hierarchical resources under a classpath-based root. DEFAULT: false |
-| `--preserve-schema-case` | `PreserveSchemaCase` | All editions | If true, Liquibase treats schema and catalog names as case sensitive DEFAULT: false |
-| `--prompt-for-non-local-database` | `PromptForNonLocalDatabase` | All editions | Should Liquibase prompt if a non-local database is being accessed |
-| `--property-provider-class` | `PropertyProviderClass` | All editions | Implementation of Properties class to provide additional driver properties |
 | `--search-path` | `SearchPath` | All editions | Complete list of Location(s) to search for files such as changelog files in. Multiple paths can be specified by separating them with commas. |
 | `--secure-parsing` | `SecureParsing` | All editions | If true, remove functionality from file parsers which could be used insecurely. Examples include (but not limited to) disabling remote XML entity support. DEFAULT: true |
 | `--should-run` | `ShouldRun` | All editions | Should Liquibase commands execute DEFAULT: true |
-| `--should-snapshot-data` | `ShouldSnapshotData` | All editions | Should Liquibase snapshot data by default? DEFAULT: false |
 | `--show-banner` | `ShowBanner` | All editions | If true, show a Liquibase banner on startup. DEFAULT: true |
 | `--sql-log-level` | `SqlLogLevel` | All editions | Level to log SQL statements to DEFAULT: FINE |
-| `--sql-show-sql-warnings` | `SqlShowSqlWarnings` | All editions | Show SQLWarning messages DEFAULT: true |
 | `--strict` | `Strict` | All editions | If true, Liquibase enforces certain best practices and proactively looks for common errors DEFAULT: false |
-| `--support-property-escaping` | `SupportPropertyEscaping` | All editions | Support escaping changelog parameters using a colon. Example: null DEFAULT: false |
-| `--supports-method-validation-level` | `SupportsMethodValidationLevel` | All editions | Controls the level of validation performed on the supports method of Change classes. Options are OFF, WARN, FAIL. DEFAULT: WARN |
-| `--suppress-liquibase-sql` | `SuppressLiquibaseSql` | All editions | When set to true, this global property prevents DBCL and DBCLH sql from being present in console and logs during *-sql commands, such as update-sql, rollback-sql, etc. DEFAULT: false |
-| `--trim-load-data-file-header` | `TrimLoadDataFileHeader` | All editions | If true column headers will be trimmed in case they were specified with spaces in the file. DEFAULT: false |
 | `--ui-service` | `UiService` | All editions | Changes the default UI Service Logger used by Liquibase. Options are CONSOLE or LOGGER. DEFAULT: CONSOLE |
-| `--use-procedure-schema` | `UseProcedureSchema` | All editions | If set to true (default value), createProcedure tags with a set schemaName will modify the procedure body with the given schema name. DEFAULT: true |
-| `--validate-xml-changelog-files` | `ValidateXmlChangelogFiles` | All editions | Will perform XSD validation of XML changelog files. When many XML changelog files are included, this validation may impact Liquibase performance. Defaults to true. DEFAULT: true |
 | `--version` | `Version` | All editions | Print version information and exit |
 
 ## Commands
