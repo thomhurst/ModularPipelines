@@ -13,12 +13,12 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Fmt runs the command 'gofmt -l -w' on the packages named
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("fmt")]
+public record GoFmtOptions : GoOptions
 {
     /// <summary>
     /// The packages operand.

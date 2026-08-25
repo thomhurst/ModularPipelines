@@ -20,4 +20,10 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("test")]
 public record GoTestOptions : GoOptions
 {
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Packages { get; set; }
+
 }
