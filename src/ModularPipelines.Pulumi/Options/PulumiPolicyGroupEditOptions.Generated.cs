@@ -47,6 +47,12 @@ public record PulumiPolicyGroupEditOptions(
     public bool? Help { get; set; }
 
     /// <summary>
+    /// Rename the Policy Group
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? NameOption { get; set; }
+
+    /// <summary>
     /// The organization that owns the Policy Group
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

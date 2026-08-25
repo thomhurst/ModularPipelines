@@ -13,18 +13,36 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Manage stack deployments on Pulumi Cloud.
+/// Show a resource's state
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("deployment")]
-public record PulumiDeploymentOptions : PulumiOptions
+[CliSubCommand("state", "get")]
+public record PulumiStateGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for deployment
+    /// help for get
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Output format. Supported values are: default and json (default "default")
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// Show secret values in plaintext instead of [secret]
+    /// </summary>
+    [CliFlag("--show-secrets")]
+    public bool? ShowSecrets { get; set; }
+
+    /// <summary>
+    /// The name of the stack to operate on. Defaults to the current stack
+    /// </summary>
+    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Stack { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -105,9 +123,9 @@ public record PulumiDeploymentOptions : PulumiOptions
     public int? Verbose { get; set; }
 
     /// <summary>
-    /// The command operand.
+    /// The resource operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Command { get; set; }
+    public string? Resource { get; set; }
 
 }

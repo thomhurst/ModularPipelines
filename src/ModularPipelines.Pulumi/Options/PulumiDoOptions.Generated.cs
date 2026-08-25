@@ -53,7 +53,7 @@ public record PulumiDoOptions(
     public bool? ShowSecrets { get; set; }
 
     /// <summary>
-    /// Run create/patch/delete directly against the provider without persisting state. Required for now: the stateful (engine-driven) implementation is still in development, so patch/delete error out unless --stateless is set.
+    /// Run create/patch/delete directly against the provider without persisting state.
     /// </summary>
     [CliFlag("--stateless")]
     public bool? Stateless { get; set; }

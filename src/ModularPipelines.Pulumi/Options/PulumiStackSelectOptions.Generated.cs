@@ -122,4 +122,10 @@ public record PulumiStackSelectOptions : PulumiOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
+    /// <summary>
+    /// The stack operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? StackArgument { get; set; }
+
 }
