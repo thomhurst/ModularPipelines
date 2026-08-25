@@ -22,6 +22,12 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignVerifyBlobAttestationOptions : CosignOptions
 {
     /// <summary>
+    /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
+    /// </summary>
+    [CliFlag("--allow-certificate-chain")]
+    public bool? AllowCertificateChain { get; set; }
+
+    /// <summary>
     /// path to bundle FILE
     /// </summary>
     [CliOption("--bundle", Format = OptionFormat.EqualsSeparated)]
@@ -97,7 +103,7 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
     /// Digest algorithm to use for verifying in-toto subject (instead of providing a blob)
     /// </summary>
     [CliOption("--digestAlg", Format = OptionFormat.EqualsSeparated)]
-    public string? Digestalg { get; set; }
+    public string? DigestAlg { get; set; }
 
     /// <summary>
     /// help for verify-blob-attestation
@@ -179,5 +185,12 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
 
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Blob { get; set; }
+
+    [Obsolete("Use DigestAlg instead.")]
+    public string? Digestalg
+    {
+        get => DigestAlg;
+        set => DigestAlg = value;
+    }
 
 }

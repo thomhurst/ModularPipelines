@@ -68,7 +68,6 @@ public record CosignAttestOptions(
     /// <summary>
     /// identity token to use for certificate from fulcio. the token or a path to a file containing the token is accepted.
     /// </summary>
-    [SecretValue]
     [CliOption("--identity-token", Format = OptionFormat.EqualsSeparated)]
     public string? IdentityToken { get; set; }
 
@@ -99,7 +98,6 @@ public record CosignAttestOptions(
     /// <summary>
     /// Path to file containing OIDC client secret for application
     /// </summary>
-    [SecretValue]
     [CliOption("--oidc-client-secret-file", Format = OptionFormat.EqualsSeparated)]
     public string? OidcClientSecretFile { get; set; }
 

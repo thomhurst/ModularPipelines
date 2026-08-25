@@ -32,6 +32,21 @@ public class CosignTrustedRoot : ICosignTrustedRoot
     #region Commands
 
     /// <summary>
+    /// Tools for interacting with a Sigstore protobuf trusted root
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        CosignTrustedRootExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignTrustedRootExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a Sigstore protobuf trusted root by supplying verification material.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -10,18 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Cosign.Enums;
 
-/// <summary>
-/// Allowed values for the --pinpolicy option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum CosignPivToolGenerateKeyPinPolicy
 {
     [EnumValue("never")]
-    Never,
+    Never = 0,
 
     [EnumValue("once")]
-    Once,
+    Once = 1,
 
     [EnumValue("always")]
-    Always
+    Always = 2
 }

@@ -39,7 +39,7 @@ public static class CosignExtensions
     }
 
     /// <summary>
-    /// Gets the cosign service from the pipeline context.
+    /// Gets the cosign service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICosign"/> service for executing cosign commands.</returns>
