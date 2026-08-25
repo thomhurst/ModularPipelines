@@ -222,6 +222,28 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    public async Task Iac_Describe_From_Glob_Remains_Scalar()
+    {
+        const string helpText = """
+            Describe infrastructure as code.
+
+            Options
+              --from=<PATH>
+                Specify multiple Terraform state files to be read. Glob patterns are supported.
+            """;
+
+        var command = await new TestSnykCliScraper().Parse(["snyk", "iac", "describe"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("--from");
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Root_Test_Models_Optional_Target()
     {
         var command = await new TestSnykCliScraper().Parse(

@@ -165,7 +165,7 @@ public partial class SnykCliScraper : CliScraperBase
         usage = NormalizeCommandGroupUsage(commandParts, usage);
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(helpText, commandParts);
         AddDocumentedOptions(commandParts, options);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(
             GetPositionalArguments(commandParts)
@@ -263,7 +263,9 @@ public partial class SnykCliScraper : CliScraperBase
     ///         --json
     ///         --sarif
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private List<CliOptionDefinition> ParseOptions(
+        string helpText,
+        string[] commandParts)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -271,7 +273,7 @@ public partial class SnykCliScraper : CliScraperBase
         var optionsMatch = OptionsSectionPattern().Match(helpText);
         if (!optionsMatch.Success)
         {
-            ParseOptionLines(helpText.Split('\n'), options, seenOptions);
+            ParseOptionLines(helpText.Split('\n'), commandParts, options, seenOptions);
         }
         else
         {
@@ -279,7 +281,7 @@ public partial class SnykCliScraper : CliScraperBase
             var nextSection = NextSectionPattern().Match(helpText, sectionStart);
             var sectionEnd = nextSection.Success ? nextSection.Index : helpText.Length;
             var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-            ParseOptionLines(section.Split('\n'), options, seenOptions);
+            ParseOptionLines(section.Split('\n'), commandParts, options, seenOptions);
         }
 
         if (DebugOptionPattern().IsMatch(helpText) && seenOptions.Add("-d"))
@@ -300,6 +302,7 @@ public partial class SnykCliScraper : CliScraperBase
 
     private void ParseOptionLines(
         string[] lines,
+        string[] commandParts,
         List<CliOptionDefinition> options,
         HashSet<string> seenOptions)
     {
@@ -342,10 +345,11 @@ public partial class SnykCliScraper : CliScraperBase
                     && !isNumeric
                     && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
                 var isBoolean = IsBooleanValueHint(valueHint);
-                var acceptsMultipleValues = IsRepeatableValueOption(
-                    description ?? string.Empty,
-                    isFlag,
-                    isBoolean);
+                var acceptsMultipleValues = !IsKnownScalarValueOption(commandParts, longForm)
+                                            && IsRepeatableValueOption(
+                                                description ?? string.Empty,
+                                                isFlag,
+                                                isBoolean);
                 var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
 
                 CliEnumDefinition? enumDef = null;
@@ -392,6 +396,12 @@ public partial class SnykCliScraper : CliScraperBase
             }
         }
     }
+
+    private static bool IsKnownScalarValueOption(
+        IReadOnlyList<string> commandParts,
+        string switchName) =>
+        commandParts is ["iac", "describe"]
+        && switchName.Equals("--from", StringComparison.OrdinalIgnoreCase);
 
     private static void AddDocumentedOptions(
         string[] commandParts,
