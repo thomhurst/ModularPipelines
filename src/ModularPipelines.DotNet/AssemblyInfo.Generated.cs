@@ -7,5 +7,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "dotnet")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-03-08T03:09:09.8085647Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.DotNet")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]

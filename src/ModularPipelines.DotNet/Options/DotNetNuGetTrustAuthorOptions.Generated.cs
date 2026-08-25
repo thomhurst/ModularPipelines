@@ -12,21 +12,48 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Adds a trusted signer with the given name, based on the author signature of the package.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "author")]
 public record DotNetNuGetTrustAuthorOptions : DotNetOptions
 {
     /// <summary>
-    /// [default: False]
+    /// Specifies if the certificate for the trusted signer should be allowed to chain to an untrusted root. This is not recommended.
     /// </summary>
     [CliFlag("--allow-untrusted-root")]
     public bool? AllowUntrustedRoot { get; set; }
 
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
+    /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
+    /// </summary>
+    [CliOption("--configfile")]
+    public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The name of the trusted signer to add. If name already exists in the configuration, the signature is appended.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// The given package should be a local path to the signed .nupkg file.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Package { get; set; }
 
 }

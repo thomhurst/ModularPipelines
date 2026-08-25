@@ -21,7 +21,7 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetFormatOptions : DotNetOptions
 {
     /// <summary>
-    /// A list of diagnostic ids to ignore when fixing code style or 3rd party issues.
+    /// A space separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.
     /// </summary>
     [CliOption("--exclude-diagnostics")]
     public string[]? ExcludeDiagnostics { get; set; }
@@ -81,7 +81,7 @@ public record DotNetFormatOptions : DotNetOptions
     public string? Report { get; set; }
 
     /// <summary>
-    /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. [default: ~/work/ModularPipelines/ModularPipelines/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/]
+    /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. [default: ~/work/_temp/generator-work/]
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

@@ -20,4 +20,10 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("tool")]
 public record DotNetToolOptions : DotNetOptions
 {
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }

@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Shuts down build servers that are started from dotnet. By default, all
+/// Shuts down build servers that are started from dotnet. By default, all servers are shut down.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

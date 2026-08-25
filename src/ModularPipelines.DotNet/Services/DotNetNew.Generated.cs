@@ -47,7 +47,97 @@ public class DotNetNew : IDotNetNew
     }
 
     /// <summary>
-    /// Checks the currently installed template packages for update, and install the
+    /// Instantiates a template with given short name. An alias of 'dotnet new &lt;template name&gt;'.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        DotNetNewCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewCreateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Provides the details for specified template package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetailsAsync(
+        DotNetNewDetailsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewDetailsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Installs a template package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> InstallAsync(
+        DotNetNewInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewInstallOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Lists templates containing the specified template name. If no name is specified, lists all templates.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        DotNetNewListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Searches for the templates on NuGet.org.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchAsync(
+        DotNetNewSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewSearchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Uninstalls a template package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UninstallAsync(
+        DotNetNewUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNewUninstallOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Checks the currently installed template packages for update, and install the updates.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

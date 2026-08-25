@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Signs NuGet package(s) at &lt;package-paths&gt; with the specified certificate.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "sign")]
@@ -30,19 +33,19 @@ public record DotNetNuGetSignOptions : DotNetOptions
     public string? CertificatePath { get; set; }
 
     /// <summary>
-    /// Name of the X.509 certificate store to use to search for the certificate. Defaults to "My", the X.509 certificate store for personal certificates.
+    /// Name of the X.509 certificate store to use to search for the certificate. Defaults to "My", the X.509 certificate store for personal certificates. This option should be used when specifying the certificate via --certificate-subject-name or --certificate-fingerprint options.
     /// </summary>
     [CliOption("--certificate-store-name")]
     public string? CertificateStoreName { get; set; }
 
     /// <summary>
-    /// Name of the X.509 certificate store use to search for the certificate. Defaults to "CurrentUser", the X.509 certificate store used by the current user.
+    /// Name of the X.509 certificate store use to search for the certificate. Defaults to "CurrentUser", the X.509 certificate store used by the current user. This option should be used when specifying the certificate via --certificate-subject-name or --certificate-fingerprint options.
     /// </summary>
     [CliOption("--certificate-store-location")]
     public string? CertificateStoreLocation { get; set; }
 
     /// <summary>
-    /// Subject name of the certificate used to search a local certificate store for the certificate.
+    /// Subject name of the certificate used to search a local certificate store for the certificate. The search is a case-insensitive string comparison using the supplied value, which will find all certificates with the subject name containing that string, regardless of other subject values. The certificate store can be specified by --certificate-store-name and --certificate-store-location options.
     /// </summary>
     [CliOption("--certificate-subject-name")]
     public string? CertificateSubjectName { get; set; }
@@ -54,7 +57,7 @@ public record DotNetNuGetSignOptions : DotNetOptions
     public bool? CertificateFingerprint { get; set; }
 
     /// <summary>
-    /// Password for the certificate, if needed.
+    /// Password for the certificate, if needed. This option can be used to specify the password for the certificate. The command will throw an error message if certificate is password protected but password is not provided as input.
     /// </summary>
     [SecretValue]
     [CliOption("--certificate-password")]
@@ -85,10 +88,22 @@ public record DotNetNuGetSignOptions : DotNetOptions
     public bool? Overwrite { get; set; }
 
     /// <summary>
+    /// Allow signing with certificates whose root certificate is not in a trusted root store. The certificate chain is still built and validated for structure, but UntrustedRoot status is treated as a warning.
+    /// </summary>
+    [CliFlag("--allow-untrusted-root")]
+    public bool? AllowUntrustedRoot { get; set; }
+
+    /// <summary>
     /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
 
     /// <summary>
     /// Signs NuGet packages at &lt;package-paths&gt; with the specified certificate.

@@ -26,4 +26,10 @@ public record DotNetReferenceOptions : DotNetOptions
     [CliOption("--project")]
     public string? Project { get; set; }
 
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
