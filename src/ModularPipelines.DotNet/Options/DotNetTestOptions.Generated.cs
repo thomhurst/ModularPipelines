@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json'
+/// .NET Test Command for VSTest. To use Microsoft.Testing.Platform, opt-in to the Microsoft.Testing.Platform-based command via global.json. For more information, see https://aka.ms/dotnet-test.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,28 +22,64 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetTestOptions : DotNetOptions
 {
     /// <summary>
-    /// Defines the path of the project file to run (folder name or full path). If not specified, it defaults to the current directory.
+    /// The settings file to use when running tests.
     /// </summary>
-    [CliOption("--project")]
-    public string? Project { get; set; }
+    [CliOption("--settings", ShortForm = "-s")]
+    public string? Settings { get; set; }
 
     /// <summary>
-    /// Defines the path of the solution file to run. If not specified, it defaults to the current directory.
+    /// List the discovered tests instead of running the tests. [default: False]
     /// </summary>
-    [CliOption("--solution")]
-    public string? Solution { get; set; }
+    [CliOption("--list-tests", ShortForm = "-t")]
+    public string? ListTests { get; set; }
 
     /// <summary>
-    /// Run tests for the specified test modules.
+    /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This will force the tests to be run in an isolated process. This argument can be specified multiple times to provide multiple variables.
     /// </summary>
-    [CliOption("--test-modules")]
-    public string? TestModules { get; set; }
+    [CliOption("--environment", ShortForm = "-e")]
+    public IEnumerable<string>? Environment { get; set; }
 
     /// <summary>
-    /// The test modules have the specified root directory.
+    /// Run tests that match the given expression.
     /// </summary>
-    [CliOption("--root-directory")]
-    public string? RootDirectory { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// The path to the custom adapters to use for the test run.
+    /// </summary>
+    [CliOption("--test-adapter-path")]
+    public string? TestAdapterPath { get; set; }
+
+    /// <summary>
+    /// The logger to use for test results.
+    /// </summary>
+    [CliOption("--logger", ShortForm = "-l")]
+    public string? Logger { get; set; }
+
+    /// <summary>
+    /// The output directory to place built artifacts in.
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// The artifacts path. All output from the project, including build, publish, and pack output, will go in subfolders under the specified path.
+    /// </summary>
+    [CliOption("--artifacts-path")]
+    public string? ArtifactsPath { get; set; }
+
+    /// <summary>
+    /// Enable verbose logging to the specified file.
+    /// </summary>
+    [CliOption("--diag", ShortForm = "-d")]
+    public string? Diag { get; set; }
+
+    /// <summary>
+    /// Do not build the project before testing. Implies --no-restore. [default: False]
+    /// </summary>
+    [CliFlag("--no-build")]
+    public bool? NoBuild { get; set; }
 
     /// <summary>
     /// The directory where the test results will be placed. The specified directory will be created if it does not exist.
@@ -52,40 +88,58 @@ public record DotNetTestOptions : DotNetOptions
     public string? ResultsDirectory { get; set; }
 
     /// <summary>
-    /// Specifies a testconfig.json file.
+    /// The friendly name of the data collector to use for the test run. More info here: https://aka.ms/vstest-collect
     /// </summary>
-    [CliOption("--config-file")]
-    public string? ConfigFile { get; set; }
+    [CliOption("--collect")]
+    public string? Collect { get; set; }
 
     /// <summary>
-    /// Output directory of the diagnostic
+    /// Runs the tests in blame mode. This option is helpful in isolating problematic tests that cause the test host to crash or hang, but it does not create a memory dump by default.
     /// </summary>
-    [CliFlag("--diagnostic-output-directory")]
-    public bool? DiagnosticOutputDirectory { get; set; }
+    [CliFlag("--blame")]
+    public bool? Blame { get; set; }
 
     /// <summary>
-    /// The max number of test modules that can run in parallel.
+    /// Runs the tests in blame mode and collects a crash dump when the test host exits unexpectedly. This option depends on the version of .NET used, the type of error, and the operating system.
     /// </summary>
-    [CliOption("--max-parallel-test-modules")]
-    public int? MaxParallelTestModules { get; set; }
+    [CliFlag("--blame-crash")]
+    public bool? BlameCrash { get; set; }
 
     /// <summary>
-    /// Specifies the minimum number of tests that are expected to run.
+    /// The type of crash dump to be collected. Supported values are full (default) and mini. Implies --blame-crash.
     /// </summary>
-    [CliOption("--minimum-expected-tests")]
-    public int? MinimumExpectedTests { get; set; }
+    [CliOption("--blame-crash-dump-type")]
+    public string? BlameCrashDumpType { get; set; }
 
     /// <summary>
-    /// The target architecture.
+    /// Enables collecting crash dump on expected as well as unexpected testhost exit. [default: False]
     /// </summary>
-    [CliOption("--arch", ShortForm = "-a")]
-    public string? Arch { get; set; }
+    [CliFlag("--blame-crash-collect-always")]
+    public bool? BlameCrashCollectAlways { get; set; }
 
     /// <summary>
-    /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This argument can be specified multiple times to provide multiple variables.
+    /// Run the tests in blame mode and enables collecting hang dump when test exceeds the given timeout. [default: False]
     /// </summary>
-    [CliOption("--environment", ShortForm = "-e")]
-    public IEnumerable<string>? Environment { get; set; }
+    [CliFlag("--blame-hang")]
+    public bool? BlameHang { get; set; }
+
+    /// <summary>
+    /// The type of crash dump to be collected. The supported values are full (default), mini, and none. When 'none' is used then test host is terminated on timeout, but no dump is collected. Implies --blame-hang.
+    /// </summary>
+    [CliOption("--blame-hang-dump-type")]
+    public string? BlameHangDumpType { get; set; }
+
+    /// <summary>
+    /// Per-test timeout, after which hang dump is triggered and the testhost process is terminated. Default is 1h. The timeout value is specified in the following format: 1.5h / 90m / 5400s / 5400000ms. When no unit is used (e.g. 5400000), the value is assumed to be in milliseconds. When used together with data driven tests, the timeout behavior depends on the test adapter used. For xUnit, NUnit and MSTest 2.2.4+ the timeout is renewed after every test case, For MSTest before 2.2.4, the timeout is used for all testcases.
+    /// </summary>
+    [CliOption("--blame-hang-timeout")]
+    public string? BlameHangTimeout { get; set; }
+
+    /// <summary>
+    /// Run test(s), without displaying Microsoft Testplatform banner [default: True]
+    /// </summary>
+    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// The configuration to use for running tests. The default for most projects is 'Debug'.
@@ -100,10 +154,16 @@ public record DotNetTestOptions : DotNetOptions
     public string? Framework { get; set; }
 
     /// <summary>
-    /// The target operating system.
+    /// Do not restore the project before building. [default: False]
     /// </summary>
-    [CliOption("--os")]
-    public string? Os { get; set; }
+    [CliFlag("--no-restore")]
+    public bool? NoRestore { get; set; }
+
+    /// <summary>
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
+    /// </summary>
+    [CliFlag("--interactive")]
+    public bool? Interactive { get; set; }
 
     /// <summary>
     /// The target runtime to test for.
@@ -112,57 +172,63 @@ public record DotNetTestOptions : DotNetOptions
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// Do not restore the project before building. [default: False]
+    /// The target architecture.
     /// </summary>
-    [CliFlag("--no-restore")]
-    public bool? NoRestore { get; set; }
+    [CliOption("--arch", ShortForm = "-a")]
+    public string? Arch { get; set; }
 
     /// <summary>
-    /// Do not build the project before testing. Implies --no-restore. [default: False]
+    /// The target operating system.
     /// </summary>
-    [CliFlag("--no-build")]
-    public bool? NoBuild { get; set; }
+    [CliOption("--os")]
+    public string? Os { get; set; }
 
     /// <summary>
-    /// Disable ANSI output. [default: False]
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
-    [CliFlag("--no-ansi")]
-    public bool? NoAnsi { get; set; }
-
-    /// <summary>
-    /// Disable progress reporting. [default: False]
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Verbosity of test output.
-    /// </summary>
-    [CliOption("--output")]
-    public string? Output { get; set; }
-
-    /// <summary>
-    /// List the discovered tests instead of running the tests.
-    /// </summary>
-    [CliOption("--list-tests")]
-    public string? ListTests { get; set; }
-
-    /// <summary>
-    /// Do not attempt to use launchSettings.json or [app].run.json
-    /// </summary>
-    [CliFlag("--no-launch-profile")]
-    public bool? NoLaunchProfile { get; set; }
-
-    /// <summary>
-    /// Do not use arguments specified in launch profile to run the application. [default: False]
-    /// </summary>
-    [CliFlag("--no-launch-profile-arguments")]
-    public bool? NoLaunchProfileArguments { get; set; }
+    [CliFlag("--disable-build-servers")]
+    public bool? DisableBuildServers { get; set; }
 
     /// <summary>
     /// Set one or more MSBuild properties. Use format: PropertyName=Value
     /// </summary>
     [CliOption("-p", Format = OptionFormat.ColonSeparated)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
+
+    [Obsolete("Project is no longer supported by the installed CLI and has no effect.")]
+    public string? Project { get; set; }
+
+    [Obsolete("Solution is no longer supported by the installed CLI and has no effect.")]
+    public string? Solution { get; set; }
+
+    [Obsolete("TestModules is no longer supported by the installed CLI and has no effect.")]
+    public string? TestModules { get; set; }
+
+    [Obsolete("RootDirectory is no longer supported by the installed CLI and has no effect.")]
+    public string? RootDirectory { get; set; }
+
+    [Obsolete("ConfigFile is no longer supported by the installed CLI and has no effect.")]
+    public string? ConfigFile { get; set; }
+
+    [Obsolete("DiagnosticOutputDirectory is no longer supported by the installed CLI and has no effect.")]
+    public bool? DiagnosticOutputDirectory { get; set; }
+
+    [Obsolete("MaxParallelTestModules is no longer supported by the installed CLI and has no effect.")]
+    public int? MaxParallelTestModules { get; set; }
+
+    [Obsolete("MinimumExpectedTests is no longer supported by the installed CLI and has no effect.")]
+    public int? MinimumExpectedTests { get; set; }
+
+    [Obsolete("NoAnsi is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoAnsi { get; set; }
+
+    [Obsolete("NoProgress is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoProgress { get; set; }
+
+    [Obsolete("NoLaunchProfile is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoLaunchProfile { get; set; }
+
+    [Obsolete("NoLaunchProfileArguments is no longer supported by the installed CLI and has no effect.")]
+    public bool? NoLaunchProfileArguments { get; set; }
 
 }

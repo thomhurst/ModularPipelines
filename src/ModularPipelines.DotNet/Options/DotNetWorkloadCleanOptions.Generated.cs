@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Removes workload components that may have been left behind from previous
+/// Removes workload components that may have been left behind from previous updates and uninstallations.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

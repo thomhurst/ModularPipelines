@@ -47,7 +47,7 @@ public class DotNetWorkload : IDotNetWorkload
     }
 
     /// <summary>
-    /// Removes workload components that may have been left behind from previous
+    /// Removes workload components that may have been left behind from previous updates and uninstallations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -17,15 +17,9 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "trust", "repository")]
 public record DotNetNuGetTrustRepositoryOptions : DotNetOptions
 {
-    /// <summary>
-    /// [default: False]
-    /// </summary>
     [CliFlag("--allow-untrusted-root")]
     public bool? AllowUntrustedRoot { get; set; }
 
-    /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
-    /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 

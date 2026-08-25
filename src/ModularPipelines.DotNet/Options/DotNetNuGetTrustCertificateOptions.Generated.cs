@@ -17,21 +17,12 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "trust", "certificate")]
 public record DotNetNuGetTrustCertificateOptions : DotNetOptions
 {
-    /// <summary>
-    /// [default: False]
-    /// </summary>
     [CliFlag("--allow-untrusted-root")]
     public bool? AllowUntrustedRoot { get; set; }
 
-    /// <summary>
-    /// [default: SHA256]
-    /// </summary>
     [CliOption("--algorithm")]
     public string? Algorithm { get; set; }
 
-    /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal],
-    /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 

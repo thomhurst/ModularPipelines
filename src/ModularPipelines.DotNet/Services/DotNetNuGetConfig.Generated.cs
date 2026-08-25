@@ -32,6 +32,21 @@ public class DotNetNuGetConfig
     #region Commands
 
     /// <summary>
+    /// NuGet configuration CLI
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Lists the paths to all NuGet configuration files that will be applied when invoking NuGet command in a specific directory
     /// </summary>
     /// <param name="options">The command options.</param>

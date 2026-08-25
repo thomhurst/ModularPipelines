@@ -12,15 +12,30 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Lists all the trusted signers in the configuration.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "list")]
 public record DotNetNuGetTrustListOptions : DotNetOptions
 {
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
+    /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
+    /// </summary>
+    [CliOption("--configfile")]
+    public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
 
 }

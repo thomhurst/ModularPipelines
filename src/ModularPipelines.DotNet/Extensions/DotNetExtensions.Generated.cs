@@ -42,7 +42,7 @@ public static class DotNetExtensions
     }
 
     /// <summary>
-    /// Gets the dotnet service from the pipeline context.
+    /// Gets the dotnet service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDotNet"/> service for executing dotnet commands.</returns>

@@ -52,7 +52,7 @@ public record DotNetPublishOptions : DotNetOptions
     public bool? NoSelfContained { get; set; }
 
     /// <summary>
-    /// Do not display the startup banner or the copyright message. [default: False]
+    /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
     [CliFlag("--nologo")]
     public bool? NoLogo { get; set; }
@@ -62,12 +62,6 @@ public record DotNetPublishOptions : DotNetOptions
     /// </summary>
     [CliOption("--framework", ShortForm = "-f")]
     public string? Framework { get; set; }
-
-    /// <summary>
-    /// The target runtime to publish for. This is used when creating a self-contained deployment. The default is to publish a framework-dependent application.
-    /// </summary>
-    [CliOption("--runtime", ShortForm = "-r")]
-    public string? Runtime { get; set; }
 
     /// <summary>
     /// The configuration to publish for. The default is 'Release' for NET 8.0 projects and above, but 'Debug' for older projects.
@@ -82,7 +76,7 @@ public record DotNetPublishOptions : DotNetOptions
     public string? VersionSuffix { get; set; }
 
     /// <summary>
-    /// Allows the command to stop and wait for user input or action (for example to
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
@@ -92,6 +86,12 @@ public record DotNetPublishOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-restore")]
     public bool? NoRestore { get; set; }
+
+    /// <summary>
+    /// The target runtime to publish for. This is used when creating a self-contained deployment. The default is to publish a framework-dependent application.
+    /// </summary>
+    [CliOption("--runtime", ShortForm = "-r")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The target architecture.
@@ -106,7 +106,7 @@ public record DotNetPublishOptions : DotNetOptions
     public string? Os { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
@@ -118,7 +118,7 @@ public record DotNetPublishOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// The project or solution or C# (file-based
+    /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

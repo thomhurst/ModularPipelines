@@ -61,5 +61,20 @@ public class DotNetSolution : IDotNetSolution
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionListOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Generate a .slnx file from a .sln file.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MigrateAsync(
+        DotNetSolutionMigrateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionMigrateOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

@@ -17,9 +17,6 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "trust", "remove")]
 public record DotNetNuGetTrustRemoveOptions : DotNetOptions
 {
-    /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
-    /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 

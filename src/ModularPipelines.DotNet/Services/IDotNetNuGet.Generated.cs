@@ -15,96 +15,71 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet nuget commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDotNetNuGet
 {
     /// <summary>
     /// dotnet add sub-commands.
     /// </summary>
-    DotNetNuGetAdd Add { get; }
+    DotNetNuGetAdd Add => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet config sub-commands.
     /// </summary>
-    DotNetNuGetConfig Config { get; }
+    DotNetNuGetConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet disable sub-commands.
     /// </summary>
-    DotNetNuGetDisable Disable { get; }
+    DotNetNuGetDisable Disable => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet enable sub-commands.
     /// </summary>
-    DotNetNuGetEnable Enable { get; }
+    DotNetNuGetEnable Enable => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet list sub-commands.
     /// </summary>
-    DotNetNuGetList List { get; }
+    DotNetNuGetList List => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet remove sub-commands.
     /// </summary>
-    DotNetNuGetRemove Remove { get; }
+    DotNetNuGetRemove Remove => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet trust sub-commands.
     /// </summary>
-    DotNetNuGetTrust Trust { get; }
+    DotNetNuGetTrust Trust => throw new System.NotSupportedException();
 
     /// <summary>
     /// dotnet update sub-commands.
     /// </summary>
-    DotNetNuGetUpdate Update { get; }
+    DotNetNuGetUpdate Update => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Executes the parent command directly.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        DotNetNuGetOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(DotNetNuGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> DeleteAsync(
-        DotNetNuGetDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(DotNetNuGetDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> LocalsAsync(
-        DotNetNuGetLocalsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> LocalsAsync(DotNetNuGetLocalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> PushAsync(
-        DotNetNuGetPushOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> PushAsync(DotNetNuGetPushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> SignAsync(
-        DotNetNuGetSignOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SignAsync(DotNetNuGetSignOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> VerifyAsync(
-        DotNetNuGetVerifyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyAsync(DotNetNuGetVerifyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Shows the dependency graph for a particular package for a given project or solution.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> WhyAsync(
-        DotNetNuGetWhyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> WhyAsync(DotNetNuGetWhyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

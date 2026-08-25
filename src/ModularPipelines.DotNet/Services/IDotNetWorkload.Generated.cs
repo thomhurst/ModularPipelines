@@ -15,6 +15,9 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet workload commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDotNetWorkload
 {
@@ -25,22 +28,18 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        DotNetWorkloadOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(DotNetWorkloadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Removes workload components that may have been left behind from previous
+    /// Removes workload components that may have been left behind from previous updates and uninstallations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CleanAsync(
-        DotNetWorkloadCleanOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CleanAsync(DotNetWorkloadCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Modify or display workload configuration values.
@@ -49,10 +48,8 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigAsync(
-        DotNetWorkloadConfigOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ConfigAsync(DotNetWorkloadConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Shows a history of workload installation actions.
@@ -61,10 +58,8 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> HistoryAsync(
-        DotNetWorkloadHistoryOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> HistoryAsync(DotNetWorkloadHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List workloads available.
@@ -73,10 +68,8 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        DotNetWorkloadListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(DotNetWorkloadListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Repair workload installations.
@@ -85,10 +78,8 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RepairAsync(
-        DotNetWorkloadRepairOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RepairAsync(DotNetWorkloadRepairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update all installed workloads.
@@ -97,9 +88,7 @@ public interface IDotNetWorkload
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        DotNetWorkloadUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(DotNetWorkloadUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

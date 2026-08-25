@@ -31,6 +31,21 @@ public class DotNetNuGetTrust
 
     #region Commands
 
+    /// <summary>
+    /// Manage the trusted signers.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetTrustOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustOptions(), executionOptions, cancellationToken);
+    }
+
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthorAsync(
         DotNetNuGetTrustAuthorOptions? options = null,
@@ -49,7 +64,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustCertificateOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Lists all the trusted signers in the configuration.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         DotNetNuGetTrustListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

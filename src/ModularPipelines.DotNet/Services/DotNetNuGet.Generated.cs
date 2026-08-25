@@ -143,13 +143,7 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetVerifyOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Shows the dependency graph for a particular package for a given project or solution.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WhyAsync(
         DotNetNuGetWhyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

@@ -12,18 +12,18 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Generate a .slnx file from a .sln file.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("nuget", "why")]
-public record DotNetNuGetWhyOptions : DotNetOptions
+[CliSubCommand("solution", "migrate")]
+public record DotNetSolutionMigrateOptions : DotNetOptions
 {
-    [CliOption("--framework", ShortForm = "-f")]
-    public string? Framework { get; set; }
-
+    /// <summary>
+    /// The solution file to operate on. If not specified, the command will search the current directory for one. [default: ~/work/_temp/generator-work/]
+    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? ProjectSolution { get; set; }
-
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Package { get; set; }
+    public string? SlnFile { get; set; }
 
 }

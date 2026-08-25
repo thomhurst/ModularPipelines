@@ -27,7 +27,7 @@ public record DotNetSolutionListOptions : DotNetOptions
     public bool? SolutionFolders { get; set; }
 
     /// <summary>
-    /// The solution file to operate on. If not specified, the command
+    /// The solution file to operate on. If not specified, the command will search the current directory for one. [default: ~/work/_temp/generator-work/]
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SlnFile { get; set; }

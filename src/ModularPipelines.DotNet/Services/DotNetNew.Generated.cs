@@ -47,7 +47,7 @@ public class DotNetNew : IDotNetNew
     }
 
     /// <summary>
-    /// Checks the currently installed template packages for update, and install the
+    /// Checks the currently installed template packages for update, and install the updates.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

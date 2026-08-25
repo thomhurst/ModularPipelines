@@ -15,6 +15,9 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet tool commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDotNetTool
 {
@@ -25,10 +28,8 @@ public interface IDotNetTool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        DotNetToolOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(DotNetToolOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Restore tools defined in the local tool manifest.
@@ -37,9 +38,7 @@ public interface IDotNetTool
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RestoreAsync(
-        DotNetToolRestoreOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RestoreAsync(DotNetToolRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

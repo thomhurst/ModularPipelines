@@ -17,21 +17,12 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "locals")]
 public record DotNetNuGetLocalsOptions : DotNetOptions
 {
-    /// <summary>
-    /// Forces the application to run using an invariant, English-based culture.
-    /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
 
-    /// <summary>
-    /// Clear the selected local resources or cache location(s).
-    /// </summary>
     [CliFlag("--clear", ShortForm = "-c")]
     public bool? Clear { get; set; }
 
-    /// <summary>
-    /// List the selected local resources or cache location(s).
-    /// </summary>
     [CliFlag("--list", ShortForm = "-l")]
     public bool? List { get; set; }
 

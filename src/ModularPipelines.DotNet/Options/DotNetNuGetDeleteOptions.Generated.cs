@@ -17,52 +17,28 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "delete")]
 public record DotNetNuGetDeleteOptions : DotNetOptions
 {
-    /// <summary>
-    /// Forces the application to run using an invariant, English-based culture.
-    /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
 
-    /// <summary>
-    /// Package source (URL, UNC/folder path or package source name) to use. Defaults to DefaultPushSource if specified in NuGet.Config.
-    /// </summary>
     [CliOption("--source", ShortForm = "-s")]
     public string? Source { get; set; }
 
-    /// <summary>
-    /// Do not prompt for user input or confirmations.
-    /// </summary>
     [CliFlag("--non-interactive")]
     public bool? NonInteractive { get; set; }
 
-    /// <summary>
-    /// The API key for the server.
-    /// </summary>
     [SecretValue]
     [CliOption("--api-key", ShortForm = "-k")]
     public string? ApiKey { get; set; }
 
-    /// <summary>
-    /// Does not append "api/v2/package" to the source URL.
-    /// </summary>
     [CliFlag("--no-service-endpoint")]
     public bool? NoServiceEndpoint { get; set; }
 
-    /// <summary>
-    /// Allow the command to block and require manual action for operations like authentication.
-    /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
 
-    /// <summary>
-    /// The package ID to delete.
-    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackageName { get; set; }
 
-    /// <summary>
-    /// The package version to delete.
-    /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Version { get; set; }
 

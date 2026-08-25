@@ -15,6 +15,9 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet new commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDotNetNew
 {
@@ -25,21 +28,17 @@ public interface IDotNetNew
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        DotNetNewOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(DotNetNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Checks the currently installed template packages for update, and install the
+    /// Checks the currently installed template packages for update, and install the updates.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        DotNetNewUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(DotNetNewUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -17,33 +17,18 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget", "verify")]
 public record DotNetNuGetVerifyOptions : DotNetOptions
 {
-    /// <summary>
-    /// Specifies that all verifications possible should be performed to the package(s).
-    /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
-    /// <summary>
-    /// Verify that the signer certificate matches with one of the specified SHA256 fingerprints. A certificate SHA256 fingerprint is a SHA256 hash of the certificate used to identify the certificate. Multiple inputs should be separated by space.
-    /// </summary>
     [CliFlag("--certificate-fingerprint")]
     public bool? CertificateFingerprint { get; set; }
 
-    /// <summary>
-    /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
-    /// </summary>
     [CliOption("--configfile")]
     public string? Configfile { get; set; }
 
-    /// <summary>
-    /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
-    /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 
-    /// <summary>
-    /// Specify the path to the package
-    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackagePaths { get; set; }
 
