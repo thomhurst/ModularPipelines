@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Updates the client certificate configuration that matches the given package source name.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "update", "client-cert")]
@@ -78,5 +81,11 @@ public record DotNetNuGetUpdateClientCertOptions : DotNetOptions
     /// </summary>
     [CliOption("--configfile")]
     public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
 
 }

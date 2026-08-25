@@ -12,17 +12,14 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Pushes a package to the server and publishes it.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "push")]
 public record DotNetNuGetPushOptions : DotNetOptions
 {
-    /// <summary>
-    /// Forces the application to run using an invariant, English-based culture.
-    /// </summary>
-    [CliFlag("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
-
     /// <summary>
     /// Package source (URL, UNC/folder path or package source name) to use. Defaults to DefaultPushSource if specified in NuGet.Config.
     /// </summary>
@@ -48,14 +45,14 @@ public record DotNetNuGetPushOptions : DotNetOptions
     public string? Timeout { get; set; }
 
     /// <summary>
-    /// The API key for the server.
+    /// The API key for the server. If not set, the NUGET_API_KEY environment variable is read.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key", ShortForm = "-k")]
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// The API key for the symbol server.
+    /// The API key for the symbol server. If not set, the NUGET_SYMBOL_API_KEY environment variable is read.
     /// </summary>
     [SecretValue]
     [CliOption("--symbol-api-key", ShortForm = "-sk")]
@@ -98,9 +95,22 @@ public record DotNetNuGetPushOptions : DotNetOptions
     public string? Configfile { get; set; }
 
     /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
     /// Specify the path to the package and your API key to push the package to the server.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Path { get; set; }
+    public string? PackagePaths { get; set; }
+
+    [Obsolete("Use PackagePaths instead.")]
+    public string? Path
+    {
+        get => PackagePaths;
+        set => PackagePaths = value;
+    }
 
 }

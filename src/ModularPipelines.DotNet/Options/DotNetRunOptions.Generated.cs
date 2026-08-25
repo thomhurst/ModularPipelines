@@ -34,13 +34,7 @@ public record DotNetRunOptions : DotNetOptions
     public string? Framework { get; set; }
 
     /// <summary>
-    /// The target runtime to run for.
-    /// </summary>
-    [CliOption("--runtime", ShortForm = "-r")]
-    public string? Runtime { get; set; }
-
-    /// <summary>
-    /// The path to the project file to run (defaults to the current directory if there is only one project).
+    /// Defines the path of the project file to run. Use path to the project file, or path to the directory containing the project file. If not specified, it defaults to the current directory.
     /// </summary>
     [CliOption("--project")]
     public string? Project { get; set; }
@@ -62,6 +56,18 @@ public record DotNetRunOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-launch-profile")]
     public bool? NoLaunchProfile { get; set; }
+
+    /// <summary>
+    /// The device identifier to use for running the application.
+    /// </summary>
+    [CliOption("--device")]
+    public string? Device { get; set; }
+
+    /// <summary>
+    /// List available devices for running the application. [default: False]
+    /// </summary>
+    [CliFlag("--list-devices")]
+    public bool? ListDevices { get; set; }
 
     /// <summary>
     /// Do not build the project before running. Implies --no-restore. [default: False]
@@ -88,10 +94,16 @@ public record DotNetRunOptions : DotNetOptions
     public bool? NoCache { get; set; }
 
     /// <summary>
-    /// Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to
+    /// Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to run your application. [default: False]
     /// </summary>
     [CliFlag("--no-self-contained")]
     public bool? NoSelfContained { get; set; }
+
+    /// <summary>
+    /// The target runtime to run for.
+    /// </summary>
+    [CliOption("--runtime", ShortForm = "-r")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The target architecture.
@@ -106,7 +118,7 @@ public record DotNetRunOptions : DotNetOptions
     public string? Os { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
@@ -130,9 +142,16 @@ public record DotNetRunOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// Arguments passed to the application that is being
+    /// Arguments passed to the application that is being run. []
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Applicationarguments { get; set; }
+    public string? ApplicationArguments { get; set; }
+
+    [Obsolete("Use ApplicationArguments instead.")]
+    public string? Applicationarguments
+    {
+        get => ApplicationArguments;
+        set => ApplicationArguments = value;
+    }
 
 }

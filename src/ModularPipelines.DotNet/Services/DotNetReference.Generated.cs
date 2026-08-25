@@ -47,6 +47,21 @@ public class DotNetReference : IDotNetReference
     }
 
     /// <summary>
+    /// Add a project-to-project reference to the project.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddAsync(
+        DotNetReferenceAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetReferenceAddOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List all project-to-project references of the project.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -59,6 +74,21 @@ public class DotNetReference : IDotNetReference
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetReferenceListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove a project-to-project reference from the project.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        DotNetReferenceRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetReferenceRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

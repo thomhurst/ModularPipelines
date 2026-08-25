@@ -46,7 +46,7 @@ public record DotNetPackOptions : DotNetOptions
     public bool? IncludeSymbols { get; set; }
 
     /// <summary>
-    /// Include PDBs and source files. Source files go into the 'src' folder in the
+    /// Include PDBs and source files. Source files go into the 'src' folder in the resulting nuget package. [default: False]
     /// </summary>
     [CliFlag("--include-source")]
     public bool? IncludeSource { get; set; }
@@ -58,13 +58,13 @@ public record DotNetPackOptions : DotNetOptions
     public string? Serviceable { get; set; }
 
     /// <summary>
-    /// Do not display the startup banner or the copyright message. [default: False]
+    /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
     [CliFlag("--nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>
-    /// Allows the command to stop and wait for user input or action (for example to
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
@@ -88,7 +88,7 @@ public record DotNetPackOptions : DotNetOptions
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
@@ -106,7 +106,7 @@ public record DotNetPackOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// The project or solution or C# (file-based
+    /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Add a NuGet source.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "add", "source")]
@@ -68,9 +71,22 @@ public record DotNetNuGetAddSourceOptions : DotNetOptions
     public bool? AllowInsecureConnections { get; set; }
 
     /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
     /// Path to the package source.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Packagesourcepath { get; set; }
+    public string? PackageSourcePath { get; set; }
+
+    [Obsolete("Use PackageSourcePath instead.")]
+    public string? Packagesourcepath
+    {
+        get => PackageSourcePath;
+        set => PackageSourcePath = value;
+    }
 
 }

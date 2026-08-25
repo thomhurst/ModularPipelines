@@ -40,13 +40,13 @@ public record DotNetCleanOptions : DotNetOptions
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// Allows the command to stop and wait for user input or action (for example to
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal],
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
@@ -64,13 +64,13 @@ public record DotNetCleanOptions : DotNetOptions
     public string? ArtifactsPath { get; set; }
 
     /// <summary>
-    /// Do not display the startup banner or the copyright message. [default: False]
+    /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
     [CliFlag("--nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
@@ -82,7 +82,7 @@ public record DotNetCleanOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// The project or solution or C# (file-based
+    /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

@@ -21,6 +21,12 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetReferenceListOptions : DotNetOptions
 {
     /// <summary>
+    /// The file-based app to operate on.
+    /// </summary>
+    [CliOption("--file")]
+    public string? File { get; set; }
+
+    /// <summary>
     /// The project file to operate on. If a file is not specified, the command will search the current directory for one.
     /// </summary>
     [CliFlag("--project")]

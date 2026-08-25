@@ -23,47 +23,52 @@ public partial interface IDotNet
     /// <summary>
     /// Gets the buildserver sub-domain service.
     /// </summary>
-    IDotNetBuildServer BuildServer { get; }
+    IDotNetBuildServer BuildServer => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the format sub-domain service.
+    /// </summary>
+    IDotNetFormat Format => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the new sub-domain service.
     /// </summary>
-    IDotNetNew New { get; }
+    IDotNetNew New => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the nuget sub-domain service.
     /// </summary>
-    IDotNetNuGet NuGet { get; }
+    IDotNetNuGet NuGet => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the package sub-domain service.
     /// </summary>
-    IDotNetPackage Package { get; }
+    IDotNetPackage Package => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the reference sub-domain service.
     /// </summary>
-    IDotNetReference Reference { get; }
+    IDotNetReference Reference => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the sdk sub-domain service.
     /// </summary>
-    IDotNetSdk Sdk { get; }
+    IDotNetSdk Sdk => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the solution sub-domain service.
     /// </summary>
-    IDotNetSolution Solution { get; }
+    IDotNetSolution Solution => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the tool sub-domain service.
     /// </summary>
-    IDotNetTool Tool { get; }
+    IDotNetTool Tool => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workload sub-domain service.
     /// </summary>
-    IDotNetWorkload Workload { get; }
+    IDotNetWorkload Workload => throw new System.NotSupportedException();
 
     #endregion
 
@@ -76,7 +81,8 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BuildAsync(DotNetBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> BuildAsync(DotNetBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// .NET Clean Command
@@ -85,7 +91,8 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CleanAsync(DotNetCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CleanAsync(DotNetCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Formats code to match editorconfig settings.
@@ -94,9 +101,11 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatAsync(DotNetFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> FormatAsync(DotNetFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> MsbuildAsync(DotNetMsbuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> MsbuildAsync(DotNetMsbuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// .NET Core NuGet Package Packer
@@ -105,7 +114,8 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PackAsync(DotNetPackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PackAsync(DotNetPackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Publisher for the .NET Platform
@@ -114,7 +124,8 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PublishAsync(DotNetPublishOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PublishAsync(DotNetPublishOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// .NET dependency restorer
@@ -123,7 +134,8 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RestoreAsync(DotNetRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RestoreAsync(DotNetRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// .NET Run Command
@@ -132,27 +144,31 @@ public partial interface IDotNet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RunAsync(DotNetRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RunAsync(DotNetRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Stores the specified assemblies for the .NET Platform. By default, these will
+    /// Stores the specified assemblies for the .NET Platform. By default, these will be optimized for the target runtime and framework.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StoreAsync(DotNetStoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> StoreAsync(DotNetStoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
-    /// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json'
+    /// .NET Test Command for VSTest. To use Microsoft.Testing.Platform, opt-in to the Microsoft.Testing.Platform-based command via global.json. For more information, see https://aka.ms/dotnet-test.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TestAsync(DotNetTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> TestAsync(DotNetTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    Task<CommandResult> VstestAsync(DotNetVstestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> VstestAsync(DotNetVstestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

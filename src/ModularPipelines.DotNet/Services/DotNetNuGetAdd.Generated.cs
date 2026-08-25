@@ -31,7 +31,28 @@ public class DotNetNuGetAdd
 
     #region Commands
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Add a NuGet source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetAddOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Adds a client certificate configuration that matches the given package source name.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetAddClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -40,7 +61,13 @@ public class DotNetNuGetAdd
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetAddClientCertOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Add a NuGet source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetAddSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

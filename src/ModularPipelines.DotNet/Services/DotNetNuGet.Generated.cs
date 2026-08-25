@@ -98,7 +98,13 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Deletes a package from the server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
         DotNetNuGetDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -107,7 +113,13 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetDeleteOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Clears or lists local NuGet resources such as http requests cache, packages folder, plugin operations cache  or machine-wide global packages folder.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LocalsAsync(
         DotNetNuGetLocalsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -116,7 +128,13 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetLocalsOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Pushes a package to the server and publishes it.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PushAsync(
         DotNetNuGetPushOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -125,7 +143,13 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetPushOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Signs NuGet package(s) at &lt;package-paths&gt; with the specified certificate.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignAsync(
         DotNetNuGetSignOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -134,7 +158,13 @@ public class DotNetNuGet : IDotNetNuGet
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetSignOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Verifies a signed NuGet package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyAsync(
         DotNetNuGetVerifyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

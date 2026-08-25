@@ -17,4 +17,10 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("package")]
 public record DotNetPackageOptions : DotNetOptions
 {
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
