@@ -72,14 +72,25 @@ public class GeneratorHardeningTests
                 {
                     SwitchName = "--labels",
                     PropertyName = "Labels",
-                    CSharpType = "IReadOnlyList<KeyValue>?",
+                    CSharpType = "string?",
                 },
-            ]);
+            ]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyLabels",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                    ObsoleteMessage = "Use Labels instead.",
+                },
+            ],
+        };
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
         await Assert.That(generated).Contains("using ModularPipelines.Models;");
-        await Assert.That(generated).Contains("public IReadOnlyList<KeyValue>? Labels { get; set; }");
+        await Assert.That(generated).Contains("public IReadOnlyList<KeyValue>? LegacyLabels { get; set; }");
     }
 
     [Test]
