@@ -17,6 +17,11 @@ on:
         required: false
         default: true
         type: boolean
+      enable-auto-merge:
+        description: 'Enable auto-merge for created pull requests'
+        required: false
+        default: true
+        type: boolean
       approve-command-coverage-shrinkage:
         description: 'Explicitly approve removed commands for this run'
         required: false
@@ -680,7 +685,7 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success'
+        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
@@ -972,7 +977,7 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success'
+        if: steps.create-pr.outputs.pull-request-number && steps.api-compat.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
