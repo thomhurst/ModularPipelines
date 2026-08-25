@@ -13,9 +13,6 @@ using ModularPipelines.Minikube.Enums;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// list displays all valid default settings for PROPERTY_NAME
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "defaults")]
@@ -23,9 +20,6 @@ public record MinikubeConfigDefaultsOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// Output format. Accepted values: [json, yaml]
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public MinikubeConfigDefaultsOutput? Output { get; set; }
 

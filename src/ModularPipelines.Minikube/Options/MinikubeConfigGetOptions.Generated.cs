@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Returns the value of PROPERTY_NAME from the minikube config file.  Can be overwritten at runtime by flags or environmental variables.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "get")]

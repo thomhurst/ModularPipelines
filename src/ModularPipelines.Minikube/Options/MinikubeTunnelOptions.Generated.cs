@@ -12,23 +12,14 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// tunnel creates a route to services deployed with type LoadBalancer and sets their Ingress to their ClusterIP. for a detailed example see https://minikube.sigs.k8s.io/docs/tasks/loadbalancer
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tunnel")]
 public record MinikubeTunnelOptions : MinikubeOptions
 {
-    /// <summary>
-    /// set tunnel bind address, empty or '*' indicates the tunnel should be available for all interfaces
-    /// </summary>
     [CliOption("--bind-address", Format = OptionFormat.EqualsSeparated)]
     public string? BindAddress { get; set; }
 
-    /// <summary>
-    /// call with cleanup=true to remove old tunnels
-    /// </summary>
     [CliOption("--cleanup", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public bool? Cleanup { get; set; }
 

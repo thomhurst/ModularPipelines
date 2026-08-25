@@ -13,23 +13,14 @@ using ModularPipelines.Minikube.Enums;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Lists the URLs for the services in your local cluster
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service", "list")]
 public record MinikubeServiceListOptions : MinikubeOptions
 {
-    /// <summary>
-    /// The services namespace
-    /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
-    /// <summary>
-    /// The output format. One of 'json', 'table'
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public MinikubeServiceListOutput? Output { get; set; }
 

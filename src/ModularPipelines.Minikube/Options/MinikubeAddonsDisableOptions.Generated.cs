@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard). For a list of available addons use: minikube addons list
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "disable")]

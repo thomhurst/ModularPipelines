@@ -13,29 +13,17 @@ using ModularPipelines.Minikube.Enums;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Lists all valid minikube profiles and detects all possible invalid profiles.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("profile", "list")]
 public record MinikubeProfileListOptions : MinikubeOptions
 {
-    /// <summary>
-    /// If true, returns a detailed list of profiles.
-    /// </summary>
     [CliFlag("--detailed", ShortForm = "-d")]
     public bool? Detailed { get; set; }
 
-    /// <summary>
-    /// If true, returns list of profiles faster by skipping validating the status of the cluster.
-    /// </summary>
     [CliFlag("--light", ShortForm = "-l")]
     public bool? Light { get; set; }
 
-    /// <summary>
-    /// The output format. One of 'json', 'table'
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public MinikubeProfileListOutput? Output { get; set; }
 

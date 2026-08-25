@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Configures the addon w/ADDON_NAME within minikube (example: minikube addons configure registry-creds). For a list of available addons use: minikube addons list
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "configure")]
@@ -22,9 +19,6 @@ public record MinikubeAddonsConfigureOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// An optional configuration file to read addon specific configs from instead of being prompted each time.
-    /// </summary>
     [CliOption("--config-file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? ConfigFile { get; set; }
 

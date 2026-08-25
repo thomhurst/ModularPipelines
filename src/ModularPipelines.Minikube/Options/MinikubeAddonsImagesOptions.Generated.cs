@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// List image names the addon w/ADDON_NAME used. For a list of available addons use: minikube addons list
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "images")]
@@ -22,9 +19,6 @@ public record MinikubeAddonsImagesOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// minikube addons images ADDON_NAME --output OUTPUT. table, json
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 

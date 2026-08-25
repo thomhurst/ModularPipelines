@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Opens the addon w/ADDON_NAME within minikube (example: minikube addons open dashboard). For a list of available addons use: minikube addons list
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "open")]
@@ -22,27 +19,15 @@ public record MinikubeAddonsOpenOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// Open the addons URL with https instead of http
-    /// </summary>
     [CliFlag("--https")]
     public bool? Https { get; set; }
 
-    /// <summary>
-    /// The time interval for each check that wait performs in seconds
-    /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]
     public int? Interval { get; set; }
 
-    /// <summary>
-    /// Display the Kubernetes addons URL in the CLI instead of opening it in the default browser
-    /// </summary>
     [CliFlag("--url")]
     public bool? Url { get; set; }
 
-    /// <summary>
-    /// Amount of time to wait for service in seconds
-    /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public int? Wait { get; set; }
 

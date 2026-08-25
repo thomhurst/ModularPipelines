@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Enables the addon w/ADDON_NAME within minikube. For a list of available addons use: minikube addons list
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "enable")]
@@ -22,27 +19,15 @@ public record MinikubeAddonsEnableOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// If true, will perform potentially dangerous operations. Use with discretion.
-    /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    /// <summary>
-    /// Images used by this addon. Separated by commas.
-    /// </summary>
     [CliOption("--images", Format = OptionFormat.EqualsSeparated)]
     public string? Images { get; set; }
 
-    /// <summary>
-    /// If true, pods might get deleted and restarted on addon enable
-    /// </summary>
     [CliFlag("--refresh")]
     public bool? Refresh { get; set; }
 
-    /// <summary>
-    /// Registries used by this addon. Separated by commas.
-    /// </summary>
     [CliOption("--registries", Format = OptionFormat.EqualsSeparated)]
     public string? Registries { get; set; }
 

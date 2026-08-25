@@ -32,7 +32,7 @@ public class MinikubeAddons : IMinikubeAddons
     #region Commands
 
     /// <summary>
-    /// addons modifies minikube addons files using subcommands like "minikube addons enable dashboard"
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -46,13 +46,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeAddonsOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Configures the addon w/ADDON_NAME within minikube (example: minikube addons configure registry-creds). For a list of available addons use: minikube addons list
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ConfigureAsync(
         MinikubeAddonsConfigureOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -61,13 +55,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard). For a list of available addons use: minikube addons list
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> DisableAsync(
         MinikubeAddonsDisableOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -76,13 +64,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Enables the addon w/ADDON_NAME within minikube. For a list of available addons use: minikube addons list
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> EnableAsync(
         MinikubeAddonsEnableOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -91,13 +73,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// List image names the addon w/ADDON_NAME used. For a list of available addons use: minikube addons list
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ImagesAsync(
         MinikubeAddonsImagesOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -106,13 +82,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Lists all available minikube addons as well as their current statuses (enabled/disabled)
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ListAsync(
         MinikubeAddonsListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -121,13 +91,7 @@ public class MinikubeAddons : IMinikubeAddons
         return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeAddonsListOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Opens the addon w/ADDON_NAME within minikube (example: minikube addons open dashboard). For a list of available addons use: minikube addons list
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> OpenAsync(
         MinikubeAddonsOpenOptions options,
         CommandExecutionOptions? executionOptions = null,

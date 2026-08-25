@@ -12,23 +12,14 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Lists all available minikube addons as well as their current statuses (enabled/disabled)
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "list")]
 public record MinikubeAddonsListOptions : MinikubeOptions
 {
-    /// <summary>
-    /// If true, print web links to addons' documentation if using --output=list (default).
-    /// </summary>
     [CliFlag("--docs", ShortForm = "-d")]
     public bool? Docs { get; set; }
 
-    /// <summary>
-    /// minikube addons list --output OUTPUT. json, list
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 

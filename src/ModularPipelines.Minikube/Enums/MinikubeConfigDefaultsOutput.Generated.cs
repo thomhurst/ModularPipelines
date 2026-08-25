@@ -10,9 +10,6 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Minikube.Enums;
 
-/// <summary>
-/// Allowed values for the --output option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeConfigDefaultsOutput
 {

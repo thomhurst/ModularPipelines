@@ -12,9 +12,6 @@ using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
-/// <summary>
-/// Returns the Kubernetes URL(s) for service(s) in your local cluster. In the case of multiple URLs they will be printed one at a time.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service")]
@@ -22,39 +19,21 @@ public record MinikubeServiceOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
 ) : MinikubeOptions
 {
-    /// <summary>
-    /// Forwards all services in a namespace (defaults to "false")
-    /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
-    /// <summary>
-    /// Open the service URL with https instead of http (defaults to "false")
-    /// </summary>
     [CliFlag("--https")]
     public bool? Https { get; set; }
 
-    /// <summary>
-    /// The initial time interval for each check that wait performs in seconds
-    /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]
     public int? Interval { get; set; }
 
-    /// <summary>
-    /// The service namespace
-    /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
-    /// <summary>
-    /// Display the Kubernetes service URL in the CLI instead of opening it in the default browser
-    /// </summary>
     [CliFlag("--url")]
     public bool? Url { get; set; }
 
-    /// <summary>
-    /// Amount of time to wait for a service in seconds
-    /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public int? Wait { get; set; }
 

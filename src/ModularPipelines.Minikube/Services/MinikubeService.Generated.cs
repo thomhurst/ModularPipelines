@@ -32,7 +32,7 @@ public class MinikubeService : IMinikubeService
     #region Commands
 
     /// <summary>
-    /// Returns the Kubernetes URL(s) for service(s) in your local cluster. In the case of multiple URLs they will be printed one at a time.
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -46,13 +46,7 @@ public class MinikubeService : IMinikubeService
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Lists the URLs for the services in your local cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ListAsync(
         MinikubeServiceListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

@@ -32,7 +32,7 @@ public class MinikubeProfile : IMinikubeProfile
     #region Commands
 
     /// <summary>
-    /// profile sets the current minikube profile, or gets the current profile if no arguments are provided.  This is used to run and manage multiple minikube instance.  You can return to the default minikube profile by running `minikube profile default`
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -46,13 +46,7 @@ public class MinikubeProfile : IMinikubeProfile
         return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeProfileOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Lists all valid minikube profiles and detects all possible invalid profiles.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ListAsync(
         MinikubeProfileListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
