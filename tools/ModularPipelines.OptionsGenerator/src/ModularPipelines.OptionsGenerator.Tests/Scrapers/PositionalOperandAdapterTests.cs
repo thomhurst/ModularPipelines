@@ -134,6 +134,21 @@ public class PositionalOperandAdapterTests
         await AssertArgument(command, "Pkg", isRequired: false, isVariadic: true);
     }
 
+    [Test]
+    [Arguments("metadata")]
+    [Arguments("stacks")]
+    [Arguments("state")]
+    public async Task Terraform_Command_Group_Args_Are_Variadic(string commandName)
+    {
+        var command = await new TestTerraformCliScraper().Parse(
+            ["terraform", commandName],
+            $"Usage: terraform {commandName} [args]");
+
+        await AssertArgument(command, "Args", isRequired: false, isVariadic: true);
+        await Assert.That(command!.PositionalArguments.Single().CSharpType)
+            .IsEqualTo("IEnumerable<string>?");
+    }
+
     private static async Task AssertArgument(
         CliCommandDefinition? command,
         string propertyName,
@@ -209,6 +224,20 @@ public class PositionalOperandAdapterTests
             PositionalOperandAdapterTests.Executor,
             PositionalOperandAdapterTests.Cache,
             NullLogger<PnpmCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestTerraformCliScraper()
+        : TerraformCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<TerraformCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
