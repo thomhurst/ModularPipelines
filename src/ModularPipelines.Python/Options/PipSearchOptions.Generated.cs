@@ -18,8 +18,15 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record PipSearchOptions : PipOptions
+public record PipSearchOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Query
+) : PipOptions
 {
+    public PipSearchOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Base URL of Python Package Index (default https://pypi.org/pypi)
     /// </summary>

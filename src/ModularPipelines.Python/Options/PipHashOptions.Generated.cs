@@ -18,8 +18,15 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]
-public record PipHashOptions : PipOptions
+public record PipHashOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> File
+) : PipOptions
 {
+    public PipHashOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Show help.
     /// </summary>
