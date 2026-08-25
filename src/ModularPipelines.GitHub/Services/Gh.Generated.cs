@@ -31,12 +31,18 @@ internal partial class Gh : IGh
         IGhCache cache,
         IGhCodespace codespace,
         IGhConfig config,
+        IGhDiscussion discussion,
         IGhExtension extension,
         IGhGist gist,
         IGhGpgkey gpgkey,
+        IGhIssue issue,
         IGhLabel label,
+        IGhOrg org,
+        IGhPr pr,
         IGhPreview preview,
         IGhProject project,
+        IGhRelease release,
+        IGhRepo repo,
         IGhRuleset ruleset,
         IGhRun run,
         IGhSearch search,
@@ -54,12 +60,18 @@ internal partial class Gh : IGh
         Cache = cache;
         Codespace = codespace;
         Config = config;
+        Discussion = discussion;
         Extension = extension;
         Gist = gist;
         Gpgkey = gpgkey;
+        Issue = issue;
         Label = label;
+        Org = org;
+        Pr = pr;
         Preview = preview;
         Project = project;
+        Release = release;
+        Repo = repo;
         Ruleset = ruleset;
         Run = run;
         Search = search;
@@ -92,6 +104,9 @@ internal partial class Gh : IGh
     public IGhConfig Config { get; }
 
     /// <inheritdoc />
+    public IGhDiscussion Discussion { get; }
+
+    /// <inheritdoc />
     public IGhExtension Extension { get; }
 
     /// <inheritdoc />
@@ -101,13 +116,28 @@ internal partial class Gh : IGh
     public IGhGpgkey Gpgkey { get; }
 
     /// <inheritdoc />
+    public IGhIssue Issue { get; }
+
+    /// <inheritdoc />
     public IGhLabel Label { get; }
+
+    /// <inheritdoc />
+    public IGhOrg Org { get; }
+
+    /// <inheritdoc />
+    public IGhPr Pr { get; }
 
     /// <inheritdoc />
     public IGhPreview Preview { get; }
 
     /// <inheritdoc />
     public IGhProject Project { get; }
+
+    /// <inheritdoc />
+    public IGhRelease Release { get; }
+
+    /// <inheritdoc />
+    public IGhRepo Repo { get; }
 
     /// <inheritdoc />
     public IGhRuleset Ruleset { get; }

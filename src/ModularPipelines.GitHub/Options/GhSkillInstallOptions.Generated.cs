@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("skill", "install")]
-public record GhSkillInstallOptions : GhOptions
+public record GhSkillInstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
+) : GhOptions
 {
+    public GhSkillInstallOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Target agent (see supported values above)
     /// </summary>
@@ -79,5 +86,11 @@ public record GhSkillInstallOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;skill[@version]&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? SkillVersion { get; set; }
 
 }

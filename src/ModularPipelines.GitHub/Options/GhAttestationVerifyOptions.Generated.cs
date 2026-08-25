@@ -158,4 +158,10 @@ public record GhAttestationVerifyOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;file-path&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? FilePathOrImageUri { get; set; }
+
 }

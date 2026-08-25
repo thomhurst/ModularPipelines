@@ -21,6 +21,18 @@ namespace ModularPipelines.GitHub.Options;
 public record GhProjectItemListOptions : GhOptions
 {
     /// <summary>
+    /// Name of a field to show as an extra column
+    /// </summary>
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Field { get; set; }
+
+    /// <summary>
+    /// ID of a field to show as an extra column
+    /// </summary>
+    [CliOption("--field-id", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FieldId { get; set; }
+
+    /// <summary>
     /// Output format: {json}
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
@@ -61,5 +73,11 @@ public record GhProjectItemListOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Number { get; set; }
 
 }

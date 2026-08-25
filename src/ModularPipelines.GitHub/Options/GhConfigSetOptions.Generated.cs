@@ -18,8 +18,16 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record GhConfigSetOptions : GhOptions
+public record GhConfigSetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
+) : GhOptions
 {
+    public GhConfigSetOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Set per-host setting
     /// </summary>

@@ -20,4 +20,22 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("run", "delete")]
 public record GhRunDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
+    /// <summary>
+    /// Select another repository using the [HOST/]OWNER/REPO format
+    /// </summary>
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;run-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? RunId { get; set; }
+
 }

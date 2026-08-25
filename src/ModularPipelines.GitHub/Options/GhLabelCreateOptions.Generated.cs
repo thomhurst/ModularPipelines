@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label", "create")]
-public record GhLabelCreateOptions : GhOptions
+public record GhLabelCreateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : GhOptions
 {
+    public GhLabelCreateOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Color of the label
     /// </summary>
