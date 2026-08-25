@@ -2,11 +2,32 @@ using System.Net;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class DotNetCliScraperTests
 {
+    [Test]
+    public async Task Subcommands_With_Positional_Signatures_Are_Discovered()
+    {
+        const string helpText = """
+                                Commands:
+                                  add                                      Add a package or reference.
+                                  delete <PackageId> <PackageVersion>      Delete a package.
+                                  source <PackageSourcePath>               Add a package source.
+                                  why <PROJECT | SOLUTION | FILE> <PACKAGE>    Show dependency paths.
+
+                                Options:
+                                  -h, --help  Show command line help.
+                                """;
+
+        var subcommands = new TestDotNetCliScraper().Extract(helpText);
+
+        await Assert.That(subcommands).IsEquivalentTo(["add", "delete", "source", "why"]);
+    }
+
     [Test]
     [Arguments("--nologo", "Nologo")]
     [Arguments("--no-logo", "NoLogo")]
@@ -88,6 +109,19 @@ public class DotNetCliScraperTests
         CSharpType = "bool?",
         IsFlag = true,
     };
+
+    private sealed class TestDotNetCliScraper : DotNetCliScraper
+    {
+        public TestDotNetCliScraper()
+            : base(
+                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                NullLogger<DotNetCliScraper>.Instance)
+        {
+        }
+
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
+    }
 
     private sealed class StaticHtmlHandler(string html) : HttpMessageHandler
     {
