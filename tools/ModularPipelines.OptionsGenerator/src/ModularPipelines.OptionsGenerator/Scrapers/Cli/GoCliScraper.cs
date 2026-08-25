@@ -172,7 +172,7 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -303,12 +303,17 @@ public partial class GoCliScraper : CliScraperBase
     /// Format: -flag    description
     ///         -flag value    description
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        AddDocumentedOptions(GetOptionSectionLines(helpText), options, seenOptions);
+        AddUsageOptions(helpText, options, seenOptions);
+        return options;
+    }
 
-        // Find flags sections
+    private static string[] GetOptionSectionLines(string helpText)
+    {
         var flagsSectionMatch = FlagsSectionPattern().Match(helpText);
         var sectionStart = flagsSectionMatch.Success
             ? flagsSectionMatch.Index + flagsSectionMatch.Length
@@ -323,9 +328,14 @@ public partial class GoCliScraper : CliScraperBase
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-        var lines = section.Split('\n');
+        return helpText.Substring(sectionStart, sectionEnd - sectionStart).Split('\n');
+    }
 
+    private static void AddDocumentedOptions(
+        string[] lines,
+        ICollection<CliOptionDefinition> options,
+        ISet<string> seenOptions)
+    {
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
@@ -380,7 +390,13 @@ public partial class GoCliScraper : CliScraperBase
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
+    }
 
+    private static void AddUsageOptions(
+        string helpText,
+        ICollection<CliOptionDefinition> options,
+        ISet<string> seenOptions)
+    {
         foreach (Match match in GoUsageOptionPattern().Matches(helpText))
         {
             var flagName = match.Groups["flag"].Value;
@@ -410,8 +426,6 @@ public partial class GoCliScraper : CliScraperBase
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
             });
         }
-
-        return options;
     }
 
     /// <summary>

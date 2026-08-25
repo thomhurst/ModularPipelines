@@ -238,26 +238,34 @@ public partial class GcloudCliScraper : CliScraperBase
                 continue;
             }
 
-            if (!option.IsFlag
-                && option.CSharpType is not ("bool" or "bool?")
-                && !option.AcceptsMultipleValues
-                && !ShouldTreatOptionAsScalar(commandParts, option.SwitchName)
-                && HelpDeclaresRepeatableOption(
-                    helpText,
-                    option.SwitchName,
-                    option.Description ?? string.Empty))
-            {
-                option = option with
-                {
-                    AcceptsMultipleValues = true,
-                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
-                };
-            }
-
-            options.Add(option);
+            options.Add(NormalizeRepeatability(option, helpText, commandParts));
         }
 
         return (options, [argumentGroup]);
+    }
+
+    private CliOptionDefinition NormalizeRepeatability(
+        CliOptionDefinition option,
+        string helpText,
+        IReadOnlyList<string> commandParts)
+    {
+        if (option.IsFlag
+            || option.CSharpType is "bool" or "bool?"
+            || option.AcceptsMultipleValues
+            || ShouldTreatOptionAsScalar(commandParts, option.SwitchName)
+            || !HelpDeclaresRepeatableOption(
+                helpText,
+                option.SwitchName,
+                option.Description ?? string.Empty))
+        {
+            return option;
+        }
+
+        return option with
+        {
+            AcceptsMultipleValues = true,
+            CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+        };
     }
 
     private static CliOptionDefinition? CreateOption(CliArgumentDefinition argument)

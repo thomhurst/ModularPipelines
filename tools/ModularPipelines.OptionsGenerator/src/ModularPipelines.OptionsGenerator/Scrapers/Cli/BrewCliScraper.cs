@@ -469,7 +469,7 @@ public partial class BrewCliScraper : CliScraperBase
             // Determine if it's a flag or takes a value
             // Homebrew options are mostly flags unless they mention a value in description
             var isFlag = !hasInlineValue &&
-                         !descriptionPart.Contains("=") &&
+                         !descriptionPart.Contains('=') &&
                          !DescriptionSuggestsValue().IsMatch(descriptionPart);
 
             var csharpType = isFlag ? "bool?" : "string?";
