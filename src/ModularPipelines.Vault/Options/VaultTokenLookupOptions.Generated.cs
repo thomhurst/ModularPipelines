@@ -24,6 +24,7 @@ public record VaultTokenLookupOptions : VaultOptions
     /// <summary>
     /// The TOKEN operand.
     /// </summary>
+    [SecretValue]
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Token { get; set; }
 
