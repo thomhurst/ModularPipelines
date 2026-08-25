@@ -22,10 +22,8 @@ public record KustomizeCfgCatOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Dir
 ) : KustomizeOptions
 {
-    /// <summary>
-    /// Creates compatibility options without the newly required directory operand.
-    /// </summary>
-    public KustomizeCfgCatOptions() : this(string.Empty)
+    public KustomizeCfgCatOptions()
+        : this(string.Empty)
     {
     }
 
