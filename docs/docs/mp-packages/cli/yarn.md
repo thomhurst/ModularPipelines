@@ -44,6 +44,7 @@ var yarn = context.Tools.Yarn;
 | `yarn constraints query` | `YarnConstraintsQueryOptions` |
 | `yarn constraints source` | `YarnConstraintsSourceOptions` |
 | `yarn dedupe` | `YarnDedupeOptions` |
+| `yarn dlx` | `YarnDlxOptions` |
 | `yarn exec` | `YarnExecOptions` |
 | `yarn explain` | `YarnExplainOptions` |
 | `yarn info` | `YarnInfoOptions` |
