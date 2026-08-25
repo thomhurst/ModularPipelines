@@ -615,6 +615,16 @@ internal static class GeneratedApiCompatibilityPreserver
             tool,
             commandBaseline,
             commandFacadeMethods);
+        if (commandFacadeMethods.Length == 0)
+        {
+            groupIdentifier = GetHistoricalSiblingRootIdentifier(
+                                  tool,
+                                  commandBaseline,
+                                  baseline,
+                                  facadeMethods)
+                              ?? groupIdentifier;
+        }
+
         var recoveredOverrides = GetRestoredCommandPartIdentifierOverrides(
             tool,
             commandBaseline.CommandParts,
@@ -637,6 +647,37 @@ internal static class GeneratedApiCompatibilityPreserver
             CommandGroupIdentifierOverride = commandGroupIdentifierOverride,
             CommandPartIdentifierOverrides = mergedOverrides,
         };
+    }
+
+    private static string? GetHistoricalSiblingRootIdentifier(
+        CliToolDefinition tool,
+        GeneratedApiBaseline commandBaseline,
+        IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+    {
+        var rootCommand = commandBaseline.CommandParts?[0];
+        if (rootCommand is null)
+        {
+            return null;
+        }
+
+        var identifiers = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var method in facadeMethods)
+        {
+            if (!baseline.TryGetValue(method.OptionsType, out var methodBaseline)
+                || methodBaseline.CommandParts is not { Length: > 0 } commandParts
+                || !commandParts[0].Equals(rootCommand, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            if (GetRootIdentifierFromFacade(tool, commandParts, method) is { } identifier)
+            {
+                identifiers.Add(identifier);
+            }
+        }
+
+        return identifiers.Count == 1 ? identifiers.Single() : null;
     }
 
     private static CliCommandDefinition PreserveCommandScopedEnumCasing(
