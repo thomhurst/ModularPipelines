@@ -333,6 +333,14 @@ public partial class BrewCliScraper : CliScraperBase
             [
                 RequiredArgument("CaskOrName", 0),
             ],
+            ["unlink"] =>
+            [
+                RequiredArgument("InstalledFormula", 0) with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsVariadic = true,
+                },
+            ],
             _ => arguments,
         };
 

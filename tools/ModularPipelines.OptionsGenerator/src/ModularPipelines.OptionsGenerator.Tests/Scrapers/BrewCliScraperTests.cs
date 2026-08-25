@@ -140,6 +140,25 @@ public class BrewCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Models_Unlink_Installed_Formulae_As_A_Required_Collection()
+    {
+        const string helpText = "Usage: brew unlink [--dry-run] installed_formula [...]";
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "unlink"],
+            helpText);
+        var operand = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("InstalledFormula");
+            await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+        }
+    }
+
     private sealed class TestBrewCliScraper : BrewCliScraper
     {
         public TestBrewCliScraper(ICliCommandExecutor? executor = null)
