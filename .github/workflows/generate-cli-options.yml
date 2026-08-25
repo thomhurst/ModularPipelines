@@ -814,8 +814,12 @@ jobs:
       - name: Install WinGet
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'winget'
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          # WinGet is pre-installed on windows-latest (Windows Server 2022)
+          Install-Module Microsoft.WinGet.Client -Repository PSGallery -Scope CurrentUser -Force
+          Import-Module Microsoft.WinGet.Client -Force
+          Repair-WinGetPackageManager -Latest -Force
           winget --version
 
       - name: Pin resolved executable for scraper
