@@ -225,6 +225,7 @@ public class GitCliScraperTests
                 --[no-]recurse-submodules[=<on-demand>]         control recursive fetching
                 --[no-]signed[=(yes|no|if-asked)]               GPG sign the request
                 --[no-]chmod (+|-)x                             override the executable bit
+                --[no-]resolvemsg ...                           override error message
             """;
         using var scraper = new TestGitCliScraper();
         var command = await scraper.Parse(["git", "fetch"], helpText);
@@ -245,6 +246,14 @@ public class GitCliScraperTests
                 .IsEqualTo(CliOptionValueArity.Required);
             await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").ValueSeparator)
                 .IsEqualTo(" ");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").ValueSeparator)
+                .IsEqualTo(" ");
             await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueArity)
                 .IsEqualTo(CliOptionValueArity.Optional);
             await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueSeparator)
@@ -254,7 +263,7 @@ public class GitCliScraperTests
             await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").ValueSeparator)
                 .IsEqualTo("=");
             await Assert.That(command.Options
-                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed" or "--no-chmod")
+                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed" or "--no-chmod" or "--no-resolvemsg")
                     .All(option => option is
                     {
                         IsFlag: true,
