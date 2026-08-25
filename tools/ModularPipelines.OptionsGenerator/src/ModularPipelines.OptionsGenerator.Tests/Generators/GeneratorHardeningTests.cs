@@ -4759,6 +4759,49 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Removed_Nested_Root_Facade()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolPinInstalled_formulaOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"pin\", \"installed_formula\")] "
+                + "public record ToolPinInstalled_formulaOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "Tool.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class Tool { "
+                + "public Task PinInstalled_formulaAsync(ToolPinInstalled_formulaOptions? options = null) "
+                + "=> Task.CompletedTask; }");
+            var current = Command("ToolPinOptions", "ToolOptions", ["pin"]);
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(current), root);
+            var restored = preserved.Commands.Single(command =>
+                command.ClassName == "ToolPinInstalled_formulaOptions");
+            var generated = (await new ServiceImplementationGenerator().GenerateAsync(preserved))
+                .Single(file => file.RelativePath.EndsWith("Tool.Generated.cs", StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restored.SubDomainGroup).IsNull();
+                await Assert.That(restored.PreserveRootNamedFacade).IsTrue();
+                await Assert.That(generated).Contains("PinInstalled_formulaAsync(");
+                await Assert.That(generated)
+                    .Contains("ToolPinInstalled_formulaOptions? options = null");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Keeps_Literal_Execute_When_It_Gains_Children()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
@@ -4961,7 +5004,7 @@ public class GeneratorHardeningTests
                 Kind: CliCompatibilityForwardingKind.ScalarToCollection),
         };
 
-        foreach (var testCase in cases)
+        foreach (var (TargetName, TargetType, AliasName, AliasType, Kind) in cases)
         {
             var command = Command("ToolPushOptions", "ToolOptions", ["push"]) with
             {
@@ -4970,31 +5013,31 @@ public class GeneratorHardeningTests
                     new CliOptionDefinition
                     {
                         SwitchName = "--output",
-                        PropertyName = testCase.AliasName,
-                        CSharpType = testCase.TargetType,
-                        AcceptsMultipleValues = testCase.Kind == CliCompatibilityForwardingKind.ScalarToCollection,
+                        PropertyName = AliasName,
+                        CSharpType = TargetType,
+                        AcceptsMultipleValues = Kind == CliCompatibilityForwardingKind.ScalarToCollection,
                     },
                 ],
             };
             var preserved = GeneratedApiCompatibilityPreserver.Preserve(
                 command,
                 [
-                    BaselineProperty(testCase.TargetName, testCase.TargetType, switchName: "--output"),
+                    BaselineProperty(TargetName, TargetType, switchName: "--output"),
                     BaselineProperty(
-                        testCase.AliasName,
-                        testCase.AliasType,
+                        AliasName,
+                        AliasType,
                         isCompatibility: true,
-                        forwardToPropertyName: testCase.TargetName,
-                        forwardingKind: testCase.Kind),
+                        forwardToPropertyName: TargetName,
+                        forwardingKind: Kind),
                 ]);
             var alias = preserved.CompatibilityProperties.Single(property =>
-                property.PropertyName == testCase.AliasName);
+                property.PropertyName == AliasName);
 
             using (Assert.Multiple())
             {
-                await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo(testCase.TargetName);
-                await Assert.That(alias.ForwardToPropertyName).IsEqualTo(testCase.TargetName);
-                await Assert.That(alias.ForwardingKind).IsEqualTo(testCase.Kind);
+                await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo(TargetName);
+                await Assert.That(alias.ForwardToPropertyName).IsEqualTo(TargetName);
+                await Assert.That(alias.ForwardingKind).IsEqualTo(Kind);
             }
         }
     }
@@ -5494,7 +5537,7 @@ public class GeneratorHardeningTests
     [Test]
     public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()
     {
-        CliEnumDefinition EnumDef(string name) => new()
+        static CliEnumDefinition EnumDef(string name) => new()
         {
             EnumName = name,
             Values = [new CliEnumValue { MemberName = "Json", CliValue = "json" }],

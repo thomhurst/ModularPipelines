@@ -46,10 +46,9 @@ internal static class GeneratedApiCompatibilityPreserver
         MergeCurrentAliasEnumValues(tool, enumBaseline);
         tool = tool with
         {
-            CompatibilityEnums = tool.CompatibilityEnums
+            CompatibilityEnums = [.. tool.CompatibilityEnums
                 .Concat(enumBaseline.Values)
-                .DistinctBy(static definition => definition.EnumName)
-                .ToArray(),
+                .DistinctBy(static definition => definition.EnumName)],
         };
         var compatibleTool = baseline.TryGetValue($"{tool.NamespacePrefix}Options", out var globalBaseline)
             ? PreserveGlobalOptions(tool, globalBaseline.Properties)
@@ -97,7 +96,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var commandGlobalCompatibilityProperties = compatibleTool.GlobalCompatibilityProperties;
         var preservedTool = compatibleTool with
         {
-            Commands = commands
+            Commands = [.. commands
                 .Select(command => baseline.TryGetValue(command.ClassName, out var commandBaseline)
                     ? Preserve(
                         command,
@@ -123,8 +122,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
                     : command)
-                .Select(command => PreserveFacadeMethodCasing(command, facadeMethods))
-                .ToArray(),
+                .Select(command => PreserveFacadeMethodCasing(command, facadeMethods))],
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
@@ -142,7 +140,7 @@ internal static class GeneratedApiCompatibilityPreserver
             .GroupBy(static method => method.OptionsType, StringComparer.Ordinal)
             .ToDictionary(
                 static group => group.Key,
-                static group => (IReadOnlyList<GeneratedFacadeMethod>) group.ToArray(),
+                static group => (IReadOnlyList<GeneratedFacadeMethod>) [.. group],
                 StringComparer.Ordinal);
         foreach (var commandBaseline in baseline.Values
                      .Where(command => command.CommandParts is { Length: > 0 }
@@ -220,7 +218,12 @@ internal static class GeneratedApiCompatibilityPreserver
     {
         var commandParts = baseline.CommandParts!;
         var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline, facadeMethods);
-        var subDomainGroup = commandParts.Length > 1
+        var preserveRootNamedFacade = facadeMethods.Any(method =>
+            IsRootFacadeMethod(tool, method)
+            && IsNamedFacadeMethod(tool, method));
+        var currentRootMethodName = GeneratorUtils.EnsureAsyncSuffix(
+            GeneratorUtils.GenerateMethodNameFromCommandParts(commandParts));
+        var subDomainGroup = commandParts.Length > 1 && !preserveRootNamedFacade
             ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
             : null;
 
@@ -235,8 +238,19 @@ internal static class GeneratedApiCompatibilityPreserver
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
+            CompatibilityMethods = [.. facadeMethods
+                .Where(method => IsRootFacadeMethod(tool, method)
+                                 && IsNamedFacadeMethod(tool, method))
+                .Select(method => new CliCompatibilityMethod
+                {
+                    MethodName = method.MethodName,
+                    ObsoleteMessage = $"Use {currentRootMethodName} instead.",
+                })
+                .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)],
             SubDomainGroup = subDomainGroup,
-            CommandGroupIdentifierOverride = commandParts.Length > 1 ? groupIdentifier : null,
+            CommandGroupIdentifierOverride = commandParts.Length > 1 && !preserveRootNamedFacade
+                ? groupIdentifier
+                : null,
             CommandPartIdentifierOverrides = GetRestoredCommandPartIdentifierOverrides(
                 tool,
                 commandParts,
@@ -246,9 +260,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 GetFacadeImplementationType(tool, method),
                 method)),
             PreserveNamedFacade = facadeMethods.Any(method => IsNamedFacadeMethod(tool, method)),
-            PreserveRootNamedFacade = facadeMethods.Any(method =>
-                IsRootFacadeMethod(tool, method)
-                && IsNamedFacadeMethod(tool, method)),
+            PreserveRootNamedFacade = preserveRootNamedFacade,
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
     }
@@ -317,9 +329,7 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             var recoveredIdentifiers = SplitRecoveredIdentifiers(
                 baseline.ClassName[tool.NamespacePrefix.Length..^"Options".Length],
-                baseline.CommandParts!
-                    .Select(GeneratorUtils.ToPascalCase)
-                    .ToArray());
+                [.. baseline.CommandParts!.Select(GeneratorUtils.ToPascalCase)]);
             if (recoveredIdentifiers is not null)
             {
                 return recoveredIdentifiers[0];
@@ -377,7 +387,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 continue;
             }
 
-            recoveredOverrides ??= new Dictionary<int, string>();
+            recoveredOverrides ??= [];
             foreach (var (partIndex, identifier) in candidate)
             {
                 if (recoveredOverrides.TryGetValue(partIndex, out var recoveredIdentifier)
@@ -390,7 +400,7 @@ internal static class GeneratedApiCompatibilityPreserver
             }
         }
 
-        return recoveredOverrides ?? new Dictionary<int, string>();
+        return recoveredOverrides ?? [];
     }
 
     private static Dictionary<int, string>? GetRecoveredCommandPartIdentifierOverrides(
@@ -540,7 +550,7 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static CliOptionDefinition[] RestoreRemovedOptions(
         IEnumerable<GeneratedApiProperty> properties) =>
-        properties
+        [.. properties
             .Where(static property => !property.IsCompatibility && property.SwitchName is not null)
             .Select(static property => new CliOptionDefinition
             {
@@ -558,12 +568,11 @@ internal static class GeneratedApiCompatibilityPreserver
                 IsSecret = property.IsSecret,
                 SecretValueKeys = property.SecretValueKeys ?? [],
                 ValidationConstraints = property.ValidationConstraints,
-            })
-            .ToArray();
+            })];
 
     private static CliPositionalArgument[] RestoreRemovedPositionalArguments(
         IEnumerable<GeneratedApiProperty> properties) =>
-        properties
+        [.. properties
             .Where(static property => !property.IsCompatibility && property.ArgumentPosition is not null)
             .Select(static property => new CliPositionalArgument
             {
@@ -576,12 +585,11 @@ internal static class GeneratedApiCompatibilityPreserver
                 PrependOptionTerminatorIfValueStartsWithDash =
                     property.PrependOptionTerminatorIfValueStartsWithDash,
                 IsSecret = property.IsSecret,
-            })
-            .ToArray();
+            })];
 
     private static CliCompatibilityProperty[] RestoreRemovedCompatibilityProperties(
         IEnumerable<GeneratedApiProperty> properties) =>
-        properties
+        [.. properties
             .Where(static property => property.IsCompatibility)
             .Select(static property => new CliCompatibilityProperty
             {
@@ -592,8 +600,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 ForwardingKind = property.ForwardingKind,
                 ObsoleteMessage = property.ObsoleteMessage
                     ?? $"{property.PropertyName} is retained for compatibility.",
-            })
-            .ToArray();
+            })];
 
     private static CliCommandDefinition PreserveIdentifierCasing(
         CliToolDefinition tool,
@@ -721,18 +728,16 @@ internal static class GeneratedApiCompatibilityPreserver
 
         return preserved with
         {
-            Enums = preserved.Enums.Select(Rename).ToArray(),
-            Options = preserved.Options.Select(option => RenameOptionEnum(
+            Enums = [.. preserved.Enums.Select(Rename)],
+            Options = [.. preserved.Options.Select(option => RenameOptionEnum(
                     option,
                     enumRenames,
-                    option.EnumDefinition is null ? null : Rename(option.EnumDefinition)))
-                .ToArray(),
-            CompatibilityProperties = preserved.CompatibilityProperties
+                    option.EnumDefinition is null ? null : Rename(option.EnumDefinition)))],
+            CompatibilityProperties = [.. preserved.CompatibilityProperties
                 .Select(property => property with
                 {
                     CSharpType = RenameEnumType(property.CSharpType, enumRenames),
-                })
-                .ToArray(),
+                })],
         };
     }
 
@@ -833,10 +838,9 @@ internal static class GeneratedApiCompatibilityPreserver
 
         return command with
         {
-            CompatibilityMethods = command.CompatibilityMethods
+            CompatibilityMethods = [.. command.CompatibilityMethods
                 .Concat(compatibilityMethods)
-                .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)
-                .ToArray(),
+                .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)],
         };
     }
 
@@ -980,13 +984,8 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         var canonicalProperty = canonicalProperties.FirstOrDefault(property =>
-            property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
-        if (canonicalProperty is null)
-        {
-            throw new InvalidOperationException(
+            property.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal)) ?? throw new InvalidOperationException(
                 $"Cannot retain alias property {baselineProperty.PropertyName} because the canonical property is missing.");
-        }
-
         EnsureAliasPropertyCanForward(baselineProperty, canonicalProperty, enumBaseline);
         var supplied = compatibilityProperties.FirstOrDefault(existing =>
             existing.PropertyName.Equals(baselineProperty.PropertyName, StringComparison.Ordinal));
@@ -1200,9 +1199,8 @@ internal static class GeneratedApiCompatibilityPreserver
         RetargetCompatibilityProperties(compatibilityProperties, renamedProperties);
         ResolveCompatibilityForwardingTargets(
             compatibilityProperties,
-            GetCurrentProperties(positionalArguments, options)
-                .Concat((globalOptions ?? []).Select(ToGeneratedProperty))
-                .ToArray(),
+            [.. GetCurrentProperties(positionalArguments, options)
+, .. (globalOptions ?? []).Select(ToGeneratedProperty)],
             globalCompatibilityProperties ?? []);
 
         if (violations.Count > 0)
@@ -1775,7 +1773,7 @@ internal static class GeneratedApiCompatibilityPreserver
             livePropertyNames.Add(baseline.PropertyName);
         }
 
-        return restored.ToArray();
+        return [.. restored];
     }
 
     private static bool OccupiesSamePositionalSlot(
@@ -2563,9 +2561,7 @@ internal static class GeneratedApiCompatibilityPreserver
         PreserveCompatibilityConstructors(
             baselineProperties,
             baselineConstructors,
-            GetCurrentProperties(positionalArguments, options)
-                .Where(static property => property.IsRequired)
-                .ToArray(),
+            [.. GetCurrentProperties(positionalArguments, options).Where(static property => property.IsRequired)],
             compatibilityConstructors,
             allowNewRequiredMembers: true);
 
@@ -2643,12 +2639,11 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyList<GeneratedApiProperty> currentRequired) =>
         constructor with
         {
-            PrimaryConstructorArguments = currentRequired
+            PrimaryConstructorArguments = [.. currentRequired
                 .Select(current => GetPreservedPrimaryConstructorArgument(
                     constructor,
                     baselineRequired,
-                    current))
-                .ToArray(),
+                    current))],
         };
 
     private static string GetPreservedPrimaryConstructorArgument(
@@ -2684,12 +2679,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         constructor = constructor with
         {
-            PrimaryConstructorArguments = constructor.PrimaryConstructorArguments
+            PrimaryConstructorArguments = [.. constructor.PrimaryConstructorArguments
                 .Select((argument, index) => argument.Equals("default!", StringComparison.Ordinal)
                                              && index < currentRequired.Count
                     ? GetTypedDefault(currentRequired[index].CSharpType)
-                    : argument)
-                .ToArray(),
+                    : argument)],
         };
 
         var existing = constructors.FirstOrDefault(candidate => HasSameConstructorSignature(
@@ -2805,9 +2799,8 @@ internal static class GeneratedApiCompatibilityPreserver
     private static GeneratedApiProperty[] GetCurrentProperties(
         IEnumerable<CliPositionalArgument> positionalArguments,
         IEnumerable<CliOptionDefinition> options) =>
-        options.Select(ToGeneratedProperty)
-            .Concat(positionalArguments.Select(ToGeneratedProperty))
-            .ToArray();
+        [.. options.Select(ToGeneratedProperty)
+, .. positionalArguments.Select(ToGeneratedProperty)];
 
     private static GeneratedApiProperty ToGeneratedProperty(CliPositionalArgument argument) =>
         new(
@@ -3040,10 +3033,9 @@ internal static class GeneratedApiCompatibilityPreserver
 
             enumBaseline[pair.Key] = pair.Value with
             {
-                Values = pair.Value.Values
+                Values = [.. pair.Value.Values
                     .Concat(currentValues)
-                    .DistinctBy(static value => value.CliValue, StringComparer.Ordinal)
-                    .ToArray(),
+                    .DistinctBy(static value => value.CliValue, StringComparer.Ordinal)],
             };
         }
     }
@@ -3059,13 +3051,12 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static CliCompatibilityConstructor[] ReadCompatibilityConstructors(
         RecordDeclarationSyntax declaration) =>
-        declaration.Members
+        [.. declaration.Members
             .OfType<ConstructorDeclarationSyntax>()
             .Where(constructor => constructor.Modifiers.Any(SyntaxKind.PublicKeyword))
             .Where(constructor => constructor.Initializer?.IsKind(
                 SyntaxKind.ThisConstructorInitializer) == true)
-            .Select(constructor => ReadCompatibilityConstructor(declaration, constructor))
-            .ToArray();
+            .Select(constructor => ReadCompatibilityConstructor(declaration, constructor))];
 
     private static CliCompatibilityConstructor ReadCompatibilityConstructor(
         RecordDeclarationSyntax declaration,
@@ -3079,9 +3070,7 @@ internal static class GeneratedApiCompatibilityPreserver
         return new CliCompatibilityConstructor
         {
             Parameters = parameters,
-            PrimaryConstructorArguments = constructor.Initializer!.ArgumentList.Arguments
-                .Select(argument => argument.Expression.ToString())
-                .ToArray(),
+            PrimaryConstructorArguments = [.. constructor.Initializer!.ArgumentList.Arguments.Select(argument => argument.Expression.ToString())],
             PreserveDeconstruct = HasMatchingDeconstruct(declaration, parameters),
         };
     }
@@ -3162,9 +3151,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 SearchOption.TopDirectoryOnly)
             .Where(IsGeneratedBaselineFile)
             .Select(File.ReadAllText);
-        return ReadFacadeMethods(sources, targetNamespace)
-            .Where(method => IsFacadeOwnedByTool(method, namespacePrefix, baseline))
-            .ToArray();
+        return [.. ReadFacadeMethods(sources, targetNamespace).Where(method => IsFacadeOwnedByTool(method, namespacePrefix, baseline))];
     }
 
     private static bool IsFacadeOwnedByTool(
