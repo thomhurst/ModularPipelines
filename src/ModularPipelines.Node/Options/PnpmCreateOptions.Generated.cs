@@ -26,4 +26,10 @@ public record PnpmCreateOptions : PnpmOptions
     [CliOption("--allow-build")]
     public string? AllowBuild { get; set; }
 
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
 }
