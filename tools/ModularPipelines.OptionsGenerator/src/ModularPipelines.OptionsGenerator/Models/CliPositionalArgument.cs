@@ -107,6 +107,12 @@ public record CliPositionalArgument
     public bool PrependOptionTerminatorIfValueStartsWithDash { get; init; }
 
     /// <summary>
+    /// Allows an intentional rendering-phase migration for an existing generated operand.
+    /// The compatibility guard still requires the same property name, type, and position.
+    /// </summary>
+    public bool AllowRenderingPhaseMigrationFromBaseline { get; init; }
+
+    /// <summary>
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.
     /// </summary>
     public bool IsSecret { get; init; }

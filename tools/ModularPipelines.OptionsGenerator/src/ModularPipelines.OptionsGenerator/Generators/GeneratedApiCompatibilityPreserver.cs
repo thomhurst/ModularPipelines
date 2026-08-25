@@ -1140,6 +1140,14 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties,
             renamedProperties,
             violations);
+        preservedTypeChanges.UnionWith(PreserveOptionalValueArityChanges(
+            command,
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties,
+            renamedProperties,
+            violations));
         RestoreBaselinePropertyShapes(
             baselineProperties,
             preservedTypeChanges,
@@ -1479,6 +1487,86 @@ internal static class GeneratedApiCompatibilityPreserver
         }
 
         return preserved;
+    }
+
+    private static HashSet<string> PreserveOptionalValueArityChanges(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliOptionDefinition[] options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
+        ICollection<string> violations)
+    {
+        var preserved = new HashSet<string>(StringComparer.Ordinal);
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property =>
+                     !property.IsRequired
+                     && property.CSharpType is "string?" or "int?"
+                     && property.SwitchName?.Contains('[', StringComparison.Ordinal) == true))
+        {
+            var optionIndex = Array.FindIndex(options, option =>
+                option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && option.ValueArity == CliOptionValueArity.Optional
+                && NormalizeCliSwitchIdentity(baseline.SwitchName!)
+                    .Equals(option.SwitchName, StringComparison.Ordinal));
+            if (optionIndex < 0)
+            {
+                continue;
+            }
+
+            var replacementName = GetUniqueReplacementName(
+                $"{baseline.PropertyName}Option",
+                propertyNames);
+            propertyNames.Add(replacementName);
+            options[optionIndex] = options[optionIndex] with { PropertyName = replacementName };
+            PreserveCompatibilityProperty(
+                command,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = baseline.PropertyName,
+                    CSharpType = baseline.CSharpType,
+                    ForwardToPropertyName = replacementName,
+                    ForwardingKind = baseline.CSharpType.Equals("int?", StringComparison.Ordinal)
+                        ? CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue
+                        : CliCompatibilityForwardingKind.NullableStringToCliOptionValue,
+                    ObsoleteMessage = $"Use {replacementName} instead.",
+                },
+                compatibilityProperties,
+                violations);
+            renamedProperties[baseline.PropertyName] = replacementName;
+            preserved.Add(baseline.PropertyName);
+        }
+
+        return preserved;
+    }
+
+    private static string NormalizeCliSwitchIdentity(string switchName)
+    {
+        var optionalValueStart = switchName.IndexOf('[', StringComparison.Ordinal);
+        if (optionalValueStart >= 0)
+        {
+            return switchName[..optionalValueStart];
+        }
+
+        var placeholderStart = switchName.IndexOf('<', StringComparison.Ordinal);
+        if (placeholderStart < 0)
+        {
+            return switchName;
+        }
+
+        var switchEnd = placeholderStart;
+        while (switchEnd > 0 && (switchName[switchEnd - 1] == '='
+                                 || char.IsWhiteSpace(switchName[switchEnd - 1])))
+        {
+            switchEnd--;
+        }
+
+        return switchName[..switchEnd];
     }
 
     private static void RestoreBaselinePropertyShapes(
@@ -2047,6 +2135,7 @@ internal static class GeneratedApiCompatibilityPreserver
         {
             "string" => CliCompatibilityForwardingKind.NullableStringToRequiredString,
             "IEnumerable<string>?" => CliCompatibilityForwardingKind.ScalarToCollection,
+            "CliOptionValue?" => CliCompatibilityForwardingKind.NullableStringToCliOptionValue,
             _ => null,
         };
     }
@@ -2128,12 +2217,27 @@ internal static class GeneratedApiCompatibilityPreserver
             return;
         }
 
-        if (!HasCompatibleCliIdentity(current, baseline))
+        if (!HasCompatibleCliIdentity(current, baseline)
+            && !AllowsRenderingPhaseMigration(command, current, baseline))
         {
             violations.Add(
                 $"{command.ClassName}.{baseline.PropertyName} changed CLI switch or argument position");
         }
     }
+
+    private static bool AllowsRenderingPhaseMigration(
+        CliCommandDefinition command,
+        GeneratedApiProperty current,
+        GeneratedApiProperty baseline) =>
+        current.ArgumentPosition is not null
+        && baseline.ArgumentPosition is not null
+        && current.ArgumentPosition == baseline.ArgumentPosition
+        && (!baseline.PrependOptionTerminator || current.PrependOptionTerminator)
+        && (!baseline.PrependOptionTerminatorIfValueStartsWithDash
+            || current.PrependOptionTerminatorIfValueStartsWithDash)
+        && command.PositionalArguments.Any(argument =>
+            argument.AllowRenderingPhaseMigrationFromBaseline
+            && argument.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal));
 
     private static bool ValidateMatchingPropertyShape(
         CliCommandDefinition command,
@@ -2683,7 +2787,11 @@ internal static class GeneratedApiCompatibilityPreserver
 
         if (left.SwitchName is not null || right.SwitchName is not null)
         {
-            return left.SwitchName?.Equals(right.SwitchName, StringComparison.Ordinal) == true;
+            return left.SwitchName is not null
+                   && right.SwitchName is not null
+                   && NormalizeCliSwitchIdentity(left.SwitchName).Equals(
+                       NormalizeCliSwitchIdentity(right.SwitchName),
+                       StringComparison.Ordinal);
         }
 
         return true;
@@ -3305,6 +3413,18 @@ internal static class GeneratedApiCompatibilityPreserver
                 CliCompatibilityForwardingKind.ScalarToCollection);
         }
 
+        if (expression is ConditionalAccessExpressionSyntax
+            {
+                Expression: IdentifierNameSyntax optionValue,
+                WhenNotNull: MemberBindingExpressionSyntax optionValueMember,
+            }
+            && optionValueMember.Name.Identifier.ValueText.Equals("Value", StringComparison.Ordinal))
+        {
+            return (
+                optionValue.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableStringToCliOptionValue);
+        }
+
         if (TryGetNullableInt32Forwarding(expression, setterExpression, out var forwarding))
         {
             return forwarding;
@@ -3357,6 +3477,19 @@ internal static class GeneratedApiCompatibilityPreserver
             forwarding = (
                 collectionTarget.Identifier.ValueText,
                 CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+            return true;
+        }
+
+        if (arguments[0].Expression is ConditionalAccessExpressionSyntax
+            {
+                Expression: IdentifierNameSyntax optionValueTarget,
+                WhenNotNull: MemberBindingExpressionSyntax optionValueMember,
+            }
+            && optionValueMember.Name.Identifier.ValueText.Equals("Value", StringComparison.Ordinal))
+        {
+            forwarding = (
+                optionValueTarget.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
             return true;
         }
 

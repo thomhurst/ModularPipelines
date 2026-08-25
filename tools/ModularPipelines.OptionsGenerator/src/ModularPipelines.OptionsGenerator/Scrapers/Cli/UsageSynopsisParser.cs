@@ -132,7 +132,7 @@ public static class UsageSynopsisParser
         UsageSynopsisParseResult result)
     {
         var positionalArguments = result.PositionalArguments
-            .Where(argument => !CommandGroupPlaceholderNames.Contains(argument.PropertyName))
+            .Where(argument => !IsCommandGroupPlaceholder(argument))
             .ToList();
 
         return result with
@@ -141,6 +141,9 @@ public static class UsageSynopsisParser
             PositionalArguments = positionalArguments,
         };
     }
+
+    internal static bool IsCommandGroupPlaceholder(CliPositionalArgument argument) =>
+        CommandGroupPlaceholderNames.Contains(argument.PropertyName);
 
     private static UsageSynopsisParseResult ParseSynopsis(
         string synopsis,

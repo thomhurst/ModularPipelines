@@ -33,6 +33,31 @@ public class DockerCliScraper : CobraCliScraper
         DockerCliCompatibility.DetectCommandGroupAlias(commandPath, helpText);
 
     /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        IsBuildxCommandGroup(command.CommandParts)
+            ? UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage)
+            : usage;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        IsBuildxCommandGroup(commandParts)
+            ? positionalArguments
+                .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
+                .ToArray()
+            : positionalArguments;
+
+    private static bool IsBuildxCommandGroup(IReadOnlyList<string> commandParts) =>
+        commandParts is ["buildx"]
+        or ["buildx", "dap"]
+        or ["buildx", "history"]
+        or ["buildx", "imagetools"]
+        or ["buildx", "policy"];
+
+    /// <inheritdoc />
     protected override string NormalizeOptionSwitchName(
         string[] commandParts,
         string switchName) =>

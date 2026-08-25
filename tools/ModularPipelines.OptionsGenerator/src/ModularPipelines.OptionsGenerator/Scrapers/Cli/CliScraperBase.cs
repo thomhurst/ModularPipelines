@@ -475,6 +475,7 @@ public abstract partial class CliScraperBase : ICliScraper
         usage = NormalizeUsageSynopsis(command, usage);
         command = command with
         {
+            HasOperandTakingUsage = usage.HasOperandTokens,
             UsagePositionalArguments = usage.PositionalArguments,
         };
         command.ValidateOperandCoverage(
