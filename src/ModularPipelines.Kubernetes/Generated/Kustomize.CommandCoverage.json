@@ -1,6 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "kustomize",
+  "toolVersion": "v5.8.1",
   "commandCount": 45,
   "commandTreeSha256": "0ae36cae52a7633cdaf6161528ae7819e41d2855a07443c9b69a53279326fb08",
   "commands": [

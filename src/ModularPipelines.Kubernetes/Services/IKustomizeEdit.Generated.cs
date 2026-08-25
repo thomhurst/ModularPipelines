@@ -24,17 +24,17 @@ public interface IKustomizeEdit
     /// <summary>
     /// kustomize add sub-commands.
     /// </summary>
-    KustomizeEditAdd Add { get; }
+    KustomizeEditAdd Add => throw new System.NotSupportedException();
 
     /// <summary>
     /// kustomize remove sub-commands.
     /// </summary>
-    KustomizeEditRemove Remove { get; }
+    KustomizeEditRemove Remove => throw new System.NotSupportedException();
 
     /// <summary>
     /// kustomize set sub-commands.
     /// </summary>
-    KustomizeEditSet Set { get; }
+    KustomizeEditSet Set => throw new System.NotSupportedException();
 
     /// <summary>
     /// Edits a kustomization file
@@ -43,7 +43,7 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(KustomizeEditOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ExecuteAsync(KustomizeEditOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -53,7 +53,7 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlphaListBuiltinPluginAsync(KustomizeEditAlphaListBuiltinPluginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AlphaListBuiltinPluginAsync(KustomizeEditAlphaListBuiltinPluginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -63,7 +63,7 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FixAsync(KustomizeEditFixOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> FixAsync(KustomizeEditFixOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }
