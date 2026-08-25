@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdClusterRotateAuthRedisCompress
 {
     [EnumValue("gzip")]
-    Gzip,
+    Gzip = 0,
 
     [EnumValue("none")]
-    None
+    None = 1
 }

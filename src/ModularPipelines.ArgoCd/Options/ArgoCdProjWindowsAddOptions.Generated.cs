@@ -78,6 +78,12 @@ public record ArgoCdProjWindowsAddOptions(
     public string? Schedule { get; set; }
 
     /// <summary>
+    /// Allow syncs to continue: for deny windows, syncs that started before the window; for allow windows, syncs that started during the window
+    /// </summary>
+    [CliFlag("--sync-overrun")]
+    public bool? SyncOverrun { get; set; }
+
+    /// <summary>
     /// Time zone of the sync window (default "UTC")
     /// </summary>
     [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]

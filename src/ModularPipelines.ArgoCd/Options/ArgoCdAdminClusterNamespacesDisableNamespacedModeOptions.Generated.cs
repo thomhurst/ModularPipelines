@@ -99,7 +99,7 @@ public record ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions(
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request
@@ -307,5 +307,12 @@ public record ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

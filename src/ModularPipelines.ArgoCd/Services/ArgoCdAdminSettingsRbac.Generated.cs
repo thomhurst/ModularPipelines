@@ -32,6 +32,21 @@ public class ArgoCdAdminSettingsRbac
     #region Commands
 
     /// <summary>
+    /// Validate and test RBAC configuration
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminSettingsRbacOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminSettingsRbacOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Check whether a given role or subject has appropriate RBAC permissions to do
     /// </summary>
     /// <param name="options">The command options.</param>

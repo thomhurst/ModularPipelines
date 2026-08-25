@@ -24,6 +24,12 @@ public record ArgoCdAppLogsOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// Optional container name
     /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]

@@ -30,6 +30,12 @@ public record ArgoCdAppPatchResourceOptions(
     public bool? All { get; set; }
 
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// Group
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]

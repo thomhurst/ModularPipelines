@@ -91,7 +91,7 @@ public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request
@@ -300,10 +300,23 @@ public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
+    /// <summary>
+    /// The CLUSTER_URL operand.
+    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ClusterUrl { get; set; }
 
+    /// <summary>
+    /// The OUTPUT_PATH operand.
+    /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? OutputPath { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

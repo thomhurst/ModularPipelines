@@ -31,6 +31,12 @@ public record ArgoCdAppActionsRunOptions(
     public bool? All { get; set; }
 
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// Group of the resource on which the action should be run
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]

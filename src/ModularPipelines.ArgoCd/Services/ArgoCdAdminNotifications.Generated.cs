@@ -44,4 +44,23 @@ public class ArgoCdAdminNotifications
     public ArgoCdAdminNotificationsTrigger Trigger => _trigger ??= new ArgoCdAdminNotificationsTrigger(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Set of CLI commands that helps manage notifications settings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminNotificationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminNotificationsOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

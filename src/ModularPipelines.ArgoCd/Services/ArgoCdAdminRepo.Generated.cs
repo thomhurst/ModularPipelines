@@ -32,6 +32,21 @@ public class ArgoCdAdminRepo
     #region Commands
 
     /// <summary>
+    /// Manage repositories configuration
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminRepoOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminRepoOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Generate declarative config for a repo
     /// </summary>
     /// <param name="options">The command options.</param>
