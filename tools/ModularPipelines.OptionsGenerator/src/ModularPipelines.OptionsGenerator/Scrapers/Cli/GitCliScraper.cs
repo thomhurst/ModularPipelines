@@ -480,7 +480,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             if (string.IsNullOrEmpty(option.Description)
                 && TryGetWrappedDescription(lines, index, out var description))
             {
-                option = AddDescription(option, line, description);
+                option = AddDescription(option, description);
                 index++;
             }
 
@@ -518,18 +518,12 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
     private static CliOptionDefinition AddDescription(
         CliOptionDefinition option,
-        string declaration,
         string description)
     {
-        var (csharpType, isFlag) = option.IsFlag
-            ? InferType(option.SwitchName, description, $"{declaration} {description}")
-            : (option.CSharpType, false);
         return option with
         {
             Description = description,
-            CSharpType = csharpType,
-            IsFlag = isFlag,
-            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag),
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, option.IsFlag),
         };
     }
 

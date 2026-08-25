@@ -294,6 +294,8 @@ public class GitCliScraperTests
 
                 -N, --[no-]intent-to-add
                                     record only the fact that the path will be added later
+                -W, --[no-]function-context
+                                    generate diffs with <n> lines context
             """;
         using var scraper = new TestGitCliScraper();
         var command = await scraper.Parse(["git", "add"], helpText);
@@ -301,11 +303,18 @@ public class GitCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(command!.Options.Select(option => option.SwitchName))
-                .IsEquivalentTo(["--intent-to-add", "--no-intent-to-add"]);
+                .IsEquivalentTo([
+                    "--intent-to-add",
+                    "--no-intent-to-add",
+                    "--function-context",
+                    "--no-function-context",
+                ]);
             await Assert.That(command.Options.Single(option => option.SwitchName == "--intent-to-add").Description)
                 .IsEqualTo("record only the fact that the path will be added later");
             await Assert.That(command.Options.Single(option => option.SwitchName == "--no-intent-to-add").Description)
                 .Contains("record only the fact that the path will be added later");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--function-context").Description)
+                .IsEqualTo("generate diffs with <n> lines context");
             await Assert.That(command.Options.All(option => option is { IsFlag: true, CSharpType: "bool?" }))
                 .IsTrue();
         }
