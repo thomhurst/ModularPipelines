@@ -359,7 +359,7 @@ public partial class AwsCliScraper : CliScraperBase
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
 
-            var enumDef = isStructure || isKeyValue
+            var enumDef = isStructure || isKeyValue || isArray
                 ? null
                 : TryDetectEnum(propertyName, className, description);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
