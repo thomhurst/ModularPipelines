@@ -121,8 +121,16 @@ internal static class GeneratedApiCompatibilityPreserver
                     : command)
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
-                    : command)
-                .Select(command => PreserveFacadeMethodCasing(command, facadeMethods))],
+                    : command)],
+        };
+        var currentFacadeMethods = GenerateFacadeMethods(preservedTool);
+        preservedTool = preservedTool with
+        {
+            Commands = [.. preservedTool.Commands.Select(command =>
+                PreserveFacadeMethodCompatibility(
+                    command,
+                    facadeMethods,
+                    currentFacadeMethods))],
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
@@ -821,20 +829,27 @@ internal static class GeneratedApiCompatibilityPreserver
         };
     }
 
-    private static CliCommandDefinition PreserveFacadeMethodCasing(
+    private static CliCommandDefinition PreserveFacadeMethodCompatibility(
         CliCommandDefinition command,
-        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods)
+        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods,
+        IReadOnlyList<GeneratedFacadeMethod> currentFacadeMethods)
     {
-        var currentMethodName = GeneratorUtils.EnsureAsyncSuffix(
-            GeneratorUtils.GenerateMethodNameFromLastCommandPart(command));
+        var currentMethods = currentFacadeMethods
+            .Where(method => method.OptionsType.Equals(command.ClassName, StringComparison.Ordinal))
+            .ToArray();
         var compatibilityMethods = baselineFacadeMethods
             .Where(method => method.OptionsType.Equals(command.ClassName, StringComparison.Ordinal)
-                             && method.MethodName.Equals(currentMethodName, StringComparison.OrdinalIgnoreCase)
-                             && !method.MethodName.Equals(currentMethodName, StringComparison.Ordinal))
-            .Select(method => new CliCompatibilityMethod
+                             && !currentFacadeMethods.Contains(method))
+            .Select(method => (Baseline: method, Replacements: currentMethods
+                .Where(current => current.DeclaringType.Equals(method.DeclaringType, StringComparison.Ordinal))
+                .Select(static current => current.MethodName)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()))
+            .Where(static match => match.Replacements.Length == 1)
+            .Select(match => new CliCompatibilityMethod
             {
-                MethodName = method.MethodName,
-                ObsoleteMessage = $"Use {currentMethodName} instead.",
+                MethodName = match.Baseline.MethodName,
+                ObsoleteMessage = $"Use {match.Replacements[0]} instead.",
             });
 
         return command with
