@@ -20,4 +20,10 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("generate")]
 public record GoGenerateOptions : GoOptions
 {
+    /// <summary>
+    /// The file or package targets.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Targets { get; set; }
+
 }

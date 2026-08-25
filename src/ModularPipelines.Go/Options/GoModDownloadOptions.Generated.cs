@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Download downloads the named modules, which can be module patterns selecting
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("mod", "download")]
+public record GoModDownloadOptions : GoOptions
 {
     /// <summary>
-    /// The packages operand.
+    /// The modules operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public IEnumerable<string>? Modules { get; set; }
 
 }

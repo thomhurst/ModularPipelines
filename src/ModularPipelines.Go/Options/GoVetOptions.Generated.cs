@@ -20,4 +20,10 @@ namespace ModularPipelines.Go.Options;
 [CliSubCommand("vet")]
 public record GoVetOptions : GoOptions
 {
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Packages { get; set; }
+
 }

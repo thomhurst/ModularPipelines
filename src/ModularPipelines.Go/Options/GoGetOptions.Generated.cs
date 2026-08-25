@@ -13,12 +13,12 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Get resolves its command-line arguments to packages at specific module versions,
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("get")]
+public record GoGetOptions : GoOptions
 {
     /// <summary>
     /// The packages operand.

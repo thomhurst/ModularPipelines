@@ -7,7 +7,13 @@ title: go CLI reference
 
 `ModularPipelines.Go` provides strongly typed access to the `go` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `go` executable. Install it separately and ensure `go` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Go
@@ -41,7 +47,25 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `go build` | `GoBuildOptions` |
+| `go clean` | `GoCleanOptions` |
+| `go env` | `GoEnvOptions` |
 | `go fix` | `GoFixOptions` |
+| `go fmt` | `GoFmtOptions` |
 | `go generate` | `GoGenerateOptions` |
+| `go get` | `GoGetOptions` |
+| `go install` | `GoInstallOptions` |
+| `go list` | `GoListOptions` |
+| `go mod` | `GoModOptions` |
+| `go mod download` | `GoModDownloadOptions` |
+| `go mod edit` | `GoModEditOptions` |
+| `go mod init` | `GoModInitOptions` |
+| `go mod why` | `GoModWhyOptions` |
+| `go run` | `GoRunOptions` |
+| `go telemetry` | `GoTelemetryOptions` |
 | `go test` | `GoTestOptions` |
+| `go tool` | `GoToolOptions` |
 | `go vet` | `GoVetOptions` |
+| `go work` | `GoWorkOptions` |
+| `go work edit` | `GoWorkEditOptions` |
+| `go work init` | `GoWorkInitOptions` |
+| `go work use` | `GoWorkUseOptions` |

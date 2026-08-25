@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Init initializes and writes a new go.work file in the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("work", "init")]
+public record GoWorkInitOptions : GoOptions
 {
     /// <summary>
-    /// The packages operand.
+    /// The moddirs operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public IEnumerable<string>? Moddirs { get; set; }
 
 }

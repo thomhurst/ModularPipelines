@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Telemetry is used to manage Go telemetry data and settings.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("telemetry")]
+public record GoTelemetryOptions : GoOptions
 {
     /// <summary>
-    /// The packages operand.
+    /// The telemetry mode: off, local, or on.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public string? Mode { get; set; }
 
 }

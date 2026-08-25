@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Use provides a command-line interface for adding
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("work", "use")]
+public record GoWorkUseOptions : GoOptions
 {
     /// <summary>
-    /// The packages operand.
+    /// The moddirs operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public IEnumerable<string>? Moddirs { get; set; }
 
 }

@@ -13,17 +13,19 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Build compiles the packages named by the import paths,
+/// Tool runs the go tool command identified by the arguments.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("build")]
-public record GoBuildOptions : GoOptions
+[CliSubCommand("tool")]
+public record GoToolOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : GoOptions
 {
     /// <summary>
-    /// The packages operand.
+    /// The args operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Args { get; set; }
 
 }
