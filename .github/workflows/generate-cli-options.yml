@@ -632,6 +632,16 @@ jobs:
             Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
           }
 
+      - name: Increase swap space for Gcloud build
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gcloud' && steps.changes.outputs.has_changes == 'true'
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: |
