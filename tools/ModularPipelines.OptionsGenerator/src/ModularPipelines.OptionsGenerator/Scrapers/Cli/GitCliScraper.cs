@@ -561,13 +561,13 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = csharpType,
             IsRequired = false,
             IsFlag = isFlag,
-            ValueArity = valueSyntax?.StartsWith("[", StringComparison.Ordinal) == true
+            ValueArity = valueSyntax?.StartsWith('[') == true
                 ? CliOptionValueArity.Optional
                 : CliOptionValueArity.Required,
             ValueSeparator = valueSyntax switch
             {
                 { } value when value.Contains('=') => "=",
-                { } value when value.StartsWith("[", StringComparison.Ordinal) => string.Empty,
+                { } value when value.StartsWith('[') => string.Empty,
                 _ => " ",
             },
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
