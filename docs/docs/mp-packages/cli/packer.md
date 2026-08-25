@@ -7,7 +7,13 @@ title: packer CLI reference
 
 `ModularPipelines.Packer` provides strongly typed access to the `packer` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `packer` executable. Install it separately and ensure `packer` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Packer
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Packer`. For projects older than C# 14, 
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Packer.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Packer.ConsoleAsync(
-            new PackerConsoleOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var packer = context.Tools.Packer;
 ```
 
 ## Commands
@@ -49,3 +42,4 @@ public class RunCommandModule : Module<CommandResult>
 | `packer inspect` | `PackerInspectOptions` |
 | `packer plugins` | `PackerPluginsOptions` |
 | `packer validate` | `PackerValidateOptions` |
+| `packer verify-attestation` | `PackerVerifyAttestationOptions` |
