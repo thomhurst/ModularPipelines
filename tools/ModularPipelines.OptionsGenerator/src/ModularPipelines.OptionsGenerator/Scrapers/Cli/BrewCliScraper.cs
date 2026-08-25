@@ -558,7 +558,7 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Matches descriptions that suggest the option takes a value.
     /// </summary>
-    [GeneratedRegex(@"\b(?:set|specify|use|path|file|directory|number|name|value|list|comma-separated|writable)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\b(?:set|specify|use|path|file|directory|number|name|value)\b", RegexOptions.IgnoreCase)]
     private static partial Regex DescriptionSuggestsValue();
 
     #endregion

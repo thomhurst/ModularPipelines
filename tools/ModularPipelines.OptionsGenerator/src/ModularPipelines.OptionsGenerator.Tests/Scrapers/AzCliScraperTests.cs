@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -257,6 +258,30 @@ public class AzCliScraperTests
         {
             await Assert.That(option.IsFlag).IsTrue();
             await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Identity_Value_Is_Optional_When_Valueless_Form_Is_Documented()
+    {
+        const string helpText = """
+            Command
+                az appconfig identity assign : Update managed identities.
+
+            Optional Arguments
+                --identities : Accept system-assigned or user-assigned managed identities separated by spaces. If this argument is provided without any value, system-assigned managed identity is used.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "appconfig", "identity", "assign"],
+            helpText);
+        var identities = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(identities.IsFlag).IsFalse();
+            await Assert.That(identities.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(identities.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -306,6 +307,9 @@ public partial class AzCliScraper : CliScraperBase
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
                 var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
+                var valueArity = !isFlag && HelpDeclaresOptionalValue(description)
+                    ? CliOptionValueArity.Optional
+                    : CliOptionValueArity.Required;
 
                 options.Add(new CliOptionDefinition
                 {
@@ -320,6 +324,7 @@ public partial class AzCliScraper : CliScraperBase
                     IsKeyValue = false,
                     IsNumeric = csharpType == "int?",
                     ValueSeparator = " ",
+                    ValueArity = valueArity,
                     EnumDefinition = null,
                     IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
@@ -360,6 +365,9 @@ public partial class AzCliScraper : CliScraperBase
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
+
+    private static bool HelpDeclaresOptionalValue(string description) =>
+        description.Contains("provided without any value", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Determines the C# type based on value hint and description.
@@ -413,7 +421,8 @@ public partial class AzCliScraper : CliScraperBase
         description.Contains("list of false");
 
     private static bool HelpDeclaresSpaceSeparatedList(string description) =>
-        description.Contains("space-separated");
+        description.Contains("space-separated")
+        || description.Contains("separated by spaces");
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.

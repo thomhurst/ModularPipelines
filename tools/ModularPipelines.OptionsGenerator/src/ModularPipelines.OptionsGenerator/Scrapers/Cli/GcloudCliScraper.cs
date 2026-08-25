@@ -264,7 +264,9 @@ public partial class GcloudCliScraper : CliScraperBase
         return option with
         {
             AcceptsMultipleValues = true,
-            CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+            CSharpType = option.IsKeyValue
+                ? option.CSharpType
+                : AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
         };
     }
 

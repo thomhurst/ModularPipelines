@@ -77,6 +77,30 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Descriptive_List_And_Writable_Words_Remain_Flags()
+    {
+        const string helpText = """
+            Usage: brew list [options]
+
+                  --formula        List only formulae.
+                  --writable       List only writable kegs.
+                  --formulae=LIST  Use a comma-separated list of formulae.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "list"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--formula").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--writable").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--formulae").IsFlag)
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Models_Command_Operands_As_A_Required_Collection()
     {
         const string helpText = "Usage: brew command command [...]";
