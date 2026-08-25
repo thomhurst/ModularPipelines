@@ -1547,7 +1547,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Renamed_Scalar_To_Collection_Changes()
+    public async Task ApiCompatibilityPreserver_Retains_Renamed_Scalar_To_Collection_Changes()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
         {
@@ -1562,13 +1562,24 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("changed type from string? to IEnumerable<string>? while being renamed");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("CommandOptionValues");
+            await Assert.That(generated)
+                .Contains("IEnumerable<string>? CommandOptionValues");
+            await Assert.That(generated)
+                .Contains("public string? CommandOptions");
+            await Assert.That(generated)
+                .Contains("get => CommandOptionValues?.FirstOrDefault();");
+            await Assert.That(generated)
+                .Contains("set => CommandOptionValues = value is null ? null : [value];");
+        }
     }
 
     [Test]

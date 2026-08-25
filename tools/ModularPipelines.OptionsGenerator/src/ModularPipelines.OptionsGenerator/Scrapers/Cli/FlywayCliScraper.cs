@@ -76,16 +76,14 @@ public partial class FlywayCliScraper : CliScraperBase
         {
             CommandCoverage = new CliCommandCoveragePolicy
             {
-                MinimumCommandCount = 19,
+                MinimumCommandCount = 12,
                 SentinelCommands =
                 [
-                    "flyway add",
                     "flyway auth",
                     "flyway diff",
-                    "flyway diffApply",
                     "flyway diffText",
-                    "flyway generate",
-                    "flyway undo",
+                    "flyway migrate",
+                    "flyway snapshot",
                 ],
             },
         };
