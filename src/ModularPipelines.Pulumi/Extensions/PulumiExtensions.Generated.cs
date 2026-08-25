@@ -32,6 +32,7 @@ public static class PulumiExtensions
         services.TryAddScoped<IPulumiApi, PulumiApi>();
         services.TryAddScoped<IPulumiConfig, PulumiConfig>();
         services.TryAddScoped<IPulumiDeployment, PulumiDeployment>();
+        services.TryAddScoped<IPulumiDo, PulumiDo>();
         services.TryAddScoped<IPulumiEnv, PulumiEnv>();
         services.TryAddScoped<IPulumiInsights, PulumiInsights>();
         services.TryAddScoped<IPulumiLogs, PulumiLogs>();
