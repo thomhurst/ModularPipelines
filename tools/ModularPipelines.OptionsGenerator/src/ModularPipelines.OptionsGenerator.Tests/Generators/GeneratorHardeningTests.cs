@@ -4943,6 +4943,63 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Restores_NonOptional_Forwarded_Alias_Targets()
+    {
+        var cases = new[]
+        {
+            (
+                TargetName: "Output",
+                TargetType: "string?",
+                AliasName: "LegacyOutput",
+                AliasType: "string?",
+                Kind: CliCompatibilityForwardingKind.Direct),
+            (
+                TargetName: "Outputs",
+                TargetType: "IEnumerable<string>?",
+                AliasName: "Output",
+                AliasType: "string?",
+                Kind: CliCompatibilityForwardingKind.ScalarToCollection),
+        };
+
+        foreach (var testCase in cases)
+        {
+            var command = Command("ToolPushOptions", "ToolOptions", ["push"]) with
+            {
+                Options =
+                [
+                    new CliOptionDefinition
+                    {
+                        SwitchName = "--output",
+                        PropertyName = testCase.AliasName,
+                        CSharpType = testCase.TargetType,
+                        AcceptsMultipleValues = testCase.Kind == CliCompatibilityForwardingKind.ScalarToCollection,
+                    },
+                ],
+            };
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                command,
+                [
+                    BaselineProperty(testCase.TargetName, testCase.TargetType, switchName: "--output"),
+                    BaselineProperty(
+                        testCase.AliasName,
+                        testCase.AliasType,
+                        isCompatibility: true,
+                        forwardToPropertyName: testCase.TargetName,
+                        forwardingKind: testCase.Kind),
+                ]);
+            var alias = preserved.CompatibilityProperties.Single(property =>
+                property.PropertyName == testCase.AliasName);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo(testCase.TargetName);
+                await Assert.That(alias.ForwardToPropertyName).IsEqualTo(testCase.TargetName);
+                await Assert.That(alias.ForwardingKind).IsEqualTo(testCase.Kind);
+            }
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Defaults_Historical_Positional_Phase_Before_Matching()
     {
         var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
