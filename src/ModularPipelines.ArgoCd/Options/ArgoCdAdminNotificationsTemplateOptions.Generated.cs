@@ -46,12 +46,6 @@ public record ArgoCdAdminNotificationsTemplateOptions : ArgoCdOptions
     public bool? ArgocdRepoServerPlaintext { get; set; }
 
     /// <summary>
-    /// Perform strict validation of TLS certificates when connecting to repo server
-    /// </summary>
-    [CliFlag("--argocd-repo-server-strict-tls")]
-    public bool? ArgocdRepoServerStrictTls { get; set; }
-
-    /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
     [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
@@ -194,7 +188,7 @@ public record ArgoCdAdminNotificationsTemplateOptions : ArgoCdOptions
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// Set the logging format. One of: json|text (default "json")
@@ -330,5 +324,21 @@ public record ArgoCdAdminNotificationsTemplateOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
+    [Obsolete("ArgocdRepoServerStrictTls is no longer supported by the installed CLI and has no effect.")]
+    public bool? ArgocdRepoServerStrictTls { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

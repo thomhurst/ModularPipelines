@@ -24,6 +24,31 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Active Directory endpoint when not using default Azure public cloud (e.g. https://login.microsoftonline.de)
+    /// </summary>
+    [CliOption("--azure-active-directory-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureActiveDirectoryEndpoint { get; set; }
+
+    /// <summary>
+    /// client id of the Azure Service Principal
+    /// </summary>
+    [CliOption("--azure-service-principal-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalClientId { get; set; }
+
+    /// <summary>
+    /// client secret of the Azure Service Principal
+    /// </summary>
+    [SecretValue]
+    [CliOption("--azure-service-principal-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalClientSecret { get; set; }
+
+    /// <summary>
+    /// tenant id of the Azure Service Principal
+    /// </summary>
+    [CliOption("--azure-service-principal-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalTenantId { get; set; }
+
+    /// <summary>
     /// bearer token to the Git BitBucket Data Center repository
     /// </summary>
     [SecretValue]
@@ -81,7 +106,6 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
     /// <summary>
     /// private key of the GitHub Application
     /// </summary>
-    [SecretValue]
     [CliOption("--github-app-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? GithubAppPrivateKeyPath { get; set; }
 
@@ -149,7 +173,6 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
     /// <summary>
     /// path to the private ssh key (e.g. ~/.ssh/id_rsa)
     /// </summary>
-    [SecretValue]
     [CliOption("--ssh-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? SshPrivateKeyPath { get; set; }
 
@@ -182,6 +205,12 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// disable manifest cache warming during webhook processing for this repository (recommended for large monorepos with plain YAML manifests)
+    /// </summary>
+    [CliFlag("--webhook-manifest-cache-warm-disabled")]
+    public bool? WebhookManifestCacheWarmDisabled { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use

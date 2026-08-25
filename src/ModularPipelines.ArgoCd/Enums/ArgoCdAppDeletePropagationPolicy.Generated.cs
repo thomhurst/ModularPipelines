@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAppDeletePropagationPolicy
 {
     [EnumValue("foreground")]
-    Foreground,
+    Foreground = 0,
 
     [EnumValue("background")]
-    Background
+    Background = 1
 }

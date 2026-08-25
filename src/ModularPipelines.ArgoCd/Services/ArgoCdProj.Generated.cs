@@ -21,6 +21,7 @@ public class ArgoCdProj : IArgoCdProj
 {
     private readonly ICommandContext _command;
     private ArgoCdProjRole? _role;
+    private ArgoCdProjSourceIntegrity? _sourceIntegrity;
     private ArgoCdProjWindows? _windows;
 
     /// <summary>
@@ -37,6 +38,11 @@ public class ArgoCdProj : IArgoCdProj
     /// argocd role sub-commands.
     /// </summary>
     public ArgoCdProjRole Role => _role ??= new ArgoCdProjRole(_command);
+
+    /// <summary>
+    /// argocd source-integrity sub-commands.
+    /// </summary>
+    public ArgoCdProjSourceIntegrity SourceIntegrity => _sourceIntegrity ??= new ArgoCdProjSourceIntegrity(_command);
 
     /// <summary>
     /// argocd windows sub-commands.
@@ -107,13 +113,7 @@ public class ArgoCdProj : IArgoCdProj
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Add GnuPG signature key to project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> AddSignatureKeyAsync(
         ArgoCdProjAddSignatureKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -332,13 +332,7 @@ public class ArgoCdProj : IArgoCdProj
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Remove GnuPG signature key from project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> RemoveSignatureKeyAsync(
         ArgoCdProjRemoveSignatureKeyOptions options,
         CommandExecutionOptions? executionOptions = null,

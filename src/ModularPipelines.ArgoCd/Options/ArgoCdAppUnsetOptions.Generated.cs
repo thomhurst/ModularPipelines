@@ -20,9 +20,20 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "unset")]
 public record ArgoCdAppUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parameters
 ) : ArgoCdOptions
 {
+    public ArgoCdAppUnsetOptions(string ApplicationName)
+        : this(ApplicationName, default(string)!)
+    {
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Unset application parameters in namespace
     /// </summary>

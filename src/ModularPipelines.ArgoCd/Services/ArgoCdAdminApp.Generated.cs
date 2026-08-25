@@ -32,6 +32,21 @@ public class ArgoCdAdminApp
     #region Commands
 
     /// <summary>
+    /// Manage applications configuration
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminAppOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminAppOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Compare results of two reconciliations and print diff.
     /// </summary>
     /// <param name="options">The command options.</param>

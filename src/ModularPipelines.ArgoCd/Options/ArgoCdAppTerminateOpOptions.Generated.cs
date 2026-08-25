@@ -24,6 +24,12 @@ public record ArgoCdAppTerminateOpOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// help for terminate-op
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

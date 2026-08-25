@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAppHistoryOutput
 {
     [EnumValue("wide")]
-    Wide,
+    Wide = 0,
 
     [EnumValue("id")]
-    Id
+    Id = 1
 }

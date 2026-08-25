@@ -34,12 +34,6 @@ public record ArgoCdAdminNotificationsOptions : ArgoCdOptions
     public bool? ArgocdRepoServerPlaintext { get; set; }
 
     /// <summary>
-    /// Perform strict validation of TLS certificates when connecting to repo server
-    /// </summary>
-    [CliFlag("--argocd-repo-server-strict-tls")]
-    public bool? ArgocdRepoServerStrictTls { get; set; }
-
-    /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
     [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
@@ -115,7 +109,7 @@ public record ArgoCdAdminNotificationsOptions : ArgoCdOptions
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request
@@ -135,6 +129,24 @@ public record ArgoCdAdminNotificationsOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--proxy-url", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyUrl { get; set; }
+
+    /// <summary>
+    /// Path to the repo-server CA certificate file
+    /// </summary>
+    [CliOption("--repo-server-ca-cert-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RepoServerCaCertPath { get; set; }
+
+    /// <summary>
+    /// Path to the client certificate key file for mTLS. Defaults to the auto-mounted Secret path; mTLS client cert is skipped if the file does not exist. (default "/app/config/reposerver/mtls/client.key")
+    /// </summary>
+    [CliOption("--repo-server-client-cert-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RepoServerClientCertKeyPath { get; set; }
+
+    /// <summary>
+    /// Path to the client certificate file for mTLS. Defaults to the auto-mounted Secret path; mTLS client cert is skipped if the file does not exist. (default "/app/config/reposerver/mtls/client.crt")
+    /// </summary>
+    [CliOption("--repo-server-client-cert-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RepoServerClientCertPath { get; set; }
 
     /// <summary>
     /// The length of time to wait before giving up on a single server request. Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h). A value of zero means don't timeout requests. (default "0")
@@ -330,5 +342,21 @@ public record ArgoCdAdminNotificationsOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
+    [Obsolete("ArgocdRepoServerStrictTls is no longer supported by the installed CLI and has no effect.")]
+    public bool? ArgocdRepoServerStrictTls { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

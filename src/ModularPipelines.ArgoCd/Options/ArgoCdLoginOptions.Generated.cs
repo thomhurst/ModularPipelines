@@ -218,6 +218,12 @@ public record ArgoCdLoginOptions(
     public string? RepoServerName { get; set; }
 
     /// <summary>
+    /// Argo CD server address
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerOption { get; set; }
+
+    /// <summary>
     /// Server certificate file
     /// </summary>
     [CliOption("--server-crt", Format = OptionFormat.EqualsSeparated)]

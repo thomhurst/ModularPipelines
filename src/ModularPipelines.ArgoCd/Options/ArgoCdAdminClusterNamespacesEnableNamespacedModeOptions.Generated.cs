@@ -105,7 +105,7 @@ public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// Max number of namespaces that cluster should managed managed namespaces is less or equal to specified count
@@ -319,5 +319,12 @@ public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

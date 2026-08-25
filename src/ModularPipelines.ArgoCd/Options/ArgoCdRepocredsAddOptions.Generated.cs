@@ -24,6 +24,31 @@ public record ArgoCdRepocredsAddOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Active Directory endpoint when not using default Azure public cloud (e.g. https://login.microsoftonline.de)
+    /// </summary>
+    [CliOption("--azure-active-directory-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureActiveDirectoryEndpoint { get; set; }
+
+    /// <summary>
+    /// client id of the Azure Service Principal
+    /// </summary>
+    [CliOption("--azure-service-principal-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalClientId { get; set; }
+
+    /// <summary>
+    /// client secret of the Azure Service Principal
+    /// </summary>
+    [SecretValue]
+    [CliOption("--azure-service-principal-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalClientSecret { get; set; }
+
+    /// <summary>
+    /// tenant id of the Azure Service Principal
+    /// </summary>
+    [CliOption("--azure-service-principal-tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureServicePrincipalTenantId { get; set; }
+
+    /// <summary>
     /// bearer token to the Git repository
     /// </summary>
     [SecretValue]
@@ -69,7 +94,6 @@ public record ArgoCdRepocredsAddOptions(
     /// <summary>
     /// private key of the GitHub Application
     /// </summary>
-    [SecretValue]
     [CliOption("--github-app-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? GithubAppPrivateKeyPath { get; set; }
 
@@ -78,6 +102,12 @@ public record ArgoCdRepocredsAddOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Use http when accessing an OCI repository
+    /// </summary>
+    [CliFlag("--insecure-oci-force-http")]
+    public bool? InsecureOciForceHttp { get; set; }
 
     /// <summary>
     /// password to the repository
@@ -95,7 +125,6 @@ public record ArgoCdRepocredsAddOptions(
     /// <summary>
     /// path to the private ssh key (e.g. ~/.ssh/id_rsa)
     /// </summary>
-    [SecretValue]
     [CliOption("--ssh-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? SshPrivateKeyPath { get; set; }
 
