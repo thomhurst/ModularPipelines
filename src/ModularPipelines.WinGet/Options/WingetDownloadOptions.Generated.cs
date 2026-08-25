@@ -141,12 +141,6 @@ public record WingetDownloadOptions : WingetOptions
     public string? Platform { get; set; }
 
     /// <summary>
-    /// Target OS version
-    /// </summary>
-    [CliOption("--os-version")]
-    public string? OsVersion { get; set; }
-
-    /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
     [CliOption("--wait")]
@@ -175,5 +169,8 @@ public record WingetDownloadOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
+
+    [Obsolete("OsVersion is no longer supported by the installed CLI and has no effect.")]
+    public string? OsVersion { get; set; }
 
 }

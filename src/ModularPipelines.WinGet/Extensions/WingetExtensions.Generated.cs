@@ -29,6 +29,7 @@ public static class WingetExtensions
     public static IServiceCollection RegisterWingetContext(this IServiceCollection services)
     {
         services.TryAddScoped<IWinget, Services.Winget>();
+        services.TryAddScoped<IWingetSource, WingetSource>();
         return services;
     }
 

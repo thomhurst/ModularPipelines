@@ -99,18 +99,6 @@ public record WingetListOptions : WingetOptions
     public string? UpgradeAvailable { get; set; }
 
     /// <summary>
-    /// Show detailed information about packages
-    /// </summary>
-    [CliFlag("--details")]
-    public bool? Details { get; set; }
-
-    /// <summary>
-    /// Sort results by a property (can be repeated)
-    /// </summary>
-    [CliOption("--sort")]
-    public IEnumerable<string>? Sort { get; set; }
-
-    /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
     [CliOption("--wait")]
@@ -139,5 +127,11 @@ public record WingetListOptions : WingetOptions
     /// </summary>
     [CliOption("--query", ShortForm = "-q")]
     public string? Query { get; set; }
+
+    [Obsolete("Details is no longer supported by the installed CLI and has no effect.")]
+    public bool? Details { get; set; }
+
+    [Obsolete("Sort is no longer supported by the installed CLI and has no effect.")]
+    public IEnumerable<string>? Sort { get; set; }
 
 }

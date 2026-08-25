@@ -24,10 +24,21 @@ internal partial class Winget : IWinget
     /// <summary>
     /// Initializes a new instance of the <see cref="Winget"/> class.
     /// </summary>
-    public Winget(ICommandContext command)
+    public Winget(
+        IWingetSource source,
+        ICommandContext command
+    )
     {
+        Source = source;
         _command = command;
     }
+
+    #region Sub-domain Services
+
+    /// <inheritdoc />
+    public IWingetSource Source { get; }
+
+    #endregion
 
     #region Commands
 

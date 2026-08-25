@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "winget",
-  "toolVersion": "v1.29.290",
-  "commandCount": 42,
-  "commandTreeSha256": "be6725b4f2522a990030007897738ac016f66f7f5ce700a730ea0a50070fb1bb",
+  "toolVersion": "v1.11.510",
+  "commandCount": 40,
+  "commandTreeSha256": "dacdf52d3eefc568fd4e426911cd8698ead1e1f9d2de1953268686ce154566f2",
   "commands": [
     "winget configure",
     "winget configure export",
@@ -23,7 +23,6 @@
     "winget import",
     "winget install",
     "winget list",
-    "winget mcp",
     "winget pin",
     "winget pin add",
     "winget pin list",
@@ -38,7 +37,6 @@
     "winget show",
     "winget source",
     "winget source add",
-    "winget source edit",
     "winget source export",
     "winget source list",
     "winget source remove",

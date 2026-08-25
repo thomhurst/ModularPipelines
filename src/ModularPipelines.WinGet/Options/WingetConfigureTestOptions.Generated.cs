@@ -33,12 +33,6 @@ public record WingetConfigureTestOptions : WingetOptions
     public bool? History { get; set; }
 
     /// <summary>
-    /// Suppress showing initial configuration details when possible
-    /// </summary>
-    [CliFlag("--suppress-initial-details")]
-    public bool? SuppressInitialDetails { get; set; }
-
-    /// <summary>
     /// Accepts the configuration warning, preventing an interactive prompt
     /// </summary>
     [CliFlag("--accept-configuration-agreements")]
@@ -79,5 +73,8 @@ public record WingetConfigureTestOptions : WingetOptions
     /// </summary>
     [CliOption("--module-path")]
     public string? ModulePath { get; set; }
+
+    [Obsolete("SuppressInitialDetails is no longer supported by the installed CLI and has no effect.")]
+    public bool? SuppressInitialDetails { get; set; }
 
 }

@@ -12,47 +12,26 @@ using ModularPipelines.WinGet.Options;
 
 namespace ModularPipelines.WinGet.Options;
 
-/// <summary>
-/// Edit properties of an existing source. A source provides the data for you to discover and install packages.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "edit")]
 public record WingetSourceEditOptions : WingetOptions
 {
-    /// <summary>
-    /// Excludes a source from discovery (true or false)
-    /// </summary>
     [CliOption("--explicit", ShortForm = "-e")]
     public string? Explicit { get; set; }
 
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
     [CliFlag("--disable-interactivity")]
     public bool? DisableInteractivity { get; set; }
 
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
     [CliOption("--proxy")]
     public string? Proxy { get; set; }
 
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
 
-    /// <summary>
-    /// Name of the source
-    /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 

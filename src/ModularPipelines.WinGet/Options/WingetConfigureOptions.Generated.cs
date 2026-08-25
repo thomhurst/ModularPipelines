@@ -45,13 +45,13 @@ public record WingetConfigureOptions : WingetOptions
     public string? SuppressInitialDetails { get; set; }
 
     /// <summary>
-    /// Enable extended features. Requires store access.
+    /// Enable configuration components. Requires store access.
     /// </summary>
     [CliFlag("--enable")]
     public bool? Enable { get; set; }
 
     /// <summary>
-    /// Disable extended features. Requires store access.
+    /// Disable configuration components. Requires store access.
     /// </summary>
     [CliFlag("--disable")]
     public bool? Disable { get; set; }
