@@ -61,6 +61,28 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Imports_Preserved_KeyValue_Types()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--labels",
+                    PropertyName = "Labels",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                },
+            ]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("public IReadOnlyList<KeyValue>? Labels { get; set; }");
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Validates_Explicit_Optional_Values()
     {
         var command = Command(
