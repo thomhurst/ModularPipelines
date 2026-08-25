@@ -146,10 +146,32 @@ public class CliScraperTraversalTests
                   docker buildx [OPTIONS] COMMAND
                 """,
             ["buildx --help"] = """
-                Usage: docker buildx [OPTIONS]
+                Usage: docker buildx [OPTIONS] COMMAND
 
                 Flags:
                   --builder string   Override the builder
+
+                Commands:
+                  build   Start a build
+                  dap     Start a debugger
+                """,
+            ["buildx build --help"] = """
+                Usage: docker buildx build [OPTIONS] PATH
+
+                Flags:
+                  --pull   Always attempt to pull
+                """,
+            ["buildx dap --help"] = """
+                Usage: docker buildx dap [OPTIONS] COMMAND
+
+                Commands:
+                  build   Debug a build
+                """,
+            ["buildx dap build --help"] = """
+                Usage: docker buildx dap build [OPTIONS] COMMAND [ARG...]
+
+                Flags:
+                  --debug   Enable debug logging
                 """,
         });
         var scraper = new DockerCliScraper(
@@ -162,9 +184,35 @@ public class CliScraperTraversalTests
 
         await Assert.That(commands.Select(command => command.FullCommand))
             .Contains("docker buildx");
+        await Assert.That(commands.Single(command => command.FullCommand == "docker buildx")
+            .PositionalArguments).IsEmpty();
+        await Assert.That(commands.Single(command => command.FullCommand == "docker buildx dap")
+            .PositionalArguments).IsEmpty();
+        await Assert.That(commands.Single(command => command.FullCommand == "docker buildx dap build")
+            .PositionalArguments.Select(argument => argument.PropertyName))
+            .Contains("Command");
         await Assert.That(alias.Alias).IsEqualTo("builder");
         await Assert.That(alias.CanonicalCommand).IsEqualTo("buildx");
         await Assert.That(executor.Arguments).DoesNotContain("builder build --help");
+    }
+
+    [Test]
+    public async Task CobraTraversal_Parses_Command_Headings_With_Lowercase_Connectors()
+    {
+        const string helpText = """
+            Configuration and Management Commands:
+              addons    Manage addons
+              config    Manage configuration
+
+            Networking and Connectivity Commands:
+              service   Connect to a service
+              tunnel    Connect to load balancers
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        await Assert.That(scraper.GetSubcommands(helpText))
+            .IsEquivalentTo(["addons", "config", "service", "tunnel"]);
     }
 
     [Test]

@@ -154,6 +154,38 @@ public class ArgoCdCliScraperTests
     }
 
     [Test]
+    public async Task App_Unset_Drops_Parameters_Usage_Literal()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            ["argocd", "app", "unset"],
+            "Usage:\n  argocd app unset APPNAME parameters [flags]");
+
+        var arguments = scraper.ApplyFix(["app", "unset"], parsedArguments);
+
+        await Assert.That(arguments).HasSingleItem();
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments[0].PropertyName).IsEqualTo("ApplicationName");
+            await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(arguments[0].IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Command_Groups_Drop_Command_Placeholders()
+    {
+        var scraper = new TestArgoCdCliScraper();
+        var parsedArguments = scraper.ParseArguments(
+            ["argocd", "app"],
+            "Usage:\n  argocd app [flags] [command]");
+
+        var arguments = scraper.ApplyFix(["app"], parsedArguments);
+
+        await Assert.That(arguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Repo_Rm_Uses_Required_Repository_Collection()
     {
         var scraper = new TestArgoCdCliScraper();

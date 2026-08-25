@@ -164,6 +164,9 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         run: |
           mkdir -p "$RUNNER_TEMP/cli-tools/bin" "$RUNNER_TEMP/generator-work"
+          if [ "${{ matrix.tool }}" = "dotnet" ]; then
+            cp "$GITHUB_WORKSPACE/global.json" "$RUNNER_TEMP/generator-work/global.json"
+          fi
           echo "CLI_TOOLS_ROOT=$RUNNER_TEMP/cli-tools" >> "$GITHUB_ENV"
           echo "$RUNNER_TEMP/cli-tools/bin" >> "$GITHUB_PATH"
 
@@ -749,8 +752,13 @@ jobs:
         shell: pwsh
         run: |
           $cliToolsRoot = Join-Path $env:RUNNER_TEMP 'cli-tools'
+          $generatorWork = Join-Path $env:RUNNER_TEMP 'generator-work'
           New-Item -ItemType Directory -Force (Join-Path $cliToolsRoot 'bin') | Out-Null
-          New-Item -ItemType Directory -Force (Join-Path $env:RUNNER_TEMP 'generator-work') | Out-Null
+          New-Item -ItemType Directory -Force $generatorWork | Out-Null
+          if ('${{ matrix.tool }}' -eq 'dotnet') {
+            Copy-Item -LiteralPath (Join-Path $env:GITHUB_WORKSPACE 'global.json') `
+              -Destination (Join-Path $generatorWork 'global.json')
+          }
           "CLI_TOOLS_ROOT=$cliToolsRoot" | Out-File -FilePath $env:GITHUB_ENV -Append
           (Join-Path $cliToolsRoot 'bin') | Out-File -FilePath $env:GITHUB_PATH -Append
 
@@ -814,8 +822,12 @@ jobs:
       - name: Install WinGet
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'winget'
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          # WinGet is pre-installed on windows-latest (Windows Server 2022)
+          Install-Module Microsoft.WinGet.Client -Repository PSGallery -Scope CurrentUser -Force
+          Import-Module Microsoft.WinGet.Client -Force
+          Repair-WinGetPackageManager -Latest -Force
           winget --version
 
       - name: Pin resolved executable for scraper

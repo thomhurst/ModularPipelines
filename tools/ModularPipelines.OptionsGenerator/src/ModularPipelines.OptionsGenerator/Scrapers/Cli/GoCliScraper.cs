@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -205,7 +206,11 @@ public partial class GoCliScraper : CliScraperBase
     private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
         IReadOnlyList<string> commandParts,
         IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments.Select(argument => NormalizePositionalArgument(commandParts, argument)).ToArray();
+        arguments.Select(argument => NormalizePositionalArgument(commandParts, argument) with
+        {
+            Phase = CommandLinePhase.Passthrough,
+        })
+            .ToArray();
 
     private static CliPositionalArgument NormalizePositionalArgument(
         IReadOnlyList<string> commandParts,
@@ -229,7 +234,8 @@ public partial class GoCliScraper : CliScraperBase
             };
         }
 
-        if (argument.PropertyName is not ("Packages" or "Modules" or "Moddirs" or "Targets"))
+        if (argument.PropertyName is not (
+            "Arguments" or "CliArguments" or "Packages" or "Modules" or "Moddirs" or "Targets"))
         {
             return argument;
         }

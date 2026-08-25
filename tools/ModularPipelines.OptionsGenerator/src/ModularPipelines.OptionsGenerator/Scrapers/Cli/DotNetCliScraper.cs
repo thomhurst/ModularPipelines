@@ -480,7 +480,41 @@ public partial class DotNetCliScraper : CliScraperBase
             ];
         }
 
+        // Keep the established public API names until a major release can model the newer
+        // NuGet operand spellings and push cardinality without compatibility warnings.
+        if (commandKey.Equals("nuget add source", StringComparison.OrdinalIgnoreCase))
+        {
+            return RenameSingleArgument(args, "Packagesourcepath", isVariadic: false);
+        }
+
+        if (commandKey.Equals("nuget push", StringComparison.OrdinalIgnoreCase))
+        {
+            return RenameSingleArgument(args, "Path", isVariadic: false);
+        }
+
         return args;
+    }
+
+    private static List<CliPositionalArgument> RenameSingleArgument(
+        List<CliPositionalArgument> args,
+        string propertyName,
+        bool isVariadic)
+    {
+        if (args.Count != 1)
+        {
+            return args;
+        }
+
+        var argument = args[0];
+        return
+        [
+            argument with
+            {
+                PropertyName = propertyName,
+                CSharpType = isVariadic ? "IEnumerable<string>?" : "string?",
+                IsVariadic = isVariadic,
+            },
+        ];
     }
 
     /// <summary>

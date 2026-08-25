@@ -66,6 +66,10 @@ public static partial class GeneratorUtils
                 sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
                 break;
+            case CliCompatibilityForwardingKind.NullableBooleanToString:
+                sb.AppendLine($"        get => bool.TryParse({property.ForwardToPropertyName}, out var value) ? value : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
+                break;
             case CliCompatibilityForwardingKind.NullableStringToRequiredString:
                 sb.AppendLine($"        get => {property.ForwardToPropertyName};");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value ?? string.Empty;");
@@ -77,6 +81,14 @@ public static partial class GeneratorUtils
             case CliCompatibilityForwardingKind.NullableInt32ToStringCollection:
                 sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}?.FirstOrDefault(), global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
                 sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value is null ? null : [value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture)];");
+                break;
+            case CliCompatibilityForwardingKind.NullableStringToCliOptionValue:
+                sb.AppendLine($"        get => {property.ForwardToPropertyName}?.Value;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value;");
+                break;
+            case CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue:
+                sb.AppendLine($"        get => int.TryParse({property.ForwardToPropertyName}?.Value, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;");
+                sb.AppendLine($"        {setter} => {property.ForwardToPropertyName} = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);");
                 break;
             default:
                 throw new ArgumentOutOfRangeException(

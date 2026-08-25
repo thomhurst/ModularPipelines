@@ -56,6 +56,9 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
+        positionalArguments = positionalArguments
+            .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
+            .ToArray();
         var commandSpecificArguments = GetCommandSpecificArguments(commandParts, positionalArguments);
         if (commandSpecificArguments is not null)
         {
@@ -91,6 +94,11 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             .ToList();
     }
 
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+
     private static IReadOnlyList<CliPositionalArgument>? GetCommandSpecificArguments(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => commandParts switch
@@ -106,6 +114,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                 })
                 .ToList(),
             ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
+            ["app", "unset"] =>
+            [
+                RequiredArgument(
+                    "ApplicationName",
+                    "string",
+                    "Application name."),
+            ],
             ["repo", "rm"] =>
             [
                 RequiredArgument(

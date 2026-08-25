@@ -120,6 +120,14 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Returns whether tool-specific syntax proves an option is scalar despite repeatability prose
+    /// elsewhere in the same help block.
+    /// </summary>
+    protected virtual bool ShouldTreatOptionAsScalar(
+        IReadOnlyList<string> commandParts,
+        string switchName) => false;
+
+    /// <summary>
     /// Global options that are documented but absent from the installed CLI's help output.
     /// </summary>
     protected virtual IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions => [];
@@ -475,6 +483,7 @@ public abstract partial class CliScraperBase : ICliScraper
         usage = NormalizeUsageSynopsis(command, usage);
         command = command with
         {
+            HasOperandTakingUsage = usage.HasOperandTokens,
             UsagePositionalArguments = usage.PositionalArguments,
         };
         command.ValidateOperandCoverage(
@@ -999,7 +1008,7 @@ public abstract partial class CliScraperBase : ICliScraper
         Func<string, CliArgumentDefinition?> parseArgument) =>
         CliArgumentGroupParser.Parse(section, parseArgument);
 
-    private static void ValidateOptionShapes(CliCommandDefinition command, string helpText)
+    private void ValidateOptionShapes(CliCommandDefinition command, string helpText)
     {
         foreach (var option in command.Options)
         {
@@ -1015,6 +1024,7 @@ public abstract partial class CliScraperBase : ICliScraper
             if (!option.IsFlag
                 && !isBoolean
                 && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+                && !ShouldTreatOptionAsScalar(command.CommandParts, option.SwitchName)
                 && !option.AcceptsMultipleValues)
             {
                 throw new InvalidOperationException(

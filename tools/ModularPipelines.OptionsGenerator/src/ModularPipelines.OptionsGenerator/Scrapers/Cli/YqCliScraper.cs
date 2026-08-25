@@ -73,6 +73,7 @@ public partial class YqCliScraper : CobraCliScraper
                 {
                     Phase = CommandLinePhase.Passthrough,
                     PrependOptionTerminatorIfValueStartsWithDash = true,
+                    AllowRenderingPhaseMigrationFromBaseline = true,
                 })
                 .ToArray()
             : positionalArguments;

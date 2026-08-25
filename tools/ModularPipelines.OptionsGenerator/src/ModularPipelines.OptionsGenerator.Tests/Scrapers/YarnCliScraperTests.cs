@@ -77,6 +77,38 @@ public class YarnCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Parses_Current_Plain_Clipanion_Sections()
+    {
+        const string helpText = """
+            Run a package in a temporary environment
+
+            Usage
+
+            $ yarn dlx <command> ...
+
+            Options
+
+              -p,--package #0    The package(s) to install before running the command
+              -q,--quiet         Only report critical errors instead of printing the full install logs
+
+            Details
+
+            This command installs a package in a temporary environment.
+            """;
+
+        var command = await new TestYarnCliScraper().Parse(["yarn", "dlx"], helpText);
+        var package = command!.Options.Single(option => option.PropertyName == "Package");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Select(option => option.PropertyName))
+                .IsEquivalentTo(["Package", "Quiet"]);
+            await Assert.That(package.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(package.AcceptsMultipleValues).IsTrue();
+        }
+    }
+
     private sealed class TestYarnCliScraper : YarnCliScraper
     {
         public TestYarnCliScraper()

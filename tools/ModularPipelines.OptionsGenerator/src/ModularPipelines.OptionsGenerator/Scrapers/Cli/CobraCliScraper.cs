@@ -1003,7 +1003,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
     [GeneratedRegex(
-        @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS):?[ \t]*$",
+        @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Za-z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS):?[ \t]*$",
         RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
