@@ -4074,7 +4074,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Alias_Constructors_For_New_Required_Members()
+    public async Task ApiCompatibilityPreserver_Preserves_Alias_Constructors_For_New_Required_Members()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
         var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
@@ -4113,10 +4113,15 @@ public class GeneratorHardeningTests
                 ],
             };
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var constructor = preserved.Commands.Single()
+                .AliasCompatibilityConstructors["ToolBuilderBakeOptions"]
+                .Single();
 
-            await Assert.That(exception.Message).Contains("newly required member(s) Destination have no baseline value");
+            await Assert.That(constructor.Parameters.Select(static parameter => parameter.PropertyName))
+                .IsEquivalentTo(["Source"]);
+            await Assert.That(constructor.PrimaryConstructorArguments)
+                .IsEquivalentTo(["Source", "default(string)!"]);
         }
         finally
         {
@@ -4125,7 +4130,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Parameterless_Alias_Constructor_For_New_Required_Members()
+    public async Task ApiCompatibilityPreserver_Preserves_Parameterless_Alias_Constructor_For_New_Required_Members()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
         var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
@@ -4159,10 +4164,14 @@ public class GeneratorHardeningTests
                 ],
             };
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var constructor = preserved.Commands.Single()
+                .AliasCompatibilityConstructors["ToolBuilderBakeOptions"]
+                .Single();
 
-            await Assert.That(exception.Message).Contains("newly required member(s) Source have no baseline value");
+            await Assert.That(constructor.Parameters).IsEmpty();
+            await Assert.That(constructor.PrimaryConstructorArguments)
+                .IsEquivalentTo(["default(string)!"]);
         }
         finally
         {

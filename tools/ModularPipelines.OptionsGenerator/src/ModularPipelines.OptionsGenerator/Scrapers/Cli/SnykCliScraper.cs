@@ -443,6 +443,12 @@ public partial class SnykCliScraper : CliScraperBase
         commandParts is ["iac", "describe"]
         && switchName.Equals("--from", StringComparison.OrdinalIgnoreCase);
 
+    /// <inheritdoc />
+    protected override bool ShouldTreatOptionAsScalar(
+        IReadOnlyList<string> commandParts,
+        string switchName) =>
+        IsKnownScalarValueOption(commandParts, switchName);
+
     private static void AddDocumentedOptions(
         string[] commandParts,
         List<CliOptionDefinition> options)

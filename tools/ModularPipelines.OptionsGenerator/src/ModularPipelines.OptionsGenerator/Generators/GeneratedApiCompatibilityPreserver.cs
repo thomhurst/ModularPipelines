@@ -921,8 +921,7 @@ internal static class GeneratedApiCompatibilityPreserver
             aliasBaseline.Properties,
             aliasBaseline.Constructors,
             currentRequired,
-            compatibilityConstructors,
-            allowNewRequiredMembers: false);
+            compatibilityConstructors);
         SetCompatibilityEntries(constructorsByAlias, aliasClassName, compatibilityConstructors);
     }
 
@@ -2562,15 +2561,13 @@ internal static class GeneratedApiCompatibilityPreserver
             baselineProperties,
             baselineConstructors,
             [.. GetCurrentProperties(positionalArguments, options).Where(static property => property.IsRequired)],
-            compatibilityConstructors,
-            allowNewRequiredMembers: true);
+            compatibilityConstructors);
 
     private static void PreserveCompatibilityConstructors(
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors,
         IReadOnlyList<GeneratedApiProperty> currentRequired,
-        List<CliCompatibilityConstructor> compatibilityConstructors,
-        bool allowNewRequiredMembers)
+        List<CliCompatibilityConstructor> compatibilityConstructors)
     {
         if (currentRequired.Count == 0)
         {
@@ -2581,19 +2578,6 @@ internal static class GeneratedApiCompatibilityPreserver
         var baselineRequired = baselineProperties
             .Where(static property => property.IsRequired && !property.IsCompatibility)
             .ToArray();
-        var addedRequired = currentRequired
-            .Where(current => !baselineRequired.Any(baseline =>
-                baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal)
-                && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
-            .Select(static property => property.PropertyName)
-            .ToArray();
-        if (addedRequired.Length > 0 && !allowNewRequiredMembers)
-        {
-            throw new InvalidOperationException(
-                "Cannot retain generated constructors because newly required member(s) "
-                + $"{string.Join(", ", addedRequired)} have no baseline value.");
-        }
-
         foreach (var constructor in baselineConstructors)
         {
             AddCompatibilityConstructor(
