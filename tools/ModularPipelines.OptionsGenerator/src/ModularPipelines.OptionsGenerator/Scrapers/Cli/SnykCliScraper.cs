@@ -342,25 +342,27 @@ public partial class SnykCliScraper : CliScraperBase
     {
         var longForm = match.Groups["long"].Value.Trim();
         var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
-        if (!seenOptions.Add(longForm) || NormalizePropertyName(longForm) is not { } propertyName)
+        if (!seenOptions.Add(longForm))
+        {
+            return null;
+        }
+
+        if (NormalizePropertyName(longForm) is not { } propertyName)
         {
             return null;
         }
 
         var isNumeric = NumericOptions.Contains(longForm);
-        var isFlag = string.IsNullOrEmpty(valueHint)
-            && !isNumeric
-            && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
+        var isFlag = IsFlagOption(longForm, valueHint, isNumeric);
         var isBoolean = IsBooleanValueHint(valueHint);
-        var acceptsMultipleValues = !IsKnownScalarValueOption(commandParts, longForm)
-                                    && IsRepeatableValueOption(
-                                        description ?? string.Empty,
-                                        isFlag,
-                                        isBoolean);
+        var acceptsMultipleValues = AcceptsMultipleValues(
+            commandParts,
+            longForm,
+            description,
+            isFlag,
+            isBoolean);
         var enumDefinition = CreateEnumDefinition(propertyName, longForm, valueHint, isBoolean);
-        var scalarType = enumDefinition is not null
-            ? $"{enumDefinition.EnumName}?"
-            : isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
+        var scalarType = GetScalarType(enumDefinition, isFlag, isBoolean, isNumeric);
 
         return new CliOptionDefinition
         {
@@ -380,6 +382,34 @@ public partial class SnykCliScraper : CliScraperBase
                 || longForm.Equals("--fetch-tfstate-headers", StringComparison.OrdinalIgnoreCase),
         };
     }
+
+    private static bool IsFlagOption(string longForm, string valueHint, bool isNumeric) =>
+        string.IsNullOrEmpty(valueHint)
+        && !isNumeric
+        && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
+
+    private static bool AcceptsMultipleValues(
+        IReadOnlyList<string> commandParts,
+        string longForm,
+        string? description,
+        bool isFlag,
+        bool isBoolean) =>
+        !IsKnownScalarValueOption(commandParts, longForm)
+        && IsRepeatableValueOption(description ?? string.Empty, isFlag, isBoolean);
+
+    private static string GetScalarType(
+        CliEnumDefinition? enumDefinition,
+        bool isFlag,
+        bool isBoolean,
+        bool isNumeric) =>
+        enumDefinition is not null
+            ? $"{enumDefinition.EnumName}?"
+            : (isFlag || isBoolean, isNumeric) switch
+            {
+                (true, _) => "bool?",
+                (_, true) => "int?",
+                _ => "string?",
+            };
 
     private static CliEnumDefinition? CreateEnumDefinition(
         string propertyName,
