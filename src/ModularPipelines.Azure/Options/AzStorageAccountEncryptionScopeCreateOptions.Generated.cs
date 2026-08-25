@@ -35,7 +35,7 @@ public record AzStorageAccountEncryptionScopeCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--require-infrastructure-encryption", ShortForm = "-i")]
+    [CliOption("--require-infrastructure-encryption", ShortForm = "-i")]
     public bool? RequireInfrastructureEncryption { get; set; }
 
     /// <summary>

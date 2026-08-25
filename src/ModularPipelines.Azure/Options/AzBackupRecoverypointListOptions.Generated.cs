@@ -35,7 +35,7 @@ public record AzBackupRecoverypointListOptions : AzOptions
     /// <summary>
     /// Use this flag to retrieve the recoverypoints that are ready to be moved to destination-tier.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-ready-for-move")]
+    [CliOption("--is-ready-for-move")]
     public bool? IsReadyForMove { get; set; }
 
     /// <summary>

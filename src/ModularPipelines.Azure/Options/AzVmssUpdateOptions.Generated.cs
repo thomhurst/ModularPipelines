@@ -29,7 +29,7 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Indicate whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-auto-os-upgrade")]
+    [CliOption("--enable-auto-os-upgrade")]
     public bool? EnableAutoOsUpgrade { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Retry VM Delete requests asynchronously in the event of a failed delete operation.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-resilient-deletion")]
+    [CliOption("--enable-resilient-deletion")]
     public bool? EnableResilientDeletion { get; set; }
 
     /// <summary>

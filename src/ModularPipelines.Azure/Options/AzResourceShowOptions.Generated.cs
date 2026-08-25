@@ -23,7 +23,7 @@ public record AzResourceShowOptions : AzOptions
     /// <summary>
     /// Use if the default command output doesn't capture all of the property data.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--include-response-body")]
+    [CliOption("--include-response-body")]
     public bool? IncludeResponseBody { get; set; }
 
 }

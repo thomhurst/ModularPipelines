@@ -29,31 +29,31 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection")]
+    [CliOption("--enable-purge-protection")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>
     /// Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of true. Note that management actions are always authorized with RBAC.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--enable-rbac-authorization")]
+    [CliOption("--enable-rbac-authorization")]
     public bool? EnableRbacAuthorization { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled-for-deployment")]
+    [CliOption("--enabled-for-deployment")]
     public bool? EnabledForDeployment { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled-for-disk-encryption")]
+    [CliOption("--enabled-for-disk-encryption")]
     public bool? EnabledForDiskEncryption { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled-for-template-deployment")]
+    [CliOption("--enabled-for-template-deployment")]
     public bool? EnabledForTemplateDeployment { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [Vault Only] Don't add permissions for the current user/service principal in the new vault.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-self-perms")]
+    [CliOption("--no-self-perms")]
     public bool? NoSelfPerms { get; set; }
 
     /// <summary>

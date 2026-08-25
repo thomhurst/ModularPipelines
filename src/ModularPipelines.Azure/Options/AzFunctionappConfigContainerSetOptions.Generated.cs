@@ -41,7 +41,7 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-dapr")]
+    [CliOption("--enable-dapr")]
     public bool? EnableDapr { get; set; }
 
     /// <summary>

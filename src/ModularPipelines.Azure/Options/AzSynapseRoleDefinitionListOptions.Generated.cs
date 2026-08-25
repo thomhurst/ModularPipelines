@@ -23,7 +23,7 @@ public record AzSynapseRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Is a Synapse Built-In Role or not.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-built-in")]
+    [CliOption("--is-built-in")]
     public bool? IsBuiltIn { get; set; }
 
 }

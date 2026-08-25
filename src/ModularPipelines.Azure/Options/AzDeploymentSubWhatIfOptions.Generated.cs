@@ -41,7 +41,7 @@ public record AzDeploymentSubWhatIfOptions : AzOptions
     /// <summary>
     /// The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-prompt")]
+    [CliOption("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
     /// <summary>

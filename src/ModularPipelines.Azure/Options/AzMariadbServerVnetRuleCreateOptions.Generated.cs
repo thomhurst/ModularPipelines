@@ -23,7 +23,7 @@ public record AzMariadbServerVnetRuleCreateOptions : AzOptions
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-missing-endpoint", ShortForm = "-i")]
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>

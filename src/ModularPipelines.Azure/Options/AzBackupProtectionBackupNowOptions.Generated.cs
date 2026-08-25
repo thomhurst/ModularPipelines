@@ -35,7 +35,7 @@ public record AzBackupProtectionBackupNowOptions : AzOptions
     /// <summary>
     /// Option to enable compression.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-compression")]
+    [CliOption("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
     /// <summary>

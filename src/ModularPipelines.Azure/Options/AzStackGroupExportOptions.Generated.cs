@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzStackGroupExportOptions : AzOptions
 {
     /// <summary>
-    /// The deployment stack resource id.
+    /// The deployment stack resource ID.
     /// </summary>
     [CliFlag("--id")]
     public bool? Id { get; set; }
 
     /// <summary>
-    /// The deployment stack name.
+    /// The name of the deployment stack.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

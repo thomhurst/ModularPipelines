@@ -23,7 +23,7 @@ public record AzBatchTaskFileListOptions : AzOptions
     /// <summary>
     /// Whether to list children of the Task directory. This parameter can be used in combination with the filter parameter to list specific type of files.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
 }

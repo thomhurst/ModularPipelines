@@ -29,7 +29,7 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-metrics")]
+    [CliOption("--enable-metrics")]
     public bool? EnableMetrics { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--priority-replication")]
+    [CliOption("--priority-replication")]
     public bool? PriorityReplication { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--tags-replication")]
+    [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
 
 }

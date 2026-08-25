@@ -23,7 +23,7 @@ public record AzStorageContainerImmutabilityPolicyExtendOptions : AzOptions
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-protected-append-writes", ShortForm = "-w")]
+    [CliOption("--allow-protected-append-writes", ShortForm = "-w")]
     public bool? AllowProtectedAppendWrites { get; set; }
 
     /// <summary>

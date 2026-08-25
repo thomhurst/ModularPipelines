@@ -47,7 +47,7 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     /// <summary>
     /// Generate VPN client package using legacy implementation. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-legacy")]
+    [CliOption("--use-legacy")]
     public bool? UseLegacy { get; set; }
 
 }

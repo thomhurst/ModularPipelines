@@ -51,13 +51,13 @@ public record AzBackupVaultUpdateOptions : AzOptions
     public bool? ImmutabilityState { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure.  Allowed values: Disable, Enable.
+    /// Use this property to specify whether built-in Azure Monitor alerts should be received for every job failure. Allowed values: Disable, Enable.
     /// </summary>
     [CliFlag("--job-failure-alerts")]
     public bool? JobFailureAlerts { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable, Enable.
+    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable,
     /// </summary>
     [CliFlag("--public-network-access")]
     public bool? PublicNetworkAccess { get; set; }

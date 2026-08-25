@@ -77,7 +77,7 @@ public record AzImageCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-resilient")]
+    [CliOption("--zone-resilient")]
     public bool? ZoneResilient { get; set; }
 
 }

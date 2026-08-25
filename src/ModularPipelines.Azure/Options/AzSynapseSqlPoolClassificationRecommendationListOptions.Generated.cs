@@ -29,7 +29,7 @@ public record AzSynapseSqlPoolClassificationRecommendationListOptions : AzOption
     /// <summary>
     /// Indicates whether the result should include disabled recommendations.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--included-disabled")]
+    [CliOption("--included-disabled")]
     public bool? IncludedDisabled { get; set; }
 
     /// <summary>

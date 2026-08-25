@@ -23,7 +23,7 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The flag of force operation.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--force")]
+    [CliOption("--force")]
     public bool? Force { get; set; }
 
     /// <summary>

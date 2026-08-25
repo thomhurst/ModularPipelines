@@ -41,7 +41,7 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// True if access restriction should be removed from scm site. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--scm-site")]
+    [CliOption("--scm-site")]
     public bool? ScmSite { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// Skip validating public service tags.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-service-tag-validation", ShortForm = "-k")]
+    [CliOption("--skip-service-tag-validation", ShortForm = "-k")]
     public bool? SkipServiceTagValidation { get; set; }
 
     /// <summary>

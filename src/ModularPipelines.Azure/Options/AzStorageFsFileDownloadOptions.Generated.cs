@@ -35,7 +35,7 @@ public record AzStorageFsFileDownloadOptions : AzOptions
     /// <summary>
     /// Overwrite an existing file when specified. Default value is false. Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--overwrite")]
+    [CliOption("--overwrite")]
     public bool? Overwrite { get; set; }
 
     /// <summary>

@@ -35,7 +35,7 @@ public record AzAmsAccountEncryptionSetOptions : AzOptions
     /// <summary>
     /// Set the system managed identity for account encryption.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--system-assigned")]
+    [CliOption("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
     /// <summary>

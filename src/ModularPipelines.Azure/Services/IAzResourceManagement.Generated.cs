@@ -15,12 +15,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az resourcemanagement commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzResourceManagement
 {
     /// <summary>
     /// az private-link sub-commands.
     /// </summary>
-    AzResourceManagementPrivateLink PrivateLink { get; }
+    AzResourceManagementPrivateLink PrivateLink => throw new System.NotSupportedException();
 
 }

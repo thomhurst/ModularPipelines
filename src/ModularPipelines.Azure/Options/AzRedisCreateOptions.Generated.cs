@@ -23,7 +23,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-access-keys")]
+    [CliOption("--disable-access-keys")]
     public bool? DisableAccessKeys { get; set; }
 
     /// <summary>

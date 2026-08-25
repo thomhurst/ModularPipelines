@@ -23,7 +23,7 @@ public record AzApimProductUpdateOptions : AzOptions
     /// <summary>
     /// Whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can use any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--approval-required")]
+    [CliOption("--approval-required")]
     public bool? ApprovalRequired { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzApimProductUpdateOptions : AzOptions
     /// <summary>
     /// Whether a product subscription is required for accessing APIs included in this product.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--subscription-required", ShortForm = "-s")]
+    [CliOption("--subscription-required", ShortForm = "-s")]
     public bool? SubscriptionRequired { get; set; }
 
     /// <summary>

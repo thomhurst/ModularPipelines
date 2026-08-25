@@ -41,7 +41,7 @@ public record AzWebappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// Enables platform storage (custom container only).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-app-service-storage", ShortForm = "-t")]
+    [CliOption("--enable-app-service-storage", ShortForm = "-t")]
     public bool? EnableAppServiceStorage { get; set; }
 
     /// <summary>

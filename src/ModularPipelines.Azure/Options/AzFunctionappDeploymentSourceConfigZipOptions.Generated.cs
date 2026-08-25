@@ -23,7 +23,7 @@ public record AzFunctionappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--build-remote")]
+    [CliOption("--build-remote")]
     public bool? BuildRemote { get; set; }
 
     /// <summary>

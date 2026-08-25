@@ -23,7 +23,7 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Specify attach and mount value for HANA Snapshot restores.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--attach-and-mount")]
+    [CliOption("--attach-and-mount")]
     public bool? AttachAndMount { get; set; }
 
     /// <summary>

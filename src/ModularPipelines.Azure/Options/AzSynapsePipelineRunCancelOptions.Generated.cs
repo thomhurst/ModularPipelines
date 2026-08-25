@@ -23,7 +23,7 @@ public record AzSynapsePipelineRunCancelOptions : AzOptions
     /// <summary>
     /// If true, cancel all the Child pipelines that are triggered by the current pipeline.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-recursive")]
+    [CliOption("--is-recursive")]
     public bool? IsRecursive { get; set; }
 
     /// <summary>

@@ -29,7 +29,7 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.  Default: true.
     /// </summary>
-    [CliFlag("--gc-enabled")]
+    [CliOption("--gc-enabled")]
     public bool? GcEnabled { get; set; }
 
     /// <summary>

@@ -29,7 +29,7 @@ public record AzImageBuilderValidatorAddOptions : AzOptions
     /// <summary>
     /// If this parameter is set to true, the image specified in the 'source' section will directly be validated. No separate build will be run to generate and then validate a customized image.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--source-validation-only")]
+    [CliOption("--source-validation-only")]
     public bool? SourceValidationOnly { get; set; }
 
 }

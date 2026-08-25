@@ -35,7 +35,7 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// <summary>
     /// True if the container is the main SiteContainer; false otherwise.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-main")]
+    [CliOption("--is-main")]
     public bool? IsMain { get; set; }
 
     /// <summary>

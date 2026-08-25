@@ -29,7 +29,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// <summary>
     /// Option to delete existing backed up data in the Recovery services vault.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--delete-backup-data")]
+    [CliOption("--delete-backup-data")]
     public bool? DeleteBackupData { get; set; }
 
     /// <summary>

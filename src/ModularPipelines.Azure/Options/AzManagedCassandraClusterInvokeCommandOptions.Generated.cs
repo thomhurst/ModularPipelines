@@ -29,7 +29,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// <summary>
     /// If true, stops cassandra before executing the command and then start it again.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--cassandra-stop-start")]
+    [CliOption("--cassandra-stop-start")]
     public bool? CassandraStopStart { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// <summary>
     /// If true, allows the command to *write* to the cassandra directory, otherwise read-only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--readwrite")]
+    [CliOption("--readwrite")]
     public bool? Readwrite { get; set; }
 
 }

@@ -29,7 +29,7 @@ public record AzKeyvaultRestoreStartOptions : AzOptions
     /// <summary>
     /// If True, Managed HSM will use the configured user-assigned managed identity to authenticate with Azure Storage. Otherwise, a `sas_token` has to be specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-managed-identity")]
+    [CliOption("--use-managed-identity")]
     public bool? UseManagedIdentity { get; set; }
 
 }

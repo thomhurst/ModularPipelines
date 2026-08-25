@@ -15,83 +15,86 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az containerapp commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzContainerapp
 {
     /// <summary>
     /// az auth sub-commands.
     /// </summary>
-    AzContainerappAuth Auth { get; }
+    AzContainerappAuth Auth => throw new System.NotSupportedException();
 
     /// <summary>
     /// az compose sub-commands.
     /// </summary>
-    AzContainerappCompose Compose { get; }
+    AzContainerappCompose Compose => throw new System.NotSupportedException();
 
     /// <summary>
     /// az connection sub-commands.
     /// </summary>
-    AzContainerappConnection Connection { get; }
+    AzContainerappConnection Connection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az env sub-commands.
     /// </summary>
-    AzContainerappEnv Env { get; }
+    AzContainerappEnv Env => throw new System.NotSupportedException();
 
     /// <summary>
     /// az github-action sub-commands.
     /// </summary>
-    AzContainerappGithubAction GithubAction { get; }
+    AzContainerappGithubAction GithubAction => throw new System.NotSupportedException();
 
     /// <summary>
     /// az hostname sub-commands.
     /// </summary>
-    AzContainerappHostname Hostname { get; }
+    AzContainerappHostname Hostname => throw new System.NotSupportedException();
 
     /// <summary>
     /// az identity sub-commands.
     /// </summary>
-    AzContainerappIdentity Identity { get; }
+    AzContainerappIdentity Identity => throw new System.NotSupportedException();
 
     /// <summary>
     /// az ingress sub-commands.
     /// </summary>
-    AzContainerappIngress Ingress { get; }
+    AzContainerappIngress Ingress => throw new System.NotSupportedException();
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzContainerappJob Job { get; }
+    AzContainerappJob Job => throw new System.NotSupportedException();
 
     /// <summary>
     /// az logs sub-commands.
     /// </summary>
-    AzContainerappLogs Logs { get; }
+    AzContainerappLogs Logs => throw new System.NotSupportedException();
 
     /// <summary>
     /// az registry sub-commands.
     /// </summary>
-    AzContainerappRegistry Registry { get; }
+    AzContainerappRegistry Registry => throw new System.NotSupportedException();
 
     /// <summary>
     /// az replica sub-commands.
     /// </summary>
-    AzContainerappReplica Replica { get; }
+    AzContainerappReplica Replica => throw new System.NotSupportedException();
 
     /// <summary>
     /// az revision sub-commands.
     /// </summary>
-    AzContainerappRevision Revision { get; }
+    AzContainerappRevision Revision => throw new System.NotSupportedException();
 
     /// <summary>
     /// az secret sub-commands.
     /// </summary>
-    AzContainerappSecret Secret { get; }
+    AzContainerappSecret Secret => throw new System.NotSupportedException();
 
     /// <summary>
     /// az ssl sub-commands.
     /// </summary>
-    AzContainerappSsl Ssl { get; }
+    AzContainerappSsl Ssl => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a container app.
@@ -100,10 +103,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzContainerappCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzContainerappCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete a container app.
@@ -112,10 +113,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzContainerappDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzContainerappDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Open an SSH-like interactive shell within a container app replica.
@@ -124,10 +123,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecAsync(
-        AzContainerappExecOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecAsync(AzContainerappExecOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List container apps.
@@ -136,10 +133,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzContainerappListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzContainerappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show details of a container app.
@@ -148,10 +143,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowAsync(
-        AzContainerappShowOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowAsync(AzContainerappShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update a container app. In multiple revisions mode, create a new
@@ -160,10 +153,8 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzContainerappUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzContainerappUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create or update a container app as well as any associated resources (ACR,
@@ -172,9 +163,7 @@ public interface IAzContainerapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpAsync(
-        AzContainerappUpOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpAsync(AzContainerappUpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

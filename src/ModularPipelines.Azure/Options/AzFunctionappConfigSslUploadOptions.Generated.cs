@@ -29,7 +29,7 @@ public record AzFunctionappConfigSslUploadOptions : AzOptions
     /// <summary>
     /// For Flex Consumption apps only. When set to true, the certificate is accessible to app code.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--load-to-code")]
+    [CliOption("--load-to-code")]
     public bool? LoadToCode { get; set; }
 
     /// <summary>

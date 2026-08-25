@@ -23,7 +23,7 @@ public record AzVmExtensionSetOptions : AzOptions
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-auto-upgrade")]
+    [CliOption("--enable-auto-upgrade")]
     public bool? EnableAutoUpgrade { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzVmExtensionSetOptions : AzOptions
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-auto-upgrade-minor-version")]
+    [CliOption("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ public record AzAcrReplicationUpdateOptions : AzOptions
     /// <summary>
     /// Allow routing to this replication via the registry global endpoint. If disabled, requests to the global endpoint will not be routed to the replica. Data syncing to the replica will continue regardless of the global endpoint routing status.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--global-endpoint-routing")]
+    [CliOption("--global-endpoint-routing")]
     public bool? GlobalEndpointRouting { get; set; }
 
     /// <summary>

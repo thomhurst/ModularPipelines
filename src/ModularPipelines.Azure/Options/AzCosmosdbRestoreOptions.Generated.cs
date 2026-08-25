@@ -41,7 +41,7 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// Enable or disable restoring with ttl disabled. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-ttl", ShortForm = "-d")]
+    [CliOption("--disable-ttl", ShortForm = "-d")]
     public bool? DisableTtl { get; set; }
 
     /// <summary>

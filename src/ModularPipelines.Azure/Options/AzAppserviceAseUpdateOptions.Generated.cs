@@ -23,19 +23,19 @@ public record AzAppserviceAseUpdateOptions : AzOptions
     /// <summary>
     /// (ASEv3 only) Configure App Service Environment to allow FTP access. This ftpEnabled setting allows you to allow or deny FTP connections on the App Service Environment level. Individual apps will still need to configure FTP access.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-incoming-ftp-connections", ShortForm = "-f")]
+    [CliOption("--allow-incoming-ftp-connections", ShortForm = "-f")]
     public bool? AllowIncomingFtpConnections { get; set; }
 
     /// <summary>
     /// (ASEv3 only) Configure Apps in App Service Environment to allow new private endpoint connections.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-new-private-endpoint-connections", ShortForm = "-p")]
+    [CliOption("--allow-new-private-endpoint-connections", ShortForm = "-p")]
     public bool? AllowNewPrivateEndpointConnections { get; set; }
 
     /// <summary>
     /// (ASEv3 only) Configure App Service Environment to allow remote debugging. You will still have to configure remote debugging at the individual app level.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-remote-debugging", ShortForm = "-r")]
+    [CliOption("--allow-remote-debugging", ShortForm = "-r")]
     public bool? AllowRemoteDebugging { get; set; }
 
     /// <summary>

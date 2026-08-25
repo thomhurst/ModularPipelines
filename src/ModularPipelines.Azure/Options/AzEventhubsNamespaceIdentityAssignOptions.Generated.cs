@@ -23,7 +23,7 @@ public record AzEventhubsNamespaceIdentityAssignOptions : AzOptions
     /// <summary>
     /// System Assigned Identity.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--system-assigned")]
+    [CliOption("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
     /// <summary>

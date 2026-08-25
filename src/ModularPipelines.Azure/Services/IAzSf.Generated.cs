@@ -15,47 +15,50 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sf commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzSf
 {
     /// <summary>
     /// az application sub-commands.
     /// </summary>
-    AzSfApplication Application { get; }
+    AzSfApplication Application => throw new System.NotSupportedException();
 
     /// <summary>
     /// az cluster sub-commands.
     /// </summary>
-    AzSfCluster Cluster { get; }
+    AzSfCluster Cluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-application sub-commands.
     /// </summary>
-    AzSfManagedApplication ManagedApplication { get; }
+    AzSfManagedApplication ManagedApplication => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-application-type sub-commands.
     /// </summary>
-    AzSfManagedApplicationType ManagedApplicationType { get; }
+    AzSfManagedApplicationType ManagedApplicationType => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-cluster sub-commands.
     /// </summary>
-    AzSfManagedCluster ManagedCluster { get; }
+    AzSfManagedCluster ManagedCluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-node-type sub-commands.
     /// </summary>
-    AzSfManagedNodeType ManagedNodeType { get; }
+    AzSfManagedNodeType ManagedNodeType => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-service sub-commands.
     /// </summary>
-    AzSfManagedService ManagedService { get; }
+    AzSfManagedService ManagedService => throw new System.NotSupportedException();
 
     /// <summary>
     /// az service sub-commands.
     /// </summary>
-    AzSfService Service { get; }
+    AzSfService Service => throw new System.NotSupportedException();
 
 }

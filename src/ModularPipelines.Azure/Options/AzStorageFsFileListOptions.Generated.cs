@@ -53,7 +53,7 @@ public record AzStorageFsFileListOptions : AzOptions
     /// <summary>
     /// Look into sub-directories recursively when set to true.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>

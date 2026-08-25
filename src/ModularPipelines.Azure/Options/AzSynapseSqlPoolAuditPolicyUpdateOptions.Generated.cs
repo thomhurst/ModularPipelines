@@ -23,7 +23,7 @@ public record AzSynapseSqlPoolAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Whether enabling azure monitor target or not. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-azure-monitor")]
+    [CliOption("--enable-azure-monitor")]
     public bool? EnableAzureMonitor { get; set; }
 
 }

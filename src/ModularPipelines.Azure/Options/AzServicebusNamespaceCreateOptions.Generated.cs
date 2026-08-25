@@ -35,7 +35,7 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Service Bus.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether Infrastructure
     /// </summary>
-    [CliFlag("--infra-encryption")]
+    [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
     /// <summary>

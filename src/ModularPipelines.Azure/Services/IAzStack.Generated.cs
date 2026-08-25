@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az stack commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzStack
 {
     /// <summary>
     /// az group sub-commands.
     /// </summary>
-    AzStackGroup Group { get; }
+    AzStackGroup Group => throw new System.NotSupportedException();
 
     /// <summary>
     /// az mg sub-commands.
     /// </summary>
-    AzStackMg Mg { get; }
+    AzStackMg Mg => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sub sub-commands.
     /// </summary>
-    AzStackSub Sub { get; }
+    AzStackSub Sub => throw new System.NotSupportedException();
 
 }

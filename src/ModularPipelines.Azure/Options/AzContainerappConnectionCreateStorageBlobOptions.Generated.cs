@@ -71,13 +71,13 @@ public record AzContainerappConnectionCreateStorageBlobOptions : AzOptions
     /// <summary>
     /// Indicates whether to create a new storage-blob when creating the containerapp connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--new")]
+    [CliOption("--new")]
     public bool? New { get; set; }
 
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-recreate")]
+    [CliOption("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>

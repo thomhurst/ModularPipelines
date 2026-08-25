@@ -77,7 +77,7 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Import only key values and exclude all feature flags. By default, all feature flags will be imported from file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-features")]
+    [CliOption("--skip-features")]
     public bool? SkipFeatures { get; set; }
 
     /// <summary>

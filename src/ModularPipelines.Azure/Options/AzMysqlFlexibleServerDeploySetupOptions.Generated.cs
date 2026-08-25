@@ -29,7 +29,7 @@ public record AzMysqlFlexibleServerDeploySetupOptions : AzOptions
     /// <summary>
     /// Push the action yml file to the remote repository. The changes will be pushed to origin repository, speicified branch or current branch if not specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-push")]
+    [CliOption("--allow-push")]
     public bool? AllowPush { get; set; }
 
     /// <summary>

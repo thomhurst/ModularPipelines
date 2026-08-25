@@ -23,7 +23,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Allow classic operations. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--allow-classic-operations")]
+    [CliOption("--allow-classic-operations")]
     public bool? AllowClassicOperations { get; set; }
 
     /// <summary>

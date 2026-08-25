@@ -29,7 +29,7 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Automatically resolve the alert.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--auto-mitigate")]
+    [CliOption("--auto-mitigate")]
     public bool? AutoMitigate { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Create the rule in a disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliOption("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>

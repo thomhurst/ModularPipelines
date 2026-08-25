@@ -15,63 +15,66 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az keyvault commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzKeyvault
 {
     /// <summary>
     /// az backup sub-commands.
     /// </summary>
-    AzKeyvaultBackup Backup { get; }
+    AzKeyvaultBackup Backup => throw new System.NotSupportedException();
 
     /// <summary>
     /// az certificate sub-commands.
     /// </summary>
-    AzKeyvaultCertificate Certificate { get; }
+    AzKeyvaultCertificate Certificate => throw new System.NotSupportedException();
 
     /// <summary>
     /// az key sub-commands.
     /// </summary>
-    AzKeyvaultKey Key { get; }
+    AzKeyvaultKey Key => throw new System.NotSupportedException();
 
     /// <summary>
     /// az network-rule sub-commands.
     /// </summary>
-    AzKeyvaultNetworkRule NetworkRule { get; }
+    AzKeyvaultNetworkRule NetworkRule => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzKeyvaultPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzKeyvaultPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-link-resource sub-commands.
     /// </summary>
-    AzKeyvaultPrivateLinkResource PrivateLinkResource { get; }
+    AzKeyvaultPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
 
     /// <summary>
     /// az region sub-commands.
     /// </summary>
-    AzKeyvaultRegion Region { get; }
+    AzKeyvaultRegion Region => throw new System.NotSupportedException();
 
     /// <summary>
     /// az restore sub-commands.
     /// </summary>
-    AzKeyvaultRestore Restore { get; }
+    AzKeyvaultRestore Restore => throw new System.NotSupportedException();
 
     /// <summary>
     /// az role sub-commands.
     /// </summary>
-    AzKeyvaultRole Role { get; }
+    AzKeyvaultRole Role => throw new System.NotSupportedException();
 
     /// <summary>
     /// az secret sub-commands.
     /// </summary>
-    AzKeyvaultSecret Secret { get; }
+    AzKeyvaultSecret Secret => throw new System.NotSupportedException();
 
     /// <summary>
     /// az security-domain sub-commands.
     /// </summary>
-    AzKeyvaultSecurityDomain SecurityDomain { get; }
+    AzKeyvaultSecurityDomain SecurityDomain => throw new System.NotSupportedException();
 
     /// <summary>
     /// Check that the given name is valid and is not already in use.
@@ -80,10 +83,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckNameAsync(
-        AzKeyvaultCheckNameOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CheckNameAsync(AzKeyvaultCheckNameOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a Vault or HSM.
@@ -92,10 +93,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzKeyvaultCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzKeyvaultCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete a Vault or HSM.
@@ -104,10 +103,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzKeyvaultDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzKeyvaultDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete security policy settings for a Key Vault.
@@ -116,10 +113,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeletePolicyAsync(
-        AzKeyvaultDeletePolicyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeletePolicyAsync(AzKeyvaultDeletePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get information about the deleted Vaults or HSMs in a subscription.
@@ -128,10 +123,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListDeletedAsync(
-        AzKeyvaultListDeletedOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListDeletedAsync(AzKeyvaultListDeletedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List Vaults and/or HSMs.
@@ -140,10 +133,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzKeyvaultListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzKeyvaultListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Permanently delete the specified Vault or HSM. Aka Purges the deleted Vault
@@ -152,10 +143,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PurgeAsync(
-        AzKeyvaultPurgeOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> PurgeAsync(AzKeyvaultPurgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Recover a Vault or HSM.
@@ -164,10 +153,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RecoverAsync(
-        AzKeyvaultRecoverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RecoverAsync(AzKeyvaultRecoverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update security policy settings for a Key Vault.
@@ -176,10 +163,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetPolicyAsync(
-        AzKeyvaultSetPolicyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetPolicyAsync(AzKeyvaultSetPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show details of a deleted Vault or HSM.
@@ -188,10 +173,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowDeletedAsync(
-        AzKeyvaultShowDeletedOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowDeletedAsync(AzKeyvaultShowDeletedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show details of a Vault or HSM.
@@ -200,10 +183,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowAsync(
-        AzKeyvaultShowOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowAsync(AzKeyvaultShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update the properties of a HSM.
@@ -212,10 +193,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateHsmAsync(
-        AzKeyvaultUpdateHsmOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateHsmAsync(AzKeyvaultUpdateHsmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update the properties of a Vault.
@@ -224,10 +203,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzKeyvaultUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzKeyvaultUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Place the CLI in a waiting state until a condition of the HSM is met.
@@ -236,10 +213,8 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WaitHsmAsync(
-        AzKeyvaultWaitHsmOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> WaitHsmAsync(AzKeyvaultWaitHsmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Place the CLI in a waiting state until a condition of the Vault is met.
@@ -248,9 +223,7 @@ public interface IAzKeyvault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> WaitAsync(
-        AzKeyvaultWaitOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> WaitAsync(AzKeyvaultWaitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

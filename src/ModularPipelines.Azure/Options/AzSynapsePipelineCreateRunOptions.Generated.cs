@@ -23,7 +23,7 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// <summary>
     /// Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-recovery")]
+    [CliOption("--is-recovery")]
     public bool? IsRecovery { get; set; }
 
     /// <summary>

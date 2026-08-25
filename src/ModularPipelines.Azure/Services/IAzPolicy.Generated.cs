@@ -15,52 +15,55 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az policy commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzPolicy
 {
     /// <summary>
     /// az assignment sub-commands.
     /// </summary>
-    AzPolicyAssignment Assignment { get; }
+    AzPolicyAssignment Assignment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az attestation sub-commands.
     /// </summary>
-    AzPolicyAttestation Attestation { get; }
+    AzPolicyAttestation Attestation => throw new System.NotSupportedException();
 
     /// <summary>
     /// az definition sub-commands.
     /// </summary>
-    AzPolicyDefinition Definition { get; }
+    AzPolicyDefinition Definition => throw new System.NotSupportedException();
 
     /// <summary>
     /// az enrollment sub-commands.
     /// </summary>
-    AzPolicyEnrollment Enrollment { get; }
+    AzPolicyEnrollment Enrollment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az exemption sub-commands.
     /// </summary>
-    AzPolicyExemption Exemption { get; }
+    AzPolicyExemption Exemption => throw new System.NotSupportedException();
 
     /// <summary>
     /// az metadata sub-commands.
     /// </summary>
-    AzPolicyMetadata Metadata { get; }
+    AzPolicyMetadata Metadata => throw new System.NotSupportedException();
 
     /// <summary>
     /// az remediation sub-commands.
     /// </summary>
-    AzPolicyRemediation Remediation { get; }
+    AzPolicyRemediation Remediation => throw new System.NotSupportedException();
 
     /// <summary>
     /// az set-definition sub-commands.
     /// </summary>
-    AzPolicySetDefinition SetDefinition { get; }
+    AzPolicySetDefinition SetDefinition => throw new System.NotSupportedException();
 
     /// <summary>
     /// az state sub-commands.
     /// </summary>
-    AzPolicyState State { get; }
+    AzPolicyState State => throw new System.NotSupportedException();
 
 }

@@ -29,7 +29,7 @@ public record AzApimNvUpdateOptions : AzOptions
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--secret")]
+    [CliOption("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>

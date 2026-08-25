@@ -29,19 +29,19 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// Enable or disable pull image from acr use managed identity. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--acr-use-identity")]
+    [CliOption("--acr-use-identity")]
     public bool? AcrUseIdentity { get; set; }
 
     /// <summary>
     /// Ensure web app gets loaded all the time, rather unloaded after been idle. Recommended when you have continuous web jobs running. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--always-on")]
+    [CliOption("--always-on")]
     public bool? AlwaysOn { get; set; }
 
     /// <summary>
     /// Enable or disable auto heal.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--auto-heal-enabled")]
+    [CliOption("--auto-heal-enabled")]
     public bool? AutoHealEnabled { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// Configures a web site to allow clients to connect over http2.0. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--http20-enabled")]
+    [CliOption("--http20-enabled")]
     public bool? Http20Enabled { get; set; }
 
     /// <summary>
@@ -137,7 +137,7 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// Enable or disable remote debugging.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--remote-debugging-enabled")]
+    [CliOption("--remote-debugging-enabled")]
     public bool? RemoteDebuggingEnabled { get; set; }
 
     /// <summary>
@@ -161,19 +161,19 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// Use 32 bits worker process or not.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-32bit-worker-process")]
+    [CliOption("--use-32bit-worker-process")]
     public bool? Use_32bitWorkerProcess { get; set; }
 
     /// <summary>
     /// Configure regional VNet integration to route all traffic to the VNet.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--vnet-route-all-enabled")]
+    [CliOption("--vnet-route-all-enabled")]
     public bool? VnetRouteAllEnabled { get; set; }
 
     /// <summary>
     /// Enable or disable web sockets.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--web-sockets-enabled")]
+    [CliOption("--web-sockets-enabled")]
     public bool? WebSocketsEnabled { get; set; }
 
     /// <summary>

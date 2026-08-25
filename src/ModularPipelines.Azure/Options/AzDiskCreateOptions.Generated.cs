@@ -83,7 +83,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-bursting")]
+    [CliOption("--enable-bursting")]
     public bool? EnableBursting { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--optimized-for-frequent-attach")]
+    [CliOption("--optimized-for-frequent-attach")]
     public bool? OptimizedForFrequentAttach { get; set; }
 
     /// <summary>
@@ -167,7 +167,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--performance-plus")]
+    [CliOption("--performance-plus")]
     public bool? PerformancePlus { get; set; }
 
     /// <summary>
@@ -221,7 +221,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Indicate the OS on a disk supports hibernation. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--support-hibernation")]
+    [CliOption("--support-hibernation")]
     public bool? SupportHibernation { get; set; }
 
     /// <summary>

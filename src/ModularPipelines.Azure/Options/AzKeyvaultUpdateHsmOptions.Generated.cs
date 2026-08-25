@@ -23,7 +23,7 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection", ShortForm = "-e")]
+    [CliOption("--enable-purge-protection", ShortForm = "-e")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>

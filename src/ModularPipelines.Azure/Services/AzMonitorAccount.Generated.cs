@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorAccount
 {
     private readonly ICommandContext _command;
+    private AzMonitorAccountIssue? _issue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorAccount"/> class.
@@ -28,6 +29,15 @@ public class AzMonitorAccount
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az issue sub-commands.
+    /// </summary>
+    public AzMonitorAccountIssue Issue => _issue ??= new AzMonitorAccountIssue(_command);
+
+    #endregion
 
     #region Commands
 

@@ -23,7 +23,7 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Enable the key.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Mark a release policy as immutable. An immutable release policy cannot be changed or updated after being marked immutable. Release policies are mutable by default.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--immutable")]
+    [CliOption("--immutable")]
     public bool? Immutable { get; set; }
 
     /// <summary>
