@@ -125,7 +125,7 @@ public record ArgoCdAdminClusterGenerateSpecOptions(
     /// use a particular kubeconfig file
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// Set metadata labels (e.g. --label key=value)
@@ -331,5 +331,12 @@ public record ArgoCdAdminClusterGenerateSpecOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

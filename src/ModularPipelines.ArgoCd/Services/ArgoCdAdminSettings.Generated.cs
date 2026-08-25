@@ -48,6 +48,21 @@ public class ArgoCdAdminSettings
     #region Commands
 
     /// <summary>
+    /// Provides set of commands for settings validation and troubleshooting
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Validates settings specified in 'argocd-cm' ConfigMap and 'argocd-secret' Secret
     /// </summary>
     /// <param name="options">The command options.</param>

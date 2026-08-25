@@ -24,6 +24,12 @@ public record ArgoCdAppActionsListOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// Group
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]

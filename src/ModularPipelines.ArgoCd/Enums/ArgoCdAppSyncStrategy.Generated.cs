@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAppSyncStrategy
 {
     [EnumValue("apply")]
-    Apply,
+    Apply = 0,
 
     [EnumValue("hook")]
-    Hook
+    Hook = 1
 }

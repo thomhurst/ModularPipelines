@@ -15,38 +15,41 @@ namespace ModularPipelines.ArgoCd.Services;
 /// <summary>
 /// argocd admin commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IArgoCdAdmin
 {
     /// <summary>
     /// argocd app sub-commands.
     /// </summary>
-    ArgoCdAdminApp App { get; }
+    ArgoCdAdminApp App => throw new System.NotSupportedException();
 
     /// <summary>
     /// argocd cluster sub-commands.
     /// </summary>
-    ArgoCdAdminCluster Cluster { get; }
+    ArgoCdAdminCluster Cluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// argocd notifications sub-commands.
     /// </summary>
-    ArgoCdAdminNotifications Notifications { get; }
+    ArgoCdAdminNotifications Notifications => throw new System.NotSupportedException();
 
     /// <summary>
     /// argocd proj sub-commands.
     /// </summary>
-    ArgoCdAdminProj Proj { get; }
+    ArgoCdAdminProj Proj => throw new System.NotSupportedException();
 
     /// <summary>
     /// argocd repo sub-commands.
     /// </summary>
-    ArgoCdAdminRepo Repo { get; }
+    ArgoCdAdminRepo Repo => throw new System.NotSupportedException();
 
     /// <summary>
     /// argocd settings sub-commands.
     /// </summary>
-    ArgoCdAdminSettings Settings { get; }
+    ArgoCdAdminSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// Contains a set of commands useful for Argo CD administrators and requires direct Kubernetes access
@@ -55,10 +58,8 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        ArgoCdAdminOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(ArgoCdAdminOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Starts Argo CD Web UI locally
@@ -67,10 +68,8 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DashboardAsync(
-        ArgoCdAdminDashboardOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DashboardAsync(ArgoCdAdminDashboardOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Export all Argo CD data to stdout (default) or a file
@@ -79,10 +78,8 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExportAsync(
-        ArgoCdAdminExportOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExportAsync(ArgoCdAdminExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Import Argo CD data from stdin (specify `-') or a file
@@ -91,10 +88,8 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ImportAsync(
-        ArgoCdAdminImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ImportAsync(ArgoCdAdminImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Prints initial password to log in to Argo CD for the first time
@@ -103,10 +98,8 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InitialPasswordAsync(
-        ArgoCdAdminInitialPasswordOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> InitialPasswordAsync(ArgoCdAdminInitialPasswordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Ensure the Redis password exists, creating a new one if necessary.
@@ -115,9 +108,7 @@ public interface IArgoCdAdmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RedisInitialPasswordAsync(
-        ArgoCdAdminRedisInitialPasswordOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RedisInitialPasswordAsync(ArgoCdAdminRedisInitialPasswordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

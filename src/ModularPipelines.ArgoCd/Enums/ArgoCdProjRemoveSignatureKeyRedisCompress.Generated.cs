@@ -10,15 +10,12 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.ArgoCd.Enums;
 
-/// <summary>
-/// Allowed values for the --rediscompress option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdProjRemoveSignatureKeyRedisCompress
 {
     [EnumValue("gzip")]
-    Gzip,
+    Gzip = 0,
 
     [EnumValue("none")]
-    None
+    None = 1
 }

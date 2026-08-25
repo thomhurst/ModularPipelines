@@ -22,42 +22,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdApplicationSetOptions : ArgoCdOptions
 {
     /// <summary>
-    /// Username to impersonate for the operation
-    /// </summary>
-    [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
-    public string? As { get; set; }
-
-    /// <summary>
-    /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
-    /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AsGroup { get; set; }
-
-    /// <summary>
-    /// UID to impersonate for the operation
-    /// </summary>
-    [CliOption("--as-uid", Format = OptionFormat.EqualsSeparated)]
-    public string? AsUid { get; set; }
-
-    /// <summary>
-    /// Path to a cert file for the certificate authority
-    /// </summary>
-    [CliOption("--certificate-authority", Format = OptionFormat.EqualsSeparated)]
-    public string? CertificateAuthority { get; set; }
-
-    /// <summary>
-    /// Path to a client certificate file for TLS
-    /// </summary>
-    [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientCertificate { get; set; }
-
-    /// <summary>
-    /// Path to a client key file for TLS
-    /// </summary>
-    [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientKey { get; set; }
-
-    /// <summary>
     /// The name of the kubeconfig cluster to use
     /// </summary>
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
@@ -68,12 +32,6 @@ public record ArgoCdApplicationSetOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
     public string? Context { get; set; }
-
-    /// <summary>
-    /// If true, opt-out of response compression for all requests to the server
-    /// </summary>
-    [CliFlag("--disable-compression")]
-    public bool? DisableCompression { get; set; }
 
     /// <summary>
     /// help for appset
@@ -91,7 +49,7 @@ public record ArgoCdApplicationSetOptions : ArgoCdOptions
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request
@@ -117,12 +75,6 @@ public record ArgoCdApplicationSetOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--request-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? RequestTimeout { get; set; }
-
-    /// <summary>
-    /// If provided, this name will be used to validate server certificate. If this is not provided, hostname used to contact the server is used.
-    /// </summary>
-    [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsServerName { get; set; }
 
     /// <summary>
     /// Bearer token for authentication to the API server
@@ -299,5 +251,36 @@ public record ArgoCdApplicationSetOptions : ArgoCdOptions
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    [Obsolete("As is no longer supported by the installed CLI and has no effect.")]
+    public string? As { get; set; }
+
+    [Obsolete("AsGroup is no longer supported by the installed CLI and has no effect.")]
+    public IEnumerable<string>? AsGroup { get; set; }
+
+    [Obsolete("AsUid is no longer supported by the installed CLI and has no effect.")]
+    public string? AsUid { get; set; }
+
+    [Obsolete("CertificateAuthority is no longer supported by the installed CLI and has no effect.")]
+    public string? CertificateAuthority { get; set; }
+
+    [Obsolete("ClientCertificate is no longer supported by the installed CLI and has no effect.")]
+    public string? ClientCertificate { get; set; }
+
+    [Obsolete("ClientKey is no longer supported by the installed CLI and has no effect.")]
+    public string? ClientKey { get; set; }
+
+    [Obsolete("DisableCompression is no longer supported by the installed CLI and has no effect.")]
+    public bool? DisableCompression { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
+
+    [Obsolete("TlsServerName is no longer supported by the installed CLI and has no effect.")]
+    public string? TlsServerName { get; set; }
 
 }

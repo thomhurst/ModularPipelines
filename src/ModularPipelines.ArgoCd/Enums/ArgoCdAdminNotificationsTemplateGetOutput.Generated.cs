@@ -17,14 +17,14 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAdminNotificationsTemplateGetOutput
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("yaml")]
-    Yaml,
+    Yaml = 1,
 
     [EnumValue("wide")]
-    Wide,
+    Wide = 2,
 
     [EnumValue("name")]
-    Name
+    Name = 3
 }

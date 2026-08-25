@@ -32,6 +32,21 @@ public class ArgoCdAdminSettingsResourceOverrides
     #region Commands
 
     /// <summary>
+    /// Troubleshoot resource overrides
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminSettingsResourceOverridesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminSettingsResourceOverridesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Assess resource health using the lua script configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap
     /// </summary>
     /// <param name="options">The command options.</param>

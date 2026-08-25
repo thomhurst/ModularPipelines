@@ -190,6 +190,9 @@ public record ArgoCdContextOptions : ArgoCdOptions
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ContextName { get; set; }
 

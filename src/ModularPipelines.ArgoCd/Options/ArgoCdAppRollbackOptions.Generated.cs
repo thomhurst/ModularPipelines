@@ -210,6 +210,9 @@ public record ArgoCdAppRollbackOptions(
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Id { get; set; }
 

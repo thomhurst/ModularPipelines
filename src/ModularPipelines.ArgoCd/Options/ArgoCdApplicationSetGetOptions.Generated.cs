@@ -24,6 +24,12 @@ public record ArgoCdApplicationSetGetOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Only get ApplicationSet from a namespace (ignored when qualified name is provided)
+    /// </summary>
+    [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppsetNamespace { get; set; }
+
+    /// <summary>
     /// help for get
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

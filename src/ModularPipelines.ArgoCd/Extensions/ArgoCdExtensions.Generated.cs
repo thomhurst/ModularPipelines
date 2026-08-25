@@ -43,7 +43,7 @@ public static class ArgoCdExtensions
     }
 
     /// <summary>
-    /// Gets the argocd service from the pipeline context.
+    /// Gets the argocd service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IArgoCd"/> service for executing argocd commands.</returns>

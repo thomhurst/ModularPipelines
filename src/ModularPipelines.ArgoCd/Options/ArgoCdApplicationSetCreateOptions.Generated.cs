@@ -24,6 +24,12 @@ public record ArgoCdApplicationSetCreateOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace where the ApplicationSet will be created in (ignored when provided YAML file has namespace set in metadata)
+    /// </summary>
+    [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppsetNamespace { get; set; }
+
+    /// <summary>
     /// Allows to evaluate the ApplicationSet template on the server to get a preview of the applications that would be created
     /// </summary>
     [CliFlag("--dry-run")]

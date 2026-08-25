@@ -24,6 +24,12 @@ public record ArgoCdApplicationSetDeleteOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace where the ApplicationSet will be deleted from (ignored when qualified name is provided)
+    /// </summary>
+    [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppsetNamespace { get; set; }
+
+    /// <summary>
     /// help for delete
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

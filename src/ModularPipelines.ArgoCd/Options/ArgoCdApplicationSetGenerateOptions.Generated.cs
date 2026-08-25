@@ -24,6 +24,12 @@ public record ArgoCdApplicationSetGenerateOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace used for generating Applications (ignored when provided YAML file has namespace set in metadata)
+    /// </summary>
+    [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppsetNamespace { get; set; }
+
+    /// <summary>
     /// help for generate
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

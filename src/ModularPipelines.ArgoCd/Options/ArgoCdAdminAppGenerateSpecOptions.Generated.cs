@@ -474,6 +474,12 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     public string? SyncSourcePath { get; set; }
 
     /// <summary>
+    /// Filter git tags by this prefix before evaluating targetRevision as a semver constraint
+    /// </summary>
+    [CliOption("--tag-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? TagPrefix { get; set; }
+
+    /// <summary>
     /// Validation of repo and cluster (default true)
     /// </summary>
     [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]

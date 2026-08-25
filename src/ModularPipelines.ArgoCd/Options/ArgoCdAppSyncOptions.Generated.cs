@@ -37,7 +37,7 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// Assume yes as answer for all user queries or prompts
     /// </summary>
     [CliFlag("--assumeYes")]
-    public bool? Assumeyes { get; set; }
+    public bool? AssumeYes { get; set; }
 
     /// <summary>
     /// Do not wait for application to sync before continuing
@@ -381,5 +381,12 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ApplicationNames { get; set; }
+
+    [Obsolete("Use AssumeYes instead.")]
+    public bool? Assumeyes
+    {
+        get => AssumeYes;
+        set => AssumeYes = value;
+    }
 
 }

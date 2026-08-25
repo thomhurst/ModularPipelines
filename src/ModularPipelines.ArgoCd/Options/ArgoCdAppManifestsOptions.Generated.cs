@@ -24,6 +24,12 @@ public record ArgoCdAppManifestsOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// help for manifests
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
