@@ -3235,6 +3235,8 @@ public class GeneratorHardeningTests
                 await Assert.That(generated).Contains("ExecuteCommandAsync(");
                 await Assert.That(generated).Contains("ToolGroupNestedExecuteOptions? options = null");
                 await Assert.That(generated).Contains("ToolGroupNestedOptions? options = null");
+                await Assert.That(generated)
+                    .Contains("[Obsolete(\"Use the current command facade instead.\")]");
             }
         }
         finally

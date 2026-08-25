@@ -243,9 +243,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 .Select(method => new CliCompatibilityMethod
                 {
                     MethodName = method.MethodName,
-                    ObsoleteMessage = method.MethodName.Equals(
-                        currentRootMethodName,
-                        StringComparison.Ordinal)
+                    ObsoleteMessage = !IsRootFacadeMethod(tool, method)
                         ? "Use the current command facade instead."
                         : $"Use {currentRootMethodName} instead.",
                 })
