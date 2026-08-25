@@ -77,6 +77,25 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Models_Command_Operands_As_A_Required_Collection()
+    {
+        const string helpText = "Usage: brew command command [...]";
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "command"],
+            helpText);
+        var operand = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("Cmd");
+            await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Models_Sandbox_Command_After_Writable_Path_Option()
     {
         const string helpText = """

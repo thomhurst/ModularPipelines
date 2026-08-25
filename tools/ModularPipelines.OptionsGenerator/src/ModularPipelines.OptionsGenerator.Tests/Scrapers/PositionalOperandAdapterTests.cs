@@ -172,6 +172,23 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task Go_Usage_Parses_Inline_Option_Values()
+    {
+        const string helpText = "usage: go tool compile -o=FILE [packages]";
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "tool", "compile"],
+            helpText);
+        var output = command!.Options.Single(option => option.SwitchName == "-o");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output.IsFlag).IsFalse();
+            await Assert.That(output.CSharpType).IsEqualTo("string?");
+            await Assert.That(output.ValueSeparator).IsEqualTo("=");
+        }
+    }
+
+    [Test]
     public async Task Pip_Require_Hashes_Is_A_Presence_Only_Flag()
     {
         const string helpText = """

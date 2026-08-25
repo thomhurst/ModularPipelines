@@ -398,6 +398,7 @@ public partial class GoCliScraper : CliScraperBase
 
             var valueHint = match.Groups["value"].Value;
             var isFlag = string.IsNullOrEmpty(valueHint);
+            var valueSeparator = match.Groups["separator"].Value == "=" ? "=" : " ";
             options.Add(new CliOptionDefinition
             {
                 SwitchName = flagName,
@@ -405,7 +406,7 @@ public partial class GoCliScraper : CliScraperBase
                 CSharpType = isFlag ? "bool?" : "string?",
                 Description = $"The {flagName} option.",
                 IsFlag = isFlag,
-                ValueSeparator = " ",
+                ValueSeparator = valueSeparator,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
             });
         }
@@ -509,7 +510,7 @@ public partial class GoCliScraper : CliScraperBase
     /// Matches options declared directly in Go usage and prose, including commands whose
     /// help does not expose a dedicated flags table.
     /// </summary>
-    [GeneratedRegex(@"(?<![\w-])(?<flag>-[a-z][\w-]*)(?:\s+(?<value>(?!(?:flag|flags|option|options)\b)[A-Za-z][\w-]*))?", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?<![\w-])(?<flag>-[a-z][\w-]*)(?:(?<separator>=|[ \t]+)(?<value>(?!(?:flag|flags|option|options)\b)[A-Za-z][\w-]*))?", RegexOptions.IgnoreCase)]
     private static partial Regex GoUsageOptionPattern();
 
     /// <summary>

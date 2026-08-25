@@ -309,7 +309,11 @@ public partial class BrewCliScraper : CliScraperBase
         {
             ["command"] =>
             [
-                RequiredArgument("Cmd", 0),
+                RequiredArgument("Cmd", 0) with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsVariadic = true,
+                },
             ],
             ["exec"] =>
             [

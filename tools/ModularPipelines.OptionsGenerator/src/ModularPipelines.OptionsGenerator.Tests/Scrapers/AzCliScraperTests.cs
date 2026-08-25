@@ -237,6 +237,29 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Accept_Term_Remains_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Command
+                az vm create : Create a virtual machine.
+
+            Optional Arguments
+                --accept-term : Accept the license agreement and privacy statement.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "vm", "create"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

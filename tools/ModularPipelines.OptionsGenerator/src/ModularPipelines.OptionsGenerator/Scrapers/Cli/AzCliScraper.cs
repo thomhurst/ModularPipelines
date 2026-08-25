@@ -297,7 +297,11 @@ public partial class AzCliScraper : CliScraperBase
 
                 // Determine type based on value hint
                 var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = IsPresenceOnlyFlag(valueHint, description, explicitBooleanValue);
+                var isFlag = IsPresenceOnlyFlag(
+                    longFlag,
+                    valueHint,
+                    description,
+                    explicitBooleanValue);
 
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
@@ -329,10 +333,17 @@ public partial class AzCliScraper : CliScraperBase
     /// Determines whether an option is rendered without a value.
     /// </summary>
     private static bool IsPresenceOnlyFlag(
+        string switchName,
         string valueHint,
         string description,
         bool explicitBooleanValue)
     {
+        if (switchName.Equals("accept-term", StringComparison.OrdinalIgnoreCase)
+            && string.IsNullOrEmpty(valueHint))
+        {
+            return true;
+        }
+
         if (explicitBooleanValue || HelpDeclaresOptionValue(description))
         {
             return false;
