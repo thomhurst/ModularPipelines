@@ -60,16 +60,18 @@ internal static class GeneratedApiCompatibilityPreserver
             tool.NamespacePrefix,
             baseline);
         var executeFacadeOptionTypes = facadeMethods
-            .Where(static method => method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Where(method => IsParentExecuteFacade(
+                GetFacadeImplementationType(compatibleTool, method),
+                method))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
         var namedFacadeOptionTypes = facadeMethods
-            .Where(static method => !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+            .Where(method => IsNamedFacadeMethod(compatibleTool, method))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
         var rootNamedFacadeOptionTypes = facadeMethods
             .Where(method => IsRootFacadeMethod(compatibleTool, method)
-                             && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal))
+                             && IsNamedFacadeMethod(compatibleTool, method))
             .Select(static method => method.OptionsType)
             .ToHashSet(StringComparer.Ordinal);
         var optionalFacadeOptionTypes = facadeMethods
@@ -240,13 +242,13 @@ internal static class GeneratedApiCompatibilityPreserver
                 commandParts,
                 groupIdentifier,
                 facadeMethods),
-            PreserveExecuteFacade = facadeMethods.Any(static method =>
-                method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
-            PreserveNamedFacade = facadeMethods.Any(static method =>
-                !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+            PreserveExecuteFacade = facadeMethods.Any(method => IsParentExecuteFacade(
+                GetFacadeImplementationType(tool, method),
+                method)),
+            PreserveNamedFacade = facadeMethods.Any(method => IsNamedFacadeMethod(tool, method)),
             PreserveRootNamedFacade = facadeMethods.Any(method =>
                 IsRootFacadeMethod(tool, method)
-                && !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)),
+                && IsNamedFacadeMethod(tool, method)),
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
     }
@@ -529,6 +531,12 @@ internal static class GeneratedApiCompatibilityPreserver
         return facadeMethod.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
                && implementationType.Equals(optionsImplementationType, StringComparison.OrdinalIgnoreCase);
     }
+
+    private static bool IsNamedFacadeMethod(
+        CliToolDefinition tool,
+        GeneratedFacadeMethod method) =>
+        !method.MethodName.Equals("ExecuteAsync", StringComparison.Ordinal)
+        || !IsParentExecuteFacade(GetFacadeImplementationType(tool, method), method);
 
     private static CliOptionDefinition[] RestoreRemovedOptions(
         IEnumerable<GeneratedApiProperty> properties) =>
@@ -2170,6 +2178,12 @@ internal static class GeneratedApiCompatibilityPreserver
             return CliCompatibilityForwardingKind.Direct;
         }
 
+        if (baseline.CSharpType.Equals("bool?", StringComparison.Ordinal)
+            && replacement.CSharpType.Equals("string?", StringComparison.Ordinal))
+        {
+            return CliCompatibilityForwardingKind.NullableBooleanToString;
+        }
+
         if (!baseline.CSharpType.Equals("string?", StringComparison.Ordinal))
         {
             return null;
@@ -3477,6 +3491,11 @@ internal static class GeneratedApiCompatibilityPreserver
             return forwarding;
         }
 
+        if (TryGetNullableBooleanForwarding(expression, out forwarding))
+        {
+            return forwarding;
+        }
+
         return (null, CliCompatibilityForwardingKind.Direct);
     }
 
@@ -3491,6 +3510,10 @@ internal static class GeneratedApiCompatibilityPreserver
                 {
                     Expression: MemberAccessExpressionSyntax
                     {
+                        Expression: PredefinedTypeSyntax
+                        {
+                            Keyword.RawKind: (int) SyntaxKind.IntKeyword,
+                        },
                         Name.Identifier.ValueText: "TryParse",
                     },
                     ArgumentList.Arguments: { Count: > 0 } arguments,
@@ -3537,6 +3560,37 @@ internal static class GeneratedApiCompatibilityPreserver
             forwarding = (
                 optionValueTarget.Identifier.ValueText,
                 CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
+            return true;
+        }
+
+        forwarding = default;
+        return false;
+    }
+
+    private static bool TryGetNullableBooleanForwarding(
+        ExpressionSyntax? expression,
+        out (string? TargetPropertyName, CliCompatibilityForwardingKind Kind) forwarding)
+    {
+        if (expression is ConditionalExpressionSyntax
+            {
+                Condition: InvocationExpressionSyntax
+                {
+                    Expression: MemberAccessExpressionSyntax
+                    {
+                        Expression: PredefinedTypeSyntax
+                        {
+                            Keyword.RawKind: (int) SyntaxKind.BoolKeyword,
+                        },
+                        Name.Identifier.ValueText: "TryParse",
+                    },
+                    ArgumentList.Arguments: { Count: > 0 } arguments,
+                },
+            }
+            && arguments[0].Expression is IdentifierNameSyntax stringValue)
+        {
+            forwarding = (
+                stringValue.Identifier.ValueText,
+                CliCompatibilityForwardingKind.NullableBooleanToString);
             return true;
         }
 

@@ -1478,6 +1478,42 @@ public class GeneratorHardeningTests
             CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
     }
 
+    [Test]
+    public async Task ApiCompatibilityPreserver_Forwards_Renamed_Boolean_To_String()
+    {
+        var command = Command("AzAksCreateOptions", "AzOptions", ["aks", "create"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--apiserver-subnet-id",
+                    PropertyName = "ApiServerSubnetId",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("ApiserverSubnetId", "bool?", switchName: "--apiserver-subnet-id")]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("ApiServerSubnetId");
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToString);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "ApiserverSubnetId",
+            "ApiServerSubnetId",
+            CliCompatibilityForwardingKind.NullableBooleanToString);
+    }
+
     private static async Task AssertCompatibilityForwardingRoundTrips(
         CliCommandDefinition generatedCommand,
         string compatibilityPropertyName,
@@ -4719,6 +4755,51 @@ public class GeneratorHardeningTests
                 .IsEqualTo("CommandOptions");
             await Assert.That(preserved.CompatibilityProperties.Single().ForwardToPropertyName)
                 .IsNull();
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Keeps_Literal_Execute_When_It_Gains_Children()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolRemoteExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"remote\", \"execute\")] "
+                + "public record ToolRemoteExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolRemote.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolRemote { "
+                + "public Task ExecuteAsync(ToolRemoteExecuteOptions? options = null) => Task.CompletedTask; }");
+            var execute = Command(
+                "ToolRemoteExecuteOptions",
+                "ToolOptions",
+                ["remote", "execute"],
+                subDomainGroup: "Remote");
+            var nested = Command(
+                "ToolRemoteExecuteNestedOptions",
+                "ToolOptions",
+                ["remote", "execute", "nested"],
+                subDomainGroup: "Remote");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(execute, nested), root);
+            var literalExecute = preserved.Commands.Single(command =>
+                command.ClassName == "ToolRemoteExecuteOptions");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(literalExecute.PreserveNamedFacade).IsTrue();
+                await Assert.That(literalExecute.PreserveExecuteFacade).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
         }
     }
 

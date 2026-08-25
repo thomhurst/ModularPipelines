@@ -153,6 +153,11 @@ public partial class GcloudCliScraper : CliScraperBase
                base.IsSkippableSubcommand(subcommand);
     }
 
+    protected override bool ShouldTreatOptionAsScalar(
+        IReadOnlyList<string> commandParts,
+        string switchName) =>
+        switchName.Equals("--external-ipv6-prefix-length", StringComparison.OrdinalIgnoreCase);
+
     #endregion
 
     #region Gcloud-Specific Parsing Helpers

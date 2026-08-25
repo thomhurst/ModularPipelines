@@ -148,6 +148,17 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_External_Ipv6_Prefix_Length_Is_Known_Scalar()
+    {
+        var scraper = CreateGcloudScraper();
+
+        await Assert.That(scraper.IsKnownScalar(
+                ["compute", "instances", "create"],
+                "--external-ipv6-prefix-length"))
+            .IsTrue();
+    }
+
+    [Test]
     public async Task Gcloud_Prioritizes_Enum_Types_Over_Key_Value_Hints()
     {
         const string helpText = """
@@ -345,6 +356,9 @@ public partial class NestedArgumentGroupParsingTests
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+
+        public bool IsKnownScalar(IReadOnlyList<string> commandParts, string switchName) =>
+            ShouldTreatOptionAsScalar(commandParts, switchName);
     }
 
     private sealed class TestArgumentGroupScraper : CliScraperBase
