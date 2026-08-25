@@ -242,6 +242,26 @@ public class GitCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Parses_Short_Only_Options()
+    {
+        const string helpText = """
+            usage: git add [<options>]
+
+                -p                  interactively choose hunks
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "add"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-p");
+            await Assert.That(option.ShortForm).IsEqualTo("-p");
+            await Assert.That(option.Description).IsEqualTo("interactively choose hunks");
+        }
+    }
+
     private static CliCommandResult Result(
         string standardOutput,
         string standardError = "",
