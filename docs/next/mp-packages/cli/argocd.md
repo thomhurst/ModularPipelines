@@ -2,7 +2,13 @@
 
 `ModularPipelines.ArgoCd` provides strongly typed access to the `argocd` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `argocd` executable. Install it separately and ensure `argocd` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.ArgoCd
@@ -12,44 +18,17 @@ Resolve the service with `context.Tools.ArgoCd`. For projects older than C# 14, 
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.ArgoCd.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Tools.ArgoCd.ConfigureAsync(
-
-            new ArgoCdConfigureOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var argoCd = context.Tools.ArgoCd;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                                        | Options record                                                     |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `argocd account`                                                   | `ArgoCdAccountOptions`                                             |
 | `argocd account bcrypt`                                            | `ArgoCdAccountBcryptOptions`                                       |
 | `argocd account can-i`                                             | `ArgoCdAccountCanIOptions`                                         |
 | `argocd account delete-token`                                      | `ArgoCdAccountDeleteTokenOptions`                                  |
@@ -59,6 +38,7 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd account list`                                              | `ArgoCdAccountListOptions`                                         |
 | `argocd account session-token`                                     | `ArgoCdAccountSessionTokenOptions`                                 |
 | `argocd account update-password`                                   | `ArgoCdAccountUpdatePasswordOptions`                               |
+| `argocd admin`                                                     | `ArgoCdAdminOptions`                                               |
 | `argocd admin app`                                                 | `ArgoCdAdminAppOptions`                                            |
 | `argocd admin app diff-reconcile-results`                          | `ArgoCdAdminAppDiffReconcileResultsOptions`                        |
 | `argocd admin app generate-spec`                                   | `ArgoCdAdminAppGenerateSpecOptions`                                |
@@ -100,6 +80,7 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd admin settings resource-overrides list-actions`            | `ArgoCdAdminSettingsResourceOverridesListActionsOptions`           |
 | `argocd admin settings resource-overrides run-action`              | `ArgoCdAdminSettingsResourceOverridesRunActionOptions`             |
 | `argocd admin settings validate`                                   | `ArgoCdAdminSettingsValidateOptions`                               |
+| `argocd app`                                                       | `ArgoCdAppOptions`                                                 |
 | `argocd app actions`                                               | `ArgoCdAppActionsOptions`                                          |
 | `argocd app actions list`                                          | `ArgoCdAppActionsListOptions`                                      |
 | `argocd app actions run`                                           | `ArgoCdAppActionsRunOptions`                                       |
@@ -126,15 +107,18 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd app terminate-op`                                          | `ArgoCdAppTerminateOpOptions`                                      |
 | `argocd app unset`                                                 | `ArgoCdAppUnsetOptions`                                            |
 | `argocd app wait`                                                  | `ArgoCdAppWaitOptions`                                             |
+| `argocd appset`                                                    | `ArgoCdApplicationSetOptions`                                      |
 | `argocd appset create`                                             | `ArgoCdApplicationSetCreateOptions`                                |
 | `argocd appset delete`                                             | `ArgoCdApplicationSetDeleteOptions`                                |
 | `argocd appset generate`                                           | `ArgoCdApplicationSetGenerateOptions`                              |
 | `argocd appset get`                                                | `ArgoCdApplicationSetGetOptions`                                   |
 | `argocd appset list`                                               | `ArgoCdApplicationSetListOptions`                                  |
+| `argocd cert`                                                      | `ArgoCdCertOptions`                                                |
 | `argocd cert add-ssh`                                              | `ArgoCdCertAddSshOptions`                                          |
 | `argocd cert add-tls`                                              | `ArgoCdCertAddTlsOptions`                                          |
 | `argocd cert list`                                                 | `ArgoCdCertListOptions`                                            |
 | `argocd cert rm`                                                   | `ArgoCdCertRmOptions`                                              |
+| `argocd cluster`                                                   | `ArgoCdClusterOptions`                                             |
 | `argocd cluster add`                                               | `ArgoCdClusterAddOptions`                                          |
 | `argocd cluster get`                                               | `ArgoCdClusterGetOptions`                                          |
 | `argocd cluster list`                                              | `ArgoCdClusterListOptions`                                         |
@@ -143,12 +127,14 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd cluster set`                                               | `ArgoCdClusterSetOptions`                                          |
 | `argocd configure`                                                 | `ArgoCdConfigureOptions`                                           |
 | `argocd context`                                                   | `ArgoCdContextOptions`                                             |
+| `argocd gpg`                                                       | `ArgoCdGpgOptions`                                                 |
 | `argocd gpg add`                                                   | `ArgoCdGpgAddOptions`                                              |
 | `argocd gpg get`                                                   | `ArgoCdGpgGetOptions`                                              |
 | `argocd gpg list`                                                  | `ArgoCdGpgListOptions`                                             |
 | `argocd gpg rm`                                                    | `ArgoCdGpgRmOptions`                                               |
 | `argocd login`                                                     | `ArgoCdLoginOptions`                                               |
 | `argocd logout`                                                    | `ArgoCdLogoutOptions`                                              |
+| `argocd proj`                                                      | `ArgoCdProjOptions`                                                |
 | `argocd proj add-destination`                                      | `ArgoCdProjAddDestinationOptions`                                  |
 | `argocd proj add-destination-service-account`                      | `ArgoCdProjAddDestinationServiceAccountOptions`                    |
 | `argocd proj add-orphaned-ignore`                                  | `ArgoCdProjAddOrphanedIgnoreOptions`                               |
@@ -183,18 +169,29 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd proj role remove-group`                                    | `ArgoCdProjRoleRemoveGroupOptions`                                 |
 | `argocd proj role remove-policy`                                   | `ArgoCdProjRoleRemovePolicyOptions`                                |
 | `argocd proj set`                                                  | `ArgoCdProjSetOptions`                                             |
+| `argocd proj source-integrity`                                     | `ArgoCdProjSourceIntegrityOptions`                                 |
+| `argocd proj source-integrity git`                                 | `ArgoCdProjSourceIntegrityGitOptions`                              |
+| `argocd proj source-integrity git policies`                        | `ArgoCdProjSourceIntegrityGitPoliciesOptions`                      |
+| `argocd proj source-integrity git policies add`                    | `ArgoCdProjSourceIntegrityGitPoliciesAddOptions`                   |
+| `argocd proj source-integrity git policies delete`                 | `ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions`                |
+| `argocd proj source-integrity git policies list`                   | `ArgoCdProjSourceIntegrityGitPoliciesListOptions`                  |
+| `argocd proj source-integrity git policies update`                 | `ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions`                |
 | `argocd proj windows`                                              | `ArgoCdProjWindowsOptions`                                         |
 | `argocd proj windows add`                                          | `ArgoCdProjWindowsAddOptions`                                      |
 | `argocd proj windows delete`                                       | `ArgoCdProjWindowsDeleteOptions`                                   |
 | `argocd proj windows disable-manual-sync`                          | `ArgoCdProjWindowsDisableManualSyncOptions`                        |
+| `argocd proj windows disable-sync-overrun`                         | `ArgoCdProjWindowsDisableSyncOverrunOptions`                       |
 | `argocd proj windows enable-manual-sync`                           | `ArgoCdProjWindowsEnableManualSyncOptions`                         |
+| `argocd proj windows enable-sync-overrun`                          | `ArgoCdProjWindowsEnableSyncOverrunOptions`                        |
 | `argocd proj windows list`                                         | `ArgoCdProjWindowsListOptions`                                     |
 | `argocd proj windows update`                                       | `ArgoCdProjWindowsUpdateOptions`                                   |
 | `argocd relogin`                                                   | `ArgoCdReloginOptions`                                             |
+| `argocd repo`                                                      | `ArgoCdRepoOptions`                                                |
 | `argocd repo add`                                                  | `ArgoCdRepoAddOptions`                                             |
 | `argocd repo get`                                                  | `ArgoCdRepoGetOptions`                                             |
 | `argocd repo list`                                                 | `ArgoCdRepoListOptions`                                            |
 | `argocd repo rm`                                                   | `ArgoCdRepoRmOptions`                                              |
+| `argocd repocreds`                                                 | `ArgoCdRepocredsOptions`                                           |
 | `argocd repocreds add`                                             | `ArgoCdRepocredsAddOptions`                                        |
 | `argocd repocreds list`                                            | `ArgoCdRepocredsListOptions`                                       |
 | `argocd repocreds rm`                                              | `ArgoCdRepocredsRmOptions`                                         |
