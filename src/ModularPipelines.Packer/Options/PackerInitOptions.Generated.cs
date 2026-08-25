@@ -19,16 +19,23 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("init")]
-public record PackerInitOptions : PackerOptions
+public record PackerInitOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerInitOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
-    /// On top of installing missing plugins, update
+    /// On top of installing missing plugins, update installed plugins to the latest available version, if there is a new higher one. Note that this still takes into consideration the version constraint of the config.
     /// </summary>
     [CliFlag("--upgrade")]
     public bool? Upgrade { get; set; }
 
     /// <summary>
-    /// Forces reinstallation of plugins, even if already
+    /// Forces reinstallation of plugins, even if already installed.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }

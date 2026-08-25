@@ -45,4 +45,10 @@ public record PackerConsoleOptions : PackerOptions
     [CliFlag("--use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
 
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Template { get; set; }
+
 }

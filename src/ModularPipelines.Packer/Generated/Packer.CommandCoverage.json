@@ -1,8 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "packer",
-  "commandCount": 9,
-  "commandTreeSha256": "3128eaec0d83158e6f834a0c550de2b6ed3991bc3818a5e3cf053d2af1b43288",
+  "toolVersion": "Packer v1.16.0",
+  "commandCount": 10,
+  "commandTreeSha256": "be2df7c68caac570b0c20475b96703fc7102b079dafc1108b0b0e8f5b676a78e",
   "commands": [
     "packer build",
     "packer console",
@@ -12,7 +13,8 @@
     "packer init",
     "packer inspect",
     "packer plugins",
-    "packer validate"
+    "packer validate",
+    "packer verify-attestation"
   ],
   "commandGroups": [],
   "exclusions": []
