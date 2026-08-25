@@ -98,4 +98,10 @@ public record TerraformApplyOptions : TerraformOptions
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
 
+    /// <summary>
+    /// The PLAN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Plan { get; set; }
+
 }

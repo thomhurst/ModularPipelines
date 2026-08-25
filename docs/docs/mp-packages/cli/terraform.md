@@ -7,7 +7,13 @@ title: terraform CLI reference
 
 `ModularPipelines.Terraform` provides strongly typed access to the `terraform` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `terraform` executable. Install it separately and ensure `terraform` is available on `PATH`.
+
+See the [terraform installation guide](https://developer.hashicorp.com/terraform/install).
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Terraform
@@ -49,15 +55,20 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform graph` | `TerraformGraphOptions` |
 | `terraform import` | `TerraformImportOptions` |
 | `terraform init` | `TerraformInitOptions` |
+| `terraform login` | `TerraformLoginOptions` |
+| `terraform logout` | `TerraformLogoutOptions` |
+| `terraform metadata` | `TerraformMetadataOptions` |
 | `terraform modules` | `TerraformModulesOptions` |
 | `terraform output` | `TerraformOutputOptions` |
 | `terraform plan` | `TerraformPlanOptions` |
+| `terraform providers` | `TerraformProvidersOptions` |
 | `terraform providers lock` | `TerraformProvidersLockOptions` |
 | `terraform providers mirror` | `TerraformProvidersMirrorOptions` |
 | `terraform providers schema` | `TerraformProvidersSchemaOptions` |
 | `terraform query` | `TerraformQueryOptions` |
 | `terraform refresh` | `TerraformRefreshOptions` |
 | `terraform show` | `TerraformShowOptions` |
+| `terraform stacks` | `TerraformStacksOptions` |
 | `terraform stacks configuration` | `TerraformStacksConfigurationOptions` |
 | `terraform stacks configuration fetch` | `TerraformStacksConfigurationFetchOptions` |
 | `terraform stacks configuration list` | `TerraformStacksConfigurationListOptions` |
@@ -82,6 +93,7 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform stacks list` | `TerraformStacksListOptions` |
 | `terraform stacks providers-lock` | `TerraformStacksProvidersLockOptions` |
 | `terraform stacks validate` | `TerraformStacksValidateOptions` |
+| `terraform state` | `TerraformStateOptions` |
 | `terraform state identities` | `TerraformStateIdentitiesOptions` |
 | `terraform state list` | `TerraformStateListOptions` |
 | `terraform state mv` | `TerraformStateMvOptions` |

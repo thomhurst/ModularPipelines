@@ -56,4 +56,10 @@ public record TerraformFmtOptions : TerraformOptions
     [CliFlag("-recursive")]
     public bool? Recursive { get; set; }
 
+    /// <summary>
+    /// The target operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Target { get; set; }
+
 }

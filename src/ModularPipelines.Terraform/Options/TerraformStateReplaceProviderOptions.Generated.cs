@@ -18,8 +18,16 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "replace-provider")]
-public record TerraformStateReplaceProviderOptions : TerraformOptions
+public record TerraformStateReplaceProviderOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string FromProviderFqn,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string ToProviderFqn
+) : TerraformOptions
 {
+    public TerraformStateReplaceProviderOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip interactive approval.
     /// </summary>

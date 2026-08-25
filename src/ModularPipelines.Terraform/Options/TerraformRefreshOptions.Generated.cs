@@ -60,12 +60,19 @@ public record TerraformRefreshOptions : TerraformOptions
     /// Resource to target. Operation will be limited to this resource and its dependencies. This flag can be used multiple times.
     /// </summary>
     [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
-    public string? Target { get; set; }
+    public IEnumerable<string>? TargetValues { get; set; }
 
     /// <summary>
     /// Set variables in the Terraform configuration from a file. If "terraform.tfvars" or any ".auto.tfvars" files are present, they will be automatically loaded.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    [Obsolete("Use TargetValues instead.")]
+    public string? Target
+    {
+        get => TargetValues?.FirstOrDefault();
+        set => TargetValues = value is null ? null : [value];
+    }
 
 }
