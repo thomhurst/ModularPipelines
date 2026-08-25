@@ -92,4 +92,10 @@ public record GhRunViewOptions : GhOptions
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
 
+    /// <summary>
+    /// The &lt;run-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? RunId { get; set; }
+
 }

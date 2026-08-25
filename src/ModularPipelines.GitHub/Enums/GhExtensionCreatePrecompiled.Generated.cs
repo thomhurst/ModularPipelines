@@ -17,8 +17,8 @@ namespace ModularPipelines.GitHub.Enums;
 public enum GhExtensionCreatePrecompiled
 {
     [EnumValue("go")]
-    Go,
+    Go = 0,
 
     [EnumValue("other")]
-    Other
+    Other = 1
 }

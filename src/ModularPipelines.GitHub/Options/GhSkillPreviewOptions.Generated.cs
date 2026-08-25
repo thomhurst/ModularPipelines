@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("skill", "preview")]
-public record GhSkillPreviewOptions : GhOptions
+public record GhSkillPreviewOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
+) : GhOptions
 {
+    public GhSkillPreviewOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Include skills in hidden directories (e.g. .claude/skills/, .agents/skills/)
     /// </summary>
@@ -31,5 +38,11 @@ public record GhSkillPreviewOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;skill&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Skill { get; set; }
 
 }

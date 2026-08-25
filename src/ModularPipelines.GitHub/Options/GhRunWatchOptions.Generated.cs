@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "watch")]
-public record GhRunWatchOptions : GhOptions
+public record GhRunWatchOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RunId
+) : GhOptions
 {
+    public GhRunWatchOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Show only relevant/failed steps
     /// </summary>

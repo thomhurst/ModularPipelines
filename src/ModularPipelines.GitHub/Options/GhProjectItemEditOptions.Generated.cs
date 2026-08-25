@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Edit either a draft issue or a project item. Both usages require the ID of the item to edit.
+/// Edit a draft issue or a project item.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -37,6 +37,12 @@ public record GhProjectItemEditOptions : GhOptions
     /// </summary>
     [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
     public string? Date { get; set; }
+
+    /// <summary>
+    /// Name of the field to update
+    /// </summary>
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
     /// ID of the field to update
@@ -75,6 +81,12 @@ public record GhProjectItemEditOptions : GhOptions
     public double? Number { get; set; }
 
     /// <summary>
+    /// Login of the owner. Use "@me" for the current user.
+    /// </summary>
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
+    public string? Owner { get; set; }
+
+    /// <summary>
     /// ID of the project to which the field belongs to
     /// </summary>
     [CliOption("--project-id", Format = OptionFormat.EqualsSeparated)]
@@ -105,9 +117,27 @@ public record GhProjectItemEditOptions : GhOptions
     public string? Title { get; set; }
 
     /// <summary>
+    /// URL of the issue or pull request whose project item to edit
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public string? Url { get; set; }
+
+    /// <summary>
+    /// Value to set on the field named by --field
+    /// </summary>
+    [CliOption("--value", Format = OptionFormat.EqualsSeparated)]
+    public string? Value { get; set; }
+
+    /// <summary>
     /// Show help for command
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? NumberArgument { get; set; }
 
 }

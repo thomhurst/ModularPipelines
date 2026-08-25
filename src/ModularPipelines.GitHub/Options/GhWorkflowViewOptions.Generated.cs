@@ -50,4 +50,10 @@ public record GhWorkflowViewOptions : GhOptions
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
 
+    /// <summary>
+    /// The &lt;workflow-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? WorkflowId { get; set; }
+
 }

@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "ssh")]
-public record GhCodespaceSshOptions : GhOptions
+public record GhCodespaceSshOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] IEnumerable<string> SshFlags
+) : GhOptions
 {
+    public GhCodespaceSshOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Name of the codespace
     /// </summary>
@@ -73,5 +80,17 @@ public record GhCodespaceSshOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;flags&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Flags { get; set; }
+
+    /// <summary>
+    /// The &lt;command&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? Command { get; set; }
 
 }

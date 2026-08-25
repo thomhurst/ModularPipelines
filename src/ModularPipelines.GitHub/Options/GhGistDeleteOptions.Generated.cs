@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "delete")]
-public record GhGistDeleteOptions : GhOptions
+public record GhGistDeleteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
+) : GhOptions
 {
+    public GhGistDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Confirm deletion without prompting
     /// </summary>

@@ -56,4 +56,10 @@ public record GhAgentTaskCreateOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;task description&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? TaskDescription { get; set; }
+
 }
