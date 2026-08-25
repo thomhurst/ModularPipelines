@@ -296,6 +296,24 @@ public class GitCliScraperTests
     }
 
     [Test]
+    public async Task Parses_Short_Only_Value_Options()
+    {
+        const string helpText = "    -C <n>                ensure at least <n> lines of context match";
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "apply"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-C");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("int?");
+            await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(option.ValueSeparator).IsEqualTo(" ");
+        }
+    }
+
+    [Test]
     public async Task Parses_Options_With_Wrapped_Descriptions()
     {
         const string helpText = """

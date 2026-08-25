@@ -834,7 +834,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?:\s+(?<shortDescription>.*))?$")]
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<shortDescription>.*))?$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]
