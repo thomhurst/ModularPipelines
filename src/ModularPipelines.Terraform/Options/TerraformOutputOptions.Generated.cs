@@ -44,4 +44,10 @@ public record TerraformOutputOptions : TerraformOptions
     [CliFlag("-raw")]
     public bool? Raw { get; set; }
 
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Name { get; set; }
+
 }

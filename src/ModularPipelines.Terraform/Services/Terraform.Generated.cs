@@ -139,6 +139,33 @@ internal partial class Terraform : ITerraform
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> LoginAsync(
+        TerraformLoginOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformLoginOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> LogoutAsync(
+        TerraformLogoutOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformLogoutOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> MetadataAsync(
+        TerraformMetadataOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformMetadataOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ModulesAsync(
         TerraformModulesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

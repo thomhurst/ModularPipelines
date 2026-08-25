@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "show")]
-public record TerraformStateShowOptions : TerraformOptions
+public record TerraformStateShowOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Address
+) : TerraformOptions
 {
+    public TerraformStateShowOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Path to a Terraform state file to use to look up Terraform-managed resources. By default it will use the state "terraform.tfstate" if it exists.
     /// </summary>

@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "delete")]
-public record TerraformWorkspaceDeleteOptions : TerraformOptions
+public record TerraformWorkspaceDeleteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
+) : TerraformOptions
 {
+    public TerraformWorkspaceDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Remove a workspace even if it is managing resources. Terraform can no longer track or manage the workspace's infrastructure.
     /// </summary>
