@@ -106,7 +106,8 @@ internal static partial class EnumDefinitionStabilizer
             var reusedMember = definition.Values.FirstOrDefault(value => value.MemberName.Equals(
                 existingValue.MemberName,
                 StringComparison.Ordinal));
-            if (reusedMember is not null)
+            if (reusedMember is not null
+                && !reusedMember.CliValue.Equals(existingValue.CliValue, StringComparison.OrdinalIgnoreCase))
             {
                 throw new InvalidOperationException(
                     $"Enum '{definition.EnumName}' member '{existingValue.MemberName}' changed CLI value from "
@@ -145,18 +146,44 @@ internal static partial class EnumDefinitionStabilizer
         for (var index = 0; index < newValues.Count; index++)
         {
             var incomingValue = newValues[index];
+            var memberName = GetCompatibleMemberName(incomingValue, stabilizedValues);
             while (usedNumericValues.Contains(nextNumericValue))
             {
                 nextNumericValue = checked(nextNumericValue + 1);
             }
 
-            stabilizedValues.Add(incomingValue with { NumericValue = nextNumericValue });
+            stabilizedValues.Add(incomingValue with
+            {
+                MemberName = memberName,
+                NumericValue = nextNumericValue,
+            });
             usedNumericValues.Add(nextNumericValue);
             if (index < newValues.Count - 1)
             {
                 nextNumericValue = checked(nextNumericValue + 1);
             }
         }
+    }
+
+    private static string GetCompatibleMemberName(
+        CliEnumValue incomingValue,
+        IReadOnlyCollection<CliEnumValue> stabilizedValues)
+    {
+        var existingMember = stabilizedValues.FirstOrDefault(value => value.MemberName.Equals(
+            incomingValue.MemberName,
+            StringComparison.Ordinal));
+        if (existingMember is null
+            || !existingMember.CliValue.Equals(incomingValue.CliValue, StringComparison.OrdinalIgnoreCase))
+        {
+            return incomingValue.MemberName;
+        }
+
+        var suffix = incomingValue.CliValue == incomingValue.CliValue.ToLowerInvariant()
+            ? "Lowercase"
+            : incomingValue.CliValue == incomingValue.CliValue.ToUpperInvariant()
+                ? "Uppercase"
+                : "CaseVariant";
+        return $"{incomingValue.MemberName}{suffix}";
     }
 
     private static void ValidateValues(CliEnumDefinition definition)
