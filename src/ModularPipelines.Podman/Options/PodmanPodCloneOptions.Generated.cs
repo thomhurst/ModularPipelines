@@ -241,4 +241,10 @@ public record PodmanPodCloneOptions(
     [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VolumesFrom { get; set; }
 
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? NameArgument { get; set; }
+
 }

@@ -149,6 +149,12 @@ public record PodmanContainerCloneOptions(
     public bool? Run { get; set; }
 
     /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? NameArgument { get; set; }
+
+    /// <summary>
     /// The IMAGE operand.
     /// </summary>
     [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
