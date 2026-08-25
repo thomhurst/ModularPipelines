@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will add the selectors matching the specified patterns to the list
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unplug")]
 public record YarnUnplugOptions : YarnOptions
 {
+    /// <summary>
+    /// Unplug direct dependencies from the entire project
+    /// </summary>
+    [CliOption("--all", ShortForm = "-A")]
+    public string? All { get; set; }
+
+    /// <summary>
+    /// Unplug both direct and transitive dependencies
+    /// </summary>
+    [CliOption("--recursive", ShortForm = "-R")]
+    public string? Recursive { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

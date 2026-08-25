@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will print a configuration setting.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config get")]
 public record YarnConfigGetOptions : YarnOptions
 {
+    /// <summary>
+    /// Print the explanation for why a setting has its value
+    /// </summary>
+    [CliOption("--why")]
+    public string? Why { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Don't redact secrets (such as tokens) from the output
+    /// </summary>
+    [CliFlag("--no-redacted")]
+    public bool? NoRedacted { get; set; }
+
 }

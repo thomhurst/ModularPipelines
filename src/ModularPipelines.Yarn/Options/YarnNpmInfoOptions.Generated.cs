@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command fetches information about a package from the npm registry and
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm info")]
 public record YarnNpmInfoOptions : YarnOptions
 {
+    /// <summary>
+    /// A comma-separated list of manifest fields that should be displayed
+    /// </summary>
+    [CliOption("--fields", ShortForm = "-f")]
+    public string? Fields { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

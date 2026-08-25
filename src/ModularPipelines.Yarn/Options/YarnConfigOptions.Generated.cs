@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command prints the current active configuration settings.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config")]
 public record YarnConfigOptions : YarnOptions
 {
+    /// <summary>
+    /// Omit the default values from the display
+    /// </summary>
+    [CliFlag("--no-defaults")]
+    public bool? NoDefaults { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

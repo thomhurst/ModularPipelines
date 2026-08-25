@@ -13,17 +13,14 @@ using ModularPipelines.Yarn.Options;
 namespace ModularPipelines.Yarn.Options;
 
 /// <summary>
-/// This command will remove any resolutions in the project-level manifest that
+/// This command will run a given sub-command on a single workspace.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("unlink")]
-public record YarnUnlinkOptions : YarnOptions
+[CliSubCommand("workspace")]
+public record YarnWorkspaceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkspaceName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> CommandName
+) : YarnOptions
 {
-    /// <summary>
-    /// Unlink all workspaces belonging to the target project from the current one
-    /// </summary>
-    [CliOption("--all", ShortForm = "-A")]
-    public string? All { get; set; }
-
 }

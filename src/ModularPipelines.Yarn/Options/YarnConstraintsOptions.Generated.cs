@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will run constraints on your project and emit errors for each one
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("constraints")]
 public record YarnConstraintsOptions : YarnOptions
 {
+    /// <summary>
+    /// Attempt to automatically fix unambiguous issues, following a multi-pass process
+    /// </summary>
+    [CliOption("--fix")]
+    public string? Fix { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

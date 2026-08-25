@@ -12,9 +12,31 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will cause a package to be extracted in a temporary directory
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch")]
-public record YarnPatchOptions : YarnOptions
+public record YarnPatchOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+) : YarnOptions
 {
+    public YarnPatchOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Reapply local patches that already apply to this packages
+    /// </summary>
+    [CliOption("--update", ShortForm = "-u")]
+    public string? Update { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

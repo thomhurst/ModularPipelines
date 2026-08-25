@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// Print the username associated with the current authentication settings to the
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm whoami")]
 public record YarnNpmWhoamiOptions : YarnOptions
 {
+    /// <summary>
+    /// Print username for the registry configured for a given scope
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Print username for the publish registry
+    /// </summary>
+    [CliOption("--publish")]
+    public string? Publish { get; set; }
+
 }

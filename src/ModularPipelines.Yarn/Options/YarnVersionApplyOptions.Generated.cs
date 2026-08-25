@@ -12,9 +12,54 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will apply the deferred version changes to workspaces. The applied
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("version apply")]
 public record YarnVersionApplyOptions : YarnOptions
 {
+    /// <summary>
+    /// Bump the version of all workspaces
+    /// </summary>
+    [CliOption("--all")]
+    public string? All { get; set; }
+
+    /// <summary>
+    /// Bump the version of dependent workspaces as well
+    /// </summary>
+    [CliOption("--recursive", ShortForm = "-R")]
+    public string? Recursive { get; set; }
+
+    /// <summary>
+    /// When updating parent workspaces' dependencies, use exact versions of bumped workspaces, removing any range.
+    /// </summary>
+    [CliFlag("--exact")]
+    public bool? Exact { get; set; }
+
+    /// <summary>
+    /// Specify a prerelease pattern to use when working with prerelease versions
+    /// </summary>
+    [CliOption("--prerelease")]
+    public string? Prerelease { get; set; }
+
+    /// <summary>
+    /// Print version(s)/record(s) without actually bumping versions or recording deferred releases
+    /// </summary>
+    [CliOption("--dry-run")]
+    public string? DryRun { get; set; }
+
+    /// <summary>
+    /// Bypass check for bumping to a lower version than the current/deferred one
+    /// </summary>
+    [CliOption("--force")]
+    public string? Force { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

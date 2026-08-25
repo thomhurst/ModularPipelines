@@ -12,9 +12,90 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command adds a package to the package.json for the nearest workspace.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
 public record YarnAddOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Store dependency tags as-is instead of resolving them
+    /// </summary>
+    [CliOption("--fixed", ShortForm = "-F")]
+    public string? Fixed { get; set; }
+
+    /// <summary>
+    /// Don't use any semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--exact", ShortForm = "-E")]
+    public bool? Exact { get; set; }
+
+    /// <summary>
+    /// Use the `~` semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--tilde", ShortForm = "-T")]
+    public bool? Tilde { get; set; }
+
+    /// <summary>
+    /// Use the `^` semver modifier on the resolved range
+    /// </summary>
+    [CliFlag("--caret", ShortForm = "-C")]
+    public bool? Caret { get; set; }
+
+    /// <summary>
+    /// Add a package as a dev dependency
+    /// </summary>
+    [CliFlag("--dev", ShortForm = "-D")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
+    /// Add a package as a peer dependency
+    /// </summary>
+    [CliFlag("--peer", ShortForm = "-P")]
+    public bool? Peer { get; set; }
+
+    /// <summary>
+    /// Add / upgrade a package to an optional regular / peer dependency
+    /// </summary>
+    [CliFlag("--optional", ShortForm = "-O")]
+    public bool? Optional { get; set; }
+
+    /// <summary>
+    /// Add / upgrade a package to a dev dependency
+    /// </summary>
+    [CliOption("--prefer-dev")]
+    public string? PreferDev { get; set; }
+
+    /// <summary>
+    /// Reuse the specified package from other workspaces in the project
+    /// </summary>
+    [CliOption("--interactive", ShortForm = "-i")]
+    public string? Interactive { get; set; }
+
+    /// <summary>
+    /// Reuse the highest version already used somewhere within the project
+    /// </summary>
+    [CliFlag("--cached")]
+    public bool? Cached { get; set; }
+
+    /// <summary>
+    /// Disable the minimum release age check for this command
+    /// </summary>
+    [CliFlag("--no-time-gate")]
+    public bool? NoTimeGate { get; set; }
+
+    /// <summary>
+    /// Change what artifacts installs generate
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
 }

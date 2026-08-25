@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will remove all the files from the cache.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cache clean")]
 public record YarnCacheCleanOptions : YarnOptions
 {
+    /// <summary>
+    /// Remove the global cache files instead of the local cache files
+    /// </summary>
+    [CliOption("--mirror")]
+    public string? Mirror { get; set; }
+
+    /// <summary>
+    /// Remove both the global cache files and the local cache files of the current project
+    /// </summary>
+    [CliOption("--all")]
+    public string? All { get; set; }
+
 }

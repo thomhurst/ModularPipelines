@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will unset a configuration setting.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config unset")]
 public record YarnConfigUnsetOptions : YarnOptions
 {
+    /// <summary>
+    /// Update the home configuration instead of the project configuration
+    /// </summary>
+    [CliOption("--home", ShortForm = "-H")]
+    public string? Home { get; set; }
+
 }

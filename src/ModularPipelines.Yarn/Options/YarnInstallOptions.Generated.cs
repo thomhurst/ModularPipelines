@@ -12,9 +12,60 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command sets up your project if needed. The installation is split into four
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
 public record YarnInstallOptions : YarnOptions
 {
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Abort with an error exit code if the lockfile was to be modified
+    /// </summary>
+    [CliOption("--immutable")]
+    public string? Immutable { get; set; }
+
+    /// <summary>
+    /// Abort with an error exit code if the cache folder was to be modified
+    /// </summary>
+    [CliOption("--immutable-cache")]
+    public string? ImmutableCache { get; set; }
+
+    /// <summary>
+    /// Refresh the package metadata stored in the lockfile
+    /// </summary>
+    [CliOption("--refresh-lockfile")]
+    public string? RefreshLockfile { get; set; }
+
+    /// <summary>
+    /// Always refetch the packages and ensure that their checksums are consistent
+    /// </summary>
+    [CliOption("--check-cache")]
+    public string? CheckCache { get; set; }
+
+    /// <summary>
+    /// Validates that the package resolutions are coherent
+    /// </summary>
+    [CliOption("--check-resolutions")]
+    public string? CheckResolutions { get; set; }
+
+    /// <summary>
+    /// Verbosely print the output of the build steps of dependencies
+    /// </summary>
+    [CliOption("--inline-builds")]
+    public string? InlineBuilds { get; set; }
+
+    /// <summary>
+    /// Change what artifacts installs generate
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
 }

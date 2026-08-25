@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will set a specific release of Yarn to be used by Corepack:
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("set version")]
 public record YarnSetVersionOptions : YarnOptions
 {
+    /// <summary>
+    /// Set the yarnPath setting even if the version can be accessed by Corepack
+    /// </summary>
+    [CliOption("--yarn-path")]
+    public string? YarnPath { get; set; }
+
+    /// <summary>
+    /// Only lock the Yarn version if it isn't already locked
+    /// </summary>
+    [CliOption("--only-if-needed")]
+    public string? OnlyIfNeeded { get; set; }
+
 }

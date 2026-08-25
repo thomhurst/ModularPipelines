@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will set a new `resolutions` field in the project-level manifest
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("link")]
 public record YarnLinkOptions : YarnOptions
 {
+    /// <summary>
+    /// Link all workspaces belonging to the target projects to the current one
+    /// </summary>
+    [CliOption("--all", ShortForm = "-A")]
+    public string? All { get; set; }
+
+    /// <summary>
+    /// Also link private workspaces belonging to the target projects to the current one
+    /// </summary>
+    [CliOption("--private", ShortForm = "-p")]
+    public string? Private { get; set; }
+
+    /// <summary>
+    /// Link workspaces using relative paths instead of absolute paths
+    /// </summary>
+    [CliOption("--relative", ShortForm = "-r")]
+    public string? Relative { get; set; }
+
 }

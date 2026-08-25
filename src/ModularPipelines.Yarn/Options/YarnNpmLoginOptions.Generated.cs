@@ -12,9 +12,36 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will ask you for your username, password, and 2FA One-Time-Password
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm login")]
 public record YarnNpmLoginOptions : YarnOptions
 {
+    /// <summary>
+    /// Login to the registry configured for a given scope
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Login to the publish registry
+    /// </summary>
+    [CliOption("--publish")]
+    public string? Publish { get; set; }
+
+    /// <summary>
+    /// Set the npmAlwaysAuth configuration
+    /// </summary>
+    [CliOption("--always-auth")]
+    public string? AlwaysAuth { get; set; }
+
+    /// <summary>
+    /// Enable web login
+    /// </summary>
+    [CliOption("--web-login")]
+    public string? WebLogin { get; set; }
+
 }

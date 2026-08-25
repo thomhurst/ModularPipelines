@@ -12,9 +12,25 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// By default, this will print a patchfile on stdout based on the diff between the
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch-commit")]
-public record YarnPatchCommitOptions : YarnOptions
+public record YarnPatchCommitOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchFolder
+) : YarnOptions
 {
+    public YarnPatchCommitOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Add the patch to your resolution entries
+    /// </summary>
+    [CliOption("--save", ShortForm = "-s")]
+    public string? Save { get; set; }
+
 }

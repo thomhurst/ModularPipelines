@@ -12,9 +12,102 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will run a given sub-command on current and all its descendant
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces foreach")]
 public record YarnWorkspacesForeachOptions : YarnOptions
 {
+    /// <summary>
+    /// An array of glob pattern idents or paths from which to base any recursion
+    /// </summary>
+    [CliOption("--from")]
+    public string? From { get; set; }
+
+    /// <summary>
+    /// Run the command on all workspaces of a project
+    /// </summary>
+    [CliOption("--all", ShortForm = "-A")]
+    public string? All { get; set; }
+
+    /// <summary>
+    /// Run the command on the current workspace and all of its recursive dependencies
+    /// </summary>
+    [CliOption("--recursive", ShortForm = "-R")]
+    public string? Recursive { get; set; }
+
+    /// <summary>
+    /// Run the command on all workspaces of the current worktree
+    /// </summary>
+    [CliOption("--worktree", ShortForm = "-W")]
+    public string? Worktree { get; set; }
+
+    /// <summary>
+    /// Increase level of logging verbosity up to 2 times
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Run the commands in parallel
+    /// </summary>
+    [CliOption("--parallel", ShortForm = "-p")]
+    public string? Parallel { get; set; }
+
+    /// <summary>
+    /// Print the output of commands in real-time instead of buffering it
+    /// </summary>
+    [CliOption("--interlaced", ShortForm = "-i")]
+    public string? Interlaced { get; set; }
+
+    /// <summary>
+    /// The maximum number of parallel tasks that the execution will be limited to; or `unlimited`
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j")]
+    public string? Jobs { get; set; }
+
+    /// <summary>
+    /// Run the command after all workspaces it depends on (regular) have finished
+    /// </summary>
+    [CliOption("--topological", ShortForm = "-t")]
+    public string? Topological { get; set; }
+
+    /// <summary>
+    /// Run the command after all workspaces it depends on (regular + dev) have finished
+    /// </summary>
+    [CliOption("--topological-dev")]
+    public string? TopologicalDev { get; set; }
+
+    /// <summary>
+    /// An array of glob pattern idents or paths; only matching workspaces will be traversed
+    /// </summary>
+    [CliOption("--include")]
+    public string? Include { get; set; }
+
+    /// <summary>
+    /// An array of glob pattern idents or paths; matching workspaces won't be traversed
+    /// </summary>
+    [CliOption("--exclude")]
+    public string? Exclude { get; set; }
+
+    /// <summary>
+    /// Avoid running the command on private workspaces
+    /// </summary>
+    [CliFlag("--no-private")]
+    public bool? NoPrivate { get; set; }
+
+    /// <summary>
+    /// Only include workspaces that have been changed since the specified ref.
+    /// </summary>
+    [CliOption("--since")]
+    public string? Since { get; set; }
+
+    /// <summary>
+    /// Print the commands that would be run, without actually running them
+    /// </summary>
+    [CliOption("--dry-run", ShortForm = "-n")]
+    public string? DryRun { get; set; }
+
 }

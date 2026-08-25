@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will add to your staging area the files belonging to Yarn
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stage")]
 public record YarnStageOptions : YarnOptions
 {
+    /// <summary>
+    /// Commit the staged files
+    /// </summary>
+    [CliOption("--commit", ShortForm = "-c")]
+    public string? Commit { get; set; }
+
+    /// <summary>
+    /// Remove all files from the staging area
+    /// </summary>
+    [CliOption("--reset", ShortForm = "-r")]
+    public string? Reset { get; set; }
+
+    /// <summary>
+    /// Print the commit message and the list of modified files without staging / committing
+    /// </summary>
+    [CliOption("--dry-run", ShortForm = "-n")]
+    public string? DryRun { get; set; }
+
 }

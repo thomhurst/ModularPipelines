@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will remove the packages matching the specified patterns from the
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("remove")]
 public record YarnRemoveOptions : YarnOptions
 {
+    /// <summary>
+    /// Apply the operation to all workspaces from the current project
+    /// </summary>
+    [CliOption("--all", ShortForm = "-A")]
+    public string? All { get; set; }
+
+    /// <summary>
+    /// Change what artifacts installs generate
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
 }

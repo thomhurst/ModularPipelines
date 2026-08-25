@@ -12,9 +12,18 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command downloads the specified plugin from its remote location and updates
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin import")]
 public record YarnPluginImportOptions : YarnOptions
 {
+    /// <summary>
+    /// Whether to care if this plugin is modified
+    /// </summary>
+    [CliOption("--checksum")]
+    public string? Checksum { get; set; }
+
 }

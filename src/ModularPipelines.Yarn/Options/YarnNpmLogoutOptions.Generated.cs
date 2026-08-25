@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will log you out by modifying your local configuration (in your
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm logout")]
 public record YarnNpmLogoutOptions : YarnOptions
 {
+    /// <summary>
+    /// Logout of the registry configured for a given scope
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Logout of the publish registry
+    /// </summary>
+    [CliOption("--publish")]
+    public string? Publish { get; set; }
+
+    /// <summary>
+    /// Logout of all registries
+    /// </summary>
+    [CliOption("--all", ShortForm = "-A")]
+    public string? All { get; set; }
+
 }
