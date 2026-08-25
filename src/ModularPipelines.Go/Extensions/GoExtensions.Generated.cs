@@ -33,7 +33,7 @@ public static class GoExtensions
     }
 
     /// <summary>
-    /// Gets the go service from the pipeline context.
+    /// Gets the go service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGo"/> service for executing go commands.</returns>
