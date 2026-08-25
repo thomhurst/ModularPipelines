@@ -772,6 +772,25 @@ public abstract partial class CliScraperBase : ICliScraper
             .ToArray();
 
     /// <summary>
+    /// Returns true positional operands, retaining operands that follow presence-only flags.
+    /// </summary>
+    protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
+        UsageSynopsisParseResult usage,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        usage.PositionalArguments
+            .Where(argument => argument.AssociatedOptionSwitch is null
+                               || !options.Any(option =>
+                                   !option.IsFlag
+                                   && (option.SwitchName.Equals(
+                                           argument.AssociatedOptionSwitch,
+                                           StringComparison.OrdinalIgnoreCase)
+                                       || option.ShortForm?.Equals(
+                                           argument.AssociatedOptionSwitch,
+                                           StringComparison.OrdinalIgnoreCase) == true)))
+            .Select(argument => argument with { AssociatedOptionSwitch = null })
+            .ToArray();
+
+    /// <summary>
     /// Checks if help text indicates the command has options/flags.
     /// Override if the CLI has a different pattern for leaf commands.
     /// </summary>
@@ -1098,7 +1117,8 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?|contains?)\s+"
         + @"(?:multiple\s+times|more\s+than\s+once|"
         + RepeatableItemCountPattern
-        + @"|multiple\s+[\w-]+))\b";
+        + @"|multiple\s+[\w-]+)"
+        + @"|(?:an?\s+)?array\s+of\s+[\w-]+)\b";
 
     [GeneratedRegex(RepeatableValueRegex, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex RepeatableValuePattern();

@@ -345,6 +345,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionValue(string description) =>
         AzValueDescriptionPattern().IsMatch(description)
+        || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
@@ -509,8 +510,11 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+-(?<short>\w))?(?:\s+(?<value>[A-Z_]+))?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|batch|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
+
+    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzEmbeddedValueDescriptionPattern();
 
     #endregion
 }

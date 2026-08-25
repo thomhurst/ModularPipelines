@@ -179,7 +179,7 @@ public partial class GoCliScraper : CliScraperBase
             .ToList();
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
-            GetPositionalArguments(usage));
+            GetPositionalArguments(usage, options));
 
         var className = GenerateClassName(commandPath);
 
@@ -310,16 +310,15 @@ public partial class GoCliScraper : CliScraperBase
 
         // Find flags sections
         var flagsSectionMatch = FlagsSectionPattern().Match(helpText);
-        if (!flagsSectionMatch.Success)
-        {
-            return options;
-        }
-
-        var sectionStart = flagsSectionMatch.Index + flagsSectionMatch.Length;
+        var sectionStart = flagsSectionMatch.Success
+            ? flagsSectionMatch.Index + flagsSectionMatch.Length
+            : 0;
         var sectionEnd = helpText.Length;
 
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
+        var nextSection = flagsSectionMatch.Success
+            ? NextSectionPattern().Match(helpText, sectionStart)
+            : Match.Empty;
+        if (flagsSectionMatch.Success && nextSection.Success)
         {
             sectionEnd = nextSection.Index;
         }
@@ -345,20 +344,17 @@ public partial class GoCliScraper : CliScraperBase
                 continue;
             }
 
-            // Convert single-dash flags to double-dash for consistency
-            var longForm = flagName.StartsWith("--") ? flagName : $"--{flagName.TrimStart('-')}";
+            var optionKey = flagName.TrimStart('-');
 
-            if (seenOptions.Contains(longForm))
+            if (!seenOptions.Add(optionKey))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
-
             // Accumulate multi-line descriptions
             i = AccumulateMultiLineDescription(lines, i, ref description);
 
-            var propertyName = NormalizePropertyName(longForm);
+            var propertyName = NormalizePropertyName(optionKey);
             if (propertyName is null)
             {
                 continue;
@@ -369,7 +365,7 @@ public partial class GoCliScraper : CliScraperBase
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = flagName.TrimStart('-'),
+                SwitchName = flagName,
                 ShortForm = null,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
@@ -382,6 +378,35 @@ public partial class GoCliScraper : CliScraperBase
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+            });
+        }
+
+        foreach (Match match in GoUsageOptionPattern().Matches(helpText))
+        {
+            var flagName = match.Groups["flag"].Value;
+            var optionKey = flagName.TrimStart('-');
+            if (!seenOptions.Add(optionKey))
+            {
+                continue;
+            }
+
+            var propertyName = NormalizePropertyName(optionKey);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            var valueHint = match.Groups["value"].Value;
+            var isFlag = string.IsNullOrEmpty(valueHint);
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = flagName,
+                PropertyName = propertyName,
+                CSharpType = isFlag ? "bool?" : "string?",
+                Description = $"The {flagName} option.",
+                IsFlag = isFlag,
+                ValueSeparator = " ",
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
             });
         }
 
@@ -479,6 +504,13 @@ public partial class GoCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:\s+(?<value>\w+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex GoOptionPattern();
+
+    /// <summary>
+    /// Matches options declared directly in Go usage and prose, including commands whose
+    /// help does not expose a dedicated flags table.
+    /// </summary>
+    [GeneratedRegex(@"(?<![\w-])(?<flag>-[a-z][\w-]*)(?:\s+(?<value>(?!(?:flag|flags|option|options)\b)[A-Za-z][\w-]*))?", RegexOptions.IgnoreCase)]
+    private static partial Regex GoUsageOptionPattern();
 
     /// <summary>
     /// Matches flag lines.

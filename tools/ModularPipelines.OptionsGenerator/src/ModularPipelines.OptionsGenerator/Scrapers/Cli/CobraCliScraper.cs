@@ -206,7 +206,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var options = ApplyOptionFixes(commandParts, ParseOptions(helpText, commandParts));
 
         // Parse positional arguments from usage/synopsis text
-        var positionalArgs = ApplyPositionalArgumentFixes(commandParts, usage.PositionalArguments);
+        var positionalArgs = ApplyPositionalArgumentFixes(
+            commandParts,
+            GetPositionalArguments(usage, options));
 
         // Extract enums from options
         var enums = options

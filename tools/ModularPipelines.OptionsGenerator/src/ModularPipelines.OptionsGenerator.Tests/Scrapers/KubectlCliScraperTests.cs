@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -22,6 +23,58 @@ public class KubectlCliScraperTests
         await Assert.That(version).IsEqualTo("Client Version: v1.35.0");
         await Assert.That(executor.AvailabilityArguments).IsEquivalentTo(["version --client"]);
         await Assert.That(executor.Arguments).IsEquivalentTo(["version --client"]);
+    }
+
+    [Test]
+    [Arguments("diff", "Usage:\n  kubectl diff -f FILENAME", "-f, --filename stringArray   Files to diff.")]
+    [Arguments("attach", "Usage:\n  kubectl attach POD -c CONTAINER", "-c, --container string   Container name.")]
+    public async Task Option_Values_Are_Not_Emitted_As_Positionals(
+        string commandName,
+        string usage,
+        string option)
+    {
+        var helpText = $"{usage}\n\nOptions:\n  {option}";
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", commandName],
+            helpText);
+
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .DoesNotContain("Filename")
+            .And.DoesNotContain("Container");
+    }
+
+    [Test]
+    public async Task Port_Forward_Numbered_Repeat_Is_One_Collection()
+    {
+        const string helpText = """
+            Usage:
+              kubectl port-forward TYPE/NAME [options] [LOCAL_PORT:]REMOTE_PORT [...[LOCAL_PORT_N:]REMOTE_PORT_N]
+            """;
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "port-forward"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["TypeOrName", "LocalPortRemotePort"]);
+            await Assert.That(command.PositionalArguments.Single(argument =>
+                argument.PropertyName == "LocalPortRemotePort").IsVariadic).IsTrue();
+        }
+    }
+
+    private sealed class TestKubectlCliScraper()
+        : KubectlCliScraper(
+            new RecordingExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<KubectlCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                UsageSynopsisParser.Parse(helpText, commandPath),
+                CancellationToken.None);
     }
 
     private sealed class RecordingExecutor : ICliCommandExecutor

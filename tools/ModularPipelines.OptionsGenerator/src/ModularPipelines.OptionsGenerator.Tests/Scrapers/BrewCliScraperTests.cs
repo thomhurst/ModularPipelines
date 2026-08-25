@@ -55,6 +55,51 @@ public class BrewCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Models_Exec_Command_And_Value_Options()
+    {
+        const string helpText = """
+            Usage: brew exec [options] command [args...]
+
+                  --formulae=LIST   Populate the environment with a comma-separated list of formulae.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "exec"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Command", "Arguments"]);
+            await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments[1].IsVariadic).IsTrue();
+            await Assert.That(command.Options.Single().IsFlag).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Models_Sandbox_Command_After_Writable_Path_Option()
+    {
+        const string helpText = """
+            Usage: brew sandbox-exec [options] -- command [args...]
+
+                  --writable-path=PATH   Add a writable path to the sandbox.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "sandbox-exec"],
+            helpText);
+
+        var operand = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("Command");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+            await Assert.That(operand.PrependOptionTerminator).IsTrue();
+            await Assert.That(command.Options.Single().IsFlag).IsFalse();
+        }
+    }
+
     private sealed class TestBrewCliScraper : BrewCliScraper
     {
         public TestBrewCliScraper(ICliCommandExecutor? executor = null)

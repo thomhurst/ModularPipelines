@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -101,6 +102,39 @@ public class DotNetCliScraperTests
             .IsEquivalentTo(["Nologo", "Debug"]);
     }
 
+    [Test]
+    public async Task Preserves_Current_Option_And_Operand_Arity()
+    {
+        const string helpText = """
+            Usage: dotnet tool run <COMMAND_NAME> [<toolArguments>...]
+
+            Arguments:
+              <COMMAND_NAME>       The command to run.
+              <toolArguments>      Arguments passed to the tool.
+
+            Options:
+              --project [<PROJECT>]  The project file to operate on.
+              --exact-match          Require an exact package match. [default: False]
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "tool", "run"],
+            helpText);
+
+        var project = command!.Options.Single(option => option.PropertyName == "Project");
+        var exactMatch = command.Options.Single(option => option.PropertyName == "ExactMatch");
+        var toolArguments = command.PositionalArguments.Single(argument =>
+            argument.PropertyName == "ToolArguments");
+        using (Assert.Multiple())
+        {
+            await Assert.That(project.IsFlag).IsFalse();
+            await Assert.That(project.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(exactMatch.IsFlag).IsTrue();
+            await Assert.That(toolArguments.IsVariadic).IsTrue();
+            await Assert.That(toolArguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
     private static CliOptionDefinition Flag(string switchName, string propertyName) => new()
     {
         SwitchName = switchName,
@@ -121,6 +155,13 @@ public class DotNetCliScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                UsageSynopsisParser.Parse(helpText, commandPath),
+                CancellationToken.None);
     }
 
     private sealed class StaticHtmlHandler(string html) : HttpMessageHandler

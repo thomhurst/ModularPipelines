@@ -154,9 +154,14 @@ public partial class DotNetCliScraper : CliScraperBase
 
         // Parse positional arguments
         var positionalArgs = ParsePositionalArguments(helpText);
+        var usagePositionalArgs = GetPositionalArguments(usage, options);
         if (positionalArgs.Count == 0)
         {
-            positionalArgs.AddRange(GetPositionalArguments(usage));
+            positionalArgs.AddRange(usagePositionalArgs);
+        }
+        else
+        {
+            positionalArgs = ApplyUsageCardinality(positionalArgs, usagePositionalArgs);
         }
 
         // Apply command-specific positional argument fixes
@@ -268,7 +273,10 @@ public partial class DotNetCliScraper : CliScraperBase
 
             var shortFlag = match.Groups["short"].Value.Trim();
             var longFlag = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
+            var hasOptionalValue = match.Groups["optionalValue"].Success;
+            var valueHint = (hasOptionalValue
+                ? match.Groups["optionalValue"]
+                : match.Groups["value"]).Value.Trim();
             var description = match.Groups["desc"].Value.Trim();
 
             // Need at least one flag
@@ -305,7 +313,15 @@ public partial class DotNetCliScraper : CliScraperBase
 
             // Determine type based on value hint
             // Some nuget options don't have value hints but still take values (e.g., -n|--name)
-            var isFlag = string.IsNullOrEmpty(valueHint) && !IsLikelyValueOption(primaryFlag, description);
+            var declaresBooleanDefault = description.Contains(
+                                             "[default: False]",
+                                             StringComparison.OrdinalIgnoreCase)
+                                         || description.Contains(
+                                             "[default: True]",
+                                             StringComparison.OrdinalIgnoreCase);
+            var isFlag = string.IsNullOrEmpty(valueHint)
+                         && (declaresBooleanDefault
+                             || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
             var acceptsMultiple = description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
                                   description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase);
@@ -325,6 +341,9 @@ public partial class DotNetCliScraper : CliScraperBase
                 IsKeyValue = primaryFlag.Contains("property", StringComparison.OrdinalIgnoreCase),
                 IsNumeric = csharpType == "int?",
                 ValueSeparator = " ",
+                ValueArity = hasOptionalValue
+                    ? CliOptionValueArity.Optional
+                    : CliOptionValueArity.Required,
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
@@ -494,6 +513,24 @@ public partial class DotNetCliScraper : CliScraperBase
 
         return args;
     }
+
+    private static List<CliPositionalArgument> ApplyUsageCardinality(
+        List<CliPositionalArgument> arguments,
+        IReadOnlyList<CliPositionalArgument> usageArguments) =>
+        arguments.Select(argument =>
+        {
+            var usageArgument = usageArguments.FirstOrDefault(candidate =>
+                candidate.PropertyName.Equals(
+                    argument.PropertyName,
+                    StringComparison.OrdinalIgnoreCase));
+            return usageArgument is { IsVariadic: true }
+                ? argument with
+                {
+                    CSharpType = "IEnumerable<string>?",
+                    IsVariadic = true,
+                }
+                : argument;
+        }).ToList();
 
     private static List<CliPositionalArgument> RenameSingleArgument(
         List<CliPositionalArgument> args,
@@ -737,7 +774,7 @@ public partial class DotNetCliScraper : CliScraperBase
     /// -s|--source <source>                 Description    (pipe separator, nuget style)
     /// -ss|--symbol-source <source>         Description    (multi-char short, pipe separator)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:-(?<short>\w+)[,|]\s*)?--(?<long>[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:-(?<short>\w+)[,|]\s*)?--(?<long>[\w-]+)(?:\s+(?:<(?<value>[^>]+)>|\[<(?<optionalValue>[^>]+)>\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex DotNetOptionPattern();
 
     /// <summary>

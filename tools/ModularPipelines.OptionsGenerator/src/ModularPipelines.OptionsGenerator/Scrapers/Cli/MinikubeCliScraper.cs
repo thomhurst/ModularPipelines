@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -73,4 +74,13 @@ public partial class MinikubeCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version", "update-check"
     };
+
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        commandParts is ["addons"] or ["config"]
+            ? positionalArguments
+                .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
+                .ToArray()
+            : positionalArguments;
 }

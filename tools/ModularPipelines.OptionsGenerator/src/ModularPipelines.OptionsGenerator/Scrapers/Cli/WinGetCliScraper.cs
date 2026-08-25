@@ -207,9 +207,9 @@ public partial class WinGetCliScraper : CliScraperBase
             .Select(o => o.EnumDefinition!)
             .ToList();
         var usageArguments = AssociateNamedOptionOperands(options, usage.PositionalArguments);
-        var positionalArguments = usageArguments
-            .Where(argument => argument.AssociatedOptionSwitch is null)
-            .ToArray();
+        var positionalArguments = GetPositionalArguments(
+            usage with { PositionalArguments = usageArguments },
+            options);
 
         var className = GenerateClassName(commandPath);
 

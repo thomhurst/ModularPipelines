@@ -193,6 +193,50 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Current_Description_Only_Values_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --default-identity       : Accept system or user assigned identity separated.
+                --install-script         : Install script configurations. Provide key-value pairs.
+                --credentials-secret-uri : Key Vault secret URI for credentials.
+                --source                 : Source URI or path for the storage mount.
+                --id                     : The deployment stack what-if result resource ID.
+                --maintenance-batch      : The batch of the custom-managed maintenance window. Accepted values: Default, Batch1, Batch2.
+                --related                : Related resource or alert to add to the issue.
+                --force                  : Force the operation without confirmation.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var propertyName in new[]
+                     {
+                         "DefaultIdentity",
+                         "InstallScript",
+                         "CredentialsSecretUri",
+                         "Source",
+                         "Id",
+                         "MaintenanceBatch",
+                         "Related",
+                     })
+            {
+                await Assert.That(command!.Options.Single(option =>
+                    option.PropertyName == propertyName).IsFlag).IsFalse();
+            }
+
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "Force").IsFlag)
+                .IsTrue();
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

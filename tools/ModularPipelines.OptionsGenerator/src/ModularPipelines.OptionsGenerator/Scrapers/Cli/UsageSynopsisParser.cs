@@ -187,6 +187,7 @@ public static class UsageSynopsisParser
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
+        string? associatedOptionSwitch = null;
 
         foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
         {
@@ -201,6 +202,12 @@ public static class UsageSynopsisParser
             var groupedBehindOptionTerminator =
                 TryUnwrapOptionTerminatedOperand(token, out var unwrappedOperand);
             var operandToken = groupedBehindOptionTerminator ? unwrappedOperand : token;
+            if (TryGetOptionSwitch(operandToken, out var optionSwitch))
+            {
+                associatedOptionSwitch = optionSwitch;
+                continue;
+            }
+
             if (TryApplyStandaloneRepeat(operandToken, arguments))
             {
                 continue;
@@ -226,7 +233,13 @@ public static class UsageSynopsisParser
             if (argument is null)
             {
                 unparsedTokens.Add(operandToken);
+                associatedOptionSwitch = null;
                 continue;
+            }
+
+            if (associatedOptionSwitch is not null)
+            {
+                argument = argument with { AssociatedOptionSwitch = associatedOptionSwitch };
             }
 
             if (groupedBehindOptionTerminator || prependOptionTerminatorToNextOperand)
@@ -236,6 +249,7 @@ public static class UsageSynopsisParser
 
             arguments.Add(argument);
             prependOptionTerminatorToNextOperand = false;
+            associatedOptionSwitch = null;
         }
 
         return new ParsedOperands(arguments, unparsedTokens);

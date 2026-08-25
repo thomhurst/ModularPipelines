@@ -148,6 +148,52 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task Go_Clean_Extracts_Options_Without_A_Flags_Table()
+    {
+        const string helpText = """
+            usage: go clean [-i] [-r] [-cache] [-o output] [packages]
+
+            The -i flag removes installed archives.
+            The -r flag applies clean recursively.
+            The -cache flag removes the entire build cache.
+            """;
+
+        var command = await new TestGoCliScraper().Parse(["go", "clean"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["-i", "-r", "-cache", "-o"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-o").IsFlag)
+                .IsFalse();
+            await Assert.That(command.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Packages");
+        }
+    }
+
+    [Test]
+    public async Task Pip_Require_Hashes_Is_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Usage:
+              pip install [options] <requirement specifier> ...
+
+            Install Options:
+              --require-hashes      Require a hash to check each requirement against, for repeatable installs.
+            """;
+
+        var command = await new TestPipCliScraper().Parse(["pip", "install"], helpText);
+        var requireHashes = command!.Options.Single(option => option.PropertyName == "RequireHashes");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(requireHashes.IsFlag).IsTrue();
+            await Assert.That(requireHashes.CSharpType).IsEqualTo("bool?");
+            await Assert.That(requireHashes.AcceptsMultipleValues).IsFalse();
+        }
+    }
+
+    [Test]
     [Arguments("cache", "Usage: pip cache list [<pattern>]\n  pip cache purge")]
     [Arguments("config", "Usage: pip config [<file-option>] list\n  pip config get command.option")]
     [Arguments("index", "Usage: pip index versions <package>")]
