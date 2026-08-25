@@ -19,8 +19,16 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label")]
-public record KubernetesLabelOptions : KubernetesOptions
+public record KubernetesLabelOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Key_1Val_1,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string KeyNValN
+) : KubernetesOptions
 {
+    public KubernetesLabelOptions()
+        : this(default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Select all resources, in the namespace of the specified resource types
     /// </summary>

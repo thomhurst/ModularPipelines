@@ -12,47 +12,26 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Attach to a process that is already running inside an existing container.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attach")]
 public record KubernetesAttachOptions : KubernetesOptions
 {
-    /// <summary>
-    /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
-    /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
-    /// <summary>
-    /// Override the key sequence for detaching a container
-    /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
 
-    /// <summary>
-    /// The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
-    /// </summary>
     [CliOption("--pod-running-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? PodRunningTimeout { get; set; }
 
-    /// <summary>
-    /// Only print output from the remote session
-    /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
-    /// <summary>
-    /// Pass stdin to the container
-    /// </summary>
     [CliFlag("--stdin", ShortForm = "-i")]
     public bool? Stdin { get; set; }
 
-    /// <summary>
-    /// Stdin is a TTY
-    /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
 

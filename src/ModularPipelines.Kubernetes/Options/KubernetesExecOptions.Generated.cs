@@ -12,47 +12,26 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Execute a command in a container.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record KubernetesExecOptions : KubernetesOptions
 {
-    /// <summary>
-    /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
-    /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
-    /// <summary>
-    /// to use to exec into the resource
-    /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
-    /// <summary>
-    /// The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
-    /// </summary>
     [CliOption("--pod-running-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? PodRunningTimeout { get; set; }
 
-    /// <summary>
-    /// Only print output from the remote session
-    /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
-    /// <summary>
-    /// Pass stdin to the container
-    /// </summary>
     [CliFlag("--stdin", ShortForm = "-i")]
     public bool? Stdin { get; set; }
 
-    /// <summary>
-    /// Stdin is a TTY
-    /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
 

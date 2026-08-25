@@ -12,53 +12,29 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Show details of a specific resource or group of resources.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("describe")]
 public record KubernetesDescribeOptions : KubernetesOptions
 {
-    /// <summary>
-    /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
-    /// </summary>
     [CliFlag("--all-namespaces", ShortForm = "-A")]
     public bool? AllNamespaces { get; set; }
 
-    /// <summary>
-    /// Return large lists in chunks rather than all at once. Pass 0 to disable.
-    /// </summary>
     [CliOption("--chunk-size", Format = OptionFormat.EqualsSeparated)]
     public int? ChunkSize { get; set; }
 
-    /// <summary>
-    /// Filename, directory, or URL to files containing the resource to describe
-    /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
-    /// <summary>
-    /// Process the kustomization directory. This flag can't be used together with -f or -R.
-    /// </summary>
     [CliOption("--kustomize", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]
     public string? Kustomize { get; set; }
 
-    /// <summary>
-    /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
-    /// </summary>
     [CliFlag("--recursive", ShortForm = "-R")]
     public bool? Recursive { get; set; }
 
-    /// <summary>
-    /// Selector (label query) to filter on, supports '=', '==', '!=', 'in', 'notin'.(e.g. -l key1=value1,key2=value2,key3 in (value3)). Matching objects must satisfy all of the specified label constraints.
-    /// </summary>
     [CliOption("--selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Selector { get; set; }
 
-    /// <summary>
-    /// If true, display events related to the described object. Defaults to true for a single object, false for multiple objects and prefix matching.
-    /// </summary>
     [CliOption("--show-events", Format = OptionFormat.EqualsSeparated)]
     public bool? ShowEvents { get; set; }
 

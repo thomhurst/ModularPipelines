@@ -32,7 +32,7 @@ public class KubernetesAuth : IKubernetesAuth
     #region Commands
 
     /// <summary>
-    /// Inspect authorization.
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -46,13 +46,7 @@ public class KubernetesAuth : IKubernetesAuth
         return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesAuthOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Check whether an action is allowed.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> CanIAsync(
         KubernetesAuthCanIOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -61,13 +55,7 @@ public class KubernetesAuth : IKubernetesAuth
         return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesAuthCanIOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Reconciles rules for RBAC role, role binding, cluster role, and cluster role binding objects.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ReconcileAsync(
         KubernetesAuthReconcileOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -76,13 +64,7 @@ public class KubernetesAuth : IKubernetesAuth
         return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesAuthReconcileOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Experimental: Check who you are and your attributes (groups, extra).
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WhoamiAsync(
         KubernetesAuthWhoamiOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

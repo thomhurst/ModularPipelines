@@ -18,8 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("diff")]
-public record KubernetesDiffOptions : KubernetesOptions
+public record KubernetesDiffOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string FilenameArgument
+) : KubernetesOptions
 {
+    public KubernetesDiffOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Number of objects to process in parallel when diffing against the live version. Larger number = faster, but more memory, I/O and CPU over that shorter period of time.
     /// </summary>

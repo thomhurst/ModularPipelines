@@ -13,35 +13,20 @@ using ModularPipelines.Kubernetes.Enums;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Experimental: Check who you are and your attributes (groups, extra).
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "whoami")]
 public record KubernetesAuthWhoamiOptions : KubernetesOptions
 {
-    /// <summary>
-    /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
-    /// </summary>
     [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    /// <summary>
-    /// Output format. One of: (json, yaml, kyaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public KubernetesAuthWhoamiOutput? Output { get; set; }
 
-    /// <summary>
-    /// If true, keep the managedFields when printing objects in JSON or YAML format.
-    /// </summary>
     [CliFlag("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    /// <summary>
-    /// Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
-    /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 

@@ -12,155 +12,80 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Debug cluster resources using interactive debugging containers.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debug")]
 public record KubernetesDebugOptions : KubernetesOptions
 {
-    /// <summary>
-    /// If specified, everything after -- will be passed to the new container as Args instead of Command.
-    /// </summary>
     [CliFlag("--arguments-only")]
     public bool? ArgumentsOnly { get; set; }
 
-    /// <summary>
-    /// If true, wait for the container to start running, and then attach as if 'kubectl attach ...' were called.  Default false, unless '-i/--stdin' is set, in which case the default is true.
-    /// </summary>
     [CliFlag("--attach")]
     public bool? Attach { get; set; }
 
-    /// <summary>
-    /// Container name to use for debug container.
-    /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
-    /// <summary>
-    /// Create a copy of the target Pod with this name.
-    /// </summary>
     [CliOption("--copy-to", Format = OptionFormat.EqualsSeparated)]
     public string? CopyTo { get; set; }
 
-    /// <summary>
-    /// Path to a JSON or YAML file containing a partial container spec to customize built-in debug profiles.
-    /// </summary>
     [CliOption("--custom", Format = OptionFormat.EqualsSeparated)]
     public string? Custom { get; set; }
 
-    /// <summary>
-    /// Environment variables to set in the container.
-    /// </summary>
     [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
-    /// <summary>
-    /// identifying the resource to debug
-    /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
-    /// <summary>
-    /// Container image to use for debug container.
-    /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
-    /// <summary>
-    /// The image pull policy for the container. If left empty, this value will not be specified by the client and defaulted by the server.
-    /// </summary>
     [CliOption("--image-pull-policy", Format = OptionFormat.EqualsSeparated)]
     public string? ImagePullPolicy { get; set; }
 
-    /// <summary>
-    /// If true, keep the original pod annotations.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliFlag("--keep-annotations")]
     public bool? KeepAnnotations { get; set; }
 
-    /// <summary>
-    /// Run the init containers for the pod. Defaults to true.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliOption("--keep-init-containers", Format = OptionFormat.EqualsSeparated)]
     public bool? KeepInitContainers { get; set; }
 
-    /// <summary>
-    /// If true, keep the original pod labels.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliFlag("--keep-labels")]
     public bool? KeepLabels { get; set; }
 
-    /// <summary>
-    /// If true, keep the original pod liveness probes.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliFlag("--keep-liveness")]
     public bool? KeepLiveness { get; set; }
 
-    /// <summary>
-    /// If true, keep the original pod readiness probes.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliFlag("--keep-readiness")]
     public bool? KeepReadiness { get; set; }
 
-    /// <summary>
-    /// If true, keep the original startup probes.(This flag only works when used with '--copy-to')
-    /// </summary>
     [CliFlag("--keep-startup")]
     public bool? KeepStartup { get; set; }
 
-    /// <summary>
-    /// Options are "general", "baseline", "restricted", "netadmin" or "sysadmin". Defaults to "general"
-    /// </summary>
     [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public string? Profile { get; set; }
 
-    /// <summary>
-    /// If true, suppress informational messages.
-    /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
-    /// <summary>
-    /// When used with '--copy-to', delete the original Pod.
-    /// </summary>
     [CliFlag("--replace")]
     public bool? Replace { get; set; }
 
-    /// <summary>
-    /// When used with '--copy-to', schedule the copy of target Pod on the same node.
-    /// </summary>
     [CliFlag("--same-node")]
     public bool? SameNode { get; set; }
 
-    /// <summary>
-    /// When used with '--copy-to', a list of name=image pairs for changing container images, similar to how 'kubectl set image' works.
-    /// </summary>
     [CliOption("--set-image", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetImage { get; set; }
 
-    /// <summary>
-    /// When used with '--copy-to', enable process namespace sharing in the copy.
-    /// </summary>
     [CliOption("--share-processes", Format = OptionFormat.EqualsSeparated)]
     public bool? ShareProcesses { get; set; }
 
-    /// <summary>
-    /// Keep stdin open on the container(s) in the pod, even if nothing is attached.
-    /// </summary>
     [CliFlag("--stdin", ShortForm = "-i")]
     public bool? Stdin { get; set; }
 
-    /// <summary>
-    /// When using an ephemeral container, target processes in this container name.
-    /// </summary>
     [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
     public string? Target { get; set; }
 
-    /// <summary>
-    /// Allocate a TTY for the debugging container.
-    /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
 

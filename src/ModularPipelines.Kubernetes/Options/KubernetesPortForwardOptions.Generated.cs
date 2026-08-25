@@ -12,23 +12,14 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Forward one or more local ports to a pod.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port-forward")]
 public record KubernetesPortForwardOptions : KubernetesOptions
 {
-    /// <summary>
-    /// Addresses to listen on (comma separated). Only accepts IP addresses or localhost as a value. When localhost is supplied, kubectl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these addresses are available to bind.
-    /// </summary>
     [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
     public string? Address { get; set; }
 
-    /// <summary>
-    /// The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
-    /// </summary>
     [CliOption("--pod-running-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? PodRunningTimeout { get; set; }
 

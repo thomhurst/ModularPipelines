@@ -12,107 +12,56 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Print the logs for a container in a pod or specified resource. If the pod has only one container, the container name is optional.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
 public record KubernetesLogsOptions : KubernetesOptions
 {
-    /// <summary>
-    /// Get all containers' logs in the pod(s).
-    /// </summary>
     [CliFlag("--all-containers")]
     public bool? AllContainers { get; set; }
 
-    /// <summary>
-    /// Get logs from all pod(s). Sets prefix to true.
-    /// </summary>
     [CliFlag("--all-pods")]
     public bool? AllPods { get; set; }
 
-    /// <summary>
-    /// Print the logs of this container
-    /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
-    /// <summary>
-    /// Specify if the logs should be streamed.
-    /// </summary>
     [CliFlag("--follow", ShortForm = "-f")]
     public bool? Follow { get; set; }
 
-    /// <summary>
-    /// If watching / following pod logs, allow for any errors that occur to be non-fatal
-    /// </summary>
     [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
-    /// <summary>
-    /// Skip verifying the identity of the kubelet that logs are requested from.  In theory, an attacker could provide invalid log content back. You might want to use this if your kubelet serving certificates have expired.
-    /// </summary>
     [CliFlag("--insecure-skip-tls-verify-backend")]
     public bool? InsecureSkipTlsVerifyBackend { get; set; }
 
-    /// <summary>
-    /// Maximum bytes of logs to return. Defaults to no limit.
-    /// </summary>
     [CliOption("--limit-bytes", Format = OptionFormat.EqualsSeparated)]
     public int? LimitBytes { get; set; }
 
-    /// <summary>
-    /// Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
-    /// </summary>
     [CliOption("--max-log-requests", Format = OptionFormat.EqualsSeparated)]
     public int? MaxLogRequests { get; set; }
 
-    /// <summary>
-    /// The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
-    /// </summary>
     [CliOption("--pod-running-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? PodRunningTimeout { get; set; }
 
-    /// <summary>
-    /// Prefix each log line with the log source (pod name and container name)
-    /// </summary>
     [CliFlag("--prefix")]
     public bool? Prefix { get; set; }
 
-    /// <summary>
-    /// If true, print the logs for the previous instance of the container in a pod if it exists.
-    /// </summary>
     [CliFlag("--previous", ShortForm = "-p")]
     public bool? Previous { get; set; }
 
-    /// <summary>
-    /// Selector (label query) to filter on, supports '=', '==', '!=', 'in', 'notin'.(e.g. -l key1=value1,key2=value2,key3 in (value3)). Matching objects must satisfy all of the specified label constraints.
-    /// </summary>
     [CliOption("--selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Selector { get; set; }
 
-    /// <summary>
-    /// Only return logs newer than a relative duration like 5s, 2m, or 3h. Defaults to all logs. Only one of since-time / since may be used.
-    /// </summary>
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
 
-    /// <summary>
-    /// Only return logs after a specific date (RFC3339). Defaults to all logs. Only one of since-time / since may be used.
-    /// </summary>
     [CliOption("--since-time", Format = OptionFormat.EqualsSeparated)]
     public string? SinceTime { get; set; }
 
-    /// <summary>
-    /// Lines of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
-    /// </summary>
     [CliOption("--tail", Format = OptionFormat.EqualsSeparated)]
     public int? Tail { get; set; }
 
-    /// <summary>
-    /// Include timestamps on each line in the log output
-    /// </summary>
     [CliFlag("--timestamps")]
     public bool? Timestamps { get; set; }
 

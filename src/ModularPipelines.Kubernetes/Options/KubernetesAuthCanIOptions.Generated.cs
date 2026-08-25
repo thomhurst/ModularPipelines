@@ -12,41 +12,23 @@ using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Check whether an action is allowed.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "can-i")]
 public record KubernetesAuthCanIOptions : KubernetesOptions
 {
-    /// <summary>
-    /// If true, check the specified action in all namespaces.
-    /// </summary>
     [CliFlag("--all-namespaces", ShortForm = "-A")]
     public bool? AllNamespaces { get; set; }
 
-    /// <summary>
-    /// If true, prints all allowed actions.
-    /// </summary>
     [CliFlag("--list")]
     public bool? List { get; set; }
 
-    /// <summary>
-    /// If true, prints allowed actions without headers
-    /// </summary>
     [CliFlag("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    /// <summary>
-    /// If true, suppress output and just return the exit code.
-    /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
-    /// <summary>
-    /// SubResource such as pod/log or deployment/scale
-    /// </summary>
     [CliOption("--subresource", Format = OptionFormat.EqualsSeparated)]
     public string? Subresource { get; set; }
 

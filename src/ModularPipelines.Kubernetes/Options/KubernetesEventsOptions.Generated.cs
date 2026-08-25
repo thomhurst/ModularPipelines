@@ -13,71 +13,38 @@ using ModularPipelines.Kubernetes.Enums;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-/// <summary>
-/// Display events.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events")]
 public record KubernetesEventsOptions : KubernetesOptions
 {
-    /// <summary>
-    /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
-    /// </summary>
     [CliFlag("--all-namespaces", ShortForm = "-A")]
     public bool? AllNamespaces { get; set; }
 
-    /// <summary>
-    /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
-    /// </summary>
     [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    /// <summary>
-    /// Return large lists in chunks rather than all at once. Pass 0 to disable.
-    /// </summary>
     [CliOption("--chunk-size", Format = OptionFormat.EqualsSeparated)]
     public int? ChunkSize { get; set; }
 
-    /// <summary>
-    /// Filter events to only those pertaining to the specified resource.
-    /// </summary>
     [CliOption("--for", Format = OptionFormat.EqualsSeparated)]
     public string? For { get; set; }
 
-    /// <summary>
-    /// When using the default output format, don't print headers.
-    /// </summary>
     [CliFlag("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    /// <summary>
-    /// Output format. One of: (json, yaml, kyaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).
-    /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public KubernetesEventsOutput? Output { get; set; }
 
-    /// <summary>
-    /// If true, keep the managedFields when printing objects in JSON or YAML format.
-    /// </summary>
     [CliFlag("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    /// <summary>
-    /// Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
-    /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 
-    /// <summary>
-    /// Output only events of given types.
-    /// </summary>
     [CliOption("--types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Types { get; set; }
 
-    /// <summary>
-    /// After listing the requested events, watch for more events.
-    /// </summary>
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
 

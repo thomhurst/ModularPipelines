@@ -19,8 +19,18 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("taint")]
-public record KubernetesTaintOptions : KubernetesOptions
+public record KubernetesTaintOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Node,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Key_1Val_1TaintEffect_1,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyNValNTaintEffectN
+) : KubernetesOptions
 {
+    public KubernetesTaintOptions()
+        : this(default(string)!, default(string)!, default(IEnumerable<string>)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Select all nodes in the cluster
     /// </summary>
