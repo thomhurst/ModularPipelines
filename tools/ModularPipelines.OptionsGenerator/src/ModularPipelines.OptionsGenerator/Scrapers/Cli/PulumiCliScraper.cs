@@ -110,6 +110,8 @@ public partial class PulumiCliScraper : CobraCliScraper
             {
                 CSharpType = "string",
                 IsRequired = true,
+                Phase = CommandLinePhase.Passthrough,
+                PositionIndex = 0,
             };
         }
 

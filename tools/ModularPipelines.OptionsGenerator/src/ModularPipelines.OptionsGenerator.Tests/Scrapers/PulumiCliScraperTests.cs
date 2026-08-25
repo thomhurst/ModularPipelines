@@ -27,8 +27,15 @@ public class PulumiCliScraperTests
         await Assert.That(scraper.DeclaresCommandGroup(helpText)).IsFalse();
         await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["EnvironmentName", "Command", "Args"]);
-        await Assert.That(command.PositionalArguments.Single(argument => argument.PropertyName == "Command").IsRequired)
-            .IsTrue();
+        var commandArgument = command.PositionalArguments.Single(argument => argument.PropertyName == "Command");
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandArgument.IsRequired).IsTrue();
+            await Assert.That(commandArgument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(commandArgument.PositionIndex).IsEqualTo(0);
+            await Assert.That(commandArgument.PrependOptionTerminator).IsTrue();
+        }
+
         var args = command.PositionalArguments.Single(argument => argument.PropertyName == "Args");
         await Assert.That(args.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(args.IsVariadic).IsTrue();
