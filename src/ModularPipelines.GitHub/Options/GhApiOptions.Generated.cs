@@ -18,8 +18,21 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api")]
-public record GhApiOptions : GhOptions
+public record GhApiOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Endpoint
+) : GhOptions
 {
+    public GhApiOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Allow printing terminal escape sequences
+    /// </summary>
+    [CliFlag("--allow-escape-sequences")]
+    public bool? AllowEscapeSequences { get; set; }
+
     /// <summary>
     /// Cache the response, e.g. "3600s", "60m", "1h"
     /// </summary>
@@ -30,13 +43,13 @@ public record GhApiOptions : GhOptions
     /// Add a typed parameter in key=value format (use "@&lt;path&gt;" or "@-" to read value from file or stdin)
     /// </summary>
     [CliOption("--field", ShortForm = "-F", Format = OptionFormat.EqualsSeparated)]
-    public string? Field { get; set; }
+    public IEnumerable<string>? FieldValues { get; set; }
 
     /// <summary>
     /// Add a HTTP request header in key:value format
     /// </summary>
     [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
-    public string? Header { get; set; }
+    public IEnumerable<string>? HeaderValues { get; set; }
 
     /// <summary>
     /// The GitHub hostname for the request (default "github.com")
@@ -84,7 +97,7 @@ public record GhApiOptions : GhOptions
     /// Add a string parameter in key=value format
     /// </summary>
     [CliOption("--raw-field", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? RawField { get; set; }
+    public IEnumerable<string>? RawFieldValues { get; set; }
 
     /// <summary>
     /// Do not print the response body
@@ -115,5 +128,26 @@ public record GhApiOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    [Obsolete("Use FieldValues instead.")]
+    public string? Field
+    {
+        get => FieldValues?.FirstOrDefault();
+        set => FieldValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use HeaderValues instead.")]
+    public string? Header
+    {
+        get => HeaderValues?.FirstOrDefault();
+        set => HeaderValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use RawFieldValues instead.")]
+    public string? RawField
+    {
+        get => RawFieldValues?.FirstOrDefault();
+        set => RawFieldValues = value is null ? null : [value];
+    }
 
 }

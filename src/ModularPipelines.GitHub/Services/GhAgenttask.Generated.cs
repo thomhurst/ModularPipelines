@@ -32,6 +32,21 @@ public class GhAgenttask : IGhAgenttask
     #region Commands
 
     /// <summary>
+    /// Working with agent tasks in the GitHub CLI is in preview and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GhAgentTaskOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create an agent task (preview)
     /// </summary>
     /// <param name="options">The command options.</param>

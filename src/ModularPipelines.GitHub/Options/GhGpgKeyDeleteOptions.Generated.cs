@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg-key", "delete")]
-public record GhGpgKeyDeleteOptions : GhOptions
+public record GhGpgKeyDeleteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
+) : GhOptions
 {
+    public GhGpgKeyDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>

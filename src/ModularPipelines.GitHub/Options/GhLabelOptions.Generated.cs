@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label")]
-public record GhLabelOptions : GhOptions
+public record GhLabelOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : GhOptions
 {
+    public GhLabelOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>

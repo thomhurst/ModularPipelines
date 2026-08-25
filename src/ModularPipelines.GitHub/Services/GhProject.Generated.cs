@@ -227,7 +227,7 @@ public class GhProject : IGhProject
     }
 
     /// <summary>
-    /// Edit either a draft issue or a project item. Both usages require the ID of the item to edit.
+    /// Edit a draft issue or a project item.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

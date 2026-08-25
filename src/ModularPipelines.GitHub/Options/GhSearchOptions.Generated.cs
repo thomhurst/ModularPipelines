@@ -18,6 +18,19 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record GhSearchOptions : GhOptions
+public record GhSearchOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : GhOptions
 {
+    public GhSearchOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
 }

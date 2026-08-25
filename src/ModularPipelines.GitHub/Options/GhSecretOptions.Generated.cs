@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret")]
-public record GhSecretOptions : GhOptions
+public record GhSecretOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : GhOptions
 {
+    public GhSecretOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>

@@ -18,6 +18,19 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-task")]
-public record GhAgentTaskOptions : GhOptions
+public record GhAgentTaskOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : GhOptions
 {
+    public GhAgentTaskOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
 }

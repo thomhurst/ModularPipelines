@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "upgrade")]
-public record GhExtensionUpgradeOptions : GhOptions
+public record GhExtensionUpgradeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : GhOptions
 {
+    public GhExtensionUpgradeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Upgrade all extensions
     /// </summary>
