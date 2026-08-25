@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -185,6 +187,183 @@ public class GitCliScraperTests
         await Assert.That(subcommands).IsEquivalentTo(["add"]);
     }
 
+    [Test]
+    public async Task Parses_Negatable_Option_Without_Colliding_With_Operand()
+    {
+        const string helpText = """
+            usage: git merge [<options>] [<commit>...]
+
+                --[no-]commit       perform a commit if the merge succeeds (default)
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "merge"], helpText);
+        var resolved = InheritedPropertyCollisionResolver.Resolve(
+                scraper.CreateToolDefinition() with { Commands = [command!] })
+            .Commands.Single();
+
+        using (Assert.Multiple())
+        {
+            var commit = resolved.Options.Single(option => option.SwitchName == "--commit");
+            var noCommit = resolved.Options.Single(option => option.SwitchName == "--no-commit");
+            await Assert.That(commit.PropertyName).IsEqualTo("Commit");
+            await Assert.That(commit.IsFlag).IsTrue();
+            await Assert.That(noCommit.PropertyName).IsEqualTo("NoCommit");
+            await Assert.That(noCommit.IsFlag).IsTrue();
+            await Assert.That(resolved.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("CommitArgument");
+            await Assert.That(resolved.PositionalArguments.Single().IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Parses_Value_Taking_And_Alternative_Valued_Negatable_Options()
+    {
+        const string helpText = """
+            usage: git fetch [<options>]
+
+                --[no-]upload-pack <path>                       path to upload pack
+                --[no-]recurse-submodules[=<on-demand>]         control recursive fetching
+                --[no-]signed[=(yes|no|if-asked)]               GPG sign the request
+                --[no-]chmod (+|-)x                             override the executable bit
+                --[no-]resolvemsg ...                           override error message
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "fetch"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--upload-pack").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").ValueSeparator)
+                .IsEqualTo(" ");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--resolvemsg").ValueSeparator)
+                .IsEqualTo(" ");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueSeparator)
+                .IsEqualTo("=");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").ValueSeparator)
+                .IsEqualTo("=");
+            await Assert.That(command.Options
+                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed" or "--no-chmod" or "--no-resolvemsg")
+                    .All(option => option is
+                    {
+                        IsFlag: true,
+                        CSharpType: "bool?",
+                        ValueArity: CliOptionValueArity.Required,
+                        ValueSeparator: " ",
+                    }))
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Parses_Short_Only_Options()
+    {
+        const string helpText = """
+            usage: git add [<options>]
+
+                -p                  interactively choose hunks
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "add"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-p");
+            await Assert.That(option.ShortForm).IsEqualTo("-p");
+            await Assert.That(option.Description).IsEqualTo("interactively choose hunks");
+        }
+    }
+
+    [Test]
+    public async Task Parses_Short_Only_Value_Options()
+    {
+        const string helpText = "    -C <n>                ensure at least <n> lines of context match";
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "apply"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-C");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("int?");
+            await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(option.ValueSeparator).IsEqualTo(" ");
+        }
+    }
+
+    [Test]
+    public async Task Parses_Optional_Attached_Short_Only_Values()
+    {
+        const string helpText = "    -C[<score>]           find copies as well as moves";
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "blame"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-C");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(option.ValueSeparator).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Parses_Options_With_Wrapped_Descriptions()
+    {
+        const string helpText = """
+            usage: git add [<options>]
+
+                -N, --[no-]intent-to-add
+                                    record only the fact that the path will be added later
+                -W, --[no-]function-context
+                                    generate diffs with <n> lines context
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo([
+                    "--intent-to-add",
+                    "--no-intent-to-add",
+                    "--function-context",
+                    "--no-function-context",
+                ]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--intent-to-add").Description)
+                .IsEqualTo("record only the fact that the path will be added later");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--no-intent-to-add").Description)
+                .Contains("record only the fact that the path will be added later");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--function-context").Description)
+                .IsEqualTo("generate diffs with <n> lines context");
+            await Assert.That(command.Options.All(option => option is { IsFlag: true, CSharpType: "bool?" }))
+                .IsTrue();
+        }
+    }
+
     private static CliCommandResult Result(
         string standardOutput,
         string standardError = "",
@@ -218,6 +397,24 @@ public class GitCliScraperTests
             string command,
             CancellationToken cancellationToken = default) =>
             throw new NotSupportedException();
+    }
+
+    private sealed class TestGitCliScraper : GitCliScraper
+    {
+        public TestGitCliScraper()
+            : base(
+                new StubExecutor(),
+                new StubHelpTextCache(),
+                NullLogger<GitCliScraper>.Instance)
+        {
+        }
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                UsageSynopsisParser.Parse(helpText, commandPath),
+                CancellationToken.None);
     }
 
     private sealed class StdoutHelpExecutor : ICliCommandExecutor

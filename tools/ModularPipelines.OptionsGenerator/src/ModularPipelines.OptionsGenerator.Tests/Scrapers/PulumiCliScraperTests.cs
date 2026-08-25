@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -20,7 +21,25 @@ public class PulumiCliScraperTests
               The command receives the environment variables.
             """;
 
-        await Assert.That(new TestPulumiCliScraper().DeclaresCommandGroup(helpText)).IsFalse();
+        var scraper = new TestPulumiCliScraper();
+        var command = await scraper.Parse(["pulumi", "env", "run"], helpText);
+
+        await Assert.That(scraper.DeclaresCommandGroup(helpText)).IsFalse();
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["EnvironmentName", "Command", "Args"]);
+        var commandArgument = command.PositionalArguments.Single(argument => argument.PropertyName == "Command");
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandArgument.IsRequired).IsTrue();
+            await Assert.That(commandArgument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(commandArgument.PositionIndex).IsEqualTo(0);
+            await Assert.That(commandArgument.PrependOptionTerminator).IsTrue();
+        }
+
+        var args = command.PositionalArguments.Single(argument => argument.PropertyName == "Args");
+        await Assert.That(args.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(args.IsVariadic).IsTrue();
+        await Assert.That(args.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]

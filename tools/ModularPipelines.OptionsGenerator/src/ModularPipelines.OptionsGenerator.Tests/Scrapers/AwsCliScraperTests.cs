@@ -93,6 +93,29 @@ public class AwsCliScraperTests
         }
     }
 
+    [Test]
+    public async Task List_Options_Do_Not_Mine_Nested_Enum_Values()
+    {
+        var scraper = new AwsCliScraper(
+            new AwsListHelpExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single().Options.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.EnumDefinition).IsNull();
+        }
+    }
+
     private sealed class AwsHelpExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
@@ -168,6 +191,41 @@ public class AwsCliScraperTests
                     OPTIONS
                            --traffic-routing-config (structure)
                             Possible values: TimeBasedCanary TimeBasedLinear AllAtOnce timeBasedCanary
+                    """,
+                _ => string.Empty,
+            };
+
+            return Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = output,
+                StandardError = string.Empty,
+                ExitCode = string.IsNullOrEmpty(output) ? 1 : 0,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class AwsListHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var output = arguments switch
+            {
+                "help" => "AVAILABLE SERVICES\n       o ec2",
+                "ec2 help" => "AVAILABLE COMMANDS\n       o create-ipam-prefix-list-resolver",
+                "ec2 create-ipam-prefix-list-resolver help" => """
+                    OPTIONS
+                           --rules (list)
+                            CIDR selection rules. Possible values: static-cidr ipam-resource-cidr
+                            ipam-pool-cidr StaticCidr is the fixed CIDR value.
                     """,
                 _ => string.Empty,
             };

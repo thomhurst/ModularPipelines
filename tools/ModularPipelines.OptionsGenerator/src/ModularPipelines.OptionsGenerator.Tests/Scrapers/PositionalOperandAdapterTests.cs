@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -39,23 +40,43 @@ public class PositionalOperandAdapterTests
         const string helpText = "usage: go fix [build flags] [-fixtool prog] [fix flags] [packages]";
         var command = await new TestGoCliScraper().Parse(["go", "fix"], helpText);
 
-        await AssertArgument(command, "Packages", isRequired: false, isVariadic: false);
+        await AssertArgument(command, "Packages", isRequired: false, isVariadic: true);
         await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["Packages"]);
     }
 
     [Test]
-    public async Task Liquibase_Help_Option_Description_Is_Not_An_Operand()
+    public async Task Go_Telemetry_Models_Choice_As_Mode()
+    {
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "telemetry"],
+            "usage: go telemetry [off|local|on]");
+
+        await AssertArgument(command, "Mode", isRequired: false, isVariadic: false);
+    }
+
+    [Test]
+    public async Task Go_Generate_Models_File_Or_Package_Targets()
+    {
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "generate"],
+            "usage: go generate [build flags] [file.go... | packages]");
+
+        await AssertArgument(command, "Targets", isRequired: false, isVariadic: true);
+    }
+
+    [Test]
+    public async Task Liquibase_Command_Group_Preserves_Executable_Command_Operand()
     {
         const string helpText = "Usage: liquibase init [OPTIONS] [COMMAND]\n  -h, --help   Show this help message and exit";
 
-        var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
-            UsageSynopsisParser.Parse(helpText, ["liquibase", "init"]));
+        var usage = UsageSynopsisParser.Parse(helpText, ["liquibase", "init"]);
 
         using (Assert.Multiple())
         {
-            await Assert.That(usage.HasOperandTokens).IsFalse();
-            await Assert.That(usage.PositionalArguments).IsEmpty();
+            await Assert.That(usage.HasOperandTokens).IsTrue();
+            await Assert.That(usage.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Command");
         }
     }
 
@@ -70,6 +91,19 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    [Arguments("cache", "Usage: pip cache list [<pattern>]\n  pip cache purge")]
+    [Arguments("config", "Usage: pip config [<file-option>] list\n  pip config get command.option")]
+    [Arguments("index", "Usage: pip index versions <package>")]
+    public async Task Pip_Parent_Groups_Do_Not_Treat_Child_Syntax_As_Operands(
+        string commandName,
+        string helpText)
+    {
+        var command = await new TestPipCliScraper().Parse(["pip", commandName], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Pnpm_Add_Preserves_Name_Operand()
     {
         var command = await new TestPnpmCliScraper().Parse(
@@ -77,6 +111,71 @@ public class PositionalOperandAdapterTests
             "Usage: pnpm add <name>");
 
         await AssertArgument(command, "Name", isRequired: true, isVariadic: false);
+    }
+
+    [Test]
+    public async Task Pnpm_Stage_Does_Not_Treat_Child_Syntax_As_Operands()
+    {
+        const string helpText = "Usage: pnpm stage publish [<tarball>|<dir>]\n"
+                                + "       pnpm stage list [<package-spec>]";
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "stage"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Pnpm_Unlink_Ignores_Parenthetical_Explanation()
+    {
+        const string helpText = "Usage: pnpm unlink (in package dir)\n"
+                                + "       pnpm unlink <pkg>...";
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "unlink"], helpText);
+
+        await AssertArgument(command, "Pkg", isRequired: false, isVariadic: true);
+    }
+
+    [Test]
+    [Arguments("metadata")]
+    [Arguments("stacks")]
+    [Arguments("state")]
+    public async Task Terraform_Command_Group_Args_Are_Variadic(string commandName)
+    {
+        var command = await new TestTerraformCliScraper().Parse(
+            ["terraform", commandName],
+            $"Usage: terraform {commandName} [args]");
+
+        await AssertArgument(command, "Args", isRequired: false, isVariadic: true);
+        await Assert.That(command!.PositionalArguments.Single().CSharpType)
+            .IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    [Arguments("eval")]
+    [Arguments("eval-all")]
+    public async Task Yq_Expressions_And_Files_Render_After_Options(string commandName)
+    {
+        var command = await new TestYqCliScraper().Parse(
+            ["yq", commandName],
+            $"Usage: yq {commandName} [expression] [yaml_file1]...");
+
+        await Assert.That(command!.PositionalArguments).Count().IsEqualTo(2);
+        await Assert.That(command.PositionalArguments.All(argument =>
+                argument.Phase == CommandLinePhase.Passthrough
+                && argument.PrependOptionTerminatorIfValueStartsWithDash))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Packer_Inspect_Template_Renders_After_Options()
+    {
+        var command = await new TestPackerCliScraper().Parse(
+            ["packer", "inspect"],
+            "Usage: packer inspect TEMPLATE");
+
+        await Assert.That(command!.PositionalArguments.Single().PropertyName).IsEqualTo("Template");
+        await Assert.That(command.PositionalArguments.Single().Phase)
+            .IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     private static async Task AssertArgument(
@@ -154,6 +253,48 @@ public class PositionalOperandAdapterTests
             PositionalOperandAdapterTests.Executor,
             PositionalOperandAdapterTests.Cache,
             NullLogger<PnpmCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestTerraformCliScraper()
+        : TerraformCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<TerraformCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestYqCliScraper()
+        : YqCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<YqCliScraper>.Instance)
+    {
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(
+                commandPath,
+                helpText,
+                ParseUsageSynopsis(commandPath, helpText),
+                CancellationToken.None);
+    }
+
+    private sealed class TestPackerCliScraper()
+        : PackerCliScraper(
+            PositionalOperandAdapterTests.Executor,
+            PositionalOperandAdapterTests.Cache,
+            NullLogger<PackerCliScraper>.Instance)
     {
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(

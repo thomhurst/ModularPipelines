@@ -3732,6 +3732,103 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Prefers_Historical_Facade_Group_Casing_For_Normalized_Subdomains()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalRequestsOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"requests\")] "
+                + "public record ToolAccessApprovalRequestsOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalRequestsApproveOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"requests\", \"approve\")] "
+                + "public record ToolAccessApprovalRequestsApproveOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolAccessapprovalRequests.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolAccessapprovalRequests { "
+                + "public Task ApproveAsync(ToolAccessApprovalRequestsApproveOptions? options = null) "
+                + "=> Task.CompletedTask; }");
+            var parent = Command(
+                "ToolAccessApprovalRequestsOptions",
+                "ToolOptions",
+                ["access-approval", "requests"],
+                subDomainGroup: "AccessApproval");
+            var current = Command(
+                "ToolAccessApprovalRequestsApproveOptions",
+                "ToolOptions",
+                ["access-approval", "requests", "approve"],
+                subDomainGroup: "AccessApproval");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(parent, current), root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath)
+                    .Equals("ToolAccessapprovalRequests.Generated.cs", StringComparison.Ordinal));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(preserved.Commands.Select(command => command.CommandGroupIdentifierOverride!))
+                    .IsEquivalentTo(["Accessapproval", "Accessapproval"]);
+                await Assert.That(generated.Content).Contains("ApproveAsync(");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Inherit_Group_Identifier_From_Sibling_Branch()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalRequestsApproveOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"requests\", \"approve\")] "
+                + "public record ToolAccessApprovalRequestsApproveOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalSettingsOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"settings\")] "
+                + "public record ToolAccessApprovalSettingsOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolLegacyRequests.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolLegacyRequests { "
+                + "public Task ApproveAsync(ToolAccessApprovalRequestsApproveOptions? options = null) "
+                + "=> Task.CompletedTask; }");
+            var settings = Command(
+                "ToolAccessApprovalSettingsOptions",
+                "ToolOptions",
+                ["access-approval", "settings"],
+                subDomainGroup: "AccessApproval");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(settings), root);
+            var preservedSettings = preserved.Commands.Single(command =>
+                command.CommandParts.SequenceEqual(["access-approval", "settings"]));
+
+            await Assert.That(preservedSettings.CommandGroupIdentifierOverride).IsEqualTo("AccessApproval");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");

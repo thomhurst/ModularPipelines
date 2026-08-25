@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -465,81 +466,178 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
         var lines = helpText.Split('\n');
 
-        foreach (var line in lines)
+        for (var index = 0; index < lines.Length; index++)
         {
-            // Match option lines: -x, --xxx or just --xxx
-            var match = OptionLineRegex().Match(line);
-            if (!match.Success)
+            var line = lines[index];
+            if (!TryParseOption(line, out var option, out var negatedLongFlag)
+                || !seenOptions.Add(option.SwitchName))
             {
                 continue;
             }
 
-            string? shortFlag = null;
-            string? longFlag = null;
-            var description = "";
-
-            // Check if we have a short flag
-            if (match.Groups[1].Success && !string.IsNullOrEmpty(match.Groups[1].Value))
+            if (string.IsNullOrEmpty(option.Description)
+                && TryGetWrappedDescription(lines, index, out var description))
             {
-                shortFlag = match.Groups[1].Value.Trim();
+                option = AddDescription(option, description);
+                index++;
             }
 
-            // Long flag
-            if (match.Groups[2].Success)
+            options.Add(option);
+            if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
-                longFlag = match.Groups[2].Value.Trim();
+                options.Add(CreateNegatedOption(option, negatedLongFlag));
             }
-
-            // Description
-            if (match.Groups[3].Success)
-            {
-                description = match.Groups[3].Value.Trim();
-            }
-
-            // Use long flag preferably, fall back to short
-            var primaryFlag = longFlag ?? shortFlag;
-            if (string.IsNullOrEmpty(primaryFlag))
-            {
-                continue;
-            }
-
-            // Skip duplicates
-            if (seenOptions.Contains(primaryFlag))
-            {
-                continue;
-            }
-            seenOptions.Add(primaryFlag);
-
-            // Generate property name
-            var propertyName = NormalizeGitPropertyName(primaryFlag);
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                continue;
-            }
-
-            // Determine type based on the option
-            var (csharpType, isFlag) = InferType(primaryFlag, description, line);
-
-            // SwitchName should be the full flag with dashes (--long-flag)
-            var switchName = longFlag ?? shortFlag;
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = switchName!,
-                ShortForm = shortFlag,
-                Description = description,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                IsRequired = false,
-                IsFlag = isFlag,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
+    }
+
+    private static bool TryGetWrappedDescription(
+        IReadOnlyList<string> lines,
+        int declarationIndex,
+        out string description)
+    {
+        description = "";
+        if (declarationIndex + 1 >= lines.Count)
+        {
+            return false;
+        }
+
+        var declaration = lines[declarationIndex];
+        var candidate = lines[declarationIndex + 1];
+        description = candidate.Trim();
+        return description.Length > 0
+               && !description.StartsWith('-')
+               && GetIndentation(candidate) > GetIndentation(declaration);
+    }
+
+    private static int GetIndentation(string value) =>
+        value.TakeWhile(char.IsWhiteSpace).Count();
+
+    private static CliOptionDefinition AddDescription(
+        CliOptionDefinition option,
+        string description)
+    {
+        return option with
+        {
+            Description = description,
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, option.IsFlag),
+        };
+    }
+
+    private static bool TryParseOption(
+        string line,
+        out CliOptionDefinition option,
+        out string? negatedLongFlag)
+    {
+        option = null!;
+        negatedLongFlag = null;
+        var match = OptionLineRegex().Match(line);
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        var identity = GetOptionIdentity(match);
+        if (identity is null)
+        {
+            return false;
+        }
+
+        var (shortFlag, primaryFlag, propertyName, negatedFlag) = identity.Value;
+        negatedLongFlag = negatedFlag;
+        var description = GetDescription(match);
+        var valueSyntax = GetGroupValue(match, "value");
+        var (csharpType, isFlag) = InferOptionType(primaryFlag, description, line, valueSyntax);
+
+        option = new CliOptionDefinition
+        {
+            SwitchName = primaryFlag,
+            ShortForm = shortFlag,
+            Description = description,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            IsRequired = false,
+            IsFlag = isFlag,
+            ValueArity = valueSyntax?.StartsWith('[') == true
+                ? CliOptionValueArity.Optional
+                : CliOptionValueArity.Required,
+            ValueSeparator = valueSyntax switch
+            {
+                { } value when value.Contains('=') => "=",
+                { } value when value.StartsWith('[') => string.Empty,
+                _ => " ",
+            },
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
+        return true;
+    }
+
+    private static OptionIdentity? GetOptionIdentity(Match match)
+    {
+        var shortFlag = GetShortFlag(match);
+        var advertisedLongFlag = GetGroupValue(match, "long");
+        var primaryFlag = advertisedLongFlag is null
+            ? shortFlag
+            : NormalizeNegatableLongFlag(advertisedLongFlag);
+        var propertyName = primaryFlag is null ? null : NormalizeGitPropertyName(primaryFlag);
+        return primaryFlag is null || propertyName is null
+            ? null
+            : new OptionIdentity(
+                shortFlag,
+                primaryFlag,
+                propertyName,
+                advertisedLongFlag is null ? null : GetNegatedLongFlag(advertisedLongFlag));
+    }
+
+    private static (string CSharpType, bool IsFlag) InferOptionType(
+        string primaryFlag,
+        string description,
+        string line,
+        string? valueSyntax)
+    {
+        var (csharpType, isFlag) = InferType(primaryFlag, description, line);
+        return valueSyntax is null
+            ? (csharpType, isFlag)
+            : (isFlag ? "string?" : csharpType, false);
+    }
+
+    private static string? GetGroupValue(Match match, string name) =>
+        match.Groups[name] is { Success: true, Value.Length: > 0 } group
+            ? group.Value.Trim()
+            : null;
+
+    private static string? GetShortFlag(Match match) =>
+        GetGroupValue(match, "short") ?? GetGroupValue(match, "shortOnly");
+
+    private static string GetDescription(Match match) =>
+        GetGroupValue(match, "description") ?? GetGroupValue(match, "shortDescription") ?? "";
+
+    private readonly record struct OptionIdentity(
+        string? ShortFlag,
+        string PrimaryFlag,
+        string PropertyName,
+        string? NegatedFlag);
+
+    private static CliOptionDefinition CreateNegatedOption(
+        CliOptionDefinition option,
+        string negatedLongFlag)
+    {
+        var negatedPropertyName = NormalizeGitPropertyName(negatedLongFlag)!;
+        return option with
+        {
+            SwitchName = negatedLongFlag,
+            ShortForm = null,
+            PropertyName = negatedPropertyName,
+            CSharpType = "bool?",
+            Description = $"Negates {option.SwitchName}. {option.Description}",
+            IsFlag = true,
+            ValueArity = CliOptionValueArity.Required,
+            ValueSeparator = " ",
+            IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
+        };
     }
 
     /// <summary>
@@ -589,7 +687,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
 
         // Check for common boolean patterns
-        if (lowerOpt.StartsWith("no-") ||
+        if (fullLine.Contains("--[no-]", StringComparison.Ordinal) ||
+            lowerOpt.StartsWith("no-") ||
             lowerDesc.Contains("disable") ||
             lowerDesc.Contains("enable") ||
             lowerDesc.Contains("toggle") ||
@@ -640,6 +739,16 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
         return result;
     }
+
+    private static string NormalizeNegatableLongFlag(string optionName) =>
+        optionName.StartsWith("--[no-]", StringComparison.Ordinal)
+            ? "--" + optionName[7..]
+            : optionName;
+
+    private static string? GetNegatedLongFlag(string optionName) =>
+        optionName.StartsWith("--[no-]", StringComparison.Ordinal)
+            ? "--no-" + optionName[7..]
+            : null;
 
     /// <summary>
     /// Converts a leading digit to a word (e.g., "3way" -> "ThreeWay").
@@ -730,7 +839,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?<value>\[?=\S+\]?|\[<[^>]+>\]|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<shortDescription>.*))?$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]

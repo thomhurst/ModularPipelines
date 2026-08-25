@@ -671,9 +671,10 @@ public partial class DotNetCliScraper : CliScraperBase
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
-    /// Matches subcommand lines: "  command    description"
+    /// Matches subcommand lines, including positional placeholders before the description:
+    /// "  command &lt;ARGUMENT&gt;    description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)(?:\s+(?:<[^>]+>|\[[^\]]+\]))*\s{2,}", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>

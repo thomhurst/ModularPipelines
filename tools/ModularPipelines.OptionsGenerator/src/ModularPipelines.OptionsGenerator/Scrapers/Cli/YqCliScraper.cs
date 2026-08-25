@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -47,4 +48,32 @@ public partial class YqCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "shell-completion"
     };
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        NormalizeEvalArguments(commandParts, positionalArguments);
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        usage with
+        {
+            PositionalArguments = NormalizeEvalArguments(command.CommandParts, usage.PositionalArguments),
+        };
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizeEvalArguments(
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        commandParts is ["eval" or "eval-all"]
+            ? positionalArguments
+                .Select(argument => argument with
+                {
+                    Phase = CommandLinePhase.Passthrough,
+                    PrependOptionTerminatorIfValueStartsWithDash = true,
+                })
+                .ToArray()
+            : positionalArguments;
 }

@@ -83,7 +83,7 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Command_Group_Placeholders_Are_Not_Operands()
+    public async Task Command_Group_Placeholders_Remain_Executable_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(
             "Usage: docker buildx [OPTIONS] COMMAND",
@@ -92,15 +92,14 @@ public class UsageSynopsisParserTests
             "Usage: winget source [<command>] [<options>]",
             ["winget", "source"]);
 
-        var result = UsageSynopsisParser.RemoveCommandGroupPlaceholders(parsed);
-        var nestedResult = UsageSynopsisParser.RemoveCommandGroupPlaceholders(nested);
-
         using (Assert.Multiple())
         {
-            await Assert.That(result.PositionalArguments).IsEmpty();
-            await Assert.That(result.HasOperandTokens).IsFalse();
-            await Assert.That(nestedResult.PositionalArguments).IsEmpty();
-            await Assert.That(nestedResult.HasOperandTokens).IsFalse();
+            await Assert.That(parsed.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Command");
+            await Assert.That(parsed.HasOperandTokens).IsTrue();
+            await Assert.That(nested.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Command");
+            await Assert.That(nested.HasOperandTokens).IsTrue();
         }
     }
 

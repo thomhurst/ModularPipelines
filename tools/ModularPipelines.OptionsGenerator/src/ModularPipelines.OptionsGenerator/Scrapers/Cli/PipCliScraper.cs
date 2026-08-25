@@ -140,6 +140,7 @@ public partial class PipCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        usage = NormalizeParentGroupUsage(commandParts, usage);
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText, commandParts);
         var enums = options
@@ -169,6 +170,24 @@ public partial class PipCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static UsageSynopsisParseResult NormalizeParentGroupUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage) =>
+        commandParts is ["cache" or "config" or "index"]
+            ? usage with
+            {
+                HasOperandTokens = false,
+                PositionalArguments = [],
+                UnparsedOperandTokens = [],
+            }
+            : usage;
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        NormalizeParentGroupUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.

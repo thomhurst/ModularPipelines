@@ -348,19 +348,13 @@ public class SnykCliScraperTests
     }
 
     [Test]
-    public async Task Iac_Group_Models_Optional_Path_From_Usage()
+    public async Task Iac_Group_Does_Not_Model_Child_Path_On_Parent()
     {
         var command = await new TestSnykCliScraper().Parse(
             ["snyk", "iac"],
             "Usage: snyk iac <COMMAND> [<OPTIONS>] [<PATH>]");
 
-        var path = command!.PositionalArguments.Single();
-        using (Assert.Multiple())
-        {
-            await Assert.That(path.PropertyName).IsEqualTo("Path");
-            await Assert.That(path.IsRequired).IsFalse();
-            await Assert.That(path.CSharpType).IsEqualTo("string?");
-        }
+        await Assert.That(command!.PositionalArguments).IsEmpty();
     }
 
     [Test]

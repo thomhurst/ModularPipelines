@@ -158,6 +158,8 @@ public partial class TerraformCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        usage = NormalizeCommandGroupUsage(commandParts, usage);
+
         // Get the first subcommand for grouping (e.g., "workspace" for "workspace list")
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
 
@@ -194,6 +196,30 @@ public partial class TerraformCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static UsageSynopsisParseResult NormalizeCommandGroupUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage) =>
+        commandParts is ["metadata" or "stacks" or "state"]
+            ? usage with
+            {
+                PositionalArguments = usage.PositionalArguments
+                    .Select(argument => argument.PropertyName.Equals("Args", StringComparison.OrdinalIgnoreCase)
+                        ? argument with
+                        {
+                            CSharpType = "IEnumerable<string>?",
+                            IsVariadic = true,
+                        }
+                        : argument)
+                    .ToArray(),
+            }
+            : usage;
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        NormalizeCommandGroupUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.
