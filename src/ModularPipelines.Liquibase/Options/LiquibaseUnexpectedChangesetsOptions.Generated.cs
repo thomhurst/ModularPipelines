@@ -41,18 +41,6 @@ public record LiquibaseUnexpectedChangesetsOptions : LiquibaseOptions
     public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
-    /// The default catalog name to use for the database connection
-    /// </summary>
-    [CliOption("--default-catalog-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultCatalogName { get; set; }
-
-    /// <summary>
-    /// The default schema name to use for the database connection
-    /// </summary>
-    [CliOption("--default-schema-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultSchemaName { get; set; }
-
-    /// <summary>
     /// Label expression to use for filtering
     /// </summary>
     [CliOption("--label-filter", Format = OptionFormat.EqualsSeparated)]
@@ -82,5 +70,11 @@ public record LiquibaseUnexpectedChangesetsOptions : LiquibaseOptions
     /// </summary>
     [CliOption("--verbose", Format = OptionFormat.EqualsSeparated)]
     public bool? Verbose { get; set; }
+
+    [Obsolete("DefaultCatalogName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultCatalogName { get; set; }
+
+    [Obsolete("DefaultSchemaName is no longer supported by the installed CLI and has no effect.")]
+    public string? DefaultSchemaName { get; set; }
 
 }
