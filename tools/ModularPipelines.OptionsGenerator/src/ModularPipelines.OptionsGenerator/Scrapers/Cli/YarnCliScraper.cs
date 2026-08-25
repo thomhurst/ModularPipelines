@@ -548,7 +548,9 @@ public partial class YarnCliScraper : CliScraperBase
             // Determine if this is a flag (boolean) or takes a value
             var isFlag = !match.Groups["value"].Success
                          && IsBooleanOption(longForm, description);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var acceptsMultipleValues = commandParts is ["dlx"]
+                                        && longForm.Equals("--package", StringComparison.OrdinalIgnoreCase);
+            var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
             {
@@ -559,7 +561,7 @@ public partial class YarnCliScraper : CliScraperBase
                 Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
                 ValueSeparator = isFlag ? " " : " ",
@@ -712,26 +714,28 @@ public partial class YarnCliScraper : CliScraperBase
     /// <summary>
     /// Matches Clipanion-style "━━━ Details ━━━" section header.
     /// </summary>
-    [GeneratedRegex(@"━+\s+Details\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:━+\s+)?Details(?:\s+━+)?\s*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex ClipanionDetailsSectionPattern();
 
     /// <summary>
     /// Matches Clipanion-style "━━━ Options ━━━" section header.
     /// </summary>
-    [GeneratedRegex(@"━+\s+Options\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:━+\s+)?Options(?:\s+━+)?\s*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex ClipanionOptionsSectionPattern();
 
     /// <summary>
     /// Matches Clipanion-style "━━━ Usage ━━━" section header.
     /// </summary>
-    [GeneratedRegex(@"━+\s+Usage\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:━+\s+)?Usage(?:\s+━+)?\s*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex ClipanionUsageSectionPattern();
 
     /// <summary>
     /// Matches any Clipanion section header (used to find section boundaries).
     /// Format: ━━━ Section Name ━━━━━━━━━━━━
     /// </summary>
-    [GeneratedRegex(@"━+\s+[^━]+?\s+━+", RegexOptions.Multiline)]
+    [GeneratedRegex(
+        @"(?:━+\s+[^━\r\n]+?\s+━+)|(?:^(?:Usage|Options|Details|Examples)\s*$)",
+        RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex ClipanionSectionPattern();
 
     // ===== Yarn Classic patterns (v1) =====
