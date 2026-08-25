@@ -303,6 +303,12 @@ public record YqEvalOptions : YqOptions
     public bool? YamlFixMergeAnchorToSpec { get; set; }
 
     /// <summary>
+    /// The expression operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ExpressionArgument { get; set; }
+
+    /// <summary>
     /// The [yaml_file1] operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
