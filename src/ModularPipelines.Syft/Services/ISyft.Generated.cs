@@ -23,12 +23,12 @@ public partial interface ISyft
     /// <summary>
     /// Gets the cataloger sub-domain service.
     /// </summary>
-    ISyftCataloger Cataloger { get; }
+    ISyftCataloger Cataloger => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the config sub-domain service.
     /// </summary>
-    ISyftConfig Config { get; }
+    ISyftConfig Config => throw new System.NotSupportedException();
 
     #endregion
 
@@ -41,7 +41,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AttestAsync(SyftAttestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AttestAsync(SyftAttestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -51,7 +51,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConvertAsync(SyftConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ConvertAsync(SyftConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -61,7 +61,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoginAsync(SyftLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> LoginAsync(SyftLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -71,7 +71,7 @@ public partial interface ISyft
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ScanAsync(SyftScanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ScanAsync(SyftScanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     #endregion
