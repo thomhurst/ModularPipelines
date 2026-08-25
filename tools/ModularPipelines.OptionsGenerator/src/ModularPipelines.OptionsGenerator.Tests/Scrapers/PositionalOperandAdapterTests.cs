@@ -39,9 +39,29 @@ public class PositionalOperandAdapterTests
         const string helpText = "usage: go fix [build flags] [-fixtool prog] [fix flags] [packages]";
         var command = await new TestGoCliScraper().Parse(["go", "fix"], helpText);
 
-        await AssertArgument(command, "Packages", isRequired: false, isVariadic: false);
+        await AssertArgument(command, "Packages", isRequired: false, isVariadic: true);
         await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["Packages"]);
+    }
+
+    [Test]
+    public async Task Go_Telemetry_Models_Choice_As_Mode()
+    {
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "telemetry"],
+            "usage: go telemetry [off|local|on]");
+
+        await AssertArgument(command, "Mode", isRequired: false, isVariadic: false);
+    }
+
+    [Test]
+    public async Task Go_Generate_Models_File_Or_Package_Targets()
+    {
+        var command = await new TestGoCliScraper().Parse(
+            ["go", "generate"],
+            "usage: go generate [build flags] [file.go... | packages]");
+
+        await AssertArgument(command, "Targets", isRequired: false, isVariadic: true);
     }
 
     [Test]

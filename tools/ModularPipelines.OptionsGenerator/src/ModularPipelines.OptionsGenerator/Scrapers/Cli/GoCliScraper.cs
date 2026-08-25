@@ -176,7 +176,9 @@ public partial class GoCliScraper : CliScraperBase
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-        var positionalArguments = GetPositionalArguments(usage);
+        var positionalArguments = NormalizePositionalArguments(
+            commandParts,
+            GetPositionalArguments(usage));
 
         var className = GenerateClassName(commandPath);
 
@@ -198,6 +200,45 @@ public partial class GoCliScraper : CliScraperBase
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<CliPositionalArgument> arguments) =>
+        arguments.Select(argument => NormalizePositionalArgument(commandParts, argument)).ToArray();
+
+    private static CliPositionalArgument NormalizePositionalArgument(
+        IReadOnlyList<string> commandParts,
+        CliPositionalArgument argument)
+    {
+        if (commandParts is ["telemetry"] && argument.PropertyName == "Off")
+        {
+            return argument with
+            {
+                PropertyName = "Mode",
+                Description = "The telemetry mode: off, local, or on.",
+            };
+        }
+
+        if (commandParts is ["generate"] && argument.PropertyName == "FileGo")
+        {
+            argument = argument with
+            {
+                PropertyName = "Targets",
+                Description = "The file or package targets.",
+            };
+        }
+
+        if (argument.PropertyName is not ("Packages" or "Modules" or "Moddirs" or "Targets"))
+        {
+            return argument;
+        }
+
+        return argument with
+        {
+            CSharpType = argument.IsRequired ? "IEnumerable<string>" : "IEnumerable<string>?",
+            IsVariadic = true,
+        };
     }
 
     /// <summary>
