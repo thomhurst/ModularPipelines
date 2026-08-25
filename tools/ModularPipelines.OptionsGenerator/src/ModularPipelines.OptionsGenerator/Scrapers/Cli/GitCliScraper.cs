@@ -546,29 +546,17 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             return false;
         }
 
-        var shortFlag = GetShortFlag(match);
-        var advertisedLongFlag = GetGroupValue(match, "long");
-        var longFlag = advertisedLongFlag is null
-            ? null
-            : NormalizeNegatableLongFlag(advertisedLongFlag);
-        negatedLongFlag = advertisedLongFlag is null
-            ? null
-            : GetNegatedLongFlag(advertisedLongFlag);
-        var primaryFlag = longFlag ?? shortFlag;
-        var propertyName = primaryFlag is null ? null : NormalizeGitPropertyName(primaryFlag);
-        if (primaryFlag is null || propertyName is null)
+        var identity = GetOptionIdentity(match);
+        if (identity is null)
         {
             return false;
         }
 
+        var (shortFlag, primaryFlag, propertyName, negatedFlag) = identity.Value;
+        negatedLongFlag = negatedFlag;
         var description = GetDescription(match);
-        var (csharpType, isFlag) = InferType(primaryFlag, description, line);
         var valueSyntax = GetGroupValue(match, "value");
-        if (valueSyntax is not null)
-        {
-            csharpType = isFlag ? "string?" : csharpType;
-            isFlag = false;
-        }
+        var (csharpType, isFlag) = InferOptionType(primaryFlag, description, line, valueSyntax);
 
         option = new CliOptionDefinition
         {
@@ -588,6 +576,35 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         return true;
     }
 
+    private static OptionIdentity? GetOptionIdentity(Match match)
+    {
+        var shortFlag = GetShortFlag(match);
+        var advertisedLongFlag = GetGroupValue(match, "long");
+        var primaryFlag = advertisedLongFlag is null
+            ? shortFlag
+            : NormalizeNegatableLongFlag(advertisedLongFlag);
+        var propertyName = primaryFlag is null ? null : NormalizeGitPropertyName(primaryFlag);
+        return primaryFlag is null || propertyName is null
+            ? null
+            : new OptionIdentity(
+                shortFlag,
+                primaryFlag,
+                propertyName,
+                advertisedLongFlag is null ? null : GetNegatedLongFlag(advertisedLongFlag));
+    }
+
+    private static (string CSharpType, bool IsFlag) InferOptionType(
+        string primaryFlag,
+        string description,
+        string line,
+        string? valueSyntax)
+    {
+        var (csharpType, isFlag) = InferType(primaryFlag, description, line);
+        return valueSyntax is null
+            ? (csharpType, isFlag)
+            : (isFlag ? "string?" : csharpType, false);
+    }
+
     private static string? GetGroupValue(Match match, string name) =>
         match.Groups[name] is { Success: true, Value.Length: > 0 } group
             ? group.Value.Trim()
@@ -598,6 +615,12 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
     private static string GetDescription(Match match) =>
         GetGroupValue(match, "description") ?? GetGroupValue(match, "shortDescription") ?? "";
+
+    private readonly record struct OptionIdentity(
+        string? ShortFlag,
+        string PrimaryFlag,
+        string PropertyName,
+        string? NegatedFlag);
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
