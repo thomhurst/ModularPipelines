@@ -466,99 +466,88 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        var lines = helpText.Split('\n');
-
-        foreach (var line in lines)
+        foreach (var line in helpText.Split('\n'))
         {
-            // Match option lines: -x, --xxx or just --xxx
-            var match = OptionLineRegex().Match(line);
-            if (!match.Success)
+            if (!TryParseOption(line, out var option, out var negatedLongFlag)
+                || !seenOptions.Add(option.SwitchName))
             {
                 continue;
             }
 
-            string? shortFlag = null;
-            string? longFlag = null;
-            string? negatedLongFlag = null;
-            var description = "";
-
-            // Check if we have a short flag
-            if (match.Groups[1].Success && !string.IsNullOrEmpty(match.Groups[1].Value))
-            {
-                shortFlag = match.Groups[1].Value.Trim();
-            }
-
-            // Long flag
-            if (match.Groups[2].Success)
-            {
-                var advertisedLongFlag = match.Groups[2].Value.Trim();
-                longFlag = NormalizeNegatableLongFlag(advertisedLongFlag);
-                negatedLongFlag = GetNegatedLongFlag(advertisedLongFlag);
-            }
-
-            // Description
-            if (match.Groups[3].Success)
-            {
-                description = match.Groups[3].Value.Trim();
-            }
-
-            // Use long flag preferably, fall back to short
-            var primaryFlag = longFlag ?? shortFlag;
-            if (string.IsNullOrEmpty(primaryFlag))
-            {
-                continue;
-            }
-
-            // Skip duplicates
-            if (seenOptions.Contains(primaryFlag))
-            {
-                continue;
-            }
-            seenOptions.Add(primaryFlag);
-
-            // Generate property name
-            var propertyName = NormalizeGitPropertyName(primaryFlag);
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                continue;
-            }
-
-            // Determine type based on the option
-            var (csharpType, isFlag) = InferType(primaryFlag, description, line);
-
-            // SwitchName should be the full flag with dashes (--long-flag)
-            var switchName = longFlag ?? shortFlag;
-
-            var option = new CliOptionDefinition
-            {
-                SwitchName = switchName!,
-                ShortForm = shortFlag,
-                Description = description,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                IsRequired = false,
-                IsFlag = isFlag,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            };
             options.Add(option);
-
             if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
-                var negatedPropertyName = NormalizeGitPropertyName(negatedLongFlag)!;
-                options.Add(option with
-                {
-                    SwitchName = negatedLongFlag,
-                    ShortForm = null,
-                    PropertyName = negatedPropertyName,
-                    CSharpType = "bool?",
-                    Description = $"Negates {longFlag}. {description}",
-                    IsFlag = true,
-                    IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
-                });
+                options.Add(CreateNegatedOption(option, negatedLongFlag));
             }
         }
 
         return options;
+    }
+
+    private static bool TryParseOption(
+        string line,
+        out CliOptionDefinition option,
+        out string? negatedLongFlag)
+    {
+        option = null!;
+        negatedLongFlag = null;
+        var match = OptionLineRegex().Match(line);
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        var shortFlag = GetGroupValue(match, 1);
+        var advertisedLongFlag = GetGroupValue(match, 2);
+        var longFlag = advertisedLongFlag is null
+            ? null
+            : NormalizeNegatableLongFlag(advertisedLongFlag);
+        negatedLongFlag = advertisedLongFlag is null
+            ? null
+            : GetNegatedLongFlag(advertisedLongFlag);
+        var primaryFlag = longFlag ?? shortFlag;
+        var propertyName = primaryFlag is null ? null : NormalizeGitPropertyName(primaryFlag);
+        if (primaryFlag is null || propertyName is null)
+        {
+            return false;
+        }
+
+        var description = GetGroupValue(match, 3) ?? "";
+        var (csharpType, isFlag) = InferType(primaryFlag, description, line);
+        option = new CliOptionDefinition
+        {
+            SwitchName = primaryFlag,
+            ShortForm = shortFlag,
+            Description = description,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            IsRequired = false,
+            IsFlag = isFlag,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
+        return true;
+    }
+
+    private static string? GetGroupValue(Match match, int index) =>
+        match.Groups[index] is { Success: true, Value.Length: > 0 } group
+            ? group.Value.Trim()
+            : null;
+
+    private static CliOptionDefinition CreateNegatedOption(
+        CliOptionDefinition option,
+        string negatedLongFlag)
+    {
+        var negatedPropertyName = NormalizeGitPropertyName(negatedLongFlag)!;
+        return option with
+        {
+            SwitchName = negatedLongFlag,
+            ShortForm = null,
+            PropertyName = negatedPropertyName,
+            CSharpType = "bool?",
+            Description = $"Negates {option.SwitchName}. {option.Description}",
+            IsFlag = true,
+            IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
+        };
     }
 
     /// <summary>
