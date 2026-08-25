@@ -173,6 +173,57 @@ public class YarnCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Init_Install_Accepts_An_Optional_Bundle()
+    {
+        const string helpText = """
+            Usage
+
+            $ yarn init [-i,--install]
+
+            Options
+
+              -i,--install      Initialize with a specific bundle
+            """;
+
+        var command = await new TestYarnCliScraper().Parse(["yarn", "init"], helpText);
+        var install = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(install.IsFlag).IsFalse();
+            await Assert.That(install.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(install.ValueSeparator).IsEqualTo("=");
+        }
+    }
+
+    [Test]
+    public async Task Run_Inspect_Options_Accept_Optional_Values()
+    {
+        const string helpText = """
+            Usage
+
+            $ yarn run [--inspect] [--inspect-brk]
+
+            Options
+
+              --inspect         Forward to the Node process
+              --inspect-brk     Forward to the Node process and break
+            """;
+
+        var command = await new TestYarnCliScraper().Parse(["yarn", "run"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.IsFlag))
+                .IsEquivalentTo([false, false]);
+            await Assert.That(command.Options.Select(option => option.ValueArity))
+                .IsEquivalentTo([CliOptionValueArity.Optional, CliOptionValueArity.Optional]);
+            await Assert.That(command.Options.Select(option => option.ValueSeparator))
+                .IsEquivalentTo(["=", "="]);
+        }
+    }
+
     private sealed class TestYarnCliScraper : YarnCliScraper
     {
         public TestYarnCliScraper()

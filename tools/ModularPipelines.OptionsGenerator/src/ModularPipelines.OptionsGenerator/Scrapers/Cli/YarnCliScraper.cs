@@ -589,10 +589,22 @@ public partial class YarnCliScraper : CliScraperBase
 
     private static bool IsOptionalValueOption(
         IReadOnlyList<string> commandParts,
-        string longForm) =>
-        longForm.Equals("--since", StringComparison.OrdinalIgnoreCase)
-        || (commandParts is ["version", "apply"]
-            && longForm.Equals("--prerelease", StringComparison.OrdinalIgnoreCase));
+        string longForm)
+    {
+        if (longForm.Equals("--since", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return commandParts switch
+        {
+            ["init"] => longForm.Equals("--install", StringComparison.OrdinalIgnoreCase),
+            ["run"] => longForm.Equals("--inspect", StringComparison.OrdinalIgnoreCase)
+                       || longForm.Equals("--inspect-brk", StringComparison.OrdinalIgnoreCase),
+            ["version", ..] => longForm.Equals("--prerelease", StringComparison.OrdinalIgnoreCase),
+            _ => false,
+        };
+    }
 
     /// <summary>
     /// Accumulates multi-line descriptions.
