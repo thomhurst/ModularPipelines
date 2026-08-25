@@ -27,7 +27,7 @@ public record PnpmUnlinkOptions : PnpmOptions
     public string? AggregateOutput { get; set; }
 
     /// <summary>
-    /// Change to directory &lt;dir&gt; (default: ~/work/ModularPipelines/ModularPipelines/ tools/ModularPipelines.OptionsGenerator/src/ ModularPipelines.OptionsGenerator)
+    /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
     /// </summary>
     [CliOption("--dir", ShortForm = "-C")]
     public string? Dir { get; set; }
@@ -73,5 +73,11 @@ public record PnpmUnlinkOptions : PnpmOptions
     /// </summary>
     [CliOption("--yes", ShortForm = "-y")]
     public string? Yes { get; set; }
+
+    /// <summary>
+    /// The &lt;pkg&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Pkg { get; set; }
 
 }

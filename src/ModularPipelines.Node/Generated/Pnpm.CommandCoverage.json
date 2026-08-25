@@ -1,6 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "pnpm",
+  "toolVersion": "11.24.0",
   "commandCount": 10,
   "commandTreeSha256": "cb939fe929bf55ab34691b42cc4b86072d72586b984937e4c3c43dc8b6c6be56",
   "commands": [

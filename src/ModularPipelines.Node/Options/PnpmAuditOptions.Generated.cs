@@ -80,4 +80,10 @@ public record PnpmAuditOptions : PnpmOptions
     [CliOption("--prod", ShortForm = "-P")]
     public string? Prod { get; set; }
 
+    /// <summary>
+    /// The signatures operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Signatures { get; set; }
+
 }
