@@ -140,9 +140,36 @@ public class YarnCliScraperTests
             await Assert.That(include.AcceptsMultipleValues).IsTrue();
             await Assert.That(include.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(since.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(since.ValueSeparator).IsEqualTo("=");
             await Assert.That(verbose.IsFlag).IsTrue();
             await Assert.That(verbose.CSharpType).IsEqualTo("int?");
             await Assert.That(verbose.ValidationConstraints!.MaxValue).IsEqualTo(2);
+        }
+    }
+
+    [Test]
+    public async Task Version_Apply_Prerelease_Accepts_An_Optional_Identifier()
+    {
+        const string helpText = """
+            Usage
+
+            $ yarn version apply [--prerelease]
+
+            Options
+
+              --prerelease      Apply the prerelease identifier
+            """;
+
+        var command = await new TestYarnCliScraper().Parse(
+            ["yarn", "version", "apply"],
+            helpText);
+        var prerelease = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(prerelease.IsFlag).IsFalse();
+            await Assert.That(prerelease.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(prerelease.ValueSeparator).IsEqualTo("=");
         }
     }
 

@@ -548,7 +548,7 @@ public partial class YarnCliScraper : CliScraperBase
 
             var hasValue = match.Groups["value"].Success;
             var hasOptionalValue = !hasValue
-                                   && longForm.Equals("--since", StringComparison.OrdinalIgnoreCase);
+                                   && IsOptionalValueOption(commandParts, longForm);
             var isFlag = !hasValue && !hasOptionalValue;
             var isCountedFlag = isFlag
                                 && longForm.Equals("--verbose", StringComparison.OrdinalIgnoreCase)
@@ -572,7 +572,7 @@ public partial class YarnCliScraper : CliScraperBase
                 AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
-                ValueSeparator = " ",
+                ValueSeparator = hasOptionalValue ? "=" : " ",
                 ValueArity = hasOptionalValue
                     ? CliOptionValueArity.Optional
                     : CliOptionValueArity.Required,
@@ -586,6 +586,13 @@ public partial class YarnCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static bool IsOptionalValueOption(
+        IReadOnlyList<string> commandParts,
+        string longForm) =>
+        longForm.Equals("--since", StringComparison.OrdinalIgnoreCase)
+        || (commandParts is ["version", "apply"]
+            && longForm.Equals("--prerelease", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>
     /// Accumulates multi-line descriptions.
