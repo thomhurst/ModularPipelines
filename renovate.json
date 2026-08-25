@@ -1,6 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-      "config:recommended"
-   ]
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "Preserve the public AppService domain-provisioning contract until DomainRegistration is stable",
+      "matchPackageNames": [
+        "Azure.ResourceManager.AppService"
+      ],
+      "allowedVersions": "<=1.4.1"
+    }
+  ]
 }
