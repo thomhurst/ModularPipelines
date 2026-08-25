@@ -56,4 +56,10 @@ public record WingetDscv3Options : WingetOptions
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
 
+    /// <summary>
+    /// The &lt;command&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }

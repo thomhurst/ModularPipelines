@@ -92,4 +92,10 @@ public record WingetConfigureOptions : WingetOptions
     [CliOption("--module-path")]
     public string? ModulePath { get; set; }
 
+    /// <summary>
+    /// The &lt;command&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
