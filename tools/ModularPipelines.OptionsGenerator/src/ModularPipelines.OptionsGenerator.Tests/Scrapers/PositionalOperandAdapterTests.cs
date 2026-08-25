@@ -184,6 +184,24 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task Pnpm_Audit_Extracts_Child_Without_Modeling_It_As_An_Operand()
+    {
+        const string helpText = """
+            Usage: pnpm audit [options]
+                   pnpm audit signatures [options]
+
+            Commands:
+                  signatures    Verify registry signatures
+            """;
+        var scraper = new TestPnpmCliScraper();
+
+        var command = await scraper.Parse(["pnpm", "audit"], helpText);
+
+        await Assert.That(scraper.Extract(helpText)).IsEquivalentTo(["signatures"]);
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Pnpm_Unlink_Ignores_Parenthetical_Explanation()
     {
         const string helpText = "Usage: pnpm unlink (in package dir)\n"
@@ -330,6 +348,9 @@ public class PositionalOperandAdapterTests
             PositionalOperandAdapterTests.Cache,
             NullLogger<PnpmCliScraper>.Instance)
     {
+        public IReadOnlyList<string> Extract(string helpText) =>
+            ExtractSubcommands(helpText).ToArray();
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,

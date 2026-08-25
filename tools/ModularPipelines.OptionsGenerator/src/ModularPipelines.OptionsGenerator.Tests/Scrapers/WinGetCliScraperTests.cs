@@ -26,6 +26,25 @@ public class WinGetCliScraperTests
     }
 
     [Test]
+    public async Task Command_Group_Does_Not_Model_Child_Command_Placeholder()
+    {
+        const string helpText = """
+            Manage package sources.
+
+            usage: winget source [<command>] [<options>]
+
+            The following sub-commands are available:
+              add     Add a new source
+              list    List current sources
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "source"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+        await Assert.That(command.UsagePositionalArguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Models_Repeatable_Sort_As_A_Collection()
     {
         const string helpText = """
