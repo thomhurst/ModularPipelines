@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -223,6 +224,7 @@ public class GitCliScraperTests
                 --[no-]upload-pack <path>                       path to upload pack
                 --[no-]recurse-submodules[=<on-demand>]         control recursive fetching
                 --[no-]signed[=(yes|no|if-asked)]               GPG sign the request
+                --[no-]chmod (+|-)x                             override the executable bit
             """;
         using var scraper = new TestGitCliScraper();
         var command = await scraper.Parse(["git", "fetch"], helpText);
@@ -235,9 +237,31 @@ public class GitCliScraperTests
                 .IsFalse();
             await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").IsFlag)
                 .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Required);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--chmod").ValueSeparator)
+                .IsEqualTo(" ");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").ValueSeparator)
+                .IsEqualTo("=");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").ValueArity)
+                .IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").ValueSeparator)
+                .IsEqualTo("=");
             await Assert.That(command.Options
-                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed")
-                    .All(option => option.IsFlag && option.CSharpType == "bool?"))
+                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed" or "--no-chmod")
+                    .All(option => option is
+                    {
+                        IsFlag: true,
+                        CSharpType: "bool?",
+                        ValueArity: CliOptionValueArity.Required,
+                        ValueSeparator: " ",
+                    }))
                 .IsTrue();
         }
     }

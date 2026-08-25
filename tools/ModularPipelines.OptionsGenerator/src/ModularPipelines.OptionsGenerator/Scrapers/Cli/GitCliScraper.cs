@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -520,10 +521,9 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         string declaration,
         string description)
     {
-        var (csharpType, isFlag) = InferType(
-            option.SwitchName,
-            description,
-            $"{declaration} {description}");
+        var (csharpType, isFlag) = option.IsFlag
+            ? InferType(option.SwitchName, description, $"{declaration} {description}")
+            : (option.CSharpType, false);
         return option with
         {
             Description = description,
@@ -547,7 +547,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
 
         var shortFlag = GetShortFlag(match);
-        var advertisedLongFlag = GetGroupValue(match, 2);
+        var advertisedLongFlag = GetGroupValue(match, "long");
         var longFlag = advertisedLongFlag is null
             ? null
             : NormalizeNegatableLongFlag(advertisedLongFlag);
@@ -563,6 +563,13 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
         var description = GetDescription(match);
         var (csharpType, isFlag) = InferType(primaryFlag, description, line);
+        var valueSyntax = GetGroupValue(match, "value");
+        if (valueSyntax is not null)
+        {
+            csharpType = isFlag ? "string?" : csharpType;
+            isFlag = false;
+        }
+
         option = new CliOptionDefinition
         {
             SwitchName = primaryFlag,
@@ -572,21 +579,25 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = csharpType,
             IsRequired = false,
             IsFlag = isFlag,
+            ValueArity = valueSyntax?.StartsWith("[=", StringComparison.Ordinal) == true
+                ? CliOptionValueArity.Optional
+                : CliOptionValueArity.Required,
+            ValueSeparator = valueSyntax?.Contains('=') == true ? "=" : " ",
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
         return true;
     }
 
-    private static string? GetGroupValue(Match match, int index) =>
-        match.Groups[index] is { Success: true, Value.Length: > 0 } group
+    private static string? GetGroupValue(Match match, string name) =>
+        match.Groups[name] is { Success: true, Value.Length: > 0 } group
             ? group.Value.Trim()
             : null;
 
     private static string? GetShortFlag(Match match) =>
-        GetGroupValue(match, 1) ?? GetGroupValue(match, 4);
+        GetGroupValue(match, "short") ?? GetGroupValue(match, "shortOnly");
 
     private static string GetDescription(Match match) =>
-        GetGroupValue(match, 3) ?? GetGroupValue(match, 5) ?? "";
+        GetGroupValue(match, "description") ?? GetGroupValue(match, "shortDescription") ?? "";
 
     private static CliOptionDefinition CreateNegatedOption(
         CliOptionDefinition option,
@@ -601,6 +612,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {option.Description}",
             IsFlag = true,
+            ValueArity = CliOptionValueArity.Required,
+            ValueSeparator = " ",
             IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
         };
     }
@@ -804,7 +817,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+)(?:\[?=\S+\]?)?(?:\s+(.*))?$|^\s+(-\w)(?:\s+(.*))?$")]
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?:\s+(?<shortDescription>.*))?$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]
