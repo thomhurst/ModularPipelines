@@ -26,6 +26,29 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GhCliScraper : CobraCliScraper
 {
+    private static readonly IReadOnlyDictionary<(string Command, string Operand), string> OperandNames =
+        new Dictionary<(string Command, string Operand), string>
+        {
+            [("agent-task view", "SessionId")] = "SessionIdOrPrNumberOrPrUrlOrPrBranch",
+            [("attestation download", "FilePath")] = "FilePathOrImageUri",
+            [("attestation verify", "FilePath")] = "FilePathOrImageUri",
+            [("browse", "Number")] = "NumberOrPathOrCommitSha",
+            [("cache delete", "CacheId")] = "CacheIdOrCacheKey",
+            [("discussion comment", "Number")] = "NumberOrDiscussionUrlOrCommentIdOrCommentUrl",
+            [("discussion view", "Number")] = "NumberOrDiscussionUrlOrCommentIdOrCommentUrl",
+            [("discussion edit", "Number")] = "NumberOrDiscussionUrl",
+            [("gist create", "FilenameArgument")] = "FilenameOrPattern",
+            [("gist delete", "Id")] = "IdOrUrl",
+            [("gist edit", "Id")] = "IdOrUrl",
+            [("gist rename", "Id")] = "IdOrUrl",
+            [("gist view", "Id")] = "IdOrUrl",
+            [("release create", "Filename")] = "FilenameOrPattern",
+            [("workflow disable", "WorkflowId")] = "WorkflowIdOrWorkflowName",
+            [("workflow enable", "WorkflowId")] = "WorkflowIdOrWorkflowName",
+            [("workflow run", "WorkflowId")] = "WorkflowIdOrWorkflowName",
+            [("workflow view", "WorkflowId")] = "WorkflowIdOrWorkflowNameOrFilename",
+        };
+
     private static readonly HashSet<string> RepeatableOptions = new(StringComparer.OrdinalIgnoreCase)
     {
         "--field",
@@ -122,29 +145,28 @@ public partial class GhCliScraper : CobraCliScraper
             };
         }
 
-        var propertyName = (command, argument.PropertyName) switch
-        {
-            ("agent-task view", "SessionId") => "SessionIdOrPrNumberOrPrUrlOrPrBranch",
-            ("attestation download" or "attestation verify", "FilePath") => "FilePathOrImageUri",
-            ("browse", "Number") => "NumberOrPathOrCommitSha",
-            ("cache delete", "CacheId") => "CacheIdOrCacheKey",
-            ("discussion comment" or "discussion view", "Number") =>
-                "NumberOrDiscussionUrlOrCommentIdOrCommentUrl",
-            ("discussion edit", "Number") => "NumberOrDiscussionUrl",
-            ("gist create", "FilenameArgument") => "FilenameOrPattern",
-            ("gist delete" or "gist edit" or "gist rename" or "gist view", "Id") => "IdOrUrl",
-            ("release create", "Filename") => "FilenameOrPattern",
-            ("workflow disable" or "workflow enable" or "workflow run", "WorkflowId") =>
-                "WorkflowIdOrWorkflowName",
-            ("workflow view", "WorkflowId") => "WorkflowIdOrWorkflowNameOrFilename",
-            _ when command.StartsWith("issue ", StringComparison.Ordinal)
-                   && argument.PropertyName.Equals("Number", StringComparison.Ordinal) => "NumberOrUrl",
-            _ when command is "pr lock" or "pr unlock"
-                   && argument.PropertyName.Equals("Number", StringComparison.Ordinal) => "NumberOrUrl",
-            _ when command.StartsWith("pr ", StringComparison.Ordinal)
-                   && argument.PropertyName.Equals("Number", StringComparison.Ordinal) => "NumberOrUrlOrBranch",
-            _ => argument.PropertyName,
-        };
+        var propertyName = GetOperandName(command, argument.PropertyName);
         return argument with { PropertyName = propertyName };
+    }
+
+    private static string GetOperandName(string command, string operand)
+    {
+        if (OperandNames.TryGetValue((command, operand), out var propertyName))
+        {
+            return propertyName;
+        }
+
+        if (!operand.Equals("Number", StringComparison.Ordinal))
+        {
+            return operand;
+        }
+
+        if (command.StartsWith("issue ", StringComparison.Ordinal)
+            || command is "pr lock" or "pr unlock")
+        {
+            return "NumberOrUrl";
+        }
+
+        return command.StartsWith("pr ", StringComparison.Ordinal) ? "NumberOrUrlOrBranch" : operand;
     }
 }

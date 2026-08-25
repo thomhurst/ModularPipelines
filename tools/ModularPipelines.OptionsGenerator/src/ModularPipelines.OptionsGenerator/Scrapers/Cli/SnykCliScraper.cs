@@ -326,75 +326,85 @@ public partial class SnykCliScraper : CliScraperBase
             var optionHeading = proseIndex >= 0 ? line[..proseIndex] : line;
             foreach (Match match in SnykOptionPattern().Matches(optionHeading))
             {
-                var longForm = match.Groups["long"].Value.Trim();
-                var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
-
-                if (!seenOptions.Add(longForm))
+                if (CreateOption(match, commandParts, description, seenOptions) is { } option)
                 {
-                    continue;
+                    options.Add(option);
                 }
-
-                var propertyName = NormalizePropertyName(longForm);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                var isNumeric = NumericOptions.Contains(longForm);
-                var isFlag = string.IsNullOrEmpty(valueHint)
-                    && !isNumeric
-                    && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
-                var isBoolean = IsBooleanValueHint(valueHint);
-                var acceptsMultipleValues = !IsKnownScalarValueOption(commandParts, longForm)
-                                            && IsRepeatableValueOption(
-                                                description ?? string.Empty,
-                                                isFlag,
-                                                isBoolean);
-                var csharpType = isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
-
-                CliEnumDefinition? enumDef = null;
-                if (!isBoolean && !string.IsNullOrEmpty(valueHint) && valueHint.Contains('|'))
-                {
-                    var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(v => v.Trim())
-                        .ToArray();
-                    if (values.Length >= 2)
-                    {
-                        enumDef = new CliEnumDefinition
-                        {
-                            EnumName = $"Snyk{propertyName}",
-                            Values = values.Select(v => new CliEnumValue
-                            {
-                                MemberName = GeneratorUtils.ToEnumMemberName(v),
-                                CliValue = v
-                            }).ToList(),
-                            Description = $"Allowed values for --{longForm.TrimStart('-')}"
-                        };
-                        csharpType = $"{enumDef.EnumName}?";
-                    }
-                }
-
-                csharpType = AsCSharpType(csharpType, acceptsMultipleValues);
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = longForm,
-                    ShortForm = null,
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
-                    AcceptsMultipleValues = acceptsMultipleValues,
-                    IsKeyValue = false,
-                    IsNumeric = isNumeric,
-                    ValueSeparator = isFlag ? " " : "=",
-                    EnumDefinition = enumDef,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                        || longForm.Equals("--fetch-tfstate-headers", StringComparison.OrdinalIgnoreCase)
-                });
             }
         }
+    }
+
+    private CliOptionDefinition? CreateOption(
+        Match match,
+        IReadOnlyList<string> commandParts,
+        string? description,
+        HashSet<string> seenOptions)
+    {
+        var longForm = match.Groups["long"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
+        if (!seenOptions.Add(longForm) || NormalizePropertyName(longForm) is not { } propertyName)
+        {
+            return null;
+        }
+
+        var isNumeric = NumericOptions.Contains(longForm);
+        var isFlag = string.IsNullOrEmpty(valueHint)
+            && !isNumeric
+            && !ValueOptionsWithoutHelpPlaceholders.Contains(longForm);
+        var isBoolean = IsBooleanValueHint(valueHint);
+        var acceptsMultipleValues = !IsKnownScalarValueOption(commandParts, longForm)
+                                    && IsRepeatableValueOption(
+                                        description ?? string.Empty,
+                                        isFlag,
+                                        isBoolean);
+        var enumDefinition = CreateEnumDefinition(propertyName, longForm, valueHint, isBoolean);
+        var scalarType = enumDefinition is not null
+            ? $"{enumDefinition.EnumName}?"
+            : isFlag || isBoolean ? "bool?" : isNumeric ? "int?" : "string?";
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = null,
+            PropertyName = propertyName,
+            CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = isFlag ? " " : "=",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                || longForm.Equals("--fetch-tfstate-headers", StringComparison.OrdinalIgnoreCase),
+        };
+    }
+
+    private static CliEnumDefinition? CreateEnumDefinition(
+        string propertyName,
+        string longForm,
+        string valueHint,
+        bool isBoolean)
+    {
+        if (isBoolean || string.IsNullOrEmpty(valueHint) || !valueHint.Contains('|'))
+        {
+            return null;
+        }
+
+        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return values.Length < 2
+            ? null
+            : new CliEnumDefinition
+            {
+                EnumName = $"Snyk{propertyName}",
+                Values = values.Select(value => new CliEnumValue
+                {
+                    MemberName = GeneratorUtils.ToEnumMemberName(value),
+                    CliValue = value,
+                }).ToList(),
+                Description = $"Allowed values for --{longForm.TrimStart('-')}",
+            };
     }
 
     private static bool IsKnownScalarValueOption(

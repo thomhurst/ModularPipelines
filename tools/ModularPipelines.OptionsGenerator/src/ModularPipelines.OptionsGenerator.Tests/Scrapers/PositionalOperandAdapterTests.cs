@@ -35,6 +35,28 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    public async Task DotNet_NuGet_Add_Source_Preserves_Public_Operand_Name()
+    {
+        const string helpText = "Usage: NuGet.CommandLine.XPlat add source <PackageSourcePath> [options]";
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "nuget", "add", "source"],
+            helpText);
+
+        await AssertArgument(command, "Packagesourcepath", isRequired: true, isVariadic: false);
+    }
+
+    [Test]
+    public async Task DotNet_NuGet_Push_Preserves_Public_Scalar_Operand()
+    {
+        const string helpText = "Usage: NuGet.CommandLine.XPlat push <package-paths>... [options]";
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "nuget", "push"],
+            helpText);
+
+        await AssertArgument(command, "Path", isRequired: true, isVariadic: false);
+    }
+
+    [Test]
     public async Task Go_Fix_Preserves_Packages_But_Not_Option_Value()
     {
         const string helpText = "usage: go fix [build flags] [-fixtool prog] [fix flags] [packages]";
