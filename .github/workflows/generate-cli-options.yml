@@ -135,25 +135,7 @@ jobs:
     steps:
       - name: Check if tool should run
         id: should-run
-        run: |
-          # For scheduled runs, all tools run. For manual runs, check the tools input.
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            echo "run=true" >> $GITHUB_OUTPUT
-          else
-            # Get the tools input (comma-separated list, empty = all)
-            TOOLS_INPUT="${{ github.event.inputs.tools }}"
-            if [[ -z "$TOOLS_INPUT" ]]; then
-              # Empty input means run all tools
-              echo "run=true" >> $GITHUB_OUTPUT
-            else
-              # Check if this tool is in the comma-separated list
-              if echo ",$TOOLS_INPUT," | grep -q ",${{ matrix.tool }},"; then
-                echo "run=true" >> $GITHUB_OUTPUT
-              else
-                echo "run=false" >> $GITHUB_OUTPUT
-              fi
-            fi
-          fi
+        run: echo "run=true" >> "$GITHUB_OUTPUT"
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
@@ -737,26 +719,7 @@ jobs:
       - name: Check if tool should run
         id: should-run
         shell: pwsh
-        run: |
-          # For scheduled runs, all tools run. For manual runs, check the tools input.
-          if ("${{ github.event_name }}" -eq "schedule") {
-            "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          } else {
-            # Get the tools input (comma-separated list, empty = all)
-            $toolsInput = "${{ github.event.inputs.tools }}"
-            if ([string]::IsNullOrWhiteSpace($toolsInput)) {
-              # Empty input means run all tools
-              "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            } else {
-              # Check if this tool is in the comma-separated list
-              $toolsList = $toolsInput -split ',' | ForEach-Object { $_.Trim() }
-              if ($toolsList -contains "${{ matrix.tool }}") {
-                "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-              } else {
-                "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-              }
-            }
-          }
+        run: '"run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append'
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
