@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "code")]
-public record GhSearchCodeOptions : GhOptions
+public record GhSearchCodeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
+) : GhOptions
 {
+    public GhSearchCodeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Filter on file extension
     /// </summary>
@@ -69,7 +76,7 @@ public record GhSearchCodeOptions : GhOptions
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>
-    /// Filter on repository
+    /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Repo { get; set; }

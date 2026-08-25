@@ -18,6 +18,37 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "ports", "forward")]
-public record GhCodespacePortsForwardOptions : GhOptions
+public record GhCodespacePortsForwardOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> RemotePortLocalPort
+) : GhOptions
 {
+    public GhCodespacePortsForwardOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
+    /// <summary>
+    /// Name of the codespace
+    /// </summary>
+    [CliOption("--codespace", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public string? Codespace { get; set; }
+
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
+    /// <summary>
+    /// Filter codespace selection by repository name (user/repo)
+    /// </summary>
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
+
+    /// <summary>
+    /// Filter codespace selection by repository owner (username or org)
+    /// </summary>
+    [CliOption("--repo-owner", Format = OptionFormat.EqualsSeparated)]
+    public string? RepoOwner { get; set; }
+
 }

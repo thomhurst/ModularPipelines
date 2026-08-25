@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "edit")]
-public record GhGistEditOptions : GhOptions
+public record GhGistEditOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
+) : GhOptions
 {
+    public GhGistEditOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Add a new file to the gist
     /// </summary>
@@ -49,5 +56,11 @@ public record GhGistEditOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;filename&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? FilenameArgument { get; set; }
 
 }

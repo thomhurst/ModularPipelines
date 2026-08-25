@@ -29,7 +29,7 @@ public record GhSearchIssuesOptions : GhOptions
     /// <summary>
     /// Filter based on the repository archived state {true|false}
     /// </summary>
-    [CliFlag("--archived")]
+    [CliOption("--archived", Format = OptionFormat.EqualsSeparated)]
     public bool? Archived { get; set; }
 
     /// <summary>
@@ -189,7 +189,7 @@ public record GhSearchIssuesOptions : GhOptions
     public int? Reactions { get; set; }
 
     /// <summary>
-    /// Filter on repository
+    /// Filter on repository, in OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Repo { get; set; }
@@ -241,5 +241,11 @@ public record GhSearchIssuesOptions : GhOptions
     /// </summary>
     [CliFlag("--help")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The &lt;query&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Query { get; set; }
 
 }
