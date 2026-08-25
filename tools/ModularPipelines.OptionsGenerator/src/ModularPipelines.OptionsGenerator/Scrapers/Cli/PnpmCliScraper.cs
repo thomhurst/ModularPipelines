@@ -119,6 +119,23 @@ public partial class PnpmCliScraper : CliScraperBase
         }
     }
 
+    /// <inheritdoc />
+    protected override IEnumerable<string> ExtractSubcommands(
+        string[] commandPath,
+        string helpText)
+    {
+        var subcommands = ExtractSubcommands(helpText).ToList();
+
+        // pnpm returns the parent command-group help for leaf commands. For example,
+        // `pnpm stage download --help` repeats the stage subcommand catalog. Once the
+        // requested leaf appears in that catalog, rediscovering it would recursively
+        // combine every sibling command with every other sibling command.
+        var repeatsParentCatalog = commandPath.Length > 1
+                                   && subcommands.Contains(commandPath[^1], StringComparer.OrdinalIgnoreCase);
+
+        return repeatsParentCatalog ? [] : subcommands;
+    }
+
     /// <summary>
     /// Checks if a string looks like a valid command name.
     /// </summary>

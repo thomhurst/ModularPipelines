@@ -818,6 +818,45 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PnpmTraversal_Does_Not_Recurse_Into_Repeated_Parent_Help()
+    {
+        const string stageHelp = """
+            Usage: pnpm stage publish [<tarball>|<dir>] [options]
+                   pnpm stage download <stage-id>
+
+            Subcommands:
+                  download    Download a staged package
+                  publish     Stage a package for publishing
+
+            Options:
+                  --json      Show information in JSON format
+            """;
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: pnpm [command] [flags]
+
+                Other:
+                      stage    Stage packages for publishing
+
+                Options:
+                  -r, --recursive    Run recursively
+                """,
+            ["stage --help"] = stageHelp,
+            ["stage download --help"] = stageHelp,
+            ["stage publish --help"] = stageHelp,
+        });
+        var scraper = new TestPnpmCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["pnpm stage", "pnpm stage download", "pnpm stage publish"]);
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "stage --help", "stage download --help", "stage publish --help"]);
+    }
+
+    [Test]
     public async Task Shared_Skip_Filter_Preserves_Uppercase_Subcommands()
     {
         var scraper = new OptionShapeScraper(new StubExecutor(
@@ -910,6 +949,12 @@ public class CliScraperTraversalTests
             IReadOnlyList<CliPositionalArgument> positionalArguments) =>
             ApplyPositionalArgumentFixes(command.Split(' '), positionalArguments);
     }
+
+    private sealed class TestPnpmCliScraper(ICliCommandExecutor executor)
+        : PnpmCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<PnpmCliScraper>.Instance);
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor
     {
