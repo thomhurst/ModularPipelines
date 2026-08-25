@@ -303,9 +303,15 @@ public record YqEvalAllOptions : YqOptions
     public bool? YamlFixMergeAnchorToSpec { get; set; }
 
     /// <summary>
+    /// The expression operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminatorIfValueStartsWithDash = true)]
+    public string? ExpressionArgument { get; set; }
+
+    /// <summary>
     /// The [yaml_file1] operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminatorIfValueStartsWithDash = true)]
     public IEnumerable<string>? YamlFile1 { get; set; }
 
 }
