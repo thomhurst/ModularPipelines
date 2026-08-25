@@ -155,14 +155,14 @@ public partial class SnykCliScraper : CliScraperBase
         UsageSynopsisParseResult usage,
         CancellationToken cancellationToken)
     {
-        usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
-
         var commandParts = commandPath.Skip(1).ToArray();
 
         if (commandParts.Length == 0)
         {
             return Task.FromResult<CliCommandDefinition?>(null);
         }
+
+        usage = NormalizeCommandGroupUsage(commandParts, usage);
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
@@ -198,6 +198,27 @@ public partial class SnykCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static UsageSynopsisParseResult NormalizeCommandGroupUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage)
+    {
+        usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+        return commandParts is ["iac"]
+            ? usage with
+            {
+                HasOperandTokens = false,
+                PositionalArguments = [],
+                UnparsedOperandTokens = [],
+            }
+            : usage;
+    }
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        NormalizeCommandGroupUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.
