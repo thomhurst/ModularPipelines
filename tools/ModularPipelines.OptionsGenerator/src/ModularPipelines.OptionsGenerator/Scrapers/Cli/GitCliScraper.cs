@@ -479,6 +479,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
 
             string? shortFlag = null;
             string? longFlag = null;
+            string? negatedLongFlag = null;
             var description = "";
 
             // Check if we have a short flag
@@ -490,7 +491,9 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             // Long flag
             if (match.Groups[2].Success)
             {
-                longFlag = NormalizeNegatableLongFlag(match.Groups[2].Value.Trim());
+                var advertisedLongFlag = match.Groups[2].Value.Trim();
+                longFlag = NormalizeNegatableLongFlag(advertisedLongFlag);
+                negatedLongFlag = GetNegatedLongFlag(advertisedLongFlag);
             }
 
             // Description
@@ -526,7 +529,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             // SwitchName should be the full flag with dashes (--long-flag)
             var switchName = longFlag ?? shortFlag;
 
-            options.Add(new CliOptionDefinition
+            var option = new CliOptionDefinition
             {
                 SwitchName = switchName!,
                 ShortForm = shortFlag,
@@ -536,7 +539,21 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                 IsRequired = false,
                 IsFlag = isFlag,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            };
+            options.Add(option);
+
+            if (isFlag && negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
+            {
+                var negatedPropertyName = NormalizeGitPropertyName(negatedLongFlag)!;
+                options.Add(option with
+                {
+                    SwitchName = negatedLongFlag,
+                    ShortForm = null,
+                    PropertyName = negatedPropertyName,
+                    Description = $"Negates {longFlag}. {description}",
+                    IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
+                });
+            }
         }
 
         return options;
@@ -645,6 +662,11 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         optionName.StartsWith("--[no-]", StringComparison.Ordinal)
             ? "--" + optionName[7..]
             : optionName;
+
+    private static string? GetNegatedLongFlag(string optionName) =>
+        optionName.StartsWith("--[no-]", StringComparison.Ordinal)
+            ? "--no-" + optionName[7..]
+            : null;
 
     /// <summary>
     /// Converts a leading digit to a word (e.g., "3way" -> "ThreeWay").

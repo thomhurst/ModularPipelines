@@ -202,9 +202,12 @@ public class GitCliScraperTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(resolved.Options.Single().SwitchName).IsEqualTo("--commit");
-            await Assert.That(resolved.Options.Single().PropertyName).IsEqualTo("Commit");
-            await Assert.That(resolved.Options.Single().IsFlag).IsTrue();
+            var commit = resolved.Options.Single(option => option.SwitchName == "--commit");
+            var noCommit = resolved.Options.Single(option => option.SwitchName == "--no-commit");
+            await Assert.That(commit.PropertyName).IsEqualTo("Commit");
+            await Assert.That(commit.IsFlag).IsTrue();
+            await Assert.That(noCommit.PropertyName).IsEqualTo("NoCommit");
+            await Assert.That(noCommit.IsFlag).IsTrue();
             await Assert.That(resolved.PositionalArguments.Single().PropertyName)
                 .IsEqualTo("CommitArgument");
             await Assert.That(resolved.PositionalArguments.Single().IsVariadic).IsTrue();
