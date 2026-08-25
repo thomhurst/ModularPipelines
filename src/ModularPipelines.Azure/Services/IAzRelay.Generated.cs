@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az relay commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzRelay
 {
     /// <summary>
     /// az hyco sub-commands.
     /// </summary>
-    AzRelayHyco Hyco { get; }
+    AzRelayHyco Hyco => throw new System.NotSupportedException();
 
     /// <summary>
     /// az namespace sub-commands.
     /// </summary>
-    AzRelayNamespace Namespace { get; }
+    AzRelayNamespace Namespace => throw new System.NotSupportedException();
 
     /// <summary>
     /// az wcfrelay sub-commands.
     /// </summary>
-    AzRelayWcfrelay Wcfrelay { get; }
+    AzRelayWcfrelay Wcfrelay => throw new System.NotSupportedException();
 
 }

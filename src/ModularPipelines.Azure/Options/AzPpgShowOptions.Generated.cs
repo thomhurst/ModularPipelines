@@ -23,7 +23,7 @@ public record AzPpgShowOptions : AzOptions
     /// <summary>
     /// Enable fetching the colocation status of all the resources in the proximity placement group. Allowed values: False, True.
     /// </summary>
-    [CliFlag("--include-colocation-status")]
+    [CliOption("--include-colocation-status")]
     public bool? IncludeColocationStatus { get; set; }
 
 }

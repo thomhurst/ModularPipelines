@@ -41,19 +41,19 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Event Hubs.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether AutoInflate is enabled for eventhub namespace.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-auto-inflate")]
+    [CliOption("--enable-auto-inflate")]
     public bool? EnableAutoInflate { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether Kafka is enabled for eventhub namespace. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-kafka")]
+    [CliOption("--enable-kafka")]
     public bool? EnableKafka { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether
     /// </summary>
-    [CliFlag("--infra-encryption")]
+    [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Enabling this property creates a Standard EventHubs Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
 }

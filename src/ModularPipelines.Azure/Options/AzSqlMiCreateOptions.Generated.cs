@@ -83,7 +83,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Whether or not this is a GPv2 variant of General Purpose edition.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--gpv2")]
+    [CliOption("--gpv2")]
     public bool? Gpv2 { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Whether or not the public data endpoint is enabled for the instance.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--public-data-endpoint-enabled")]
+    [CliOption("--public-data-endpoint-enabled")]
     public bool? PublicDataEndpointEnabled { get; set; }
 
     /// <summary>
@@ -203,7 +203,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
 }

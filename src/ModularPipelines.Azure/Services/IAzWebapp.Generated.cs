@@ -15,63 +15,66 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az webapp commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzWebapp
 {
     /// <summary>
     /// az auth sub-commands.
     /// </summary>
-    AzWebappAuth Auth { get; }
+    AzWebappAuth Auth => throw new System.NotSupportedException();
 
     /// <summary>
     /// az config sub-commands.
     /// </summary>
-    AzWebappConfig Config { get; }
+    AzWebappConfig Config => throw new System.NotSupportedException();
 
     /// <summary>
     /// az connection sub-commands.
     /// </summary>
-    AzWebappConnection Connection { get; }
+    AzWebappConnection Connection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az cors sub-commands.
     /// </summary>
-    AzWebappCors Cors { get; }
+    AzWebappCors Cors => throw new System.NotSupportedException();
 
     /// <summary>
     /// az deployment sub-commands.
     /// </summary>
-    AzWebappDeployment Deployment { get; }
+    AzWebappDeployment Deployment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az hybrid-connection sub-commands.
     /// </summary>
-    AzWebappHybridConnection HybridConnection { get; }
+    AzWebappHybridConnection HybridConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az identity sub-commands.
     /// </summary>
-    AzWebappIdentity Identity { get; }
+    AzWebappIdentity Identity => throw new System.NotSupportedException();
 
     /// <summary>
     /// az log sub-commands.
     /// </summary>
-    AzWebappLog Log { get; }
+    AzWebappLog Log => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sitecontainers sub-commands.
     /// </summary>
-    AzWebappSitecontainers Sitecontainers { get; }
+    AzWebappSitecontainers Sitecontainers => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vnet-integration sub-commands.
     /// </summary>
-    AzWebappVnetIntegration VnetIntegration { get; }
+    AzWebappVnetIntegration VnetIntegration => throw new System.NotSupportedException();
 
     /// <summary>
     /// az webjob sub-commands.
     /// </summary>
-    AzWebappWebjob Webjob { get; }
+    AzWebappWebjob Webjob => throw new System.NotSupportedException();
 
     /// <summary>
     /// Open a web app in a browser. This is not supported in Azure Cloud Shell.
@@ -80,10 +83,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> BrowseAsync(
-        AzWebappBrowseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> BrowseAsync(AzWebappBrowseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a web app.
@@ -92,10 +93,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzWebappCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzWebappCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Creates a remote connection using a tcp tunnel to your web
@@ -104,10 +103,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateRemoteConnectionAsync(
-        AzWebappCreateRemoteConnectionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateRemoteConnectionAsync(AzWebappCreateRemoteConnectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete a web app.
@@ -116,10 +113,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzWebappDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzWebappDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Deploys a provided artifact to Azure Web Apps.
@@ -128,10 +123,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeployAsync(
-        AzWebappDeployOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeployAsync(AzWebappDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List all scaled out instances of a web app or web app slot.
@@ -140,10 +133,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListInstancesAsync(
-        AzWebappListInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListInstancesAsync(AzWebappListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List web apps.
@@ -152,10 +143,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzWebappListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzWebappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List available built-in stacks which can be used for web apps.
@@ -164,10 +153,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListRuntimesAsync(
-        AzWebappListRuntimesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListRuntimesAsync(AzWebappListRuntimesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Restart a web app.
@@ -176,10 +163,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RestartAsync(
-        AzWebappRestartOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RestartAsync(AzWebappRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the details of a web app.
@@ -188,10 +173,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShowAsync(
-        AzWebappShowOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ShowAsync(AzWebappShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Start a web app.
@@ -200,10 +183,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StartAsync(
-        AzWebappStartOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> StartAsync(AzWebappStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Stop a web app.
@@ -212,10 +193,8 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StopAsync(
-        AzWebappStopOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> StopAsync(AzWebappStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Update an existing web app.
@@ -224,9 +203,7 @@ public interface IAzWebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        AzWebappUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> UpdateAsync(AzWebappUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

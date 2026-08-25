@@ -23,7 +23,7 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge")]
+    [CliOption("--enable-purge")]
     public bool? EnablePurge { get; set; }
 
     /// <summary>

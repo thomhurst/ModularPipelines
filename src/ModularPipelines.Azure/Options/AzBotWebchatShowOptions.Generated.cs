@@ -23,7 +23,7 @@ public record AzBotWebchatShowOptions : AzOptions
     /// <summary>
     /// Show secrets in response for the channel.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--with-secrets")]
+    [CliOption("--with-secrets")]
     public bool? WithSecrets { get; set; }
 
 }

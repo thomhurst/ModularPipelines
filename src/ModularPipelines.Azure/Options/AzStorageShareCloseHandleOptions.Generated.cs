@@ -29,13 +29,13 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// <summary>
     /// Whether or not to close all the file handles. Specify close-all or a specific handle-id.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--close-all")]
+    [CliOption("--close-all")]
     public bool? CloseAll { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disallow-trailing-dot")]
+    [CliOption("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// <summary>
     /// Boolean that specifies if operation should apply to the directory specified in the URI, its files, with its subdirectories and their files.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliOption("--recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>

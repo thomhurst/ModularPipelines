@@ -21,25 +21,25 @@ namespace ModularPipelines.Azure.Options;
 public record AzMysqlFlexibleServerParameterListOptions : AzOptions
 {
     /// <summary>
-    /// The keyword of the server configuration. Default value is None.
+    /// The keyword of the server configuration.
     /// </summary>
     [CliFlag("--keyword")]
     public bool? Keyword { get; set; }
 
     /// <summary>
-    /// The page of the server configuration. Default value is None.
+    /// The page of the server configuration.
     /// </summary>
     [CliFlag("--page")]
     public bool? Page { get; set; }
 
     /// <summary>
-    /// The pageSize of the server configuration. Default value is
+    /// The page size of the server configuration.
     /// </summary>
     [CliFlag("--page-size")]
     public bool? PageSize { get; set; }
 
     /// <summary>
-    /// The tags of the server configuration. Default value is None.
+    /// The tags of the server configuration.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }

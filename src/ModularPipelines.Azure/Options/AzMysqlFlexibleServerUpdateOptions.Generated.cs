@@ -59,7 +59,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Disable data encryption by removing key(s).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-data-encryption")]
+    [CliOption("--disable-data-encryption")]
     public bool? DisableDataEncryption { get; set; }
 
     /// <summary>
@@ -91,6 +91,12 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--key")]
     public bool? Key { get; set; }
+
+    /// <summary>
+    /// The batch of the custom-managed maintenance window. Accepted values: Default, Batch1, Batch2. Only valid with an enabled --maintenance-window; if omitted, the existing batch is preserved. Allowed values: Batch1, Batch2, Default.
+    /// </summary>
+    [CliFlag("--maintenance-batch")]
+    public bool? MaintenanceBatch { get; set; }
 
     /// <summary>
     /// Period of time (UTC) designated for maintenance. Examples: "Sun:23:30" to schedule on Sunday, 11:30pm UTC. To set back to default pass in "Disabled".

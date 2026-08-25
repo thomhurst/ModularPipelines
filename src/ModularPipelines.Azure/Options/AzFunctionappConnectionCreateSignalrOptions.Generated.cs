@@ -59,7 +59,7 @@ public record AzFunctionappConnectionCreateSignalrOptions : AzOptions
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-recreate")]
+    [CliOption("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async-execution")]
+    [CliOption("--async-execution")]
     public bool? AsyncExecution { get; set; }
 
     /// <summary>

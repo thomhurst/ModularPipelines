@@ -36,7 +36,7 @@ public record AzSecurityAutomationValidateOptions : AzOptions
     /// Indicates whether the security automation is enabled.
     /// </summary>
     [CliFlag("--isEnabled")]
-    public bool? Isenabled { get; set; }
+    public bool? IsEnabled { get; set; }
 
     /// <summary>
     /// Location of the resource.
@@ -49,5 +49,12 @@ public record AzSecurityAutomationValidateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    [Obsolete("Use IsEnabled instead.")]
+    public bool? Isenabled
+    {
+        get => IsEnabled;
+        set => IsEnabled = value;
+    }
 
 }

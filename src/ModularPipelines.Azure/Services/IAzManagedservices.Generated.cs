@@ -15,17 +15,20 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managedservices commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzManagedservices
 {
     /// <summary>
     /// az assignment sub-commands.
     /// </summary>
-    AzManagedservicesAssignment Assignment { get; }
+    AzManagedservicesAssignment Assignment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az definition sub-commands.
     /// </summary>
-    AzManagedservicesDefinition Definition { get; }
+    AzManagedservicesDefinition Definition => throw new System.NotSupportedException();
 
 }

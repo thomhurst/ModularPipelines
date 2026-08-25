@@ -29,7 +29,7 @@ public record AzKeyvaultSecretSetAttributesOptions : AzOptions
     /// <summary>
     /// Enable the secret.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

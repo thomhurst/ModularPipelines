@@ -29,7 +29,7 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure detailed error messages.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--detailed-error-messages")]
+    [CliOption("--detailed-error-messages")]
     public bool? DetailedErrorMessages { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure failed request tracing.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--failed-request-tracing")]
+    [CliOption("--failed-request-tracing")]
     public bool? FailedRequestTracing { get; set; }
 
     /// <summary>

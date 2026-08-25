@@ -84,7 +84,7 @@ public record AzAksCreateOptions : AzOptions
     /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet- integration).
     /// </summary>
     [CliFlag("--apiserver-subnet-id")]
-    public bool? ApiserverSubnetId { get; set; }
+    public bool? ApiServerSubnetId { get; set; }
 
     /// <summary>
     /// Specify an existing user assigned identity for control plane's usage in order to manage cluster resource group.
@@ -282,7 +282,7 @@ public record AzAksCreateOptions : AzOptions
     /// Enable integration of user vnet with control plane apiserver pods.
     /// </summary>
     [CliFlag("--enable-apiserver-vnet-integration")]
-    public bool? EnableApiserverVnetIntegration { get; set; }
+    public bool? EnableApiServerVnetIntegration { get; set; }
 
     /// <summary>
     /// Enable Application Routing addon.
@@ -371,7 +371,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container- network-logs is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-high-log-scale-mode")]
+    [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
@@ -401,7 +401,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-msi-auth-for-monitoring")]
+    [CliOption("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
@@ -449,7 +449,7 @@ public record AzAksCreateOptions : AzOptions
     /// <summary>
     /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-syslog")]
+    [CliOption("--enable-syslog")]
     public bool? EnableSyslog { get; set; }
 
     /// <summary>
@@ -1045,5 +1045,19 @@ public record AzAksCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
+
+    [Obsolete("Use ApiServerSubnetId instead.")]
+    public bool? ApiserverSubnetId
+    {
+        get => ApiServerSubnetId;
+        set => ApiServerSubnetId = value;
+    }
+
+    [Obsolete("Use EnableApiServerVnetIntegration instead.")]
+    public bool? EnableApiserverVnetIntegration
+    {
+        get => EnableApiServerVnetIntegration;
+        set => EnableApiServerVnetIntegration = value;
+    }
 
 }

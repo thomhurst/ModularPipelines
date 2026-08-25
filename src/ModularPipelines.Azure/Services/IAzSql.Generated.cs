@@ -15,57 +15,60 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sql commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzSql
 {
     /// <summary>
     /// az db sub-commands.
     /// </summary>
-    AzSqlDb Db { get; }
+    AzSqlDb Db => throw new System.NotSupportedException();
 
     /// <summary>
     /// az dw sub-commands.
     /// </summary>
-    AzSqlDw Dw { get; }
+    AzSqlDw Dw => throw new System.NotSupportedException();
 
     /// <summary>
     /// az elastic-pool sub-commands.
     /// </summary>
-    AzSqlElasticPool ElasticPool { get; }
+    AzSqlElasticPool ElasticPool => throw new System.NotSupportedException();
 
     /// <summary>
     /// az failover-group sub-commands.
     /// </summary>
-    AzSqlFailoverGroup FailoverGroup { get; }
+    AzSqlFailoverGroup FailoverGroup => throw new System.NotSupportedException();
 
     /// <summary>
     /// az instance-failover-group sub-commands.
     /// </summary>
-    AzSqlInstanceFailoverGroup InstanceFailoverGroup { get; }
+    AzSqlInstanceFailoverGroup InstanceFailoverGroup => throw new System.NotSupportedException();
 
     /// <summary>
     /// az mi sub-commands.
     /// </summary>
-    AzSqlMi Mi { get; }
+    AzSqlMi Mi => throw new System.NotSupportedException();
 
     /// <summary>
     /// az midb sub-commands.
     /// </summary>
-    AzSqlMidb Midb { get; }
+    AzSqlMidb Midb => throw new System.NotSupportedException();
 
     /// <summary>
     /// az server sub-commands.
     /// </summary>
-    AzSqlServer Server { get; }
+    AzSqlServer Server => throw new System.NotSupportedException();
 
     /// <summary>
     /// az virtual-cluster sub-commands.
     /// </summary>
-    AzSqlVirtualCluster VirtualCluster { get; }
+    AzSqlVirtualCluster VirtualCluster => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vm sub-commands.
     /// </summary>
-    AzSqlVm Vm { get; }
+    AzSqlVm Vm => throw new System.NotSupportedException();
 
 }

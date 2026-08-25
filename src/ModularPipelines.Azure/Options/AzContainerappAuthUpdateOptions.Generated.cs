@@ -29,7 +29,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// True if the Authentication / Authorization feature is enabled for the current app; otherwise, false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// False if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--require-https")]
+    [CliOption("--require-https")]
     public bool? RequireHttps { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--token-store")]
+    [CliOption("--token-store")]
     public bool? TokenStore { get; set; }
 
     /// <summary>

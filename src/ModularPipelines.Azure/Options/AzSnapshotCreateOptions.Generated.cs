@@ -35,7 +35,7 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Create snapshot by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--copy-start")]
+    [CliOption("--copy-start")]
     public bool? CopyStart { get; set; }
 
     /// <summary>

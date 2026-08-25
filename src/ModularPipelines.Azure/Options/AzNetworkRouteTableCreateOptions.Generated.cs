@@ -23,7 +23,7 @@ public record AzNetworkRouteTableCreateOptions : AzOptions
     /// <summary>
     /// Disable routes learned by BGP.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--disable-bgp-route-propagation")]
+    [CliOption("--disable-bgp-route-propagation")]
     public bool? DisableBgpRoutePropagation { get; set; }
 
     /// <summary>

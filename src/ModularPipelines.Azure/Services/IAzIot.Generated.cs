@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az iot commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzIot
 {
     /// <summary>
     /// az central sub-commands.
     /// </summary>
-    AzIotCentral Central { get; }
+    AzIotCentral Central => throw new System.NotSupportedException();
 
     /// <summary>
     /// az dps sub-commands.
     /// </summary>
-    AzIotDps Dps { get; }
+    AzIotDps Dps => throw new System.NotSupportedException();
 
     /// <summary>
     /// az hub sub-commands.
     /// </summary>
-    AzIotHub Hub { get; }
+    AzIotHub Hub => throw new System.NotSupportedException();
 
 }

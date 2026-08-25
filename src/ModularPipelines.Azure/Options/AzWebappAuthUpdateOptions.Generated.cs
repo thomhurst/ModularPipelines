@@ -35,7 +35,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Use App Service Token Store.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--token-store")]
+    [CliOption("--token-store")]
     public bool? TokenStore { get; set; }
 
 }

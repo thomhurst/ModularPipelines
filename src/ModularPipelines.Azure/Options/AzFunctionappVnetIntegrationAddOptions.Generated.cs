@@ -23,7 +23,7 @@ public record AzFunctionappVnetIntegrationAddOptions : AzOptions
     /// <summary>
     /// Skip check if you do not have permission or the VNet is in another subscription.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-delegation-check")]
+    [CliOption("--skip-delegation-check")]
     public bool? SkipDelegationCheck { get; set; }
 
     /// <summary>

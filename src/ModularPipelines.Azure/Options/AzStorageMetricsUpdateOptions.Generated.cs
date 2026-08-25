@@ -23,19 +23,19 @@ public record AzStorageMetricsUpdateOptions : AzOptions
     /// <summary>
     /// Specify whether to include API in metrics. Applies to both hour and minute metrics if both are specified. Must be specified if hour or minute metrics are enabled and being updated.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--api")]
+    [CliOption("--api")]
     public bool? Api { get; set; }
 
     /// <summary>
     /// Update the hourly metrics.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--hour")]
+    [CliOption("--hour")]
     public bool? Hour { get; set; }
 
     /// <summary>
     /// Update the by-minute metrics.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--minute")]
+    [CliOption("--minute")]
     public bool? Minute { get; set; }
 
     /// <summary>

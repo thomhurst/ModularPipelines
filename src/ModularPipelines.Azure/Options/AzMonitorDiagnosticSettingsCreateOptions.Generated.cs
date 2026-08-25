@@ -35,7 +35,7 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Indicate that the export to LA must be done to a resource specific table, a.k.a. dedicated or fixed schema table, as opposed to the default dynamic schema table called AzureDiagnostics. This argument is effective only when the argument --workspace is also given. Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--export-to-resource-specific")]
+    [CliOption("--export-to-resource-specific")]
     public bool? ExportToResourceSpecific { get; set; }
 
     /// <summary>

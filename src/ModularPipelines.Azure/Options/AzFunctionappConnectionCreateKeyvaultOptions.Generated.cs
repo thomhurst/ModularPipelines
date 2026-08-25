@@ -59,13 +59,13 @@ public record AzFunctionappConnectionCreateKeyvaultOptions : AzOptions
     /// <summary>
     /// Indicates whether to create a new keyvault when creating the functionapp connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--new")]
+    [CliOption("--new")]
     public bool? New { get; set; }
 
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-recreate")]
+    [CliOption("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>

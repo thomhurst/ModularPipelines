@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAppserviceListLocationsOptions : AzOptions
 {
     /// <summary>
-    /// Get regions which support hosting web apps on Windows
+    /// Get regions which support hosting web apps on Windows Container workers.
     /// </summary>
     [CliFlag("--hyperv-workers-enabled")]
     public bool? HypervWorkersEnabled { get; set; }
@@ -31,5 +31,11 @@ public record AzAppserviceListLocationsOptions : AzOptions
     /// </summary>
     [CliFlag("--linux-workers-enabled")]
     public bool? LinuxWorkersEnabled { get; set; }
+
+    /// <summary>
+    /// Get regions which support hosting web apps on Managed Instance workers.
+    /// </summary>
+    [CliFlag("--managed-instance-enabled")]
+    public bool? ManagedInstanceEnabled { get; set; }
 
 }

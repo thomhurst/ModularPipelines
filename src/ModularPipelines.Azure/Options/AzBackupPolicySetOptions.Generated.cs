@@ -29,7 +29,7 @@ public record AzBackupPolicySetOptions : AzOptions
     /// <summary>
     /// Specify whether or not to retry Policy Update for failed items. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--fix-for-inconsistent-items")]
+    [CliOption("--fix-for-inconsistent-items")]
     public bool? FixForInconsistentItems { get; set; }
 
     /// <summary>

@@ -35,7 +35,7 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     /// <summary>
     /// Show resource's display name.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--show-resource-name", ShortForm = "-r")]
+    [CliOption("--show-resource-name", ShortForm = "-r")]
     public bool? ShowResourceName { get; set; }
 
 }

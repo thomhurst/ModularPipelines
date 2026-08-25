@@ -23,7 +23,7 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
     /// <summary>
     /// Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-enabled")]
+    [CliOption("--is-enabled")]
     public bool? IsEnabled { get; set; }
 
 }

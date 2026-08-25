@@ -77,13 +77,13 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// Resolve the content of key vault reference. This argument should NOT be specified along with --fields. Instead use --query for customized query.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--resolve-keyvault")]
+    [CliOption("--resolve-keyvault")]
     public bool? ResolveKeyvault { get; set; }
 
     /// <summary>
     /// Resolve snapshot references and return the referenced snapshots' key-values.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--resolve-snapshot-references")]
+    [CliOption("--resolve-snapshot-references")]
     public bool? ResolveSnapshotReferences { get; set; }
 
     /// <summary>

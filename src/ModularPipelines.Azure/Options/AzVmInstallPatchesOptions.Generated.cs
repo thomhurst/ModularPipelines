@@ -35,7 +35,7 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// Filter out KBs that don't have a reboot behavior of 'NeverReboots' when this is set. Applicable to Windows VM only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--exclude-kbs-requiring-reboot")]
+    [CliOption("--exclude-kbs-requiring-reboot")]
     public bool? ExcludeKbsRequiringReboot { get; set; }
 
     /// <summary>

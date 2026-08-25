@@ -71,13 +71,13 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Export items excluding all feature flags. By default, all features with the specified label will be exported to file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-features")]
+    [CliOption("--skip-features")]
     public bool? SkipFeatures { get; set; }
 
     /// <summary>
     /// Export items excluding all key vault references. By default, all key vault references with the specified label will be exported. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-keyvault")]
+    [CliOption("--skip-keyvault")]
     public bool? SkipKeyvault { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ public record AzVmDiagnosticsSetOptions : AzOptions
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-auto-upgrade-minor-version")]
+    [CliOption("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
     /// <summary>

@@ -23,13 +23,13 @@ public record AzAcrUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--admin-enabled")]
+    [CliOption("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
     /// <summary>
     /// Enable registry-wide pull from unauthenticated clients. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--anonymous-pull-enabled")]
+    [CliOption("--anonymous-pull-enabled")]
     public bool? AnonymousPullEnabled { get; set; }
 
     /// <summary>

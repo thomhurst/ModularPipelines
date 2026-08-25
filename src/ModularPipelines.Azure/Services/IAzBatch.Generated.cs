@@ -15,57 +15,60 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az batch commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzBatch
 {
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzBatchAccount Account { get; }
+    AzBatchAccount Account => throw new System.NotSupportedException();
 
     /// <summary>
     /// az application sub-commands.
     /// </summary>
-    AzBatchApplication Application { get; }
+    AzBatchApplication Application => throw new System.NotSupportedException();
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzBatchJob Job { get; }
+    AzBatchJob Job => throw new System.NotSupportedException();
 
     /// <summary>
     /// az job-schedule sub-commands.
     /// </summary>
-    AzBatchJobSchedule JobSchedule { get; }
+    AzBatchJobSchedule JobSchedule => throw new System.NotSupportedException();
 
     /// <summary>
     /// az location sub-commands.
     /// </summary>
-    AzBatchLocation Location { get; }
+    AzBatchLocation Location => throw new System.NotSupportedException();
 
     /// <summary>
     /// az node sub-commands.
     /// </summary>
-    AzBatchNode Node { get; }
+    AzBatchNode Node => throw new System.NotSupportedException();
 
     /// <summary>
     /// az pool sub-commands.
     /// </summary>
-    AzBatchPool Pool { get; }
+    AzBatchPool Pool => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzBatchPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzBatchPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az private-link-resource sub-commands.
     /// </summary>
-    AzBatchPrivateLinkResource PrivateLinkResource { get; }
+    AzBatchPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
 
     /// <summary>
     /// az task sub-commands.
     /// </summary>
-    AzBatchTask Task { get; }
+    AzBatchTask Task => throw new System.NotSupportedException();
 
 }

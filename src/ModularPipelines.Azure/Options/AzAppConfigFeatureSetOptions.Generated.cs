@@ -83,7 +83,7 @@ public record AzAppConfigFeatureSetOptions : AzOptions
     /// <summary>
     /// Enable or disable telemetry for the feature flag.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--telemetry-enabled")]
+    [CliOption("--telemetry-enabled")]
     public bool? TelemetryEnabled { get; set; }
 
     /// <summary>

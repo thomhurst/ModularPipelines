@@ -41,7 +41,7 @@ public record AzFunctionappConfigAccessRestrictionSetOptions : AzOptions
     /// <summary>
     /// Use same access restrictions for scm site.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-same-restrictions-for-scm-site")]
+    [CliOption("--use-same-restrictions-for-scm-site")]
     public bool? UseSameRestrictionsForScmSite { get; set; }
 
 }

@@ -32,7 +32,7 @@ internal partial class Az : IAz
         IAzAks aks,
         IAzAms ams,
         IAzApim apim,
-        IAzAppConfig appconfig,
+        IAzAppConfig appConfig,
         IAzAppservice appservice,
         IAzAro aro,
         IAzBackup backup,
@@ -53,7 +53,7 @@ internal partial class Az : IAz
         IAzDeploymentscripts deploymentscripts,
         IAzDisk disk,
         IAzDiskaccess diskaccess,
-        IAzDiskEncryptionSet diskencryptionset,
+        IAzDiskEncryptionSet diskEncryptionSet,
         IAzDms dms,
         IAzEventgrid eventgrid,
         IAzEventhubs eventhubs,
@@ -85,8 +85,8 @@ internal partial class Az : IAz
         IAzRedis redis,
         IAzRelay relay,
         IAzResource resource,
-        IAzResourceManagement resourcemanagement,
-        IAzRestorePoint restorepoint,
+        IAzResourceManagement resourceManagement,
+        IAzRestorePoint restorePoint,
         IAzRole role,
         IAzSearch search,
         IAzSecurity security,
@@ -98,6 +98,7 @@ internal partial class Az : IAz
         IAzSql sql,
         IAzSshkey sshkey,
         IAzStack stack,
+        IAzStackWhatif stackWhatif,
         IAzStaticwebapp staticwebapp,
         IAzStorage storage,
         IAzSynapse synapse,
@@ -116,7 +117,7 @@ internal partial class Az : IAz
         Aks = aks;
         Ams = ams;
         Apim = apim;
-        AppConfig = appconfig;
+        AppConfig = appConfig;
         Appservice = appservice;
         Aro = aro;
         Backup = backup;
@@ -137,7 +138,7 @@ internal partial class Az : IAz
         Deploymentscripts = deploymentscripts;
         Disk = disk;
         Diskaccess = diskaccess;
-        DiskEncryptionSet = diskencryptionset;
+        DiskEncryptionSet = diskEncryptionSet;
         Dms = dms;
         Eventgrid = eventgrid;
         Eventhubs = eventhubs;
@@ -169,8 +170,8 @@ internal partial class Az : IAz
         Redis = redis;
         Relay = relay;
         Resource = resource;
-        ResourceManagement = resourcemanagement;
-        RestorePoint = restorepoint;
+        ResourceManagement = resourceManagement;
+        RestorePoint = restorePoint;
         Role = role;
         Search = search;
         Security = security;
@@ -182,6 +183,7 @@ internal partial class Az : IAz
         Sql = sql;
         Sshkey = sshkey;
         Stack = stack;
+        StackWhatif = stackWhatif;
         Staticwebapp = staticwebapp;
         Storage = storage;
         Synapse = synapse;
@@ -413,6 +415,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzStack Stack { get; }
+
+    /// <inheritdoc />
+    public IAzStackWhatif StackWhatif { get; }
 
     /// <inheritdoc />
     public IAzStaticwebapp Staticwebapp { get; }

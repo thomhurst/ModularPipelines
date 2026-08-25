@@ -23,19 +23,19 @@ public record AzStorageAccountLocalUserUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether shared key exists. Set it to false to remove existing shared key.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--has-shared-key")]
+    [CliOption("--has-shared-key")]
     public bool? HasSharedKey { get; set; }
 
     /// <summary>
     /// Indicates whether ssh key exists. Set it to false to remove existing SSH key.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--has-ssh-key")]
+    [CliOption("--has-ssh-key")]
     public bool? HasSshKey { get; set; }
 
     /// <summary>
     /// Indicates whether ssh password exists. Set it to false to remove existing SSH password.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--has-ssh-password")]
+    [CliOption("--has-ssh-password")]
     public bool? HasSshPassword { get; set; }
 
     /// <summary>

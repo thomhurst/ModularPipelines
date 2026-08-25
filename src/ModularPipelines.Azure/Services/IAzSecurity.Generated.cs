@@ -15,77 +15,80 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az security commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzSecurity
 {
     /// <summary>
     /// az adaptive-application-controls sub-commands.
     /// </summary>
-    AzSecurityAdaptiveApplicationControls AdaptiveApplicationControls { get; }
+    AzSecurityAdaptiveApplicationControls AdaptiveApplicationControls => throw new System.NotSupportedException();
 
     /// <summary>
     /// az alert sub-commands.
     /// </summary>
-    AzSecurityAlert Alert { get; }
+    AzSecurityAlert Alert => throw new System.NotSupportedException();
 
     /// <summary>
     /// az alerts-suppression-rule sub-commands.
     /// </summary>
-    AzSecurityAlertsSuppressionRule AlertsSuppressionRule { get; }
+    AzSecurityAlertsSuppressionRule AlertsSuppressionRule => throw new System.NotSupportedException();
 
     /// <summary>
     /// az assessment sub-commands.
     /// </summary>
-    AzSecurityAssessment Assessment { get; }
+    AzSecurityAssessment Assessment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az assessment-metadata sub-commands.
     /// </summary>
-    AzSecurityAssessmentMetadata AssessmentMetadata { get; }
+    AzSecurityAssessmentMetadata AssessmentMetadata => throw new System.NotSupportedException();
 
     /// <summary>
     /// az automation sub-commands.
     /// </summary>
-    AzSecurityAutomation Automation { get; }
+    AzSecurityAutomation Automation => throw new System.NotSupportedException();
 
     /// <summary>
     /// az automation-action-event-hub sub-commands.
     /// </summary>
-    AzSecurityAutomationActionEventHub AutomationActionEventHub { get; }
+    AzSecurityAutomationActionEventHub AutomationActionEventHub => throw new System.NotSupportedException();
 
     /// <summary>
     /// az automation-rule-set sub-commands.
     /// </summary>
-    AzSecurityAutomationRuleSet AutomationRuleSet { get; }
+    AzSecurityAutomationRuleSet AutomationRuleSet => throw new System.NotSupportedException();
 
     /// <summary>
     /// az automation-source sub-commands.
     /// </summary>
-    AzSecurityAutomationSource AutomationSource { get; }
+    AzSecurityAutomationSource AutomationSource => throw new System.NotSupportedException();
 
     /// <summary>
     /// az iot-solution sub-commands.
     /// </summary>
-    AzSecurityIotSolution IotSolution { get; }
+    AzSecurityIotSolution IotSolution => throw new System.NotSupportedException();
 
     /// <summary>
     /// az jit-policy sub-commands.
     /// </summary>
-    AzSecurityJitPolicy JitPolicy { get; }
+    AzSecurityJitPolicy JitPolicy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az pricing sub-commands.
     /// </summary>
-    AzSecurityPricing Pricing { get; }
+    AzSecurityPricing Pricing => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sub-assessment sub-commands.
     /// </summary>
-    AzSecuritySubAssessment SubAssessment { get; }
+    AzSecuritySubAssessment SubAssessment => throw new System.NotSupportedException();
 
     /// <summary>
     /// az task sub-commands.
     /// </summary>
-    AzSecurityTask Task { get; }
+    AzSecurityTask Task => throw new System.NotSupportedException();
 
 }

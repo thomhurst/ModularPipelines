@@ -41,7 +41,7 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Create access restriction rule with checking if the subnet has Microsoft.Web service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-missing-endpoint", ShortForm = "-i")]
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// True if access restrictions is added for scm site.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--scm-site")]
+    [CliOption("--scm-site")]
     public bool? ScmSite { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
     /// <summary>
     /// Skip validating public service tags.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--skip-service-tag-validation", ShortForm = "-k")]
+    [CliOption("--skip-service-tag-validation", ShortForm = "-k")]
     public bool? SkipServiceTagValidation { get; set; }
 
     /// <summary>

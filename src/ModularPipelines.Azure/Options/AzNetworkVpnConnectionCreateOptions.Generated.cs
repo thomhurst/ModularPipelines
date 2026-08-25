@@ -35,7 +35,7 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Bypass ExpressRoute gateway for data forwarding. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--express-route-gateway-bypass")]
+    [CliOption("--express-route-gateway-bypass")]
     public bool? ExpressRouteGatewayBypass { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Enable policy-based traffic selectors.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-policy-based-traffic-selectors")]
+    [CliOption("--use-policy-based-traffic-selectors")]
     public bool? UsePolicyBasedTrafficSelectors { get; set; }
 
     /// <summary>

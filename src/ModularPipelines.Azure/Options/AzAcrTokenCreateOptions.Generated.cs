@@ -41,7 +41,7 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// <summary>
     /// Do not generate passwords during token creation. You can generate the passwords after the token is created by using `az acr token credentials generate` command.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-passwords")]
+    [CliOption("--no-passwords")]
     public bool? NoPasswords { get; set; }
 
     /// <summary>

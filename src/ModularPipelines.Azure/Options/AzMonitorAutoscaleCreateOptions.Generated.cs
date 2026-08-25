@@ -23,7 +23,7 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Create the autoscale settings in a disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliOption("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>

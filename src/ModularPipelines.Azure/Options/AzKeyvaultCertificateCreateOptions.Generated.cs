@@ -23,7 +23,7 @@ public record AzKeyvaultCertificateCreateOptions : AzOptions
     /// <summary>
     /// Create certificate in disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliOption("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>

@@ -65,7 +65,7 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions : AzOptions
     /// <summary>
     /// Allow WAF to check the request body.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--request-body-check")]
+    [CliOption("--request-body-check")]
     public bool? RequestBodyCheck { get; set; }
 
     /// <summary>
