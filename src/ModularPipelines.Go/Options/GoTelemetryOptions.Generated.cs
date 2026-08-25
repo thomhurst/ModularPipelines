@@ -13,17 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Generate runs commands described by directives within existing
+/// Telemetry is used to manage Go telemetry data and settings.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("generate")]
-public record GoGenerateOptions : GoOptions
+[CliSubCommand("telemetry")]
+public record GoTelemetryOptions : GoOptions
 {
     /// <summary>
-    /// The file.go operand.
+    /// The off operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? FileGo { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Off { get; set; }
 
 }
