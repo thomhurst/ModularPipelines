@@ -307,9 +307,6 @@ public partial class AzCliScraper : CliScraperBase
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
                 var csharpType = DetermineType(valueHint, description, isFlag, explicitBooleanValue);
-                var valueArity = !isFlag && HelpDeclaresOptionalValue(description)
-                    ? CliOptionValueArity.Optional
-                    : CliOptionValueArity.Required;
 
                 options.Add(new CliOptionDefinition
                 {
@@ -324,7 +321,7 @@ public partial class AzCliScraper : CliScraperBase
                     IsKeyValue = false,
                     IsNumeric = csharpType == "int?",
                     ValueSeparator = " ",
-                    ValueArity = valueArity,
+                    ValueArity = GetValueArity(isFlag, description),
                     EnumDefinition = null,
                     IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
@@ -368,6 +365,11 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionalValue(string description) =>
         description.Contains("provided without any value", StringComparison.OrdinalIgnoreCase);
+
+    private static CliOptionValueArity GetValueArity(bool isFlag, string description) =>
+        !isFlag && HelpDeclaresOptionalValue(description)
+            ? CliOptionValueArity.Optional
+            : CliOptionValueArity.Required;
 
     /// <summary>
     /// Determines the C# type based on value hint and description.
