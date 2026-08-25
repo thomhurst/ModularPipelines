@@ -214,6 +214,34 @@ public class GitCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Parses_Value_Taking_And_Alternative_Valued_Negatable_Options()
+    {
+        const string helpText = """
+            usage: git fetch [<options>]
+
+                --[no-]upload-pack <path>                       path to upload pack
+                --[no-]recurse-submodules[=<on-demand>]         control recursive fetching
+                --[no-]signed[=(yes|no|if-asked)]               GPG sign the request
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "fetch"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--upload-pack").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--recurse-submodules").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--signed").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options
+                    .Where(option => option.SwitchName is "--no-upload-pack" or "--no-recurse-submodules" or "--no-signed")
+                    .All(option => option.IsFlag && option.CSharpType == "bool?"))
+                .IsTrue();
+        }
+    }
+
     private static CliCommandResult Result(
         string standardOutput,
         string standardError = "",

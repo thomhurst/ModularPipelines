@@ -542,7 +542,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             };
             options.Add(option);
 
-            if (isFlag && negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
+            if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
                 var negatedPropertyName = NormalizeGitPropertyName(negatedLongFlag)!;
                 options.Add(option with
@@ -550,7 +550,9 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                     SwitchName = negatedLongFlag,
                     ShortForm = null,
                     PropertyName = negatedPropertyName,
+                    CSharpType = "bool?",
                     Description = $"Negates {longFlag}. {description}",
+                    IsFlag = true,
                     IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
                 });
             }
@@ -757,7 +759,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+(?:\[?=[\w<>\[\]]+\]?)?)\s+(.*)$|^\s+(-\w)\s+(.*)$")]
+    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+)(?:\[?=\S+\]?)?\s+(.*)$|^\s+(-\w)\s+(.*)$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]

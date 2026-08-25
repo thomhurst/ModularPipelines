@@ -3786,6 +3786,49 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Does_Not_Inherit_Group_Identifier_From_Sibling_Branch()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalRequestsApproveOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"requests\", \"approve\")] "
+                + "public record ToolAccessApprovalRequestsApproveOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolAccessApprovalSettingsOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"access-approval\", \"settings\")] "
+                + "public record ToolAccessApprovalSettingsOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolLegacyRequests.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; "
+                + "public class ToolLegacyRequests { "
+                + "public Task ApproveAsync(ToolAccessApprovalRequestsApproveOptions? options = null) "
+                + "=> Task.CompletedTask; }");
+            var settings = Command(
+                "ToolAccessApprovalSettingsOptions",
+                "ToolOptions",
+                ["access-approval", "settings"],
+                subDomainGroup: "AccessApproval");
+
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(settings), root);
+            var preservedSettings = preserved.Commands.Single(command =>
+                command.CommandParts.SequenceEqual(["access-approval", "settings"]));
+
+            await Assert.That(preservedSettings.CommandGroupIdentifierOverride).IsEqualTo("AccessApproval");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Ignores_Other_Tool_Facades_In_Shared_Package()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");

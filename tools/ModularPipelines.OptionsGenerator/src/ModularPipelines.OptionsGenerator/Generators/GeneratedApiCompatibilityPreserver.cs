@@ -655,18 +655,21 @@ internal static class GeneratedApiCompatibilityPreserver
         IReadOnlyDictionary<string, GeneratedApiBaseline> baseline,
         IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
     {
-        var rootCommand = commandBaseline.CommandParts?[0];
-        if (rootCommand is null)
+        if (commandBaseline.CommandParts is not { Length: > 1 } targetCommandParts)
         {
             return null;
         }
+
+        var rootCommand = targetCommandParts[0];
+        var branchCommand = targetCommandParts[1];
 
         var identifiers = new HashSet<string>(StringComparer.Ordinal);
         foreach (var method in facadeMethods)
         {
             if (!baseline.TryGetValue(method.OptionsType, out var methodBaseline)
-                || methodBaseline.CommandParts is not { Length: > 0 } commandParts
-                || !commandParts[0].Equals(rootCommand, StringComparison.OrdinalIgnoreCase))
+                || methodBaseline.CommandParts is not { Length: > 1 } commandParts
+                || !commandParts[0].Equals(rootCommand, StringComparison.OrdinalIgnoreCase)
+                || !commandParts[1].Equals(branchCommand, StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
