@@ -18,19 +18,27 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("index")]
-public record PipIndexOptions : PipOptions
+public record PipIndexOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Versions,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+) : PipOptions
 {
+    public PipIndexOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// Only use wheels compatible with &lt;platform&gt;. Defaults to the platform of the running system. Use this option multiple times to specify multiple platforms supported by the target interpreter.
     /// </summary>
     [CliOption("--platform")]
-    public string? Platform { get; set; }
+    public IEnumerable<string>? PlatformValues { get; set; }
 
     /// <summary>
     /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify
     /// </summary>
     [CliOption("--abi")]
-    public string? Abi { get; set; }
+    public IEnumerable<string>? AbiValues { get; set; }
 
     /// <summary>
     /// Ignore the Requires-Python information.
@@ -199,5 +207,19 @@ public record PipIndexOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    [Obsolete("Use PlatformValues instead.")]
+    public string? Platform
+    {
+        get => PlatformValues?.FirstOrDefault();
+        set => PlatformValues = value is null ? null : [value];
+    }
+
+    [Obsolete("Use AbiValues instead.")]
+    public string? Abi
+    {
+        get => AbiValues?.FirstOrDefault();
+        set => AbiValues = value is null ? null : [value];
+    }
 
 }

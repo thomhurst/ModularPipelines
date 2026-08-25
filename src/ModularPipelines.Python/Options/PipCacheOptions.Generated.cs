@@ -158,4 +158,16 @@ public record PipCacheOptions : PipOptions
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
 
+    /// <summary>
+    /// The list operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? List { get; set; }
+
+    /// <summary>
+    /// The &lt;pattern&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Pattern { get; set; }
+
 }
