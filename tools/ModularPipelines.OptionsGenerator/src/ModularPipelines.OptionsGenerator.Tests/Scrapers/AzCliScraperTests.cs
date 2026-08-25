@@ -156,6 +156,43 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Description_Only_Value_Arguments_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az stack-whatif group create : Create a deployment stack what-if result.
+
+            Optional Arguments
+                --description     : The description of deployment stack.
+                --no-color        : Disable color in pretty-printed results.
+                --parameters -p   : Parameters may be supplied from a file or as KEY=VALUE pairs.
+                --tags            : Space-separated tags: key[=value] [key[=value] ...].
+                --template-file -f: A path to a template file or Bicep file.
+                --template-uri -u : A uri to a remote template file.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "stack-whatif", "group", "create"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "Description").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Parameters").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Tags").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "TemplateFile").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "TemplateUri").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "NoColor").IsFlag)
+                .IsTrue();
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

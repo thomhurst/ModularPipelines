@@ -297,7 +297,7 @@ public partial class AzCliScraper : CliScraperBase
 
                 // Determine type based on value hint
                 var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = IsPresenceOnlyFlag(valueHint, explicitBooleanValue);
+                var isFlag = IsPresenceOnlyFlag(valueHint, description, explicitBooleanValue);
 
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
@@ -328,9 +328,12 @@ public partial class AzCliScraper : CliScraperBase
     /// <summary>
     /// Determines whether an option is rendered without a value.
     /// </summary>
-    private static bool IsPresenceOnlyFlag(string valueHint, bool explicitBooleanValue)
+    private static bool IsPresenceOnlyFlag(
+        string valueHint,
+        string description,
+        bool explicitBooleanValue)
     {
-        if (explicitBooleanValue)
+        if (explicitBooleanValue || HelpDeclaresOptionValue(description))
         {
             return false;
         }
@@ -339,6 +342,12 @@ public partial class AzCliScraper : CliScraperBase
                valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
     }
+
+    private static bool HelpDeclaresOptionValue(string description) =>
+        AzValueDescriptionPattern().IsMatch(description)
+        || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
+        || description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
+        || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Determines the C# type based on value hint and description.
@@ -499,6 +508,9 @@ public partial class AzCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+-(?<short>\w))?(?:\s+(?<value>[A-Z_]+))?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
+
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzValueDescriptionPattern();
 
     #endregion
 }
