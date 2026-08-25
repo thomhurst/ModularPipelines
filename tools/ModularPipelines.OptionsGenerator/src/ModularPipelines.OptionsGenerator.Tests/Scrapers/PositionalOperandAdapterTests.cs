@@ -90,6 +90,19 @@ public class PositionalOperandAdapterTests
     }
 
     [Test]
+    [Arguments("cache", "Usage: pip cache list [<pattern>]\n  pip cache purge")]
+    [Arguments("config", "Usage: pip config [<file-option>] list\n  pip config get command.option")]
+    [Arguments("index", "Usage: pip index versions <package>")]
+    public async Task Pip_Parent_Groups_Do_Not_Treat_Child_Syntax_As_Operands(
+        string commandName,
+        string helpText)
+    {
+        var command = await new TestPipCliScraper().Parse(["pip", commandName], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
     public async Task Pnpm_Add_Preserves_Name_Operand()
     {
         var command = await new TestPnpmCliScraper().Parse(
@@ -97,6 +110,28 @@ public class PositionalOperandAdapterTests
             "Usage: pnpm add <name>");
 
         await AssertArgument(command, "Name", isRequired: true, isVariadic: false);
+    }
+
+    [Test]
+    public async Task Pnpm_Stage_Does_Not_Treat_Child_Syntax_As_Operands()
+    {
+        const string helpText = "Usage: pnpm stage publish [<tarball>|<dir>]\n"
+                                + "       pnpm stage list [<package-spec>]";
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "stage"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Pnpm_Unlink_Ignores_Parenthetical_Explanation()
+    {
+        const string helpText = "Usage: pnpm unlink (in package dir)\n"
+                                + "       pnpm unlink <pkg>...";
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "unlink"], helpText);
+
+        await AssertArgument(command, "Pkg", isRequired: false, isVariadic: true);
     }
 
     private static async Task AssertArgument(

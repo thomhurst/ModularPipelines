@@ -160,6 +160,8 @@ public partial class PnpmCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        usage = NormalizeParentGroupUsage(commandParts, usage);
+
         // Parse description from help text
         var description = ExtractDescription(helpText);
 
@@ -194,6 +196,24 @@ public partial class PnpmCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static UsageSynopsisParseResult NormalizeParentGroupUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage) =>
+        commandParts is ["stage"]
+            ? usage with
+            {
+                HasOperandTokens = false,
+                PositionalArguments = [],
+                UnparsedOperandTokens = [],
+            }
+            : usage;
+
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        NormalizeParentGroupUsage(command.CommandParts, usage);
 
     /// <summary>
     /// Extracts description from help text.

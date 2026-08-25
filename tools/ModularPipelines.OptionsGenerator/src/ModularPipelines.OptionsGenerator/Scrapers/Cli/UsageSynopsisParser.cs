@@ -330,11 +330,23 @@ public static class UsageSynopsisParser
         List<string> synopses)
     {
         var parts = new List<string> { inlineSynopsis };
+        var commandToken = inlineSynopsis.Split(' ', 2)[0];
         var index = startIndex;
         for (; index < lines.Length; index++)
         {
             var line = lines[index];
             var trimmed = line.Trim();
+            if (line.Length != trimmed.Length
+                && trimmed.Split(' ', 2)[0].Equals(
+                    commandToken,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                synopses.Add(string.Join(' ', parts));
+                parts.Clear();
+                parts.Add(trimmed);
+                continue;
+            }
+
             if (!IsSynopsisContinuation(line, trimmed))
             {
                 break;
@@ -823,11 +835,23 @@ public static class UsageSynopsisParser
 
     private static bool IsNonOperandSyntax(string token)
     {
+        if (IsParentheticalExplanation(token))
+        {
+            return true;
+        }
+
         var content = TrimControlWrappers(token);
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || IsOptionControlLabel(content)
                || content.All(character => !char.IsLetterOrDigit(character));
+    }
+
+    private static bool IsParentheticalExplanation(string token)
+    {
+        var trimmed = token.Trim();
+        return trimmed.StartsWith("(in ", StringComparison.OrdinalIgnoreCase)
+               && trimmed.EndsWith(')');
     }
 
     private static bool IsOptionControlLabel(string content) =>
