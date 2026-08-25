@@ -18,6 +18,13 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons")]
-public record MinikubeAddonsOptions : MinikubeOptions
+public record MinikubeAddonsOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : MinikubeOptions
 {
+    public MinikubeAddonsOptions()
+        : this(default(string)!)
+    {
+    }
+
 }
