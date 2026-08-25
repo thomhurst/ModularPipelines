@@ -314,6 +314,23 @@ public class GitCliScraperTests
     }
 
     [Test]
+    public async Task Parses_Optional_Attached_Short_Only_Values()
+    {
+        const string helpText = "    -C[<score>]           find copies as well as moves";
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "blame"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.SwitchName).IsEqualTo("-C");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(option.ValueSeparator).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task Parses_Options_With_Wrapped_Descriptions()
     {
         const string helpText = """

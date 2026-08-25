@@ -561,10 +561,15 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = csharpType,
             IsRequired = false,
             IsFlag = isFlag,
-            ValueArity = valueSyntax?.StartsWith("[=", StringComparison.Ordinal) == true
+            ValueArity = valueSyntax?.StartsWith("[", StringComparison.Ordinal) == true
                 ? CliOptionValueArity.Optional
                 : CliOptionValueArity.Required,
-            ValueSeparator = valueSyntax?.Contains('=') == true ? "=" : " ",
+            ValueSeparator = valueSyntax switch
+            {
+                { } value when value.Contains('=') => "=",
+                { } value when value.StartsWith("[", StringComparison.Ordinal) => string.Empty,
+                _ => " ",
+            },
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
         return true;
@@ -834,7 +839,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<shortDescription>.*))?$")]
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--(?:\[no-\])?[\w-]+)(?<value>\[?=\S+\]?|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<description>.*))?$|^\s+(?<shortOnly>-\w)(?<value>\[?=\S+\]?|\[<[^>]+>\]|\s+(?:<[^>]+>|\.{3}|\([^\s|)]+(?:\|[^\s|)]+)+\)\S*))?(?:\s+(?<shortDescription>.*))?$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]
