@@ -17,11 +17,11 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykShowVulnerablePaths
 {
     [EnumValue("none")]
-    None,
+    None = 0,
 
     [EnumValue("some")]
-    Some,
+    Some = 1,
 
     [EnumValue("all")]
-    All
+    All = 2
 }

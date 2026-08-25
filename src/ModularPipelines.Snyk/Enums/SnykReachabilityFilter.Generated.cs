@@ -17,11 +17,11 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykReachabilityFilter
 {
     [EnumValue("reachable")]
-    Reachable,
+    Reachable = 0,
 
     [EnumValue("no-info")]
-    NoInfo,
+    NoInfo = 1,
 
     [EnumValue("not-applicable")]
-    NotApplicable
+    NotApplicable = 2
 }

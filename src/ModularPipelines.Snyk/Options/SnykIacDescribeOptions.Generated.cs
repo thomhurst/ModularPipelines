@@ -31,7 +31,7 @@ public record SnykIacDescribeOptions : SnykOptions
     /// Specify multiple Terraform state files to be read. Glob patterns are supported.
     /// </summary>
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
-    public string? From { get; set; }
+    public IEnumerable<string>? FromValues { get; set; }
 
     /// <summary>
     /// Specify the cloud provider to scan (default: AWS with Terraform).
@@ -136,5 +136,12 @@ public record SnykIacDescribeOptions : SnykOptions
     /// </summary>
     [CliFlag("-d")]
     public bool? Debug { get; set; }
+
+    [Obsolete("Use FromValues instead.")]
+    public string? From
+    {
+        get => FromValues?.FirstOrDefault();
+        set => FromValues = value is null ? null : [value];
+    }
 
 }
