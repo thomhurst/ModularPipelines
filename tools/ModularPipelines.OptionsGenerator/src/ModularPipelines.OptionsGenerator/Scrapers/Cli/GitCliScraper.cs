@@ -465,13 +465,22 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var lines = helpText.Split('\n');
 
-        foreach (var line in helpText.Split('\n'))
+        for (var index = 0; index < lines.Length; index++)
         {
+            var line = lines[index];
             if (!TryParseOption(line, out var option, out var negatedLongFlag)
                 || !seenOptions.Add(option.SwitchName))
             {
                 continue;
+            }
+
+            if (string.IsNullOrEmpty(option.Description)
+                && TryGetWrappedDescription(lines, index, out var description))
+            {
+                option = AddDescription(option, line, description);
+                index++;
             }
 
             options.Add(option);
@@ -482,6 +491,46 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
 
         return options;
+    }
+
+    private static bool TryGetWrappedDescription(
+        IReadOnlyList<string> lines,
+        int declarationIndex,
+        out string description)
+    {
+        description = "";
+        if (declarationIndex + 1 >= lines.Count)
+        {
+            return false;
+        }
+
+        var declaration = lines[declarationIndex];
+        var candidate = lines[declarationIndex + 1];
+        description = candidate.Trim();
+        return description.Length > 0
+               && !description.StartsWith('-')
+               && GetIndentation(candidate) > GetIndentation(declaration);
+    }
+
+    private static int GetIndentation(string value) =>
+        value.TakeWhile(char.IsWhiteSpace).Count();
+
+    private static CliOptionDefinition AddDescription(
+        CliOptionDefinition option,
+        string declaration,
+        string description)
+    {
+        var (csharpType, isFlag) = InferType(
+            option.SwitchName,
+            description,
+            $"{declaration} {description}");
+        return option with
+        {
+            Description = description,
+            CSharpType = csharpType,
+            IsFlag = isFlag,
+            IsSecret = GeneratorUtils.IsSecretOption(option.PropertyName, isFlag),
+        };
     }
 
     private static bool TryParseOption(
@@ -603,7 +652,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
 
         // Check for common boolean patterns
-        if (lowerOpt.StartsWith("no-") ||
+        if (fullLine.Contains("--[no-]", StringComparison.Ordinal) ||
+            lowerOpt.StartsWith("no-") ||
             lowerDesc.Contains("disable") ||
             lowerDesc.Contains("enable") ||
             lowerDesc.Contains("toggle") ||
@@ -754,7 +804,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// --xxx   description
     /// -x   description
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+)(?:\[?=\S+\]?)?\s+(.*)$|^\s+(-\w)\s+(.*)$")]
+    [GeneratedRegex(@"^\s+(?:(-\w),\s+)?(--(?:\[no-\])?[\w-]+)(?:\[?=\S+\]?)?(?:\s+(.*))?$|^\s+(-\w)(?:\s+(.*))?$")]
     private static partial Regex OptionLineRegex();
 
     [GeneratedRegex(@"^\s*(?:usage:|or:)\s+(.+)$", RegexOptions.IgnoreCase)]

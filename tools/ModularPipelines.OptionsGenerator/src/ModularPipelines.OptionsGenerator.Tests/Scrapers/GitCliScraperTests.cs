@@ -262,6 +262,31 @@ public class GitCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Parses_Options_With_Wrapped_Descriptions()
+    {
+        const string helpText = """
+            usage: git add [<options>]
+
+                -N, --[no-]intent-to-add
+                                    record only the fact that the path will be added later
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--intent-to-add", "--no-intent-to-add"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--intent-to-add").Description)
+                .IsEqualTo("record only the fact that the path will be added later");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--no-intent-to-add").Description)
+                .Contains("record only the fact that the path will be added later");
+            await Assert.That(command.Options.All(option => option is { IsFlag: true, CSharpType: "bool?" }))
+                .IsTrue();
+        }
+    }
+
     private static CliCommandResult Result(
         string standardOutput,
         string standardError = "",
