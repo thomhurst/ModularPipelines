@@ -143,7 +143,9 @@ public class GeneratorHardeningTests
         string? forwardToPropertyName = null,
         bool useInitAccessor = false,
         CommandLinePhase? phase = null,
-        bool omitPhase = false) =>
+        bool omitPhase = false,
+        CliCompatibilityForwardingKind forwardingKind = CliCompatibilityForwardingKind.Direct,
+        CliOptionValueArity valueArity = CliOptionValueArity.Required) =>
         new(
             propertyName,
             cSharpType,
@@ -154,6 +156,8 @@ public class GeneratorHardeningTests
             forwardToPropertyName,
             null,
             useInitAccessor,
+            ForwardingKind: forwardingKind,
+            ValueArity: valueArity,
             Phase: phase ?? (argumentPosition is not null && !omitPhase
                 ? CommandLinePhase.EarlyOperand
                 : null));
@@ -4809,6 +4813,52 @@ public class GeneratorHardeningTests
             "Abbrev",
             "AbbrevOption",
             CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue);
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Restores_Optional_Value_Target_On_Second_Run()
+    {
+        var command = Command("ToolBranchOptions", "ToolOptions", ["branch"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--color",
+                    PropertyName = "Color",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [
+                BaselineProperty(
+                    "ColorOption",
+                    "CliOptionValue?",
+                    switchName: "--color",
+                    valueArity: CliOptionValueArity.Optional),
+                BaselineProperty(
+                    "Color",
+                    "string?",
+                    isCompatibility: true,
+                    forwardToPropertyName: "ColorOption",
+                    forwardingKind: CliCompatibilityForwardingKind.NullableStringToCliOptionValue),
+            ]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName).IsEqualTo("ColorOption");
+            await Assert.That(preserved.CompatibilityProperties.Single().PropertyName).IsEqualTo("Color");
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "Color",
+            "ColorOption",
+            CliCompatibilityForwardingKind.NullableStringToCliOptionValue);
     }
 
     [Test]

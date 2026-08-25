@@ -1321,10 +1321,23 @@ internal static class GeneratedApiCompatibilityPreserver
                 options,
                 property => property.PropertyName.Equals(alias.PropertyName, StringComparison.Ordinal));
             var targetBaseline = FindForwardingTargetBaseline(baselineProperties, alias);
-            if (aliasMember is null
-                || targetBaseline is null
-                || HasSameCliIdentity(GetLocalMember(aliasMember.Value, positionalArguments, options), targetBaseline))
+            if (aliasMember is null || targetBaseline is null)
             {
+                continue;
+            }
+
+            if (HasSameCliIdentity(
+                    GetLocalMember(aliasMember.Value, positionalArguments, options),
+                    targetBaseline))
+            {
+                RestoreForwardedOptionalValueAlias(
+                    alias,
+                    aliasMember.Value,
+                    targetBaseline,
+                    positionalArguments,
+                    options,
+                    compatibilityProperties,
+                    propertyNames);
                 continue;
             }
 
@@ -1351,6 +1364,34 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties.Add(ToCompatibilityProperty(alias));
             propertyNames.Add(alias.PropertyName);
         }
+    }
+
+    private static void RestoreForwardedOptionalValueAlias(
+        GeneratedApiProperty alias,
+        LocalMemberLocation aliasMember,
+        GeneratedApiProperty targetBaseline,
+        CliPositionalArgument[] positionalArguments,
+        CliOptionDefinition[] options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        HashSet<string> propertyNames)
+    {
+        if (alias.ForwardingKind is not (
+                CliCompatibilityForwardingKind.NullableStringToCliOptionValue
+                or CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue)
+            || propertyNames.Contains(targetBaseline.PropertyName))
+        {
+            return;
+        }
+
+        propertyNames.Remove(alias.PropertyName);
+        RenameLocalMember(
+            aliasMember,
+            targetBaseline.PropertyName,
+            positionalArguments,
+            options);
+        compatibilityProperties.Add(ToCompatibilityProperty(alias));
+        propertyNames.Add(targetBaseline.PropertyName);
+        propertyNames.Add(alias.PropertyName);
     }
 
     private static GeneratedApiProperty? FindForwardingTargetBaseline(
