@@ -29,19 +29,19 @@ public record AzStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Allow or disallow public access to all blobs or containers in the storage account. If not specified, the default value is false for new account to follow best security practices. When true, containers in the account may be configured for public access. Note that setting this property to true does not enable anonymous access to any data in the account. The additional step of configuring the public access setting for a container is required to enable anonymous access.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-blob-public-access")]
+    [CliOption("--allow-blob-public-access")]
     public bool? AllowBlobPublicAccess { get; set; }
 
     /// <summary>
     /// Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. If not specified, the default value is false for new accounts to follow best security practices.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-cross-tenant-replication", ShortForm = "-r")]
+    [CliOption("--allow-cross-tenant-replication", ShortForm = "-r")]
     public bool? AllowCrossTenantReplication { get; set; }
 
     /// <summary>
     /// Indicate whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-shared-key-access", ShortForm = "-k")]
+    [CliOption("--allow-shared-key-access", ShortForm = "-k")]
     public bool? AllowSharedKeyAccess { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record AzStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Enable local user features.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-local-user")]
+    [CliOption("--enable-local-user")]
     public bool? EnableLocalUser { get; set; }
 
     /// <summary>
     /// Enable Secure File Transfer Protocol. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-sftp")]
+    [CliOption("--enable-sftp")]
     public bool? EnableSftp { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record AzStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Allows https traffic only to storage service.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
@@ -119,13 +119,13 @@ public record AzStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Upgrade Storage Account Kind to StorageV2.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--upgrade-to-storagev2")]
+    [CliOption("--upgrade-to-storagev2")]
     public bool? UpgradeToStoragev2 { get; set; }
 
     /// <summary>
     /// Specify whether to use indirect CNAME validation.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--use-subdomain")]
+    [CliOption("--use-subdomain")]
     public bool? UseSubdomain { get; set; }
 
     /// <summary>

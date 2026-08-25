@@ -23,7 +23,7 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Show all information including vm sizes not available under the current subscription.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--all")]
+    [CliOption("--all")]
     public bool? All { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Show skus supporting availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
+    [CliOption("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
 }

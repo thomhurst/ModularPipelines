@@ -23,7 +23,7 @@ public record AzSqlDbLtrBackupRestoreOptions : AzOptions
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--assign-identity", ShortForm = "-i")]
+    [CliOption("--assign-identity", ShortForm = "-i")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AzSqlDbLtrBackupRestoreOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
 }

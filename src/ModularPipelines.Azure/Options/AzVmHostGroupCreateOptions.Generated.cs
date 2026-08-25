@@ -23,7 +23,7 @@ public record AzVmHostGroupCreateOptions : AzOptions
     /// <summary>
     /// Specify whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to false when not provided.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--automatic-placement")]
+    [CliOption("--automatic-placement")]
     public bool? AutomaticPlacement { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzVmHostGroupCreateOptions : AzOptions
     /// <summary>
     /// Enable a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ultra-ssd-enabled")]
+    [CliOption("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
     /// <summary>

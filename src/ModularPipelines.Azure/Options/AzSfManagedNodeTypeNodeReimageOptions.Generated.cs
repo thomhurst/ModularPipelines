@@ -23,7 +23,7 @@ public record AzSfManagedNodeTypeNodeReimageOptions : AzOptions
     /// <summary>
     /// Using this flag will force the operation even if service fabric is unable to disable the nodes. Use with caution as this might cause data loss if stateful workloads are running on the node.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--force")]
+    [CliOption("--force")]
     public bool? Force { get; set; }
 
 }

@@ -83,7 +83,7 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// Enables automatic repair.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--repair-enabled")]
+    [CliOption("--repair-enabled")]
     public bool? RepairEnabled { get; set; }
 
     /// <summary>

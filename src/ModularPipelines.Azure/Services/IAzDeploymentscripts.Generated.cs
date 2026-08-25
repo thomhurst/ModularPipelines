@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deploymentscripts commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzDeploymentscripts
 {
@@ -25,10 +28,8 @@ public interface IAzDeploymentscripts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DeleteAsync(
-        AzDeploymentScriptsDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> DeleteAsync(AzDeploymentScriptsDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List all deployment scripts.
@@ -37,9 +38,7 @@ public interface IAzDeploymentscripts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzDeploymentScriptsListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzDeploymentScriptsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

@@ -24,7 +24,7 @@ public record AzAroCreateOptions : AzOptions
     /// API server visibility. [Default: Public].  Allowed values: Private,
     /// </summary>
     [CliFlag("--apiserver-visibility")]
-    public bool? ApiserverVisibility { get; set; }
+    public bool? ApiServerVisibility { get; set; }
 
     /// <summary>
     /// Client ID of cluster service principal.
@@ -59,7 +59,7 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Use Preconfigured NSGs. Allowed values: false, true. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-preconfigured-nsg")]
+    [CliOption("--enable-preconfigured-nsg")]
     public bool? EnablePreconfiguredNsg { get; set; }
 
     /// <summary>
@@ -151,5 +151,12 @@ public record AzAroCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }
+
+    [Obsolete("Use ApiServerVisibility instead.")]
+    public bool? ApiserverVisibility
+    {
+        get => ApiServerVisibility;
+        set => ApiServerVisibility = value;
+    }
 
 }

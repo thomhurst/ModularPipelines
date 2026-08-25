@@ -41,7 +41,7 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
 }

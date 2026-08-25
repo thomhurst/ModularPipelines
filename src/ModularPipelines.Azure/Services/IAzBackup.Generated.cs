@@ -15,62 +15,65 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az backup commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzBackup
 {
     /// <summary>
     /// az container sub-commands.
     /// </summary>
-    AzBackupContainer Container { get; }
+    AzBackupContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// az deleted-vault sub-commands.
     /// </summary>
-    AzBackupDeletedVault DeletedVault { get; }
+    AzBackupDeletedVault DeletedVault => throw new System.NotSupportedException();
 
     /// <summary>
     /// az item sub-commands.
     /// </summary>
-    AzBackupItem Item { get; }
+    AzBackupItem Item => throw new System.NotSupportedException();
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzBackupJob Job { get; }
+    AzBackupJob Job => throw new System.NotSupportedException();
 
     /// <summary>
     /// az policy sub-commands.
     /// </summary>
-    AzBackupPolicy Policy { get; }
+    AzBackupPolicy Policy => throw new System.NotSupportedException();
 
     /// <summary>
     /// az protectable-item sub-commands.
     /// </summary>
-    AzBackupProtectableItem ProtectableItem { get; }
+    AzBackupProtectableItem ProtectableItem => throw new System.NotSupportedException();
 
     /// <summary>
     /// az protection sub-commands.
     /// </summary>
-    AzBackupProtection Protection { get; }
+    AzBackupProtection Protection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az recoveryconfig sub-commands.
     /// </summary>
-    AzBackupRecoveryconfig Recoveryconfig { get; }
+    AzBackupRecoveryconfig Recoveryconfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// az recoverypoint sub-commands.
     /// </summary>
-    AzBackupRecoverypoint Recoverypoint { get; }
+    AzBackupRecoverypoint Recoverypoint => throw new System.NotSupportedException();
 
     /// <summary>
     /// az restore sub-commands.
     /// </summary>
-    AzBackupRestore Restore { get; }
+    AzBackupRestore Restore => throw new System.NotSupportedException();
 
     /// <summary>
     /// az vault sub-commands.
     /// </summary>
-    AzBackupVault Vault { get; }
+    AzBackupVault Vault => throw new System.NotSupportedException();
 
 }

@@ -23,7 +23,7 @@ public record AzAcrTaskTimerUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>

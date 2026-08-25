@@ -15,32 +15,35 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az servicebus commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzServicebus
 {
     /// <summary>
     /// az georecovery-alias sub-commands.
     /// </summary>
-    AzServicebusGeorecoveryAlias GeorecoveryAlias { get; }
+    AzServicebusGeorecoveryAlias GeorecoveryAlias => throw new System.NotSupportedException();
 
     /// <summary>
     /// az migration sub-commands.
     /// </summary>
-    AzServicebusMigration Migration { get; }
+    AzServicebusMigration Migration => throw new System.NotSupportedException();
 
     /// <summary>
     /// az namespace sub-commands.
     /// </summary>
-    AzServicebusNamespace Namespace { get; }
+    AzServicebusNamespace Namespace => throw new System.NotSupportedException();
 
     /// <summary>
     /// az queue sub-commands.
     /// </summary>
-    AzServicebusQueue Queue { get; }
+    AzServicebusQueue Queue => throw new System.NotSupportedException();
 
     /// <summary>
     /// az topic sub-commands.
     /// </summary>
-    AzServicebusTopic Topic { get; }
+    AzServicebusTopic Topic => throw new System.NotSupportedException();
 
 }

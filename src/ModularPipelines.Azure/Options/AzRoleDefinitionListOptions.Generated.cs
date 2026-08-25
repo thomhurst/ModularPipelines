@@ -23,7 +23,7 @@ public record AzRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Custom roles only(vs. build-in ones).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--custom-role-only")]
+    [CliOption("--custom-role-only")]
     public bool? CustomRoleOnly { get; set; }
 
     /// <summary>

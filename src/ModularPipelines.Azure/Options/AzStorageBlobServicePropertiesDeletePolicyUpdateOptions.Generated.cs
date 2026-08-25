@@ -35,7 +35,7 @@ public record AzStorageBlobServicePropertiesDeletePolicyUpdateOptions : AzOption
     /// <summary>
     /// Enables/disables soft-delete.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable")]
+    [CliOption("--enable")]
     public bool? Enable { get; set; }
 
 }

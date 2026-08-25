@@ -23,7 +23,7 @@ public record AzContainerappEnvLogsShowOptions : AzOptions
     /// <summary>
     /// Print logs in real time if present.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--follow")]
+    [CliOption("--follow")]
     public bool? Follow { get; set; }
 
     /// <summary>

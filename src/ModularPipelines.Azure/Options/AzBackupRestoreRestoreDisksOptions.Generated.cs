@@ -71,7 +71,7 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to specify to restore as unmanaged disks. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-as-unmanaged-disks")]
+    [CliOption("--restore-as-unmanaged-disks")]
     public bool? RestoreAsUnmanagedDisks { get; set; }
 
     /// <summary>
@@ -83,19 +83,19 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to restore only OS disks of a backed up VM. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-only-osdisk")]
+    [CliOption("--restore-only-osdisk")]
     public bool? RestoreOnlyOsdisk { get; set; }
 
     /// <summary>
     /// Switch parameter to indicate edge zone VM restore. This parameter can't be used in cross region and cross subscription restore scenarios.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-to-edge-zone")]
+    [CliOption("--restore-to-edge-zone")]
     public bool? RestoreToEdgeZone { get; set; }
 
     /// <summary>
     /// Use this flag when you want disks to be restored to the staging storage account using the --storage-account parameter. When not specified, disks will be restored to their original storage accounts. Default: false.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restore-to-staging-storage-account")]
+    [CliOption("--restore-to-staging-storage-account")]
     public bool? RestoreToStagingStorageAccount { get; set; }
 
     /// <summary>

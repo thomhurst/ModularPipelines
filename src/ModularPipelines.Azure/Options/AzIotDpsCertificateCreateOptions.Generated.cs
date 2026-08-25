@@ -29,7 +29,7 @@ public record AzIotDpsCertificateCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether or not the certificate is verified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--verified", ShortForm = "-v")]
+    [CliOption("--verified", ShortForm = "-v")]
     public bool? Verified { get; set; }
 
 }

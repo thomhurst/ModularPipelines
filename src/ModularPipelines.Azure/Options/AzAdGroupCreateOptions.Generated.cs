@@ -29,7 +29,7 @@ public record AzAdGroupCreateOptions : AzOptions
     /// <summary>
     /// Always create a new group instead of updating the one with same display and mail nickname.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--force")]
+    [CliOption("--force")]
     public bool? Force { get; set; }
 
 }

@@ -15,78 +15,81 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az storage commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzStorage
 {
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzStorageAccount Account { get; }
+    AzStorageAccount Account => throw new System.NotSupportedException();
 
     /// <summary>
     /// az blob sub-commands.
     /// </summary>
-    AzStorageBlob Blob { get; }
+    AzStorageBlob Blob => throw new System.NotSupportedException();
 
     /// <summary>
     /// az container sub-commands.
     /// </summary>
-    AzStorageContainer Container { get; }
+    AzStorageContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// az container-rm sub-commands.
     /// </summary>
-    AzStorageContainerRm ContainerRm { get; }
+    AzStorageContainerRm ContainerRm => throw new System.NotSupportedException();
 
     /// <summary>
     /// az cors sub-commands.
     /// </summary>
-    AzStorageCors Cors { get; }
+    AzStorageCors Cors => throw new System.NotSupportedException();
 
     /// <summary>
     /// az directory sub-commands.
     /// </summary>
-    AzStorageDirectory Directory { get; }
+    AzStorageDirectory Directory => throw new System.NotSupportedException();
 
     /// <summary>
     /// az entity sub-commands.
     /// </summary>
-    AzStorageEntity Entity { get; }
+    AzStorageEntity Entity => throw new System.NotSupportedException();
 
     /// <summary>
     /// az file sub-commands.
     /// </summary>
-    AzStorageFile File { get; }
+    AzStorageFile File => throw new System.NotSupportedException();
 
     /// <summary>
     /// az fs sub-commands.
     /// </summary>
-    AzStorageFs Fs { get; }
+    AzStorageFs Fs => throw new System.NotSupportedException();
 
     /// <summary>
     /// az logging sub-commands.
     /// </summary>
-    AzStorageLogging Logging { get; }
+    AzStorageLogging Logging => throw new System.NotSupportedException();
 
     /// <summary>
     /// az metrics sub-commands.
     /// </summary>
-    AzStorageMetrics Metrics { get; }
+    AzStorageMetrics Metrics => throw new System.NotSupportedException();
 
     /// <summary>
     /// az share sub-commands.
     /// </summary>
-    AzStorageShare Share { get; }
+    AzStorageShare Share => throw new System.NotSupportedException();
 
     /// <summary>
     /// az share-rm sub-commands.
     /// </summary>
-    AzStorageShareRm ShareRm { get; }
+    AzStorageShareRm ShareRm => throw new System.NotSupportedException();
 
     /// <summary>
     /// az table sub-commands.
     /// </summary>
-    AzStorageTable Table { get; }
+    AzStorageTable Table => throw new System.NotSupportedException();
 
     /// <summary>
     /// Copy files or directories to or from Azure storage.
@@ -95,10 +98,8 @@ public interface IAzStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CopyAsync(
-        AzStorageCopyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CopyAsync(AzStorageCopyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete blobs or files from Azure Storage.
@@ -107,9 +108,7 @@ public interface IAzStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveAsync(
-        AzStorageRemoveOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveAsync(AzStorageRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

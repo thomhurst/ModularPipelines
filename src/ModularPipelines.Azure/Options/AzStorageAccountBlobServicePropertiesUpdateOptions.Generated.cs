@@ -29,13 +29,13 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// When set to true last access time based tracking policy is enabled. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-last-access-tracking", ShortForm = "-t")]
+    [CliOption("--enable-last-access-tracking", ShortForm = "-t")]
     public bool? EnableLastAccessTracking { get; set; }
 
     /// <summary>
     /// Versioning is enabled if set to true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-versioning")]
+    [CliOption("--enable-versioning")]
     public bool? EnableVersioning { get; set; }
 
     /// <summary>

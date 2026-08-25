@@ -125,6 +125,7 @@ public record AzContainerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated secrets in 'key=value' format.
     /// </summary>
+    [SecretValue]
     [CliFlag("--secrets")]
     public bool? Secrets { get; set; }
 

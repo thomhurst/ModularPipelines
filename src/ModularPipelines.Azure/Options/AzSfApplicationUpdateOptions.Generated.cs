@@ -23,7 +23,7 @@ public record AzSfApplicationUpdateOptions : AzOptions
     /// <summary>
     /// Indicates that the service host restarts even if the upgrade is a configuration- only change.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--force-restart")]
+    [CliOption("--force-restart")]
     public bool? ForceRestart { get; set; }
 
     /// <summary>

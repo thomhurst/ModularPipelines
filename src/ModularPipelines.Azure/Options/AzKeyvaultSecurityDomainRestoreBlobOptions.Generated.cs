@@ -23,6 +23,7 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
     /// <summary>
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
+    [SecretValue]
     [CliFlag("--passwords")]
     public bool? Passwords { get; set; }
 

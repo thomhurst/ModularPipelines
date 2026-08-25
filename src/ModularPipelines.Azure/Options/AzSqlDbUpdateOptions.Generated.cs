@@ -23,7 +23,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Assign identity for database. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--assign-identity", ShortForm = "-i")]
+    [CliOption("--assign-identity", ShortForm = "-i")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Whether to do manual cutover during Update SLO. Allowed when updating database to Hyperscale tier.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--manual-cutover")]
+    [CliOption("--manual-cutover")]
     public bool? ManualCutover { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Whether to perform cutover when updating database to Hyperscale tier is in progress.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--perform-cutover")]
+    [CliOption("--perform-cutover")]
     public bool? PerformCutover { get; set; }
 
     /// <summary>
@@ -101,7 +101,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant", ShortForm = "-z")]
+    [CliOption("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
 
 }

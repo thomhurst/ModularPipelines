@@ -65,8 +65,8 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable- apiserver-vnet-integration).
     /// </summary>
-    [CliFlag("--apiserver-subnet-id")]
-    public bool? ApiserverSubnetId { get; set; }
+    [CliOption("--apiserver-subnet-id")]
+    public string? ApiServerSubnetId { get; set; }
 
     /// <summary>
     /// Specify an existing user assigned identity to manage cluster resource group.
@@ -378,7 +378,7 @@ public record AzAksUpdateOptions : AzOptions
     /// Enable integration of user vnet with control plane apiserver pods.
     /// </summary>
     [CliFlag("--enable-apiserver-vnet-integration")]
-    public bool? EnableApiserverVnetIntegration { get; set; }
+    public bool? EnableApiServerVnetIntegration { get; set; }
 
     /// <summary>
     /// Enable azure container storage. Can be used as a flag (defaults to True) or with a storage pool type value: (azureDisk, ephemeralDisk, elasticSan).
@@ -467,7 +467,7 @@ public record AzAksUpdateOptions : AzOptions
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable- container-network-logs is specified. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-high-log-scale-mode")]
+    [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
@@ -865,5 +865,19 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("Use ApiServerSubnetId instead.")]
+    public bool? ApiserverSubnetId
+    {
+        get => bool.TryParse(ApiServerSubnetId, out var value) ? value : null;
+        set => ApiServerSubnetId = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use EnableApiServerVnetIntegration instead.")]
+    public bool? EnableApiserverVnetIntegration
+    {
+        get => EnableApiServerVnetIntegration;
+        set => EnableApiServerVnetIntegration = value;
+    }
 
 }

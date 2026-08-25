@@ -23,7 +23,7 @@ public record AzAcrTaskUpdateRunOptions : AzOptions
     /// <summary>
     /// Indicates whether the run should be archived.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-archive")]
+    [CliOption("--no-archive")]
     public bool? NoArchive { get; set; }
 
     /// <summary>

@@ -15,117 +15,120 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az synapse commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzSynapse
 {
     /// <summary>
     /// az activity-run sub-commands.
     /// </summary>
-    AzSynapseActivityRun ActivityRun { get; }
+    AzSynapseActivityRun ActivityRun => throw new System.NotSupportedException();
 
     /// <summary>
     /// az data-flow sub-commands.
     /// </summary>
-    AzSynapseDataFlow DataFlow { get; }
+    AzSynapseDataFlow DataFlow => throw new System.NotSupportedException();
 
     /// <summary>
     /// az dataset sub-commands.
     /// </summary>
-    AzSynapseDataset Dataset { get; }
+    AzSynapseDataset Dataset => throw new System.NotSupportedException();
 
     /// <summary>
     /// az integration-runtime sub-commands.
     /// </summary>
-    AzSynapseIntegrationRuntime IntegrationRuntime { get; }
+    AzSynapseIntegrationRuntime IntegrationRuntime => throw new System.NotSupportedException();
 
     /// <summary>
     /// az integration-runtime-node sub-commands.
     /// </summary>
-    AzSynapseIntegrationRuntimeNode IntegrationRuntimeNode { get; }
+    AzSynapseIntegrationRuntimeNode IntegrationRuntimeNode => throw new System.NotSupportedException();
 
     /// <summary>
     /// az kql-script sub-commands.
     /// </summary>
-    AzSynapseKqlScript KqlScript { get; }
+    AzSynapseKqlScript KqlScript => throw new System.NotSupportedException();
 
     /// <summary>
     /// az kusto sub-commands.
     /// </summary>
-    AzSynapseKusto Kusto { get; }
+    AzSynapseKusto Kusto => throw new System.NotSupportedException();
 
     /// <summary>
     /// az link-connection sub-commands.
     /// </summary>
-    AzSynapseLinkConnection LinkConnection { get; }
+    AzSynapseLinkConnection LinkConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az linked-service sub-commands.
     /// </summary>
-    AzSynapseLinkedService LinkedService { get; }
+    AzSynapseLinkedService LinkedService => throw new System.NotSupportedException();
 
     /// <summary>
     /// az managed-private-endpoints sub-commands.
     /// </summary>
-    AzSynapseManagedPrivateEndpoints ManagedPrivateEndpoints { get; }
+    AzSynapseManagedPrivateEndpoints ManagedPrivateEndpoints => throw new System.NotSupportedException();
 
     /// <summary>
     /// az notebook sub-commands.
     /// </summary>
-    AzSynapseNotebook Notebook { get; }
+    AzSynapseNotebook Notebook => throw new System.NotSupportedException();
 
     /// <summary>
     /// az pipeline sub-commands.
     /// </summary>
-    AzSynapsePipeline Pipeline { get; }
+    AzSynapsePipeline Pipeline => throw new System.NotSupportedException();
 
     /// <summary>
     /// az pipeline-run sub-commands.
     /// </summary>
-    AzSynapsePipelineRun PipelineRun { get; }
+    AzSynapsePipelineRun PipelineRun => throw new System.NotSupportedException();
 
     /// <summary>
     /// az role sub-commands.
     /// </summary>
-    AzSynapseRole Role { get; }
+    AzSynapseRole Role => throw new System.NotSupportedException();
 
     /// <summary>
     /// az spark sub-commands.
     /// </summary>
-    AzSynapseSpark Spark { get; }
+    AzSynapseSpark Spark => throw new System.NotSupportedException();
 
     /// <summary>
     /// az spark-job-definition sub-commands.
     /// </summary>
-    AzSynapseSparkJobDefinition SparkJobDefinition { get; }
+    AzSynapseSparkJobDefinition SparkJobDefinition => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sql sub-commands.
     /// </summary>
-    AzSynapseSql Sql { get; }
+    AzSynapseSql Sql => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sql-script sub-commands.
     /// </summary>
-    AzSynapseSqlScript SqlScript { get; }
+    AzSynapseSqlScript SqlScript => throw new System.NotSupportedException();
 
     /// <summary>
     /// az trigger sub-commands.
     /// </summary>
-    AzSynapseTrigger Trigger { get; }
+    AzSynapseTrigger Trigger => throw new System.NotSupportedException();
 
     /// <summary>
     /// az trigger-run sub-commands.
     /// </summary>
-    AzSynapseTriggerRun TriggerRun { get; }
+    AzSynapseTriggerRun TriggerRun => throw new System.NotSupportedException();
 
     /// <summary>
     /// az workspace sub-commands.
     /// </summary>
-    AzSynapseWorkspace Workspace { get; }
+    AzSynapseWorkspace Workspace => throw new System.NotSupportedException();
 
     /// <summary>
     /// az workspace-package sub-commands.
     /// </summary>
-    AzSynapseWorkspacePackage WorkspacePackage { get; }
+    AzSynapseWorkspacePackage WorkspacePackage => throw new System.NotSupportedException();
 
 }

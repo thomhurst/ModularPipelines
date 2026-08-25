@@ -15,17 +15,20 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az advisor commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzAdvisor
 {
     /// <summary>
     /// az configuration sub-commands.
     /// </summary>
-    AzAdvisorConfiguration Configuration { get; }
+    AzAdvisorConfiguration Configuration => throw new System.NotSupportedException();
 
     /// <summary>
     /// az recommendation sub-commands.
     /// </summary>
-    AzAdvisorRecommendation Recommendation { get; }
+    AzAdvisorRecommendation Recommendation => throw new System.NotSupportedException();
 
 }

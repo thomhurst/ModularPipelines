@@ -23,7 +23,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether delete operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--delete-enabled")]
+    [CliOption("--delete-enabled")]
     public bool? DeleteEnabled { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether this item shows in list operation results.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--list-enabled")]
+    [CliOption("--list-enabled")]
     public bool? ListEnabled { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether read operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--read-enabled")]
+    [CliOption("--read-enabled")]
     public bool? ReadEnabled { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether write or delete operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--write-enabled")]
+    [CliOption("--write-enabled")]
     public bool? WriteEnabled { get; set; }
 
 }

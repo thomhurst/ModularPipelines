@@ -35,13 +35,13 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-high-log-scale-mode")]
+    [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
     /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--enable-msi-auth-for-monitoring")]
+    [CliOption("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-syslog")]
+    [CliOption("--enable-syslog")]
     public bool? EnableSyslog { get; set; }
 
     /// <summary>

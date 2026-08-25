@@ -22,6 +22,7 @@ public class AzAks : IAzAks
     private readonly ICommandContext _command;
     private AzAksApprouting? _approuting;
     private AzAksCommand? _commandSubGroup;
+    private AzAksIdentityBinding? _identityBinding;
     private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
     private AzAksMesh? _mesh;
     private AzAksNamespace? _namespace;
@@ -49,6 +50,11 @@ public class AzAks : IAzAks
     /// az command sub-commands.
     /// </summary>
     public AzAksCommand Command => _commandSubGroup ??= new AzAksCommand(_command);
+
+    /// <summary>
+    /// az identity-binding sub-commands.
+    /// </summary>
+    public AzAksIdentityBinding IdentityBinding => _identityBinding ??= new AzAksIdentityBinding(_command);
 
     /// <summary>
     /// az maintenanceconfiguration sub-commands.

@@ -29,6 +29,7 @@ public record AzNetworkApplicationGatewayRootCertUpdateOptions : AzOptions
     /// <summary>
     /// ID of keyvault secret.
     /// </summary>
+    [SecretValue]
     [CliFlag("--keyvault-secret")]
     public bool? KeyvaultSecret { get; set; }
 

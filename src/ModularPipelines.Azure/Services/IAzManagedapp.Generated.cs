@@ -15,13 +15,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managedapp commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzManagedapp
 {
     /// <summary>
     /// az definition sub-commands.
     /// </summary>
-    AzManagedappDefinition Definition { get; }
+    AzManagedappDefinition Definition => throw new System.NotSupportedException();
 
     /// <summary>
     /// Create a managed application.
@@ -30,10 +33,8 @@ public interface IAzManagedapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CreateAsync(
-        AzManagedappCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> CreateAsync(AzManagedappCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// List managed applications.
@@ -42,9 +43,7 @@ public interface IAzManagedapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        AzManagedappListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ListAsync(AzManagedappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

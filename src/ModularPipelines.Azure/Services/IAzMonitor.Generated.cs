@@ -15,52 +15,55 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az monitor commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzMonitor
 {
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzMonitorAccount Account { get; }
+    AzMonitorAccount Account => throw new System.NotSupportedException();
 
     /// <summary>
     /// az action-group sub-commands.
     /// </summary>
-    AzMonitorActionGroup ActionGroup { get; }
+    AzMonitorActionGroup ActionGroup => throw new System.NotSupportedException();
 
     /// <summary>
     /// az activity-log sub-commands.
     /// </summary>
-    AzMonitorActivityLog ActivityLog { get; }
+    AzMonitorActivityLog ActivityLog => throw new System.NotSupportedException();
 
     /// <summary>
     /// az autoscale sub-commands.
     /// </summary>
-    AzMonitorAutoscale Autoscale { get; }
+    AzMonitorAutoscale Autoscale => throw new System.NotSupportedException();
 
     /// <summary>
     /// az dashboard sub-commands.
     /// </summary>
-    AzMonitorDashboard Dashboard { get; }
+    AzMonitorDashboard Dashboard => throw new System.NotSupportedException();
 
     /// <summary>
     /// az diagnostic-settings sub-commands.
     /// </summary>
-    AzMonitorDiagnosticSettings DiagnosticSettings { get; }
+    AzMonitorDiagnosticSettings DiagnosticSettings => throw new System.NotSupportedException();
 
     /// <summary>
     /// az log-analytics sub-commands.
     /// </summary>
-    AzMonitorLogAnalytics LogAnalytics { get; }
+    AzMonitorLogAnalytics LogAnalytics => throw new System.NotSupportedException();
 
     /// <summary>
     /// az log-profiles sub-commands.
     /// </summary>
-    AzMonitorLogProfiles LogProfiles { get; }
+    AzMonitorLogProfiles LogProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// az metrics sub-commands.
     /// </summary>
-    AzMonitorMetrics Metrics { get; }
+    AzMonitorMetrics Metrics => throw new System.NotSupportedException();
 
 }

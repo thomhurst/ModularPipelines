@@ -41,7 +41,7 @@ public record AzWebappConfigBackupUpdateOptions : AzOptions
     /// <summary>
     /// Always keep one backup, regardless of how old it is.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--retain-one")]
+    [CliOption("--retain-one")]
     public bool? RetainOne { get; set; }
 
     /// <summary>

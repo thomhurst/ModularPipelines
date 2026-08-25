@@ -23,7 +23,7 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
     /// <summary>
     /// If the data center haves Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the data center virtual machines. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--availability-zone", ShortForm = "-z")]
+    [CliOption("--availability-zone", ShortForm = "-z")]
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>

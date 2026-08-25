@@ -23,7 +23,7 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--retain-as-per-policy")]
+    [CliOption("--retain-as-per-policy")]
     public bool? RetainAsPerPolicy { get; set; }
 
     /// <summary>

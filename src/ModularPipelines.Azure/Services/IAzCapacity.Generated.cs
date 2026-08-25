@@ -15,12 +15,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az capacity commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzCapacity
 {
     /// <summary>
     /// az reservation sub-commands.
     /// </summary>
-    AzCapacityReservation Reservation { get; }
+    AzCapacityReservation Reservation => throw new System.NotSupportedException();
 
 }

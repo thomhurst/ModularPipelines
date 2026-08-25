@@ -23,7 +23,7 @@ public record AzKeyvaultRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Only show custom role definitions.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--custom-role-only")]
+    [CliOption("--custom-role-only")]
     public bool? CustomRoleOnly { get; set; }
 
     /// <summary>

@@ -23,37 +23,37 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// If true, the artifact is deployed asynchronously. (The command will exit once the artifact is pushed to the web app.). Synchronous deployments are not yet supported when using "--src-url".  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async")]
+    [CliOption("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
     /// If true, cleans the target directory prior to deploying the file(s). Default value is determined based on artifact type.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--clean")]
+    [CliOption("--clean")]
     public bool? Clean { get; set; }
 
     /// <summary>
     /// If true, kudu will be warmed up before performing deployment for a linux webapp.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--enable-kudu-warmup")]
+    [CliOption("--enable-kudu-warmup")]
     public bool? EnableKuduWarmup { get; set; }
 
     /// <summary>
     /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. Enabled by default; use --enriched-errors false to disable.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--enriched-errors")]
+    [CliOption("--enriched-errors")]
     public bool? EnrichedErrors { get; set; }
 
     /// <summary>
     /// If true, any stack-specific defaults are ignored.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ignore-stack")]
+    [CliOption("--ignore-stack")]
     public bool? IgnoreStack { get; set; }
 
     /// <summary>
     /// If true, the web app will be restarted following the deployment. Set this to false if you are deploying multiple artifacts and do not want to restart the site on the earlier deployments.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--restart")]
+    [CliOption("--restart")]
     public bool? Restart { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// If true, web app startup status during deployment will be tracked for linux web apps.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliFlag("--track-status")]
+    [CliOption("--track-status")]
     public bool? TrackStatus { get; set; }
 
     /// <summary>

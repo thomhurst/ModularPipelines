@@ -35,7 +35,7 @@ public record AzBackupProtectionEnableForVmOptions : AzOptions
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--exclude-all-data-disks")]
+    [CliOption("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 
 }

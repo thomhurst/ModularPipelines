@@ -29,7 +29,7 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// <summary>
     /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en- us/azure/virtual-wan/effective-routes- virtual-hub?branch=pr-en- us-91866#aboutdefaultroute might be helpful. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--internet-security")]
+    [CliOption("--internet-security")]
     public bool? InternetSecurity { get; set; }
 
     /// <summary>

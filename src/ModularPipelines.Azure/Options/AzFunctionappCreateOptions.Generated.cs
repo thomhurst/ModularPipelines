@@ -89,7 +89,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Disable creating application insights resource during functionapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-app-insights")]
+    [CliOption("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
 
     /// <summary>
@@ -101,7 +101,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-dapr")]
+    [CliOption("--enable-dapr")]
     public bool? EnableDapr { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>
@@ -215,7 +215,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Enable zone redundancy for high availability. Applies to Flex Consumption SKU only.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
 }

@@ -23,7 +23,7 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     /// <summary>
     /// Host function app on Linux worker.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--is-linux")]
+    [CliOption("--is-linux")]
     public bool? IsLinux { get; set; }
 
     /// <summary>

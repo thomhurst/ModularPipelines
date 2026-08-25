@@ -23,7 +23,7 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// Enable the user account.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--account-enabled")]
+    [CliOption("--account-enabled")]
     public bool? AccountEnabled { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// If the user must change her password on the next login. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--force-change-password-next-sign-in")]
+    [CliOption("--force-change-password-next-sign-in")]
     public bool? ForceChangePasswordNextSignIn { get; set; }
 
     /// <summary>

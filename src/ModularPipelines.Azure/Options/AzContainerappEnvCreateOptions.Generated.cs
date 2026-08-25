@@ -23,7 +23,7 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// Boolean indicating if the environment is enabled to have workload profiles.  Allowed values: false, true.  Default:
     /// </summary>
-    [CliFlag("--enable-workload-profiles", ShortForm = "-w")]
+    [CliOption("--enable-workload-profiles", ShortForm = "-w")]
     public bool? EnableWorkloadProfiles { get; set; }
 
     /// <summary>

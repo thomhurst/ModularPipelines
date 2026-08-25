@@ -20,6 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAppservicePlan
 {
     private readonly ICommandContext _command;
+    private AzAppservicePlanIdentity? _identity;
+    private AzAppservicePlanManagedInstance? _managedInstance;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppservicePlan"/> class.
@@ -28,6 +30,20 @@ public class AzAppservicePlan
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzAppservicePlanIdentity Identity => _identity ??= new AzAppservicePlanIdentity(_command);
+
+    /// <summary>
+    /// az managed-instance sub-commands.
+    /// </summary>
+    public AzAppservicePlanManagedInstance ManagedInstance => _managedInstance ??= new AzAppservicePlanManagedInstance(_command);
+
+    #endregion
 
     #region Commands
 

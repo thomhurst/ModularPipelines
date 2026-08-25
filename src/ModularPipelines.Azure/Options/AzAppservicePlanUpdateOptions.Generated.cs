@@ -23,14 +23,26 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Enables async scaling for the app service plan. Set to "true" to create an async operation if there are insufficient workers to scale synchronously. The SKU must be Dedicated.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--async-scaling-enabled")]
+    [CliOption("--async-scaling-enabled")]
     public bool? AsyncScalingEnabled { get; set; }
+
+    /// <summary>
+    /// Accept system or user assigned identity separated. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
+    /// </summary>
+    [CliFlag("--default-identity")]
+    public bool? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable automatic scaling. Set to "true" to enable elastic scale for this plan, or "false" to disable elastic scale for this plan. The SKU must be a Premium V2 SKU (P1V2, P2V2, P3V2) or a Premium V3 SKU (P1V3, P2V3, P3V3).  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--elastic-scale")]
+    [CliOption("--elastic-scale")]
     public bool? ElasticScale { get; set; }
+
+    /// <summary>
+    /// Install script configurations. Provide key-value pairs for `name=&lt;name&gt; source-uri=&lt;uri&gt; type=&lt;type&gt;`.
+    /// </summary>
+    [CliFlag("--install-script")]
+    public bool? InstallScript { get; set; }
 
     /// <summary>
     /// Maximum number of instances that the plan can scale out to. The plan must be an elastic scale plan.
@@ -51,9 +63,39 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     public bool? NumberOfWorkers { get; set; }
 
     /// <summary>
+    /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--rdp-enabled")]
+    public bool? RdpEnabled { get; set; }
+
+    /// <summary>
+    /// Registry adapter configurations. Provide key-value pairs for `registry-key=&lt;key&gt; type=&lt;type&gt; secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliFlag("--registry-adapter")]
+    public bool? RegistryAdapter { get; set; }
+
+    /// <summary>
     /// SKU of the app service plan. Use this to scale up/down (change machine size), e.g. --sku P1v3.  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1V2, I2MV2, I2V2, I3MV2, I3V2, I4MV2, I4V2, I5MV2, I5V2, I6V2, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }
+
+    /// <summary>
+    /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination-path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
+    /// </summary>
+    [CliFlag("--storage-mount")]
+    public bool? StorageMount { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the pre-existing subnet to have the app service plan join. The --vnet is argument also needed if specifying subnet by name.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
+    /// </summary>
+    [CliOption("--vnet")]
+    public IEnumerable<string>? Vnet { get; set; }
 
 }

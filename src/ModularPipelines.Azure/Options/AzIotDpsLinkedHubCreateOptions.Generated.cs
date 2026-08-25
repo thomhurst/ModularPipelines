@@ -29,7 +29,7 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether to apply allocation policy to the IoT hub.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--apply-allocation-policy")]
+    [CliOption("--apply-allocation-policy")]
     public bool? ApplyAllocationPolicy { get; set; }
 
     /// <summary>

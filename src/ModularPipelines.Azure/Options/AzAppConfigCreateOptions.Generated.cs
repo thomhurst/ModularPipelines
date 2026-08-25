@@ -41,19 +41,19 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--disable-local-auth")]
+    [CliOption("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-arm-private-network-access")]
+    [CliOption("--enable-arm-private-network-access")]
     public bool? EnableArmPrivateNetworkAccess { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-purge-protection", ShortForm = "-p")]
+    [CliOption("--enable-purge-protection", ShortForm = "-p")]
     public bool? EnablePurgeProtection { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Proceed without replica creation for premium tier store.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-replica")]
+    [CliOption("--no-replica")]
     public bool? NoReplica { get; set; }
 
     /// <summary>

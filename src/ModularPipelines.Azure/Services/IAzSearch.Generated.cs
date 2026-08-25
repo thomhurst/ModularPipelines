@@ -15,22 +15,25 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az search commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IAzSearch
 {
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzSearchPrivateEndpointConnection PrivateEndpointConnection { get; }
+    AzSearchPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
 
     /// <summary>
     /// az service sub-commands.
     /// </summary>
-    AzSearchService Service { get; }
+    AzSearchService Service => throw new System.NotSupportedException();
 
     /// <summary>
     /// az shared-private-link-resource sub-commands.
     /// </summary>
-    AzSearchSharedPrivateLinkResource SharedPrivateLinkResource { get; }
+    AzSearchSharedPrivateLinkResource SharedPrivateLinkResource => throw new System.NotSupportedException();
 
 }

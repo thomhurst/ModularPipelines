@@ -95,7 +95,7 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--end-to-end-encryption-enabled", ShortForm = "-e")]
+    [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e")]
     public bool? EndToEndEncryptionEnabled { get; set; }
 
     /// <summary>
@@ -155,13 +155,13 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--site-scoped-certs")]
+    [CliOption("--site-scoped-certs")]
     public bool? SiteScopedCerts { get; set; }
 
     /// <summary>
     /// If true, a webapp which supports sitecontainers will be created.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--sitecontainers-app")]
+    [CliOption("--sitecontainers-app")]
     public bool? SitecontainersApp { get; set; }
 
     /// <summary>

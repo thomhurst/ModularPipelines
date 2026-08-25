@@ -29,7 +29,7 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--https-only")]
+    [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }
 
     /// <summary>

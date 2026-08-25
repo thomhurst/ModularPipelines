@@ -65,13 +65,13 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-cache")]
+    [CliOption("--no-cache")]
     public bool? NoCache { get; set; }
 
     /// <summary>
     /// Indicates whether the image built should be pushed to the registry.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--no-push")]
+    [CliOption("--no-push")]
     public bool? NoPush { get; set; }
 
     /// <summary>
