@@ -7,7 +7,13 @@ title: pip CLI reference
 
 `ModularPipelines.Python` provides strongly typed access to the `pip` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `pip` executable. Install it separately and ensure `pip` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Python
