@@ -57,7 +57,9 @@ jobs:
     timeout-minutes: 15
     outputs:
       linux: ${{ steps.catalog.outputs.linux }}
+      linux-count: ${{ steps.catalog.outputs.linux-count }}
       windows: ${{ steps.catalog.outputs.windows }}
+      windows-count: ${{ steps.catalog.outputs.windows-count }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -72,16 +74,25 @@ jobs:
           -c Release
       - name: Create generation matrices
         id: catalog
+        env:
+          TOOLS_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.tools || '' }}
         run: |
           dotnet run --no-build \
             --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj \
             -c Release -- \
             --list-tools --json > "$RUNNER_TEMP/tool-catalog.json"
 
+          SELECTED_TOOLS="$(
+            jq -cn --arg tools "$TOOLS_INPUT" \
+              '$tools | split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))'
+          )"
+
           create_matrix() {
-            jq -c --arg platform "$1" \
-              '{include: [.[] | select(
-                .generationPlatform == $platform and .includeInGenerationMatrix
+            jq -c --arg platform "$1" --argjson selected "$SELECTED_TOOLS" \
+              '{include: [.[] | .toolName as $tool | select(
+                .generationPlatform == $platform
+                and .includeInGenerationMatrix
+                and (($selected | length) == 0 or ($selected | index($tool)) != null)
               ) | {
                 tool: .toolName,
                 package: .packageName,
@@ -95,16 +106,23 @@ jobs:
 
           LINUX_MATRIX="$(create_matrix linux)"
           WINDOWS_MATRIX="$(create_matrix windows)"
-          jq -e '.include | length > 0' <<< "$LINUX_MATRIX"
-          jq -e '.include | length > 0' <<< "$WINDOWS_MATRIX"
-          echo "linux=$LINUX_MATRIX" >> "$GITHUB_OUTPUT"
-          echo "windows=$WINDOWS_MATRIX" >> "$GITHUB_OUTPUT"
+          jq -en \
+            --argjson linux "$LINUX_MATRIX" \
+            --argjson windows "$WINDOWS_MATRIX" \
+            '(($linux.include | length) + ($windows.include | length)) > 0'
+          {
+            echo "linux=$LINUX_MATRIX"
+            echo "linux-count=$(jq '.include | length' <<< "$LINUX_MATRIX")"
+            echo "windows=$WINDOWS_MATRIX"
+            echo "windows-count=$(jq '.include | length' <<< "$WINDOWS_MATRIX")"
+          } >> "$GITHUB_OUTPUT"
 
   # Generate options for each tool in parallel (Linux)
   generate:
     needs:
       - validate-generation-safety
       - tool-catalog
+    if: needs.tool-catalog.outputs.linux-count != '0'
     runs-on: ubuntu-latest
     timeout-minutes: ${{ matrix.timeoutMinutes }}
     permissions:
@@ -117,25 +135,7 @@ jobs:
     steps:
       - name: Check if tool should run
         id: should-run
-        run: |
-          # For scheduled runs, all tools run. For manual runs, check the tools input.
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            echo "run=true" >> $GITHUB_OUTPUT
-          else
-            # Get the tools input (comma-separated list, empty = all)
-            TOOLS_INPUT="${{ github.event.inputs.tools }}"
-            if [[ -z "$TOOLS_INPUT" ]]; then
-              # Empty input means run all tools
-              echo "run=true" >> $GITHUB_OUTPUT
-            else
-              # Check if this tool is in the comma-separated list
-              if echo ",$TOOLS_INPUT," | grep -q ",${{ matrix.tool }},"; then
-                echo "run=true" >> $GITHUB_OUTPUT
-              else
-                echo "run=false" >> $GITHUB_OUTPUT
-              fi
-            fi
-          fi
+        run: echo "run=true" >> "$GITHUB_OUTPUT"
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
@@ -705,6 +705,7 @@ jobs:
     needs:
       - validate-generation-safety
       - tool-catalog
+    if: needs.tool-catalog.outputs.windows-count != '0'
     runs-on: windows-latest
     timeout-minutes: 60
     permissions:
@@ -718,26 +719,7 @@ jobs:
       - name: Check if tool should run
         id: should-run
         shell: pwsh
-        run: |
-          # For scheduled runs, all tools run. For manual runs, check the tools input.
-          if ("${{ github.event_name }}" -eq "schedule") {
-            "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          } else {
-            # Get the tools input (comma-separated list, empty = all)
-            $toolsInput = "${{ github.event.inputs.tools }}"
-            if ([string]::IsNullOrWhiteSpace($toolsInput)) {
-              # Empty input means run all tools
-              "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            } else {
-              # Check if this tool is in the comma-separated list
-              $toolsList = $toolsInput -split ',' | ForEach-Object { $_.Trim() }
-              if ($toolsList -contains "${{ matrix.tool }}") {
-                "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-              } else {
-                "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-              }
-            }
-          }
+        run: '"run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append'
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'

@@ -1366,6 +1366,56 @@ public class GeneratorHardeningTests
             CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
     }
 
+    [Test]
+    public async Task ApiCompatibilityPreserver_Composes_Forwarding_When_Target_Is_Renamed()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--count",
+                    PropertyName = "CountValues",
+                    CSharpType = "IEnumerable<string>?",
+                    AcceptsMultipleValues = true,
+                    IsCollection = true,
+                },
+            ],
+        };
+        var baseline = new GeneratedApiProperty[]
+        {
+            BaselineProperty("Count", "string?", switchName: "--count"),
+            new(
+                "LegacyCount",
+                "int?",
+                null,
+                null,
+                false,
+                true,
+                "Count",
+                "Use Count instead.",
+                ForwardingKind: CliCompatibilityForwardingKind.NullableInt32ToString),
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(command, baseline);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var legacyCount = preserved.CompatibilityProperties.Single(property =>
+            property.PropertyName.Equals("LegacyCount", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(legacyCount.ForwardToPropertyName).IsEqualTo("CountValues");
+            await Assert.That(legacyCount.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "CountValues",
+            CliCompatibilityForwardingKind.NullableInt32ToStringCollection);
+    }
+
     private static async Task AssertCompatibilityForwardingRoundTrips(
         CliCommandDefinition generatedCommand,
         string expectedTarget,
@@ -1547,7 +1597,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Renamed_Scalar_To_Collection_Changes()
+    public async Task ApiCompatibilityPreserver_Retains_Renamed_Scalar_To_Collection_Changes()
     {
         var command = Command("ToolCopyOptions", "ToolOptions", ["copy"]) with
         {
@@ -1562,13 +1612,24 @@ public class GeneratorHardeningTests
             ],
         };
 
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-            GeneratedApiCompatibilityPreserver.Preserve(
-                command,
-                [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]));
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("CommandOptions", "string?", switchName: "--command-options")]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(preserved))).Single().Content;
 
-        await Assert.That(exception.Message)
-            .Contains("changed type from string? to IEnumerable<string>? while being renamed");
+        using (Assert.Multiple())
+        {
+            await Assert.That(preserved.Options.Single().PropertyName)
+                .IsEqualTo("CommandOptionValues");
+            await Assert.That(generated)
+                .Contains("IEnumerable<string>? CommandOptionValues");
+            await Assert.That(generated)
+                .Contains("public string? CommandOptions");
+            await Assert.That(generated)
+                .Contains("get => CommandOptionValues?.FirstOrDefault();");
+            await Assert.That(generated)
+                .Contains("set => CommandOptionValues = value is null ? null : [value];");
+        }
     }
 
     [Test]

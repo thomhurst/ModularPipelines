@@ -140,7 +140,7 @@ internal static class GeneratedApiCompatibilityPreserver
             .GroupBy(static method => method.OptionsType, StringComparer.Ordinal)
             .ToDictionary(
                 static group => group.Key,
-                static group => (IReadOnlyList<GeneratedFacadeMethod>)group.ToArray(),
+                static group => (IReadOnlyList<GeneratedFacadeMethod>) group.ToArray(),
                 StringComparer.Ordinal);
         foreach (var commandBaseline in baseline.Values
                      .Where(command => command.CommandParts is { Length: > 0 }
@@ -1822,9 +1822,22 @@ internal static class GeneratedApiCompatibilityPreserver
                 && property.ForwardToPropertyName is { } target
                 && renamedProperties.TryGetValue(target, out var replacement))
             {
+                var renamedTarget = compatibilityProperties.FirstOrDefault(candidate =>
+                    candidate.PropertyName.Equals(target, StringComparison.Ordinal)
+                    && candidate.ForwardToPropertyName?.Equals(
+                        replacement,
+                        StringComparison.Ordinal) == true);
                 compatibilityProperties[index] = property with
                 {
                     ForwardToPropertyName = replacement,
+                    ForwardingKind = renamedTarget is null
+                        ? property.ForwardingKind
+                        : ComposeCompatibilityForwardingKinds(
+                            property,
+                            property.ForwardingKind,
+                            renamedTarget.ForwardingKind),
+                    UseInitAccessor = property.UseInitAccessor
+                                      || renamedTarget?.UseInitAccessor == true,
                 };
             }
         }
@@ -1981,10 +1994,17 @@ internal static class GeneratedApiCompatibilityPreserver
             return CliCompatibilityForwardingKind.Direct;
         }
 
-        return baseline.CSharpType.Equals("string?", StringComparison.Ordinal)
-               && replacement.CSharpType.Equals("string", StringComparison.Ordinal)
-            ? CliCompatibilityForwardingKind.NullableStringToRequiredString
-            : null;
+        if (!baseline.CSharpType.Equals("string?", StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        return replacement.CSharpType switch
+        {
+            "string" => CliCompatibilityForwardingKind.NullableStringToRequiredString,
+            "IEnumerable<string>?" => CliCompatibilityForwardingKind.ScalarToCollection,
+            _ => null,
+        };
     }
 
     private static void PreserveCompatibilityProperty(
