@@ -4120,8 +4120,9 @@ public class GeneratorHardeningTests
 
             await Assert.That(constructor.Parameters.Select(static parameter => parameter.PropertyName))
                 .IsEquivalentTo(["Source"]);
-            await Assert.That(constructor.PrimaryConstructorArguments)
-                .IsEquivalentTo(["Source", "default(string)!"]);
+            await Assert.That(constructor.PrimaryConstructorArguments.Count).IsEqualTo(2);
+            await Assert.That(constructor.PrimaryConstructorArguments[0]).IsEqualTo("Source");
+            await Assert.That(constructor.PrimaryConstructorArguments[1]).IsEqualTo("default(string)!");
         }
         finally
         {
