@@ -2787,15 +2787,18 @@ internal static class GeneratedApiCompatibilityPreserver
 
         if (left.SwitchName is not null || right.SwitchName is not null)
         {
-            return left.SwitchName is not null
-                   && right.SwitchName is not null
-                   && NormalizeCliSwitchIdentity(left.SwitchName).Equals(
-                       NormalizeCliSwitchIdentity(right.SwitchName),
-                       StringComparison.Ordinal);
+            return HasSameOptionIdentity(left.SwitchName, right.SwitchName);
         }
 
         return true;
     }
+
+    private static bool HasSameOptionIdentity(string? left, string? right) =>
+        left is not null
+        && right is not null
+        && NormalizeCliSwitchIdentity(left).Equals(
+            NormalizeCliSwitchIdentity(right),
+            StringComparison.Ordinal);
 
     private static bool HasCompatibleCliIdentity(
         GeneratedApiProperty current,
