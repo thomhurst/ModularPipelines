@@ -194,6 +194,86 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    public async Task Gh_Command_Groups_Drop_Command_Placeholders()
+    {
+        const string helpText = """
+            Work with GitHub issues.
+
+            USAGE
+              gh issue <command> [flags]
+
+            FLAGS
+              -R, --repo string   Select another repository
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "issue"], helpText);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Gh_Codespace_Ssh_Keeps_Optional_Forwarded_Operands()
+    {
+        const string helpText = """
+            SSH into a codespace.
+
+            USAGE
+              gh codespace ssh [<flags>...] [-- <ssh-flags>...] [<command>]
+
+            FLAGS
+              -c, --codespace string   Name of the codespace
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "codespace", "ssh"], helpText);
+        var arguments = command!.PositionalArguments.ToDictionary(argument => argument.PropertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(arguments.Keys).IsEquivalentTo(["Flags", "SshFlags", "Command"]);
+            await Assert.That(arguments["SshFlags"].CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(arguments["SshFlags"].IsRequired).IsFalse();
+            await Assert.That(arguments["Command"].CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Gh_Issue_Edit_Models_Number_Or_Url_Targets_As_A_Collection()
+    {
+        const string helpText = """
+            Edit issues.
+
+            USAGE
+              gh issue edit {<numbers> | <urls>} [flags]
+
+            FLAGS
+              -t, --title string   Set the new title
+            """;
+
+        var command = await new TestGhCliScraper().Parse(["gh", "issue", "edit"], helpText);
+        var argument = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("NumbersOrUrls");
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Gh_Pr_Alternatives_Use_Accurate_Property_Name()
+    {
+        var command = await new TestGhCliScraper().Parse(
+            ["gh", "pr", "view"],
+            "USAGE\n  gh pr view [<number> | <url> | <branch>] [flags]\n\nFLAGS\n  --web   Open in browser");
+
+        var argument = command!.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("NumberOrUrlOrBranch");
+        await Assert.That(argument.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
     public async Task Yarn_Extracts_Classic_Bulleted_Command_List()
     {
         const string helpText = """
