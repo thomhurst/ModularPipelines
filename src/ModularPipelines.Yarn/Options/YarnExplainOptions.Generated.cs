@@ -17,4 +17,10 @@ namespace ModularPipelines.Yarn.Options;
 [CliSubCommand("explain")]
 public record YarnExplainOptions : YarnOptions
 {
+    /// <summary>
+    /// The code operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Code { get; set; }
+
 }

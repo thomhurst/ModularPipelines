@@ -14,14 +14,10 @@ namespace ModularPipelines.Yarn.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("patch")]
-public record YarnPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+[CliSubCommand("workspace")]
+public record YarnWorkspaceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkspaceName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> CommandName
 ) : YarnOptions
 {
-    public YarnPatchOptions()
-        : this(default(string)!)
-    {
-    }
-
 }

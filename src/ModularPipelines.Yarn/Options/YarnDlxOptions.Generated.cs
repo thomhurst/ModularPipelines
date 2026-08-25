@@ -14,14 +14,9 @@ namespace ModularPipelines.Yarn.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("patch")]
-public record YarnPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+[CliSubCommand("dlx")]
+public record YarnDlxOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Command
 ) : YarnOptions
 {
-    public YarnPatchOptions()
-        : this(default(string)!)
-    {
-    }
-
 }

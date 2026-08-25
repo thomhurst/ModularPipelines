@@ -15,6 +15,13 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch-commit")]
-public record YarnPatchCommitOptions : YarnOptions
+public record YarnPatchCommitOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchFolder
+) : YarnOptions
 {
+    public YarnPatchCommitOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

@@ -15,6 +15,13 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
-public record YarnWhyOptions : YarnOptions
+public record YarnWhyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+) : YarnOptions
 {
+    public YarnWhyOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

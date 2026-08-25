@@ -17,4 +17,10 @@ namespace ModularPipelines.Yarn.Options;
 [CliSubCommand("bin")]
 public record YarnBinOptions : YarnOptions
 {
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
 }
