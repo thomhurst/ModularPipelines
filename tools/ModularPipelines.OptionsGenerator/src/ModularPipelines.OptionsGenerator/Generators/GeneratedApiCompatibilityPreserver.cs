@@ -1822,9 +1822,22 @@ internal static class GeneratedApiCompatibilityPreserver
                 && property.ForwardToPropertyName is { } target
                 && renamedProperties.TryGetValue(target, out var replacement))
             {
+                var renamedTarget = compatibilityProperties.FirstOrDefault(candidate =>
+                    candidate.PropertyName.Equals(target, StringComparison.Ordinal)
+                    && candidate.ForwardToPropertyName?.Equals(
+                        replacement,
+                        StringComparison.Ordinal) == true);
                 compatibilityProperties[index] = property with
                 {
                     ForwardToPropertyName = replacement,
+                    ForwardingKind = renamedTarget is null
+                        ? property.ForwardingKind
+                        : ComposeCompatibilityForwardingKinds(
+                            property,
+                            property.ForwardingKind,
+                            renamedTarget.ForwardingKind),
+                    UseInitAccessor = property.UseInitAccessor
+                                      || renamedTarget?.UseInitAccessor == true,
                 };
             }
         }
