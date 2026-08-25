@@ -24,6 +24,12 @@ public record ArgoCdAppGetResourceOptions(
 ) : ArgoCdOptions
 {
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// A comma separated list of fields to display, if not provided will output the entire manifest
     /// </summary>
     [CliOption("--filter-fields", Format = OptionFormat.EqualsSeparated)]

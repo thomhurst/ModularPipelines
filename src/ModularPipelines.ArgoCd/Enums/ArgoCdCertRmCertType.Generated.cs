@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdCertRmCertType
 {
     [EnumValue("ssh")]
-    Ssh,
+    Ssh = 0,
 
     [EnumValue("https")]
-    Https
+    Https = 1
 }

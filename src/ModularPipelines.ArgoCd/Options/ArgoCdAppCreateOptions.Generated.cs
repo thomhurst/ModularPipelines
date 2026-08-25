@@ -468,6 +468,12 @@ public record ArgoCdAppCreateOptions(
     public string? SyncSourcePath { get; set; }
 
     /// <summary>
+    /// Filter git tags by this prefix before evaluating targetRevision as a semver constraint
+    /// </summary>
+    [CliOption("--tag-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? TagPrefix { get; set; }
+
+    /// <summary>
     /// Allows to override application with the same name even if supplied application spec is different from existing spec
     /// </summary>
     [CliFlag("--upsert")]

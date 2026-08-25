@@ -10,15 +10,12 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.ArgoCd.Enums;
 
-/// <summary>
-/// Allowed values for the --logformat option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdProjRemoveSignatureKeyLogformat
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("text")]
-    Text
+    Text = 1
 }

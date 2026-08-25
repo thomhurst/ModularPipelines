@@ -194,6 +194,9 @@ public record ArgoCdProjAllowClusterResourceOptions(
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
     [CliArgument(3, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 

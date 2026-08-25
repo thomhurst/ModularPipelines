@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAdminProjGenerateSpecOutput
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("yaml")]
-    Yaml
+    Yaml = 1
 }

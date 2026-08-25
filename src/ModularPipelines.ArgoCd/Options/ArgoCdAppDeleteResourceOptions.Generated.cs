@@ -30,6 +30,12 @@ public record ArgoCdAppDeleteResourceOptions(
     public bool? All { get; set; }
 
     /// <summary>
+    /// Namespace of the application
+    /// </summary>
+    [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
+    public string? AppNamespace { get; set; }
+
+    /// <summary>
     /// Indicates whether to force delete the resource
     /// </summary>
     [CliFlag("--force")]

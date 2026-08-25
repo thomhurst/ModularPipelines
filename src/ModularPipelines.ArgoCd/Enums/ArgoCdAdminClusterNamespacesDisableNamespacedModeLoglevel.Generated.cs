@@ -17,14 +17,14 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAdminClusterNamespacesDisableNamespacedModeLoglevel
 {
     [EnumValue("debug")]
-    Debug,
+    Debug = 0,
 
     [EnumValue("info")]
-    Info,
+    Info = 1,
 
     [EnumValue("warn")]
-    Warn,
+    Warn = 2,
 
     [EnumValue("error")]
-    Error
+    Error = 3
 }

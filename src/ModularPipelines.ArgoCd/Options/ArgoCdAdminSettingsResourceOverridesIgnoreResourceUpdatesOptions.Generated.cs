@@ -50,7 +50,6 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
     /// <summary>
     /// Path to local argocd-secret.yaml file
     /// </summary>
-    [SecretValue]
     [CliOption("--argocd-secret-path", Format = OptionFormat.EqualsSeparated)]
     public string? ArgocdSecretPath { get; set; }
 
@@ -191,7 +190,7 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
     /// Path to a kube config. Only required if out-of-cluster
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// Indicates that config map and secret should be loaded from cluster unless local file path is provided
@@ -326,5 +325,12 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    [Obsolete("Use KubeConfig instead.")]
+    public string? Kubeconfig
+    {
+        get => KubeConfig;
+        set => KubeConfig = value;
+    }
 
 }

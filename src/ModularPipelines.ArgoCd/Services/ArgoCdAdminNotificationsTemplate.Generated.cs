@@ -32,6 +32,21 @@ public class ArgoCdAdminNotificationsTemplate
     #region Commands
 
     /// <summary>
+    /// Notification templates related commands
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdAdminNotificationsTemplateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdAdminNotificationsTemplateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Prints information about configured templates
     /// </summary>
     /// <param name="options">The command options.</param>

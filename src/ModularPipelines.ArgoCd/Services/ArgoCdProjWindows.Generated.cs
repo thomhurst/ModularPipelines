@@ -32,6 +32,21 @@ public class ArgoCdProjWindows
     #region Commands
 
     /// <summary>
+    /// Manage a project's sync windows
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        ArgoCdProjWindowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdProjWindowsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Add a sync window to a project
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -77,6 +92,21 @@ public class ArgoCdProjWindows
     }
 
     /// <summary>
+    /// Disable sync overrun for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisableSyncOverrunAsync(
+        ArgoCdProjWindowsDisableSyncOverrunOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Enable manual sync for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -85,6 +115,21 @@ public class ArgoCdProjWindows
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableManualSyncAsync(
         ArgoCdProjWindowsEnableManualSyncOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Enable sync overrun for a sync window. When enabled on a deny window, syncs that started before the deny window will be allowed to continue. When enabled on an allow window, syncs that started during the allow window can continue after the window ends. Requires ID which can be found by running "argocd proj windows list PROJECT"
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> EnableSyncOverrunAsync(
+        ArgoCdProjWindowsEnableSyncOverrunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
