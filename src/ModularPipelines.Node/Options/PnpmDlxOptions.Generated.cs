@@ -18,8 +18,15 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dlx")]
-public record PnpmDlxOptions : PnpmOptions
+public record PnpmDlxOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : PnpmOptions
 {
+    public PnpmDlxOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// A list of package names that are allowed to run postinstall scripts during installation
     /// </summary>
@@ -37,5 +44,11 @@ public record PnpmDlxOptions : PnpmOptions
     /// </summary>
     [CliOption("--shell-mode", ShortForm = "-c")]
     public string? ShellMode { get; set; }
+
+    /// <summary>
+    /// The args operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Args { get; set; }
 
 }

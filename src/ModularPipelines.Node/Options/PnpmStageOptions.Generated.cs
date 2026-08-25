@@ -18,8 +18,15 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stage")]
-public record PnpmStageOptions : PnpmOptions
+public record PnpmStageOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Publish
+) : PnpmOptions
 {
+    public PnpmStageOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Tells the registry whether the staged package should be public or restricted.
     /// </summary>
@@ -92,5 +99,11 @@ public record PnpmStageOptions : PnpmOptions
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
+
+    /// <summary>
+    /// The &lt;tarball&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Tarball { get; set; }
 
 }
