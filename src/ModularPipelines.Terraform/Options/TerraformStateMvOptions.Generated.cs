@@ -18,8 +18,16 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "mv")]
-public record TerraformStateMvOptions : TerraformOptions
+public record TerraformStateMvOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
+) : TerraformOptions
 {
+    public TerraformStateMvOptions()
+        : this(default(string)!, default(string)!)
+    {
+    }
+
     /// <summary>
     /// If set, prints out what would've been moved but doesn't actually move anything.
     /// </summary>

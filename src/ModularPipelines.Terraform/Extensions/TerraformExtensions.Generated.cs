@@ -37,7 +37,7 @@ public static class TerraformExtensions
     }
 
     /// <summary>
-    /// Gets the terraform service from the pipeline context.
+    /// Gets the terraform service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITerraform"/> service for executing terraform commands.</returns>

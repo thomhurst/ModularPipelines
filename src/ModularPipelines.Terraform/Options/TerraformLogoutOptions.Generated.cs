@@ -13,18 +13,17 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// list                List configurations associated with the given stack.
+/// Removes locally-stored credentials for specified hostname.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("stacks", "configuration")]
-public record TerraformStacksConfigurationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Subcommand
-) : TerraformOptions
+[CliSubCommand("logout")]
+public record TerraformLogoutOptions : TerraformOptions
 {
-    public TerraformStacksConfigurationOptions()
-        : this(default(string)!)
-    {
-    }
+    /// <summary>
+    /// The hostname operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Hostname { get; set; }
 
 }

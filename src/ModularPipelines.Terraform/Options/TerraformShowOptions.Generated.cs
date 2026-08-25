@@ -32,4 +32,10 @@ public record TerraformShowOptions : TerraformOptions
     [CliFlag("-json")]
     public bool? Json { get; set; }
 
+    /// <summary>
+    /// The path operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Path { get; set; }
+
 }

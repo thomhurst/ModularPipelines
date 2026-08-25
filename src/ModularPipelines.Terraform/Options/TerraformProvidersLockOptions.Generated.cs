@@ -56,4 +56,10 @@ public record TerraformProvidersLockOptions : TerraformOptions
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
 
+    /// <summary>
+    /// The providers operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Providers { get; set; }
+
 }

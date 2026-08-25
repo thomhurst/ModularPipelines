@@ -18,6 +18,19 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks")]
-public record TerraformStacksOptions : TerraformOptions
+public record TerraformStacksOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : TerraformOptions
 {
+    public TerraformStacksOptions()
+        : this(default(string)!)
+    {
+    }
+
+    /// <summary>
+    /// The args operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Args { get; set; }
+
 }

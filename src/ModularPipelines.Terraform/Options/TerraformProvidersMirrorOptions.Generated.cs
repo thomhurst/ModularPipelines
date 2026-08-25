@@ -18,8 +18,15 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("providers", "mirror")]
-public record TerraformProvidersMirrorOptions : TerraformOptions
+public record TerraformProvidersMirrorOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string TargetDir
+) : TerraformOptions
 {
+    public TerraformProvidersMirrorOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Choose which target platform to build a mirror for. By default Terraform will obtain plugin packages suitable for the platform where you run this command. Use this flag multiple times to include packages for multiple target systems.
     /// </summary>
