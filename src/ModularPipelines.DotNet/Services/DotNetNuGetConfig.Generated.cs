@@ -32,6 +32,36 @@ public class DotNetNuGetConfig
     #region Commands
 
     /// <summary>
+    /// NuGet configuration CLI
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetConfigOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets the NuGet configuration settings that will be applied.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetAsync(
+        DotNetNuGetConfigGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigGetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Lists the paths to all NuGet configuration files that will be applied when invoking NuGet command in a specific directory
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,6 +74,36 @@ public class DotNetNuGetConfig
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigPathsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Set the value of a specified NuGet configuration setting.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetAsync(
+        DotNetNuGetConfigSetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Removes the key-value pair from a specified NuGet configuration setting.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UnsetAsync(
+        DotNetNuGetConfigUnsetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigUnsetOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

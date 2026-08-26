@@ -47,7 +47,7 @@ public class DotNetWorkload : IDotNetWorkload
     }
 
     /// <summary>
-    /// Removes workload components that may have been left behind from previous
+    /// Removes workload components that may have been left behind from previous updates and uninstallations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,6 +92,21 @@ public class DotNetWorkload : IDotNetWorkload
     }
 
     /// <summary>
+    /// Install one or more workloads.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> InstallAsync(
+        DotNetWorkloadInstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadInstallOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List workloads available.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -119,6 +134,51 @@ public class DotNetWorkload : IDotNetWorkload
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadRepairOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Restore workloads required for a project.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestoreAsync(
+        DotNetWorkloadRestoreOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadRestoreOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Search for available workloads.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchAsync(
+        DotNetWorkloadSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadSearchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Uninstall one or more workloads.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UninstallAsync(
+        DotNetWorkloadUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadUninstallOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

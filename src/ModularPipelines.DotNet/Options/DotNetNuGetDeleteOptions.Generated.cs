@@ -12,17 +12,14 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Deletes a package from the server.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "delete")]
 public record DotNetNuGetDeleteOptions : DotNetOptions
 {
-    /// <summary>
-    /// Forces the application to run using an invariant, English-based culture.
-    /// </summary>
-    [CliFlag("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
-
     /// <summary>
     /// Package source (URL, UNC/folder path or package source name) to use. Defaults to DefaultPushSource if specified in NuGet.Config.
     /// </summary>
@@ -36,7 +33,7 @@ public record DotNetNuGetDeleteOptions : DotNetOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// The API key for the server.
+    /// The API key for the server. If not set, the NUGET_API_KEY environment variable is read.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key", ShortForm = "-k")]
@@ -53,6 +50,12 @@ public record DotNetNuGetDeleteOptions : DotNetOptions
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
 
     /// <summary>
     /// The package ID to delete.

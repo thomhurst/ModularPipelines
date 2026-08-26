@@ -31,7 +31,28 @@ public class DotNetNuGetTrust
 
     #region Commands
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Manage the trusted signers.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetTrustOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Adds a trusted signer with the given name, based on the author signature of the package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AuthorAsync(
         DotNetNuGetTrustAuthorOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -40,7 +61,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustAuthorOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Adds a trusted signer with the given name, based on the repository signature or countersignature of a signed package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CertificateAsync(
         DotNetNuGetTrustCertificateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -49,7 +76,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustCertificateOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Lists all the trusted signers in the configuration.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         DotNetNuGetTrustListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -58,7 +91,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustListOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Removes any trusted signers that match the given name.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAsync(
         DotNetNuGetTrustRemoveOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -67,7 +106,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustRemoveOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Adds a trusted signer with the given name, based on the repository signature or countersignature of a signed package.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RepositoryAsync(
         DotNetNuGetTrustRepositoryOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -76,7 +121,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustRepositoryOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Adds a trusted signer based on a given package source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetTrustSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -85,7 +136,13 @@ public class DotNetNuGetTrust
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetTrustSourceOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Deletes the current list of certificates and replaces them with an up-to-date list from the repository.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SyncAsync(
         DotNetNuGetTrustSyncOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

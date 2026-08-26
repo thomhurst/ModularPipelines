@@ -27,7 +27,13 @@ public record DotNetNuGetWhyOptions : DotNetOptions
     public string? Framework { get; set; }
 
     /// <summary>
-    /// A path to a project, solution file, or directory.
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// A path to a project, solution file, file-based app, or project directory.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

@@ -31,7 +31,28 @@ public class DotNetNuGetRemove
 
     #region Commands
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Remove a NuGet source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Removes the client certificate configuration that matches the given package source name.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetRemoveClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -40,7 +61,13 @@ public class DotNetNuGetRemove
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetRemoveClientCertOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Remove a NuGet source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetRemoveSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

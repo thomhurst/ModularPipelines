@@ -45,6 +45,12 @@ public record DotNetPackageListOptions : DotNetOptions
     public bool? Vulnerable { get; set; }
 
     /// <summary>
+    /// Chooses a framework to show its packages. Use the option multiple times for multiple frameworks.
+    /// </summary>
+    [CliOption("--framework", ShortForm = "-f")]
+    public IEnumerable<string>? Framework { get; set; }
+
+    /// <summary>
     /// Lists transitive and top-level packages. [default: False]
     /// </summary>
     [CliFlag("--include-transitive")]
@@ -63,7 +69,7 @@ public record DotNetPackageListOptions : DotNetOptions
     public bool? HighestPatch { get; set; }
 
     /// <summary>
-    /// Consider only the packages with a matching major version number when searching for newer packages. Requires
+    /// Consider only the packages with a matching major version number when searching for newer packages. Requires the '--outdated' option. [default: False]
     /// </summary>
     [CliFlag("--highest-minor")]
     public bool? HighestMinor { get; set; }
@@ -75,7 +81,7 @@ public record DotNetPackageListOptions : DotNetOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// Allows the command to stop and wait for user input or action (for example to
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
@@ -103,5 +109,11 @@ public record DotNetPackageListOptions : DotNetOptions
     /// </summary>
     [CliOption("--project")]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// The file-based app to operate on.
+    /// </summary>
+    [CliOption("--file")]
+    public string? File { get; set; }
 
 }

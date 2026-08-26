@@ -31,7 +31,28 @@ public class DotNetNuGetList
 
     #region Commands
 
-    /// <inheritdoc />
+    /// <summary>
+    /// List configured NuGet sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DotNetNuGetListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Lists all the client certificates in the configuration.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetListClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -40,7 +61,13 @@ public class DotNetNuGetList
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetListClientCertOptions(), executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Lists all configured NuGet sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetListSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

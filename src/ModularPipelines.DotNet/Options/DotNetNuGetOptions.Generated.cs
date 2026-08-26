@@ -17,4 +17,10 @@ namespace ModularPipelines.DotNet.Options;
 [CliSubCommand("nuget")]
 public record DotNetNuGetOptions : DotNetOptions
 {
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
 }
