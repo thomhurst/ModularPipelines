@@ -10,9 +10,6 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Liquibase.Enums;
 
-/// <summary>
-/// Allowed values for --show-summary-output.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseShowSummaryOutput
 {

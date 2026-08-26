@@ -21,4 +21,10 @@ namespace ModularPipelines.Liquibase.Options;
 [CliSubCommand("init")]
 public record LiquibaseInitOptions : LiquibaseOptions
 {
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Command { get; set; }
+
 }
