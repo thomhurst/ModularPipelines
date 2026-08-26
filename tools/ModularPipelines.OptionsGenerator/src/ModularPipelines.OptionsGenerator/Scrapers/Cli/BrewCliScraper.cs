@@ -249,8 +249,9 @@ public partial class BrewCliScraper : CliScraperBase
         // Parse description from help text
         var description = ExtractDescription(helpText, usage);
 
-        // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        // Wrapper commands can print prerequisite help before their own usage.
+        // Only options at or after the selected command synopsis belong here.
+        var options = ParseOptions(ExtractHelpFromMatchingUsage(helpText, usage), commandParts);
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
             DisambiguatePositionalArguments(
@@ -439,6 +440,28 @@ public partial class BrewCliScraper : CliScraperBase
         }
 
         return descriptionLines.Count == 0 ? null : string.Join(' ', descriptionLines);
+    }
+
+    private static string ExtractHelpFromMatchingUsage(
+        string helpText,
+        UsageSynopsisParseResult usage)
+    {
+        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        {
+            return string.Empty;
+        }
+
+        var lines = NormalizeLines(helpText);
+        for (var index = 0; index < lines.Length; index++)
+        {
+            var usageStartIndex = index;
+            if (TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
+            {
+                return string.Join(Environment.NewLine, lines[usageStartIndex..]);
+            }
+        }
+
+        return string.Empty;
     }
 
     /// <summary>

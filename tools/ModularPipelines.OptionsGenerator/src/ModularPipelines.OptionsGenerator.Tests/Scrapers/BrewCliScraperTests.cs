@@ -228,7 +228,33 @@ public class BrewCliScraperTests
 
         var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);
 
-        await Assert.That(command!.Description).IsNull();
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Description).IsNull();
+            await Assert.That(command.Options).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task Ignores_Prerequisite_Options_Before_Matching_Usage()
+    {
+        const string helpText = """
+            Usage: brew install-bundler-gems [--groups=]
+
+                  --groups        Install Bundler gem groups.
+
+            Usage: rubocop [options] [file1, file2, ...]
+
+                -l, --lint        Run only lint cops.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options).Contains(option => option.SwitchName == "--lint");
+            await Assert.That(command.Options).DoesNotContain(option => option.SwitchName == "--groups");
+        }
     }
 
     [Test]
