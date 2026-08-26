@@ -968,9 +968,7 @@ public static class UsageSynopsisParser
         return valueStartIndex > 1
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
-               && TryGetClosingDelimiter(normalized[valueStartIndex], out var closingDelimiter)
-               && normalized[^1] == closingDelimiter
-               && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
+               && alternativeSeparatorIndex > valueStartIndex;
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
