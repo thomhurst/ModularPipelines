@@ -73,5 +73,4 @@ public partial class MinikubeCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version", "update-check"
     };
-
 }
