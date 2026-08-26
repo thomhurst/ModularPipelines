@@ -218,12 +218,14 @@ public class BrewCliScraperTests
     }
 
     [Test]
-    public async Task Ignores_Description_For_Unrelated_Usage()
+    public async Task Falls_Back_To_Options_For_Unmatched_Usage()
     {
         const string helpText = """
             Usage: brew install-bundler-gems [--groups=]
 
             Install Homebrew's Bundler gems.
+
+                  --groups        Install Bundler gem groups.
             """;
 
         var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);
@@ -231,7 +233,7 @@ public class BrewCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(command!.Description).IsNull();
-            await Assert.That(command.Options).IsEmpty();
+            await Assert.That(command.Options).Contains(option => option.SwitchName == "--groups");
         }
     }
 
@@ -246,6 +248,28 @@ public class BrewCliScraperTests
             Usage: rubocop [options] [file1, file2, ...]
 
                 -l, --lint        Run only lint cops.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options).Contains(option => option.SwitchName == "--lint");
+            await Assert.That(command.Options).DoesNotContain(option => option.SwitchName == "--groups");
+        }
+    }
+
+    [Test]
+    public async Task Ignores_Unrelated_Options_After_Matching_Usage()
+    {
+        const string helpText = """
+            Usage: rubocop [options] [file1, file2, ...]
+
+                -l, --lint        Run only lint cops.
+
+            Usage: brew install-bundler-gems [--groups=]
+
+                  --groups        Install Bundler gem groups.
             """;
 
         var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);

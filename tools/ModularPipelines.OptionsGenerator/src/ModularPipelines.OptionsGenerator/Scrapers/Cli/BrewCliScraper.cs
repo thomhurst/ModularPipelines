@@ -377,23 +377,13 @@ public partial class BrewCliScraper : CliScraperBase
         string helpText,
         UsageSynopsisParseResult usage)
     {
-        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        var lines = NormalizeLines(helpText);
+        if (!TryFindMatchingUsage(lines, usage, out _, out var usageEndIndex))
         {
             return null;
         }
 
-        var lines = NormalizeLines(helpText);
-        for (var index = 0; index < lines.Length; index++)
-        {
-            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
-            {
-                continue;
-            }
-
-            return ReadDescriptionParagraph(lines, index);
-        }
-
-        return null;
+        return ReadDescriptionParagraph(lines, usageEndIndex);
     }
 
     private static bool TryMatchUsageSynopsis(
@@ -446,22 +436,56 @@ public partial class BrewCliScraper : CliScraperBase
         string helpText,
         UsageSynopsisParseResult usage)
     {
-        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        var lines = NormalizeLines(helpText);
+        if (!TryFindMatchingUsage(
+                lines,
+                usage,
+                out var usageStartIndex,
+                out var usageEndIndex))
         {
-            return string.Empty;
+            return helpText;
         }
 
-        var lines = NormalizeLines(helpText);
-        for (var index = 0; index < lines.Length; index++)
+        var sectionEndIndex = lines.Length;
+        for (var index = usageEndIndex + 1; index < lines.Length; index++)
         {
-            var usageStartIndex = index;
-            if (TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
+            if (UsageLinePattern().IsMatch(lines[index]))
             {
-                return string.Join(Environment.NewLine, lines[usageStartIndex..]);
+                sectionEndIndex = index;
+                break;
             }
         }
 
-        return string.Empty;
+        return string.Join(Environment.NewLine, lines[usageStartIndex..sectionEndIndex]);
+    }
+
+    private static bool TryFindMatchingUsage(
+        IReadOnlyList<string> lines,
+        UsageSynopsisParseResult usage,
+        out int usageStartIndex,
+        out int usageEndIndex)
+    {
+        usageStartIndex = -1;
+        usageEndIndex = -1;
+        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        {
+            return false;
+        }
+
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var candidateStartIndex = index;
+            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
+            {
+                continue;
+            }
+
+            usageStartIndex = candidateStartIndex;
+            usageEndIndex = index;
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
