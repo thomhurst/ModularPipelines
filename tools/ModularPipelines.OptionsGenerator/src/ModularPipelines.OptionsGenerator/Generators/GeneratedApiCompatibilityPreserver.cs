@@ -144,6 +144,7 @@ internal static class GeneratedApiCompatibilityPreserver
         var currentOptionTypes = tool.Commands
             .Select(static command => command.ClassName)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool).ToHashSet();
         var facadeMethodsByOptionsType = facadeMethods
             .GroupBy(static method => method.OptionsType, StringComparer.Ordinal)
             .ToDictionary(
@@ -162,7 +163,8 @@ internal static class GeneratedApiCompatibilityPreserver
             yield return RestoreRemovedCommand(
                 tool,
                 commandBaseline,
-                facadeMethodsByOptionsType.GetValueOrDefault(commandBaseline.ClassName) ?? []);
+                facadeMethodsByOptionsType.GetValueOrDefault(commandBaseline.ClassName) ?? [],
+                rootCommands);
         }
     }
 
@@ -222,7 +224,8 @@ internal static class GeneratedApiCompatibilityPreserver
     private static CliCommandDefinition RestoreRemovedCommand(
         CliToolDefinition tool,
         GeneratedApiBaseline baseline,
-        IReadOnlyList<GeneratedFacadeMethod> facadeMethods)
+        IReadOnlyList<GeneratedFacadeMethod> facadeMethods,
+        HashSet<CliCommandDefinition> rootCommands)
     {
         var commandParts = baseline.CommandParts!;
         var groupIdentifier = GetRestoredCommandGroupIdentifier(tool, baseline, facadeMethods);
@@ -231,7 +234,8 @@ internal static class GeneratedApiCompatibilityPreserver
             && IsNamedFacadeMethod(tool, method));
         var replacementRootMethodName = FindLiveOperandReplacementRootMethodName(
             tool,
-            commandParts);
+            commandParts,
+            rootCommands);
         var subDomainGroup = commandParts.Length > 1 && !preserveRootNamedFacade
             ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
             : null;
@@ -280,9 +284,9 @@ internal static class GeneratedApiCompatibilityPreserver
 
     private static string? FindLiveOperandReplacementRootMethodName(
         CliToolDefinition tool,
-        string[] removedCommandParts)
+        string[] removedCommandParts,
+        HashSet<CliCommandDefinition> rootCommands)
     {
-        var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool).ToHashSet();
         var candidates = tool.Commands
             .Where(static command => !command.IsCompatibilityOnly)
             .Where(command => command.CommandParts.Length < removedCommandParts.Length)
