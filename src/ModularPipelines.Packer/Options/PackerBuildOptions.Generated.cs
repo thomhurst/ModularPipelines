@@ -19,8 +19,15 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
-public record PackerBuildOptions : PackerOptions
+public record PackerBuildOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerBuildOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Disable color output. (Default: color)
     /// </summary>
@@ -79,7 +86,7 @@ public record PackerBuildOptions : PackerOptions
     /// JSON or HCL2 file containing user variables, can be used multiple times.
     /// </summary>
     [CliOption("--var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFileValues { get; set; }
 
     /// <summary>
     /// Display warnings for user variable files containing undeclared variables.
@@ -104,5 +111,12 @@ public record PackerBuildOptions : PackerOptions
     /// </summary>
     [CliFlag("--skip-enforcement")]
     public bool? SkipEnforcement { get; set; }
+
+    [Obsolete("Use VarFileValues instead.")]
+    public string? VarFile
+    {
+        get => VarFileValues?.FirstOrDefault();
+        set => VarFileValues = value is null ? null : [value];
+    }
 
 }

@@ -19,8 +19,15 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
-public record PackerInspectOptions : PackerOptions
+public record PackerInspectOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
+) : PackerOptions
 {
+    public PackerInspectOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Machine-readable output
     /// </summary>

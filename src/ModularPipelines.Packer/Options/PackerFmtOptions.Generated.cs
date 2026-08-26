@@ -22,7 +22,7 @@ namespace ModularPipelines.Packer.Options;
 public record PackerFmtOptions : PackerOptions
 {
     /// <summary>
-    /// Check if the input is formatted. Exit status will be 0 if all
+    /// Check if the input is formatted. Exit status will be 0 if all input is properly formatted and non-zero otherwise.
     /// </summary>
     [CliFlag("--check")]
     public bool? Check { get; set; }
@@ -34,15 +34,21 @@ public record PackerFmtOptions : PackerOptions
     public bool? Diff { get; set; }
 
     /// <summary>
-    /// Don't write to source files
+    /// Don't write to source files (always disabled if using -check)
     /// </summary>
     [CliFlag("--write")]
     public bool? Write { get; set; }
 
     /// <summary>
-    /// Also process files in subdirectories. By default, only the
+    /// Also process files in subdirectories. By default, only the given directory (or current directory) is processed.
     /// </summary>
     [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Template { get; set; }
 
 }
