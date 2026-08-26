@@ -621,10 +621,6 @@ jobs:
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             $stagedPaths = @(git diff --staged --name-only)
-            $delimiter = [guid]::NewGuid().ToString()
-            "add_paths<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            $stagedPaths | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "Changed files:"
             $stagedPaths
           } else {
@@ -670,7 +666,8 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          add-paths: ${{ steps.changes.outputs.add_paths }}
+          # Stage-GeneratedChanges.ps1 already rejects every checkout change outside
+          # the generator manifests before this action commits the validated worktree.
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
@@ -916,10 +913,6 @@ jobs:
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             $stagedPaths = @(git diff --staged --name-only)
-            $delimiter = [guid]::NewGuid().ToString()
-            "add_paths<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            $stagedPaths | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "Changed files:"
             $stagedPaths
           } else {
@@ -953,7 +946,8 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          add-paths: ${{ steps.changes.outputs.add_paths }}
+          # Stage-GeneratedChanges.ps1 already rejects every checkout change outside
+          # the generator manifests before this action commits the validated worktree.
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
