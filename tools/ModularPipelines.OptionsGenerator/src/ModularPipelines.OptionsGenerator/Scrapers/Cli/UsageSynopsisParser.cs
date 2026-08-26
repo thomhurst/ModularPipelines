@@ -972,19 +972,41 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        var valueStartIndex = normalized.IndexOfAny([' ', '\t']);
-        while (valueStartIndex >= 0
-               && valueStartIndex < normalized.Length
-               && char.IsWhiteSpace(normalized[valueStartIndex]))
-        {
-            valueStartIndex++;
-        }
+        var valueStartIndex = GetOptionValueStartIndex(normalized);
 
         return valueStartIndex > 1
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
-               && normalized[valueStartIndex] != '|'
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
+    }
+
+    private static int GetOptionValueStartIndex(string content)
+    {
+        var valueStartIndex = SkipWhitespace(content, content.IndexOfAny([' ', '\t']));
+        if (valueStartIndex < 0
+            || valueStartIndex >= content.Length
+            || content[valueStartIndex] != '|')
+        {
+            return valueStartIndex;
+        }
+
+        var aliasStartIndex = SkipWhitespace(content, valueStartIndex + 1);
+        var aliasEndIndex = content.IndexOfAny([' ', '\t', '='], aliasStartIndex);
+        return aliasEndIndex < 0
+            ? content.Length
+            : SkipWhitespace(content, aliasEndIndex);
+    }
+
+    private static int SkipWhitespace(string content, int startIndex)
+    {
+        while (startIndex >= 0
+               && startIndex < content.Length
+               && char.IsWhiteSpace(content[startIndex]))
+        {
+            startIndex++;
+        }
+
+        return startIndex;
     }
 
     private static bool HasOptionAssignment(string content)
