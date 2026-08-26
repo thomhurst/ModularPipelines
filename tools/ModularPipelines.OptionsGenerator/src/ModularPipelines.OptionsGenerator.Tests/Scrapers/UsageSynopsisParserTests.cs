@@ -355,10 +355,14 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands()
+    [Arguments("--format=<json|yaml>")]
+    [Arguments("[--format <json|yaml>]")]
+    [Arguments("[--format {json|yaml}]")]
+    [Arguments("[--format [json|yaml]]")]
+    public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands(string option)
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: tool run --format=<json|yaml>",
+            $"Usage: tool run {option}",
             ["tool", "run"]);
 
         await Assert.That(result.PositionalArguments).IsEmpty();

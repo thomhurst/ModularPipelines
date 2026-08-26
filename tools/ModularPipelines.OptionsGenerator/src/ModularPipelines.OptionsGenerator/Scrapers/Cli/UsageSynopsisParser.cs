@@ -939,20 +939,38 @@ public static class UsageSynopsisParser
     private static bool HasMixedOptionOperandAlternatives(string content)
     {
         var alternatives = GetAlternatives(content);
-        return !IsOptionAssignment(content)
+        return !HasOptionValueAlternatives(content)
                && alternatives.Length > 1
                && alternatives.Any(IsOptionAlternative)
                && alternatives.Any(IsOperandAlternative);
     }
 
-    private static bool IsOptionAssignment(string content)
+    private static bool HasOptionValueAlternatives(string content)
     {
         var normalized = TrimControlWrappers(content);
         var assignmentIndex = normalized.IndexOf('=');
         var alternativeSeparatorIndex = normalized.IndexOf('|');
-        return assignmentIndex > 1
+        if (assignmentIndex > 1
+            && normalized.StartsWith('-')
+            && (alternativeSeparatorIndex < 0 || assignmentIndex < alternativeSeparatorIndex))
+        {
+            return true;
+        }
+
+        var valueStartIndex = normalized.IndexOfAny([' ', '\t']);
+        while (valueStartIndex >= 0
+               && valueStartIndex < normalized.Length
+               && char.IsWhiteSpace(normalized[valueStartIndex]))
+        {
+            valueStartIndex++;
+        }
+
+        return valueStartIndex > 1
+               && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
-               && (alternativeSeparatorIndex < 0 || assignmentIndex < alternativeSeparatorIndex);
+               && TryGetClosingDelimiter(normalized[valueStartIndex], out var closingDelimiter)
+               && normalized[^1] == closingDelimiter
+               && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
