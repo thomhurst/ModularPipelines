@@ -1,0 +1,16 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--identity-token": {
+      "type": "string",
+      "isSecret": true,
+      "reason": "Cosign identity tokens must remain masked even when supplied through a file path"
+    },
+    "--oidc-client-secret-file": {
+      "type": "string",
+      "isSecret": true,
+      "reason": "Cosign OIDC client secret files are explicitly classified as sensitive"
+    }
+  },
+  "commands": {}
+}

@@ -249,8 +249,9 @@ public partial class BrewCliScraper : CliScraperBase
         // Parse description from help text
         var description = ExtractDescription(helpText, usage);
 
-        // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        // Wrapper commands can print prerequisite help before their own usage.
+        // Only options at or after the selected command synopsis belong here.
+        var options = ParseOptions(ExtractHelpFromMatchingUsage(helpText, usage), commandParts);
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
             DisambiguatePositionalArguments(
@@ -376,23 +377,13 @@ public partial class BrewCliScraper : CliScraperBase
         string helpText,
         UsageSynopsisParseResult usage)
     {
-        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        var lines = NormalizeLines(helpText);
+        if (!TryFindMatchingUsage(lines, usage, out _, out var usageEndIndex))
         {
             return null;
         }
 
-        var lines = NormalizeLines(helpText);
-        for (var index = 0; index < lines.Length; index++)
-        {
-            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
-            {
-                continue;
-            }
-
-            return ReadDescriptionParagraph(lines, index);
-        }
-
-        return null;
+        return ReadDescriptionParagraph(lines, usageEndIndex);
     }
 
     private static bool TryMatchUsageSynopsis(
@@ -439,6 +430,62 @@ public partial class BrewCliScraper : CliScraperBase
         }
 
         return descriptionLines.Count == 0 ? null : string.Join(' ', descriptionLines);
+    }
+
+    private static string ExtractHelpFromMatchingUsage(
+        string helpText,
+        UsageSynopsisParseResult usage)
+    {
+        var lines = NormalizeLines(helpText);
+        if (!TryFindMatchingUsage(
+                lines,
+                usage,
+                out var usageStartIndex,
+                out var usageEndIndex))
+        {
+            return helpText;
+        }
+
+        var sectionEndIndex = lines.Length;
+        for (var index = usageEndIndex + 1; index < lines.Length; index++)
+        {
+            if (UsageLinePattern().IsMatch(lines[index]))
+            {
+                sectionEndIndex = index;
+                break;
+            }
+        }
+
+        return string.Join(Environment.NewLine, lines[usageStartIndex..sectionEndIndex]);
+    }
+
+    private static bool TryFindMatchingUsage(
+        IReadOnlyList<string> lines,
+        UsageSynopsisParseResult usage,
+        out int usageStartIndex,
+        out int usageEndIndex)
+    {
+        usageStartIndex = -1;
+        usageEndIndex = -1;
+        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
+        {
+            return false;
+        }
+
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var candidateStartIndex = index;
+            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
+            {
+                continue;
+            }
+
+            usageStartIndex = candidateStartIndex;
+            usageEndIndex = index;
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
