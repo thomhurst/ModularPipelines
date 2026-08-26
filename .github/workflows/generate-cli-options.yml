@@ -660,13 +660,23 @@ jobs:
             -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
             -CurrentDirectory "$RUNNER_TEMP/api-current"
 
+      - name: Revalidate generated changes before PR
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
+            -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -MaximumFileSizeBytes 5242880
+
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          # Stage-GeneratedChanges.ps1 already rejects every checkout change outside
+          # The immediately preceding revalidation rejects every checkout change outside
           # the generator manifests before this action commits the validated worktree.
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
@@ -940,13 +950,23 @@ jobs:
             -BaselineDirectory "$env:RUNNER_TEMP/api-baseline" `
             -CurrentDirectory "$env:RUNNER_TEMP/api-current"
 
+      - name: Revalidate generated changes before PR
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
+            -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -MaximumFileSizeBytes 5242880
+
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          # Stage-GeneratedChanges.ps1 already rejects every checkout change outside
+          # The immediately preceding revalidation rejects every checkout change outside
           # the generator manifests before this action commits the validated worktree.
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
