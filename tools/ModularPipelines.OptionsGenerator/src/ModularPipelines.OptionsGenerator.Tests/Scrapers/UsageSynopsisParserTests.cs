@@ -365,6 +365,24 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("--config|KEY=VALUE")]
+    [Arguments("KEY=VALUE|--config")]
+    public async Task Models_Assignment_Operand_Alternatives_As_Optional(string alternative)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool run {alternative}",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("KeyValue");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands()
     {
         var result = UsageSynopsisParser.Parse(

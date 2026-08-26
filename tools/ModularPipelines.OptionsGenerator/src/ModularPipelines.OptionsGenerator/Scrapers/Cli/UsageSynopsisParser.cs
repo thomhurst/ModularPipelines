@@ -949,7 +949,10 @@ public static class UsageSynopsisParser
     {
         var normalized = TrimControlWrappers(content);
         var assignmentIndex = normalized.IndexOf('=');
-        return assignmentIndex > 1 && normalized.StartsWith('-');
+        var alternativeSeparatorIndex = normalized.IndexOf('|');
+        return assignmentIndex > 1
+               && normalized.StartsWith('-')
+               && (alternativeSeparatorIndex < 0 || assignmentIndex < alternativeSeparatorIndex);
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
