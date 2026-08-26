@@ -44,4 +44,10 @@ public record GhRulesetCheckOptions : GhOptions
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
 
+    /// <summary>
+    /// The &lt;branch&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Branch { get; set; }
+
 }

@@ -20,4 +20,10 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("attestation")]
 public record GhAttestationOptions : GhOptions
 {
+    /// <summary>
+    /// Show help for command
+    /// </summary>
+    [CliFlag("--help")]
+    public bool? Help { get; set; }
+
 }

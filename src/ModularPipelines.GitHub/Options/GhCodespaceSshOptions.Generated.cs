@@ -74,4 +74,22 @@ public record GhCodespaceSshOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;flags&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Flags { get; set; }
+
+    /// <summary>
+    /// The &lt;ssh-flags&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? SshFlags { get; set; }
+
+    /// <summary>
+    /// The &lt;command&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? Command { get; set; }
+
 }

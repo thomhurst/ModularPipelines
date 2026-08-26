@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label", "clone")]
-public record GhLabelCloneOptions : GhOptions
+public record GhLabelCloneOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceRepository
+) : GhOptions
 {
+    public GhLabelCloneOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Overwrite labels in the destination repository
     /// </summary>

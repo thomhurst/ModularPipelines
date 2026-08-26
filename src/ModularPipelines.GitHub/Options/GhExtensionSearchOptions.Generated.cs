@@ -80,4 +80,10 @@ public record GhExtensionSearchOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;query&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Query { get; set; }
+
 }

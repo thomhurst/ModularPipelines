@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssh-key", "delete")]
-public record GhSshKeyDeleteOptions : GhOptions
+public record GhSshKeyDeleteOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
+) : GhOptions
 {
+    public GhSshKeyDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>

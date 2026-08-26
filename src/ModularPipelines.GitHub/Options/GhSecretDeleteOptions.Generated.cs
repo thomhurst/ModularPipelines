@@ -18,8 +18,15 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "delete")]
-public record GhSecretDeleteOptions : GhOptions
+public record GhSecretDeleteOptions(
+    [property: SecretValue, CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
+) : GhOptions
 {
+    public GhSecretDeleteOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Delete a secret for a specific application: {actions|agents|codespaces|dependabot}
     /// </summary>

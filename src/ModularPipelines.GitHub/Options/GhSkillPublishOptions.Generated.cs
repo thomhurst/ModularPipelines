@@ -44,4 +44,10 @@ public record GhSkillPublishOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;directory&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Directory { get; set; }
+
 }

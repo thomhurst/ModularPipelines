@@ -68,4 +68,10 @@ public record GhAgentTaskViewOptions : GhOptions
     [CliFlag("--help")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The &lt;session-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? SessionIdOrPrNumberOrPrUrlOrPrBranch { get; set; }
+
 }
