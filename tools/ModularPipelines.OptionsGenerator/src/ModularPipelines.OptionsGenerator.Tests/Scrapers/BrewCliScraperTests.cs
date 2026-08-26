@@ -59,9 +59,16 @@ public class BrewCliScraperTests
     public async Task Models_Exec_Command_And_Value_Options()
     {
         const string helpText = """
-            Usage: brew exec [options] command [args...]
+            Usage: brew exec, x [--formulae=formulae] [--sandbox=path] [--deny-network]
+            [--] command [args ...]
 
-                  --formulae=LIST   Populate the environment with a comma-separated list of formulae.
+            Run command in an environment populated by Homebrew formulae.
+
+                  --formulae      Comma-separated formulae to install and add
+                                  to PATH before running command.
+                  --sandbox       Run command in Homebrew's sandbox, allowing
+                                  writes to path and Homebrew's temporary directories.
+                  --deny-network  Deny network access from inside the sandbox.
             """;
 
         var command = await new TestBrewCliScraper().Parse(["brew", "exec"], helpText);
@@ -72,8 +79,156 @@ public class BrewCliScraperTests
                 .IsEquivalentTo(["Command", "Arguments"]);
             await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
             await Assert.That(command.PositionalArguments[1].IsVariadic).IsTrue();
-            await Assert.That(command.Options.Single().IsFlag).IsFalse();
+            await Assert.That(command.Description)
+                .IsEqualTo("Run command in an environment populated by Homebrew formulae.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--formulae").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--sandbox").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--deny-network").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--formulae").Description)
+                .IsEqualTo("Comma-separated formulae to install and add to PATH before running command.");
         }
+    }
+
+    [Test]
+    public async Task Models_Info_Value_Options_From_Wrapped_Descriptions()
+    {
+        const string helpText = """
+            Usage: brew info, abv [options] [formula|cask ...]
+
+            Display brief statistics for your Homebrew installation. If a formula or
+            cask is provided, show summary of information about it.
+
+                  --analytics  List global Homebrew analytics data.
+                  --days       How many days of analytics data to retrieve.
+                               The value for days must be 30, 90 or 365.
+                  --category   Which type of analytics data to retrieve. The
+                               value for category must be install or build-error.
+                  --json       Print a JSON representation. Currently the
+                               default value for version is v1.
+                  --installed  Output an inventory. If --json=v2 is passed,
+                               include installed casks.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "info"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Description)
+                .IsEqualTo("Display brief statistics for your Homebrew installation. If a formula or cask is provided, show summary of information about it.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--analytics").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--days").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--category").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--json").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--installed").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Preserves_Multiline_Description_Containing_Option_And_Flag_File_Text()
+    {
+        const string helpText = """
+            Usage: brew create [options] URL
+
+            Generate a formula or, with --cask, a cask for the downloadable file at URL
+            and open it in the editor.
+
+                  --HEAD      Indicate that URL points to the package's
+                              repository rather than a file.
+                  --set-name  Explicitly set the name of the new formula
+                              or cask.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "create"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Description)
+                .IsEqualTo("Generate a formula or, with --cask, a cask for the downloadable file at URL and open it in the editor.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--HEAD").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--set-name").IsFlag)
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Discovers_Colon_Delimited_Bundle_Subcommands()
+    {
+        const string helpText = """
+            Usage: brew bundle [subcommand]
+
+            Subcommands:
+              sh:
+                Run your shell in a brew bundle exec environment.
+              install:
+                Install dependencies from the Brewfile.
+              exec:
+                Run an external command.
+
+              -h, --help  Show this message.
+            """;
+
+        var subcommands = new TestBrewCliScraper().GetSubcommands(helpText);
+
+        await Assert.That(subcommands).IsEquivalentTo(["sh", "install", "exec"]);
+    }
+
+    [Test]
+    public async Task Models_Bundle_Child_Options_From_Wrapped_Help()
+    {
+        const string helpText = """
+            Usage: brew bundle [install|upgrade]:
+                Install and upgrade dependencies from the Brewfile.
+
+                  --file             Read from or write to the Brewfile from
+                                     this location.
+                  --no-upgrade       Do not run brew upgrade.
+                  --upgrade-formulae, --upgrade-formula
+                                     Run brew upgrade on these comma-separated formulae.
+                  --jobs             Run up to this many formula installations in
+                                     parallel. Use auto for the number of CPU cores.
+                  --zap              Use zap instead of uninstall.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "bundle", "install"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Description)
+                .IsEqualTo("Install and upgrade dependencies from the Brewfile.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--file").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--no-upgrade").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--upgrade-formulae").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--jobs").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--zap").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Ignores_Description_For_Unrelated_Usage()
+    {
+        const string helpText = """
+            Usage: brew install-bundler-gems [--groups=]
+
+            Install Homebrew's Bundler gems.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "rubocop"], helpText);
+
+        await Assert.That(command!.Description).IsNull();
     }
 
     [Test]
@@ -201,6 +356,9 @@ public class BrewCliScraperTests
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
+
+        public IReadOnlyList<string> GetSubcommands(string helpText) =>
+            ExtractSubcommands(helpText).ToArray();
     }
 
     private sealed class CommandInventoryExecutor : ICliCommandExecutor

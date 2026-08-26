@@ -1163,6 +1163,14 @@ internal static class GeneratedApiCompatibilityPreserver
             compatibilityProperties,
             renamedProperties,
             violations);
+        preservedTypeChanges.UnionWith(PreserveFlagToValueChanges(
+            command,
+            baselineProperties,
+            positionalArguments,
+            options,
+            compatibilityProperties,
+            renamedProperties,
+            violations));
         preservedTypeChanges.UnionWith(PreserveOptionalValueArityChanges(
             command,
             baselineProperties,
@@ -1600,6 +1608,59 @@ internal static class GeneratedApiCompatibilityPreserver
                     ForwardingKind = baseline.CSharpType.Equals("int?", StringComparison.Ordinal)
                         ? CliCompatibilityForwardingKind.NullableInt32ToCliOptionValue
                         : CliCompatibilityForwardingKind.NullableStringToCliOptionValue,
+                    ObsoleteMessage = $"Use {replacementName} instead.",
+                },
+                compatibilityProperties,
+                violations);
+            renamedProperties[baseline.PropertyName] = replacementName;
+            preserved.Add(baseline.PropertyName);
+        }
+
+        return preserved;
+    }
+
+    private static HashSet<string> PreserveFlagToValueChanges(
+        CliCommandDefinition command,
+        IReadOnlyList<GeneratedApiProperty> baselineProperties,
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        CliOptionDefinition[] options,
+        ICollection<CliCompatibilityProperty> compatibilityProperties,
+        IDictionary<string, string> renamedProperties,
+        ICollection<string> violations)
+    {
+        var preserved = new HashSet<string>(StringComparer.Ordinal);
+        var propertyNames = options.Select(static option => option.PropertyName)
+            .Concat(positionalArguments.Select(static argument => argument.PropertyName))
+            .Concat(compatibilityProperties.Select(static property => property.PropertyName))
+            .ToHashSet(StringComparer.Ordinal);
+
+        foreach (var baseline in baselineProperties.Where(static property =>
+                     !property.IsCompatibility
+                     && !property.IsRequired
+                     && property.CSharpType.Equals("bool?", StringComparison.Ordinal)))
+        {
+            var optionIndex = Array.FindIndex(options, option =>
+                option.PropertyName.Equals(baseline.PropertyName, StringComparison.Ordinal)
+                && option.PropertyType.Equals("string?", StringComparison.Ordinal)
+                && HasSameCliIdentity(ToGeneratedProperty(option), baseline));
+            if (optionIndex < 0)
+            {
+                continue;
+            }
+
+            var replacementName = GetUniqueReplacementName(
+                $"{baseline.PropertyName}Value",
+                propertyNames);
+            propertyNames.Add(replacementName);
+            options[optionIndex] = options[optionIndex] with { PropertyName = replacementName };
+            PreserveCompatibilityProperty(
+                command,
+                new CliCompatibilityProperty
+                {
+                    PropertyName = baseline.PropertyName,
+                    CSharpType = baseline.CSharpType,
+                    ForwardToPropertyName = replacementName,
+                    ForwardingKind = CliCompatibilityForwardingKind.NullableBooleanToString,
                     ObsoleteMessage = $"Use {replacementName} instead.",
                 },
                 compatibilityProperties,
