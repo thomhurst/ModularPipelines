@@ -967,11 +967,7 @@ public static class UsageSynopsisParser
     private static bool HasOptionValueAlternatives(string content)
     {
         var normalized = TrimControlWrappers(content);
-        var assignmentIndex = normalized.IndexOf('=');
-        var alternativeSeparatorIndex = normalized.IndexOf('|');
-        if (assignmentIndex > 1
-            && normalized.StartsWith('-')
-            && (alternativeSeparatorIndex < 0 || assignmentIndex < alternativeSeparatorIndex))
+        if (HasOptionAssignment(normalized))
         {
             return true;
         }
@@ -989,6 +985,24 @@ public static class UsageSynopsisParser
                && normalized.StartsWith('-')
                && normalized[valueStartIndex] != '|'
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
+    }
+
+    private static bool HasOptionAssignment(string content)
+    {
+        var assignmentIndex = content.IndexOf('=');
+        if (assignmentIndex <= 1 || !content.StartsWith('-'))
+        {
+            return false;
+        }
+
+        var branchStartIndex = content.LastIndexOf('|', assignmentIndex) + 1;
+        while (branchStartIndex < assignmentIndex && char.IsWhiteSpace(content[branchStartIndex]))
+        {
+            branchStartIndex++;
+        }
+
+        return branchStartIndex + 1 < assignmentIndex
+               && content[branchStartIndex] == '-';
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
