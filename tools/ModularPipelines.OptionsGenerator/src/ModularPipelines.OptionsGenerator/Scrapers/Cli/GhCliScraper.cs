@@ -89,6 +89,14 @@ public partial class GhCliScraper : CobraCliScraper
         RepeatableOptions.Contains(switchName)
         || base.IsRepeatableOption(commandParts, switchName, typeHint, description, helpText);
 
+    protected override bool IsBooleanValueOption(
+        string[] commandParts,
+        string switchName,
+        string description) =>
+        (commandParts is ["release", "create"] or ["release", "edit"]
+         && switchName.Equals("--latest", StringComparison.OrdinalIgnoreCase))
+        || base.IsBooleanValueOption(commandParts, switchName, description);
+
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>

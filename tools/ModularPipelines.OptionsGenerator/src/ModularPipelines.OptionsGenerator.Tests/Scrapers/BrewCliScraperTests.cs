@@ -55,6 +55,134 @@ public class BrewCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Models_Exec_Command_And_Value_Options()
+    {
+        const string helpText = """
+            Usage: brew exec [options] command [args...]
+
+                  --formulae=LIST   Populate the environment with a comma-separated list of formulae.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "exec"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Command", "Arguments"]);
+            await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments[1].IsVariadic).IsTrue();
+            await Assert.That(command.Options.Single().IsFlag).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Descriptive_List_And_Writable_Words_Remain_Flags()
+    {
+        const string helpText = """
+            Usage: brew list [options]
+
+                  --formula        List only formulae.
+                  --writable       List only writable kegs.
+                  --formulae=LIST  Use a comma-separated list of formulae.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "list"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--formula").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--writable").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--formulae").IsFlag)
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Models_Command_Operands_As_A_Required_Collection()
+    {
+        const string helpText = "Usage: brew command command [...]";
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "command"],
+            helpText);
+        var operand = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("Cmd");
+            await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Models_Sandbox_Command_After_Writable_Path_Option()
+    {
+        const string helpText = """
+            Usage: brew sandbox-exec [options] -- command [args...]
+
+                  --writable-path=PATH   Add a writable path to the sandbox.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "sandbox-exec"],
+            helpText);
+
+        var operand = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("Command");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+            await Assert.That(operand.PrependOptionTerminator).IsTrue();
+            await Assert.That(command.Options.Single().IsFlag).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Models_Generate_Zap_Cask_Operand_After_Name_Flag()
+    {
+        const string helpText = """
+            Usage: brew generate-zap [--name] cask_or_name
+
+                  --name   Treat the operand as a cask name.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "generate-zap"],
+            helpText);
+
+        var operand = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("CaskOrName");
+            await Assert.That(operand.IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Models_Unlink_Installed_Formulae_As_A_Required_Collection()
+    {
+        const string helpText = "Usage: brew unlink [--dry-run] installed_formula [...]";
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "unlink"],
+            helpText);
+        var operand = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.PropertyName).IsEqualTo("InstalledFormula");
+            await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsTrue();
+        }
+    }
+
     private sealed class TestBrewCliScraper : BrewCliScraper
     {
         public TestBrewCliScraper(ICliCommandExecutor? executor = null)

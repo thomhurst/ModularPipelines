@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -297,7 +298,11 @@ public partial class AzCliScraper : CliScraperBase
 
                 // Determine type based on value hint
                 var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-                var isFlag = IsPresenceOnlyFlag(valueHint, description, explicitBooleanValue);
+                var isFlag = IsPresenceOnlyFlag(
+                    longFlag,
+                    valueHint,
+                    description,
+                    explicitBooleanValue);
 
                 var isRequired = sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
 
@@ -313,9 +318,11 @@ public partial class AzCliScraper : CliScraperBase
                     IsFlag = isFlag,
                     IsRequired = isRequired,
                     AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
+                    GroupValues = HelpDeclaresSpaceSeparatedList(description),
                     IsKeyValue = false,
                     IsNumeric = csharpType == "int?",
                     ValueSeparator = " ",
+                    ValueArity = GetValueArity(isFlag, description),
                     EnumDefinition = null,
                     IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
@@ -329,10 +336,17 @@ public partial class AzCliScraper : CliScraperBase
     /// Determines whether an option is rendered without a value.
     /// </summary>
     private static bool IsPresenceOnlyFlag(
+        string switchName,
         string valueHint,
         string description,
         bool explicitBooleanValue)
     {
+        if (switchName.Equals("accept-term", StringComparison.OrdinalIgnoreCase)
+            && string.IsNullOrEmpty(valueHint))
+        {
+            return true;
+        }
+
         if (explicitBooleanValue || HelpDeclaresOptionValue(description))
         {
             return false;
@@ -345,9 +359,18 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresOptionValue(string description) =>
         AzValueDescriptionPattern().IsMatch(description)
+        || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
         || description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
+
+    private static bool HelpDeclaresOptionalValue(string description) =>
+        description.Contains("provided without any value", StringComparison.OrdinalIgnoreCase);
+
+    private static CliOptionValueArity GetValueArity(bool isFlag, string description) =>
+        !isFlag && HelpDeclaresOptionalValue(description)
+            ? CliOptionValueArity.Optional
+            : CliOptionValueArity.Required;
 
     /// <summary>
     /// Determines the C# type based on value hint and description.
@@ -401,7 +424,8 @@ public partial class AzCliScraper : CliScraperBase
         description.Contains("list of false");
 
     private static bool HelpDeclaresSpaceSeparatedList(string description) =>
-        description.Contains("space-separated");
+        description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
+        || description.Contains("separated by spaces", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
@@ -509,8 +533,11 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+-(?<short>\w))?(?:\s+(?<value>[A-Z_]+))?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|batch|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
+
+    [GeneratedRegex(@"\b(?:resource ID|secret URI|URI or path|key-value pairs|accepted values?)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzEmbeddedValueDescriptionPattern();
 
     #endregion
 }

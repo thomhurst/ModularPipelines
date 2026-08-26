@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -545,12 +546,19 @@ public partial class YarnCliScraper : CliScraperBase
                 continue;
             }
 
-            // Determine if this is a flag (boolean) or takes a value
-            var isFlag = !match.Groups["value"].Success
-                         && IsBooleanOption(longForm, description);
-            var acceptsMultipleValues = commandParts is ["dlx"]
-                                        && longForm.Equals("--package", StringComparison.OrdinalIgnoreCase);
-            var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", acceptsMultipleValues);
+            var hasValue = match.Groups["value"].Success;
+            var hasOptionalValue = !hasValue
+                                   && IsOptionalValueOption(commandParts, longForm);
+            var isFlag = !hasValue && !hasOptionalValue;
+            var isCountedFlag = isFlag
+                                && longForm.Equals("--verbose", StringComparison.OrdinalIgnoreCase)
+                                && description.Contains("times", StringComparison.OrdinalIgnoreCase);
+            var acceptsMultipleValues = !isFlag
+                                        && ((commandParts is ["dlx"]
+                                             && longForm.Equals("--package", StringComparison.OrdinalIgnoreCase))
+                                            || IsRepeatableValueOption(description, isFlag));
+            var scalarType = isCountedFlag ? "int?" : isFlag ? "bool?" : "string?";
+            var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
             {
@@ -564,59 +572,38 @@ public partial class YarnCliScraper : CliScraperBase
                 AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
-                ValueSeparator = isFlag ? " " : " ",
+                ValueSeparator = hasOptionalValue ? "=" : " ",
+                ValueArity = hasOptionalValue
+                    ? CliOptionValueArity.Optional
+                    : CliOptionValueArity.Required,
                 EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                ValidationConstraints = isCountedFlag
+                    ? new CliValidationConstraints { MinValue = 0, MaxValue = 2 }
+                    : null,
             });
         }
 
         return options;
     }
 
-    /// <summary>
-    /// Determines if an option is a boolean flag.
-    /// </summary>
-    private static bool IsBooleanOption(string optionName, string description)
+    private static bool IsOptionalValueOption(
+        IReadOnlyList<string> commandParts,
+        string longForm)
     {
-        // Options that typically take values
-        var valueOptions = new[] { "registry", "cwd", "path", "name", "version", "config", "scope" };
-        var cleanName = optionName.TrimStart('-').ToLowerInvariant();
-
-        if (valueOptions.Any(v => cleanName.Contains(v)))
-        {
-            return false;
-        }
-
-        // Check description for value hints
-        var lowerDesc = description.ToLowerInvariant();
-        if (lowerDesc.Contains("path") || lowerDesc.Contains("name") ||
-            lowerDesc.Contains("url") || lowerDesc.Contains("file"))
-        {
-            return false;
-        }
-
-        // Common boolean option patterns
-        if (cleanName.StartsWith("no-") ||
-            cleanName == "json" ||
-            cleanName == "quiet" ||
-            cleanName == "verbose" ||
-            cleanName == "silent" ||
-            cleanName == "offline" ||
-            cleanName == "prefer-offline" ||
-            cleanName == "exact" ||
-            cleanName == "tilde" ||
-            cleanName == "caret" ||
-            cleanName == "dev" ||
-            cleanName == "peer" ||
-            cleanName == "optional" ||
-            cleanName == "cached" ||
-            cleanName == "mode")
+        if (longForm.Equals("--since", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        // Default to string for safety
-        return false;
+        return commandParts switch
+        {
+            ["init"] => longForm.Equals("--install", StringComparison.OrdinalIgnoreCase),
+            ["run"] => longForm.Equals("--inspect", StringComparison.OrdinalIgnoreCase)
+                       || longForm.Equals("--inspect-brk", StringComparison.OrdinalIgnoreCase),
+            ["version", ..] => longForm.Equals("--prerelease", StringComparison.OrdinalIgnoreCase),
+            _ => false,
+        };
     }
 
     /// <summary>

@@ -172,6 +172,48 @@ public class IncompleteMetadataDiagnosticTests
         """;
 
     [Test]
+    public async Task Large_Metadata_Registration_Is_Chunked()
+    {
+        var source = string.Join(
+            Environment.NewLine,
+            Enumerable.Range(0, 33).Select(index => $$"""
+                public sealed class Options{{index}}
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.CliOption("--value")]
+                    public string Value { get; set; } = "";
+                }
+                """));
+
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            source);
+        var generatedDiagnostics = result.GeneratedTrees
+            .SelectMany(static tree => tree.GetDiagnostics())
+            .ToArray();
+        var generatedSources = result.GeneratedTrees
+            .Select(static tree => tree.ToString())
+            .ToArray();
+        var registrationSource = generatedSources.Single(static generatedSource =>
+            generatedSource.Contains("internal static void Register()", StringComparison.Ordinal));
+        var chunkSources = generatedSources.Where(static generatedSource =>
+            generatedSource.Contains("private static void RegisterChunk", StringComparison.Ordinal)).ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedDiagnostics).IsEmpty();
+            await Assert.That(generatedSources).Count().IsEqualTo(3);
+            await Assert.That(chunkSources).Count().IsEqualTo(2);
+            await Assert.That(registrationSource).Contains("RegisterChunk0000(assembly);");
+            await Assert.That(registrationSource).Contains("RegisterChunk0001(assembly);");
+            await Assert.That(string.Join(Environment.NewLine, chunkSources))
+                .Contains("typeof(global::Options32)");
+        }
+    }
+
+    [Test]
     public async Task Generated_Legacy_Optional_Value_Metadata_Is_Unsupported()
     {
         var result = GeneratorTestHarness.Run(

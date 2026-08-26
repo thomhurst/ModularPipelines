@@ -678,6 +678,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Associates_Standalone_Option_Value_With_Its_Switch()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: kubectl diff -f FILENAME",
+            ["kubectl", "diff"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(usage.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("Filename");
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+                .IsEqualTo("-f");
+        }
+    }
+
+    [Test]
     public async Task Model_Rejects_Standalone_Operand_Sharing_Named_Option_Property()
     {
         var usage = UsageSynopsisParser.Parse(
@@ -731,6 +747,7 @@ public class UsageSynopsisParserTests
                     SwitchName = "--output",
                     PropertyName = "Output",
                     CSharpType = "bool?",
+                    IsFlag = true,
                 },
             ],
         };
@@ -742,7 +759,8 @@ public class UsageSynopsisParserTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+                .IsEqualTo("--output");
             await Assert.That(Validate)
                 .Throws<InvalidOperationException>()
                 .And.HasMessageContaining("no CliPositionalArgument");

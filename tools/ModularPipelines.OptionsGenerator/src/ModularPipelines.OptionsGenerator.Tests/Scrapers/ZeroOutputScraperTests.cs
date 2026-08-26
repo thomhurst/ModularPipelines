@@ -62,6 +62,31 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    [Arguments("create")]
+    [Arguments("edit")]
+    public async Task Gh_Release_Latest_Preserves_Explicit_False(string commandName)
+    {
+        const string helpText = """
+            USAGE
+              gh release COMMAND [flags]
+
+            FLAGS
+                  --latest   Mark this release as Latest (default: automatic based on date)
+            """;
+
+        var command = await new TestGhCliScraper().Parse(
+            ["gh", "release", commandName],
+            helpText.Replace("COMMAND", commandName, StringComparison.Ordinal));
+        var latest = command!.Options.Single(option => option.PropertyName == "Latest");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(latest.IsFlag).IsFalse();
+            await Assert.That(latest.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
     public async Task Gh_Parses_Inline_Usage_And_Indented_Flags_Sections()
     {
         const string helpText = """

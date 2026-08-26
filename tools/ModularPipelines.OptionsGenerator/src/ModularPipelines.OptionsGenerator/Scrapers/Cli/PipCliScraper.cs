@@ -368,6 +368,7 @@ public partial class PipCliScraper : CliScraperBase
             cleanName == "upgrade" ||
             cleanName == "force-reinstall" ||
             cleanName == "ignore-installed" ||
+            cleanName == "require-hashes" ||
             cleanName == "pre" ||
             cleanName == "user" ||
             cleanName == "editable")

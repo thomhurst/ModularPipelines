@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -21,6 +22,19 @@ public class KubectlCliScraper : CobraCliScraper
     {
     }
 
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage)
+    {
+        var positionalArguments = GetPositionalArguments(usage, command.Options);
+        return usage with
+        {
+            HasOperandTokens = positionalArguments.Count > 0
+                               || usage.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
+        };
+    }
+
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.
     /// </summary>
@@ -33,5 +47,53 @@ public class KubectlCliScraper : CobraCliScraper
 
         var lowerName = subcommand.ToLowerInvariant();
         return lowerName is "plugin" or "kustomize" or "api-versions" or "api-resources";
+    }
+
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments) =>
+        commandParts switch
+        {
+            ["annotate"] => CollapseNumberedRepeat(
+                positionalArguments,
+                "Key_1Val_1",
+                "KeyNValN",
+                "Annotations"),
+            ["port-forward"] => CollapseNumberedRepeat(
+                positionalArguments,
+                "LocalPortRemotePort",
+                "LocalPortNRemotePortN",
+                "LocalPortRemotePort"),
+            ["taint"] => CollapseNumberedRepeat(
+                positionalArguments,
+                "Key_1Val_1TaintEffect_1",
+                "KeyNValNTaintEffectN",
+                "Taints"),
+            _ => positionalArguments,
+        };
+
+    private static IReadOnlyList<CliPositionalArgument> CollapseNumberedRepeat(
+        IReadOnlyList<CliPositionalArgument> arguments,
+        string firstPropertyName,
+        string repeatedPropertyName,
+        string generatedPropertyName)
+    {
+        var normalized = arguments
+            .Where(argument => !argument.PropertyName.Equals(
+                repeatedPropertyName,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(argument => argument.PropertyName.Equals(
+                firstPropertyName,
+                StringComparison.OrdinalIgnoreCase)
+                ? argument with
+                {
+                    PropertyName = generatedPropertyName,
+                    CSharpType = argument.IsRequired
+                        ? "IEnumerable<string>"
+                        : "IEnumerable<string>?",
+                    IsVariadic = true,
+                }
+                : argument);
+        return CliPositionalArgument.MergeDuplicates(normalized);
     }
 }

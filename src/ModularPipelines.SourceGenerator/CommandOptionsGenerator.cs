@@ -13,6 +13,7 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
+    private const int RuntimeRegistrationChunkSize = 32;
     private const int RuntimeMetadataSchemaVersion = 2;
     private const int CommandMetadataSchemaVersion = 3;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
@@ -184,12 +185,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             unambiguousCandidates,
             optionsTypes,
             input.Configuration.RequiresGeneratedMetadata);
-        sourceContext.AddSource(
-            "ModularPipelines.RuntimeMetadata.g.cs",
-            Generate(
-                items,
-                input.Configuration.CoveredExternalAssemblyIdentities,
-                input.Configuration.RequiresGeneratedMetadata));
+        foreach (var (hintName, source) in Generate(
+                     items,
+                     input.Configuration.CoveredExternalAssemblyIdentities,
+                     input.Configuration.RequiresGeneratedMetadata))
+        {
+            sourceContext.AddSource(hintName, source);
+        }
     }
 
     internal static bool IsTypeCandidate(SyntaxNode node)
@@ -1062,7 +1064,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string Generate(
+    private static List<(string HintName, string Source)> Generate(
         ImmutableArray<TypeMetadata> items,
         ImmutableArray<string> coveredExternalAssemblyIdentities,
         bool requiresGeneratedMetadata)
@@ -1073,6 +1075,29 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .OrderBy(item => item.MetadataName, StringComparer.Ordinal)
             .ThenBy(item => item.AssemblyIdentity, StringComparer.Ordinal)
             .ToList();
+
+        if (uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize)
+        {
+            return
+            [
+                ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
+                    uniqueItems,
+                    coveredExternalAssemblyIdentities,
+                    requiresGeneratedMetadata)),
+            ];
+        }
+
+        return GenerateChunkedSources(
+            uniqueItems,
+            coveredExternalAssemblyIdentities,
+            requiresGeneratedMetadata);
+    }
+
+    private static string GenerateSingleSource(
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata)
+    {
         var sb = new StringBuilder();
 
         AppendGeneratedFilePreamble(sb, uniqueItems);
@@ -1084,6 +1109,52 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
+    private static List<(string HintName, string Source)> GenerateChunkedSources(
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata)
+    {
+        var registrationItems = uniqueItems
+            .Where(RequiresRuntimeRegistrationChunk)
+            .ToArray();
+        var chunks = new List<IReadOnlyList<TypeMetadata>>();
+        for (var offset = 0; offset < registrationItems.Length; offset += RuntimeRegistrationChunkSize)
+        {
+            chunks.Add(
+            [
+                .. registrationItems
+                    .Skip(offset)
+                    .Take(RuntimeRegistrationChunkSize),
+            ]);
+        }
+
+        var sources = new List<(string HintName, string Source)>(chunks.Count + 1);
+        var registrationSource = new StringBuilder();
+        AppendGeneratedFilePreamble(registrationSource, uniqueItems);
+        AppendChunkedRuntimeMetadataRegistration(
+            registrationSource,
+            uniqueItems,
+            coveredExternalAssemblyIdentities,
+            requiresGeneratedMetadata,
+            chunks.Count);
+        sources.Add(("ModularPipelines.RuntimeMetadata.g.cs", registrationSource.ToString()));
+
+        for (var index = 0; index < chunks.Count; index++)
+        {
+            var chunkSource = new StringBuilder();
+            AppendGeneratedFilePreamble(
+                chunkSource,
+                chunks[index],
+                includeIncompleteMetadataAttributes: false);
+            AppendRuntimeMetadataChunk(chunkSource, chunks[index], index);
+            sources.Add((
+                $"ModularPipelines.RuntimeMetadata.Chunk{index:D4}.g.cs",
+                chunkSource.ToString()));
+        }
+
+        return sources;
+    }
+
     private static string GetRegistrationIdentity(TypeMetadata item) =>
         item.UseExternalTypeNameForEmptySecretCoverage
         || item.RequiresSecretReflectionFallback
@@ -1092,14 +1163,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendGeneratedFilePreamble(
         StringBuilder sb,
-        IReadOnlyList<TypeMetadata> uniqueItems)
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        bool includeIncompleteMetadataAttributes = true)
     {
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
-        foreach (var item in uniqueItems.Where(HasIncompleteSecretMetadata))
+        if (includeIncompleteMetadataAttributes)
         {
-            sb.AppendLine(
-                $"[assembly: global::{IncompleteRuntimeMetadataAttributeFullName}({Literal(item.MetadataName)})]");
+            foreach (var item in uniqueItems.Where(HasIncompleteSecretMetadata))
+            {
+                sb.AppendLine(
+                    $"[assembly: global::{IncompleteRuntimeMetadataAttributeFullName}({Literal(item.MetadataName)})]");
+            }
         }
 
         var suppressedDiagnostics = uniqueItems
@@ -1149,6 +1224,76 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterCoveredExternalAssemblyIdentities",
             coveredExternalAssemblyIdentities);
+        AppendCoverageRegistrations(sb, uniqueItems);
+        AppendRuntimeTypeRegistrations(sb, uniqueItems);
+
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+    }
+
+    private static void AppendChunkedRuntimeMetadataRegistration(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata,
+        int chunkCount)
+    {
+        sb.AppendLine("namespace ModularPipelines.Generated;");
+        sb.AppendLine();
+        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
+        sb.AppendLine("{");
+        sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
+        sb.AppendLine($"    public const int CommandSchemaVersion = {CommandMetadataSchemaVersion};");
+        sb.AppendLine();
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
+        sb.AppendLine("    internal static void Register()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
+        var requiresGeneratedMetadataLiteral = requiresGeneratedMetadata ? "true" : "false";
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata",
+            requiresGeneratedMetadataLiteral);
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Engine.GeneratedSecretMetadata",
+            requiresGeneratedMetadataLiteral);
+        AppendStringRegistration(
+            sb,
+            "RegisterCoveredExternalAssemblyIdentities",
+            coveredExternalAssemblyIdentities);
+        AppendCoverageRegistrations(sb, uniqueItems);
+        for (var index = 0; index < chunkCount; index++)
+        {
+            sb.AppendLine($"        RegisterChunk{index:D4}(assembly);");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+    }
+
+    private static void AppendRuntimeMetadataChunk(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> items,
+        int index)
+    {
+        sb.AppendLine("namespace ModularPipelines.Generated;");
+        sb.AppendLine();
+        sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
+        sb.AppendLine("{");
+        AppendCommandMetadataDependencies(sb, items);
+        sb.AppendLine($"    private static void RegisterChunk{index:D4}(global::System.Reflection.Assembly assembly)");
+        sb.AppendLine("    {");
+        AppendRuntimeTypeRegistrations(sb, items);
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+    }
+
+    private static void AppendCoverageRegistrations(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems)
+    {
         AppendExternalTypeNameRegistrations(
             sb,
             "RegisterCoveredExternalTypeNames",
@@ -1176,10 +1321,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterIncompleteTypeNames",
             uniqueItems.Where(HasIncompleteSecretMetadata));
-        AppendRuntimeTypeRegistrations(sb, uniqueItems);
-
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
     }
 
     private static void AppendCommandMetadataDependencies(
@@ -1217,6 +1358,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
     }
+
+    private static bool RequiresRuntimeRegistrationChunk(TypeMetadata item) =>
+        CanPreserveCommandOptionProperties(item)
+        || CanRegisterCompleteCommandMetadata(item)
+        || (item.SecretMetadata.IsComplete && !item.RequiresSecretReflectionFallback);
+
+    private static bool RequiresCommandRegistrationChunking(TypeMetadata item) =>
+        !item.IsExternal
+        && item.IsCommandOptions
+        && (CanPreserveCommandOptionProperties(item) || CanRegisterCompleteCommandMetadata(item));
 
     private static void AppendAssemblyRegistration(
         StringBuilder sb,

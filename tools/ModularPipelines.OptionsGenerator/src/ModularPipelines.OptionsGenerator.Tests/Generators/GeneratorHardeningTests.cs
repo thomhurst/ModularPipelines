@@ -61,6 +61,39 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Imports_Preserved_KeyValue_Types()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--labels",
+                    PropertyName = "Labels",
+                    CSharpType = "string?",
+                },
+            ]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyLabels",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
+                    ObsoleteMessage = "Use Labels instead.",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("public IReadOnlyList<KeyValue>? LegacyLabels { get; set; }");
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Validates_Explicit_Optional_Values()
     {
         var command = Command(
@@ -3200,6 +3233,104 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Literal_Execute_Overload_Beside_Parent()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"execute\")] "
+                + "public record ToolGroupNestedExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ExecuteAsync(ToolGroupNestedExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var parent = Command(
+                "ToolGroupNestedOptions",
+                "ToolOptions",
+                ["group", "nested"],
+                subDomainGroup: "group");
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(parent), root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                    "ToolGroupNested.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generated).Contains("ExecuteCommandAsync(");
+                await Assert.That(generated).Contains("ToolGroupNestedExecuteOptions? options = null");
+                await Assert.That(generated).Contains("ToolGroupNestedOptions? options = null");
+                await Assert.That(generated)
+                    .Contains("[Obsolete(\"Use the current command facade instead.\")]");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ApiCompatibilityPreserver_Retains_Live_Literal_Execute_Overload_Beside_Parent()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
+        var packageDirectory = Path.Combine(root, "src", "ModularPipelines.Tool");
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Options"));
+        Directory.CreateDirectory(Path.Combine(packageDirectory, "Services"));
+        try
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Options", "ToolGroupNestedExecuteOptions.Generated.cs"),
+                "using ModularPipelines.Attributes; "
+                + "[CliSubCommand(\"group\", \"nested\", \"execute\")] "
+                + "public record ToolGroupNestedExecuteOptions : ToolOptions;");
+            await File.WriteAllTextAsync(
+                Path.Combine(packageDirectory, "Services", "ToolGroupNested.Generated.cs"),
+                "namespace ModularPipelines.Tool.Services; public class ToolGroupNested { "
+                + "public Task ExecuteAsync(ToolGroupNestedExecuteOptions? options = null) => Task.CompletedTask; }");
+
+            var parent = Command(
+                "ToolGroupNestedOptions",
+                "ToolOptions",
+                ["group", "nested"],
+                subDomainGroup: "group");
+            var literalExecute = Command(
+                "ToolGroupNestedExecuteOptions",
+                "ToolOptions",
+                ["group", "nested", "execute"],
+                subDomainGroup: "group");
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+                Tool(parent, literalExecute),
+                root);
+            var generated = (await new SubDomainClassGenerator().GenerateAsync(preserved))
+                .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                    "ToolGroupNested.Generated.cs",
+                    StringComparison.Ordinal))
+                .Content;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(generated).Contains("ExecuteCommandAsync(");
+                await Assert.That(generated).Contains("ToolGroupNestedExecuteOptions? options = null");
+                await Assert.That(generated).Contains("ToolGroupNestedOptions? options = null");
+                await Assert.That(generated).Contains("Use ExecuteCommandAsync instead.");
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ApiCompatibilityPreserver_Distinguishes_Execute_When_Parent_Name_Ends_In_Execute()
     {
         var root = Path.Combine(Path.GetTempPath(), $"service-api-{Guid.NewGuid():N}");
@@ -4074,7 +4205,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Alias_Constructors_For_New_Required_Members()
+    public async Task ApiCompatibilityPreserver_Preserves_Alias_Constructors_For_New_Required_Members()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
         var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
@@ -4113,10 +4244,16 @@ public class GeneratorHardeningTests
                 ],
             };
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var constructor = preserved.Commands.Single()
+                .AliasCompatibilityConstructors["ToolBuilderBakeOptions"]
+                .Single();
 
-            await Assert.That(exception.Message).Contains("newly required member(s) Destination have no baseline value");
+            await Assert.That(constructor.Parameters.Select(static parameter => parameter.PropertyName))
+                .IsEquivalentTo(["Source"]);
+            await Assert.That(constructor.PrimaryConstructorArguments.Count).IsEqualTo(2);
+            await Assert.That(constructor.PrimaryConstructorArguments[0]).IsEqualTo("Source");
+            await Assert.That(constructor.PrimaryConstructorArguments[1]).IsEqualTo("default(string)!");
         }
         finally
         {
@@ -4125,7 +4262,7 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ApiCompatibilityPreserver_Rejects_Parameterless_Alias_Constructor_For_New_Required_Members()
+    public async Task ApiCompatibilityPreserver_Preserves_Parameterless_Alias_Constructor_For_New_Required_Members()
     {
         var root = Path.Combine(Path.GetTempPath(), $"options-api-{Guid.NewGuid():N}");
         var optionsDirectory = Path.Combine(root, "src", "ModularPipelines.Tool", "Options");
@@ -4159,10 +4296,14 @@ public class GeneratorHardeningTests
                 ],
             };
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                GeneratedApiCompatibilityPreserver.Preserve(tool, root));
+            var preserved = GeneratedApiCompatibilityPreserver.Preserve(tool, root);
+            var constructor = preserved.Commands.Single()
+                .AliasCompatibilityConstructors["ToolBuilderBakeOptions"]
+                .Single();
 
-            await Assert.That(exception.Message).Contains("newly required member(s) Source have no baseline value");
+            await Assert.That(constructor.Parameters).IsEmpty();
+            await Assert.That(constructor.PrimaryConstructorArguments)
+                .IsEquivalentTo(["default(string)!"]);
         }
         finally
         {

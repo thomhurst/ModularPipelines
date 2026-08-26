@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -190,6 +191,98 @@ public class AzCliScraperTests
                 .IsFalse();
             await Assert.That(command.Options.Single(option => option.PropertyName == "NoColor").IsFlag)
                 .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Current_Description_Only_Values_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az service update : Update a service.
+
+            Optional Arguments
+                --default-identity       : Accept system or user assigned identity separated.
+                --install-script         : Install script configurations. Provide key-value pairs.
+                --credentials-secret-uri : Key Vault secret URI for credentials.
+                --source                 : Source URI or path for the storage mount.
+                --id                     : The deployment stack what-if result resource ID.
+                --maintenance-batch      : The batch of the custom-managed maintenance window. Accepted values: Default, Batch1, Batch2.
+                --related                : Related resource or alert to add to the issue.
+                --force                  : Force the operation without confirmation.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "service", "update"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var propertyName in new[]
+                     {
+                         "DefaultIdentity",
+                         "InstallScript",
+                         "CredentialsSecretUri",
+                         "Source",
+                         "Id",
+                         "MaintenanceBatch",
+                         "Related",
+                     })
+            {
+                await Assert.That(command!.Options.Single(option =>
+                    option.PropertyName == propertyName).IsFlag).IsFalse();
+            }
+
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "Force").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Accept_Term_Remains_A_Presence_Only_Flag()
+    {
+        const string helpText = """
+            Command
+                az vm create : Create a virtual machine.
+
+            Optional Arguments
+                --accept-term : Accept the license agreement and privacy statement.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "vm", "create"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
+    public async Task Identity_Value_Is_Optional_When_Valueless_Form_Is_Documented()
+    {
+        const string helpText = """
+            Command
+                az appconfig identity assign : Update managed identities.
+
+            Optional Arguments
+                --identities : Accept system-assigned or user-assigned managed identities separated by spaces. If this argument is provided without any value, system-assigned managed identity is used.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "appconfig", "identity", "assign"],
+            helpText);
+        var identities = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(identities.IsFlag).IsFalse();
+            await Assert.That(identities.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(identities.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(identities.GroupValues).IsTrue();
         }
     }
 

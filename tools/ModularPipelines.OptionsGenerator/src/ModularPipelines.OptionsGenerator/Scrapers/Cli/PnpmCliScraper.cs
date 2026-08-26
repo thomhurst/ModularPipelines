@@ -56,36 +56,26 @@ public partial class PnpmCliScraper : CliScraperBase
 
     /// <summary>
     /// Extracts subcommand names from pnpm help text.
-    /// pnpm has a FLAT command structure - commands like "add", "install", "run" do NOT have subcommands.
-    /// Only extract subcommands from the root help text (pnpm --help).
+    /// Most pnpm commands are flat, but newer releases also expose nested commands
+    /// through an explicit Commands section (for example, audit signatures).
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
-        // pnpm has a flat command structure - no nested subcommands.
-        // Only parse subcommands from the root help (which shows "Usage: pnpm [command]")
-        // Subcommand help (e.g., "pnpm add --help") shows "pnpm add <pkg>" not "Usage: pnpm [command]"
-        if (!helpText.Contains("Usage: pnpm [command]") && !helpText.Contains("pnpm [command]"))
-        {
-            // This is a subcommand's help text, not the root - no further subcommands
-            return [];
-        }
-
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // pnpm root help uses sections with headers followed by command lines:
-        // Manage your dependencies:
-        //       add                  Installs a package...
-        //       install              Installs all dependencies...
-        var commandLineMatches = CommandLinePattern().Matches(helpText);
-        foreach (Match match in commandLineMatches)
+        var isRootHelp = helpText.Contains("Usage: pnpm [command]", StringComparison.OrdinalIgnoreCase)
+                         || helpText.Contains("pnpm [command]", StringComparison.OrdinalIgnoreCase);
+        if (isRootHelp)
         {
-            var commandName = match.Groups["command"].Value.Trim();
-            if (!string.IsNullOrEmpty(commandName) &&
-                IsValidCommand(commandName) &&
-                seenCommands.Add(commandName))
+            // pnpm root help uses sections with headers followed by command lines:
+            // Manage your dependencies:
+            //       add                  Installs a package...
+            //       install              Installs all dependencies...
+            var commandLineMatches = CommandLinePattern().Matches(helpText);
+            foreach (Match match in commandLineMatches)
             {
-                subcommands.Add(commandName);
+                AddSubcommand(match.Groups["command"].Value);
             }
         }
 
@@ -110,18 +100,40 @@ public partial class PnpmCliScraper : CliScraperBase
                 var match = SubcommandLinePattern().Match(line);
                 if (match.Success)
                 {
-                    var commandName = match.Groups["name"].Value.Trim();
-                    if (!string.IsNullOrEmpty(commandName) &&
-                        IsValidCommand(commandName) &&
-                        seenCommands.Add(commandName))
-                    {
-                        subcommands.Add(commandName);
-                    }
+                    AddSubcommand(match.Groups["name"].Value);
                 }
             }
         }
 
         return subcommands;
+
+        void AddSubcommand(string candidate)
+        {
+            var commandName = candidate.Trim();
+            if (!string.IsNullOrEmpty(commandName)
+                && IsValidCommand(commandName)
+                && seenCommands.Add(commandName))
+            {
+                subcommands.Add(commandName);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<string> ExtractSubcommands(
+        string[] commandPath,
+        string helpText)
+    {
+        var subcommands = ExtractSubcommands(helpText).ToList();
+
+        // pnpm returns the parent command-group help for leaf commands. For example,
+        // `pnpm stage download --help` repeats the stage subcommand catalog. Once the
+        // requested leaf appears in that catalog, rediscovering it would recursively
+        // combine every sibling command with every other sibling command.
+        var repeatsParentCatalog = commandPath.Length > 1
+                                   && subcommands.Contains(commandPath[^1], StringComparer.OrdinalIgnoreCase);
+
+        return repeatsParentCatalog ? [] : subcommands;
     }
 
     /// <summary>
@@ -202,7 +214,7 @@ public partial class PnpmCliScraper : CliScraperBase
         IReadOnlyList<string> commandParts,
         UsageSynopsisParseResult usage)
     {
-        var normalized = commandParts is ["stage"]
+        var normalized = commandParts is ["stage"] or ["audit"]
             ? usage with
             {
                 HasOperandTokens = false,

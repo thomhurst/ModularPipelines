@@ -99,7 +99,7 @@ jobs:
                 prefix: .namespacePrefix,
                 outputDirectory: .outputDirectory,
                 generateCommandFacade: .generateCommandFacade,
-                timeoutMinutes: (if .toolName == "aws" then 150 else 60 end)
+                timeoutMinutes: (if .toolName == "aws" then 150 elif .toolName == "gcloud" then 90 else 60 end)
               }]}' \
               "$RUNNER_TEMP/tool-catalog.json"
           }
@@ -632,9 +632,26 @@ jobs:
             Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
           }
 
+      - name: Increase swap space for Gcloud build
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gcloud' && steps.changes.outputs.has_changes == 'true'
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        run: dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" -c Release
+        run: |
+          BUILD_ARGS=()
+          # Gcloud generates enough source for parallel MSBuild nodes to exhaust the hosted runner.
+          if [[ "${{ matrix.tool }}" == "gcloud" ]]; then
+            BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
+          fi
+          dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
+            -c Release "${BUILD_ARGS[@]}"
 
       - name: Validate generated API compatibility
         id: api-compat

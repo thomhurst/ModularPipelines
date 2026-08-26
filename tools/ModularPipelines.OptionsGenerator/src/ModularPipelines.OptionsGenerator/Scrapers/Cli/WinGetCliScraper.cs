@@ -186,6 +186,8 @@ public partial class WinGetCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        usage = NormalizeCommandGroupUsage(commandParts, usage);
+
         // Parse description from help text (first non-empty line before usage)
         var description = ExtractDescription(helpText);
 
@@ -205,9 +207,9 @@ public partial class WinGetCliScraper : CliScraperBase
             .Select(o => o.EnumDefinition!)
             .ToList();
         var usageArguments = AssociateNamedOptionOperands(options, usage.PositionalArguments);
-        var positionalArguments = usageArguments
-            .Where(argument => argument.AssociatedOptionSwitch is null)
-            .ToArray();
+        var positionalArguments = GetPositionalArguments(
+            usage with { PositionalArguments = usageArguments },
+            options);
 
         var className = GenerateClassName(commandPath);
 
@@ -234,13 +236,27 @@ public partial class WinGetCliScraper : CliScraperBase
     /// <inheritdoc />
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
-        UsageSynopsisParseResult usage) =>
-        usage with
+        UsageSynopsisParseResult usage)
+    {
+        usage = NormalizeCommandGroupUsage(command.CommandParts, usage);
+        return usage with
         {
             PositionalArguments = AssociateNamedOptionOperands(
                 command.Options,
                 usage.PositionalArguments),
         };
+    }
+
+    private static UsageSynopsisParseResult NormalizeCommandGroupUsage(
+        IReadOnlyList<string> commandParts,
+        UsageSynopsisParseResult usage) =>
+        commandParts is ["configure"]
+            or ["dscv3"]
+            or ["pin"]
+            or ["settings"]
+            or ["source"]
+            ? UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage)
+            : usage;
 
     private static IReadOnlyList<CliPositionalArgument> AssociateNamedOptionOperands(
         IReadOnlyList<CliOptionDefinition> options,

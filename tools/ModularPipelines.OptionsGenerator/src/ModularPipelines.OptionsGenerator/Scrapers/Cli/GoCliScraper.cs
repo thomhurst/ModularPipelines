@@ -172,14 +172,14 @@ public partial class GoCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText, usage.Synopsis);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
-            GetPositionalArguments(usage));
+            GetPositionalArguments(usage, options));
 
         var className = GenerateClassName(commandPath);
 
@@ -303,30 +303,39 @@ public partial class GoCliScraper : CliScraperBase
     /// Format: -flag    description
     ///         -flag value    description
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string? usageSynopsis)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        AddDocumentedOptions(GetOptionSectionLines(helpText), options, seenOptions);
+        AddUsageOptions(usageSynopsis ?? string.Empty, options, seenOptions);
+        return options;
+    }
 
-        // Find flags sections
+    private static string[] GetOptionSectionLines(string helpText)
+    {
         var flagsSectionMatch = FlagsSectionPattern().Match(helpText);
-        if (!flagsSectionMatch.Success)
-        {
-            return options;
-        }
-
-        var sectionStart = flagsSectionMatch.Index + flagsSectionMatch.Length;
+        var sectionStart = flagsSectionMatch.Success
+            ? flagsSectionMatch.Index + flagsSectionMatch.Length
+            : 0;
         var sectionEnd = helpText.Length;
 
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSection.Success)
+        var nextSection = flagsSectionMatch.Success
+            ? NextSectionPattern().Match(helpText, sectionStart)
+            : Match.Empty;
+        if (flagsSectionMatch.Success && nextSection.Success)
         {
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-        var lines = section.Split('\n');
+        return helpText.Substring(sectionStart, sectionEnd - sectionStart).Split('\n');
+    }
 
+    private static void AddDocumentedOptions(
+        string[] lines,
+        ICollection<CliOptionDefinition> options,
+        ISet<string> seenOptions)
+    {
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
@@ -345,20 +354,17 @@ public partial class GoCliScraper : CliScraperBase
                 continue;
             }
 
-            // Convert single-dash flags to double-dash for consistency
-            var longForm = flagName.StartsWith("--") ? flagName : $"--{flagName.TrimStart('-')}";
+            var optionKey = flagName.TrimStart('-');
 
-            if (seenOptions.Contains(longForm))
+            if (!seenOptions.Add(optionKey))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
-
             // Accumulate multi-line descriptions
             i = AccumulateMultiLineDescription(lines, i, ref description);
 
-            var propertyName = NormalizePropertyName(longForm);
+            var propertyName = NormalizePropertyName(optionKey);
             if (propertyName is null)
             {
                 continue;
@@ -369,7 +375,7 @@ public partial class GoCliScraper : CliScraperBase
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = flagName.TrimStart('-'),
+                SwitchName = flagName,
                 ShortForm = null,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
@@ -384,8 +390,42 @@ public partial class GoCliScraper : CliScraperBase
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
+    }
 
-        return options;
+    private static void AddUsageOptions(
+        string helpText,
+        ICollection<CliOptionDefinition> options,
+        ISet<string> seenOptions)
+    {
+        foreach (Match match in GoUsageOptionPattern().Matches(helpText))
+        {
+            var flagName = match.Groups["flag"].Value;
+            var optionKey = flagName.TrimStart('-');
+            if (!seenOptions.Add(optionKey))
+            {
+                continue;
+            }
+
+            var propertyName = NormalizePropertyName(optionKey);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            var valueHint = match.Groups["value"].Value;
+            var isFlag = string.IsNullOrEmpty(valueHint);
+            var valueSeparator = match.Groups["separator"].Value == "=" ? "=" : " ";
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = flagName,
+                PropertyName = propertyName,
+                CSharpType = isFlag ? "bool?" : "string?",
+                Description = $"The {flagName} option.",
+                IsFlag = isFlag,
+                ValueSeparator = valueSeparator,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            });
+        }
     }
 
     /// <summary>
@@ -479,6 +519,13 @@ public partial class GoCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:\s+(?<value>\w+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex GoOptionPattern();
+
+    /// <summary>
+    /// Matches options declared directly in a Go usage synopsis, including commands whose
+    /// help does not expose a dedicated flags table.
+    /// </summary>
+    [GeneratedRegex(@"(?<![\w-])(?<flag>-[a-z][\w-]*)(?:(?<separator>=|[ \t]+)(?<value>(?!(?:flag|flags|option|options)\b)[A-Za-z][\w-]*))?", RegexOptions.IgnoreCase)]
+    private static partial Regex GoUsageOptionPattern();
 
     /// <summary>
     /// Matches flag lines.

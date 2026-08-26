@@ -232,7 +232,8 @@ public class SnykCliScraperTests
                 Specify multiple Terraform state files to be read. Glob patterns are supported.
             """;
 
-        var command = await new TestSnykCliScraper().Parse(["snyk", "iac", "describe"], helpText);
+        var scraper = new TestSnykCliScraper();
+        var command = await scraper.Parse(["snyk", "iac", "describe"], helpText);
         var option = command!.Options.Single();
 
         using (Assert.Multiple())
@@ -240,6 +241,8 @@ public class SnykCliScraperTests
             await Assert.That(option.SwitchName).IsEqualTo("--from");
             await Assert.That(option.CSharpType).IsEqualTo("string?");
             await Assert.That(option.AcceptsMultipleValues).IsFalse();
+            await Assert.That(scraper.IsKnownScalar(["iac", "describe"], "--from"))
+                .IsTrue();
         }
     }
 
@@ -439,6 +442,9 @@ public class SnykCliScraperTests
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public bool CanGenerate(string helpText) => HasOptions(helpText);
+
+        public bool IsKnownScalar(IReadOnlyList<string> commandParts, string switchName) =>
+            ShouldTreatOptionAsScalar(commandParts, switchName);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
             => ParseCommandAsync(

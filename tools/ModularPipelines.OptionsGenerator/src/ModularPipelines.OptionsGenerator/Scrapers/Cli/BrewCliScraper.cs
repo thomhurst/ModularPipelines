@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -245,9 +246,11 @@ public partial class BrewCliScraper : CliScraperBase
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
-        var positionalArguments = DisambiguatePositionalArguments(
-            usage.PositionalArguments,
-            options);
+        var positionalArguments = NormalizePositionalArguments(
+            commandParts,
+            DisambiguatePositionalArguments(
+                GetPositionalArguments(usage, options),
+                options));
 
         // Extract enums from options
         var enums = options
@@ -298,6 +301,68 @@ public partial class BrewCliScraper : CliScraperBase
             })
             .ToArray();
     }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<CliPositionalArgument> arguments) =>
+        commandParts switch
+        {
+            ["command"] =>
+            [
+                RequiredArgument("Cmd", 0) with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsVariadic = true,
+                },
+            ],
+            ["exec"] =>
+            [
+                RequiredArgument("Command", 0),
+                VariadicArgument("Arguments", 1),
+            ],
+            ["sandbox-exec"] =>
+            [
+                RequiredArgument("Command", 0) with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsVariadic = true,
+                    PrependOptionTerminator = true,
+                },
+            ],
+            ["generate-zap"] =>
+            [
+                RequiredArgument("CaskOrName", 0),
+            ],
+            ["unlink"] =>
+            [
+                RequiredArgument("InstalledFormula", 0) with
+                {
+                    CSharpType = "IEnumerable<string>",
+                    IsVariadic = true,
+                },
+            ],
+            _ => arguments,
+        };
+
+    private static CliPositionalArgument RequiredArgument(string propertyName, int position) => new()
+    {
+        PropertyName = propertyName,
+        CSharpType = "string",
+        Description = $"The {propertyName.ToLowerInvariant()} operand.",
+        Phase = CommandLinePhase.Passthrough,
+        PositionIndex = position,
+        IsRequired = true,
+    };
+
+    private static CliPositionalArgument VariadicArgument(string propertyName, int position) => new()
+    {
+        PropertyName = propertyName,
+        CSharpType = "IEnumerable<string>?",
+        Description = $"The {propertyName.ToLowerInvariant()} operands.",
+        Phase = CommandLinePhase.Passthrough,
+        PositionIndex = position,
+        IsVariadic = true,
+    };
 
     /// <summary>
     /// Extracts description from help text.
@@ -392,6 +457,9 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
+            var hasInlineValue = longForm.Contains('=');
+            longForm = longForm.Split('=', 2)[0];
+
             // Skip duplicates
             if (seenOptions.Contains(longForm))
             {
@@ -408,8 +476,8 @@ public partial class BrewCliScraper : CliScraperBase
 
             // Determine if it's a flag or takes a value
             // Homebrew options are mostly flags unless they mention a value in description
-            var isFlag = !descriptionPart.Contains("=") &&
-                         !longForm.Contains("=") &&
+            var isFlag = !hasInlineValue &&
+                         !descriptionPart.Contains('=') &&
                          !DescriptionSuggestsValue().IsMatch(descriptionPart);
 
             var csharpType = isFlag ? "bool?" : "string?";
@@ -484,7 +552,7 @@ public partial class BrewCliScraper : CliScraperBase
     ///   -d, --debug                  Display any debugging information.
     ///       --formula, --formulae    Treat all named arguments as formulae.
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<flags>(?:-\w,\s*)?(?:--[\w\[\]-]+(?:,\s*--[\w-]+)*))(?:\s{2,}|\s*$)(?<description>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?<flags>(?:-\w,\s*)?(?:--[\w\[\]-]+(?:=[^\s,]+)?(?:,\s*--[\w-]+(?:=[^\s,]+)?)*))(?:\s{2,}|\s*$)(?<description>.*)$", RegexOptions.Multiline)]
     private static partial Regex BrewOptionPattern();
 
     /// <summary>

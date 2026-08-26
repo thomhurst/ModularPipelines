@@ -148,6 +148,62 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Uses_Whole_Option_Block_For_Repeatability()
+    {
+        const string helpText = """
+            NAME
+                gcloud compute instances create - create an instance
+
+            SYNOPSIS
+                gcloud compute instances create
+
+            FLAGS
+                 --ipv6-public-ptr-domain=DOMAIN
+                    Domain for the public PTR record.
+                 This flag can be repeated to configure multiple domains.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "instances", "create"],
+            helpText);
+        var option = command!.Options.Single(candidate =>
+            candidate.SwitchName == "--ipv6-public-ptr-domain");
+
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task Gcloud_Repeatable_Key_Value_Option_Keeps_Key_Value_Type()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+
+            SYNOPSIS
+                gcloud example update
+
+            FLAGS
+                 --metadata=KEY=VALUE
+                    This flag can be repeated to add metadata entries.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "example", "update"],
+            helpText);
+        var metadata = command!.Options.Single(option => option.SwitchName == "--metadata");
+
+        await Assert.That(metadata.AcceptsMultipleValues).IsTrue();
+        await Assert.That(metadata.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+    }
+
+    [Test]
     public async Task Gcloud_External_Ipv6_Prefix_Length_Is_Known_Scalar()
     {
         var scraper = CreateGcloudScraper();

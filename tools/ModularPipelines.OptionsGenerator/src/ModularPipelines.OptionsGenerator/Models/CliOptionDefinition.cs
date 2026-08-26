@@ -215,7 +215,12 @@ public record CliOptionDefinition
     public bool RequiresModelsNamespace
         => IsKeyValue
            || ValueArity == CliOptionValueArity.Optional
-           || CSharpType.Contains("CliValuePair", StringComparison.Ordinal);
+           || TypeRequiresModelsNamespace(CSharpType);
+
+    internal static bool TypeRequiresModelsNamespace(string cSharpType) =>
+        cSharpType.Contains("KeyValue", StringComparison.Ordinal)
+        || cSharpType.Contains("CliValuePair", StringComparison.Ordinal)
+        || cSharpType.Contains("CliOptionValue", StringComparison.Ordinal);
 
     /// <summary>
     /// Whether the value is numeric.

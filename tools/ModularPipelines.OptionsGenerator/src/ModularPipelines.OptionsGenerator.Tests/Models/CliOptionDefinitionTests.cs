@@ -207,6 +207,19 @@ public class CliOptionDefinitionTests
     }
 
     [Test]
+    public async Task RequiresModelsNamespace_When_CSharpType_Uses_KeyValue_Without_Metadata()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--labels",
+            PropertyName = "Labels",
+            CSharpType = "IReadOnlyList<KeyValue>?",
+        };
+
+        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+    }
+
+    [Test]
     public async Task PropertyType_Preserves_Grouped_Optional_Collection_Shape()
     {
         var option = new CliOptionDefinition

@@ -121,8 +121,16 @@ internal static class GeneratedApiCompatibilityPreserver
                     : command)
                 .Select(command => optionalFacadeOptionTypes.Contains(command.ClassName)
                     ? command with { PreserveOptionalOptionsParameter = true }
-                    : command)
-                .Select(command => PreserveFacadeMethodCasing(command, facadeMethods))],
+                    : command)],
+        };
+        var currentFacadeMethods = GenerateFacadeMethods(preservedTool);
+        preservedTool = preservedTool with
+        {
+            Commands = [.. preservedTool.Commands.Select(command =>
+                PreserveFacadeMethodCompatibility(
+                    command,
+                    facadeMethods,
+                    currentFacadeMethods))],
         };
         RejectRemovedFacadeMethods(preservedTool, facadeMethods);
         return preservedTool;
@@ -239,12 +247,13 @@ internal static class GeneratedApiCompatibilityPreserver
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),
             CompatibilityConstructors = baseline.Constructors,
             CompatibilityMethods = [.. facadeMethods
-                .Where(method => IsRootFacadeMethod(tool, method)
-                                 && IsNamedFacadeMethod(tool, method))
+                .Where(method => IsNamedFacadeMethod(tool, method))
                 .Select(method => new CliCompatibilityMethod
                 {
                     MethodName = method.MethodName,
-                    ObsoleteMessage = $"Use {currentRootMethodName} instead.",
+                    ObsoleteMessage = !IsRootFacadeMethod(tool, method)
+                        ? "Use the current command facade instead."
+                        : $"Use {currentRootMethodName} instead.",
                 })
                 .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)],
             SubDomainGroup = subDomainGroup,
@@ -820,20 +829,27 @@ internal static class GeneratedApiCompatibilityPreserver
         };
     }
 
-    private static CliCommandDefinition PreserveFacadeMethodCasing(
+    private static CliCommandDefinition PreserveFacadeMethodCompatibility(
         CliCommandDefinition command,
-        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods)
+        IReadOnlyList<GeneratedFacadeMethod> baselineFacadeMethods,
+        IReadOnlyList<GeneratedFacadeMethod> currentFacadeMethods)
     {
-        var currentMethodName = GeneratorUtils.EnsureAsyncSuffix(
-            GeneratorUtils.GenerateMethodNameFromLastCommandPart(command));
+        var currentMethods = currentFacadeMethods
+            .Where(method => method.OptionsType.Equals(command.ClassName, StringComparison.Ordinal))
+            .ToArray();
         var compatibilityMethods = baselineFacadeMethods
             .Where(method => method.OptionsType.Equals(command.ClassName, StringComparison.Ordinal)
-                             && method.MethodName.Equals(currentMethodName, StringComparison.OrdinalIgnoreCase)
-                             && !method.MethodName.Equals(currentMethodName, StringComparison.Ordinal))
-            .Select(method => new CliCompatibilityMethod
+                             && !currentFacadeMethods.Contains(method))
+            .Select(method => (Baseline: method, Replacements: currentMethods
+                .Where(current => current.DeclaringType.Equals(method.DeclaringType, StringComparison.Ordinal))
+                .Select(static current => current.MethodName)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()))
+            .Where(static match => match.Replacements.Length == 1)
+            .Select(match => new CliCompatibilityMethod
             {
-                MethodName = method.MethodName,
-                ObsoleteMessage = $"Use {currentMethodName} instead.",
+                MethodName = match.Baseline.MethodName,
+                ObsoleteMessage = $"Use {match.Replacements[0]} instead.",
             });
 
         return command with
@@ -921,8 +937,7 @@ internal static class GeneratedApiCompatibilityPreserver
             aliasBaseline.Properties,
             aliasBaseline.Constructors,
             currentRequired,
-            compatibilityConstructors,
-            allowNewRequiredMembers: false);
+            compatibilityConstructors);
         SetCompatibilityEntries(constructorsByAlias, aliasClassName, compatibilityConstructors);
     }
 
@@ -2562,15 +2577,13 @@ internal static class GeneratedApiCompatibilityPreserver
             baselineProperties,
             baselineConstructors,
             [.. GetCurrentProperties(positionalArguments, options).Where(static property => property.IsRequired)],
-            compatibilityConstructors,
-            allowNewRequiredMembers: true);
+            compatibilityConstructors);
 
     private static void PreserveCompatibilityConstructors(
         IReadOnlyList<GeneratedApiProperty> baselineProperties,
         IReadOnlyList<CliCompatibilityConstructor> baselineConstructors,
         IReadOnlyList<GeneratedApiProperty> currentRequired,
-        List<CliCompatibilityConstructor> compatibilityConstructors,
-        bool allowNewRequiredMembers)
+        List<CliCompatibilityConstructor> compatibilityConstructors)
     {
         if (currentRequired.Count == 0)
         {
@@ -2581,19 +2594,6 @@ internal static class GeneratedApiCompatibilityPreserver
         var baselineRequired = baselineProperties
             .Where(static property => property.IsRequired && !property.IsCompatibility)
             .ToArray();
-        var addedRequired = currentRequired
-            .Where(current => !baselineRequired.Any(baseline =>
-                baseline.PropertyName.Equals(current.PropertyName, StringComparison.Ordinal)
-                && baseline.CSharpType.Equals(current.CSharpType, StringComparison.Ordinal)))
-            .Select(static property => property.PropertyName)
-            .ToArray();
-        if (addedRequired.Length > 0 && !allowNewRequiredMembers)
-        {
-            throw new InvalidOperationException(
-                "Cannot retain generated constructors because newly required member(s) "
-                + $"{string.Join(", ", addedRequired)} have no baseline value.");
-        }
-
         foreach (var constructor in baselineConstructors)
         {
             AddCompatibilityConstructor(

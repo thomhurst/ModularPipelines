@@ -173,6 +173,52 @@ public class EnumDefinitionStabilizerTests
     }
 
     [Test]
+    public async Task Stabilize_Retains_Case_Variant_Cli_Values()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-enum-tests", Guid.NewGuid().ToString("N"));
+        var enumDirectory = Path.Combine(outputRoot, "src", "Fake", "Enums");
+        Directory.CreateDirectory(enumDirectory);
+        File.WriteAllText(
+            Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+            "public enum FakeVisibility { "
+            + "[EnumValue(\"ALLOW\")] Allow = 4, "
+            + "[EnumValue(\"DENY\")] Deny = 5 }");
+
+        try
+        {
+            var stabilized = EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("allow"), Value("deny")),
+                outputRoot);
+            var values = stabilized.AllEnums.Single().Values;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(values.Select(value => value.MemberName))
+                    .IsEquivalentTo(["Allow", "Deny", "AllowLowercase", "DenyLowercase"]);
+                await Assert.That(values.Select(value => value.CliValue))
+                    .IsEquivalentTo(["ALLOW", "DENY", "allow", "deny"]);
+                await Assert.That(values.Select(value => value.NumericValue!.Value))
+                    .IsEquivalentTo([4, 5, 6, 7]);
+            }
+
+            var generated = (await new EnumGenerator().GenerateAsync(stabilized)).Single().Content;
+            await File.WriteAllTextAsync(
+                Path.Combine(enumDirectory, "FakeVisibility.Generated.cs"),
+                generated);
+            var restabilized = EnumDefinitionStabilizer.Stabilize(
+                Tool(Value("allow"), Value("deny")),
+                outputRoot);
+
+            await Assert.That(restabilized.AllEnums.Single().Values)
+                .IsEquivalentTo(values);
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Stabilize_Rejects_Suspicious_Prose_Values()
     {
         var tool = Tool(Value("them"), Value("accepts"));

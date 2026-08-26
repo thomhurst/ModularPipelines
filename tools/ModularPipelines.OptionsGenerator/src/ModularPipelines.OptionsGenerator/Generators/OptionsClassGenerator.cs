@@ -72,7 +72,12 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         if (requiredParameters.Any(static parameter =>
-                parameter.Option?.ValueArity == CliOptionValueArity.Optional))
+                parameter.Option?.RequiresModelsNamespace == true)
+            || compatibilityProperties.Any(static property =>
+                CliOptionDefinition.TypeRequiresModelsNamespace(property.AliasCSharpType))
+            || compatibilityConstructors
+                .SelectMany(static constructor => constructor.Parameters)
+                .Any(static parameter => CliOptionDefinition.TypeRequiresModelsNamespace(parameter.CSharpType)))
         {
             sb.AppendLine("using ModularPipelines.Models;");
         }
@@ -386,7 +391,12 @@ public class OptionsClassGenerator : ICodeGenerator
         // Include the existing Options namespace where the base class lives
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
 
-        if (command.Options.Any(o => o.RequiresModelsNamespace))
+        if (command.Options.Any(static option => option.RequiresModelsNamespace)
+            || command.CompatibilityProperties.Any(static property =>
+                CliOptionDefinition.TypeRequiresModelsNamespace(property.CSharpType))
+            || command.CompatibilityConstructors
+                .SelectMany(static constructor => constructor.Parameters)
+                .Any(static parameter => CliOptionDefinition.TypeRequiresModelsNamespace(parameter.CSharpType)))
         {
             sb.AppendLine("using ModularPipelines.Models;");
         }
