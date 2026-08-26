@@ -56,6 +56,10 @@ public class ServiceImplementationGenerator : ICodeGenerator
         var subDomains = tool.SubDomainGroups
             .Select(group => GeneratorUtils.GetSubDomainIdentifier(tool, group))
             .ToList();
+        var compatibilityOnlySubDomains = tool.SubDomainGroups
+            .Where(group => GeneratorUtils.IsCompatibilityOnlySubDomain(tool, group))
+            .Select(group => GeneratorUtils.GetSubDomainIdentifier(tool, group))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         // Class documentation
         sb.AppendLine("/// <summary>");
@@ -144,6 +148,12 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 sb.AppendLine($"    /// <inheritdoc />");
+                if (compatibilityOnlySubDomains.Contains(subDomain))
+                {
+                    sb.AppendLine(
+                        $"    [Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
+                }
+
                 sb.AppendLine($"    public I{subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
 

@@ -14,6 +14,28 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    internal const string CompatibilityOnlyObsoleteMessage =
+        "This command is no longer supported by the installed CLI and is retained only for compatibility.";
+
+    internal static bool IsCompatibilityOnlySubDomain(
+        CliToolDefinition tool,
+        string subDomainGroup)
+    {
+        var subDomainIdentifier = GetSubDomainIdentifier(tool, subDomainGroup);
+        var commands = tool.Commands
+            .Where(command => string.Equals(
+                command.SubDomainGroup,
+                subDomainGroup,
+                StringComparison.OrdinalIgnoreCase))
+            .Concat(GetSubDomainParentCommands(tool).Where(command =>
+                GetCommandGroupIdentifier(command).Equals(
+                    subDomainIdentifier,
+                    StringComparison.OrdinalIgnoreCase)))
+            .Distinct()
+            .ToArray();
+        return commands.Length > 0 && commands.All(static command => command.IsCompatibilityOnly);
+    }
+
     internal static string GetEnumTypeName(string cSharpType)
     {
         var type = cSharpType.TrimEnd('?');
@@ -787,6 +809,7 @@ public static partial class GeneratorUtils
         }
 
         var compatibilityMethods = GetCompatibilityMethods(command, methodName).ToList();
+        AppendCompatibilityOnlyObsoleteAttribute(sb, command, indent);
         AppendDefaultServiceMethod(
             sb,
             methodName,
@@ -862,6 +885,7 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <inheritdoc />");
         }
 
+        AppendCompatibilityOnlyObsoleteAttribute(sb, command, indent);
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
         sb.AppendLine($"{indent}    {BuildOptionsParameter(command)},");
         sb.AppendLine($"{indent}    {ExecutionOptionsParameter},");
@@ -888,6 +912,18 @@ public static partial class GeneratorUtils
                 methodName,
                 command,
                 indent);
+        }
+    }
+
+    private static void AppendCompatibilityOnlyObsoleteAttribute(
+        StringBuilder sb,
+        CliCommandDefinition command,
+        string indent)
+    {
+        if (command.IsCompatibilityOnly)
+        {
+            sb.AppendLine(
+                $"{indent}[Obsolete({FormatStringLiteral(CompatibilityOnlyObsoleteMessage)})]");
         }
     }
 

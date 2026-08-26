@@ -425,6 +425,11 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
+        if (command.IsCompatibilityOnly)
+        {
+            sb.AppendLine(
+                $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
+        }
 
         // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
         if (command.CommandParts.Length > 0)
