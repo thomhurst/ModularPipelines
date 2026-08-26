@@ -17,14 +17,14 @@ namespace ModularPipelines.Snyk.Enums;
 public enum SnykSeverityThreshold
 {
     [EnumValue("low")]
-    Low,
+    Low = 0,
 
     [EnumValue("medium")]
-    Medium,
+    Medium = 1,
 
     [EnumValue("high")]
-    High,
+    High = 2,
 
     [EnumValue("critical")]
-    Critical
+    Critical = 3
 }
