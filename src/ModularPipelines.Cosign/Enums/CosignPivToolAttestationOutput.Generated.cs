@@ -10,15 +10,12 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Cosign.Enums;
 
-/// <summary>
-/// Allowed values for the --output option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum CosignPivToolAttestationOutput
 {
     [EnumValue("text")]
-    Text,
+    Text = 0,
 
     [EnumValue("json")]
-    Json
+    Json = 1
 }

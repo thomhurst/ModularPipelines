@@ -23,32 +23,32 @@ public partial interface ICosign
     /// <summary>
     /// Gets the bundle sub-domain service.
     /// </summary>
-    ICosignBundle Bundle { get; }
+    ICosignBundle Bundle => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the download sub-domain service.
     /// </summary>
-    ICosignDownload Download { get; }
+    ICosignDownload Download => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pivtool sub-domain service.
     /// </summary>
-    ICosignPivTool PivTool { get; }
+    ICosignPivTool PivTool => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pkcs11tool sub-domain service.
     /// </summary>
-    ICosignPkcs11Tool Pkcs11Tool { get; }
+    ICosignPkcs11Tool Pkcs11Tool => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the signingconfig sub-domain service.
     /// </summary>
-    ICosignSigningConfig SigningConfig { get; }
+    ICosignSigningConfig SigningConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the trustedroot sub-domain service.
     /// </summary>
-    ICosignTrustedRoot TrustedRoot { get; }
+    ICosignTrustedRoot TrustedRoot => throw new System.NotSupportedException();
 
     #endregion
 
@@ -61,7 +61,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AttestBlobAsync(CosignAttestBlobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> AttestBlobAsync(CosignAttestBlobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Attest the supplied container image
@@ -70,7 +71,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AttestAsync(CosignAttestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> AttestAsync(CosignAttestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Remove all signatures from an image
@@ -79,7 +81,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CleanAsync(CosignCleanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> CleanAsync(CosignCleanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Generates a key-pair for signing.
@@ -88,7 +91,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateKeyPairAsync(CosignGenerateKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GenerateKeyPairAsync(CosignGenerateKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Imports a PEM-encoded RSA or EC private key for signing.
@@ -97,7 +101,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ImportKeyPairAsync(CosignImportKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ImportKeyPairAsync(CosignImportKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Initializes SigStore root to retrieve trusted certificate and key targets for verification.
@@ -106,7 +111,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InitializeAsync(CosignInitializeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InitializeAsync(CosignInitializeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Load a signed image on disk to a remote registry
@@ -115,7 +121,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoadAsync(CosignLoadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> LoadAsync(CosignLoadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Log in to a registry
@@ -124,7 +131,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LoginAsync(CosignLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> LoginAsync(CosignLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets a public key from the key-pair and
@@ -133,7 +141,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PublicKeyAsync(CosignPublicKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PublicKeyAsync(CosignPublicKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Save the container image and associated signatures to disk at the specified directory.
@@ -142,7 +151,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SaveAsync(CosignSaveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SaveAsync(CosignSaveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Sign the supplied blob, outputting the base64-encoded signature to stdout
@@ -151,7 +161,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SignBlobAsync(CosignSignBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SignBlobAsync(CosignSignBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Sign the supplied container image.
@@ -160,7 +171,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SignAsync(CosignSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SignAsync(CosignSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Display supply chain security related artifacts for an image such as signatures, SBOMs and attestations
@@ -169,7 +181,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TreeAsync(CosignTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> TreeAsync(CosignTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Verify an attestation on an image by checking the claims
@@ -178,7 +191,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VerifyAttestationAsync(CosignVerifyAttestationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyAttestationAsync(CosignVerifyAttestationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Verify an attestation on the supplied blob input using the specified key reference.
@@ -187,7 +201,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VerifyBlobAttestationAsync(CosignVerifyBlobAttestationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyBlobAttestationAsync(CosignVerifyBlobAttestationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Verify a signature on the supplied blob input using the specified key reference.
@@ -196,7 +211,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VerifyBlobAsync(CosignVerifyBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyBlobAsync(CosignVerifyBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Verify signature and annotations on an image by checking the claims
@@ -205,7 +221,8 @@ public partial interface ICosign
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VerifyAsync(CosignVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> VerifyAsync(CosignVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     #endregion
 }

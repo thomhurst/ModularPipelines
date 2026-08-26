@@ -15,91 +15,34 @@ namespace ModularPipelines.Cosign.Services;
 /// <summary>
 /// cosign pivtool commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface ICosignPivTool
 {
-    /// <summary>
-    /// Manage hardware token attestations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> AttestationAsync(
-        CosignPivToolAttestationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(CosignPivToolExecuteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Generate a new signing key on the hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> GenerateKeyAsync(
-        CosignPivToolGenerateKeyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> AttestationAsync(CosignPivToolAttestationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Reset the hardware token completely
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> ResetAsync(
-        CosignPivToolResetOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> GenerateKeyAsync(CosignPivToolGenerateKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Set the management key of a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> SetManagementKeyAsync(
-        CosignPivToolSetManagementKeyOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> ResetAsync(CosignPivToolResetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Set the PIN on a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> SetPinAsync(
-        CosignPivToolSetPinOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetManagementKeyAsync(CosignPivToolSetManagementKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Set the PUK on a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> SetPukAsync(
-        CosignPivToolSetPukOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetPinAsync(CosignPivToolSetPinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// Unblock a hardware token and set a new PIN
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> UnblockAsync(
-        CosignPivToolUnblockOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetPukAsync(CosignPivToolSetPukOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    public Task<CommandResult> UnblockAsync(CosignPivToolUnblockOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

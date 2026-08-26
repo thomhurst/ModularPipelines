@@ -32,6 +32,21 @@ public class CosignSigningConfig : ICosignSigningConfig
     #region Commands
 
     /// <summary>
+    /// Tool for interacting with a Sigstore protobuf signing config
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        CosignSigningConfigExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignSigningConfigExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a Sigstore protobuf signing config by supplying verification material for Fulcio, Rekor, OIDC, and TSA services.
     /// </summary>
     /// <param name="options">The command options.</param>
