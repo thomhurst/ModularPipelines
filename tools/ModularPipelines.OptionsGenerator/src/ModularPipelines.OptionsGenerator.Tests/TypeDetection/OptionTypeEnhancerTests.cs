@@ -142,6 +142,35 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
+    [Arguments("--identity-token", "IdentityToken", "Token or path to a file containing the token.")]
+    [Arguments("--oidc-client-secret-file", "OidcClientSecretFile", "Path to the OIDC client secret file.")]
+    public async Task Cosign_Override_Preserves_Path_Capable_Secrets(
+        string switchName,
+        string propertyName,
+        string description)
+    {
+        var detector = new ManualOverrideDetector(
+            NullLogger<ManualOverrideDetector>.Instance,
+            Path.Combine(AppContext.BaseDirectory, "TypeOverrides"));
+        var pipeline = new OptionTypeDetectorPipeline(
+            [detector],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            PropertyName = propertyName,
+            CSharpType = "string?",
+            Description = description,
+            IsSecret = true,
+        }, toolName: "cosign");
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsTrue();
+    }
+
+    [Test]
     public async Task EnhanceAsync_Removes_Inferred_Secret_From_Path_Option()
     {
         var pipeline = new OptionTypeDetectorPipeline(
@@ -215,11 +244,13 @@ public class OptionTypeEnhancerTests
         }
     }
 
-    private static CliToolDefinition CreateTool(CliOptionDefinition option)
+    private static CliToolDefinition CreateTool(
+        CliOptionDefinition option,
+        string toolName = "docker")
     {
         return new CliToolDefinition
         {
-            ToolName = "docker",
+            ToolName = toolName,
             NamespacePrefix = "Docker",
             TargetNamespace = "ModularPipelines.Docker",
             OutputDirectory = "src/ModularPipelines.Docker",
