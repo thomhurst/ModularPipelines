@@ -269,10 +269,12 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Splits_Nested_Command_And_Argument_Operands()
+    [Arguments("")]
+    [Arguments(":")]
+    public async Task Splits_Nested_Command_And_Argument_Operands(string trailingPunctuation)
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: podman run [options] IMAGE [COMMAND [ARG...]]",
+            $"Usage: podman run [options] IMAGE [COMMAND [ARG...]]{trailingPunctuation}",
             ["podman", "run"]);
 
         using (Assert.Multiple())
@@ -321,6 +323,7 @@ public class UsageSynopsisParserTests
     [Test]
     [Arguments("Usage: brew services stop (formula | --all)")]
     [Arguments("Usage: brew services stop (--all | formula)")]
+    [Arguments("Usage: brew services stop (<formula>|--all):")]
     public async Task Models_Operand_Or_Option_Alternatives_As_Optional(string helpText)
     {
         var result = UsageSynopsisParser.Parse(
