@@ -13,23 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Fix runs the Go fix tool (cmd/fix) on the named packages
+/// Telemetry is used to manage Go telemetry data and settings.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("fix")]
-public record GoFixOptions : GoOptions
+[CliSubCommand("telemetry")]
+public record GoTelemetryOptions : GoOptions
 {
     /// <summary>
-    /// The -fixtool option.
-    /// </summary>
-    [CliOption("-fixtool")]
-    public string? Fixtool { get; set; }
-
-    /// <summary>
-    /// The packages operand.
+    /// The telemetry mode: off, local, or on.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public string? Mode { get; set; }
 
 }

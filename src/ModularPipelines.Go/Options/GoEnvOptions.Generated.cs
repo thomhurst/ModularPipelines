@@ -13,41 +13,41 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Generate runs commands described by directives within existing
+/// Env prints Go environment information.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("generate")]
-public record GoGenerateOptions : GoOptions
+[CliSubCommand("env")]
+public record GoEnvOptions : GoOptions
 {
     /// <summary>
-    /// The -run option.
+    /// The -json option.
     /// </summary>
-    [CliOption("-run")]
-    public string? Run { get; set; }
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
 
     /// <summary>
-    /// The -n option.
+    /// The -changed option.
     /// </summary>
-    [CliFlag("-n")]
-    public bool? N { get; set; }
+    [CliFlag("-changed")]
+    public bool? Changed { get; set; }
 
     /// <summary>
-    /// The -v option.
+    /// The -u option.
     /// </summary>
-    [CliFlag("-v")]
-    public bool? V { get; set; }
+    [CliFlag("-u")]
+    public bool? U { get; set; }
 
     /// <summary>
-    /// The -x option.
+    /// The -w option.
     /// </summary>
-    [CliFlag("-x")]
-    public bool? X { get; set; }
+    [CliFlag("-w")]
+    public bool? W { get; set; }
 
     /// <summary>
-    /// The file or package targets.
+    /// The var operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Targets { get; set; }
+    public IEnumerable<string>? Var { get; set; }
 
 }

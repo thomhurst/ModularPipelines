@@ -13,23 +13,17 @@ using ModularPipelines.Go.Options;
 namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Fix runs the Go fix tool (cmd/fix) on the named packages
+/// Init initializes and writes a new go.work file in the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("fix")]
-public record GoFixOptions : GoOptions
+[CliSubCommand("work", "init")]
+public record GoWorkInitOptions : GoOptions
 {
     /// <summary>
-    /// The -fixtool option.
-    /// </summary>
-    [CliOption("-fixtool")]
-    public string? Fixtool { get; set; }
-
-    /// <summary>
-    /// The packages operand.
+    /// The moddirs operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Packages { get; set; }
+    public IEnumerable<string>? Moddirs { get; set; }
 
 }
