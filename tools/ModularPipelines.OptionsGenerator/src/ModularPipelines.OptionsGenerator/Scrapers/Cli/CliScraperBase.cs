@@ -663,6 +663,15 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
 
+        if (!ShouldAcceptHelpResult(commandPath, result))
+        {
+            Logger.LogWarning(
+                "Ignoring failed help command for {Command}; exit code {ExitCode}",
+                cacheKey,
+                result.ExitCode);
+            return null;
+        }
+
         // Many CLIs output help to stderr when using --help
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)
             ? result.StandardOutput
@@ -677,6 +686,15 @@ public abstract partial class CliScraperBase : ICliScraper
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
     }
+
+    /// <summary>
+    /// Returns whether output from a help invocation is safe to parse.
+    /// Some CLIs intentionally return non-zero exit codes for valid help, so adapters
+    /// can opt into stricter validation when partial failure output is misleading.
+    /// </summary>
+    protected virtual bool ShouldAcceptHelpResult(
+        IReadOnlyList<string> commandPath,
+        CliCommandResult result) => true;
 
     #endregion
 

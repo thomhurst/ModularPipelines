@@ -2821,6 +2821,10 @@ public class GeneratorHardeningTests
                 await Assert.That(generatedOptions)
                     .Contains("[CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, PrependOptionTerminatorIfValueStartsWithDash = true)]");
                 await Assert.That(generatedOptions).Contains("[SecretValue(\"password\", \"token\")]");
+                await Assert.That(generatedOptions)
+                    .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
+                await Assert.That(generated)
+                    .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
                 await Assert.That(generated).Contains("RemovedAsync(ToolRemovedOptions? options = null");
             }
         }
@@ -2828,6 +2832,85 @@ public class GeneratorHardeningTests
         {
             Directory.Delete(root, recursive: true);
         }
+    }
+
+    [Test]
+    public async Task CompatibilityOnly_SubDomain_Facades_Are_Obsolete()
+    {
+        var command = Command(
+            "ToolRemovedChildOptions",
+            "ToolOptions",
+            ["removed", "child"],
+            subDomainGroup: "removed") with
+        {
+            IsCompatibilityOnly = true,
+        };
+        var tool = Tool(command) with
+        {
+            CommandGroupAliases =
+            [
+                new CliCommandGroupAlias
+                {
+                    Alias = "legacy",
+                    CanonicalCommand = "removed",
+                    ObsoleteMessage = "Use removed instead.",
+                },
+            ],
+        };
+        var obsoleteAttribute =
+            $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]";
+        var rootInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+        var rootImplementation = (await new ServiceImplementationGenerator().GenerateAsync(tool)).Single().Content;
+        var subDomainInterface = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                "IToolRemoved.Generated.cs",
+                StringComparison.Ordinal))
+            .Content;
+        var compatibilityOptionsAlias = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                "ToolLegacyChildOptions.Generated.cs",
+                StringComparison.Ordinal))
+            .Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(rootInterface)
+                .Contains($"{obsoleteAttribute}{Environment.NewLine}    IToolRemoved Removed");
+            await Assert.That(rootImplementation)
+                .Contains($"{obsoleteAttribute}{Environment.NewLine}    public IToolRemoved Removed");
+            await Assert.That(rootImplementation)
+                .Contains(
+                    "#pragma warning disable CS0618"
+                    + $"{Environment.NewLine}        Removed = removed;"
+                    + $"{Environment.NewLine}        #pragma warning restore CS0618");
+            await Assert.That(subDomainInterface)
+                .Contains($"{obsoleteAttribute}{Environment.NewLine}    public Task<CommandResult> ChildAsync");
+            await Assert.That(compatibilityOptionsAlias).Contains(obsoleteAttribute);
+        }
+    }
+
+    [Test]
+    public async Task Live_SubDomain_Parent_Property_Is_Not_Obsolete()
+    {
+        var parent = Command(
+            "ToolMixedOptions",
+            "ToolOptions",
+            ["mixed"]);
+        var compatibilityChild = Command(
+            "ToolMixedRemovedOptions",
+            "ToolOptions",
+            ["mixed", "removed"],
+            subDomainGroup: "mixed") with
+        {
+            IsCompatibilityOnly = true,
+        };
+        var tool = Tool(parent, compatibilityChild);
+        var obsoleteProperty =
+            $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]"
+            + $"{Environment.NewLine}    IToolMixed Mixed";
+        var rootInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(rootInterface).DoesNotContain(obsoleteProperty);
     }
 
     [Test]
