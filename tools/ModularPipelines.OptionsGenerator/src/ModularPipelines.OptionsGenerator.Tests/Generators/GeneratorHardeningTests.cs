@@ -2845,7 +2845,18 @@ public class GeneratorHardeningTests
         {
             IsCompatibilityOnly = true,
         };
-        var tool = Tool(command);
+        var tool = Tool(command) with
+        {
+            CommandGroupAliases =
+            [
+                new CliCommandGroupAlias
+                {
+                    Alias = "legacy",
+                    CanonicalCommand = "removed",
+                    ObsoleteMessage = "Use removed instead.",
+                },
+            ],
+        };
         var obsoleteAttribute =
             $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]";
         var rootInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
@@ -2853,6 +2864,11 @@ public class GeneratorHardeningTests
         var subDomainInterface = (await new SubDomainClassGenerator().GenerateAsync(tool))
             .Single(file => Path.GetFileName(file.RelativePath).Equals(
                 "IToolRemoved.Generated.cs",
+                StringComparison.Ordinal))
+            .Content;
+        var compatibilityOptionsAlias = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath).Equals(
+                "ToolLegacyChildOptions.Generated.cs",
                 StringComparison.Ordinal))
             .Content;
 
@@ -2869,6 +2885,7 @@ public class GeneratorHardeningTests
                     + $"{Environment.NewLine}        #pragma warning restore CS0618");
             await Assert.That(subDomainInterface)
                 .Contains($"{obsoleteAttribute}{Environment.NewLine}    public Task<CommandResult> ChildAsync");
+            await Assert.That(compatibilityOptionsAlias).Contains(obsoleteAttribute);
         }
     }
 

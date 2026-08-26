@@ -97,6 +97,12 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
+        if (command.IsCompatibilityOnly)
+        {
+            sb.AppendLine(
+                $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
+        }
+
         if (enumOptions.Length == 0
             && requiredParameters.Count == 0
             && compatibilityConstructors.Count == 0
