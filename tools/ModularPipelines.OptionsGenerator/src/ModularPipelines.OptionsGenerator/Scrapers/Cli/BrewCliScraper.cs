@@ -179,6 +179,54 @@ public partial class BrewCliScraper : CliScraperBase
         CliCommandResult result) => result.Success;
 
     /// <summary>
+    /// Homebrew command groups render child synopses without a Usage prefix.
+    /// </summary>
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText)
+    {
+        var command = string.Join(' ', commandPath);
+        var lines = NormalizeLines(helpText);
+
+        for (var index = 0; index < lines.Length; index++)
+        {
+            var synopsis = lines[index].Trim();
+            if (!StartsWithCommand(synopsis, command))
+            {
+                continue;
+            }
+
+            yield return ReadStandaloneSynopsis(lines, ref index, synopsis);
+        }
+    }
+
+    private static bool StartsWithCommand(string synopsis, string command)
+    {
+        var commandStart = synopsis.StartsWith("[sudo] ", StringComparison.OrdinalIgnoreCase)
+            ? "[sudo] ".Length
+            : 0;
+        var candidate = synopsis.AsSpan(commandStart);
+        return candidate.StartsWith(command, StringComparison.OrdinalIgnoreCase)
+               && (candidate.Length == command.Length
+                   || char.IsWhiteSpace(candidate[command.Length]));
+    }
+
+    private static string ReadStandaloneSynopsis(
+        IReadOnlyList<string> lines,
+        ref int index,
+        string firstLine)
+    {
+        var parts = new List<string> { firstLine };
+        while (index + 1 < lines.Count
+               && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
+        {
+            parts.Add(lines[++index].Trim());
+        }
+
+        return string.Join(' ', parts);
+    }
+
+    /// <summary>
     /// Extracts subcommand names from Homebrew help text.
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
@@ -454,12 +502,15 @@ public partial class BrewCliScraper : CliScraperBase
         string expectedSynopsis)
     {
         var usageMatch = UsageLinePattern().Match(lines[index]);
-        if (!usageMatch.Success)
+        var synopsisStart = usageMatch.Success
+            ? usageMatch.Groups["synopsis"].Value.Trim()
+            : lines[index].Trim();
+        if (!IsSynopsisPrefix(expectedSynopsis, synopsisStart))
         {
             return false;
         }
 
-        var synopsisParts = new List<string> { usageMatch.Groups["synopsis"].Value.Trim() };
+        var synopsisParts = new List<string> { synopsisStart };
         while (index + 1 < lines.Count
                && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
         {
@@ -468,6 +519,12 @@ public partial class BrewCliScraper : CliScraperBase
 
         return string.Join(' ', synopsisParts).Equals(expectedSynopsis, StringComparison.Ordinal);
     }
+
+    private static bool IsSynopsisPrefix(string expectedSynopsis, string candidate) =>
+        !string.IsNullOrWhiteSpace(candidate)
+        && expectedSynopsis.StartsWith(candidate, StringComparison.Ordinal)
+        && (candidate.Length == expectedSynopsis.Length
+            || char.IsWhiteSpace(expectedSynopsis[candidate.Length]));
 
     private static string? ReadDescriptionParagraph(
         IReadOnlyList<string> lines,
