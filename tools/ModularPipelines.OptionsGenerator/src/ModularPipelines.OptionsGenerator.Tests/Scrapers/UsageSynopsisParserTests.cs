@@ -319,6 +319,144 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("Usage: brew services stop (formula | --all)")]
+    [Arguments("Usage: brew services stop (--all | formula)")]
+    public async Task Models_Operand_Or_Option_Alternatives_As_Optional(string helpText)
+    {
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["brew", "services", "stop"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Formula");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    [Arguments("SRC_PATH|-")]
+    [Arguments("-|SRC_PATH")]
+    public async Task Treats_Lone_Dash_Alternative_As_A_Required_Operand(string sourceAlternative)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: docker cp {sourceAlternative} CONTAINER:DEST_PATH",
+            ["docker", "cp"]);
+
+        var source = result.PositionalArguments[0];
+        using (Assert.Multiple())
+        {
+            await Assert.That(source.PropertyName).IsEqualTo("SrcPath");
+            await Assert.That(source.IsRequired).IsTrue();
+            await Assert.That(source.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
+    [Arguments("--format=<json|yaml>")]
+    [Arguments("[--format <json|yaml>]")]
+    [Arguments("[--format {json|yaml}]")]
+    [Arguments("[--format [json|yaml]]")]
+    [Arguments("[--format JSON|YAML]")]
+    [Arguments("[--format JSON | YAML]")]
+    [Arguments("[-f|--format <json|yaml>]")]
+    [Arguments("[-f|--format JSON|YAML]")]
+    [Arguments("[-f|--format=<json|yaml>]")]
+    [Arguments("[-f|--format=JSON|YAML]")]
+    [Arguments("[-f | --format <json|yaml>]")]
+    [Arguments("[-f | --format JSON | YAML]")]
+    [Arguments("[-f | --format | --output <json|yaml>]")]
+    public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands(string option)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool run {option}",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("--config|KEY=VALUE")]
+    [Arguments("KEY=VALUE|--config")]
+    public async Task Models_Assignment_Operand_Alternatives_As_Optional(string alternative)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool run {alternative}",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("KeyValue");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Spaced_Mixed_Alternatives_Are_Not_Option_Values()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run (--config | KEY=VALUE | FILE)",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("KeyValue");
+            await Assert.That(argument.IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run (options | --all)",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Precommand_Mixed_Alternatives_Select_Passthrough_Phase()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool (--config | CONFIG) run <SOURCE>",
+            ["tool", "run"]);
+
+        var source = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(source.PropertyName).IsEqualTo("Source");
+            await Assert.That(source.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
+    }
+
+    [Test]
+    [Arguments("--fast|DEST")]
+    [Arguments("DEST|--fast")]
+    public async Task Mixed_Alternatives_Transition_Following_Operands(string alternative)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool copy SOURCE ({alternative}) TARGET",
+            ["tool", "copy"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("Source");
+            await Assert.That(result.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("Dest");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+            await Assert.That(result.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(result.PositionalArguments[2].PropertyName).IsEqualTo("Target");
+            await Assert.That(result.PositionalArguments[2].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
+    }
+
+    [Test]
     public async Task Applies_Bracketed_Standalone_Repeat_To_Preceding_Operand()
     {
         var result = UsageSynopsisParser.Parse(

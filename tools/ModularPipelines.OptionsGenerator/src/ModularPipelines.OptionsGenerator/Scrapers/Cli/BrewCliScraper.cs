@@ -35,6 +35,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class BrewCliScraper : CliScraperBase
 {
+    private const string OptionTypeMarker = "MODULARPIPELINES_BREW_OPTION_TYPE";
+    private const string OptionMetadataScript =
+        "require 'commands';require 'cli/parser';c=ARGV.shift;s=ARGV.shift;" +
+        "p=Homebrew::CLI::Parser.from_cmd_path(Commands.path(c));" +
+        "abort 'parser unavailable' if p.nil?;" +
+        "t=p.instance_variable_get(:@option_types);" +
+        "t.each{|n,k|puts [n,k].join(9.chr) if p.send(:option_allowed_for_subcommand?,n,s)}";
+
     public BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<BrewCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -75,9 +83,20 @@ public partial class BrewCliScraper : CliScraperBase
         CancellationToken cancellationToken)
     {
         var helpText = await base.GetHelpTextAsync(commandPath, cancellationToken);
-        if (commandPath.Length != 1
-            || string.IsNullOrWhiteSpace(helpText)
-            || CommandSectionPattern().IsMatch(helpText))
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            return helpText;
+        }
+
+        if (commandPath.Length > 1)
+        {
+            return await AppendOptionTypeMetadataAsync(
+                commandPath,
+                helpText,
+                cancellationToken);
+        }
+
+        if (CommandSectionPattern().IsMatch(helpText))
         {
             return helpText;
         }
@@ -117,6 +136,41 @@ public partial class BrewCliScraper : CliScraperBase
             Environment.NewLine,
             commands.Select(static command => $"  {command}  Discovered by brew commands --quiet."));
         return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}Commands:{Environment.NewLine}{commandSection}";
+    }
+
+    private async Task<string> AppendOptionTypeMetadataAsync(
+        IReadOnlyList<string> commandPath,
+        string helpText,
+        CancellationToken cancellationToken)
+    {
+        var command = commandPath[1];
+        var subcommand = commandPath.Count > 2 ? $" {commandPath[2]}" : string.Empty;
+        var escapedScript = OptionMetadataScript.Replace("\"", "\\\"", StringComparison.Ordinal);
+        var result = await Executor.ExecuteAsync(
+            ExecutablePath,
+            $"ruby -e \"{escapedScript}\" -- {command}{subcommand}",
+            cancellationToken);
+        if (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))
+        {
+            Logger.LogDebug(
+                "Could not query Homebrew parser metadata for {Command}; using help-text fallback",
+                string.Join(' ', commandPath));
+            return helpText;
+        }
+
+        var metadataLines = result.StandardOutput
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\r', '\n')
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(static line => line.Count(static character => character == '\t') == 1)
+            .Select(static line => $"{OptionTypeMarker}\t{line}")
+            .ToArray();
+        if (metadataLines.Length == 0)
+        {
+            return helpText;
+        }
+
+        return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}{string.Join(Environment.NewLine, metadataLines)}";
     }
 
     // Fail closed: Homebrew can print another command's prerequisite help before failing.
@@ -256,7 +310,10 @@ public partial class BrewCliScraper : CliScraperBase
 
         // Wrapper commands can print prerequisite help before their own usage.
         // Only options at or after the selected command synopsis belong here.
-        var options = ParseOptions(ExtractHelpFromMatchingUsage(helpText, usage), commandParts);
+        var optionTypes = ParseOptionTypes(NormalizeLines(helpText));
+        var options = ParseOptions(
+            ExtractHelpFromMatchingUsage(helpText, usage),
+            optionTypes);
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
             DisambiguatePositionalArguments(
@@ -500,7 +557,9 @@ public partial class BrewCliScraper : CliScraperBase
     ///   -d, --debug                  Display any debugging information.
     ///       --[no-]quarantine        Enable/disable quarantine of downloads.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(
+        string helpText,
+        IReadOnlyDictionary<string, string> optionTypes)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -578,9 +637,12 @@ public partial class BrewCliScraper : CliScraperBase
 
             // Homebrew omits value placeholders from option rows, so supplement them
             // from the usage synopsis and constrained description wording.
-            var isFlag = !hasInlineValue &&
-                         !helpText.Contains($"{longForm}=", StringComparison.Ordinal) &&
-                         !DescriptionSuggestsValue().IsMatch(descriptionPart);
+            var metadataName = longForm.TrimStart('-').Replace('-', '_');
+            var isFlag = optionTypes.TryGetValue(metadataName, out var optionType)
+                ? optionType.Equals("switch", StringComparison.Ordinal)
+                : !hasInlineValue &&
+                  !helpText.Contains($"{longForm}=", StringComparison.Ordinal) &&
+                  !DescriptionSuggestsValue().IsMatch(descriptionPart);
 
             var csharpType = isFlag ? "bool?" : "string?";
 
@@ -604,6 +666,17 @@ public partial class BrewCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static IReadOnlyDictionary<string, string> ParseOptionTypes(IEnumerable<string> lines) =>
+        lines
+            .Where(static line => line.StartsWith($"{OptionTypeMarker}\t", StringComparison.Ordinal))
+            .Select(static line => line.Split('\t', 3, StringSplitOptions.TrimEntries))
+            .Where(static parts => parts.Length == 3)
+            .GroupBy(static parts => parts[1], StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                static group => group.Key,
+                static group => group.Last()[2],
+                StringComparer.OrdinalIgnoreCase);
 
     private static string[] NormalizeLines(string helpText) => helpText
         .Replace("\r\n", "\n", StringComparison.Ordinal)

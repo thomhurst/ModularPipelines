@@ -142,6 +142,46 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Uses_Homebrew_Parser_Metadata_For_Option_Types()
+    {
+        var scraper = new TestBrewCliScraper(new OptionMetadataExecutor());
+        var helpText = await scraper.GetHelp(["brew", "typecheck"]);
+        var command = await scraper.Parse(["brew", "typecheck"], helpText!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--dir").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--severity").IsFlag)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--fix").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("info", "formula | --all")]
+    [Arguments("stop", "--all | formula")]
+    public async Task Models_Services_Formula_Or_All_As_Optional_Formula(
+        string subcommand,
+        string alternative)
+    {
+        var helpText = $"Usage: brew services {subcommand} ({alternative})\n\n  --all  Apply to all services.";
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "services", subcommand],
+            helpText);
+
+        var formula = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(formula.PropertyName).IsEqualTo("Formula");
+            await Assert.That(formula.IsRequired).IsFalse();
+            await Assert.That(formula.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Preserves_Multiline_Description_Containing_Option_And_Flag_File_Text()
     {
         const string helpText = """
@@ -466,6 +506,40 @@ public class BrewCliScraperTests
                 StandardError = arguments == "commands --quiet"
                     ? "warning stale diagnostic"
                     : string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class OptionMetadataExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = arguments switch
+                {
+                    "typecheck --help" => """
+                        Usage: brew typecheck [options]
+
+                              --dir       Choose input.
+                              --severity  Choose threshold.
+                              --fix       Write corrections.
+                        """,
+                    _ when arguments.Contains(
+                        "p.send(:option_allowed_for_subcommand?,n,s)",
+                        StringComparison.Ordinal) =>
+                        "dir\trequired_flag\nseverity\trequired_flag\nfix\tswitch\n",
+                    _ => string.Empty,
+                },
+                StandardError = string.Empty,
             });
 
         public Task<bool> IsAvailableAsync(
