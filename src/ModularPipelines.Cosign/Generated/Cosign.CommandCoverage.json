@@ -1,8 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "cosign",
-  "commandCount": 40,
-  "commandTreeSha256": "490e3b3141d3b3d034f6dbd20d7fe862b94e8f51f5ed401a0ad71a8a2855fe4f",
+  "toolVersion": "v3.1.3",
+  "commandCount": 29,
+  "commandTreeSha256": "1973081916b34287502c8fc7331d2ed8753564b45fb33dfcbf974028d53beb6b",
   "commands": [
     "cosign attest",
     "cosign attest-blob",
@@ -20,17 +21,6 @@
     "cosign initialize",
     "cosign load",
     "cosign login",
-    "cosign piv-tool",
-    "cosign piv-tool attestation",
-    "cosign piv-tool generate-key",
-    "cosign piv-tool reset",
-    "cosign piv-tool set-management-key",
-    "cosign piv-tool set-pin",
-    "cosign piv-tool set-puk",
-    "cosign piv-tool unblock",
-    "cosign pkcs11-tool",
-    "cosign pkcs11-tool list-keys-uris",
-    "cosign pkcs11-tool list-tokens",
     "cosign public-key",
     "cosign save",
     "cosign sign",
@@ -48,8 +38,6 @@
   "commandGroups": [
     "cosign bundle",
     "cosign download",
-    "cosign piv-tool",
-    "cosign pkcs11-tool",
     "cosign signing-config",
     "cosign trusted-root"
   ],

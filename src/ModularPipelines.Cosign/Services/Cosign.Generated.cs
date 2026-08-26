@@ -36,8 +36,12 @@ internal partial class Cosign : ICosign
     {
         Bundle = bundle;
         Download = download;
+        #pragma warning disable CS0618
         PivTool = pivTool;
+        #pragma warning restore CS0618
+        #pragma warning disable CS0618
         Pkcs11Tool = pkcs11Tool;
+        #pragma warning restore CS0618
         SigningConfig = signingConfig;
         TrustedRoot = trustedRoot;
         _command = command;
@@ -52,9 +56,11 @@ internal partial class Cosign : ICosign
     public ICosignDownload Download { get; }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public ICosignPivTool PivTool { get; }
 
     /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public ICosignPkcs11Tool Pkcs11Tool { get; }
 
     /// <inheritdoc />

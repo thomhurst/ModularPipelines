@@ -13,72 +13,40 @@ using ModularPipelines.Cosign.Enums;
 
 namespace ModularPipelines.Cosign.Options;
 
-/// <summary>
-/// Generate a new signing key on the hardware token
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
+[Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
 [CliSubCommand("piv-tool", "generate-key")]
 public record CosignPivToolGenerateKeyOptions : CosignOptions
 {
-    /// <summary>
-    /// help for generate-key
-    /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    /// <summary>
-    /// management key, uses default if empty
-    /// </summary>
     [SecretValue]
     [CliOption("--management-key", Format = OptionFormat.EqualsSeparated)]
     public string? ManagementKey { get; set; }
 
-    /// <summary>
-    /// PIN policy for slot (never|once|always)
-    /// </summary>
     [CliOption("--pin-policy", Format = OptionFormat.EqualsSeparated)]
     public CosignPivToolGenerateKeyPinPolicy? PinPolicy { get; set; }
 
-    /// <summary>
-    /// if set to true, generates a new random management key and deletes it after
-    /// </summary>
     [CliFlag("--random-management-key")]
     public bool? RandomManagementKey { get; set; }
 
-    /// <summary>
-    /// Slot to use for generated key (authentication|signature|card-authentication|key-management)
-    /// </summary>
     [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
     public CosignPivToolGenerateKeySlot? Slot { get; set; }
 
-    /// <summary>
-    /// Touch policy for slot (never|always|cached)
-    /// </summary>
     [CliOption("--touch-policy", Format = OptionFormat.EqualsSeparated)]
     public CosignPivToolGenerateKeyTouchPolicy? TouchPolicy { get; set; }
 
-    /// <summary>
-    /// skip warnings and confirmations
-    /// </summary>
     [CliFlag("--no-input", ShortForm = "-f")]
     public bool? NoInput { get; set; }
 
-    /// <summary>
-    /// log output to a file
-    /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
 
-    /// <summary>
-    /// timeout for commands (default 3m0s)
-    /// </summary>
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
 
-    /// <summary>
-    /// log debug output
-    /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
 
