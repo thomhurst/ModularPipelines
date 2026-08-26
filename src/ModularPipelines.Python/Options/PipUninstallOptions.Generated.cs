@@ -24,7 +24,7 @@ public record PipUninstallOptions : PipOptions
     /// Uninstall all the packages listed in the given requirements file.  This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
-    public string? Requirement { get; set; }
+    public IEnumerable<string>? RequirementValues { get; set; }
 
     /// <summary>
     /// Don't ask for confirmation of uninstall deletions.
@@ -169,5 +169,18 @@ public record PipUninstallOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The package operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Package { get; set; }
+
+    [Obsolete("Use RequirementValues instead.")]
+    public string? Requirement
+    {
+        get => RequirementValues?.FirstOrDefault();
+        set => RequirementValues = value is null ? null : [value];
+    }
 
 }
