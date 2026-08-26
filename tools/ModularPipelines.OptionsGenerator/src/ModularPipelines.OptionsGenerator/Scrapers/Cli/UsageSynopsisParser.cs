@@ -191,17 +191,7 @@ public static class UsageSynopsisParser
 
         foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
         {
-            var isOptionControlToken = IsOptionControlToken(token);
-            var operandPhase = phase;
-            if (isOptionControlToken || IsPhaseControlToken(token))
-            {
-                phase = CommandLinePhase.Passthrough;
-            }
-
-            if (isOptionControlToken)
-            {
-                operandPhase = phase;
-            }
+            var operandPhase = TransitionPhase(token, ref phase);
 
             if (IsStandaloneOptionTerminator(token))
             {
@@ -263,6 +253,25 @@ public static class UsageSynopsisParser
         }
 
         return new ParsedOperands(arguments, unparsedTokens);
+    }
+
+    private static CommandLinePhase TransitionPhase(
+        string token,
+        ref CommandLinePhase phase)
+    {
+        var operandPhase = phase;
+        if (IsOptionControlToken(token))
+        {
+            phase = CommandLinePhase.Passthrough;
+            return phase;
+        }
+
+        if (IsPhaseControlToken(token))
+        {
+            phase = CommandLinePhase.Passthrough;
+        }
+
+        return operandPhase;
     }
 
     private readonly record struct ParsedOperands(
