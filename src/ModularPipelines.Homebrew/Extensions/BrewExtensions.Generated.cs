@@ -33,7 +33,7 @@ public static class BrewExtensions
     }
 
     /// <summary>
-    /// Gets the brew service from the pipeline context.
+    /// Gets the brew service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IBrew"/> service for executing brew commands.</returns>
