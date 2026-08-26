@@ -361,7 +361,7 @@ public partial class AzCliScraper : CliScraperBase
         AzValueDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
-        || description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
+        || HelpDeclaresSpaceSeparatedList(description)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
 
     private static bool HelpDeclaresOptionalValue(string description) =>
@@ -408,8 +408,10 @@ public partial class AzCliScraper : CliScraperBase
         }
 
         // Check for list types (space-separated or multiple values)
-        if (HelpDeclaresSpaceSeparatedList(lowerDesc) || lowerDesc.Contains("list of") ||
-            lowerDesc.Contains("multiple"))
+        if (HelpDeclaresSpaceSeparatedList(lowerDesc)
+            || DescriptionDeclaresRepeatableOption(lowerDesc)
+            || lowerDesc.Contains("list of")
+            || lowerDesc.Contains("multiple"))
         {
             return "IEnumerable<string>?";
         }
@@ -425,6 +427,7 @@ public partial class AzCliScraper : CliScraperBase
 
     private static bool HelpDeclaresSpaceSeparatedList(string description) =>
         description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
+        || description.Contains("space-delimited", StringComparison.OrdinalIgnoreCase)
         || description.Contains("separated by spaces", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>

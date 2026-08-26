@@ -64,6 +64,32 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Space_Delimited_Resource_Ids_Are_Grouped_Collections()
+    {
+        const string helpText = """
+            Command
+                az lock delete : Delete a lock.
+
+            Arguments
+                --ids : One or more resource IDs (space-delimited). If provided, no other
+                        "Resource Id" arguments should be specified.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "lock", "delete"],
+            helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.GroupValues).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Comma_Separated_Boolean_Values_Are_Recognized()
     {
         const string helpText = """
