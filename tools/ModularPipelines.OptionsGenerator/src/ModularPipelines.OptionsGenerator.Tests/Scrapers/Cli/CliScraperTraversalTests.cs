@@ -28,7 +28,7 @@ public class CliScraperTraversalTests
                 Execute or manage parent resources.
 
                 Usage:
-                  fake parent <command> [flags]
+                  fake parent [TARGET] <command> [flags]
 
                 Available Commands:
                   child:  Execute a child command
@@ -54,8 +54,9 @@ public class CliScraperTraversalTests
             .IsEquivalentTo(["fake parent", "fake parent child"]);
         await Assert.That(commands.Single(command => command.FullCommand == "fake parent").Options)
             .Contains(option => option.SwitchName == "--scope");
-        await Assert.That(commands.Single(command => command.FullCommand == "fake parent").PositionalArguments)
-            .IsEmpty();
+        await Assert.That(commands.Single(command => command.FullCommand == "fake parent")
+                .PositionalArguments.Single().PropertyName)
+            .IsEqualTo("Target");
         await Assert.That(executor.Arguments)
             .IsEquivalentTo(["--help", "parent --help", "parent child --help"]);
     }
