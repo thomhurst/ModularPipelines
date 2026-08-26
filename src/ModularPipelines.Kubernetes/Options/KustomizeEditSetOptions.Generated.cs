@@ -32,4 +32,10 @@ public record KustomizeEditSetOptions : KustomizeOptions
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
 
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
