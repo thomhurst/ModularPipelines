@@ -12,9 +12,30 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// When used without arguments, this command will print the list of all the
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bin")]
 public record YarnBinOptions : YarnOptions
 {
+    /// <summary>
+    /// Print both the binary name and the locator of the package that provides the binary
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
 }

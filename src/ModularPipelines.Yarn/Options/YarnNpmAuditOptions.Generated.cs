@@ -12,9 +12,60 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command checks for known security reports on the packages you use. The
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("npm audit")]
 public record YarnNpmAuditOptions : YarnOptions
 {
+    /// <summary>
+    /// Audit dependencies from all workspaces
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-A")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Audit transitive dependencies as well
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Which environments to cover
+    /// </summary>
+    [CliOption("--environment")]
+    public string? Environment { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Don't warn about deprecated packages
+    /// </summary>
+    [CliFlag("--no-deprecations")]
+    public bool? NoDeprecations { get; set; }
+
+    /// <summary>
+    /// Minimal severity requested for packages to be displayed
+    /// </summary>
+    [CliOption("--severity")]
+    public string? Severity { get; set; }
+
+    /// <summary>
+    /// Array of glob patterns of packages to exclude from audit
+    /// </summary>
+    [CliOption("--exclude")]
+    public IEnumerable<string>? Exclude { get; set; }
+
+    /// <summary>
+    /// Array of glob patterns of advisory ID's to ignore in the audit report
+    /// </summary>
+    [CliOption("--ignore")]
+    public IEnumerable<string>? Ignore { get; set; }
+
 }

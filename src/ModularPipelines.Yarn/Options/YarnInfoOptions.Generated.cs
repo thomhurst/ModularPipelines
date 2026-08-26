@@ -12,9 +12,66 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command prints various information related to the specified packages,
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("info")]
 public record YarnInfoOptions : YarnOptions
 {
+    /// <summary>
+    /// Print versions of a package from the whole project
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-A")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Print information for all packages, including transitive dependencies
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// An array of requests of extra data provided by plugins
+    /// </summary>
+    [CliOption("--extra", ShortForm = "-X")]
+    public IEnumerable<string>? Extra { get; set; }
+
+    /// <summary>
+    /// Print information about the cache entry of a package (path, size, checksum)
+    /// </summary>
+    [CliFlag("--cache")]
+    public bool? Cache { get; set; }
+
+    /// <summary>
+    /// Print all dependents for each matching package
+    /// </summary>
+    [CliFlag("--dependents")]
+    public bool? Dependents { get; set; }
+
+    /// <summary>
+    /// Print data obtained by looking at the package archive (license, homepage, ...)
+    /// </summary>
+    [CliFlag("--manifest")]
+    public bool? Manifest { get; set; }
+
+    /// <summary>
+    /// Only print the name for the matching packages
+    /// </summary>
+    [CliFlag("--name-only")]
+    public bool? NameOnly { get; set; }
+
+    /// <summary>
+    /// Print each instance of the virtual packages
+    /// </summary>
+    [CliFlag("--virtuals")]
+    public bool? Virtuals { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
 }

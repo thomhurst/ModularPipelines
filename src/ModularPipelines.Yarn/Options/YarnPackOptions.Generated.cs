@@ -12,9 +12,36 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will turn the active workspace into a compressed archive suitable
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pack")]
 public record YarnPackOptions : YarnOptions
 {
+    /// <summary>
+    /// Run a preliminary `yarn install` if the package contains build scripts
+    /// </summary>
+    [CliFlag("--install-if-needed")]
+    public bool? InstallIfNeeded { get; set; }
+
+    /// <summary>
+    /// Print the file paths without actually generating the package archive
+    /// </summary>
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Format the output as an NDJSON stream
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Create the archive at the specified path
+    /// </summary>
+    [CliOption("--out", ShortForm = "-o")]
+    public string? Out { get; set; }
+
 }

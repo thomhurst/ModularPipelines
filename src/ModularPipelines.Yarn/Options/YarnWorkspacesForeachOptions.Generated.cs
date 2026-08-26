@@ -9,12 +9,108 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Yarn.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will run a given sub-command on current and all its descendant
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces foreach")]
 public record YarnWorkspacesForeachOptions : YarnOptions
 {
+    /// <summary>
+    /// An array of glob pattern idents or paths from which to base any recursion
+    /// </summary>
+    [CliOption("--from")]
+    public IEnumerable<string>? From { get; set; }
+
+    /// <summary>
+    /// Run the command on all workspaces of a project
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-A")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Run the command on the current workspace and all of its recursive dependencies
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-R")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Run the command on all workspaces of the current worktree
+    /// </summary>
+    [CliFlag("--worktree", ShortForm = "-W")]
+    public bool? Worktree { get; set; }
+
+    /// <summary>
+    /// Increase level of logging verbosity up to 2 times
+    /// </summary>
+    [Range(0, 2)]
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
+    /// Run the commands in parallel
+    /// </summary>
+    [CliFlag("--parallel", ShortForm = "-p")]
+    public bool? Parallel { get; set; }
+
+    /// <summary>
+    /// Print the output of commands in real-time instead of buffering it
+    /// </summary>
+    [CliFlag("--interlaced", ShortForm = "-i")]
+    public bool? Interlaced { get; set; }
+
+    /// <summary>
+    /// The maximum number of parallel tasks that the execution will be limited to; or `unlimited`
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j")]
+    public string? Jobs { get; set; }
+
+    /// <summary>
+    /// Run the command after all workspaces it depends on (regular) have finished
+    /// </summary>
+    [CliFlag("--topological", ShortForm = "-t")]
+    public bool? Topological { get; set; }
+
+    /// <summary>
+    /// Run the command after all workspaces it depends on (regular + dev) have finished
+    /// </summary>
+    [CliFlag("--topological-dev")]
+    public bool? TopologicalDev { get; set; }
+
+    /// <summary>
+    /// An array of glob pattern idents or paths; only matching workspaces will be traversed
+    /// </summary>
+    [CliOption("--include")]
+    public IEnumerable<string>? Include { get; set; }
+
+    /// <summary>
+    /// An array of glob pattern idents or paths; matching workspaces won't be traversed
+    /// </summary>
+    [CliOption("--exclude")]
+    public IEnumerable<string>? Exclude { get; set; }
+
+    /// <summary>
+    /// Avoid running the command on private workspaces
+    /// </summary>
+    [CliFlag("--no-private")]
+    public bool? NoPrivate { get; set; }
+
+    /// <summary>
+    /// Only include workspaces that have been changed since the specified ref.
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Since { get; set; }
+
+    /// <summary>
+    /// Print the commands that would be run, without actually running them
+    /// </summary>
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
+
 }

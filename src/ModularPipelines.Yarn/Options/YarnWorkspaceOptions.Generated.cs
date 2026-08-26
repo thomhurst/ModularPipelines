@@ -13,17 +13,14 @@ using ModularPipelines.Yarn.Options;
 namespace ModularPipelines.Yarn.Options;
 
 /// <summary>
-/// This command downloads the specified plugin from its remote location and updates
+/// This command will run a given sub-command on a single workspace.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("plugin import")]
-public record YarnPluginImportOptions : YarnOptions
+[CliSubCommand("workspace")]
+public record YarnWorkspaceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkspaceName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> CommandName
+) : YarnOptions
 {
-    /// <summary>
-    /// Whether to care if this plugin is modified
-    /// </summary>
-    [CliFlag("--checksum")]
-    public bool? Checksum { get; set; }
-
 }

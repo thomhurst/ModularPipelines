@@ -12,9 +12,24 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command will set a configuration setting.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config set")]
 public record YarnConfigSetOptions : YarnOptions
 {
+    /// <summary>
+    /// Set complex configuration settings to JSON values
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Update the home configuration instead of the project configuration
+    /// </summary>
+    [CliFlag("--home", ShortForm = "-H")]
+    public bool? Home { get; set; }
+
 }

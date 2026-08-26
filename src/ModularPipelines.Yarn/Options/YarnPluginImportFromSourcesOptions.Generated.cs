@@ -12,9 +12,42 @@ using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
+/// <summary>
+/// This command clones the Yarn repository into a temporary folder, builds the
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin import from sources")]
 public record YarnPluginImportFromSourcesOptions : YarnOptions
 {
+    /// <summary>
+    /// The path where the repository should be cloned to
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// The repository that should be cloned
+    /// </summary>
+    [CliOption("--repository")]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// The branch of the repository that should be cloned
+    /// </summary>
+    [CliOption("--branch")]
+    public string? Branch { get; set; }
+
+    /// <summary>
+    /// Build a plugin for development (debugging) - non-minified and non-mangled
+    /// </summary>
+    [CliFlag("--no-minify")]
+    public bool? NoMinify { get; set; }
+
+    /// <summary>
+    /// Always clone the repository instead of trying to fetch the latest commits
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
+
 }
