@@ -977,6 +977,7 @@ public static class UsageSynopsisParser
         return valueStartIndex > 1
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
+               && normalized[valueStartIndex] != '|'
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
     }
 
@@ -991,6 +992,11 @@ public static class UsageSynopsisParser
         }
 
         var aliasStartIndex = SkipWhitespace(content, valueStartIndex + 1);
+        if (aliasStartIndex >= content.Length || content[aliasStartIndex] != '-')
+        {
+            return valueStartIndex;
+        }
+
         var aliasEndIndex = content.IndexOfAny([' ', '\t', '='], aliasStartIndex);
         return aliasEndIndex < 0
             ? content.Length

@@ -395,6 +395,21 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Spaced_Mixed_Alternatives_Are_Not_Option_Values()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run (--config | KEY=VALUE | FILE)",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("KeyValue");
+            await Assert.That(argument.IsRequired).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands()
     {
         var result = UsageSynopsisParser.Parse(
