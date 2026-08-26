@@ -18,6 +18,13 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout")]
-public record KubernetesRolloutOptions : KubernetesOptions
+public record KubernetesRolloutOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : KubernetesOptions
 {
+    public KubernetesRolloutOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

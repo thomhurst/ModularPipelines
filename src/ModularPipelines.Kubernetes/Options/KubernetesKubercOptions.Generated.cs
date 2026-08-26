@@ -18,6 +18,13 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kuberc")]
-public record KubernetesKubercOptions : KubernetesOptions
+public record KubernetesKubercOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
+) : KubernetesOptions
 {
+    public KubernetesKubercOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

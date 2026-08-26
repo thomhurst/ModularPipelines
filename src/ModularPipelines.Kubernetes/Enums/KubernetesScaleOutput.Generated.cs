@@ -17,35 +17,35 @@ namespace ModularPipelines.Kubernetes.Enums;
 public enum KubernetesScaleOutput
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("yaml")]
-    Yaml,
+    Yaml = 1,
 
     [EnumValue("kyaml")]
-    Kyaml,
+    Kyaml = 2,
 
     [EnumValue("name")]
-    Name,
+    Name = 3,
 
     [EnumValue("go-template")]
-    GoTemplate,
+    GoTemplate = 4,
 
     [EnumValue("go-template-file")]
-    GoTemplateFile,
+    GoTemplateFile = 5,
 
     [EnumValue("template")]
-    Template,
+    Template = 6,
 
     [EnumValue("templatefile")]
-    Templatefile,
+    Templatefile = 7,
 
     [EnumValue("jsonpath")]
-    Jsonpath,
+    Jsonpath = 8,
 
     [EnumValue("jsonpath-as-json")]
-    JsonpathAsJson,
+    JsonpathAsJson = 9,
 
     [EnumValue("jsonpath-file")]
-    JsonpathFile
+    JsonpathFile = 10
 }

@@ -41,7 +41,7 @@ public static class KubernetesExtensions
     }
 
     /// <summary>
-    /// Gets the kubectl service from the pipeline context.
+    /// Gets the kubectl service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKubernetes"/> service for executing kubectl commands.</returns>

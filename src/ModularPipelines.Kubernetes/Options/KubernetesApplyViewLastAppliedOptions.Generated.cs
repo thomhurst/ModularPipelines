@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apply", "view-last-applied")]
-public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
+public record KubernetesApplyViewLastAppliedOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TypeName
+) : KubernetesOptions
 {
+    public KubernetesApplyViewLastAppliedOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Select all resources in the namespace of the specified resource types
     /// </summary>

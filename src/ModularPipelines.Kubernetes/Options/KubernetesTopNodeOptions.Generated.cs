@@ -56,4 +56,10 @@ public record KubernetesTopNodeOptions : KubernetesOptions
     [CliOption("--use-protocol-buffers", Format = OptionFormat.EqualsSeparated)]
     public bool? UseProtocolBuffers { get; set; }
 
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
 }

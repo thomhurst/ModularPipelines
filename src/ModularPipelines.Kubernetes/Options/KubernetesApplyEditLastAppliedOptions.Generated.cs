@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apply", "edit-last-applied")]
-public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
+public record KubernetesApplyEditLastAppliedOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
+) : KubernetesOptions
 {
+    public KubernetesApplyEditLastAppliedOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>

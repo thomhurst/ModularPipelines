@@ -18,8 +18,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set-cluster")]
-public record KubernetesConfigSetClusterOptions : KubernetesOptions
+public record KubernetesConfigSetClusterOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : KubernetesOptions
 {
+    public KubernetesConfigSetClusterOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Path to certificate-authority file for the cluster entry in kubeconfig
     /// </summary>

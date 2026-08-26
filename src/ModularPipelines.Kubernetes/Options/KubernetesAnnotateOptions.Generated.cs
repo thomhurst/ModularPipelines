@@ -19,8 +19,15 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("annotate")]
-public record KubernetesAnnotateOptions : KubernetesOptions
+public record KubernetesAnnotateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Annotations
+) : KubernetesOptions
 {
+    public KubernetesAnnotateOptions()
+        : this(default(IEnumerable<string>)!)
+    {
+    }
+
     /// <summary>
     /// Select all resources, in the namespace of the specified resource types.
     /// </summary>
