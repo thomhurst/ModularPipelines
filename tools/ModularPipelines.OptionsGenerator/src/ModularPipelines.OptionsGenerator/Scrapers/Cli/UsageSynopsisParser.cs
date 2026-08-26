@@ -902,12 +902,16 @@ public static class UsageSynopsisParser
     private static string TrimControlWrappers(string token)
     {
         var content = token.Trim();
-        while (IsWrapped(content))
+        while (true)
         {
+            content = content.TrimEnd(',', ':', ';');
+            if (!IsWrapped(content))
+            {
+                return content;
+            }
+
             content = TrimWrapper(content).Trim();
         }
-
-        return content;
     }
 
     private static bool TokenMatchesCommandPart(string token, string commandPart)
