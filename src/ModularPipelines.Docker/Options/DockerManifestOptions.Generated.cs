@@ -18,6 +18,13 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest")]
-public record DockerManifestOptions : DockerOptions
+public record DockerManifestOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerManifestOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

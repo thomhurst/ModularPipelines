@@ -18,6 +18,13 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swarm")]
-public record DockerSwarmOptions : DockerOptions
+public record DockerSwarmOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerSwarmOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

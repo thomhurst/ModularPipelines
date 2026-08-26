@@ -18,8 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "bridge")]
-public record DockerComposeBridgeOptions : DockerOptions
+public record DockerComposeBridgeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerComposeBridgeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>

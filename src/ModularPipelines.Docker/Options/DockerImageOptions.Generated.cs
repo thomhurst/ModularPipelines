@@ -18,6 +18,13 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image")]
-public record DockerImageOptions : DockerOptions
+public record DockerImageOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerImageOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

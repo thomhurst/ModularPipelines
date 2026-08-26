@@ -23,12 +23,6 @@ public record DockerComposePublishOptions(
 ) : DockerOptions
 {
     /// <summary>
-    /// Published compose application (includes referenced images)
-    /// </summary>
-    [CliFlag("--app")]
-    public bool? App { get; set; }
-
-    /// <summary>
     /// Execute command in dry run mode
     /// </summary>
     [CliFlag("--dry-run")]
@@ -57,5 +51,8 @@ public record DockerComposePublishOptions(
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    [Obsolete("App is no longer supported by the installed CLI and has no effect.")]
+    public bool? App { get; set; }
 
 }

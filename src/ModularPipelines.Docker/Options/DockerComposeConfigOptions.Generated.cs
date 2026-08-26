@@ -57,12 +57,6 @@ public record DockerComposeConfigOptions : DockerOptions
     public bool? LockImageDigests { get; set; }
 
     /// <summary>
-    /// Print the model names, one per line.
-    /// </summary>
-    [CliFlag("--models")]
-    public bool? Models { get; set; }
-
-    /// <summary>
     /// Print the network names, one per line.
     /// </summary>
     [CliFlag("--networks")]
@@ -145,5 +139,8 @@ public record DockerComposeConfigOptions : DockerOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
+
+    [Obsolete("Models is no longer supported by the installed CLI and has no effect.")]
+    public bool? Models { get; set; }
 
 }

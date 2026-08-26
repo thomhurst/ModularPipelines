@@ -19,8 +19,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose")]
-public record DockerComposeOptions : DockerOptions
+public record DockerComposeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerComposeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Include all resources, even those not used by services
     /// </summary>

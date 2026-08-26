@@ -18,6 +18,13 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key")]
-public record DockerTrustKeyOptions : DockerOptions
+public record DockerTrustKeyOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerTrustKeyOptions()
+        : this(default(string)!)
+    {
+    }
+
 }

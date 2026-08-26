@@ -18,8 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "history", "inspect")]
-public record DockerBuildxHistoryInspectOptions : DockerOptions
+public record DockerBuildxHistoryInspectOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : DockerOptions
 {
+    public DockerBuildxHistoryInspectOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Override the configured builder instance
     /// </summary>

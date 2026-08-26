@@ -12,4 +12,18 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderHistoryInspectOptions : DockerBuildxHistoryInspectOptions;
+public record DockerBuilderHistoryInspectOptions : DockerBuildxHistoryInspectOptions
+{
+    public DockerBuilderHistoryInspectOptions(
+        string Command
+    )
+        : base(Command)
+    {
+    }
+
+    public DockerBuilderHistoryInspectOptions()
+        : this(default(string)!)
+    {
+    }
+
+}
