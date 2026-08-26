@@ -474,6 +474,15 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        // Once child commands have been discovered, generic Command/Subcommand operands
+        // select one of those children rather than representing an executable argument.
+        // Handle this centrally so individual adapters cannot leave synthetic operands on
+        // command groups such as docker compose, docker context, or minikube addons.
+        if (subcommands.Any(IsTraversableSubcommand))
+        {
+            usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+        }
+
         var command = await TryParseCommandAsync(path, helpText, usage, cancellationToken);
         if (command is null)
         {
@@ -561,7 +570,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         foreach (var subcommand in subcommands)
         {
-            if (!IsValidDiscoveredSubcommand(subcommand) || IsSkippableSubcommand(subcommand))
+            if (!IsTraversableSubcommand(subcommand))
             {
                 continue;
             }
@@ -578,6 +587,9 @@ public abstract partial class CliScraperBase : ICliScraper
             await workChannel.Writer.WriteAsync(childPath, cancellationToken);
         }
     }
+
+    private bool IsTraversableSubcommand(string subcommand) =>
+        IsValidDiscoveredSubcommand(subcommand) && !IsSkippableSubcommand(subcommand);
 
     /// <summary>
     /// Validates a subcommand name before traversal queues its command path.

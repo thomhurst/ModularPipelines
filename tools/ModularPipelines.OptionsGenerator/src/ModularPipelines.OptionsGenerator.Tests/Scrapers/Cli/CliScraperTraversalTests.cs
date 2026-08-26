@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class CliScraperTraversalTests
 {
     [Test]
-    public async Task SharedTraversal_Discovers_ExecutableParent_And_Children()
+    public async Task SharedTraversal_Discovers_ExecutableParent_And_Children_Without_Command_Placeholders()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -28,7 +28,7 @@ public class CliScraperTraversalTests
                 Execute or manage parent resources.
 
                 Usage:
-                  fake parent <command> [flags]
+                  fake parent [TARGET] <command> [flags]
 
                 Available Commands:
                   child:  Execute a child command
@@ -56,9 +56,79 @@ public class CliScraperTraversalTests
             .Contains(option => option.SwitchName == "--scope");
         await Assert.That(commands.Single(command => command.FullCommand == "fake parent")
                 .PositionalArguments.Single().PropertyName)
-            .IsEqualTo("Command");
+            .IsEqualTo("Target");
         await Assert.That(executor.Arguments)
             .IsEquivalentTo(["--help", "parent --help", "parent child --help"]);
+    }
+
+    [Test]
+    public async Task SharedTraversal_Preserves_Command_Operand_When_Only_Skipped_Children_Are_Extracted()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake COMMAND
+
+                Available Commands:
+                  parent:  Execute a parent command
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent COMMAND [flags]
+
+                Available Commands:
+                  help:  Show help
+
+                Flags:
+                  --scope string   Select a scope
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var command = (await ScrapeAsync(scraper)).Single();
+
+        await Assert.That(command.FullCommand).IsEqualTo("fake parent");
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Command");
+        await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "parent --help"]);
+    }
+
+    [Test]
+    public async Task SharedTraversal_Retains_Empty_Command_Group_Definition()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake COMMAND
+
+                Available Commands:
+                  parent:  Manage parent resources
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent COMMAND
+
+                Available Commands:
+                  child:  Execute a child command
+                """,
+            ["parent child --help"] = """
+                Usage:
+                  fake parent child [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var parent = commands.Single(command => command.FullCommand == "fake parent");
+
+        await Assert.That(parent.Options).IsEmpty();
+        await Assert.That(parent.PositionalArguments).IsEmpty();
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake parent", "fake parent child"]);
     }
 
     [Test]
@@ -194,6 +264,48 @@ public class CliScraperTraversalTests
         await Assert.That(alias.Alias).IsEqualTo("builder");
         await Assert.That(alias.CanonicalCommand).IsEqualTo("buildx");
         await Assert.That(executor.Arguments).DoesNotContain("builder build --help");
+    }
+
+    [Test]
+    public async Task DockerTraversal_Removes_Placeholder_From_NonBuildx_Command_Group()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  docker COMMAND
+
+                Management Commands:
+                  compose    Docker Compose
+                """,
+            ["compose --help"] = """
+                Usage: docker compose [OPTIONS] COMMAND
+
+                Options:
+                  --ansi string    Control ANSI output
+
+                Commands:
+                  build    Build services
+                """,
+            ["compose build --help"] = """
+                Usage: docker compose build [OPTIONS] [SERVICE...]
+
+                Options:
+                  --pull    Always attempt to pull
+                """,
+        });
+        var scraper = new DockerCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<DockerCliScraper>.Instance);
+
+        var commands = await ScrapeAsync(scraper);
+        var compose = commands.Single(command => command.FullCommand == "docker compose");
+
+        await Assert.That(compose.PositionalArguments).IsEmpty();
+        await Assert.That(commands.Single(command => command.FullCommand == "docker compose build")
+                .PositionalArguments.Single().PropertyName)
+            .IsEqualTo("Service");
     }
 
     [Test]
