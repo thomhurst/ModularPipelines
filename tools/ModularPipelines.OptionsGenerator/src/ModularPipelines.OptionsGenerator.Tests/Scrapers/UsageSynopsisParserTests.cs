@@ -324,8 +324,30 @@ public class UsageSynopsisParserTests
     [Arguments("Usage: brew services stop (formula | --all)")]
     [Arguments("Usage: brew services stop (--all | formula)")]
     [Arguments("Usage: brew services stop (<formula>|--all):")]
+    [Arguments("Usage: [sudo] brew services stop [--keep] [--no-wait|--max-wait=] (<formula>|--all):")]
     public async Task Models_Operand_Or_Option_Alternatives_As_Optional(string helpText)
     {
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["brew", "services", "stop"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Formula");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Joins_Wrapped_Operand_With_Trailing_Colon()
+    {
+        const string helpText = """
+            Usage: brew services stop [--keep] [--no-wait|--max-wait=]
+            (<formula>|--all):
+            """;
+
         var result = UsageSynopsisParser.Parse(
             helpText,
             ["brew", "services", "stop"]);

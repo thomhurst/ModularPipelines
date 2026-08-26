@@ -163,6 +163,7 @@ public class BrewCliScraperTests
     [Arguments("info", "(formula | --all)")]
     [Arguments("stop", "(--all | formula)")]
     [Arguments("stop", "(<formula>|--all):")]
+    [Arguments("stop", "[--keep] [--no-wait|--max-wait=] (<formula>|--all):")]
     public async Task Models_Services_Formula_Or_All_As_Optional_Formula(
         string subcommand,
         string usageArguments)
@@ -179,6 +180,46 @@ public class BrewCliScraperTests
             await Assert.That(formula.PropertyName).IsEqualTo("Formula");
             await Assert.That(formula.IsRequired).IsFalse();
             await Assert.That(formula.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Models_Operand_From_Wrapped_Standalone_Services_Synopsis()
+    {
+        const string helpText = """
+            Usage: brew services [subcommand]
+
+            Manage background services with macOS' launchctl(1) daemon manager.
+
+            [sudo] brew services info (formula|--all):
+                List all managed services.
+
+                  --info-only  Only valid for the info subcommand.
+
+            [sudo] brew services stop [--keep] [--no-wait|--max-wait=]
+            (formula|--all):
+                Stop the service formula immediately and unregister it from
+            launching at login, unless --keep is specified.
+
+                  --all  Apply to all services.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(
+            ["brew", "services", "stop"],
+            helpText);
+
+        var formula = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(formula.PropertyName).IsEqualTo("Formula");
+            await Assert.That(formula.IsRequired).IsFalse();
+            await Assert.That(formula.CSharpType).IsEqualTo("string?");
+            await Assert.That(command.Description)
+                .IsEqualTo("Stop the service formula immediately and unregister it from launching at login, unless --keep is specified.");
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .DoesNotContain("--info-only");
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .Contains("--all");
         }
     }
 

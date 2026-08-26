@@ -402,7 +402,7 @@ public static class UsageSynopsisParser
             return false;
         }
 
-        var firstToken = trimmed.Split(' ', 2)[0];
+        var firstToken = TrimTrailingOperandPunctuation(trimmed.Split(' ', 2)[0]);
         if (LooksLikeSectionHeading(trimmed) && !IsWrapped(firstToken))
         {
             return false;
