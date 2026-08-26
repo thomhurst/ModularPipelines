@@ -188,6 +188,30 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task GenerateAsync_Rejects_Compatibility_Only_Preferred_Command()
+    {
+        var removedCommand = Command("fake removed", "FakeRemovedOptions", ["removed"]) with
+        {
+            IsCompatibilityOnly = true,
+            IsSafeForDocumentation = true,
+        };
+        var tool = Tool(
+            "fake",
+            Command("fake current", "FakeCurrentOptions", ["current"]),
+            removedCommand) with
+        {
+            PreferredDocumentationExampleCommand = removedCommand.FullCommand,
+        };
+
+        void GenerateDocumentation() =>
+            _ = new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(GenerateDocumentation)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("does not match an emitted command");
+    }
+
+    [Test]
     public async Task GenerateAsync_UsesExecuteForCollidingPreferredCommands()
     {
         var rootCommand = Command("fake app", "FakeAppOptions", ["app"]) with

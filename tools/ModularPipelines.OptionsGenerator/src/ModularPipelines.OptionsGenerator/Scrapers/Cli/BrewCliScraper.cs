@@ -384,45 +384,61 @@ public partial class BrewCliScraper : CliScraperBase
         var lines = NormalizeLines(helpText);
         for (var index = 0; index < lines.Length; index++)
         {
-            var usageMatch = UsageLinePattern().Match(lines[index]);
-            if (!usageMatch.Success)
+            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
             {
                 continue;
             }
 
-            var synopsisParts = new List<string> { usageMatch.Groups["synopsis"].Value.Trim() };
-            while (index + 1 < lines.Length
-                   && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
-            {
-                synopsisParts.Add(lines[++index].Trim());
-            }
-
-            if (!string.Join(' ', synopsisParts).Equals(usage.Synopsis, StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            while (index + 1 < lines.Length && string.IsNullOrWhiteSpace(lines[index + 1]))
-            {
-                index++;
-            }
-
-            var descriptionLines = new List<string>();
-            while (index + 1 < lines.Length && !string.IsNullOrWhiteSpace(lines[index + 1]))
-            {
-                var descriptionLine = lines[++index].Trim();
-                if (BrewOptionPattern().IsMatch(lines[index]) || descriptionLine.EndsWith(':'))
-                {
-                    break;
-                }
-
-                descriptionLines.Add(descriptionLine);
-            }
-
-            return descriptionLines.Count == 0 ? null : string.Join(' ', descriptionLines);
+            return ReadDescriptionParagraph(lines, index);
         }
 
         return null;
+    }
+
+    private static bool TryMatchUsageSynopsis(
+        IReadOnlyList<string> lines,
+        ref int index,
+        string expectedSynopsis)
+    {
+        var usageMatch = UsageLinePattern().Match(lines[index]);
+        if (!usageMatch.Success)
+        {
+            return false;
+        }
+
+        var synopsisParts = new List<string> { usageMatch.Groups["synopsis"].Value.Trim() };
+        while (index + 1 < lines.Count
+               && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
+        {
+            synopsisParts.Add(lines[++index].Trim());
+        }
+
+        return string.Join(' ', synopsisParts).Equals(expectedSynopsis, StringComparison.Ordinal);
+    }
+
+    private static string? ReadDescriptionParagraph(
+        IReadOnlyList<string> lines,
+        int usageEndIndex)
+    {
+        var index = usageEndIndex;
+        while (index + 1 < lines.Count && string.IsNullOrWhiteSpace(lines[index + 1]))
+        {
+            index++;
+        }
+
+        var descriptionLines = new List<string>();
+        while (index + 1 < lines.Count && !string.IsNullOrWhiteSpace(lines[index + 1]))
+        {
+            var descriptionLine = lines[++index].Trim();
+            if (BrewOptionPattern().IsMatch(lines[index]) || descriptionLine.EndsWith(':'))
+            {
+                break;
+            }
+
+            descriptionLines.Add(descriptionLine);
+        }
+
+        return descriptionLines.Count == 0 ? null : string.Join(' ', descriptionLines);
     }
 
     /// <summary>
