@@ -28,7 +28,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(PulumiPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(PulumiPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Add a package to your Pulumi project, plugin, or current directory.
@@ -37,7 +38,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddAsync(PulumiPackageAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> AddAsync(PulumiPackageAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Generate SDK(s) from a package or schema.
@@ -46,7 +48,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GenSdkAsync(PulumiPackageGenSdkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GenSdkAsync(PulumiPackageGenSdkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the mapping information for a given key from a package.
@@ -55,7 +58,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetMappingAsync(PulumiPackageGetMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetMappingAsync(PulumiPackageGetMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the schema.json from a package.
@@ -64,7 +68,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetSchemaAsync(PulumiPackageGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetSchemaAsync(PulumiPackageGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Show information about a package
@@ -73,7 +78,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InfoAsync(PulumiPackageInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> InfoAsync(PulumiPackageInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// [EXPERIMENTAL] Create a new Pulumi package from a template.
@@ -82,7 +88,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NewAsync(PulumiPackageNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> NewAsync(PulumiPackageNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Publish a package to the Private Registry.
@@ -91,7 +98,8 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PublishAsync(PulumiPackagePublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PublishAsync(PulumiPackagePublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Delete a package version from the Pulumi Registry.
@@ -100,6 +108,7 @@ public interface IPulumiPackage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveAsync(PulumiPackageRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> RemoveAsync(PulumiPackageRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

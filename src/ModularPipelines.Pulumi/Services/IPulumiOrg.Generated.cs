@@ -24,32 +24,32 @@ public interface IPulumiOrg
     /// <summary>
     /// pulumi audit-log sub-commands.
     /// </summary>
-    PulumiOrgAuditLog AuditLog { get; }
+    PulumiOrgAuditLog AuditLog => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi member sub-commands.
     /// </summary>
-    PulumiOrgMember Member { get; }
+    PulumiOrgMember Member => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi role sub-commands.
     /// </summary>
-    PulumiOrgRole Role { get; }
+    PulumiOrgRole Role => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi search sub-commands.
     /// </summary>
-    PulumiOrgSearch Search { get; }
+    PulumiOrgSearch Search => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi usage sub-commands.
     /// </summary>
-    PulumiOrgUsage Usage { get; }
+    PulumiOrgUsage Usage => throw new System.NotSupportedException();
 
     /// <summary>
     /// pulumi webhook sub-commands.
     /// </summary>
-    PulumiOrgWebhook Webhook { get; }
+    PulumiOrgWebhook Webhook => throw new System.NotSupportedException();
 
     /// <summary>
     /// Manage Organization configuration.
@@ -58,7 +58,8 @@ public interface IPulumiOrg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(PulumiOrgOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ExecuteAsync(PulumiOrgOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Get the default org for the current backend.
@@ -67,7 +68,8 @@ public interface IPulumiOrg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> GetDefaultAsync(PulumiOrgGetDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> GetDefaultAsync(PulumiOrgGetDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
     /// <summary>
     /// Set the local default organization for the current backend.
@@ -76,6 +78,7 @@ public interface IPulumiOrg
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SetDefaultAsync(PulumiOrgSetDefaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetDefaultAsync(PulumiOrgSetDefaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }

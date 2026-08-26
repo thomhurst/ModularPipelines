@@ -13,18 +13,24 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Manage stack deployments on Pulumi Cloud.
+/// Show the identifiers `pulumi do` will auto-assign to resources in the current stack.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("deployment")]
-public record PulumiDeploymentOptions : PulumiOptions
+[CliSubCommand("do", "show-resources")]
+public record PulumiDoShowResourcesOptions : PulumiOptions
 {
     /// <summary>
-    /// help for deployment
+    /// help for show-resources
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// Output format (supported: text, json) (default "text")
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -103,11 +109,5 @@ public record PulumiDeploymentOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
-
-    /// <summary>
-    /// The command operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Command { get; set; }
 
 }

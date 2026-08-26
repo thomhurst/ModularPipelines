@@ -140,4 +140,10 @@ public record PulumiLogsOptions : PulumiOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
+
 }
