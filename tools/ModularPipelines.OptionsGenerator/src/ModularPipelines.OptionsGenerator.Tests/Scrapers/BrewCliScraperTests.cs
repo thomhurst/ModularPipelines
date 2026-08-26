@@ -160,13 +160,14 @@ public class BrewCliScraperTests
     }
 
     [Test]
-    [Arguments("info", "formula | --all")]
-    [Arguments("stop", "--all | formula")]
+    [Arguments("info", "(formula | --all)")]
+    [Arguments("stop", "(--all | formula)")]
+    [Arguments("stop", "(<formula>|--all):")]
     public async Task Models_Services_Formula_Or_All_As_Optional_Formula(
         string subcommand,
-        string alternative)
+        string usageArguments)
     {
-        var helpText = $"Usage: brew services {subcommand} ({alternative})\n\n  --all  Apply to all services.";
+        var helpText = $"Usage: brew services {subcommand} {usageArguments}\n\n  --all  Apply to all services.";
 
         var command = await new TestBrewCliScraper().Parse(
             ["brew", "services", subcommand],

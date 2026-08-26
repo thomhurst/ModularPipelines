@@ -569,7 +569,7 @@ public static class UsageSynopsisParser
         int positionIndex,
         CommandLinePhase phase)
     {
-        var trimmed = token.Trim().TrimEnd(',', ';');
+        var trimmed = TrimTrailingOperandPunctuation(token);
         var isRequired = !trimmed.StartsWith('[')
                          || HasRequiredSuffixOutsideOptionalPrefix(trimmed);
         var content = TrimWrapper(trimmed).Trim();
@@ -630,12 +630,13 @@ public static class UsageSynopsisParser
         out IReadOnlyList<CliPositionalArgument> arguments)
     {
         arguments = [];
-        if (!IsWrapped(token))
+        var normalizedToken = TrimTrailingOperandPunctuation(token);
+        if (!IsWrapped(normalizedToken))
         {
             return false;
         }
 
-        var content = TrimWrapper(token).Trim();
+        var content = TrimWrapper(normalizedToken).Trim();
         if (!content.Contains('[') || content.Contains('|'))
         {
             return false;
@@ -688,6 +689,9 @@ public static class UsageSynopsisParser
         arguments = parsedArguments;
         return true;
     }
+
+    private static string TrimTrailingOperandPunctuation(string token) =>
+        token.Trim().TrimEnd(',', ';', ':');
 
     private static bool HasRequiredSuffixOutsideOptionalPrefix(string token)
     {
