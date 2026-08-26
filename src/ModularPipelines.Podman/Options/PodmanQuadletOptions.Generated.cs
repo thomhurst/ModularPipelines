@@ -13,12 +13,12 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Manipulate manifest lists and image indexes
+/// Allows users to manage Quadlets
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("manifest")]
-public record PodmanManifestOptions : PodmanOptions
+[CliSubCommand("quadlet")]
+public record PodmanQuadletOptions : PodmanOptions
 {
     /// <summary>
     /// The command operand.

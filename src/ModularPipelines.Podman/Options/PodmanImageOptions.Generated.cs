@@ -13,12 +13,12 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Manipulate manifest lists and image indexes
+/// Manage images
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("manifest")]
-public record PodmanManifestOptions : PodmanOptions
+[CliSubCommand("image")]
+public record PodmanImageOptions : PodmanOptions
 {
     /// <summary>
     /// The command operand.

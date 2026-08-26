@@ -13,12 +13,12 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Manipulate manifest lists and image indexes
+/// Manage a virtual machine
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("manifest")]
-public record PodmanManifestOptions : PodmanOptions
+[CliSubCommand("machine")]
+public record PodmanMachineOptions : PodmanOptions
 {
     /// <summary>
     /// The command operand.

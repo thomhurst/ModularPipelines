@@ -27,6 +27,16 @@ public interface IPodmanMachine
     PodmanMachineOs Os => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Manage a virtual machine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExecuteAsync(PodmanMachineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Securely copy contents between the virtual machine
     /// </summary>
     /// <param name="options">The command options.</param>

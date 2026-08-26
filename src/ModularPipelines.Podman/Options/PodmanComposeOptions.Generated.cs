@@ -19,8 +19,15 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose")]
-public record PodmanComposeOptions : PodmanOptions
+public record PodmanComposeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : PodmanOptions
 {
+    public PodmanComposeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Include all resources, even those not used by services
     /// </summary>

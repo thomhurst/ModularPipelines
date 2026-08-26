@@ -18,8 +18,15 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "bridge")]
-public record PodmanComposeBridgeOptions : PodmanOptions
+public record PodmanComposeBridgeOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
+) : PodmanOptions
 {
+    public PodmanComposeBridgeOptions()
+        : this(default(string)!)
+    {
+    }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>

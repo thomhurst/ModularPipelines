@@ -42,6 +42,21 @@ public class PodmanMachine : IPodmanMachine
     #region Commands
 
     /// <summary>
+    /// Manage a virtual machine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanMachineOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Securely copy contents between the virtual machine
     /// </summary>
     /// <param name="options">The command options.</param>
