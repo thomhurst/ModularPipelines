@@ -85,8 +85,10 @@ public class CosignOptionsTests
     {
         var registryToken = typeof(CosignSignOptions).GetProperty(nameof(CosignSignOptions.RegistryToken));
         var password = typeof(CosignLoginOptions).GetProperty(nameof(CosignLoginOptions.Password));
+#pragma warning disable CS0618 // Verify retained compatibility options still mask secrets.
         var oldManagementKey = typeof(CosignPivToolSetManagementKeyOptions)
             .GetProperty(nameof(CosignPivToolSetManagementKeyOptions.OldKey));
+#pragma warning restore CS0618
 
         await Assert.That(registryToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();

@@ -32,12 +32,23 @@ public class CosignPivTool : ICosignPivTool
     #region Commands
 
     /// <summary>
-    /// Manage hardware token attestations
+    /// Executes the parent command directly.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
+    public virtual async Task<CommandResult> ExecuteAsync(
+        CosignPivToolExecuteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolExecuteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> AttestationAsync(
         CosignPivToolAttestationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -46,13 +57,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolAttestationOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Generate a new signing key on the hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> GenerateKeyAsync(
         CosignPivToolGenerateKeyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -61,13 +67,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolGenerateKeyOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Reset the hardware token completely
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> ResetAsync(
         CosignPivToolResetOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -76,13 +77,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolResetOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Set the management key of a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> SetManagementKeyAsync(
         CosignPivToolSetManagementKeyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -91,13 +87,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolSetManagementKeyOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Set the PIN on a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> SetPinAsync(
         CosignPivToolSetPinOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -106,13 +97,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolSetPinOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Set the PUK on a hardware token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> SetPukAsync(
         CosignPivToolSetPukOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -121,13 +107,8 @@ public class CosignPivTool : ICosignPivTool
         return await _command.ExecuteCommandLineToolAsync(options ?? new CosignPivToolSetPukOptions(), executionOptions, cancellationToken);
     }
 
-    /// <summary>
-    /// Unblock a hardware token and set a new PIN
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
+    /// <inheritdoc />
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
     public virtual async Task<CommandResult> UnblockAsync(
         CosignPivToolUnblockOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

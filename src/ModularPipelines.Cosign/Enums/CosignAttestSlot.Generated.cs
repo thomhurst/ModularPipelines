@@ -10,21 +10,18 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Cosign.Enums;
 
-/// <summary>
-/// Allowed values for the --slot option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum CosignAttestSlot
 {
     [EnumValue("authentication")]
-    Authentication,
+    Authentication = 0,
 
     [EnumValue("signature")]
-    Signature,
+    Signature = 1,
 
     [EnumValue("card-authentication")]
-    CardAuthentication,
+    CardAuthentication = 2,
 
     [EnumValue("key-management")]
-    KeyManagement
+    KeyManagement = 3
 }
