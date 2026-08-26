@@ -171,6 +171,23 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task GenerateAsync_Omits_Compatibility_Only_Commands()
+    {
+        var tool = Tool(
+            "fake",
+            Command("fake current", "FakeCurrentOptions", ["current"]),
+            Command("fake removed", "FakeRemovedOptions", ["removed"]) with
+            {
+                IsCompatibilityOnly = true,
+            });
+
+        var files = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
+
+        await Assert.That(files[0].Content).Contains("| `fake current` | `FakeCurrentOptions` |");
+        await Assert.That(files[0].Content).DoesNotContain("fake removed");
+    }
+
+    [Test]
     public async Task GenerateAsync_UsesExecuteForCollidingPreferredCommands()
     {
         var rootCommand = Command("fake app", "FakeAppOptions", ["app"]) with

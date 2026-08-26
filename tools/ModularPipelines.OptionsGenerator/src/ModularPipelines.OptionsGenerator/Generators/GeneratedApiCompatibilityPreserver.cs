@@ -242,6 +242,7 @@ internal static class GeneratedApiCompatibilityPreserver
             ClassName = baseline.ClassName,
             ParentClassName = baseline.ParentClassName ?? $"{tool.NamespacePrefix}Options",
             ToolNamespacePrefix = tool.NamespacePrefix,
+            IsCompatibilityOnly = true,
             Options = RestoreRemovedOptions(baseline.Properties),
             PositionalArguments = RestoreRemovedPositionalArguments(baseline.Properties),
             CompatibilityProperties = RestoreRemovedCompatibilityProperties(baseline.Properties),

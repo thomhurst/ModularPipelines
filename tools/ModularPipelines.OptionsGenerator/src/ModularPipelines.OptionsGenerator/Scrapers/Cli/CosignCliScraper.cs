@@ -63,6 +63,22 @@ public partial class CosignCliScraper : CobraCliScraper
     protected override string VersionArguments => "version";
 
     /// <summary>
+    /// Cosign prints an ASCII-art banner before its structured version fields.
+    /// Persist only the GitVersion value in command-coverage metadata.
+    /// </summary>
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        const string versionPrefix = "GitVersion:";
+        var versionLine = result.CombinedOutput
+            .ReplaceLineEndings("\n")
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(static line => line.Trim())
+            .FirstOrDefault(line => line.StartsWith(versionPrefix, StringComparison.OrdinalIgnoreCase));
+        var version = versionLine?[versionPrefix.Length..].Trim();
+        return string.IsNullOrEmpty(version) ? base.ParseVersionOutput(result) : version;
+    }
+
+    /// <summary>
     /// Cosign validates many positional arguments in command code without including them
     /// in the generated usage line. Supply that metadata explicitly from the v3 command
     /// validators, and remove login's non-argument [OPTIONS] marker.
@@ -91,6 +107,9 @@ public partial class CosignCliScraper : CobraCliScraper
         string propertyName,
         bool isFlag,
         string description) =>
+        (!isFlag &&
+         (propertyName.Equals("IdentityToken", StringComparison.OrdinalIgnoreCase) ||
+          propertyName.Equals("OidcClientSecretFile", StringComparison.OrdinalIgnoreCase))) ||
         base.IsSecretOption(propertyName, isFlag, description) ||
         (!isFlag &&
          (propertyName.Equals("NewKey", StringComparison.OrdinalIgnoreCase) ||

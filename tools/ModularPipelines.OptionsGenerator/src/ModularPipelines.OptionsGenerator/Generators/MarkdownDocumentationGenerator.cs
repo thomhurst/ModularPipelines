@@ -498,8 +498,9 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         return tool.Commands
             .Where(command =>
-                command.SubDomainGroup is not null ||
-                exposedRootCommands.Contains(command.ClassName))
+                !command.IsCompatibilityOnly &&
+                (command.SubDomainGroup is not null ||
+                 exposedRootCommands.Contains(command.ClassName)))
             .DistinctBy(command => command.ClassName)
             .ToList();
     }

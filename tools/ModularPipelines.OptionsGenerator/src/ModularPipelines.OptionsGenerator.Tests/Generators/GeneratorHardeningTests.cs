@@ -2748,6 +2748,7 @@ public class GeneratorHardeningTests
             using (Assert.Multiple())
             {
                 await Assert.That(restored.CommandParts).IsEquivalentTo(["removed"]);
+                await Assert.That(restored.IsCompatibilityOnly).IsTrue();
                 await Assert.That(force.IsFlag).IsTrue();
                 await Assert.That(force.ShortForm).IsEqualTo("-f");
                 await Assert.That(force.PreferShortForm).IsTrue();
