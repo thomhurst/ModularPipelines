@@ -156,9 +156,9 @@ public static class UsageSynopsisParser
             return UsageSynopsisParseResult.Unmatched(synopsis);
         }
 
-        var phase = tokens
-            .Take(commandMatch.EndIndex + 1)
-            .Any(IsOptionControlToken)
+        var phase = CollapseAlternatives(tokens
+                .Take(commandMatch.EndIndex + 1))
+            .Any(IsPhaseControlToken)
                 ? CommandLinePhase.Passthrough
                 : CommandLinePhase.EarlyOperand;
         var operandTokens = tokens.Skip(commandMatch.EndIndex + 1);
@@ -555,6 +555,10 @@ public static class UsageSynopsisParser
                          || HasRequiredSuffixOutsideOptionalPrefix(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
+        if (HasMixedOptionOperandAlternatives(content))
+        {
+            isRequired = false;
+        }
         if (TrySelectRequiredCompoundPlaceholder(trimmed, out var requiredPlaceholder))
         {
             isRequired = true;
@@ -735,10 +739,13 @@ public static class UsageSynopsisParser
 
     private static string SelectCanonicalAlternative(string content)
     {
-        var pipeIndex = content.IndexOf('|');
-        if (pipeIndex >= 0)
+        var alternatives = content.Split(
+            '|',
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (alternatives.Length > 1)
         {
-            return content[..pipeIndex].Trim();
+            return alternatives.FirstOrDefault(IsOperandAlternative)
+                   ?? alternatives[0];
         }
 
         return content
@@ -858,6 +865,16 @@ public static class UsageSynopsisParser
         }
 
         var content = TrimControlWrappers(token);
+        if (HasMixedOptionOperandAlternatives(content))
+        {
+            return false;
+        }
+
+        if (HasOnlyOptionControlAlternatives(content))
+        {
+            return true;
+        }
+
         return string.IsNullOrWhiteSpace(content)
                || content.StartsWith('-')
                || IsOptionControlLabel(content)
@@ -878,13 +895,27 @@ public static class UsageSynopsisParser
     private static bool IsOptionControlToken(string token)
     {
         var content = TrimControlWrappers(token);
-        return content.StartsWith('-')
-               || OptionControlTokens.Contains(content);
+        return !HasMixedOptionOperandAlternatives(content)
+               && (IsOptionAlternative(content)
+                   || OptionControlTokens.Contains(content));
+    }
+
+    private static bool IsPhaseControlToken(string token)
+    {
+        var content = TrimControlWrappers(token);
+        return IsOptionControlToken(token)
+               || GetAlternatives(content).Any(IsOptionAlternative);
     }
 
     private static bool TryGetOptionSwitch(string token, out string optionSwitch)
     {
         var content = TrimControlWrappers(token);
+        if (HasMixedOptionOperandAlternatives(content))
+        {
+            optionSwitch = "";
+            return false;
+        }
+
         var endIndex = content.IndexOfAny([' ', '\t', '=']);
         optionSwitch = content.TrimEnd(',', ':');
         if (optionSwitch.Length > 1
@@ -897,6 +928,44 @@ public static class UsageSynopsisParser
 
         optionSwitch = "";
         return false;
+    }
+
+    private static bool HasMixedOptionOperandAlternatives(string content)
+    {
+        var alternatives = GetAlternatives(content);
+        return alternatives.Length > 1
+               && alternatives.Any(IsOptionAlternative)
+               && alternatives.Any(IsOperandAlternative);
+    }
+
+    private static bool HasOnlyOptionControlAlternatives(string content)
+    {
+        var alternatives = GetAlternatives(content);
+        return alternatives.Length > 1
+               && alternatives.All(static alternative =>
+               {
+                   var normalized = TrimControlWrappers(alternative);
+                   return IsOptionAlternative(normalized)
+                          || IsOptionControlLabel(normalized);
+               });
+    }
+
+    private static string[] GetAlternatives(string content) => content.Split(
+        '|',
+        StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+    private static bool IsOptionAlternative(string alternative)
+    {
+        var content = TrimControlWrappers(alternative);
+        return content.Length > 1 && content.StartsWith('-');
+    }
+
+    private static bool IsOperandAlternative(string alternative)
+    {
+        var content = TrimControlWrappers(alternative);
+        return !string.IsNullOrWhiteSpace(content)
+               && !IsOptionAlternative(content)
+               && !IsOptionControlLabel(content);
     }
 
     private static string TrimControlWrappers(string token)

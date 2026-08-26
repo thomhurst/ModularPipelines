@@ -319,6 +319,65 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("Usage: brew services stop (formula | --all)")]
+    [Arguments("Usage: brew services stop (--all | formula)")]
+    public async Task Models_Operand_Or_Option_Alternatives_As_Optional(string helpText)
+    {
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["brew", "services", "stop"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Formula");
+            await Assert.That(argument.IsRequired).IsFalse();
+            await Assert.That(argument.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Treats_Lone_Dash_Alternative_As_A_Required_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: docker cp SRC_PATH|- CONTAINER:DEST_PATH",
+            ["docker", "cp"]);
+
+        var source = result.PositionalArguments[0];
+        using (Assert.Multiple())
+        {
+            await Assert.That(source.PropertyName).IsEqualTo("SrcPath");
+            await Assert.That(source.IsRequired).IsTrue();
+            await Assert.That(source.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
+    public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run (options | --all)",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task Precommand_Mixed_Alternatives_Select_Passthrough_Phase()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool (--config | CONFIG) run <SOURCE>",
+            ["tool", "run"]);
+
+        var source = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(source.PropertyName).IsEqualTo("Source");
+            await Assert.That(source.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
+    }
+
+    [Test]
     public async Task Applies_Bracketed_Standalone_Repeat_To_Preceding_Operand()
     {
         var result = UsageSynopsisParser.Parse(
