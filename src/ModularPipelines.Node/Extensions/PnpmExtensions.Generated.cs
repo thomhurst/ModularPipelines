@@ -33,7 +33,7 @@ public static class PnpmExtensions
     }
 
     /// <summary>
-    /// Gets the pnpm service from the pipeline context.
+    /// Gets the pnpm service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPnpm"/> service for executing pnpm commands.</returns>
