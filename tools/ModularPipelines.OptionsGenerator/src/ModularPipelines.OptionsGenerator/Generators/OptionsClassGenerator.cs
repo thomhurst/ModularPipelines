@@ -97,11 +97,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        if (command.IsCompatibilityOnly)
-        {
-            sb.AppendLine(
-                $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
-        }
+        GenerateCompatibilityOnlyAttribute(sb, command);
 
         if (enumOptions.Length == 0
             && requiredParameters.Count == 0
@@ -431,11 +427,7 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        if (command.IsCompatibilityOnly)
-        {
-            sb.AppendLine(
-                $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
-        }
+        GenerateCompatibilityOnlyAttribute(sb, command);
 
         // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
         if (command.CommandParts.Length > 0)
@@ -444,6 +436,17 @@ public class OptionsClassGenerator : ICodeGenerator
                 ", ",
                 command.CommandParts.Select(GeneratorUtils.FormatStringLiteral));
             sb.AppendLine($"[CliSubCommand({args})]");
+        }
+    }
+
+    private static void GenerateCompatibilityOnlyAttribute(
+        StringBuilder sb,
+        CliCommandDefinition command)
+    {
+        if (command.IsCompatibilityOnly)
+        {
+            sb.AppendLine(
+                $"[Obsolete({GeneratorUtils.FormatStringLiteral(GeneratorUtils.CompatibilityOnlyObsoleteMessage)})]");
         }
     }
 
