@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class CliScraperTraversalTests
 {
     [Test]
-    public async Task SharedTraversal_Discovers_ExecutableParent_And_Children()
+    public async Task SharedTraversal_Discovers_ExecutableParent_And_Children_Without_Command_Placeholders()
     {
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -54,9 +54,8 @@ public class CliScraperTraversalTests
             .IsEquivalentTo(["fake parent", "fake parent child"]);
         await Assert.That(commands.Single(command => command.FullCommand == "fake parent").Options)
             .Contains(option => option.SwitchName == "--scope");
-        await Assert.That(commands.Single(command => command.FullCommand == "fake parent")
-                .PositionalArguments.Single().PropertyName)
-            .IsEqualTo("Command");
+        await Assert.That(commands.Single(command => command.FullCommand == "fake parent").PositionalArguments)
+            .IsEmpty();
         await Assert.That(executor.Arguments)
             .IsEquivalentTo(["--help", "parent --help", "parent child --help"]);
     }

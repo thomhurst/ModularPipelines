@@ -474,6 +474,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        if (subcommands.Count > 0)
+        {
+            usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+        }
+
         var command = await TryParseCommandAsync(path, helpText, usage, cancellationToken);
         if (command is null)
         {
