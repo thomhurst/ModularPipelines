@@ -10,18 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Cosign.Enums;
 
-/// <summary>
-/// Allowed values for the --touchpolicy option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum CosignPivToolGenerateKeyTouchPolicy
 {
     [EnumValue("never")]
-    Never,
+    Never = 0,
 
     [EnumValue("always")]
-    Always,
+    Always = 1,
 
     [EnumValue("cached")]
-    Cached
+    Cached = 2
 }

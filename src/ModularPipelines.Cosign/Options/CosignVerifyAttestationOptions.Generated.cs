@@ -24,6 +24,12 @@ public record CosignVerifyAttestationOptions(
 ) : CosignOptions
 {
     /// <summary>
+    /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
+    /// </summary>
+    [CliFlag("--allow-certificate-chain")]
+    public bool? AllowCertificateChain { get; set; }
+
+    /// <summary>
     /// whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
     /// </summary>
     [CliFlag("--allow-http-registry")]
