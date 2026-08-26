@@ -237,6 +237,21 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("[--no-secrets]:")]
+    [Arguments("[--json]:")]
+    [Arguments("[--debug]:")]
+    [Arguments("[--file=]:")]
+    public async Task Ignores_Punctuated_Option_Tokens(string optionToken)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool run [target] {optionToken}",
+            ["tool", "run"]);
+
+        var argument = result.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("Target");
+    }
+
+    [Test]
     public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments()
     {
         var result = UsageSynopsisParser.Parse(
