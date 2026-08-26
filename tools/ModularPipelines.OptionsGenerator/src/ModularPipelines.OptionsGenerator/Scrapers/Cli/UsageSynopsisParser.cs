@@ -984,23 +984,26 @@ public static class UsageSynopsisParser
     private static int GetOptionValueStartIndex(string content)
     {
         var valueStartIndex = SkipWhitespace(content, content.IndexOfAny([' ', '\t']));
-        if (valueStartIndex < 0
-            || valueStartIndex >= content.Length
-            || content[valueStartIndex] != '|')
+        while (valueStartIndex >= 0
+               && valueStartIndex < content.Length
+               && content[valueStartIndex] == '|')
         {
-            return valueStartIndex;
+            var aliasStartIndex = SkipWhitespace(content, valueStartIndex + 1);
+            if (aliasStartIndex >= content.Length || content[aliasStartIndex] != '-')
+            {
+                return valueStartIndex;
+            }
+
+            var aliasEndIndex = content.IndexOfAny([' ', '\t', '='], aliasStartIndex);
+            if (aliasEndIndex < 0)
+            {
+                return content.Length;
+            }
+
+            valueStartIndex = SkipWhitespace(content, aliasEndIndex);
         }
 
-        var aliasStartIndex = SkipWhitespace(content, valueStartIndex + 1);
-        if (aliasStartIndex >= content.Length || content[aliasStartIndex] != '-')
-        {
-            return valueStartIndex;
-        }
-
-        var aliasEndIndex = content.IndexOfAny([' ', '\t', '='], aliasStartIndex);
-        return aliasEndIndex < 0
-            ? content.Length
-            : SkipWhitespace(content, aliasEndIndex);
+        return valueStartIndex;
     }
 
     private static int SkipWhitespace(string content, int startIndex)

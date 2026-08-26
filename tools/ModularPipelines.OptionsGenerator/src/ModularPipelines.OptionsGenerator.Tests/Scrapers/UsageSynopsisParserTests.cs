@@ -367,6 +367,7 @@ public class UsageSynopsisParserTests
     [Arguments("[-f|--format=JSON|YAML]")]
     [Arguments("[-f | --format <json|yaml>]")]
     [Arguments("[-f | --format JSON | YAML]")]
+    [Arguments("[-f | --format | --output <json|yaml>]")]
     public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands(string option)
     {
         var result = UsageSynopsisParser.Parse(
