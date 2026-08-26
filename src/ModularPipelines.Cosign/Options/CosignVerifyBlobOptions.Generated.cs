@@ -24,6 +24,12 @@ public record CosignVerifyBlobOptions(
 ) : CosignOptions
 {
     /// <summary>
+    /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
+    /// </summary>
+    [CliFlag("--allow-certificate-chain")]
+    public bool? AllowCertificateChain { get; set; }
+
+    /// <summary>
     /// path to bundle FILE
     /// </summary>
     [CliOption("--bundle", Format = OptionFormat.EqualsSeparated)]
