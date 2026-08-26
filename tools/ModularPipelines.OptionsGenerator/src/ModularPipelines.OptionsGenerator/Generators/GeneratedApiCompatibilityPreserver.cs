@@ -229,8 +229,9 @@ internal static class GeneratedApiCompatibilityPreserver
         var preserveRootNamedFacade = facadeMethods.Any(method =>
             IsRootFacadeMethod(tool, method)
             && IsNamedFacadeMethod(tool, method));
-        var currentRootMethodName = GeneratorUtils.EnsureAsyncSuffix(
-            GeneratorUtils.GenerateMethodNameFromCommandParts(commandParts));
+        var replacementRootMethodName = FindLiveOperandReplacementRootMethodName(
+            tool,
+            commandParts);
         var subDomainGroup = commandParts.Length > 1 && !preserveRootNamedFacade
             ? GetRestoredSubDomainGroup(tool, commandParts[0], groupIdentifier)
             : null;
@@ -254,7 +255,9 @@ internal static class GeneratedApiCompatibilityPreserver
                     MethodName = method.MethodName,
                     ObsoleteMessage = !IsRootFacadeMethod(tool, method)
                         ? "Use the current command facade instead."
-                        : $"Use {currentRootMethodName} instead.",
+                        : replacementRootMethodName is null
+                            ? GeneratorUtils.CompatibilityOnlyObsoleteMessage
+                            : $"Use {replacementRootMethodName} instead.",
                 })
                 .DistinctBy(static method => method.MethodName, StringComparer.Ordinal)],
             SubDomainGroup = subDomainGroup,
@@ -273,6 +276,42 @@ internal static class GeneratedApiCompatibilityPreserver
             PreserveRootNamedFacade = preserveRootNamedFacade,
             PreserveOptionalOptionsParameter = facadeMethods.Any(static method => method.IsOptionsOptional),
         };
+    }
+
+    private static string? FindLiveOperandReplacementRootMethodName(
+        CliToolDefinition tool,
+        string[] removedCommandParts)
+    {
+        var rootCommands = GeneratorUtils.GetNonCollidingRootCommands(tool).ToHashSet();
+        var candidates = tool.Commands
+            .Where(static command => !command.IsCompatibilityOnly)
+            .Where(command => command.CommandParts.Length < removedCommandParts.Length)
+            .Where(command => command.CommandParts.SequenceEqual(
+                removedCommandParts.Take(command.CommandParts.Length),
+                StringComparer.OrdinalIgnoreCase))
+            .Where(command => command.PositionalArguments.Any(argument =>
+                argument is { IsRequired: true, PositionIndex: 0 }
+                && argument.PropertyName.Equals(
+                    GeneratorUtils.GenerateMethodNameFromCommandParts(
+                        [.. removedCommandParts.Skip(command.CommandParts.Length)]),
+                    StringComparison.Ordinal)))
+            .Where(rootCommands.Contains)
+            .OrderByDescending(static command => command.CommandParts.Length)
+            .ToArray();
+        if (candidates.Length == 0)
+        {
+            return null;
+        }
+
+        var longestPathLength = candidates[0].CommandParts.Length;
+        var longestMatches = candidates
+            .TakeWhile(command => command.CommandParts.Length == longestPathLength)
+            .Take(2)
+            .ToArray();
+        return longestMatches.Length == 1
+            ? GeneratorUtils.EnsureAsyncSuffix(
+                GeneratorUtils.GenerateMethodNameFromCommandParts(longestMatches[0].CommandParts))
+            : null;
     }
 
     private static string? GetRestoredSubDomainGroup(
