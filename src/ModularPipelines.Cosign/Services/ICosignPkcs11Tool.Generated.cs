@@ -15,31 +15,22 @@ namespace ModularPipelines.Cosign.Services;
 /// <summary>
 /// cosign pkcs11tool commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface ICosignPkcs11Tool
 {
-    /// <summary>
-    /// List URIs of all keys in a PKCS11 token
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> ListKeysUrisAsync(
-        CosignPkcs11ToolListKeysUrisOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
+    public Task<CommandResult> ExecuteAsync(CosignPkcs11ToolExecuteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// List all PKCS11 tokens linked to a module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> ListTokensAsync(
-        CosignPkcs11ToolListTokensOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
+    public Task<CommandResult> ListKeysUrisAsync(CosignPkcs11ToolListKeysUrisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
+    public Task<CommandResult> ListTokensAsync(CosignPkcs11ToolListTokensOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
 
 }
