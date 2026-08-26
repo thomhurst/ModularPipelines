@@ -2862,6 +2862,11 @@ public class GeneratorHardeningTests
                 .Contains($"{obsoleteAttribute}{Environment.NewLine}    IToolRemoved Removed");
             await Assert.That(rootImplementation)
                 .Contains($"{obsoleteAttribute}{Environment.NewLine}    public IToolRemoved Removed");
+            await Assert.That(rootImplementation)
+                .Contains(
+                    "#pragma warning disable CS0618"
+                    + $"{Environment.NewLine}        Removed = removed;"
+                    + $"{Environment.NewLine}        #pragma warning restore CS0618");
             await Assert.That(subDomainInterface)
                 .Contains($"{obsoleteAttribute}{Environment.NewLine}    public Task<CommandResult> ChildAsync");
         }

@@ -110,7 +110,17 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
+                var isCompatibilityOnly = compatibilityOnlySubDomains.Contains(subDomain);
+                if (isCompatibilityOnly)
+                {
+                    sb.AppendLine("        #pragma warning disable CS0618");
+                }
+
                 sb.AppendLine($"        {subDomain} = {paramName};");
+                if (isCompatibilityOnly)
+                {
+                    sb.AppendLine("        #pragma warning restore CS0618");
+                }
 
                 foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
                 {
