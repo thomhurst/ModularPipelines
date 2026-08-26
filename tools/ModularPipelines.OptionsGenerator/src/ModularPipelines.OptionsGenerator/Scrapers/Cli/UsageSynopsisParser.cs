@@ -191,7 +191,17 @@ public static class UsageSynopsisParser
 
         foreach (var token in TrimTrailingUsageExplanation(CollapseAlternatives(operandTokens)))
         {
-            phase = IsOptionControlToken(token) ? CommandLinePhase.Passthrough : phase;
+            var isOptionControlToken = IsOptionControlToken(token);
+            var operandPhase = phase;
+            if (isOptionControlToken || IsPhaseControlToken(token))
+            {
+                phase = CommandLinePhase.Passthrough;
+            }
+
+            if (isOptionControlToken)
+            {
+                operandPhase = phase;
+            }
 
             if (IsStandaloneOptionTerminator(token))
             {
@@ -221,7 +231,7 @@ public static class UsageSynopsisParser
             if (TryParseNestedOperandGroup(
                     operandToken,
                     arguments.Count,
-                    phase,
+                    operandPhase,
                     out var nestedArguments))
             {
                 arguments.AddRange(nestedArguments);
@@ -229,7 +239,7 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            var argument = ParseOperand(operandToken, arguments.Count, phase);
+            var argument = ParseOperand(operandToken, arguments.Count, operandPhase);
             if (argument is null)
             {
                 unparsedTokens.Add(operandToken);
@@ -968,7 +978,8 @@ public static class UsageSynopsisParser
         return valueStartIndex > 1
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
-               && alternativeSeparatorIndex > valueStartIndex;
+               && normalized[valueStartIndex] != '|'
+               && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)

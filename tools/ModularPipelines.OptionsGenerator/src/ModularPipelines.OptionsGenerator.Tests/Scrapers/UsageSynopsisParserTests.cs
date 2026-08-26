@@ -361,6 +361,8 @@ public class UsageSynopsisParserTests
     [Arguments("[--format [json|yaml]]")]
     [Arguments("[--format JSON|YAML]")]
     [Arguments("[--format JSON | YAML]")]
+    [Arguments("[-f|--format <json|yaml>]")]
+    [Arguments("[-f|--format JSON|YAML]")]
     public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands(string option)
     {
         var result = UsageSynopsisParser.Parse(
@@ -410,6 +412,27 @@ public class UsageSynopsisParserTests
         {
             await Assert.That(source.PropertyName).IsEqualTo("Source");
             await Assert.That(source.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        }
+    }
+
+    [Test]
+    [Arguments("--fast|DEST")]
+    [Arguments("DEST|--fast")]
+    public async Task Mixed_Alternatives_Transition_Following_Operands(string alternative)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool copy SOURCE ({alternative}) TARGET",
+            ["tool", "copy"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("Source");
+            await Assert.That(result.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("Dest");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+            await Assert.That(result.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(result.PositionalArguments[2].PropertyName).IsEqualTo("Target");
+            await Assert.That(result.PositionalArguments[2].Phase).IsEqualTo(CommandLinePhase.Passthrough);
         }
     }
 
