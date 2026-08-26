@@ -239,6 +239,7 @@ public class BrewCliScraperTests
 
                   --formula        List only formulae.
                   --writable       List only writable kegs.
+                  --head           Install the HEAD version of a formula.
                   --formulae=LIST  Use a comma-separated list of formulae.
             """;
 
@@ -249,6 +250,8 @@ public class BrewCliScraperTests
             await Assert.That(command!.Options.Single(option => option.SwitchName == "--formula").IsFlag)
                 .IsTrue();
             await Assert.That(command.Options.Single(option => option.SwitchName == "--writable").IsFlag)
+                .IsTrue();
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--head").IsFlag)
                 .IsTrue();
             await Assert.That(command.Options.Single(option => option.SwitchName == "--formulae").IsFlag)
                 .IsFalse();

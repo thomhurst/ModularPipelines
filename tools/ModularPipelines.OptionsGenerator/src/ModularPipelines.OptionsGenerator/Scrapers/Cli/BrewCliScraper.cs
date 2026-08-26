@@ -619,7 +619,7 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Matches descriptions that suggest the option takes a value.
     /// </summary>
-    [GeneratedRegex(@"\b(?:path|directory|number|name|value|version|license|location)\b|comma-separated|how many|which type|specified as", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"comma-separated|how many|which type|this many|default value|specified as|\b(?:set|specify)\s+(?:the\s+)?(?:path|file|directory|name|value|version|license|location)\b|\b(?:writes?|output)\s+to\s+(?:the\s+)?(?:path|file|directory|location)\b|\bfrom\s+(?:this|the|a)\s+(?:path|file|directory|location)\b|\b(?:path|file|directory|name|value|version|license|location)\s+to\b|\bspecified\s+(?:path|file|directory|name|value|version|license|location)\b", RegexOptions.IgnoreCase)]
     private static partial Regex DescriptionSuggestsValue();
 
     /// <summary>
