@@ -62,6 +62,76 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task SharedTraversal_Preserves_Command_Operand_When_Only_Skipped_Children_Are_Extracted()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake COMMAND
+
+                Available Commands:
+                  parent:  Execute a parent command
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent COMMAND [flags]
+
+                Available Commands:
+                  help:  Show help
+
+                Flags:
+                  --scope string   Select a scope
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var command = (await ScrapeAsync(scraper)).Single();
+
+        await Assert.That(command.FullCommand).IsEqualTo("fake parent");
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Command");
+        await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "parent --help"]);
+    }
+
+    [Test]
+    public async Task SharedTraversal_Retains_Empty_Command_Group_Definition()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake COMMAND
+
+                Available Commands:
+                  parent:  Manage parent resources
+                """,
+            ["parent --help"] = """
+                Usage:
+                  fake parent COMMAND
+
+                Available Commands:
+                  child:  Execute a child command
+                """,
+            ["parent child --help"] = """
+                Usage:
+                  fake parent child [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+        var parent = commands.Single(command => command.FullCommand == "fake parent");
+
+        await Assert.That(parent.Options).IsEmpty();
+        await Assert.That(parent.PositionalArguments).IsEmpty();
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake parent", "fake parent child"]);
+    }
+
+    [Test]
     public async Task SharedTraversal_Skips_Invalid_Group_And_Continues_With_Sibling()
     {
         var emptyGroupHelp = """
