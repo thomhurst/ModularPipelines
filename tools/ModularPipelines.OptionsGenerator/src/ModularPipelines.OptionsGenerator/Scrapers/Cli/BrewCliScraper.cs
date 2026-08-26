@@ -119,6 +119,10 @@ public partial class BrewCliScraper : CliScraperBase
         return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}Commands:{Environment.NewLine}{commandSection}";
     }
 
+    protected override bool ShouldAcceptHelpResult(
+        IReadOnlyList<string> commandPath,
+        CliCommandResult result) => result.Success;
+
     /// <summary>
     /// Extracts subcommand names from Homebrew help text.
     /// </summary>

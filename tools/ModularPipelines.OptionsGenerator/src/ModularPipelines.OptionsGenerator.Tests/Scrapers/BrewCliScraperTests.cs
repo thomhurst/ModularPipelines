@@ -30,6 +30,16 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Rejects_Partial_Help_Output_From_Failed_Command()
+    {
+        var scraper = new TestBrewCliScraper(new FailedHelpExecutor());
+
+        var helpText = await scraper.GetHelp(["brew", "rubocop"]);
+
+        await Assert.That(helpText).IsNull();
+    }
+
+    [Test]
     public async Task Preserves_Positional_Operands_From_Usage()
     {
         const string helpText = """
@@ -412,6 +422,29 @@ public class BrewCliScraperTests
 
         public IReadOnlyList<string> GetSubcommands(string helpText) =>
             ExtractSubcommands(helpText).ToArray();
+
+        public Task<string?> GetHelp(string[] commandPath) =>
+            GetHelpTextAsync(commandPath, CancellationToken.None);
+    }
+
+    private sealed class FailedHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 1,
+                StandardOutput = "Usage: brew install-bundler-gems [--groups=]",
+                StandardError = "cannot load such file -- rubocop",
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class CommandInventoryExecutor : ICliCommandExecutor
