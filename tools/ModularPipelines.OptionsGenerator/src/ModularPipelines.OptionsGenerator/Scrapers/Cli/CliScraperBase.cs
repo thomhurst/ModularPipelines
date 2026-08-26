@@ -474,6 +474,10 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        // Once child commands have been discovered, generic Command/Subcommand operands
+        // select one of those children rather than representing an executable argument.
+        // Handle this centrally so individual adapters cannot leave synthetic operands on
+        // command groups such as docker compose, docker context, or minikube addons.
         if (subcommands.Count > 0)
         {
             usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);

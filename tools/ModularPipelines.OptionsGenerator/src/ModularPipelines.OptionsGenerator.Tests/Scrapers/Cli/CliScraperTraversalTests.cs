@@ -197,6 +197,48 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task DockerTraversal_Removes_Placeholder_From_NonBuildx_Command_Group()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  docker COMMAND
+
+                Management Commands:
+                  compose    Docker Compose
+                """,
+            ["compose --help"] = """
+                Usage: docker compose [OPTIONS] COMMAND
+
+                Options:
+                  --ansi string    Control ANSI output
+
+                Commands:
+                  build    Build services
+                """,
+            ["compose build --help"] = """
+                Usage: docker compose build [OPTIONS] [SERVICE...]
+
+                Options:
+                  --pull    Always attempt to pull
+                """,
+        });
+        var scraper = new DockerCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<DockerCliScraper>.Instance);
+
+        var commands = await ScrapeAsync(scraper);
+        var compose = commands.Single(command => command.FullCommand == "docker compose");
+
+        await Assert.That(compose.PositionalArguments).IsEmpty();
+        await Assert.That(commands.Single(command => command.FullCommand == "docker compose build")
+                .PositionalArguments.Single().PropertyName)
+            .IsEqualTo("Service");
+    }
+
+    [Test]
     public async Task CobraTraversal_Parses_Command_Headings_With_Lowercase_Connectors()
     {
         const string helpText = """

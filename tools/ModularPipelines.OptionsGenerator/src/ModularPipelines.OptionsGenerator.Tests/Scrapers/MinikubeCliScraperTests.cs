@@ -48,48 +48,59 @@ public class MinikubeCliScraperTests
     }
 
     [Test]
-    [Arguments("addons")]
-    [Arguments("config")]
-    public async Task Command_Groups_Do_Not_Model_Subcommand_Placeholders(string group)
+    [Arguments("addons", "list")]
+    [Arguments("config", "view")]
+    public async Task Shared_Traversal_Removes_Subcommand_Placeholders(string group, string child)
     {
-        var helpText = $"Usage:\n  minikube {group} SUBCOMMAND [flags]";
-        var scraper = new TestMinikubeCliScraper();
-        var commandPath = new[] { "minikube", group };
-        var command = await scraper.Parse(
-            commandPath,
-            helpText);
-        var usage = scraper.Normalize(
-            command!,
-            UsageSynopsisParser.Parse(helpText, commandPath));
+        var executor = new RecordingExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = $"""
+                Usage:
+                  minikube COMMAND
+
+                Available Commands:
+                  {group}    Manage {group}
+                """,
+            [$"{group} --help"] = $"""
+                Usage:
+                  minikube {group} SUBCOMMAND [flags]
+
+                Available Commands:
+                  {child}    Execute {child}
+
+                Flags:
+                  --output string    Output format
+                """,
+            [$"{group} {child} --help"] = $"""
+                Usage:
+                  minikube {group} {child} [flags]
+
+                Flags:
+                  --output string    Output format
+                """,
+        });
+        var scraper = new MinikubeCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<MinikubeCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
 
         using (Assert.Multiple())
         {
-            await Assert.That(command!.PositionalArguments).IsEmpty();
-            await Assert.That(usage.PositionalArguments).IsEmpty();
-            await Assert.That(usage.HasOperandTokens).IsFalse();
+            await Assert.That(commands.Select(command => command.FullCommand))
+                .IsEquivalentTo([$"minikube {group}", $"minikube {group} {child}"]);
+            await Assert.That(commands.Single(command => command.FullCommand == $"minikube {group}")
+                    .PositionalArguments)
+                .IsEmpty();
         }
     }
 
-    private sealed class TestMinikubeCliScraper()
-        : MinikubeCliScraper(
-            new RecordingExecutor(),
-            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-            NullLogger<MinikubeCliScraper>.Instance)
-    {
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(
-                commandPath,
-                helpText,
-                UsageSynopsisParser.Parse(helpText, commandPath),
-                CancellationToken.None);
-
-        public UsageSynopsisParseResult Normalize(
-            CliCommandDefinition command,
-            UsageSynopsisParseResult usage) =>
-            NormalizeUsageSynopsis(command, usage);
-    }
-
-    private sealed class RecordingExecutor : ICliCommandExecutor
+    private sealed class RecordingExecutor(
+        IReadOnlyDictionary<string, string>? responses = null) : ICliCommandExecutor
     {
         public string? Arguments { get; private set; }
 
@@ -107,6 +118,21 @@ public class MinikubeCliScraperTests
             string? workingDirectory = null)
         {
             Arguments = arguments;
+            if (responses is not null)
+            {
+                if (!responses.TryGetValue(arguments, out var response))
+                {
+                    throw new InvalidOperationException($"Unexpected invocation: {command} {arguments}");
+                }
+
+                return Task.FromResult(new CliCommandResult
+                {
+                    StandardOutput = response,
+                    StandardError = string.Empty,
+                    ExitCode = 0,
+                });
+            }
+
             return Task.FromResult(Result);
         }
 
