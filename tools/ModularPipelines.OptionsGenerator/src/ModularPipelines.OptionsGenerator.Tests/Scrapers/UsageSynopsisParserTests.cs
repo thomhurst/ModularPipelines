@@ -60,6 +60,21 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Matches_Command_In_Wrapped_Alternative()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: brew bundle [install|upgrade]:",
+            ["brew", "bundle", "install"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.CommandMatched).IsTrue();
+            await Assert.That(result.MatchedCommandPartCount).IsEqualTo(3);
+            await Assert.That(result.HasOperandTokens).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Retains_Compound_Endpoint_Placeholders_As_Single_Operands()
     {
         var copy = UsageSynopsisParser.Parse(

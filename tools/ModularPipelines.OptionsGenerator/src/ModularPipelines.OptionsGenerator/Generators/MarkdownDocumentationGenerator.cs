@@ -188,7 +188,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine("## Module example");
         sb.AppendLine();
 
-        var command = SelectExampleCommand(tool);
+        var command = SelectExampleCommand(tool, commands);
         if (command is null)
         {
             var onlyUnsafeCommands = commands.Count > 0
@@ -232,14 +232,16 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
     }
 
-    private static CliCommandDefinition? SelectExampleCommand(CliToolDefinition tool)
+    private static CliCommandDefinition? SelectExampleCommand(
+        CliToolDefinition tool,
+        IReadOnlyCollection<CliCommandDefinition> commands)
     {
         if (string.IsNullOrWhiteSpace(tool.PreferredDocumentationExampleCommand))
         {
             return null;
         }
 
-        var command = tool.Commands
+        var command = commands
             .FirstOrDefault(candidate => string.Equals(
                 candidate.FullCommand,
                 tool.PreferredDocumentationExampleCommand,
@@ -498,8 +500,9 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         return tool.Commands
             .Where(command =>
-                command.SubDomainGroup is not null ||
-                exposedRootCommands.Contains(command.ClassName))
+                !command.IsCompatibilityOnly &&
+                (command.SubDomainGroup is not null ||
+                 exposedRootCommands.Contains(command.ClassName)))
             .DistinctBy(command => command.ClassName)
             .ToList();
     }

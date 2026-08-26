@@ -147,6 +147,12 @@ public record CliCommandDefinition
     public IReadOnlyList<CliCompatibilityMethod> CompatibilityMethods { get; init; } = [];
 
     /// <summary>
+    /// Whether this command exists only to preserve a previously generated public API.
+    /// Compatibility-only commands are not part of the currently installed CLI surface.
+    /// </summary>
+    public bool IsCompatibilityOnly { get; init; }
+
+    /// <summary>
     /// Whether this command has been explicitly reviewed as safe for a runnable documentation example.
     /// Commands are unsafe by default; scraped names and descriptions are not enough to establish safety.
     /// </summary>

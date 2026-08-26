@@ -127,7 +127,7 @@ public partial class BrewCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find "Commands:" section
+        // Find "Commands:" or "Subcommands:" section
         var commandSectionMatch = CommandSectionPattern().Match(helpText);
         if (!commandSectionMatch.Success)
         {
@@ -153,6 +153,11 @@ public partial class BrewCliScraper : CliScraperBase
         {
             // Match pattern: whitespace + command + whitespace + description
             var match = CommandLinePattern().Match(line);
+            if (!match.Success)
+            {
+                match = ColonDelimitedCommandLinePattern().Match(line);
+            }
+
             if (match.Success)
             {
                 var commandName = match.Groups["name"].Value.Trim();
@@ -242,7 +247,7 @@ public partial class BrewCliScraper : CliScraperBase
         }
 
         // Parse description from help text
-        var description = ExtractDescription(helpText);
+        var description = ExtractDescription(helpText, usage);
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
@@ -367,42 +372,73 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    private static string? ExtractDescription(
+        string helpText,
+        UsageSynopsisParseResult usage)
     {
-        var lines = helpText.Split('\n');
-
-        // Look for description after "Usage:" line
-        var foundUsage = false;
-        foreach (var line in lines)
+        if (!usage.CommandMatched || string.IsNullOrWhiteSpace(usage.Synopsis))
         {
-            var trimmed = line.Trim();
+            return null;
+        }
 
-            if (trimmed.StartsWith("Usage:"))
-            {
-                foundUsage = true;
-                continue;
-            }
-
-            // Skip empty lines after Usage
-            if (string.IsNullOrEmpty(trimmed))
+        var lines = NormalizeLines(helpText);
+        for (var index = 0; index < lines.Length; index++)
+        {
+            if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
             {
                 continue;
             }
 
-            // Skip lines that look like options or sections
-            if (trimmed.StartsWith('-') || trimmed.EndsWith(':'))
-            {
-                continue;
-            }
-
-            // Found a description line
-            if (foundUsage && trimmed.Length > 5 && !trimmed.Contains("--"))
-            {
-                return trimmed;
-            }
+            return ReadDescriptionParagraph(lines, index);
         }
 
         return null;
+    }
+
+    private static bool TryMatchUsageSynopsis(
+        IReadOnlyList<string> lines,
+        ref int index,
+        string expectedSynopsis)
+    {
+        var usageMatch = UsageLinePattern().Match(lines[index]);
+        if (!usageMatch.Success)
+        {
+            return false;
+        }
+
+        var synopsisParts = new List<string> { usageMatch.Groups["synopsis"].Value.Trim() };
+        while (index + 1 < lines.Count
+               && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
+        {
+            synopsisParts.Add(lines[++index].Trim());
+        }
+
+        return string.Join(' ', synopsisParts).Equals(expectedSynopsis, StringComparison.Ordinal);
+    }
+
+    private static string? ReadDescriptionParagraph(
+        IReadOnlyList<string> lines,
+        int usageEndIndex)
+    {
+        var index = usageEndIndex;
+        while (index + 1 < lines.Count && string.IsNullOrWhiteSpace(lines[index + 1]))
+        {
+            index++;
+        }
+
+        var descriptionLines = new List<string>();
+        while (index + 1 < lines.Count && !string.IsNullOrWhiteSpace(lines[index + 1]))
+        {
+            var descriptionLine = lines[++index].Trim();
+            if (BrewOptionPattern().IsMatch(lines[index]) || descriptionLine.EndsWith(':'))
+            {
+                break;
+            }
+
+            descriptionLines.Add(descriptionLine);
+        }
+
+        return descriptionLines.Count == 0 ? null : string.Join(' ', descriptionLines);
     }
 
     /// <summary>
@@ -416,12 +452,12 @@ public partial class BrewCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
+        var lines = NormalizeLines(helpText);
 
-        var lines = helpText.Split('\n');
-
-        foreach (var line in lines)
+        for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
+            var line = lines[lineIndex];
+
             // Match option lines
             var match = BrewOptionPattern().Match(line);
             if (!match.Success)
@@ -430,7 +466,21 @@ public partial class BrewCliScraper : CliScraperBase
             }
 
             var flagsPart = match.Groups["flags"].Value.Trim();
-            var descriptionPart = match.Groups["description"].Value.Trim();
+            var descriptionParts = new List<string>();
+            var inlineDescription = match.Groups["description"].Value.Trim();
+            if (!string.IsNullOrEmpty(inlineDescription))
+            {
+                descriptionParts.Add(inlineDescription);
+            }
+
+            while (lineIndex + 1 < lines.Length
+                   && !string.IsNullOrWhiteSpace(lines[lineIndex + 1])
+                   && !BrewOptionPattern().IsMatch(lines[lineIndex + 1]))
+            {
+                descriptionParts.Add(lines[++lineIndex].Trim());
+            }
+
+            var descriptionPart = string.Join(' ', descriptionParts);
 
             // Parse flags (may have multiple: "-d, --debug" or "--formula, --formulae")
             var flags = flagsPart.Split(',').Select(f => f.Trim()).Where(f => !string.IsNullOrEmpty(f)).ToList();
@@ -474,10 +524,10 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
-            // Determine if it's a flag or takes a value
-            // Homebrew options are mostly flags unless they mention a value in description
+            // Homebrew omits value placeholders from option rows, so supplement them
+            // from the usage synopsis and constrained description wording.
             var isFlag = !hasInlineValue &&
-                         !descriptionPart.Contains('=') &&
+                         !helpText.Contains($"{longForm}=", StringComparison.Ordinal) &&
                          !DescriptionSuggestsValue().IsMatch(descriptionPart);
 
             var csharpType = isFlag ? "bool?" : "string?";
@@ -503,6 +553,11 @@ public partial class BrewCliScraper : CliScraperBase
         return options;
     }
 
+    private static string[] NormalizeLines(string helpText) => helpText
+        .Replace("\r\n", "\n", StringComparison.Ordinal)
+        .Replace('\r', '\n')
+        .Split('\n');
+
     /// <summary>
     /// Checks if help text indicates the command has options.
     /// </summary>
@@ -517,7 +572,7 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Commands:" section header.
     /// </summary>
-    [GeneratedRegex(@"^Commands:\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?:Commands|Subcommands):\s*$", RegexOptions.Multiline)]
     private static partial Regex CommandSectionPattern();
 
     /// <summary>
@@ -539,6 +594,12 @@ public partial class BrewCliScraper : CliScraperBase
     private static partial Regex CommandLinePattern();
 
     /// <summary>
+    /// Matches Homebrew bundle subcommands: "  install:".
+    /// </summary>
+    [GeneratedRegex(@"^\s{2}(?<name>[a-z0-9][a-z0-9+_.-]*):\s*$", RegexOptions.IgnoreCase)]
+    private static partial Regex ColonDelimitedCommandLinePattern();
+
+    /// <summary>
     /// Matches "brew commandname" lines in example usage.
     /// </summary>
     [GeneratedRegex(@"^\s*brew\s+(?<name>[a-z0-9][a-z0-9+_.-]*)", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
@@ -558,8 +619,14 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Matches descriptions that suggest the option takes a value.
     /// </summary>
-    [GeneratedRegex(@"\b(?:set|specify|use|path|file|directory|number|name|value)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"comma-separated|how many|which type|this many|default value|specified as|\b(?:set|specify)\s+(?:the\s+)?(?:path|file|directory|name|value|version|license|location)\b|\b(?:writes?|output)\s+to\s+(?:the\s+)?(?:path|file|directory|location)\b|\bfrom\s+(?:this|the|a)\s+(?:path|file|directory|location)\b|\b(?:path|file|directory|name|value|version|license|location)\s+to\b|\bspecified\s+(?:path|file|directory|name|value|version|license|location)\b", RegexOptions.IgnoreCase)]
     private static partial Regex DescriptionSuggestsValue();
+
+    /// <summary>
+    /// Matches an inline Homebrew usage synopsis.
+    /// </summary>
+    [GeneratedRegex(@"^Usage:\s*(?<synopsis>.+)$", RegexOptions.IgnoreCase)]
+    private static partial Regex UsageLinePattern();
 
     #endregion
 }

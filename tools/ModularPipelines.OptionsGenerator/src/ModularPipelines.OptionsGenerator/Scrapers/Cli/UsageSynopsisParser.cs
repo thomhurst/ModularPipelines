@@ -364,7 +364,7 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            if (!IsSynopsisContinuation(line, trimmed))
+            if (!IsSynopsisContinuationCore(trimmed))
             {
                 break;
             }
@@ -376,10 +376,9 @@ public static class UsageSynopsisParser
         return index - 1;
     }
 
-    private static bool IsSynopsisContinuation(string line, string trimmed)
+    private static bool IsSynopsisContinuationCore(string trimmed)
     {
-        if (string.IsNullOrWhiteSpace(trimmed)
-            || line.Length == trimmed.Length)
+        if (string.IsNullOrWhiteSpace(trimmed))
         {
             return false;
         }
@@ -398,6 +397,9 @@ public static class UsageSynopsisParser
         return firstToken.StartsWith('-')
                || firstToken is "|" or "...";
     }
+
+    internal static bool IsSynopsisContinuation(string line) =>
+        IsSynopsisContinuationCore(line.Trim());
 
     private static bool TryReadUsageHeading(string line, out string synopsis)
     {
@@ -525,9 +527,7 @@ public static class UsageSynopsisParser
                     continue;
                 }
 
-                if (!NormalizeLiteral(tokens[tokenIndex]).Equals(
-                        commandPath[pathIndex],
-                        StringComparison.OrdinalIgnoreCase))
+                if (!TokenMatchesCommandPart(tokens[tokenIndex], commandPath[pathIndex]))
                 {
                     continue;
                 }
@@ -910,8 +910,16 @@ public static class UsageSynopsisParser
         return content;
     }
 
+    private static bool TokenMatchesCommandPart(string token, string commandPart)
+    {
+        var normalized = NormalizeLiteral(token);
+        return normalized.Equals(commandPart, StringComparison.OrdinalIgnoreCase)
+               || normalized.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                   .Contains(commandPart, StringComparer.OrdinalIgnoreCase);
+    }
+
     private static string NormalizeLiteral(string token) =>
-        TrimWrapper(token).Trim().TrimEnd(',', ':');
+        TrimWrapper(token.Trim().TrimEnd(',', ':')).Trim();
 
     private static string TrimWrapper(string token)
     {

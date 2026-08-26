@@ -153,7 +153,26 @@ public class CosignCliScraperTests
         await Assert.That(downloadArguments.Single().PropertyName).IsEqualTo("Image");
         await Assert.That(scraper.IsSecret("NewPin", isFlag: false)).IsTrue();
         await Assert.That(scraper.IsSecret("OldKey", isFlag: false)).IsTrue();
+        await Assert.That(scraper.IsSecret("IdentityToken", isFlag: false)).IsTrue();
+        await Assert.That(scraper.IsSecret("OidcClientSecretFile", isFlag: false)).IsTrue();
         await Assert.That(scraper.IsSecret("NewPin", isFlag: true)).IsFalse();
+        await Assert.That(scraper.IsSecret("IdentityToken", isFlag: true)).IsFalse();
+    }
+
+    [Test]
+    public async Task Extracts_GitVersion_From_Version_Banner()
+    {
+        const string output = """
+            ______   ______        _______. __    _______ .__   __.
+            cosign: A tool for Container Signing, Verification and Storage in an OCI registry
+
+            GitVersion:    v3.1.3
+            GitCommit:     11926fa5bbbbde47e88fc006b625a17769
+            """;
+
+        var version = new TestCosignCliScraper().ParseVersion(output);
+
+        await Assert.That(version).IsEqualTo("v3.1.3");
     }
 
     [Test]
@@ -212,5 +231,12 @@ public class CosignCliScraperTests
             ApplyPositionalArgumentFixes(commandParts, positionalArguments);
 
         public bool IsSecret(string propertyName, bool isFlag) => IsSecretOption(propertyName, isFlag, string.Empty);
+
+        public string? ParseVersion(string standardOutput) => ParseVersionOutput(new CliCommandResult
+        {
+            StandardOutput = standardOutput,
+            StandardError = string.Empty,
+            ExitCode = 0,
+        });
     }
 }

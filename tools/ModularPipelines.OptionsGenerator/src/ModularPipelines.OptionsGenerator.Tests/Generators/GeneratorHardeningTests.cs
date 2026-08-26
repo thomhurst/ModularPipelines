@@ -1547,6 +1547,46 @@ public class GeneratorHardeningTests
             CliCompatibilityForwardingKind.NullableBooleanToString);
     }
 
+    [Test]
+    public async Task ApiCompatibilityPreserver_Preserves_Flag_That_Became_A_Value()
+    {
+        var command = Command("BrewInfoOptions", "BrewOptions", ["info"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--json",
+                    PropertyName = "Json",
+                    CSharpType = "string?",
+                    IsFlag = false,
+                },
+            ],
+        };
+
+        var preserved = GeneratedApiCompatibilityPreserver.Preserve(
+            command,
+            [BaselineProperty("Json", "bool?", switchName: "--json")]);
+        ExternalToolDefinitionLoader.ValidateCompatibilityMetadata(preserved, []);
+        var option = preserved.Options.Single();
+        var alias = preserved.CompatibilityProperties.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.PropertyName).IsEqualTo("JsonValue");
+            await Assert.That(alias.PropertyName).IsEqualTo("Json");
+            await Assert.That(alias.ForwardToPropertyName).IsEqualTo("JsonValue");
+            await Assert.That(alias.ForwardingKind)
+                .IsEqualTo(CliCompatibilityForwardingKind.NullableBooleanToString);
+        }
+
+        await AssertCompatibilityForwardingRoundTrips(
+            preserved,
+            "Json",
+            "JsonValue",
+            CliCompatibilityForwardingKind.NullableBooleanToString);
+    }
+
     private static async Task AssertCompatibilityForwardingRoundTrips(
         CliCommandDefinition generatedCommand,
         string compatibilityPropertyName,
@@ -2748,6 +2788,7 @@ public class GeneratorHardeningTests
             using (Assert.Multiple())
             {
                 await Assert.That(restored.CommandParts).IsEquivalentTo(["removed"]);
+                await Assert.That(restored.IsCompatibilityOnly).IsTrue();
                 await Assert.That(force.IsFlag).IsTrue();
                 await Assert.That(force.ShortForm).IsEqualTo("-f");
                 await Assert.That(force.PreferShortForm).IsTrue();
