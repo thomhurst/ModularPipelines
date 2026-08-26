@@ -282,6 +282,7 @@ public class AzCliScraperTests
             await Assert.That(identities.IsFlag).IsFalse();
             await Assert.That(identities.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(identities.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+            await Assert.That(identities.GroupValues).IsTrue();
         }
     }
 

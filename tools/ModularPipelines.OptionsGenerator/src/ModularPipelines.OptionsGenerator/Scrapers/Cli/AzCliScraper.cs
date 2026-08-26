@@ -318,6 +318,7 @@ public partial class AzCliScraper : CliScraperBase
                     IsFlag = isFlag,
                     IsRequired = isRequired,
                     AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
+                    GroupValues = HelpDeclaresSpaceSeparatedList(description),
                     IsKeyValue = false,
                     IsNumeric = csharpType == "int?",
                     ValueSeparator = " ",
@@ -423,8 +424,8 @@ public partial class AzCliScraper : CliScraperBase
         description.Contains("list of false");
 
     private static bool HelpDeclaresSpaceSeparatedList(string description) =>
-        description.Contains("space-separated")
-        || description.Contains("separated by spaces");
+        description.Contains("space-separated", StringComparison.OrdinalIgnoreCase)
+        || description.Contains("separated by spaces", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
