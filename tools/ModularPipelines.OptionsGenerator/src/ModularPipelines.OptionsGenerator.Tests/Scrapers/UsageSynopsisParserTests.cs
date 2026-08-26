@@ -678,6 +678,44 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Model_Accepts_Multiword_Usage_Operand_Covered_By_Named_Option()
+    {
+        var usage = UsageSynopsisParser.Parse(
+            "Usage: grype explain --id [VULNERABILITY ID] [flags]",
+            ["grype", "explain"]);
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "grype explain",
+            CommandParts = ["explain"],
+            ClassName = "GrypeExplainOptions",
+            ParentClassName = "GrypeOptions",
+            ToolNamespacePrefix = "Grype",
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--id",
+                    PropertyName = "Id",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        command.ValidateOperandCoverage(
+            usage.HasOperandTokens,
+            usage.Synopsis,
+            usage.PositionalArguments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(usage.PositionalArguments.Single().PropertyName)
+                .IsEqualTo("VulnerabilityId");
+            await Assert.That(usage.PositionalArguments.Single().AssociatedOptionSwitch)
+                .IsEqualTo("--id");
+        }
+    }
+
+    [Test]
     public async Task Associates_Standalone_Option_Value_With_Its_Switch()
     {
         var usage = UsageSynopsisParser.Parse(

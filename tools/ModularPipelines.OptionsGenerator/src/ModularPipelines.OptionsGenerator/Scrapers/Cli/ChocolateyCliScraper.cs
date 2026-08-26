@@ -212,6 +212,50 @@ public partial class ChocolateyCliScraper : CliScraperBase
         return Task.FromResult<CliCommandDefinition?>(command);
     }
 
+    protected override async Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath,
+        string helpText,
+        UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken)
+    {
+        var command = await ParseCommandAsync(commandPath, helpText, cancellationToken);
+        if (command is null)
+        {
+            return null;
+        }
+
+        usage = NormalizeUsageSynopsis(command, usage);
+        return command with
+        {
+            PositionalArguments = GetPositionalArguments(usage, command.Options),
+            UsageSynopsis = usage.Synopsis,
+            HasOperandTakingUsage = usage.HasOperandTokens,
+            UsagePositionalArguments = usage.PositionalArguments,
+        };
+    }
+
+    protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
+        CliCommandDefinition command,
+        UsageSynopsisParseResult usage) =>
+        command.CommandParts is ["config"]
+            ? usage with
+            {
+                HasOperandTokens = true,
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "Action",
+                        CSharpType = "string?",
+                        Description = "Configuration action: list, get, set, or unset.",
+                        IsRequired = false,
+                        PositionIndex = 0,
+                    },
+                ],
+                UnparsedOperandTokens = [],
+            }
+            : usage;
+
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
