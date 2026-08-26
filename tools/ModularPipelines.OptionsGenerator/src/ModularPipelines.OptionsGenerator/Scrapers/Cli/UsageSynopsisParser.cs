@@ -744,7 +744,10 @@ public static class UsageSynopsisParser
             StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (alternatives.Length > 1)
         {
-            return alternatives.FirstOrDefault(IsOperandAlternative)
+            return alternatives.FirstOrDefault(static alternative =>
+                       TrimControlWrappers(alternative) != "-"
+                       && IsOperandAlternative(alternative))
+                   ?? alternatives.FirstOrDefault(IsOperandAlternative)
                    ?? alternatives[0];
         }
 
@@ -865,7 +868,8 @@ public static class UsageSynopsisParser
         }
 
         var content = TrimControlWrappers(token);
-        if (HasMixedOptionOperandAlternatives(content))
+        if (HasMixedOptionOperandAlternatives(content)
+            || HasLoneDashOperandAlternatives(content))
         {
             return false;
         }
@@ -896,6 +900,7 @@ public static class UsageSynopsisParser
     {
         var content = TrimControlWrappers(token);
         return !HasMixedOptionOperandAlternatives(content)
+               && !HasLoneDashOperandAlternatives(content)
                && (IsOptionAlternative(content)
                    || OptionControlTokens.Contains(content));
     }
@@ -910,7 +915,8 @@ public static class UsageSynopsisParser
     private static bool TryGetOptionSwitch(string token, out string optionSwitch)
     {
         var content = TrimControlWrappers(token);
-        if (HasMixedOptionOperandAlternatives(content))
+        if (HasMixedOptionOperandAlternatives(content)
+            || HasLoneDashOperandAlternatives(content))
         {
             optionSwitch = "";
             return false;
@@ -933,9 +939,27 @@ public static class UsageSynopsisParser
     private static bool HasMixedOptionOperandAlternatives(string content)
     {
         var alternatives = GetAlternatives(content);
-        return alternatives.Length > 1
+        return !IsOptionAssignment(content)
+               && alternatives.Length > 1
                && alternatives.Any(IsOptionAlternative)
                && alternatives.Any(IsOperandAlternative);
+    }
+
+    private static bool IsOptionAssignment(string content)
+    {
+        var normalized = TrimControlWrappers(content);
+        var assignmentIndex = normalized.IndexOf('=');
+        return assignmentIndex > 1 && normalized.StartsWith('-');
+    }
+
+    private static bool HasLoneDashOperandAlternatives(string content)
+    {
+        var alternatives = GetAlternatives(content);
+        return alternatives.Length > 1
+               && alternatives.Any(static alternative => TrimControlWrappers(alternative) == "-")
+               && alternatives.Any(static alternative =>
+                   TrimControlWrappers(alternative) != "-"
+                   && IsOperandAlternative(alternative));
     }
 
     private static bool HasOnlyOptionControlAlternatives(string content)

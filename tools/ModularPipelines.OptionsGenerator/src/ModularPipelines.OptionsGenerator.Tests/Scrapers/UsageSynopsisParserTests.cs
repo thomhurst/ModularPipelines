@@ -337,10 +337,12 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Treats_Lone_Dash_Alternative_As_A_Required_Operand()
+    [Arguments("SRC_PATH|-")]
+    [Arguments("-|SRC_PATH")]
+    public async Task Treats_Lone_Dash_Alternative_As_A_Required_Operand(string sourceAlternative)
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: docker cp SRC_PATH|- CONTAINER:DEST_PATH",
+            $"Usage: docker cp {sourceAlternative} CONTAINER:DEST_PATH",
             ["docker", "cp"]);
 
         var source = result.PositionalArguments[0];
@@ -350,6 +352,16 @@ public class UsageSynopsisParserTests
             await Assert.That(source.IsRequired).IsTrue();
             await Assert.That(source.CSharpType).IsEqualTo("string");
         }
+    }
+
+    [Test]
+    public async Task Does_Not_Model_Option_Value_Alternatives_As_Operands()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: tool run --format=<json|yaml>",
+            ["tool", "run"]);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
     }
 
     [Test]
