@@ -222,10 +222,14 @@ function Get-ActionableReviewBodyReason {
     $positiveCategoryVerdictLine =
         "(?im)^$horizontalWhitespace*(?:[-*]$horizontalWhitespace*)?(?![^\r\n]*\b(?:but|however|though|except)\b)(?:$positiveVerdictLineAlternatives)\.?$horizontalWhitespace*\r?$"
 
-    $clearedFindingSection =
-        "(?i)\b(?:false[- ]positive|does(?:n['’]t|\s+not)\s+reproduce|cannot\s+be\s+reproduced|no\s+action\s+(?:is\s+)?needed|(?:finding|report|concern|risk)\s+(?:is|was|has\s+been)\s+(?:withdrawn|resolved|cleared))\b"
+    $clearedFindingEvidence =
+        "(?i)\b(?:false[- ]positive|does(?:n['’]t|\s+not)\s+reproduce|cannot\s+be\s+reproduced|(?:finding|report|concern|risk)\s+(?:is|was|has\s+been)\s+(?:withdrawn|resolved|cleared))\b"
+    $clearedFindingNoActionVerdict =
+        '(?i)\b(?:no\s+(?:action|changes?)\s+(?:(?:is|are)\s+)?needed(?:\s+here)?|nothing\s+(?:needs?\s+to\s+be|to\s+be)\s+changed)\b'
     $clearedFindingContradiction =
         '(?is)\b(?:but|however|though|except)\b[\s\S]{0,300}\b(?:bugs?|issues?|concerns?|risks?|blockers?|incorrect|broken|fix|require(?:d|s)?|must|should|needs?)\b'
+    $clearedFindingRemainingAction =
+        '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:fixed|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
 
     $categoryHeadingWithOptionalVerdict = "$categoryOnlyHeading(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*\S[^\r\n#]*)|(?:$horizontalWhitespace*\([^\r\n#)]*\))|(?:$horizontalWhitespace+\S[^\r\n#]*))?:?"
     $categoryHeadingPattern = "(?im)^$horizontalWhitespace*#{2,4}$horizontalWhitespace+($categoryOnlyHeading)(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*(?<verdict>\S[^\r\n#]*))|(?:$horizontalWhitespace*\((?<parentheticalVerdict>[^)\r\n#]+)\))|(?:$horizontalWhitespace+(?<bareVerdict>\S[^\r\n#]*)))?:?$horizontalWhitespace*\r?$"
@@ -291,8 +295,10 @@ function Get-ActionableReviewBodyReason {
         }
 
         $isClearedFinding =
-            $sectionBody -match $clearedFindingSection -and
+            $sectionBody -match $clearedFindingEvidence -and
+            $sectionBody -match $clearedFindingNoActionVerdict -and
             $sectionBody -notmatch $clearedFindingContradiction -and
+            $sectionBody -notmatch $clearedFindingRemainingAction -and
             $sectionBody -notmatch $positiveVerdictContinuationBlocker
         if ($isClearedFinding) {
             continue

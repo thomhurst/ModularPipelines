@@ -1010,6 +1010,27 @@ still throws an exception for the same command and requires a fix.
         Blocks = $true
     },
     @{
+        Name = 'blocks false-positive report without no-action verdict'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive. The generated type exists.
+'@
+        Blocks = $true
+    },
+    @{
+        Name = 'blocks cleared report section with separate follow-up'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive, so no action is needed there.
+The retry path separately needs follow-up under contention.
+'@
+        Blocks = $true
+    },
+    @{
         Name = 'blocks test coverage gap closed heading with trailing vulnerability'
         Body = @'
 ## Review
