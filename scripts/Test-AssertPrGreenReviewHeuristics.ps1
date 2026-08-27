@@ -1218,6 +1218,15 @@ $verdictCases = @(
             body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->`n<!-- REVIEW_VERDICT: BLOCKING HEAD: $verdictHead -->"
         }
         Clears = $false
+    },
+    @{
+        Name = 'rejects content after clear verdict marker'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->`n### Risk`nThe retry path loses updates."
+        }
+        Clears = $false
     }
 )
 

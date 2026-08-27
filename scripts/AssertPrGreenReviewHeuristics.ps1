@@ -117,13 +117,15 @@ function Test-TrustedBotClearVerdict {
         return $false
     }
 
+    $body = [string]$Review.body
     $markers = [regex]::Matches(
-        [string]$Review.body,
+        $body,
         '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s+HEAD:\s*([0-9a-f]{40})\s*-->\s*$'
     )
     if ($markers.Count -ne 1 -or
         $markers[0].Groups[1].Value -ne 'CLEAR' -or
-        $markers[0].Groups[2].Value -ne $HeadSha) {
+        $markers[0].Groups[2].Value -ne $HeadSha -or
+        -not [string]::IsNullOrWhiteSpace($body.Substring($markers[0].Index + $markers[0].Length))) {
         return $false
     }
 
