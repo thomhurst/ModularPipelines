@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
@@ -10,6 +11,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Validation;
@@ -34,6 +36,45 @@ public class ArtifactContractTests
     private const string FailedRestoreDirectory = LocalArtifactRoot + "/failed-restored";
     private const string CacheKeyArtifactFile = "cache-key-input.txt";
     private const string CacheKeyRestoreDirectory = "cache-key-restored";
+
+    [Test]
+    public async Task ArtifactLifecycleLoggingUsesAmbientModuleLogger()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), $"artifact-logging-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
+        var fallbackLogger = new Mock<ILogger<ArtifactLifecycleManager>>();
+        var moduleLogger = new Mock<IModuleLogger>();
+        moduleLogger.Setup(logger => logger.IsEnabled(LogLevel.Warning)).Returns(true);
+        var manager = new ArtifactLifecycleManager(
+            Mock.Of<IDistributedArtifactStore>(),
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            fallbackLogger.Object,
+            workingDirectory);
+
+        try
+        {
+            await using (new ModuleLoggerScope(moduleLogger.Object, typeof(DeclaredProducerModule)))
+            {
+                _ = await manager.UploadProducedArtifactsAsync(
+                    typeof(DeclaredProducerModule),
+                    CancellationToken.None);
+            }
+
+            moduleLogger.Verify(
+                logger => logger.Log(
+                    LogLevel.Warning,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("No files matched pattern")),
+                    null,
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                Times.Once);
+            fallbackLogger.VerifyNoOtherCalls();
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+        }
+    }
 
     [Test]
     public async Task ResolvePathPatternMatchesWildcardDirectoryComponents()
