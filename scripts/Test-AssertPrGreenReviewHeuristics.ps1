@@ -1004,8 +1004,11 @@ I don't see anything to change.
 ## Review
 
 ### On CodeRabbit's flagged risk
-The documentation report is a false positive. However, the generated service
-still throws an exception for the same command and requires a fix.
+The documentation report is a false positive. No action is needed here.
+However, the generated service still throws an exception for the same command.
+
+### Verdict
+I don't see anything to change.
 '@
         Blocks = $true
     },
@@ -1037,6 +1040,20 @@ The documentation report is a false positive, so no action is needed here.
 ### On CodeRabbit's flagged risk
 The documentation report is a false positive, so no action is needed there.
 The retry path separately needs follow-up under contention.
+'@
+        Blocks = $true
+    },
+    @{
+        Name = 'blocks cleared report with bare fix phrase'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive, so no action is needed there.
+The retry path still requires a fix.
+
+### Verdict
+I don't see anything to change.
 '@
         Blocks = $true
     },

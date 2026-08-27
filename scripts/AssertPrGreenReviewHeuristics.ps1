@@ -229,7 +229,7 @@ function Get-ActionableReviewBodyReason {
     $clearedFindingContradiction =
         '(?is)\b(?:but|however|though|except)\b[\s\S]{0,300}\b(?:bugs?|issues?|concerns?|risks?|blockers?|incorrect|broken|fix|require(?:d|s)?|must|should|needs?)\b'
     $clearedFindingRemainingAction =
-        '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:fixed|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
+        '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:a\s+)?(?:fix(?:ed|ing)?|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
     $clearedFindingMultipleReport =
         '(?i)\b(?:separate(?:ly)?|another|additional|unrelated)\b'
     $globalClearVerdict =
