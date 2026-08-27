@@ -1020,6 +1020,16 @@ The documentation report is a false positive. The generated type exists.
         Blocks = $true
     },
     @{
+        Name = 'blocks locally cleared report without global verdict'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive, so no action is needed here.
+'@
+        Blocks = $true
+    },
+    @{
         Name = 'blocks cleared report section with separate follow-up'
         Body = @'
 ## Review
@@ -1027,6 +1037,20 @@ The documentation report is a false positive. The generated type exists.
 ### On CodeRabbit's flagged risk
 The documentation report is a false positive, so no action is needed there.
 The retry path separately needs follow-up under contention.
+'@
+        Blocks = $true
+    },
+    @{
+        Name = 'blocks mixed report despite contradictory global verdict'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive, so no action is needed there.
+The retry path separately loses updates under contention.
+
+### Verdict
+I don't see anything to change.
 '@
         Blocks = $true
     },

@@ -230,6 +230,10 @@ function Get-ActionableReviewBodyReason {
         '(?is)\b(?:but|however|though|except)\b[\s\S]{0,300}\b(?:bugs?|issues?|concerns?|risks?|blockers?|incorrect|broken|fix|require(?:d|s)?|must|should|needs?)\b'
     $clearedFindingRemainingAction =
         '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:fixed|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
+    $clearedFindingMultipleReport =
+        '(?i)\b(?:separate(?:ly)?|another|additional|unrelated)\b'
+    $globalClearVerdict =
+        $Body -match "(?im)^\s*(?![^\r\n]*\b(?:but|however|though|except)\b)[^\r\n]*\b(?:I\s+don['’]t\s+see\s+anything\s+to\s+change|no\s+changes?\s+(?:(?:is|are)\s+)?needed)\b[^\r\n]*\r?$"
 
     $categoryHeadingWithOptionalVerdict = "$categoryOnlyHeading(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*\S[^\r\n#]*)|(?:$horizontalWhitespace*\([^\r\n#)]*\))|(?:$horizontalWhitespace+\S[^\r\n#]*))?:?"
     $categoryHeadingPattern = "(?im)^$horizontalWhitespace*#{2,4}$horizontalWhitespace+($categoryOnlyHeading)(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*(?<verdict>\S[^\r\n#]*))|(?:$horizontalWhitespace*\((?<parentheticalVerdict>[^)\r\n#]+)\))|(?:$horizontalWhitespace+(?<bareVerdict>\S[^\r\n#]*)))?:?$horizontalWhitespace*\r?$"
@@ -299,6 +303,8 @@ function Get-ActionableReviewBodyReason {
             $sectionBody -match $clearedFindingNoActionVerdict -and
             $sectionBody -notmatch $clearedFindingContradiction -and
             $sectionBody -notmatch $clearedFindingRemainingAction -and
+            $sectionBody -notmatch $clearedFindingMultipleReport -and
+            $globalClearVerdict -and
             $sectionBody -notmatch $positiveVerdictContinuationBlocker
         if ($isClearedFinding) {
             continue
