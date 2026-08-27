@@ -198,8 +198,6 @@ function Get-ActionableReviewBodyReason {
                 return 'review verdict marker: BLOCKING'
             }
         }
-
-        return $null
     }
 
     $resolvedPriorFindingLineContinuationGuard =

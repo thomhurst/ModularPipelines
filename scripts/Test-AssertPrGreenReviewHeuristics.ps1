@@ -64,7 +64,7 @@ Scope check passed.
         Blocks = $false
     },
     @{
-        Name = 'allows explicit clear verdict marker'
+        Name = 'blocks self-issued clear verdict marker with actionable heading'
         Body = @'
 ## Review
 
@@ -74,7 +74,7 @@ machine-readable all-clear marker.
 
 <!-- REVIEW_VERDICT: CLEAR -->
 '@
-        Blocks = $false
+        Blocks = $true
     },
     @{
         Name = 'blocks explicit blocking verdict marker'
