@@ -462,6 +462,32 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task BlankPipelineOutput_DoesNotRenderEmptyGroup()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            "Pipeline",
+            typeof(void),
+            showSuccessMarker: false);
+        buffer.WriteLine(string.Empty);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).DoesNotContain("::group::Pipeline");
+            await Assert.That(output).DoesNotContain("::endgroup::");
+        }
+    }
+
+    [Test]
     public async Task IncrementalFlush_DoesNotDrainCompletedModule()
     {
         var writer = new StringWriter();

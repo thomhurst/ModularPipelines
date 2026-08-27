@@ -336,7 +336,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 console,
                 cancellationToken);
 
-            if (shouldRenderOutputGroup)
+            if (outputs.Count > 0 || shouldRenderOutputGroup)
             {
                 using var renderGate = await loggerControl
                     .TryAcquireRenderGateAsync(_renderGateTimeout, cancellationToken)
@@ -352,6 +352,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     flushKind,
                     isContinuation,
                     outputs,
+                    shouldRenderOutputGroup,
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
                     ref renderedCount,
@@ -485,7 +486,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = _outputs.Count > 0 || needsExceptionHeader;
+            shouldRenderOutputGroup = needsExceptionHeader || _outputs.Any(ProducesConsoleOutput);
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -507,6 +508,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         bool isContinuation,
         List<BufferedOutput> outputs,
+        bool shouldRenderOutputGroup,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
@@ -525,6 +527,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 flushKind,
                 isContinuation,
                 outputs,
+                shouldRenderOutputGroup,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: true,
@@ -544,6 +547,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 flushKind,
                 isContinuation,
                 outputs,
+                shouldRenderOutputGroup,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: false,
@@ -561,6 +565,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         bool isContinuation,
         List<BufferedOutput> outputs,
+        bool shouldRenderOutputGroup,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
@@ -568,8 +573,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         CancellationToken cancellationToken)
     {
         var header = FormatHeader(exception, flushKind, isContinuation);
-        var startCommand = formatter.GetStartBlockCommand(header);
-        var endCommand = formatter.GetEndBlockCommand(header);
+        var startCommand = shouldRenderOutputGroup
+            ? formatter.GetStartBlockCommand(header)
+            : null;
+        var endCommand = shouldRenderOutputGroup
+            ? formatter.GetEndBlockCommand(header)
+            : null;
         var groupStarted = false;
         var flushCompleted = false;
 
@@ -606,7 +615,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 WriteGroupCommand(console, directConsole, formatter, endCommand);
             }
 
-            if (groupStarted || flushCompleted)
+            if (groupStarted || (flushCompleted && shouldRenderOutputGroup))
             {
                 // Add blank line between module sections for visual separation.
                 console.WriteLine();
@@ -805,6 +814,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return _showSuccessMarker
             ? $"{_moduleName} \u2713{continuationText} ({durationText})"
             : $"{_moduleName}{continuationText} ({durationText})";
+    }
+
+    private bool ProducesConsoleOutput(BufferedOutput output)
+    {
+        if (output.IsRawBuildSystemCommand)
+        {
+            return true;
+        }
+
+        if (output.IsString)
+        {
+            return !string.IsNullOrEmpty(output.StringValue);
+        }
+
+        return output.LogEvent is { } logEvent && _isSpectreEnabled(logEvent.Level);
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)
