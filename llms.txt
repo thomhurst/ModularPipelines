@@ -98,6 +98,7 @@
 - [ansible CLI reference](/docs/next/mp-packages/cli/ansible.md): ModularPipelines.Ansible provides strongly typed access to the ansible CLI.
 - [argocd CLI reference](/docs/next/mp-packages/cli/argocd.md): ModularPipelines.ArgoCd provides strongly typed access to the argocd CLI.
 - [az CLI reference](/docs/next/mp-packages/cli/az.md): ModularPipelines.Azure provides strongly typed access to the az CLI.
+- [brew CLI reference](/docs/next/mp-packages/cli/brew.md): ModularPipelines.Homebrew provides strongly typed access to the brew CLI.
 - [buildah CLI reference](/docs/next/mp-packages/cli/buildah.md): ModularPipelines.Buildah provides strongly typed access to the buildah CLI.
 - [cargo CLI reference](/docs/next/mp-packages/cli/cargo.md): ModularPipelines.Rust provides strongly typed access to the cargo CLI.
 - [choco CLI reference](/docs/next/mp-packages/cli/choco.md): ModularPipelines.Chocolatey provides strongly typed access to the choco CLI.
