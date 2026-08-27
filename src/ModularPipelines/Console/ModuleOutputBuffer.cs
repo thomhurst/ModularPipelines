@@ -7,6 +7,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using Spectre.Console;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Console;
 
@@ -43,6 +44,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private Action<Exception>? _deferredFlushFailureHandler;
+    private Status _status = Status.Successful;
     private bool _isComplete;
     private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
@@ -281,6 +283,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                            && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
                            && !_hasRenderedCompletionHeader);
             }
+        }
+    }
+
+    /// <inheritdoc />
+    public void SetStatus(Status status)
+    {
+        lock (_lock)
+        {
+            _status = status;
         }
     }
 
@@ -791,6 +802,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
         var continuationText = isContinuation ? " (continued)" : string.Empty;
+        Status status;
+
+        lock (_lock)
+        {
+            status = _status;
+        }
 
         if (exception != null)
         {
@@ -802,8 +819,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2026{continuationText} ({durationText})";
         }
 
+        var completionMarker = status is Status.Skipped ? "\u2298" : "\u2713";
         return _showSuccessMarker
-            ? $"{_moduleName} \u2713{continuationText} ({durationText})"
+            ? $"{_moduleName} {completionMarker}{continuationText} ({durationText})"
             : $"{_moduleName}{continuationText} ({durationText})";
     }
 

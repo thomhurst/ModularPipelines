@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.Enums;
 using ModularPipelines.TestHelpers;
 using Moq;
 
@@ -436,6 +437,27 @@ public class ModuleOutputBufferTests
             OutputFlushKind.Complete);
 
         await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests ✓");
+    }
+
+    [Test]
+    public async Task CompleteFlush_RendersSkippedMarkerForSkippedModuleOutput()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("skipped output");
+        buffer.SetStatus(Status.Skipped);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests ⊘");
+        await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
     }
 
     [Test]

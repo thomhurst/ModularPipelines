@@ -14,6 +14,7 @@ using NReco.Logging.File;
 using Spectre.Console;
 using File = ModularPipelines.FileSystem.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -298,6 +299,24 @@ public class ModuleLoggerTests
                 state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
             It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public async Task DisposeAsync_PropagatesModuleStatusToOutputBuffer()
+    {
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            Mock.Of<ISecretObfuscator>(),
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
+            Mock.Of<IOutputCoordinator>());
+        logger.SetStatus(Status.Skipped);
+
+        await logger.DisposeAsync();
+
+        moduleOutputBuffer.Verify(x => x.SetStatus(Status.Skipped), Times.Once);
+        moduleOutputBuffer.Verify(x => x.MarkComplete(), Times.Once);
     }
 
     [Test]

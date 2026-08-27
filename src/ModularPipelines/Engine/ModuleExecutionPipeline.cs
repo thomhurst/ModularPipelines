@@ -388,6 +388,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
 
+        if (logger is IInternalModuleLogger internalLogger)
+        {
+            internalLogger.SetStatus(Status.Skipped);
+        }
+
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,
             skipDecision.Reason ?? "No reason provided");
