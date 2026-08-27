@@ -105,51 +105,29 @@ function Test-StaleBotReviewCanBeIgnored {
     return Test-StatusCheckCompletedAfterInstant -Checks $Checks -Name 'claude-review' -InstantUtc $HeadCommitCommittedAt
 }
 
-function Test-ReviewHasTrustedClearanceOverride {
+function Test-TrustedBotClearVerdict {
     [CmdletBinding()]
     param(
         [AllowNull()]$Review,
-        [AllowNull()]$Comments,
         [Parameter(Mandatory)][string]$HeadSha
     )
 
     $author = [string]$Review.author.login
-    $submittedAt = ConvertTo-UtcDateTimeOffset $Review.submittedAt
-    if ([string]::IsNullOrWhiteSpace($author) -or
-        $HeadSha -notmatch '^[0-9a-f]{40}$' -or
-        $null -eq $submittedAt) {
+    if ($author -notmatch '^claude(?:\[bot\])?$' -or $HeadSha -notmatch '^[0-9a-f]{40}$') {
         return $false
     }
 
-    $markerPattern =
-        '(?im)^\s*<!--\s*REVIEW_VERDICT_OVERRIDE:\s*CLEAR\s+' +
-        'AUTHOR:\s*' + [regex]::Escape($author) + '\s+' +
-        'HEAD:\s*' + [regex]::Escape($HeadSha) + '\s*-->\s*$'
-    $trustedAssociations = @('OWNER', 'MEMBER', 'COLLABORATOR')
-
-    foreach ($comment in @($Comments | Where-Object { $null -ne $_ })) {
-        $association = [string]$comment.author_association
-        if ([string]::IsNullOrWhiteSpace($association)) {
-            $association = [string]$comment.authorAssociation
-        }
-        if ($trustedAssociations -notcontains $association) {
-            continue
-        }
-
-        $createdAt = ConvertTo-UtcDateTimeOffset $comment.created_at
-        if ($null -eq $createdAt) {
-            $createdAt = ConvertTo-UtcDateTimeOffset $comment.createdAt
-        }
-        if ($null -eq $createdAt -or $createdAt -le $submittedAt) {
-            continue
-        }
-
-        if ([string]$comment.body -match $markerPattern) {
-            return $true
-        }
+    $markers = [regex]::Matches(
+        [string]$Review.body,
+        '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s+HEAD:\s*([0-9a-f]{40})\s*-->\s*$'
+    )
+    if ($markers.Count -ne 1 -or
+        $markers[0].Groups[1].Value -ne 'CLEAR' -or
+        $markers[0].Groups[2].Value -ne $HeadSha) {
+        return $false
     }
 
-    return $false
+    return $true
 }
 
 function Test-ReviewCategoryAllowsGlobalNoIssueVerdict {
@@ -191,7 +169,7 @@ function Get-ActionableReviewBodyReason {
         return $null
     }
 
-    $verdictMarkers = [regex]::Matches($Body, '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s*-->\s*$')
+    $verdictMarkers = [regex]::Matches($Body, '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)(?:\s+HEAD:\s*[0-9a-f]{40})?\s*-->\s*$')
     if ($verdictMarkers.Count -gt 0) {
         foreach ($marker in $verdictMarkers) {
             if ($marker.Groups[1].Value -eq 'BLOCKING') {

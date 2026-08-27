@@ -83,7 +83,7 @@ machine-readable all-clear marker.
 
 No issues found.
 
-<!-- REVIEW_VERDICT: BLOCKING -->
+<!-- REVIEW_VERDICT: BLOCKING HEAD: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
 '@
         Blocks = $true
     },
@@ -1163,79 +1163,69 @@ foreach ($case in $staleReviewCases) {
     }
 }
 
-$overrideHead = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-$overrideReview = [pscustomobject]@{
-    submittedAt = '2026-07-06T01:41:00Z'
-    author = [pscustomobject]@{ login = 'claude' }
-}
-$overrideCases = @(
+$verdictHead = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+$verdictCases = @(
     @{
-        Name = 'allows trusted current-head override after review'
-        Comments = @([pscustomobject]@{
-            author_association = 'OWNER'
-            created_at = '2026-07-06T01:42:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
-        })
-        Head = $overrideHead
+        Name = 'allows trusted exact-head bot verdict'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "### Risk`nNo action is needed.`n<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->"
+        }
         Clears = $true
     },
     @{
-        Name = 'rejects untrusted override'
-        Comments = @([pscustomobject]@{
-            author_association = 'NONE'
-            created_at = '2026-07-06T01:42:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
-        })
-        Head = $overrideHead
+        Name = 'rejects verdict from untrusted reviewer'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'alice' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->"
+        }
         Clears = $false
     },
     @{
-        Name = 'rejects override before review'
-        Comments = @([pscustomobject]@{
-            author_association = 'MEMBER'
-            created_at = '2026-07-06T01:40:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
-        })
-        Head = $overrideHead
+        Name = 'rejects verdict for another head'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $('b' * 40) -->"
+        }
         Clears = $false
     },
     @{
-        Name = 'rejects override at review timestamp'
-        Comments = @([pscustomobject]@{
-            author_association = 'OWNER'
-            created_at = '2026-07-06T01:41:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
-        })
-        Head = $overrideHead
+        Name = 'rejects blocking verdict'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: BLOCKING HEAD: $verdictHead -->"
+        }
         Clears = $false
     },
     @{
-        Name = 'rejects override for another head'
-        Comments = @([pscustomobject]@{
-            authorAssociation = 'COLLABORATOR'
-            createdAt = '2026-07-06T01:42:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $('b' * 40) -->"
-        })
-        Head = $overrideHead
+        Name = 'rejects legacy verdict without head'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = '<!-- REVIEW_VERDICT: CLEAR -->'
+        }
         Clears = $false
     },
     @{
-        Name = 'rejects override for another reviewer'
-        Comments = @([pscustomobject]@{
-            author_association = 'OWNER'
-            created_at = '2026-07-06T01:42:00Z'
-            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: coderabbitai HEAD: $overrideHead -->"
-        })
-        Head = $overrideHead
+        Name = 'rejects multiple verdict markers'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->`n<!-- REVIEW_VERDICT: BLOCKING HEAD: $verdictHead -->"
+        }
         Clears = $false
     }
 )
 
-foreach ($case in $overrideCases) {
-    $clears = Test-ReviewHasTrustedClearanceOverride -Review $overrideReview -Comments $case.Comments -HeadSha $case.Head
+foreach ($case in $verdictCases) {
+    $clears = Test-TrustedBotClearVerdict -Review $case.Review -HeadSha $verdictHead
     if ($clears -ne $case.Clears) {
         throw "Case '$($case.Name)' expected Clears=$($case.Clears), got Clears=$clears"
     }
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($overrideCases.Count) override cases)."
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases)."

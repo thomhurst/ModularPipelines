@@ -7,8 +7,8 @@
 #   - mergeStateStatus == CLEAN
 #   - every status check is terminal AND passing (CheckRun: status=COMPLETED and
 #     conclusion in SUCCESS/SKIPPED/NEUTRAL; StatusContext: state=SUCCESS)
-#   - no current-head top-level review has actionable finding headings, unless a
-#     trusted collaborator explicitly clears that reviewer on the exact head
+#   - no current-head top-level review has actionable finding headings, unless
+#     the trusted review workflow posts an exact-head CLEAR verdict
 #   - no unresolved review threads
 #
 # Any other state — pending/queued/in-progress checks, an empty rollup, a failed
@@ -86,15 +86,6 @@ if ($bad.Count -gt 0) {
     Deny ("checks not green: " + ($bad -join '; '))
 }
 
-if ($Repo) {
-    $owner, $name = $Repo -split '/', 2
-}
-else {
-    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo" }
-    $owner, $name = $nwo.Trim() -split '/', 2
-}
-
 $headCommit = @($view.commits | Where-Object { $null -ne $_ }) | Select-Object -Last 1
 $headCommittedAt = if ($headCommit) { ConvertTo-UtcDateTimeOffset $headCommit.committedDate } else { $null }
 
@@ -119,48 +110,26 @@ foreach ($review in $latestReviews) {
 
     $body = [string]$review.body
     $reason = Get-ActionableReviewBodyReason -Body $body
-    if ($reason) {
-        $actionableReviews += [pscustomobject]@{
-            Review = $review
-            Reason = $reason
-        }
+    if ($reason -and -not (Test-TrustedBotClearVerdict `
+            -Review $review `
+            -HeadSha ([string]$view.headRefOid))) {
+        $actionableReviews += "$($review.author.login): $reason"
     }
 }
 if ($actionableReviews.Count -gt 0) {
-    # Natural-language "all clear" prose is too ambiguous to override an
-    # actionable heading. Only an exact, trusted, current-head marker can do so.
-    $commentsRaw = gh api "repos/$owner/$name/issues/$Pr/comments" --paginate --slurp 2>$null
-    if ($LASTEXITCODE -ne 0) { Deny "could not fetch review override comments" }
-    try {
-        $commentPages = $commentsRaw | ConvertFrom-Json
-        $reviewOverrideComments = @(
-            foreach ($page in @($commentPages)) {
-                foreach ($comment in @($page)) {
-                    $comment
-                }
-            }
-        )
-    }
-    catch {
-        Deny "could not parse review override comments: $($_.Exception.Message)"
-    }
-
-    $unoverriddenReviews = @(
-        foreach ($actionableReview in $actionableReviews) {
-            if (-not (Test-ReviewHasTrustedClearanceOverride `
-                    -Review $actionableReview.Review `
-                    -Comments $reviewOverrideComments `
-                    -HeadSha ([string]$view.headRefOid))) {
-                "$($actionableReview.Review.author.login): $($actionableReview.Reason)"
-            }
-        }
-    )
-    if ($unoverriddenReviews.Count -gt 0) {
-        Deny ("latest top-level review comment has actionable finding(s): " + ($unoverriddenReviews -join '; '))
-    }
+    Deny ("latest top-level review comment has actionable finding(s): " + ($actionableReviews -join '; '))
 }
 
 # Unresolved review threads block merge even when a review's state is COMMENTED.
+if ($Repo) {
+    $owner, $name = $Repo -split '/', 2
+}
+else {
+    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo for review-thread check" }
+    $owner, $name = $nwo.Trim() -split '/', 2
+}
+
 $query = 'query($owner:String!,$repo:String!,$pr:Int!,$after:String){repository(owner:$owner,name:$repo){pullRequest(number:$pr){reviewThreads(first:100,after:$after){pageInfo{hasNextPage endCursor} nodes{isResolved}}}}}'
 $unresolved = 0
 $after = $null
