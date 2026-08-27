@@ -105,6 +105,53 @@ function Test-StaleBotReviewCanBeIgnored {
     return Test-StatusCheckCompletedAfterInstant -Checks $Checks -Name 'claude-review' -InstantUtc $HeadCommitCommittedAt
 }
 
+function Test-ReviewHasTrustedClearanceOverride {
+    [CmdletBinding()]
+    param(
+        [AllowNull()]$Review,
+        [AllowNull()]$Comments,
+        [Parameter(Mandatory)][string]$HeadSha
+    )
+
+    $author = [string]$Review.author.login
+    $submittedAt = ConvertTo-UtcDateTimeOffset $Review.submittedAt
+    if ([string]::IsNullOrWhiteSpace($author) -or
+        $HeadSha -notmatch '^[0-9a-f]{40}$' -or
+        $null -eq $submittedAt) {
+        return $false
+    }
+
+    $markerPattern =
+        '(?im)^\s*<!--\s*REVIEW_VERDICT_OVERRIDE:\s*CLEAR\s+' +
+        'AUTHOR:\s*' + [regex]::Escape($author) + '\s+' +
+        'HEAD:\s*' + [regex]::Escape($HeadSha) + '\s*-->\s*$'
+    $trustedAssociations = @('OWNER', 'MEMBER', 'COLLABORATOR')
+
+    foreach ($comment in @($Comments | Where-Object { $null -ne $_ })) {
+        $association = [string]$comment.author_association
+        if ([string]::IsNullOrWhiteSpace($association)) {
+            $association = [string]$comment.authorAssociation
+        }
+        if ($trustedAssociations -notcontains $association) {
+            continue
+        }
+
+        $createdAt = ConvertTo-UtcDateTimeOffset $comment.created_at
+        if ($null -eq $createdAt) {
+            $createdAt = ConvertTo-UtcDateTimeOffset $comment.createdAt
+        }
+        if ($null -eq $createdAt -or $createdAt -le $submittedAt) {
+            continue
+        }
+
+        if ([string]$comment.body -match $markerPattern) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
 function Test-ReviewCategoryAllowsGlobalNoIssueVerdict {
     [CmdletBinding()]
     param(
@@ -222,21 +269,6 @@ function Get-ActionableReviewBodyReason {
     $positiveCategoryVerdictLine =
         "(?im)^$horizontalWhitespace*(?:[-*]$horizontalWhitespace*)?(?![^\r\n]*\b(?:but|however|though|except)\b)(?:$positiveVerdictLineAlternatives)\.?$horizontalWhitespace*\r?$"
 
-    $clearedFindingEvidence =
-        "(?i)\b(?:false[- ]positive|does(?:n['’]t|\s+not)\s+reproduce|cannot\s+be\s+reproduced|(?:finding|report|concern|risk)\s+(?:is|was|has\s+been)\s+(?:withdrawn|resolved|cleared))\b"
-    $clearedFindingNoActionVerdict =
-        '(?i)\b(?:no\s+(?:action|changes?)\s+(?:(?:is|are)\s+)?needed(?:\s+here)?|nothing\s+(?:needs?\s+to\s+be|to\s+be)\s+changed)\b'
-    $clearedFindingContradiction =
-        '(?is)\b(?:but|however|though|except)\b[\s\S]{0,300}\b(?:bugs?|issues?|concerns?|risks?|blockers?|incorrect|broken|fix|require(?:d|s)?|must|should|needs?)\b'
-    $clearedFindingRemainingAction =
-        '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:a\s+)?(?:fix(?:ed|ing)?|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
-    $clearedFindingMultipleReport =
-        '(?i)\b(?:separate(?:ly)?|another|additional|unrelated)\b'
-    $clearedFindingReviewHeading =
-        '(?i)^\s*#{2,4}\s+(?:on|about|regarding)\b[^\r\n]*\b(?:flagged|reported|review|finding|report|risk)\b'
-    $globalClearVerdict =
-        $Body -match "(?im)^\s*(?![^\r\n]*\b(?:but|however|though|except)\b)[^\r\n]*\b(?:I\s+don['’]t\s+see\s+anything\s+to\s+change|no\s+changes?\s+(?:(?:is|are)\s+)?needed)\b[^\r\n]*\r?$"
-
     $categoryHeadingWithOptionalVerdict = "$categoryOnlyHeading(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*\S[^\r\n#]*)|(?:$horizontalWhitespace*\([^\r\n#)]*\))|(?:$horizontalWhitespace+\S[^\r\n#]*))?:?"
     $categoryHeadingPattern = "(?im)^$horizontalWhitespace*#{2,4}$horizontalWhitespace+($categoryOnlyHeading)(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*(?<verdict>\S[^\r\n#]*))|(?:$horizontalWhitespace*\((?<parentheticalVerdict>[^)\r\n#]+)\))|(?:$horizontalWhitespace+(?<bareVerdict>\S[^\r\n#]*)))?:?$horizontalWhitespace*\r?$"
     foreach ($heading in [regex]::Matches($Body, $categoryHeadingPattern)) {
@@ -288,40 +320,11 @@ function Get-ActionableReviewBodyReason {
         }
     }
 
-    $actionableHeadingPattern =
-        "(?im)^\s*#{2,4}\s+(?!$nonActionableHeading)(?!$categoryHeadingWithOptionalVerdict\s*$).*\b($actionableHeadingWord)\b"
-    foreach ($heading in [regex]::Matches($Body, $actionableHeadingPattern)) {
-        $sectionStart = $heading.Index + $heading.Length
-        $sectionRemainder = $Body.Substring($sectionStart)
-        $nextHeading = [regex]::Match($sectionRemainder, '(?m)^\s*#{2,4}\s+')
-        $sectionBody = if ($nextHeading.Success) {
-            $sectionRemainder.Substring(0, $nextHeading.Index)
-        } else {
-            $sectionRemainder
-        }
-        $sectionParagraphs = @(
-            [regex]::Split($sectionBody.Trim(), '\r?\n\s*\r?\n') |
-                Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-        )
-
-        $isClearedFinding =
-            $heading.Value -match $clearedFindingReviewHeading -and
-            $sectionParagraphs.Count -eq 1 -and
-            $sectionBody -match $clearedFindingEvidence -and
-            $sectionBody -match $clearedFindingNoActionVerdict -and
-            $sectionBody -notmatch $clearedFindingContradiction -and
-            $sectionBody -notmatch $clearedFindingRemainingAction -and
-            $sectionBody -notmatch $clearedFindingMultipleReport -and
-            $globalClearVerdict -and
-            $sectionBody -notmatch $positiveVerdictContinuationBlocker
-        if ($isClearedFinding) {
-            continue
-        }
-
-        return "actionable heading: $($heading.Value.Trim())"
-    }
-
     $patterns = @(
+        @{
+            Reason = 'actionable heading'
+            Pattern = "(?im)^\s*#{2,4}\s+(?!$nonActionableHeading)(?!$categoryHeadingWithOptionalVerdict\s*$).*\b($actionableHeadingWord)\b"
+        },
         @{
             Reason = 'numbered finding heading'
             Pattern = '(?im)^\s*#{2,4}\s+\d+\.\s+(?!(?:minor|optional|nit|non[- ]blocking)\b).+'

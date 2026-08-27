@@ -984,7 +984,7 @@ The missing tests are now present.
         Blocks = $false
     },
     @{
-        Name = 'allows false-positive report heading with cleared section'
+        Name = 'blocks natural-language clearance under actionable heading'
         Body = @'
 ## Review
 
@@ -992,107 +992,6 @@ The missing tests are now present.
 CodeRabbit reported that `BrewUpdateResetOptions` was removed. I checked the
 generated replacement directly; the report is a false positive. The type and
 service method still exist, so no action is needed here.
-
-### Verdict
-I don't see anything to change.
-'@
-        Blocks = $false
-    },
-    @{
-        Name = 'blocks false-positive report heading with contradictory defect'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive. No action is needed here.
-However, the generated service still throws an exception for the same command.
-
-### Verdict
-I don't see anything to change.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks false-positive report without no-action verdict'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive. The generated type exists.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks locally cleared report without global verdict'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive, so no action is needed here.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks cleared report section with separate follow-up'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive, so no action is needed there.
-The retry path separately needs follow-up under contention.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks cleared report with bare fix phrase'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive, so no action is needed there.
-The retry path still requires a fix.
-
-### Verdict
-I don't see anything to change.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks mixed report despite contradictory global verdict'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive, so no action is needed there.
-The retry path separately loses updates under contention.
-
-### Verdict
-I don't see anything to change.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks cleared report followed by unclassified paragraph'
-        Body = @'
-## Review
-
-### On CodeRabbit's flagged risk
-The documentation report is a false positive, so no action is needed there.
-
-The second path returns yesterday's snapshot under load.
-
-### Verdict
-I don't see anything to change.
-'@
-        Blocks = $true
-    },
-    @{
-        Name = 'blocks cleared risk under non-review heading'
-        Body = @'
-## Review
-
-### Runtime risk
-The documentation report is a false positive, so no action is needed there.
 
 ### Verdict
 I don't see anything to change.
@@ -1264,4 +1163,79 @@ foreach ($case in $staleReviewCases) {
     }
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases)."
+$overrideHead = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+$overrideReview = [pscustomobject]@{
+    submittedAt = '2026-07-06T01:41:00Z'
+    author = [pscustomobject]@{ login = 'claude' }
+}
+$overrideCases = @(
+    @{
+        Name = 'allows trusted current-head override after review'
+        Comments = @([pscustomobject]@{
+            author_association = 'OWNER'
+            created_at = '2026-07-06T01:42:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
+        })
+        Head = $overrideHead
+        Clears = $true
+    },
+    @{
+        Name = 'rejects untrusted override'
+        Comments = @([pscustomobject]@{
+            author_association = 'NONE'
+            created_at = '2026-07-06T01:42:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
+        })
+        Head = $overrideHead
+        Clears = $false
+    },
+    @{
+        Name = 'rejects override before review'
+        Comments = @([pscustomobject]@{
+            author_association = 'MEMBER'
+            created_at = '2026-07-06T01:40:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
+        })
+        Head = $overrideHead
+        Clears = $false
+    },
+    @{
+        Name = 'rejects override at review timestamp'
+        Comments = @([pscustomobject]@{
+            author_association = 'OWNER'
+            created_at = '2026-07-06T01:41:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $overrideHead -->"
+        })
+        Head = $overrideHead
+        Clears = $false
+    },
+    @{
+        Name = 'rejects override for another head'
+        Comments = @([pscustomobject]@{
+            authorAssociation = 'COLLABORATOR'
+            createdAt = '2026-07-06T01:42:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: claude HEAD: $('b' * 40) -->"
+        })
+        Head = $overrideHead
+        Clears = $false
+    },
+    @{
+        Name = 'rejects override for another reviewer'
+        Comments = @([pscustomobject]@{
+            author_association = 'OWNER'
+            created_at = '2026-07-06T01:42:00Z'
+            body = "<!-- REVIEW_VERDICT_OVERRIDE: CLEAR AUTHOR: coderabbitai HEAD: $overrideHead -->"
+        })
+        Head = $overrideHead
+        Clears = $false
+    }
+)
+
+foreach ($case in $overrideCases) {
+    $clears = Test-ReviewHasTrustedClearanceOverride -Review $overrideReview -Comments $case.Comments -HeadSha $case.Head
+    if ($clears -ne $case.Clears) {
+        throw "Case '$($case.Name)' expected Clears=$($case.Clears), got Clears=$clears"
+    }
+}
+
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($overrideCases.Count) override cases)."
