@@ -984,6 +984,32 @@ The missing tests are now present.
         Blocks = $false
     },
     @{
+        Name = 'allows false-positive report heading with cleared section'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+CodeRabbit reported that `BrewUpdateResetOptions` was removed. I checked the
+generated replacement directly; the report is a false positive. The type and
+service method still exist, so no action is needed here.
+
+### Verdict
+I don't see anything to change.
+'@
+        Blocks = $false
+    },
+    @{
+        Name = 'blocks false-positive report heading with contradictory defect'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive. However, the generated service
+still throws an exception for the same command and requires a fix.
+'@
+        Blocks = $true
+    },
+    @{
         Name = 'blocks test coverage gap closed heading with trailing vulnerability'
         Body = @'
 ## Review

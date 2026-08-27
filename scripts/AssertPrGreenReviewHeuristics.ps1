@@ -222,6 +222,11 @@ function Get-ActionableReviewBodyReason {
     $positiveCategoryVerdictLine =
         "(?im)^$horizontalWhitespace*(?:[-*]$horizontalWhitespace*)?(?![^\r\n]*\b(?:but|however|though|except)\b)(?:$positiveVerdictLineAlternatives)\.?$horizontalWhitespace*\r?$"
 
+    $clearedFindingSection =
+        "(?i)\b(?:false[- ]positive|does(?:n['’]t|\s+not)\s+reproduce|cannot\s+be\s+reproduced|no\s+action\s+(?:is\s+)?needed|(?:finding|report|concern|risk)\s+(?:is|was|has\s+been)\s+(?:withdrawn|resolved|cleared))\b"
+    $clearedFindingContradiction =
+        '(?is)\b(?:but|however|though|except)\b[\s\S]{0,300}\b(?:bugs?|issues?|concerns?|risks?|blockers?|incorrect|broken|fix|require(?:d|s)?|must|should|needs?)\b'
+
     $categoryHeadingWithOptionalVerdict = "$categoryOnlyHeading(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*\S[^\r\n#]*)|(?:$horizontalWhitespace*\([^\r\n#)]*\))|(?:$horizontalWhitespace+\S[^\r\n#]*))?:?"
     $categoryHeadingPattern = "(?im)^$horizontalWhitespace*#{2,4}$horizontalWhitespace+($categoryOnlyHeading)(?:(?:$horizontalWhitespace*(?:[-:]|\p{Pd})$horizontalWhitespace*(?<verdict>\S[^\r\n#]*))|(?:$horizontalWhitespace*\((?<parentheticalVerdict>[^)\r\n#]+)\))|(?:$horizontalWhitespace+(?<bareVerdict>\S[^\r\n#]*)))?:?$horizontalWhitespace*\r?$"
     foreach ($heading in [regex]::Matches($Body, $categoryHeadingPattern)) {
@@ -273,11 +278,30 @@ function Get-ActionableReviewBodyReason {
         }
     }
 
+    $actionableHeadingPattern =
+        "(?im)^\s*#{2,4}\s+(?!$nonActionableHeading)(?!$categoryHeadingWithOptionalVerdict\s*$).*\b($actionableHeadingWord)\b"
+    foreach ($heading in [regex]::Matches($Body, $actionableHeadingPattern)) {
+        $sectionStart = $heading.Index + $heading.Length
+        $sectionRemainder = $Body.Substring($sectionStart)
+        $nextHeading = [regex]::Match($sectionRemainder, '(?m)^\s*#{2,4}\s+')
+        $sectionBody = if ($nextHeading.Success) {
+            $sectionRemainder.Substring(0, $nextHeading.Index)
+        } else {
+            $sectionRemainder
+        }
+
+        $isClearedFinding =
+            $sectionBody -match $clearedFindingSection -and
+            $sectionBody -notmatch $clearedFindingContradiction -and
+            $sectionBody -notmatch $positiveVerdictContinuationBlocker
+        if ($isClearedFinding) {
+            continue
+        }
+
+        return "actionable heading: $($heading.Value.Trim())"
+    }
+
     $patterns = @(
-        @{
-            Reason = 'actionable heading'
-            Pattern = "(?im)^\s*#{2,4}\s+(?!$nonActionableHeading)(?!$categoryHeadingWithOptionalVerdict\s*$).*\b($actionableHeadingWord)\b"
-        },
         @{
             Reason = 'numbered finding heading'
             Pattern = '(?im)^\s*#{2,4}\s+\d+\.\s+(?!(?:minor|optional|nit|non[- ]blocking)\b).+'
