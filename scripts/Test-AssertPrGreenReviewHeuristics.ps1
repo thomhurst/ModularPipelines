@@ -64,7 +64,7 @@ Scope check passed.
         Blocks = $false
     },
     @{
-        Name = 'allows explicit clear verdict marker'
+        Name = 'blocks self-issued clear verdict marker with actionable heading'
         Body = @'
 ## Review
 
@@ -74,7 +74,7 @@ machine-readable all-clear marker.
 
 <!-- REVIEW_VERDICT: CLEAR -->
 '@
-        Blocks = $false
+        Blocks = $true
     },
     @{
         Name = 'blocks explicit blocking verdict marker'
@@ -83,7 +83,7 @@ machine-readable all-clear marker.
 
 No issues found.
 
-<!-- REVIEW_VERDICT: BLOCKING -->
+<!-- REVIEW_VERDICT: BLOCKING HEAD: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
 '@
         Blocks = $true
     },
@@ -984,6 +984,21 @@ The missing tests are now present.
         Blocks = $false
     },
     @{
+        Name = 'blocks natural-language clearance under actionable heading'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+CodeRabbit reported that `BrewUpdateResetOptions` was removed. I checked the
+generated replacement directly; the report is a false positive. The type and
+service method still exist, so no action is needed here.
+
+### Verdict
+I don't see anything to change.
+'@
+        Blocks = $true
+    },
+    @{
         Name = 'blocks test coverage gap closed heading with trailing vulnerability'
         Body = @'
 ## Review
@@ -1148,4 +1163,78 @@ foreach ($case in $staleReviewCases) {
     }
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases)."
+$verdictHead = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+$verdictCases = @(
+    @{
+        Name = 'allows trusted exact-head bot verdict'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "### Risk`nNo action is needed.`n<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->"
+        }
+        Clears = $true
+    },
+    @{
+        Name = 'rejects verdict from untrusted reviewer'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'alice' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->"
+        }
+        Clears = $false
+    },
+    @{
+        Name = 'rejects verdict for another head'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $('b' * 40) -->"
+        }
+        Clears = $false
+    },
+    @{
+        Name = 'rejects blocking verdict'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: BLOCKING HEAD: $verdictHead -->"
+        }
+        Clears = $false
+    },
+    @{
+        Name = 'rejects legacy verdict without head'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = '<!-- REVIEW_VERDICT: CLEAR -->'
+        }
+        Clears = $false
+    },
+    @{
+        Name = 'rejects multiple verdict markers'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->`n<!-- REVIEW_VERDICT: BLOCKING HEAD: $verdictHead -->"
+        }
+        Clears = $false
+    },
+    @{
+        Name = 'rejects content after clear verdict marker'
+        Review = [pscustomobject]@{
+            submittedAt = '2026-07-06T01:41:00Z'
+            author = [pscustomobject]@{ login = 'claude' }
+            body = "<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->`n### Risk`nThe retry path loses updates."
+        }
+        Clears = $false
+    }
+)
+
+foreach ($case in $verdictCases) {
+    $clears = Test-TrustedBotClearVerdict -Review $case.Review -HeadSha $verdictHead
+    if ($clears -ne $case.Clears) {
+        throw "Case '$($case.Name)' expected Clears=$($case.Clears), got Clears=$clears"
+    }
+}
+
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases)."

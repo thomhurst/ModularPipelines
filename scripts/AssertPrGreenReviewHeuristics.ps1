@@ -105,6 +105,33 @@ function Test-StaleBotReviewCanBeIgnored {
     return Test-StatusCheckCompletedAfterInstant -Checks $Checks -Name 'claude-review' -InstantUtc $HeadCommitCommittedAt
 }
 
+function Test-TrustedBotClearVerdict {
+    [CmdletBinding()]
+    param(
+        [AllowNull()]$Review,
+        [Parameter(Mandatory)][string]$HeadSha
+    )
+
+    $author = [string]$Review.author.login
+    if ($author -notmatch '^claude(?:\[bot\])?$' -or $HeadSha -notmatch '^[0-9a-f]{40}$') {
+        return $false
+    }
+
+    $body = [string]$Review.body
+    $markers = [regex]::Matches(
+        $body,
+        '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s+HEAD:\s*([0-9a-f]{40})\s*-->\s*$'
+    )
+    if ($markers.Count -ne 1 -or
+        $markers[0].Groups[1].Value -ne 'CLEAR' -or
+        $markers[0].Groups[2].Value -ne $HeadSha -or
+        -not [string]::IsNullOrWhiteSpace($body.Substring($markers[0].Index + $markers[0].Length))) {
+        return $false
+    }
+
+    return $true
+}
+
 function Test-ReviewCategoryAllowsGlobalNoIssueVerdict {
     [CmdletBinding()]
     param(
@@ -144,15 +171,13 @@ function Get-ActionableReviewBodyReason {
         return $null
     }
 
-    $verdictMarkers = [regex]::Matches($Body, '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s*-->\s*$')
+    $verdictMarkers = [regex]::Matches($Body, '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)(?:\s+HEAD:\s*[0-9a-f]{40})?\s*-->\s*$')
     if ($verdictMarkers.Count -gt 0) {
         foreach ($marker in $verdictMarkers) {
             if ($marker.Groups[1].Value -eq 'BLOCKING') {
                 return 'review verdict marker: BLOCKING'
             }
         }
-
-        return $null
     }
 
     $resolvedPriorFindingLineContinuationGuard =

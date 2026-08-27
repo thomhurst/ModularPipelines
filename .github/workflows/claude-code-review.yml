@@ -46,6 +46,13 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
+      - name: Resolve pull request head
+        id: pull_request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+        run: echo "head_sha=$(gh pr view "$PR_NUMBER" --json headRefOid --jq .headRefOid)" >> "$GITHUB_OUTPUT"
+
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
@@ -58,7 +65,8 @@ jobs:
             Instructions:
             - ALWAYS post a review comment, even if no issues are found. If the code is good, acknowledge it.
             - Compare the current state of the PR against any previous PR comments to make sure they have been addressed.
-            - You MUST post your review as a PR comment using `gh pr review` or `gh pr comment` before finishing. Do not just output the review - actually post it to the PR.
+            - You MUST post the complete review using `gh pr review --comment --body`, including the verdict marker, before finishing. Do not use `gh pr comment` for the final review and do not just output the review.
+            - End the top-level review body with exactly one machine-readable verdict marker. Use `<!-- REVIEW_VERDICT: CLEAR HEAD: ${{ steps.pull_request.outputs.head_sha }} -->` only when there are no actionable findings. Use `<!-- REVIEW_VERDICT: BLOCKING HEAD: ${{ steps.pull_request.outputs.head_sha }} -->` whenever any actionable finding remains. Never use CLEAR to resolve an inline review thread.
             - When you find issues, ALWAYS suggest better approaches or architectural improvements, not just minor optimizations.
             - Focus on:
               * Design patterns that could be improved

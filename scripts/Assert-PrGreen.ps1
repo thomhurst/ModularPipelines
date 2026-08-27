@@ -7,7 +7,8 @@
 #   - mergeStateStatus == CLEAN
 #   - every status check is terminal AND passing (CheckRun: status=COMPLETED and
 #     conclusion in SUCCESS/SKIPPED/NEUTRAL; StatusContext: state=SUCCESS)
-#   - no current-head top-level review has actionable finding headings
+#   - no current-head top-level review has actionable finding headings, unless
+#     the trusted review workflow posts an exact-head CLEAR verdict
 #   - no unresolved review threads
 #
 # Any other state — pending/queued/in-progress checks, an empty rollup, a failed
@@ -40,7 +41,7 @@ $repoArgs = @()
 if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 # Re-fetch fresh — survey output goes stale within seconds.
-$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,latestReviews,commits 2>$null
+$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,latestReviews,commits,headRefOid 2>$null
 if ($LASTEXITCODE -ne 0) { Deny "gh pr view failed (exit $LASTEXITCODE)" }
 try {
     $view = $raw | ConvertFrom-Json
@@ -109,7 +110,9 @@ foreach ($review in $latestReviews) {
 
     $body = [string]$review.body
     $reason = Get-ActionableReviewBodyReason -Body $body
-    if ($reason) {
+    if ($reason -and -not (Test-TrustedBotClearVerdict `
+            -Review $review `
+            -HeadSha ([string]$view.headRefOid))) {
         $actionableReviews += "$($review.author.login): $reason"
     }
 }
