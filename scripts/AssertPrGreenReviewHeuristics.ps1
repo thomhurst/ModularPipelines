@@ -232,6 +232,8 @@ function Get-ActionableReviewBodyReason {
         '(?i)\b(?:needs?|requires?|must|should|worth)\s+(?:be\s+)?(?:a\s+)?(?:fix(?:ed|ing)?|addressed|changed|investigated|handled|reworked|updated|attention|follow[- ]up)\b'
     $clearedFindingMultipleReport =
         '(?i)\b(?:separate(?:ly)?|another|additional|unrelated)\b'
+    $clearedFindingReviewHeading =
+        '(?i)^\s*#{2,4}\s+(?:on|about|regarding)\b[^\r\n]*\b(?:flagged|reported|review|finding|report|risk)\b'
     $globalClearVerdict =
         $Body -match "(?im)^\s*(?![^\r\n]*\b(?:but|however|though|except)\b)[^\r\n]*\b(?:I\s+don['’]t\s+see\s+anything\s+to\s+change|no\s+changes?\s+(?:(?:is|are)\s+)?needed)\b[^\r\n]*\r?$"
 
@@ -297,8 +299,14 @@ function Get-ActionableReviewBodyReason {
         } else {
             $sectionRemainder
         }
+        $sectionParagraphs = @(
+            [regex]::Split($sectionBody.Trim(), '\r?\n\s*\r?\n') |
+                Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+        )
 
         $isClearedFinding =
+            $heading.Value -match $clearedFindingReviewHeading -and
+            $sectionParagraphs.Count -eq 1 -and
             $sectionBody -match $clearedFindingEvidence -and
             $sectionBody -match $clearedFindingNoActionVerdict -and
             $sectionBody -notmatch $clearedFindingContradiction -and

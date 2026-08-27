@@ -1072,6 +1072,34 @@ I don't see anything to change.
         Blocks = $true
     },
     @{
+        Name = 'blocks cleared report followed by unclassified paragraph'
+        Body = @'
+## Review
+
+### On CodeRabbit's flagged risk
+The documentation report is a false positive, so no action is needed there.
+
+The second path returns yesterday's snapshot under load.
+
+### Verdict
+I don't see anything to change.
+'@
+        Blocks = $true
+    },
+    @{
+        Name = 'blocks cleared risk under non-review heading'
+        Body = @'
+## Review
+
+### Runtime risk
+The documentation report is a false positive, so no action is needed there.
+
+### Verdict
+I don't see anything to change.
+'@
+        Blocks = $true
+    },
+    @{
         Name = 'blocks test coverage gap closed heading with trailing vulnerability'
         Body = @'
 ## Review
