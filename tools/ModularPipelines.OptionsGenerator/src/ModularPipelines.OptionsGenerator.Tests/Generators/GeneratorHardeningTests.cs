@@ -5042,7 +5042,20 @@ public class GeneratorHardeningTests
                 "namespace ModularPipelines.Tool.Services; public class Tool { "
                 + "public Task PinInstalled_formulaAsync(ToolPinInstalled_formulaOptions? options = null) "
                 + "=> Task.CompletedTask; }");
-            var current = Command("ToolPinOptions", "ToolOptions", ["pin"]);
+            var current = Command("ToolPinOptions", "ToolOptions", ["pin"]) with
+            {
+                PositionalArguments =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "InstalledFormula",
+                        CSharpType = "IEnumerable<string>",
+                        IsRequired = true,
+                        PositionIndex = 0,
+                        Phase = CommandLinePhase.Passthrough,
+                    },
+                ],
+            };
 
             var preserved = GeneratedApiCompatibilityPreserver.Preserve(Tool(current), root);
             var restored = preserved.Commands.Single(command =>
@@ -5058,6 +5071,9 @@ public class GeneratorHardeningTests
                 await Assert.That(generated).Contains("PinInstalled_formulaAsync(");
                 await Assert.That(generated)
                     .Contains("ToolPinInstalled_formulaOptions? options = null");
+                await Assert.That(generated).Contains("[Obsolete(\"Use PinAsync instead.\")]");
+                await Assert.That(generated)
+                    .DoesNotContain("[Obsolete(\"Use PinInstalledFormulaAsync instead.\")]");
             }
         }
         finally
