@@ -43,6 +43,17 @@ public class FolderTests : TestBase
                 ?? throw new InvalidOperationException("Foo.txt was not found."));
     }
 
+    private class ReadFileModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            context.Files
+                .GetFolder(Path.Combine(TestContext.OutputDirectory!, "Data"))
+                .GetFile("Foo.txt")
+                .ReadAsync(cancellationToken);
+    }
+
     [Test]
     public async Task CleanFolders()
     {
@@ -86,6 +97,30 @@ public class FolderTests : TestBase
 
         var actualLogResult = stringBuilder.ToString().Trim();
         await Assert.That(actualLogResult).Contains("x => x.Name == \"Foo.txt\"");
+    }
+
+    [Test]
+    public async Task Reading_File_Does_Not_Log_Getting_File()
+    {
+        var stringBuilder = new StringBuilder();
+
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
+            {
+                collection
+                    .AddSingleton<ILogger<ReadFileModule>>(
+                        new StringLogger<ReadFileModule>(stringBuilder))
+                    .AddModule<ReadFileModule>();
+            })
+            .ExecutePipelineAsync();
+
+        var actualLogResult = stringBuilder.ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(actualLogResult).Contains("Reading File:");
+            await Assert.That(actualLogResult).DoesNotContain("Getting File:");
+        }
     }
 
     [Test]

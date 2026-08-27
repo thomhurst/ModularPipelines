@@ -439,11 +439,7 @@ public class Folder : IEquatable<Folder>
 
     public File GetFile(string name)
     {
-        var combinedPath = _provider.Combine(Path, name);
-
-        LogFolderOperation("Getting File: {Path}", combinedPath);
-
-        return new File(combinedPath, _provider);
+        return new File(_provider.Combine(Path, name), _provider);
     }
 
     public File CreateFile(string name)
