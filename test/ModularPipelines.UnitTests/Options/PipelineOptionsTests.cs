@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -280,11 +281,13 @@ public class PipelineOptionsTests
 
         await using var pipeline = await builder.BuildAsync();
         var providers = pipeline.Services.GetServices<ILoggerProvider>().ToArray();
+        var summary = await pipeline.RunAsync();
 
         using (Assert.Multiple())
         {
             await Assert.That(providers).HasSingleItem();
             await Assert.That(providers[0]).IsSameReferenceAs(loggerProvider);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using MEL.Spectre;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -44,6 +45,7 @@ public sealed class PipelineBuilder
     private readonly PipelineBuilderSettings _settings;
     private readonly HashSet<ServiceDescriptor> _defaultLoggingDescriptors;
     private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
+    private readonly HashSet<Type> _defaultLoggingProviderTypes;
     private PipelineOptions _options;
 
     internal PipelineBuilder(
@@ -67,6 +69,10 @@ public sealed class PipelineBuilder
         _defaultLoggingProviderDescriptors = _services
             .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
             .ToArray();
+        _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
+            .Select(static descriptor => descriptor.ImplementationType)
+            .OfType<Type>()
+            .ToHashSet();
         Logging = new PipelineLoggingBuilder(_services);
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
@@ -333,7 +339,9 @@ public sealed class PipelineBuilder
             services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = _environment.WorkingDirectory);
 
-            if (!_defaultLoggingProviderDescriptors.All(_services.Contains))
+            var defaultLoggingProvidersRemoved =
+                !_defaultLoggingProviderDescriptors.All(_services.Contains);
+            if (defaultLoggingProvidersRemoved)
             {
                 services.RemoveAll<ILoggerProvider>();
             }
@@ -345,6 +353,13 @@ public sealed class PipelineBuilder
                 {
                     services.Add(descriptor);
                 }
+            }
+
+            if (defaultLoggingProvidersRemoved && !HasDefaultLoggingProvider(services))
+            {
+                services.Replace(ServiceDescriptor.Singleton<
+                    ISpectreConsoleLoggerControl,
+                    Console.NoopSpectreConsoleLoggerControl>());
             }
 
             // Apply plugin services after user services
@@ -646,6 +661,12 @@ public sealed class PipelineBuilder
     {
         public IServiceCollection Services { get; } = services;
     }
+
+    private bool HasDefaultLoggingProvider(IServiceCollection services)
+        => services.Any(descriptor =>
+            descriptor.ServiceType == typeof(ILoggerProvider)
+            && descriptor.ImplementationType is { } implementationType
+            && _defaultLoggingProviderTypes.Contains(implementationType));
 
     private sealed class FixedOptions<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
