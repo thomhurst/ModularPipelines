@@ -350,45 +350,59 @@ internal class DistributedModuleExecutor(
         await using var serviceScope = _serviceScopeFactory.CreateAsyncScope();
         var moduleLogger = serviceScope.ServiceProvider
             .GetRequiredService<IInternalModuleLoggerProvider>()
-            .GetLogger(moduleType);
+            .GetLogger(moduleType) as IInternalModuleLogger
+            ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
         await using var loggerScope = new ModuleLoggerScope(moduleLogger, moduleType);
 
-        if (_artifactLifecycleManager is not null)
+        try
         {
-            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(moduleType, cancellationToken);
+            if (_artifactLifecycleManager is not null)
+            {
+                await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(moduleType, cancellationToken);
+            }
+
+            var moduleState = new ModuleState(module, moduleType);
+            ModuleStateDependencyInitializer.Populate(
+                moduleState,
+                _typeRegistry.GetRegisteredModuleTypes(),
+                _dependencyRegistry,
+                _metadataRegistry);
+            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+
+            var result = await module.AsInternal().ResultTask;
+            var artifactReferences = await TryUploadArtifactsAsync(
+                module,
+                assignment.ModuleTypeName,
+                moduleLogger,
+                cancellationToken);
+            if (result is null)
+            {
+                return;
+            }
+
+            var serialized = _serializer.Serialize(
+                result,
+                assignment.ModuleTypeName,
+                assignment.ResultTypeName,
+                _options.Value.InstanceIndex);
+            if (artifactReferences is not null)
+            {
+                serialized = serialized with { Artifacts = artifactReferences };
+            }
+
+            await _coordinator.PublishResultAsync(serialized, cancellationToken);
         }
-
-        var moduleState = new ModuleState(module, moduleType);
-        ModuleStateDependencyInitializer.Populate(
-            moduleState,
-            _typeRegistry.GetRegisteredModuleTypes(),
-            _dependencyRegistry,
-            _metadataRegistry);
-        await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
-
-        var result = await module.AsInternal().ResultTask;
-        var artifactReferences = await TryUploadArtifactsAsync(module, assignment.ModuleTypeName, cancellationToken);
-        if (result is null)
+        catch (Exception ex)
         {
-            return;
+            moduleLogger.SetException(ex);
+            throw;
         }
-
-        var serialized = _serializer.Serialize(
-            result,
-            assignment.ModuleTypeName,
-            assignment.ResultTypeName,
-            _options.Value.InstanceIndex);
-        if (artifactReferences is not null)
-        {
-            serialized = serialized with { Artifacts = artifactReferences };
-        }
-
-        await _coordinator.PublishResultAsync(serialized, cancellationToken);
     }
 
     private async Task<IReadOnlyList<ArtifactReference>?> TryUploadArtifactsAsync(
         IModule module,
         string moduleTypeName,
+        IModuleLogger moduleLogger,
         CancellationToken cancellationToken)
     {
         if (_artifactLifecycleManager is null)
@@ -403,7 +417,7 @@ internal class DistributedModuleExecutor(
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to upload artifacts for {Module}", moduleTypeName);
+            moduleLogger.LogError(ex, "Failed to upload artifacts for {Module}", moduleTypeName);
             return null;
         }
     }
