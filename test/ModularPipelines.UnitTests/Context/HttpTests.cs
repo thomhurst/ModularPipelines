@@ -449,7 +449,7 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    public async Task SendAsync_PerRequestLoggingOverridesPipelineLogging()
+    public async Task SendAsync_UsesPerRequestThenFallbackThenPipelineLogging()
     {
         var observedOptions = new List<HttpLoggingOptions>();
         var httpLogger = new Mock<IHttpLogger>();
@@ -471,6 +471,7 @@ public class HttpTests : TestBase
             .Returns(Task.CompletedTask);
         using var httpClient = new HttpClient(new SequenceResponseHandler(
             new HttpResponseMessage(HttpStatusCode.OK),
+            new HttpResponseMessage(HttpStatusCode.OK),
             new HttpResponseMessage(HttpStatusCode.OK)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
@@ -490,6 +491,12 @@ public class HttpTests : TestBase
             HttpClient = httpClient,
             Logging = HttpLoggingOptions.Minimal,
         });
+        using var fallbackResponse = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/fallback"))
+        {
+            HttpClient = httpClient,
+            FallbackLogging = HttpLoggingOptions.None,
+        });
         using var pipelineDefaultResponse = await http.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/pipeline-default"))
         {
@@ -499,7 +506,8 @@ public class HttpTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(observedOptions[0]).IsSameReferenceAs(HttpLoggingOptions.Minimal);
-            await Assert.That(observedOptions[1]).IsSameReferenceAs(HttpLoggingOptions.Headers);
+            await Assert.That(observedOptions[1]).IsSameReferenceAs(HttpLoggingOptions.None);
+            await Assert.That(observedOptions[2]).IsSameReferenceAs(HttpLoggingOptions.Headers);
         }
     }
 

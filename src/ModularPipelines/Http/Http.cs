@@ -133,8 +133,8 @@ internal class Http : IHttpContext
     private HttpLoggingOptions GetEffectiveLoggingOptions(HttpOptions httpOptions)
     {
         return httpOptions.Logging
-               ?? _pipelineOptions.Value.Http.Logging
                ?? httpOptions.FallbackLogging
+               ?? _pipelineOptions.Value.Http.Logging
                ?? HttpLoggingOptions.Default;
     }
 
