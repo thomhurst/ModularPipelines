@@ -152,12 +152,29 @@ ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string!
 ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string! PropertyName, System.Func<object!, object?>! Getter, System.Collections.Generic.IReadOnlyList<string!>? SecretValueKeys = null) -> void
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.init -> void
+ModularPipelines.Models.IModuleResult.Duration.get -> System.TimeSpan
+ModularPipelines.Models.IModuleResult.EndTime.get -> System.DateTimeOffset
+ModularPipelines.Models.IModuleResult.Name.get -> string!
+ModularPipelines.Models.IModuleResult.StartTime.get -> System.DateTimeOffset
 ModularPipelines.Models.IModuleResult.Status.get -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Models.IModuleResult.TypeName.get -> string?
 ModularPipelines.Models.ModuleDurationSample.Deconstruct(out string! RunId, out System.DateTimeOffset End, out ModularPipelines.Enums.ModuleStatus Status, out System.TimeSpan Duration) -> void
 ModularPipelines.Models.ModuleDurationSample.ModuleDurationSample(string! RunId, System.DateTimeOffset End, ModularPipelines.Enums.ModuleStatus Status, System.TimeSpan Duration) -> void
 ModularPipelines.Models.ModuleDurationSample.Status.get -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Models.ModuleResult.Duration.get -> System.TimeSpan
+ModularPipelines.Models.ModuleResult.Duration.init -> void
+ModularPipelines.Models.ModuleResult.EndTime.get -> System.DateTimeOffset
+ModularPipelines.Models.ModuleResult.EndTime.init -> void
+ModularPipelines.Models.ModuleResult.Name.get -> string!
+ModularPipelines.Models.ModuleResult.Name.init -> void
+ModularPipelines.Models.ModuleResult.StartTime.get -> System.DateTimeOffset
+ModularPipelines.Models.ModuleResult.StartTime.init -> void
 ModularPipelines.Models.ModuleResult.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.ModuleResult.Status.init -> void
+ModularPipelines.Models.ModuleResult.TypeName.get -> string?
+ModularPipelines.Models.ModuleResult.TypeName.init -> void
+ModularPipelines.Models.ModuleResult<T>.Success.Deconstruct(out T value) -> void
+ModularPipelines.Models.ModuleResult<T>.Success.Success(T value) -> void
 ModularPipelines.Models.ModuleRunReport.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.ModuleTimeline.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Models.ModuleTimeline.ExecutionHint.init -> void
