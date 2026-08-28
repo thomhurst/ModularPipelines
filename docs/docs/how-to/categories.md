@@ -9,7 +9,8 @@ Sometimes we want to run only certain parts of a pipeline, or we might want to s
 Categories are applied to Modules by using the `[ModuleCategory]` attribute.
 
 ## PipelineBuilder
-Categories to run or ignore are configured through the `PipelineBuilder` fluent methods or immutable `Options`.
+Categories to run or ignore are configured by replacing the immutable `PipelineOptions` snapshot with
+`PipelineBuilder.ConfigureOptions(...)`.
 
 ## Run-Only Categories
 If `RunOnlyCategories` has been set with some values, only Modules that have any of those categories will be run. If a module has none of those categories, it will not run.
@@ -20,8 +21,9 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category
 does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.
 
-The fluent `RunOnlyCategories(...)` and `IgnoreCategories(...)` methods replace any category filter
-configured by an earlier call or by command-line options. Pass the complete filter to each call.
+Assigning `PipelineOptions.RunOnlyCategories` or `PipelineOptions.IgnoreCategories` replaces the previous
+value, including values supplied through command-line options. Pass the complete filter when configuring
+either property.
 
 
 ## Example of Running Specific Categories
