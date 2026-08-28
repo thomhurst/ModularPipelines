@@ -29,11 +29,15 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
         }
 
         var name = reader.GetString();
-        if (name is not null
-            && (LegacyNames.TryGetValue(name, out var legacyStatus)
-                || Enum.TryParse(name, ignoreCase: false, out legacyStatus)))
+        if (name is not null && LegacyNames.TryGetValue(name, out var legacyStatus))
         {
             return legacyStatus;
+        }
+
+        if (Enum.TryParse(name, ignoreCase: false, out ModuleStatus status)
+            && Enum.IsDefined(status))
+        {
+            return status;
         }
 
         throw new JsonException($"Unknown module status '{name}'.");

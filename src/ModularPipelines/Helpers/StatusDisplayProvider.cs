@@ -36,7 +36,7 @@ internal static class StatusDisplayProvider
         [ModuleStatus.Skipped] = new(MarkupFormatter.SkipIcon, "Module {0} skipped"),
         [ModuleStatus.Unknown] = new(MarkupFormatter.QuestionIcon, "Unknown status for module {0}"),
         [ModuleStatus.FailureIgnored] = new("[orange3]⚠[/]", "Module {0} failed but the failure was ignored"),
-        [ModuleStatus.Cancelled] = new(MarkupFormatter.StopIcon, "Module {0} terminated due to pipeline error"),
+        [ModuleStatus.Cancelled] = new(MarkupFormatter.StopIcon, "Module {0} was cancelled"),
         [ModuleStatus.DependencyFailed] = new(MarkupFormatter.FailureIcon, "Module {0} did not run because a dependency failed"),
         [ModuleStatus.RestoredFromHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
         [ModuleStatus.RestoredFromCache] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),

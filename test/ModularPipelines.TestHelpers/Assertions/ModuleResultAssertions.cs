@@ -10,7 +10,7 @@ public static class ModuleResultAssertions
 {
     /// <summary>
     /// Asserts that a module result represents a successful execution with a non-null value.
-    /// Checks: status is Successful, exception is null, value is not null.
+    /// Checks: status is ModuleStatus.Succeeded, exception is null, value is not null.
     /// </summary>
     /// <remarks>
     /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by
@@ -29,7 +29,7 @@ public static class ModuleResultAssertions
 
     /// <summary>
     /// Asserts that a module result represents a successful execution.
-    /// Checks: status is Successful and exception is null.
+    /// Checks: status is ModuleStatus.Succeeded and exception is null.
     /// </summary>
     /// <remarks>
     /// The signature matches the <c>ModuleResult&lt;T&gt;</c> returned by

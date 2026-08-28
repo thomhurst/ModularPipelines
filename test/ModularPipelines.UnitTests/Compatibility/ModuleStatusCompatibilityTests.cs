@@ -78,6 +78,20 @@ public class ModuleStatusCompatibilityTests
     }
 
     [Test]
+    public async Task RunHistoryReaderRejectsUndefinedNumericStatus()
+    {
+        const string json = """
+                            {
+                              "status": "999",
+                              "modules": []
+                            }
+                            """;
+
+        await Assert.That(() => RunReportJsonSerializer.Deserialize(json))
+            .Throws<JsonException>();
+    }
+
+    [Test]
     public async Task NonGenericModuleResultReadsLegacyModuleStatusProperty()
     {
         ModuleResult result = new ModuleResult.Failure(new InvalidOperationException("Failed"))
