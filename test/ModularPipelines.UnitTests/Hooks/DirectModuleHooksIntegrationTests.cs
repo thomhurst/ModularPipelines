@@ -318,7 +318,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var module1Result = resultRegistry.GetResult(typeof(Module1));
         var module2Result = resultRegistry.GetResult(typeof(Module2));
 
-        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.Successful);
-        await Assert.That(module2Result!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(module1Result!.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(module2Result!.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }

@@ -132,8 +132,8 @@ public static class ModuleActivityTracing
         var status = exception switch
         {
             PipelineFailedException pipelineFailedException => pipelineFailedException.Summary.Status,
-            PipelineCancelledException or OperationCanceledException => Status.PipelineTerminated,
-            _ => Status.Failed,
+            PipelineCancelledException or OperationCanceledException => ModuleStatus.Cancelled,
+            _ => ModuleStatus.Failed,
         };
         activity?.SetTag(PipelineStatusTag, status.ToString());
         RecordException(activity, exception, obfuscatedMessage);
@@ -250,26 +250,26 @@ public static class ModuleActivityTracing
     /// <param name="activity">The activity to update.</param>
     public static void RecordSuccess(Activity? activity)
     {
-        activity?.SetTag(ModuleStatusTag, "Successful");
+        activity?.SetTag(ModuleStatusTag, ModuleStatus.Succeeded.ToString());
         activity?.SetStatus(ActivityStatusCode.Ok);
     }
 
-    internal static void RecordUsedHistory(Activity? activity)
+    internal static void RecordRestoredFromHistory(Activity? activity)
     {
-        activity?.SetTag(ModuleStatusTag, "UsedHistory");
+        activity?.SetTag(ModuleStatusTag, ModuleStatus.RestoredFromHistory.ToString());
         activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from history");
     }
 
-    internal static void RecordCachedResult(Activity? activity)
+    internal static void RecordRestoredFromCache(Activity? activity)
     {
-        activity?.SetTag(ModuleStatusTag, "CachedResult");
+        activity?.SetTag(ModuleStatusTag, ModuleStatus.RestoredFromCache.ToString());
         activity?.SetTag(ModuleCacheTag, "hit");
         activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from fingerprint cache");
     }
 
-    internal static void RecordPipelineTerminated(Activity? activity)
+    internal static void RecordCancelled(Activity? activity)
     {
-        activity?.SetTag(ModuleStatusTag, "PipelineTerminated");
+        activity?.SetTag(ModuleStatusTag, ModuleStatus.Cancelled.ToString());
         activity?.SetStatus(ActivityStatusCode.Error, "Module terminated because the pipeline failed");
     }
 

@@ -3,7 +3,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -143,7 +143,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<ConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -154,7 +154,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<ComplexConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -165,7 +165,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<OptionalConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -175,7 +175,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<OptionalConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

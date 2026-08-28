@@ -88,7 +88,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
 
         var reason = result switch
@@ -133,7 +133,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
 
         var json = JsonSerializer.Serialize(result);
@@ -169,7 +169,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
 
         var json = JsonSerializer.Serialize(result);
@@ -188,7 +188,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         await Assert.That(success.Value).IsEqualTo(42);
@@ -231,7 +231,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         var json = JsonSerializer.Serialize(result);
@@ -251,7 +251,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         var json = JsonSerializer.Serialize(result);
@@ -297,7 +297,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         await Assert.That(result.Value).IsNull();
@@ -332,7 +332,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         var formatted = result.ToString();
@@ -362,7 +362,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
         var hasValue = result.TryGetValue(out var value);
@@ -387,7 +387,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
     }
 
@@ -400,7 +400,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Failed,
+            Status = ModuleStatus.Failed,
         };
     }
 
@@ -412,7 +412,7 @@ public class ModuleResultContractTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
     }
 

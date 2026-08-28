@@ -75,7 +75,7 @@ public class DistributedPipelineIntegrationTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = now,
             ModuleEnd = now.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
 
         var serialized = serializer.Serialize(
@@ -90,7 +90,7 @@ public class DistributedPipelineIntegrationTests
         var result = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.ModuleName).IsEqualTo("ModuleA");
     }
 
@@ -151,7 +151,7 @@ public class DistributedPipelineIntegrationTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = now,
             ModuleEnd = now.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
         var serializedA = serializer.Serialize(resultA, typeof(ModuleA).FullName!, typeof(SimpleResult).FullName!, 1);
         await coordinator.PublishResultAsync(serializedA, CancellationToken.None);
@@ -163,7 +163,7 @@ public class DistributedPipelineIntegrationTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = now,
             ModuleEnd = now.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
         var serializedB = serializer.Serialize(resultB, typeof(ModuleB).FullName!, typeof(string).FullName!, 1);
         await coordinator.PublishResultAsync(serializedB, CancellationToken.None);
@@ -175,7 +175,7 @@ public class DistributedPipelineIntegrationTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = now,
             ModuleEnd = now.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
         var serializedC = serializer.Serialize(resultC, typeof(ModuleC).FullName!, typeof(int).FullName!, 1);
         await coordinator.PublishResultAsync(serializedC, CancellationToken.None);
@@ -186,15 +186,15 @@ public class DistributedPipelineIntegrationTests
         var collectedC = await collector.WaitForResultAsync(typeof(ModuleC).FullName!, CancellationToken.None);
 
         await Assert.That(collectedA).IsNotNull();
-        await Assert.That(collectedA!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(collectedA!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(collectedA.ModuleName).IsEqualTo("ModuleA");
 
         await Assert.That(collectedB).IsNotNull();
-        await Assert.That(collectedB!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(collectedB!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(collectedB.ModuleName).IsEqualTo("ModuleB");
 
         await Assert.That(collectedC).IsNotNull();
-        await Assert.That(collectedC!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(collectedC!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(collectedC.ModuleName).IsEqualTo("ModuleC");
     }
 }

@@ -15,7 +15,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using PipelineEngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -204,7 +204,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             AwaitingTerminatedModuleStarted.TrySetResult();
             var result = await context.GetModule<TerminatedBeforeExecutionModule>();
-            return result.ModuleStatus == Status.DependencyFailed;
+            return result.Status == ModuleStatus.DependencyFailed;
         }
     }
 
@@ -461,7 +461,7 @@ public class EngineCancellationTokenTests : TestBase
         // Results should be registered before the exception is thrown, no delay needed
         var module1Result = resultRegistry.GetResult(typeof(Module1));
         await Assert.That(module1Result).IsNotNull();
-        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+        await Assert.That(module1Result!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
         await Assert.That(module1Result.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
         await Assert.That(((DependencyFailedException) module1Result.ExceptionOrDefault!).FailingModuleName)
             .IsEqualTo(nameof(BadModule));
@@ -487,7 +487,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var dependentResult = resultRegistry.GetResult(typeof(ReadyHookDependentModule));
         await Assert.That(dependentResult).IsNotNull();
-        await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+        await Assert.That(dependentResult!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
         await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
         await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
             .IsEqualTo(nameof(ReadyHookFailingModule));
@@ -525,7 +525,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             var dependentResult = resultRegistry.GetResult(dependentType);
             await Assert.That(dependentResult).IsNotNull();
-            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
             await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
             await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
                 .IsEqualTo(nameof(ReadyHookFailingModule));
@@ -616,7 +616,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             var dependentResult = resultRegistry.GetResult(dependentType);
             await Assert.That(dependentResult).IsNotNull();
-            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
             await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
             await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
                 .IsEqualTo(nameof(ReadyHookFailingModule));
@@ -646,9 +646,9 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(alwaysRunResult).IsNotNull();
-            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(alwaysRunResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(downstreamResult).IsNotNull();
-            await Assert.That(downstreamResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(downstreamResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
         }
     }
 
@@ -672,10 +672,10 @@ public class EngineCancellationTokenTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(Status.Failed);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(dependentResult).IsNotNull();
-            await Assert.That(dependentResult!.ModuleStatus).IsEqualTo(Status.DependencyFailed);
-            await Assert.That(dependentTimeline.Status).IsEqualTo(Status.DependencyFailed);
+            await Assert.That(dependentResult!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
+            await Assert.That(dependentTimeline.Status).IsEqualTo(ModuleStatus.DependencyFailed);
             await Assert.That(dependentResult.ExceptionOrDefault).IsTypeOf<DependencyFailedException>();
             await Assert.That(((DependencyFailedException) dependentResult.ExceptionOrDefault!).FailingModuleName)
                 .IsEqualTo(nameof(BadModule));
@@ -708,7 +708,7 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule));
         await Assert.That(exception).IsNotNull();
         await Assert.That(longRunningModuleResult).IsNotNull();
-        await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
         await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
     }
 
@@ -736,7 +736,7 @@ public class EngineCancellationTokenTests : TestBase
 
             var commandResult = resultRegistry.GetResult(typeof(RunningCommandModule));
             await Assert.That(commandResult).IsNotNull();
-            await Assert.That(commandResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(commandResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
         }
         finally
         {
@@ -769,7 +769,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation));
         await Assert.That(longRunningModuleResult).IsNotNull();
-        await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
     }
 
     [Test]
@@ -831,7 +831,7 @@ public class EngineCancellationTokenTests : TestBase
             await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
             await Assert.That(exception.InnerException!).HasMessageEqualTo("Dependency failure");
             await Assert.That(alwaysRunResult).IsNotNull();
-            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(alwaysRunResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(alwaysRunResult.ValueOrDefault).IsTrue();
         }
     }
@@ -868,7 +868,7 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(awaitedResult).IsSameReferenceAs(registeredResult);
-            await Assert.That(awaitedResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(awaitedResult.Status).IsEqualTo(ModuleStatus.Cancelled);
             await Assert.That(awaitedResult.ExceptionOrDefault)
                 .IsSameReferenceAs(exception);
         }
@@ -895,11 +895,11 @@ public class EngineCancellationTokenTests : TestBase
 
         var completingModuleResult = resultRegistry.GetResult(typeof(WaitForAllCompletingModule));
         var pendingModuleResult = resultRegistry.GetResult(typeof(WaitForAllPendingModule));
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Failed);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(completingModuleResult).IsNotNull();
-        await Assert.That(completingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(completingModuleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(pendingModuleResult).IsNotNull();
-        await Assert.That(pendingModuleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(pendingModuleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

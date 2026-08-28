@@ -8,7 +8,7 @@ internal abstract class SubModuleBase
 
     public string Name { get; }
 
-    internal Status Status { get; set; } = Status.NotYetStarted;
+    internal ModuleStatus Status { get; set; } = ModuleStatus.NotStarted;
 
     internal TimeSpan Duration { get; set; }
 

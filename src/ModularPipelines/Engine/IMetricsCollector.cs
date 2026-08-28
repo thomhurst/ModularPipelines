@@ -41,7 +41,7 @@ internal interface IMetricsCollector
     /// <summary>
     /// Records when a module completes execution.
     /// </summary>
-    void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, Status status);
+    void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status);
 
     /// <summary>
     /// Records a snapshot of current concurrency.

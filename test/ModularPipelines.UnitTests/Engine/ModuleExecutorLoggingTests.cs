@@ -533,7 +533,7 @@ public class ModuleExecutorLoggingTests
                 typeof(FaultingModule),
                 false,
                 It.IsAny<Exception>(),
-                It.IsAny<Status?>()))
+                It.IsAny<ModuleStatus?>()))
             .Throws(new InvalidOperationException("Recovery fault"));
 
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
@@ -610,7 +610,7 @@ public class ModuleExecutorLoggingTests
                 It.IsAny<DateTimeOffset>(),
                 false,
                 false,
-                Status.Failed),
+                ModuleStatus.Failed),
             Times.Once);
     }
 

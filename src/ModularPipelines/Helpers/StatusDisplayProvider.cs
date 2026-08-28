@@ -10,11 +10,11 @@ namespace ModularPipelines.Helpers;
 /// <example>
 /// <code>
 /// // Get display info for a status
-/// var info = StatusDisplayProvider.GetDisplayInfo(Status.Successful);
+/// var info = StatusDisplayProvider.GetDisplayInfo(ModuleStatus.Succeeded);
 /// // Returns: StatusDisplayInfo with SuccessIcon and message template
 ///
 /// // Format a complete status message
-/// var message = StatusDisplayProvider.FormatStatusMessage("MyModule", Status.Failed);
+/// var message = StatusDisplayProvider.FormatStatusMessage("MyModule", ModuleStatus.Failed);
 /// // Result: "[red]✗[/] Module [cyan]MyModule[/] failed"
 ///
 /// // Use in logging
@@ -26,26 +26,26 @@ namespace ModularPipelines.Helpers;
 [ExcludeFromCodeCoverage]
 internal static class StatusDisplayProvider
 {
-    private static readonly Dictionary<Status, StatusDisplayInfo> StatusDisplayMap = new()
+    private static readonly Dictionary<ModuleStatus, StatusDisplayInfo> StatusDisplayMap = new()
     {
-        [Status.NotYetStarted] = new(MarkupFormatter.WarningIcon, "Module {0} never started"),
-        [Status.Processing] = new(MarkupFormatter.FailureIcon, "Module {0} didn't finish executing"),
-        [Status.Successful] = new(MarkupFormatter.SuccessIcon, "Module {0} completed successfully"),
-        [Status.Failed] = new(MarkupFormatter.FailureIcon, "Module {0} failed"),
-        [Status.TimedOut] = new(MarkupFormatter.TimeoutIcon, "Module {0} timed out"),
-        [Status.Skipped] = new(MarkupFormatter.SkipIcon, "Module {0} skipped"),
-        [Status.Unknown] = new(MarkupFormatter.QuestionIcon, "Unknown status for module {0}"),
-        [Status.IgnoredFailure] = new("[orange3]⚠[/]", "Module {0} failed but the failure was ignored"),
-        [Status.PipelineTerminated] = new(MarkupFormatter.StopIcon, "Module {0} terminated due to pipeline error"),
-        [Status.DependencyFailed] = new(MarkupFormatter.FailureIcon, "Module {0} did not run because a dependency failed"),
-        [Status.UsedHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
-        [Status.CachedResult] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
+        [ModuleStatus.NotStarted] = new(MarkupFormatter.WarningIcon, "Module {0} never started"),
+        [ModuleStatus.Running] = new(MarkupFormatter.FailureIcon, "Module {0} didn't finish executing"),
+        [ModuleStatus.Succeeded] = new(MarkupFormatter.SuccessIcon, "Module {0} completed successfully"),
+        [ModuleStatus.Failed] = new(MarkupFormatter.FailureIcon, "Module {0} failed"),
+        [ModuleStatus.TimedOut] = new(MarkupFormatter.TimeoutIcon, "Module {0} timed out"),
+        [ModuleStatus.Skipped] = new(MarkupFormatter.SkipIcon, "Module {0} skipped"),
+        [ModuleStatus.Unknown] = new(MarkupFormatter.QuestionIcon, "Unknown status for module {0}"),
+        [ModuleStatus.FailureIgnored] = new("[orange3]⚠[/]", "Module {0} failed but the failure was ignored"),
+        [ModuleStatus.Cancelled] = new(MarkupFormatter.StopIcon, "Module {0} was cancelled"),
+        [ModuleStatus.DependencyFailed] = new(MarkupFormatter.FailureIcon, "Module {0} did not run because a dependency failed"),
+        [ModuleStatus.RestoredFromHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
+        [ModuleStatus.RestoredFromCache] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
     };
 
     /// <summary>
     /// Gets display information for a given status.
     /// </summary>
-    public static StatusDisplayInfo GetDisplayInfo(Status status)
+    public static StatusDisplayInfo GetDisplayInfo(ModuleStatus status)
     {
         if (StatusDisplayMap.TryGetValue(status, out var info))
         {
@@ -58,7 +58,7 @@ internal static class StatusDisplayProvider
     /// <summary>
     /// Formats a status message for a given module and status.
     /// </summary>
-    public static string FormatStatusMessage(string moduleName, Status status)
+    public static string FormatStatusMessage(string moduleName, ModuleStatus status)
     {
         var displayInfo = GetDisplayInfo(status);
         var formattedModuleName = MarkupFormatter.FormatModuleName(moduleName);

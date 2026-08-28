@@ -191,7 +191,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Marks a module as completed and notifies dependents.
     /// </summary>
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, ModuleStatus? statusOverride = null)
     {
         if (IsDisposed)
         {

@@ -28,7 +28,7 @@ internal static class HttpClientServiceCollectionExtensions
         // HttpLoggingType is a flags enum with: Request=1, Response=2, StatusCode=4, Duration=8
         for (var i = 0; i <= 15; i++)
         {
-            var loggingType = (HttpLoggingType)i;
+            var loggingType = (HttpLoggingType) i;
             var clientName = HttpClientNames.GetClientName(loggingType);
 
             var builder = services.AddHttpClient(clientName);

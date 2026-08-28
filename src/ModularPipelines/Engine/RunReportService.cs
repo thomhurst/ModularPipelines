@@ -169,7 +169,7 @@ internal sealed class RunReportService(
             {
                 RunId = runId,
                 PipelineIdentity = pipelineIdentity,
-                Status = pipelineException is null ? summary.Status : Status.Failed,
+                Status = pipelineException is null ? summary.Status : ModuleStatus.Failed,
                 Start = summary.Start,
                 End = summary.End,
                 TotalDuration = summary.TotalDuration,

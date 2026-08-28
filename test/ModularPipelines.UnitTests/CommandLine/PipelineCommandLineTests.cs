@@ -1659,7 +1659,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(builder.Options.DryRun).IsTrue();
             await Assert.That(summary.Results).IsEmpty();
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
             await Assert.That(consoleWriter.Renderable).IsNotNull();
             await Assert.That(output).Contains("Pipeline dry-run plan");
             await Assert.That(output).Contains("Wave ETA");
@@ -1688,7 +1688,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().IsCacheCandidate)
                 .IsTrue();
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
             await Assert.That(output).Contains("Run (cache candidate)");
             await Assert.That(output).Contains("cache hits may reduce actual duration");
         }
@@ -1750,7 +1750,7 @@ public class PipelineCommandLineTests
         using (Assert.Multiple())
         {
             await Assert.That(output).Contains("configured-category");
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
         }
     }
 
@@ -1761,7 +1761,7 @@ public class PipelineCommandLineTests
 
         var summary = await builder.RunAsync();
 
-        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
     }
 
     private static string Render(IRenderable renderable)

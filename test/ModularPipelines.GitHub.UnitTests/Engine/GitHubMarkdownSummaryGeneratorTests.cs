@@ -7,19 +7,19 @@ public class GitHubMarkdownSummaryGeneratorTests
     [Test]
     public async Task CachedResultUsesSuccessfulColor()
     {
-        var status = GitHubMarkdownSummaryGenerator.GetStatusString(Status.CachedResult);
+        var status = GitHubMarkdownSummaryGenerator.GetStatusString(ModuleStatus.RestoredFromCache);
 
         using (Assert.Multiple())
         {
             await Assert.That(status).Contains("lightgreen");
-            await Assert.That(status).Contains(nameof(Status.CachedResult));
+            await Assert.That(status).Contains(nameof(ModuleStatus.RestoredFromCache));
         }
     }
 
     [Test]
     public async Task EveryStatusCanBeRendered()
     {
-        foreach (var status in Enum.GetValues<Status>())
+        foreach (var status in Enum.GetValues<ModuleStatus>())
         {
             var renderedStatus = GitHubMarkdownSummaryGenerator.GetStatusString(status);
 

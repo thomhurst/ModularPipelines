@@ -11,7 +11,7 @@ internal static class UsedHistoryModuleSchedulerInitializer
     {
         return modules
             .Select(module => module.GetType())
-            .Where(moduleType => resultRegistry.GetResult(moduleType)?.ModuleStatus == Status.UsedHistory)
+            .Where(moduleType => resultRegistry.GetResult(moduleType)?.Status == ModuleStatus.RestoredFromHistory)
             .ToHashSet();
     }
 
@@ -24,7 +24,7 @@ internal static class UsedHistoryModuleSchedulerInitializer
         {
             var moduleType = module.GetType();
             var existingResult = resultRegistry.GetResult(moduleType);
-            if (existingResult?.ModuleStatus != Status.UsedHistory)
+            if (existingResult?.Status != ModuleStatus.RestoredFromHistory)
             {
                 continue;
             }
@@ -38,7 +38,7 @@ internal static class UsedHistoryModuleSchedulerInitializer
             scheduler.MarkModuleCompleted(
                 moduleType,
                 success: true,
-                statusOverride: Status.UsedHistory);
+                statusOverride: ModuleStatus.RestoredFromHistory);
         }
     }
 }

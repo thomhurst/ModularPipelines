@@ -41,7 +41,7 @@ public class PipelineSummaryTests
         {
             await Assert.That(summary.Modules).Count().IsEqualTo(1);
             await Assert.That(summary.Results).IsEmpty();
-            await Assert.That(summary.Status).IsEqualTo(Status.Unknown);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Unknown);
         }
     }
 }

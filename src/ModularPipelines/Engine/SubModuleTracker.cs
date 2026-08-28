@@ -28,14 +28,14 @@ internal sealed class SubModuleTracker : SubModuleBase
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         StartTime = DateTimeOffset.UtcNow;
-        Status = Status.Processing;
+        Status = ModuleStatus.Running;
         _stopwatch.Start();
 
         try
         {
             var result = await action().ConfigureAwait(false);
 
-            RecordCompletion(Status.Successful);
+            RecordCompletion(ModuleStatus.Succeeded);
 
             return result;
         }
@@ -43,7 +43,7 @@ internal sealed class SubModuleTracker : SubModuleBase
         {
             // Catch ALL exceptions including fatal ones - we need to record completion
             // before re-throwing. The immediate throw ensures propagation.
-            RecordCompletion(Status.Failed);
+            RecordCompletion(ModuleStatus.Failed);
             throw;
         }
     }
@@ -60,7 +60,7 @@ internal sealed class SubModuleTracker : SubModuleBase
         }).ConfigureAwait(false);
     }
 
-    private void RecordCompletion(Status status)
+    private void RecordCompletion(ModuleStatus status)
     {
         _stopwatch.Stop();
         EndTime = DateTimeOffset.UtcNow;

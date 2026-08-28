@@ -155,7 +155,7 @@ var run = await ModuleTester.For<BuildModule, BuildArtifact>()
 ## Assert skipped and failed runs
 
 The harness configures `ThrowOnPipelineFailure = false`, so failed modules are
-returned for assertions. Successful runs expose `Status.Successful`.
+returned for assertions. Successful runs expose `ModuleStatus.Succeeded`.
 
 The run object exposes safe outcome properties:
 

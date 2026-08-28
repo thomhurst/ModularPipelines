@@ -140,7 +140,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             beforeHooksExecuted = true;
 
             // Mark as processing
-            executionContext.Status = Status.Processing;
+            executionContext.Status = ModuleStatus.Running;
             executionContext.StartTime = DateTimeOffset.UtcNow;
             executionContext.Stopwatch.Start();
 
@@ -154,7 +154,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             // Record successful completion
             executionContext.RecordEndTime();
-            executionContext.Status = Status.Successful;
+            executionContext.Status = ModuleStatus.Succeeded;
 
             moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
 
@@ -371,7 +371,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         SkipDecision skipDecision,
         IModuleLogger logger)
     {
-        executionContext.Status = Status.Skipped;
+        executionContext.Status = ModuleStatus.Skipped;
         executionContext.SkipResult = skipDecision;
 
         // Check if we should use historical data BEFORE setting completion source
@@ -452,9 +452,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleLogger logger,
         string message)
     {
-        executionContext.Status = Status.UsedHistory;
+        executionContext.Status = ModuleStatus.RestoredFromHistory;
         executionContext.SkipResult = skipDecision;
-        var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
+        var usedHistoryResult = historicalResult with { Status = ModuleStatus.RestoredFromHistory };
         logger.LogDebug(message);
         return usedHistoryResult;
     }
@@ -464,8 +464,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleResult<T> cachedResult,
         IModuleLogger logger)
     {
-        executionContext.Status = Status.CachedResult;
-        var result = cachedResult with { ModuleStatus = Status.CachedResult };
+        executionContext.Status = ModuleStatus.RestoredFromCache;
+        var result = cachedResult with { Status = ModuleStatus.RestoredFromCache };
         logger.LogDebug("Using cached module result");
         return result;
     }
@@ -746,13 +746,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         // Check if we should ignore failures
         if (config.IgnoreFailuresCondition != null
-            && (executionContext.Status != Status.PipelineTerminated
+            && (executionContext.Status != ModuleStatus.Cancelled
                 || exception is ModuleTimeoutException))
         {
             if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
             {
                 logger.LogDebug("Ignoring failures in this module and continuing...");
-                executionContext.Status = Status.IgnoredFailure;
+                executionContext.Status = ModuleStatus.FailureIgnored;
 
                 var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
                 preserveResult(ignoredResult);
@@ -768,7 +768,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        if (executionContext.Status == Status.PipelineTerminated)
+        if (executionContext.Status == ModuleStatus.Cancelled)
         {
             logger.LogInformation("Pipeline has been canceled");
 
@@ -794,19 +794,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
-    private Status ClassifyException(
+    private ModuleStatus ClassifyException(
         ModuleConfiguration config,
         Exception exception)
     {
         if (!config.AlwaysRun
             && IsPipelineCancelled(exception))
         {
-            return Status.PipelineTerminated;
+            return ModuleStatus.Cancelled;
         }
 
         return exception is ModuleTimeoutException
-            ? Status.TimedOut
-            : Status.Failed;
+            ? ModuleStatus.TimedOut
+            : ModuleStatus.Failed;
     }
 
     private bool IsPipelineCancelled(Exception exception)
@@ -900,18 +900,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var logLevel = executionContext.Status switch
         {
-            Status.NotYetStarted => LogLevel.Warning,
-            Status.Processing => LogLevel.Error,
-            Status.Successful => LogLevel.Information,
-            Status.Failed => LogLevel.Error,
-            Status.TimedOut => LogLevel.Error,
-            Status.Skipped => LogLevel.Information,
-            Status.Unknown => LogLevel.Error,
-            Status.IgnoredFailure => LogLevel.Warning,
-            Status.PipelineTerminated => LogLevel.Error,
-            Status.DependencyFailed => LogLevel.Error,
-            Status.UsedHistory => LogLevel.Information,
-            Status.CachedResult => LogLevel.Information,
+            ModuleStatus.NotStarted => LogLevel.Warning,
+            ModuleStatus.Running => LogLevel.Error,
+            ModuleStatus.Succeeded => LogLevel.Information,
+            ModuleStatus.Failed => LogLevel.Error,
+            ModuleStatus.TimedOut => LogLevel.Error,
+            ModuleStatus.Skipped => LogLevel.Information,
+            ModuleStatus.Unknown => LogLevel.Error,
+            ModuleStatus.FailureIgnored => LogLevel.Warning,
+            ModuleStatus.Cancelled => LogLevel.Error,
+            ModuleStatus.DependencyFailed => LogLevel.Error,
+            ModuleStatus.RestoredFromHistory => LogLevel.Information,
+            ModuleStatus.RestoredFromCache => LogLevel.Information,
             _ => LogLevel.Error,
         };
 

@@ -107,7 +107,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private static string GetException(PipelineSummary pipelineSummary)
     {
         var exception = pipelineSummary.Results
-                            .FirstOrDefault(x => x.ModuleStatus == Status.Failed)
+                            .FirstOrDefault(x => x.Status == ModuleStatus.Failed)
                             ?.ExceptionOrDefault
                         ?? pipelineSummary.Results.Select(x => x.ExceptionOrDefault).FirstOrDefault();
 
@@ -167,7 +167,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                     var isSameDay = module.ModuleStart.Date == module.ModuleEnd.Date;
 
                     var (startTime, endTime, duration) = (module.ModuleStart, module.ModuleEnd, module.ModuleDuration);
-                    var text = $"| {module.ModuleName} | {GetStatusString(module.ModuleStatus)} | {GetTime(startTime, isSameDay)} | {GetTime(endTime, isSameDay)} | {duration} |";
+                    var text = $"| {module.ModuleName} | {GetStatusString(module.Status)} | {GetTime(startTime, isSameDay)} | {GetTime(endTime, isSameDay)} | {duration} |";
                     return text;
                 }
             ).ToList();
@@ -194,15 +194,15 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             : string.Empty;
     }
 
-    internal static string GetStatusString(Status status)
+    internal static string GetStatusString(ModuleStatus status)
     {
         return status switch
         {
-            Status.Successful or Status.UsedHistory or Status.CachedResult =>
+            ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache =>
                 $$$"""${\textsf{\color{lightgreen}{{{status}}}}}$""",
-            Status.NotYetStarted or Status.IgnoredFailure or Status.Processing or Status.Skipped =>
+            ModuleStatus.NotStarted or ModuleStatus.FailureIgnored or ModuleStatus.Running or ModuleStatus.Skipped =>
                 $$$"""${\textsf{\color{orange}{{{status}}}}}$""",
-            Status.PipelineTerminated or Status.TimedOut or Status.Failed or Status.DependencyFailed or Status.Unknown =>
+            ModuleStatus.Cancelled or ModuleStatus.TimedOut or ModuleStatus.Failed or ModuleStatus.DependencyFailed or ModuleStatus.Unknown =>
                 $$$"""${\textsf{\color{red}{{{status}}}}}$""",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };

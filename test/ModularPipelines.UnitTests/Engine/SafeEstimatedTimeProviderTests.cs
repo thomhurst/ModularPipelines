@@ -4,7 +4,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Engine;
 
@@ -22,7 +22,7 @@ public class SafeEstimatedTimeProviderTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class SafeEstimatedTimeProviderTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -52,7 +52,7 @@ public class SafeEstimatedTimeProviderTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

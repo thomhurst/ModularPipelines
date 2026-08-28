@@ -490,7 +490,7 @@ public class RetryTests : TestBase
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(2);
             await Assert.That(result).IsNotNull();
-            await Assert.That(result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Cancelled);
         }
     }
 }

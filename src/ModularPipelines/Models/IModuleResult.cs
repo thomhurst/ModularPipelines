@@ -35,7 +35,7 @@ public interface IModuleResult
     /// <summary>
     /// Gets the status of the module.
     /// </summary>
-    Status ModuleStatus { get; }
+    ModuleStatus Status { get; }
 
     /// <summary>
     /// Gets the value if successful, or null/default otherwise. Does not throw.

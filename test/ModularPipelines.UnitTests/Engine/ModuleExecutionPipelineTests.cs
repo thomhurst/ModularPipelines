@@ -144,7 +144,7 @@ public class ModuleExecutionPipelineTests
     }
 
     [Test]
-    public async Task ExecuteAsync_ClassifiesLateTimeoutAsPipelineTerminated()
+    public async Task ExecuteAsync_ClassifiesLateTimeoutAsCancelled()
     {
         var module = new TimeoutExceptionModule();
         var logger = new Mock<IInternalModuleLogger>();
@@ -153,7 +153,7 @@ public class ModuleExecutionPipelineTests
             cancelPipelineInFailureHook: true,
             logger: logger);
 
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Cancelled);
         logger.Verify(x => x.Log(
             LogLevel.Warning,
             It.IsAny<EventId>(),
@@ -164,14 +164,14 @@ public class ModuleExecutionPipelineTests
     }
 
     [Test]
-    public async Task ExecuteAsync_ClassifiesPipelineCancellationAsPipelineTerminated()
+    public async Task ExecuteAsync_ClassifiesPipelineCancellationAsCancelled()
     {
         var module = new ElapsedCancellationModule();
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
 
         var result = await ExecuteAfterPipelineCancellation(module, executionContext);
 
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Cancelled);
     }
 
     [Test]
@@ -181,7 +181,7 @@ public class ModuleExecutionPipelineTests
 
         var result = await ExecuteAfterPipelineCancellation(module);
 
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Cancelled);
     }
 
     [Test]
@@ -195,8 +195,8 @@ public class ModuleExecutionPipelineTests
             cancelPipelineInFailureHook: true,
             logger: logger);
 
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.IgnoredFailure);
-        logger.Verify(x => x.SetStatus(Status.IgnoredFailure), Times.Once);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.FailureIgnored);
+        logger.Verify(x => x.SetStatus(ModuleStatus.FailureIgnored), Times.Once);
     }
 
     [Test]
@@ -208,7 +208,7 @@ public class ModuleExecutionPipelineTests
         await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
             .Throws<ModuleFailedException>();
 
-        await Assert.That(executionContext.Status).IsEqualTo(Status.TimedOut);
+        await Assert.That(executionContext.Status).IsEqualTo(ModuleStatus.TimedOut);
     }
 
     [Test]
@@ -223,7 +223,7 @@ public class ModuleExecutionPipelineTests
         await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
             .Throws<ModuleFailedException>();
 
-        await Assert.That(executionContext.Status).IsEqualTo(Status.Failed);
+        await Assert.That(executionContext.Status).IsEqualTo(ModuleStatus.Failed);
     }
 
     [Test]
@@ -343,14 +343,14 @@ public class ModuleExecutionPipelineTests
 
         var expectedMessage = StatusDisplayProvider.FormatStatusMessage(
             nameof(SuccessfulModule),
-            Status.Skipped);
+            ModuleStatus.Skipped);
         logger.Verify(x => x.Log(
             LogLevel.Information,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) => state.ToString() == expectedMessage),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
-        logger.Verify(x => x.SetStatus(Status.Skipped), Times.Once);
+        logger.Verify(x => x.SetStatus(ModuleStatus.Skipped), Times.Once);
     }
 
     [Test]

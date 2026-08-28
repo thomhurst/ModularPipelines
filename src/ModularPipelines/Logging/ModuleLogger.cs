@@ -2,9 +2,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using Spectre.Console;
 using Spectre.Console.Rendering;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Logging;
 
@@ -41,7 +41,7 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
 
     protected readonly object _disposeLock = new();
     protected Exception? _exception;
-    protected Status _status = Status.Successful;
+    protected ModuleStatus _status = ModuleStatus.Succeeded;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
 
@@ -63,7 +63,7 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
         _exception = exception;
     }
 
-    public void SetStatus(Status status)
+    public void SetStatus(ModuleStatus status)
     {
         _status = status;
     }

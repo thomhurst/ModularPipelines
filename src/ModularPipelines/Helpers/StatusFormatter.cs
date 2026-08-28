@@ -6,22 +6,22 @@ namespace ModularPipelines.Helpers;
 [ExcludeFromCodeCoverage]
 internal static class StatusFormatter
 {
-    public static string ToDisplayString(this Status status)
+    public static string ToDisplayString(this ModuleStatus status)
     {
         return status switch
         {
-            Status.NotYetStarted => "Not Yet Started",
-            Status.Processing => "Processing...",
-            Status.Successful => "[green]Successful[/]",
-            Status.Failed => "[red]Failed[/]",
-            Status.IgnoredFailure => "[orange3]Ignored Failure[/]",
-            Status.PipelineTerminated => "[red]Pipeline Terminated[/]",
-            Status.DependencyFailed => "[red]Dependency Failed[/]",
-            Status.TimedOut => "[red]Timed Out[/]",
-            Status.Skipped => "[yellow]Skipped[/]",
-            Status.Unknown => "[yellow]Unknown[/]",
-            Status.UsedHistory => "[green3]Used History[/]",
-            Status.CachedResult => "[green3]Cached Result[/]",
+            ModuleStatus.NotStarted => "Not Yet Started",
+            ModuleStatus.Running => "Processing...",
+            ModuleStatus.Succeeded => "[green]Successful[/]",
+            ModuleStatus.Failed => "[red]Failed[/]",
+            ModuleStatus.FailureIgnored => "[orange3]Ignored Failure[/]",
+            ModuleStatus.Cancelled => "[red]Pipeline Terminated[/]",
+            ModuleStatus.DependencyFailed => "[red]Dependency Failed[/]",
+            ModuleStatus.TimedOut => "[red]Timed Out[/]",
+            ModuleStatus.Skipped => "[yellow]Skipped[/]",
+            ModuleStatus.Unknown => "[yellow]Unknown[/]",
+            ModuleStatus.RestoredFromHistory => "[green3]Used History[/]",
+            ModuleStatus.RestoredFromCache => "[green3]Cached Result[/]",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
     }

@@ -14,6 +14,6 @@ internal static class HttpClientNames
     /// <returns>A consistent client name for the logging configuration.</returns>
     public static string GetClientName(HttpLoggingType loggingType)
     {
-        return $"{ClientNamePrefix}{(int)loggingType}";
+        return $"{ClientNamePrefix}{(int) loggingType}";
     }
 }

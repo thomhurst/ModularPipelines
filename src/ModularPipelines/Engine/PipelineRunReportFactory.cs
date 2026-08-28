@@ -74,7 +74,7 @@ internal sealed class PipelineRunReportFactory(
                 uniqueModuleTypeNames,
                 previousByType))
             .ToArray();
-        var status = pipelineException is null ? summary.Status : Status.Failed;
+        var status = pipelineException is null ? summary.Status : ModuleStatus.Failed;
         var previousTotalDuration = GetPreviousTotalDuration(status, previousReport);
 
         return new PipelineRunReport
@@ -98,8 +98,8 @@ internal sealed class PipelineRunReportFactory(
         };
     }
 
-    private static TimeSpan? GetPreviousTotalDuration(Status status, PipelineRunReport? previousReport) =>
-        status == Status.Successful && previousReport?.Status == Status.Successful
+    private static TimeSpan? GetPreviousTotalDuration(ModuleStatus status, PipelineRunReport? previousReport) =>
+        status == ModuleStatus.Succeeded && previousReport?.Status == ModuleStatus.Succeeded
             ? previousReport.TotalDuration
             : null;
 
@@ -194,7 +194,7 @@ internal sealed class PipelineRunReportFactory(
         IModuleResult? result,
         ModuleTimeline? timeline)
     {
-        var status = result?.ModuleStatus ?? timeline?.Status ?? Status.Unknown;
+        var status = result?.Status ?? timeline?.Status ?? ModuleStatus.Unknown;
         if (timeline is { StartTime: { } start, EndTime: { } end })
         {
             return new CurrentModuleReportValues(
@@ -214,12 +214,12 @@ internal sealed class PipelineRunReportFactory(
     }
 
     private static TimeSpan? GetPreviousDuration(
-        Status status,
+        ModuleStatus status,
         bool durationMeasured,
         ModuleRunReport? previous) =>
-        status == Status.Successful
+        status == ModuleStatus.Succeeded
         && durationMeasured
-        && previous is { Status: Status.Successful, DurationMeasured: true }
+        && previous is { Status: ModuleStatus.Succeeded, DurationMeasured: true }
             ? previous.Duration
             : null;
 
@@ -401,7 +401,7 @@ internal sealed class PipelineRunReportFactory(
     }
 
     private sealed record CurrentModuleReportValues(
-        Status Status,
+        ModuleStatus Status,
         TimeSpan Duration,
         bool DurationMeasured,
         DateTimeOffset? Start,

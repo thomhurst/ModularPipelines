@@ -366,7 +366,7 @@ public class ExecutionOrchestratorTests
                 summary,
                 initializationException,
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new PipelineRunReport { Status = Status.Failed });
+            .ReturnsAsync(new PipelineRunReport { Status = ModuleStatus.Failed });
         var outputCoordinator = new Mock<IPipelineOutputCoordinator>();
         using var engineCancellationToken =
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
@@ -401,7 +401,7 @@ public class ExecutionOrchestratorTests
             It.IsAny<DateTimeOffset>(),
             It.IsAny<DateTimeOffset>()), Times.Once);
         outputCoordinator.Verify(x => x.PrintResults(
-            It.Is<PipelineSummary>(printedSummary => printedSummary.Status == Status.Failed)), Times.Once);
+            It.Is<PipelineSummary>(printedSummary => printedSummary.Status == ModuleStatus.Failed)), Times.Once);
     }
 
     private static IRunReportService CreateRunReportService()

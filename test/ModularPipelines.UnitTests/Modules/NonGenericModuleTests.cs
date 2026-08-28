@@ -18,7 +18,7 @@ public class NonGenericModuleTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(1);
-            await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(result.ValueOrDefault).IsEqualTo(None.Value);
             await Assert.That(((IModule) module).ResultType).IsEqualTo(typeof(None));
         }

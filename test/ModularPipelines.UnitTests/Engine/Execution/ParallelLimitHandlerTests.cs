@@ -247,9 +247,9 @@ public class ParallelLimitHandlerTests
             typeof(TestModule),
             false,
             It.IsAny<OperationCanceledException>(),
-            Status.PipelineTerminated), Times.Once);
-        await Assert.That(resultRegistry.GetResult(typeof(TestModule))!.ModuleStatus)
-            .IsEqualTo(Status.PipelineTerminated);
+            ModuleStatus.Cancelled), Times.Once);
+        await Assert.That(resultRegistry.GetResult(typeof(TestModule))!.Status)
+            .IsEqualTo(ModuleStatus.Cancelled);
         logger.Verify(x => x.Log(
             LogLevel.Error,
             It.IsAny<EventId>(),
@@ -351,7 +351,7 @@ public class ParallelLimitHandlerTests
             typeof(TestModule),
             false,
             originalException,
-            Status.PipelineTerminated), Times.Once);
+            ModuleStatus.Cancelled), Times.Once);
     }
 
     [Test]
@@ -382,8 +382,8 @@ public class ParallelLimitHandlerTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(resultRegistry.GetResult(typeof(ThrowingReadyTestModule))!.ModuleStatus)
-                .IsEqualTo(Status.Failed);
+            await Assert.That(resultRegistry.GetResult(typeof(ThrowingReadyTestModule))!.Status)
+                .IsEqualTo(ModuleStatus.Failed);
             await Assert.That(ThrowingReadyAttribute.FailureInvocationCount).IsEqualTo(1);
             await Assert.That(receiver.FailureInvocationCount).IsEqualTo(1);
         }

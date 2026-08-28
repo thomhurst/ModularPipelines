@@ -26,20 +26,20 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     /// <inheritdoc />
     public void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
     {
-        RegisterFailureResult(module, moduleType, exception, Enums.Status.PipelineTerminated);
+        RegisterFailureResult(module, moduleType, exception, Enums.ModuleStatus.Cancelled);
     }
 
     /// <inheritdoc />
     public void RegisterDependencyFailedResult(IModule module, Type moduleType, Exception exception)
     {
-        RegisterFailureResult(module, moduleType, exception, Enums.Status.DependencyFailed);
+        RegisterFailureResult(module, moduleType, exception, Enums.ModuleStatus.DependencyFailed);
     }
 
     private void RegisterFailureResult(
         IModule module,
         Type moduleType,
         Exception exception,
-        Enums.Status status)
+        Enums.ModuleStatus status)
     {
         var resultType = module.ResultType;
 
@@ -85,7 +85,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
             }
 
             _logger.LogDebug(
-                "Registering PipelineTerminated result for cancelled module {ModuleName}",
+                "Registering Cancelled result for cancelled module {ModuleName}",
                 moduleType.Name);
 
             RegisterTerminatedResult(module, moduleType, exception);

@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
+using ModularPipelines.JsonUtils;
 
 namespace ModularPipelines.Models;
 
@@ -35,7 +37,8 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the pipeline's final status.
     /// </summary>
-    public Status Status { get; init; }
+    [JsonConverter(typeof(RunHistoryModuleStatusJsonConverter))]
+    public ModuleStatus Status { get; init; }
 
     /// <summary>
     /// Gets when the pipeline started.

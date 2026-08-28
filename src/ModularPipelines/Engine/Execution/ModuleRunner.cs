@@ -203,7 +203,7 @@ internal class ModuleRunner : IModuleRunner
                         cancellationToken)
                     .ConfigureAwait(false);
 
-                scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
+                scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.Status);
             }
             catch (Exception ex)
             {
@@ -308,7 +308,7 @@ internal class ModuleRunner : IModuleRunner
         var statusOverride = GetStatusOverride(
             isDependencyFailure,
             isPipelineCancellation,
-            registeredResult?.ModuleStatus);
+            registeredResult?.Status);
         scheduler.MarkModuleCompleted(
             moduleType,
             false,
@@ -346,18 +346,18 @@ internal class ModuleRunner : IModuleRunner
             ? registeredException ?? _engineCancellationToken.OriginalException ?? exception
             : exception;
 
-    private static Enums.Status? GetStatusOverride(
+    private static Enums.ModuleStatus? GetStatusOverride(
         bool isDependencyFailure,
         bool isPipelineCancellation,
-        Enums.Status? registeredStatus)
+        Enums.ModuleStatus? registeredStatus)
     {
         if (isDependencyFailure)
         {
-            return Enums.Status.DependencyFailed;
+            return Enums.ModuleStatus.DependencyFailed;
         }
 
         return isPipelineCancellation
-            ? registeredStatus ?? Enums.Status.PipelineTerminated
+            ? registeredStatus ?? Enums.ModuleStatus.Cancelled
             : null;
     }
 
@@ -675,7 +675,7 @@ internal class ModuleRunner : IModuleRunner
         IReadOnlySet<Type> requiredProducerTypes,
         Type? dependencyTypeBeingFinalized)
     {
-        if (_resultRegistry.GetResult(dependencyType)?.ModuleStatus == Enums.Status.Skipped)
+        if (_resultRegistry.GetResult(dependencyType)?.Status == Enums.ModuleStatus.Skipped)
         {
             return new RequiredDependencyDemand(IsUnrecoverable: true, HasPendingDependency: false);
         }
@@ -836,42 +836,42 @@ internal class ModuleRunner : IModuleRunner
                 .ConfigureAwait(false);
 
             // Record success, skip, or ignored failure status on the Activity
-            if (executionContext.Status == Enums.Status.Skipped)
+            if (executionContext.Status == Enums.ModuleStatus.Skipped)
             {
                 telemetryStatus = "Skipped";
                 ModuleActivityTracing.RecordSkipped(activity);
             }
-            else if (executionContext.Status == Enums.Status.IgnoredFailure)
+            else if (executionContext.Status == Enums.ModuleStatus.FailureIgnored)
             {
-                telemetryStatus = "IgnoredFailure";
+                telemetryStatus = Enums.ModuleStatus.FailureIgnored.ToString();
                 activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
                 activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
-            else if (executionContext.Status == Enums.Status.UsedHistory)
+            else if (executionContext.Status == Enums.ModuleStatus.RestoredFromHistory)
             {
-                telemetryStatus = "UsedHistory";
-                ModuleActivityTracing.RecordUsedHistory(activity);
+                telemetryStatus = Enums.ModuleStatus.RestoredFromHistory.ToString();
+                ModuleActivityTracing.RecordRestoredFromHistory(activity);
             }
-            else if (executionContext.Status == Enums.Status.CachedResult)
+            else if (executionContext.Status == Enums.ModuleStatus.RestoredFromCache)
             {
-                telemetryStatus = "CachedResult";
-                ModuleActivityTracing.RecordCachedResult(activity);
+                telemetryStatus = Enums.ModuleStatus.RestoredFromCache.ToString();
+                ModuleActivityTracing.RecordRestoredFromCache(activity);
             }
-            else if (executionContext.Status == Enums.Status.PipelineTerminated)
+            else if (executionContext.Status == Enums.ModuleStatus.Cancelled)
             {
-                telemetryStatus = "PipelineTerminated";
-                ModuleActivityTracing.RecordPipelineTerminated(activity);
+                telemetryStatus = Enums.ModuleStatus.Cancelled.ToString();
+                ModuleActivityTracing.RecordCancelled(activity);
             }
             else
             {
-                telemetryStatus = "Successful";
+                telemetryStatus = Enums.ModuleStatus.Succeeded.ToString();
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
         catch (Exception ex)
         {
             var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
-            if (executionContext.Status == Enums.Status.TimedOut)
+            if (executionContext.Status == Enums.ModuleStatus.TimedOut)
             {
                 telemetryStatus = "TimedOut";
                 ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
@@ -981,7 +981,7 @@ internal class ModuleRunner : IModuleRunner
 
         PublishModuleResult(moduleState, executionContext, result);
 
-        if (executionContext.Status == Enums.Status.Skipped)
+        if (executionContext.Status == Enums.ModuleStatus.Skipped)
         {
             await _mediator.Publish(
                     new ModuleSkippedNotification(moduleState, executionContext.SkipResult),
@@ -991,7 +991,7 @@ internal class ModuleRunner : IModuleRunner
         }
 
         var isSuccessful = executionContext.Status is
-            Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult;
+            Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.RestoredFromHistory or Enums.ModuleStatus.RestoredFromCache;
         await _mediator.Publish(
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
@@ -1025,13 +1025,13 @@ internal class ModuleRunner : IModuleRunner
         Exception exception)
     {
         executionContext.Exception = exception;
-        if (executionContext.Status is Enums.Status.Successful
-            or Enums.Status.UsedHistory
-            or Enums.Status.CachedResult
-            or Enums.Status.NotYetStarted
-            or Enums.Status.Processing)
+        if (executionContext.Status is Enums.ModuleStatus.Succeeded
+            or Enums.ModuleStatus.RestoredFromHistory
+            or Enums.ModuleStatus.RestoredFromCache
+            or Enums.ModuleStatus.NotStarted
+            or Enums.ModuleStatus.Running)
         {
-            executionContext.Status = Enums.Status.Failed;
+            executionContext.Status = Enums.ModuleStatus.Failed;
         }
 
         var result = executionContext.ExecutionTask.IsCompletedSuccessfully
@@ -1060,18 +1060,18 @@ internal class ModuleRunner : IModuleRunner
     {
         moduleState.Result = result;
 
-        if (executionContext.Status == Enums.Status.Skipped)
+        if (executionContext.Status == Enums.ModuleStatus.Skipped)
         {
             await _lifecycleEventInvoker.InvokeSkippedEventAsync(
                     lifecycleContext,
-                    Enums.Status.Skipped,
+                    Enums.ModuleStatus.Skipped,
                     executionContext.SkipResult!)
                 .ConfigureAwait(false);
             await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
             return;
         }
 
-        if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
+        if (executionContext.Status is Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.FailureIgnored)
         {
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(
                     moduleState.ModuleType,
@@ -1084,7 +1084,7 @@ internal class ModuleRunner : IModuleRunner
 
         if (!_manageArtifactsLocally
             || executionContext.Status is not (
-                Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult))
+                Enums.ModuleStatus.Succeeded or Enums.ModuleStatus.RestoredFromHistory or Enums.ModuleStatus.RestoredFromCache))
         {
             return;
         }
@@ -1148,7 +1148,7 @@ internal class ModuleRunner : IModuleRunner
             .Select(dependency => (
                 Type: dependency.Key,
                 Result: _resultRegistry.GetResult(dependency.Key)))
-            .Where(dependency => dependency.Result?.ModuleStatus == Enums.Status.Skipped)
+            .Where(dependency => dependency.Result?.Status == Enums.ModuleStatus.Skipped)
             .OrderBy(dependency => dependency.Type.FullName, StringComparer.Ordinal)
             .ToArray();
 

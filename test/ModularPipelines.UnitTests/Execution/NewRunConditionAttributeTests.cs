@@ -8,7 +8,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Moq;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -284,7 +284,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(NoConditionsModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -298,7 +298,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllTrueModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -312,7 +312,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllFalseModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -326,7 +326,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAllMixedModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -340,7 +340,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyTrueModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -354,7 +354,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyFalseModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -368,7 +368,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(RunIfAnyMixedModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -382,7 +382,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkipIfTrueModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -396,7 +396,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(SkipIfFalseModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -437,7 +437,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(CombinedSkipAndRunModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -451,7 +451,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllTrueModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -465,7 +465,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(MultipleRunIfAllMixedModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -479,7 +479,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupTrueModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -493,7 +493,7 @@ public class NewRunConditionAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(ConditionGroupFalseModule))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -509,7 +509,7 @@ public class NewRunConditionAttributeTests : TestBase
         var moduleResult = resultRegistry.GetResult(typeof(AttributeAndFluentConditionModule))!;
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
             await Assert.That(moduleResult.SkipDecisionOrDefault!.Reason).IsEqualTo("Fluent condition");
         }
     }
@@ -530,7 +530,7 @@ public class NewRunConditionAttributeTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(DependencyWasExecuted).IsTrue();
-            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
         }
     }
 

@@ -3294,7 +3294,7 @@ public class DependencyGraphExporterTests
             await Assert.That(document.RootElement.GetProperty("nodes")[0]
                     .GetProperty("skipped").GetBoolean())
                 .IsTrue();
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(_executions).IsEqualTo(1);
         }
     }
@@ -3344,7 +3344,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("mutable runtime state");
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(_executions).IsEqualTo(1);
         }
     }
@@ -3365,7 +3365,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("mutable runtime state");
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(_executions).IsEqualTo(1);
         }
     }
@@ -3402,7 +3402,7 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
         var summary = await pipeline.RunAsync();
 
-        await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -3475,7 +3475,7 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
         var summary = await pipeline.RunAsync();
 
-        await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -4171,7 +4171,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
-            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 
@@ -4279,7 +4279,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("mutable runtime state");
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Skipped);
             await Assert.That(_executions).IsEqualTo(0);
         }
     }
@@ -4314,7 +4314,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("mutable runtime state");
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Skipped);
             await Assert.That(_executions).IsEqualTo(0);
         }
     }
@@ -4335,7 +4335,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message).Contains("mutable runtime state");
-            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Skipped);
             await Assert.That(_executions).IsEqualTo(0);
         }
     }
@@ -4770,8 +4770,8 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(state.Activations).IsEqualTo(1);
-            await Assert.That(summary.Results.Single().ModuleStatus)
-                .IsEqualTo(Status.Successful);
+            await Assert.That(summary.Results.Single().Status)
+                .IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 
@@ -4792,8 +4792,8 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(state.Activations).IsEqualTo(1);
-            await Assert.That(summary.Results.Single().ModuleStatus)
-                .IsEqualTo(Status.Successful);
+            await Assert.That(summary.Results.Single().Status)
+                .IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 
@@ -4835,7 +4835,7 @@ public class DependencyGraphExporterTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = now,
             ModuleEnd = now,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
         var summary = new PipelineSummary(
             modules,
@@ -4895,7 +4895,7 @@ public class DependencyGraphExporterTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = now,
             ModuleEnd = now,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
         var summary = new PipelineSummary(
             [module],
@@ -4928,7 +4928,7 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
         var summary = await pipeline.RunAsync();
 
-        await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(summary.Results.Single().Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

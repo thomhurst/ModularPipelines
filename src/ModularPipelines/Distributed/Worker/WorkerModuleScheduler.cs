@@ -24,7 +24,7 @@ internal sealed class WorkerModuleScheduler : IModuleScheduler
 
     public bool MarkModuleStarted(Type moduleType) => true;
 
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, ModuleStatus? statusOverride = null)
     {
     }
 

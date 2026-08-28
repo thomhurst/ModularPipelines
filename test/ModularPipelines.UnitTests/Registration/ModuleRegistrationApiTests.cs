@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Registration;
 
@@ -58,7 +58,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(2);
         await Assert.That(result.Modules.Any(m => m.GetType() == typeof(ModuleA))).IsTrue();
         await Assert.That(result.Modules.Any(m => m.GetType() == typeof(ModuleB))).IsTrue();
@@ -74,7 +74,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(3);
     }
 
@@ -88,7 +88,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(4);
     }
 
@@ -102,7 +102,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(5);
     }
 
@@ -116,7 +116,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(6);
     }
 
@@ -134,7 +134,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(3);
     }
 
@@ -148,7 +148,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(4);
     }
 
@@ -206,7 +206,7 @@ public class ModuleRegistrationApiTests : TestBase
         var result = await pipeline.RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Modules.Count).IsEqualTo(3);
     }
 

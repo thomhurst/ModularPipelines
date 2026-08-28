@@ -108,7 +108,7 @@ internal sealed class PipelineCommandHandler(
             now,
             now)
         {
-            StatusOverride = Enums.Status.Successful,
+            StatusOverride = Enums.ModuleStatus.Succeeded,
         };
     }
 }

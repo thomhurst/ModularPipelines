@@ -135,7 +135,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 .Select(x => (IModule) x.Module)
                 .Concat(organizedModules.IgnoredModules
                     .Select(ignoredModule => ignoredModule.Module)
-                    .Where(module => _resultRegistry.GetResult(module.GetType())?.ModuleStatus == Status.UsedHistory))
+                    .Where(module => _resultRegistry.GetResult(module.GetType())?.Status == ModuleStatus.RestoredFromHistory))
                 .ToList();
 
             summary = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
@@ -161,7 +161,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             ExceptionDispatchInfo.Capture(caughtException).Throw();
         }
 
-        if (summary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
+        if (summary.Status == ModuleStatus.Failed && _options.Value.ThrowOnPipelineFailure)
         {
             var failedModules = summary.Results
                 .Where(result => result.ExceptionOrDefault is not null)
@@ -210,7 +210,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                     GetPipelineReportException(summary, pipelineException),
                     cancellationToken)
                 .ConfigureAwait(false),
-            StatusOverride = pipelineException is null ? summary.StatusOverride : Status.Failed,
+            StatusOverride = pipelineException is null ? summary.StatusOverride : ModuleStatus.Failed,
         };
 
         _outputCoordinator.PrintResults(summary);

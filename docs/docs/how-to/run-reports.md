@@ -142,7 +142,7 @@ await foreach (var failedRun in historyStore.GetRunsAsync(new RunHistoryQuery
     PipelineIdentity = "release-pipeline",
     MaxRuns = 10,
     Since = DateTimeOffset.UtcNow.AddDays(-30),
-    Status = Status.Failed,
+    Status = ModuleStatus.Failed,
 }, cancellationToken))
 {
     // Inspect failedRun.

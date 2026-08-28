@@ -311,7 +311,7 @@ public class RunReportTests
                 await Assert.That(firstReport.PipelineIdentity).IsNotNullOrWhiteSpace();
                 await Assert.That(firstReport.Correlation).IsNotNull();
                 await Assert.That(firstReport.Correlation!.Hostname).IsNotNullOrWhiteSpace();
-                await Assert.That(firstReport.Status).IsEqualTo(Status.Failed);
+                await Assert.That(firstReport.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(firstReport.CommandCount).IsEqualTo(1);
                 await Assert.That(firstReport.Modules.Single(module => module.ModuleTypeName == ModuleTypeIdentifier.Get(typeof(CommandModule)))
                     .CommandCount).IsEqualTo(1);
@@ -331,11 +331,11 @@ public class RunReportTests
                 await Assert.That(secondReport!.TotalDurationDelta).IsNull();
                 await Assert.That(secondReport.PreviousEnd).IsEqualTo(firstReport!.End);
                 await Assert.That(secondReport.Modules
-                        .Single(module => module.Status == Status.Successful)
+                        .Single(module => module.Status == ModuleStatus.Succeeded)
                         .PreviousDuration)
                     .IsNotNull();
                 await Assert.That(secondReport.Modules
-                        .Where(module => module.Status != Status.Successful)
+                        .Where(module => module.Status != ModuleStatus.Succeeded)
                         .All(module => module.PreviousDuration is null))
                     .IsTrue();
                 await Assert.That(Directory.GetFiles(historyPath, "*.json")).Count().IsEqualTo(2);
@@ -404,7 +404,7 @@ public class RunReportTests
                 {
                     ModuleName = firstType.Name,
                     ModuleTypeName = firstTypeName,
-                    Status = Status.Successful,
+                    Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
                     Start = start,
@@ -414,7 +414,7 @@ public class RunReportTests
                 {
                     ModuleName = secondType.Name,
                     ModuleTypeName = secondTypeName,
-                    Status = Status.Successful,
+                    Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(20),
                     DurationMeasured = true,
                     Start = start,
@@ -593,7 +593,7 @@ public class RunReportTests
                 {
                     ModuleName = nameof(SuccessfulModule),
                     ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SuccessfulModule)),
-                    Status = Status.Successful,
+                    Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
                     Start = start,
@@ -633,10 +633,10 @@ public class RunReportTests
     }
 
     [Test]
-    [Arguments(Status.Skipped)]
-    [Arguments(Status.UsedHistory)]
-    [Arguments(Status.CachedResult)]
-    public async Task RunReportDoesNotCompareNonExecutedModuleDurations(Status status)
+    [Arguments(ModuleStatus.Skipped)]
+    [Arguments(ModuleStatus.RestoredFromHistory)]
+    [Arguments(ModuleStatus.RestoredFromCache)]
+    public async Task RunReportDoesNotCompareNonExecutedModuleDurations(ModuleStatus status)
     {
         var module = new SkippedModule();
         var start = new DateTimeOffset(2026, 8, 3, 12, 0, 0, TimeSpan.Zero);
@@ -648,7 +648,7 @@ public class RunReportTests
                 {
                     ModuleName = nameof(SkippedModule),
                     ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
-                    Status = Status.Successful,
+                    Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
                     Start = start,
@@ -664,9 +664,9 @@ public class RunReportTests
                 [module],
                 [status switch
                 {
-                    Status.Skipped => CreateSkippedResult(module),
-                    Status.UsedHistory => CreateHistoricalResult(module, start),
-                    Status.CachedResult => CreateCachedResult(module, start),
+                    ModuleStatus.Skipped => CreateSkippedResult(module),
+                    ModuleStatus.RestoredFromHistory => CreateHistoricalResult(module, start),
+                    ModuleStatus.RestoredFromCache => CreateCachedResult(module, start),
                     _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
                 }],
                 TimeSpan.Zero,
@@ -702,11 +702,11 @@ public class RunReportTests
     }
 
     [Test]
-    [Arguments(Status.Failed)]
-    [Arguments(Status.TimedOut)]
-    public async Task RunReportDoesNotCompareMeasuredUnsuccessfulCurrentDurations(Status status)
+    [Arguments(ModuleStatus.Failed)]
+    [Arguments(ModuleStatus.TimedOut)]
+    public async Task RunReportDoesNotCompareMeasuredUnsuccessfulCurrentDurations(ModuleStatus status)
     {
-        var previousReport = CreateMeasuredRunReport(Status.Successful, TimeSpan.FromSeconds(10));
+        var previousReport = CreateMeasuredRunReport(ModuleStatus.Succeeded, TimeSpan.FromSeconds(10));
         var report = CreateMeasuredRunReport(status, TimeSpan.FromSeconds(1), previousReport);
 
         using (Assert.Multiple())
@@ -720,16 +720,16 @@ public class RunReportTests
     }
 
     [Test]
-    [Arguments(Status.Failed)]
-    [Arguments(Status.TimedOut)]
-    public async Task RunReportDoesNotCompareAgainstMeasuredUnsuccessfulPreviousDurations(Status status)
+    [Arguments(ModuleStatus.Failed)]
+    [Arguments(ModuleStatus.TimedOut)]
+    public async Task RunReportDoesNotCompareAgainstMeasuredUnsuccessfulPreviousDurations(ModuleStatus status)
     {
         var previousReport = CreateMeasuredRunReport(status, TimeSpan.FromSeconds(1));
-        var report = CreateMeasuredRunReport(Status.Successful, TimeSpan.FromSeconds(10), previousReport);
+        var report = CreateMeasuredRunReport(ModuleStatus.Succeeded, TimeSpan.FromSeconds(10), previousReport);
 
         using (Assert.Multiple())
         {
-            await Assert.That(report.Status).IsEqualTo(Status.Successful);
+            await Assert.That(report.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(report.PreviousTotalDuration).IsNull();
             await Assert.That(report.TotalDurationDelta).IsNull();
             await Assert.That(report.Modules.Single().PreviousDuration).IsNull();
@@ -763,9 +763,9 @@ public class RunReportTests
         {
             await Assert.That(firstType.Name).IsEqualTo(secondType.Name);
             await Assert.That(firstModuleReport.Status)
-                .IsEqualTo(Status.Successful);
+                .IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(secondModuleReport.Status)
-                .IsEqualTo(Status.Unknown);
+                .IsEqualTo(ModuleStatus.Unknown);
             await Assert.That(secondModuleReport.Duration)
                 .IsEqualTo(TimeSpan.Zero);
         }
@@ -1108,7 +1108,7 @@ public class RunReportTests
                 {
                     RunId = $"run-{index}",
                     PipelineIdentity = "pipeline-a",
-                    Status = index % 2 == 0 ? Status.Failed : Status.Successful,
+                    Status = index % 2 == 0 ? ModuleStatus.Failed : ModuleStatus.Succeeded,
                     Start = index == 2 ? start.AddMinutes(1) : start.AddMinutes(index),
                     End = start.AddMinutes(index),
                 });
@@ -1118,7 +1118,7 @@ public class RunReportTests
             {
                 RunId = "other-pipeline",
                 PipelineIdentity = "pipeline-b",
-                Status = Status.Failed,
+                Status = ModuleStatus.Failed,
                 End = start.AddMinutes(5),
             });
 
@@ -1128,7 +1128,7 @@ public class RunReportTests
                     PipelineIdentity = "pipeline-a",
                     MaxRuns = 2,
                     Since = start.AddMinutes(2),
-                    Status = Status.Failed,
+                    Status = ModuleStatus.Failed,
                 }));
 
             using (Assert.Multiple())
@@ -1295,7 +1295,7 @@ public class RunReportTests
             await Assert.That(samples[0]).IsEqualTo(new ModuleDurationSample(
                 "run-2",
                 end.AddMinutes(2),
-                Status.Successful,
+                ModuleStatus.Succeeded,
                 TimeSpan.FromSeconds(2)));
             historyStore.Verify(store => store.GetRunsAsync(
                 It.Is<RunHistoryQuery>(query =>
@@ -2561,10 +2561,10 @@ public class RunReportTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(report.Status).IsEqualTo(Status.Failed);
+                await Assert.That(report.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(report.TotalDuration).IsEqualTo(summary.TotalDuration);
                 await Assert.That(report.Modules).IsEmpty();
-                await Assert.That(persisted!.Status).IsEqualTo(Status.Failed);
+                await Assert.That(persisted!.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(persisted.Modules).IsEmpty();
             }
         }
@@ -2598,7 +2598,7 @@ public class RunReportTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(report.Status).IsEqualTo(Status.Failed);
+            await Assert.That(report.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(report.Exception).IsNotNull();
             await Assert.That(report.Exception!.Type)
                 .IsEqualTo(typeof(InvalidOperationException).FullName);
@@ -2864,7 +2864,7 @@ public class RunReportTests
                 await File.ReadAllTextAsync(reportPath));
             using (Assert.Multiple())
             {
-                await Assert.That(report!.Status).IsEqualTo(Status.Failed);
+                await Assert.That(report!.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(report.Exception).IsNotNull();
                 await Assert.That(report.Exception!.Type)
                     .IsEqualTo(typeof(InvalidOperationException).FullName);
@@ -2971,7 +2971,7 @@ public class RunReportTests
                 await File.ReadAllTextAsync(reportPath))!;
             using (Assert.Multiple())
             {
-                await Assert.That(failedReport.Status).IsEqualTo(Status.Failed);
+                await Assert.That(failedReport.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(failedReport.Modules).HasSingleItem();
                 await Assert.That(failedReport.Modules[0].ModuleName).IsEqualTo(nameof(SuccessfulModule));
                 await Assert.That(successfulReport.PipelineIdentity).IsEqualTo(failedReport.PipelineIdentity);
@@ -3085,7 +3085,7 @@ public class RunReportTests
                 await File.ReadAllTextAsync(reportPath));
             using (Assert.Multiple())
             {
-                await Assert.That(report!.Status).IsEqualTo(Status.Failed);
+                await Assert.That(report!.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(report.Exception).IsNull();
                 await Assert.That(report.Modules).HasSingleItem();
                 await Assert.That(report.Modules[0].Exception).IsNotNull();
@@ -3970,7 +3970,7 @@ public class RunReportTests
     {
         var context = new ModuleExecutionContext(module, module.GetType())
         {
-            Status = Status.Failed,
+            Status = ModuleStatus.Failed,
             StartTime = start,
             EndTime = start.AddSeconds(1),
         };
@@ -3993,7 +3993,7 @@ public class RunReportTests
     {
         var context = new ModuleExecutionContext(module, module.GetType())
         {
-            Status = Status.Successful,
+            Status = ModuleStatus.Succeeded,
             StartTime = start,
             EndTime = start + duration,
         };
@@ -4011,7 +4011,7 @@ public class RunReportTests
     {
         var context = new ModuleExecutionContext(module, module.GetType())
         {
-            Status = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
         try
         {
@@ -4028,13 +4028,13 @@ public class RunReportTests
     private static IModuleResult CreateHistoricalResult(IModule module, DateTimeOffset start) =>
         (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
-            ModuleStatus = Status.UsedHistory,
+            Status = ModuleStatus.RestoredFromHistory,
         };
 
     private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
         (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
-            ModuleStatus = Status.CachedResult,
+            Status = ModuleStatus.RestoredFromCache,
         };
 
     private static ModuleRunReport CreatePreviousModuleReport(
@@ -4045,7 +4045,7 @@ public class RunReportTests
         {
             ModuleName = moduleType.Name,
             ModuleTypeName = typeName,
-            Status = Status.Successful,
+            Status = ModuleStatus.Succeeded,
             Duration = duration,
             DurationMeasured = true,
             Start = start,
@@ -4053,7 +4053,7 @@ public class RunReportTests
         };
 
     private static PipelineRunReport CreateMeasuredRunReport(
-        Status status,
+        ModuleStatus status,
         TimeSpan duration,
         PipelineRunReport? previousReport = null)
     {
@@ -4061,7 +4061,7 @@ public class RunReportTests
         var start = new DateTimeOffset(2026, 8, 3, 12, 0, 0, TimeSpan.Zero);
         var result = (ModuleResult) CreateResult(module, start, duration) with
         {
-            ModuleStatus = status,
+            Status = status,
         };
         var summary = new PipelineSummary(
             [module],
@@ -4097,7 +4097,7 @@ public class RunReportTests
             StartTime = start,
             EndTime = start + duration,
             ExecutionDuration = duration,
-            Status = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
 
     private static async IAsyncEnumerable<PipelineRunReport> EmptyReports()
@@ -4137,7 +4137,7 @@ public class RunReportTests
                 {
                     ModuleName = nameof(SuccessfulModule),
                     ModuleTypeName = moduleTypeName,
-                    Status = Status.Successful,
+                    Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(2),
                     DurationMeasured = measured,
                 },

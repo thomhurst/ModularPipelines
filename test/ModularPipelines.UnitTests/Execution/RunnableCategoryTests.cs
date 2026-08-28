@@ -4,7 +4,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -73,12 +73,12 @@ public class RunnableCategoryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.ModuleStatus).IsEqualTo(Status.Skipped);
-            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.ModuleStatus).IsEqualTo(Status.Skipped);
-            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.Status).IsEqualTo(ModuleStatus.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.Status).IsEqualTo(ModuleStatus.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.Status).IsEqualTo(ModuleStatus.Skipped);
         }
     }
 
@@ -93,8 +93,8 @@ public class RunnableCategoryTests : TestBase
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.ModuleStatus)
-            .IsEqualTo(Status.Successful);
+        await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.Status)
+            .IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -116,12 +116,12 @@ public class RunnableCategoryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.ModuleStatus).IsEqualTo(Status.Skipped);
-            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.ModuleStatus).IsEqualTo(Status.Skipped);
-            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.Status).IsEqualTo(ModuleStatus.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.Status).IsEqualTo(ModuleStatus.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 
@@ -136,8 +136,8 @@ public class RunnableCategoryTests : TestBase
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.ModuleStatus)
-            .IsEqualTo(Status.Skipped);
+        await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.Status)
+            .IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -151,7 +151,7 @@ public class RunnableCategoryTests : TestBase
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        await Assert.That(resultRegistry.GetResult(typeof(ConfiguredCategoryModule))!.ModuleStatus)
-            .IsEqualTo(Status.Successful);
+        await Assert.That(resultRegistry.GetResult(typeof(ConfiguredCategoryModule))!.Status)
+            .IsEqualTo(ModuleStatus.Succeeded);
     }
 }

@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
+using ModularPipelines.JsonUtils;
 
 namespace ModularPipelines.Models;
 
@@ -20,7 +22,8 @@ public sealed record ModuleRunReport
     /// <summary>
     /// Gets the final module status.
     /// </summary>
-    public Status Status { get; init; }
+    [JsonConverter(typeof(RunHistoryModuleStatusJsonConverter))]
+    public ModuleStatus Status { get; init; }
 
     /// <summary>
     /// Gets the module duration.

@@ -381,7 +381,7 @@ public class ModuleTestBuilder<TModule>
                 ModuleDuration = TimeSpan.Zero,
                 ModuleStart = now,
                 ModuleEnd = now,
-                ModuleStatus = Status.Successful,
+                Status = ModuleStatus.Succeeded,
                 ModuleType = typeof(TDependency),
             };
 

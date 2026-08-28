@@ -126,7 +126,7 @@ public class MyModule : Module<string>
         ModuleResult<string> result,
         CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+        context.Logger.LogInformation("Module completed with status: {Status}", result.Status);
         return Task.FromResult<ModuleResult<string>?>(null);
     }
 
