@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Requirements;
 
@@ -25,7 +25,7 @@ public class PipelineRequirementBaseClassTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class PipelineRequirementBaseClassTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -87,7 +87,7 @@ public class PipelineRequirementBaseClassTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(DummyModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

@@ -394,7 +394,7 @@ public class TelemetryIntegrationTests
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
         {
             ModuleActivityTracing.RecordCacheHit(activity, typeof(CommandModule));
-            ModuleActivityTracing.RecordCachedResult(activity);
+            ModuleActivityTracing.RecordRestoredFromCache(activity);
         }
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(RetriedModule)))
@@ -425,7 +425,7 @@ public class TelemetryIntegrationTests
                     measurement.Name == ModuleActivityTracing.ModuleCacheMissesMetric).Value)
                 .IsEqualTo(1);
             await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-                .IsEqualTo("CachedResult");
+                .IsEqualTo("RestoredFromCache");
             await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
                 .IsEqualTo("hit");
             await Assert.That(missActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
@@ -494,7 +494,7 @@ public class TelemetryIntegrationTests
         var moduleException = new InvalidOperationException("Module failed");
         var failedResult = Mock.Of<IModuleResult>(result =>
             result.ExceptionOrDefault == moduleException
-            && result.ModuleStatus == Status.Failed);
+            && result.Status == ModuleStatus.Failed);
         var summary = new PipelineSummary(
             [],
             [failedResult],
@@ -515,7 +515,7 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
-    public async Task Canceled_Pipeline_Failures_Are_Tagged_As_Terminated()
+    public async Task Canceled_Pipeline_Failures_Are_Tagged_As_Cancelled()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
@@ -538,42 +538,42 @@ public class TelemetryIntegrationTests
         foreach (var activity in stoppedActivities)
         {
             await Assert.That(activity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
-                .IsEqualTo("PipelineTerminated");
+                .IsEqualTo("Cancelled");
             await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Error);
         }
     }
 
     [Test]
-    public async Task UsedHistory_Is_Preserved_In_Module_Activity()
+    public async Task RestoredFromHistory_Is_Preserved_In_Module_Activity()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
         {
-            ModuleActivityTracing.RecordUsedHistory(activity);
+            ModuleActivityTracing.RecordRestoredFromHistory(activity);
         }
 
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("UsedHistory");
+            .IsEqualTo("RestoredFromHistory");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Ok);
     }
 
     [Test]
-    public async Task PipelineTerminated_Is_Preserved_In_Module_Activity()
+    public async Task Cancelled_Is_Preserved_In_Module_Activity()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
         {
-            ModuleActivityTracing.RecordPipelineTerminated(activity);
+            ModuleActivityTracing.RecordCancelled(activity);
         }
 
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("PipelineTerminated");
+            .IsEqualTo("Cancelled");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 

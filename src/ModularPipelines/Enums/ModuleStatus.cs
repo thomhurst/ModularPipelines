@@ -5,28 +5,23 @@ namespace ModularPipelines.Enums;
 /// <summary>
 /// A module's status.
 /// </summary>
-[JsonConverter(typeof(JsonStringEnumConverter<Status>))]
-public enum Status
+[JsonConverter(typeof(JsonStringEnumConverter<ModuleStatus>))]
+public enum ModuleStatus
 {
     /// <summary>
     /// Not yet started.
     /// </summary>
-    NotYetStarted,
+    NotStarted,
 
     /// <summary>
     /// Currently processing.
     /// </summary>
-    Processing,
+    Running,
 
     /// <summary>
     /// Successful.
     /// </summary>
-    Successful,
-
-    /// <summary>
-    /// The module result was reconstructed from a previous run.
-    /// </summary>
-    UsedHistory,
+    Succeeded,
 
     /// <summary>
     /// The module failed.
@@ -36,17 +31,7 @@ public enum Status
     /// <summary>
     /// The module failed, but the failure was ignored.
     /// </summary>
-    IgnoredFailure,
-
-    /// <summary>
-    /// The pipeline has been terminated due to failing modules.
-    /// </summary>
-    PipelineTerminated,
-
-    /// <summary>
-    /// The module timed out.
-    /// </summary>
-    TimedOut,
+    FailureIgnored,
 
     /// <summary>
     /// The module was skipped.
@@ -54,17 +39,32 @@ public enum Status
     Skipped,
 
     /// <summary>
-    /// Unknown module status.
+    /// The module timed out.
     /// </summary>
-    Unknown = 10,
+    TimedOut,
 
     /// <summary>
-    /// The module result was restored from the fingerprint cache.
+    /// The module was cancelled.
     /// </summary>
-    CachedResult = 11,
+    Cancelled,
 
     /// <summary>
     /// The module did not run because a required dependency failed.
     /// </summary>
-    DependencyFailed = 12,
+    DependencyFailed,
+
+    /// <summary>
+    /// The module result was reconstructed from a previous run.
+    /// </summary>
+    RestoredFromHistory,
+
+    /// <summary>
+    /// The module result was restored from the fingerprint cache.
+    /// </summary>
+    RestoredFromCache,
+
+    /// <summary>
+    /// Unknown module status.
+    /// </summary>
+    Unknown,
 }

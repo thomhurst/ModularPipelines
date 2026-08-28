@@ -25,5 +25,5 @@ public sealed record RunHistoryQuery
     /// <summary>
     /// Gets the pipeline status to match, or <see langword="null"/> for every status.
     /// </summary>
-    public Status? Status { get; init; }
+    public ModuleStatus? Status { get; init; }
 }

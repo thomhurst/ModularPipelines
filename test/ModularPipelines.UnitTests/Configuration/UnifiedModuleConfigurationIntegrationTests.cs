@@ -119,7 +119,7 @@ public class UnifiedModuleConfigurationIntegrationTests
             .AddModule<MetadataConsumerModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "dependency", "configured", "consumer" });
     }
 

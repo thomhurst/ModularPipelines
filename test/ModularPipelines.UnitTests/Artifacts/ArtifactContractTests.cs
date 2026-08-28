@@ -412,7 +412,7 @@ public class ArtifactContractTests
 
     private sealed class AwaitingEndHookReceiver : IModuleEventReceiver
     {
-        public static Enums.Status? ObservedStatus { get; set; }
+        public static Enums.ModuleStatus? ObservedStatus { get; set; }
 
         public async Task OnModuleEndAsync(IModuleHookContext context)
         {
@@ -422,7 +422,7 @@ public class ArtifactContractTests
             }
 
             var result = await ((IInternalModule) context.Module).ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
-            ObservedStatus = result.ModuleStatus;
+            ObservedStatus = result.Status;
         }
     }
 
@@ -1627,8 +1627,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(LocalProducerModule.IsReady).IsTrue();
                 await Assert.That(ProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
@@ -1662,7 +1662,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(ProducerStateIntermediateModule.IsReady).IsTrue();
                 await Assert.That(TransitiveProducerStateConsumerModule.Executed).IsTrue();
                 await Assert.That(File.Exists(Path.Combine(RestoreDirectory, "local-output"))).IsTrue();
@@ -1699,7 +1699,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
                 await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
@@ -1784,7 +1784,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(secondStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(CacheKeyArtifactConsumerModule.ExecutionCount).IsEqualTo(2);
                 await Assert.That(CacheKeyArtifactConsumerModule.ConsumedContent).IsEqualTo("second");
             }
@@ -1953,7 +1953,7 @@ public class ArtifactContractTests
                 await Assert.That(exception.ToString()).Contains("missing-runtime");
                 await Assert.That(exception.ToString()).Contains(nameof(TransitiveMissingRuntimeConsumerModule));
                 await Assert.That(exception.ToString()).Contains("not found");
-                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(producerResult!.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(TransitiveMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }
@@ -2023,11 +2023,11 @@ public class ArtifactContractTests
             {
                 await Assert.That(exception!.ToString()).Contains("simulated artifact upload failure");
                 await Assert.That(producerResult).IsNotNull();
-                await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
-                await Assert.That(awaitedProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Failed);
+                await Assert.That(producerResult!.Status).IsEqualTo(Enums.ModuleStatus.Failed);
+                await Assert.That(awaitedProducerResult.Status).IsEqualTo(Enums.ModuleStatus.Failed);
                 await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
                 await Assert.That(AwaitingEndHookReceiver.ObservedStatus)
-                    .IsEqualTo(Enums.Status.Successful);
+                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }
         }
@@ -2082,8 +2082,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2114,7 +2114,7 @@ public class ArtifactContractTests
                 .OfType<SkippedArtifactProducerModule>()
                 .Single();
 
-            await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+            await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
         }
         finally
         {
@@ -2146,8 +2146,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(consumerResult.SkipDecisionOrDefault?.Reason)
                     .IsEqualTo("consumer skipped");
                 await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.Executed)
@@ -2189,8 +2189,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2225,8 +2225,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(DependencySkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2260,8 +2260,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2304,9 +2304,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(unrelatedResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2350,11 +2350,11 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
                 await Assert.That(SharedDependencySiblingModule.Executed).IsTrue();
                 await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(PrerequisiteStateArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2395,10 +2395,10 @@ public class ArtifactContractTests
             {
                 await Assert.That(exception!.ToString())
                     .Contains("simulated artifact upload failure");
-                await Assert.That(registeredResult!.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Failed);
-                await Assert.That(awaitedResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Failed);
+                await Assert.That(registeredResult!.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Failed);
+                await Assert.That(awaitedResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Failed);
             }
         }
         finally
@@ -2433,9 +2433,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(dependencyResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2476,10 +2476,10 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(stateDependencyResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Successful);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(stateDependencyResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(ArtifactConsumerStateDependencyModule.IsReady).IsTrue();
                 await Assert.That(DependencyStateArtifactConsumerModule.Executed).IsFalse();
             }
@@ -2526,9 +2526,9 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(firstProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(secondProducerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(firstProducerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(secondProducerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(unrelatedResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
             }
         }
         finally
@@ -2577,14 +2577,14 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(firstProducerResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(secondProducerResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(firstUnrelatedResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Successful);
-                await Assert.That(secondUnrelatedResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(firstProducerResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(secondProducerResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(firstUnrelatedResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(secondUnrelatedResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2625,14 +2625,14 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(firstProducerResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(secondProducerResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Skipped);
-                await Assert.That(firstUnrelatedResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Successful);
-                await Assert.That(secondUnrelatedResult.ModuleStatus)
-                    .IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(firstProducerResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(secondProducerResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Skipped);
+                await Assert.That(firstUnrelatedResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(secondUnrelatedResult.Status)
+                    .IsEqualTo(Enums.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2673,8 +2673,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(DependencySkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2717,8 +2717,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(TransitiveDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2752,8 +2752,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(AttributeSkippedHistoricalArtifactConsumerModule.Executed)
                     .IsFalse();
             }
@@ -2794,8 +2794,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
             }
         }
         finally
@@ -2830,8 +2830,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.RestoredFromHistory);
             }
         }
         finally
@@ -2922,8 +2922,8 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
-                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(producerResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+                await Assert.That(consumerResult.Status).IsEqualTo(Enums.ModuleStatus.Skipped);
                 await Assert.That(PendingSkippedArtifactConsumerModule.Executed).IsFalse();
             }
         }
@@ -2986,7 +2986,7 @@ public class ArtifactContractTests
         }
     }
 
-    private static async Task<Enums.Status> RunCacheKeyArtifactPipelineAsync(
+    private static async Task<Enums.ModuleStatus> RunCacheKeyArtifactPipelineAsync(
         string workingDirectory,
         string cacheDirectory)
     {
@@ -3004,6 +3004,6 @@ public class ArtifactContractTests
         return pipeline.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(CacheKeyArtifactConsumerModule))!
-            .ModuleStatus;
+            .Status;
     }
 }

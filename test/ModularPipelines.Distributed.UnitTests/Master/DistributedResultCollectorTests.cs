@@ -44,7 +44,7 @@ public class DistributedResultCollectorTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = now,
             ModuleEnd = now.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
 
         var serialized = serializer.Serialize(
@@ -59,7 +59,7 @@ public class DistributedResultCollectorTests
         var result = await collector.WaitForResultAsync(typeof(TestModule).FullName!, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.ModuleName).IsEqualTo("TestModule");
     }
 
@@ -106,7 +106,7 @@ public class DistributedResultCollectorTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
         var serialized = serializer.Serialize(
             result,
@@ -153,7 +153,7 @@ public class DistributedResultCollectorTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
         var serialized = serializer.Serialize(
             result,

@@ -53,7 +53,7 @@ public class ConcurrencyOptionsTests : TestBase
             })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class ConcurrencyOptionsTests : TestBase
             })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -81,7 +81,7 @@ public class ConcurrencyOptionsTests : TestBase
             })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

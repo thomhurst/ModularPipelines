@@ -214,7 +214,7 @@ public class ContextExtensionsTests
     {
         // Arrange
         var mockConfiguration = new Mock<IConfiguration>();
-        mockConfiguration.Setup(c => c["MissingKey"]).Returns((string?)null);
+        mockConfiguration.Setup(c => c["MissingKey"]).Returns((string?) null);
 
         var mockServices = new Mock<IServicesContext>();
         mockServices.Setup(s => s.Configuration).Returns(mockConfiguration.Object);

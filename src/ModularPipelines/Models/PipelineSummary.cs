@@ -65,7 +65,7 @@ public record PipelineSummary
     public PipelineRunReport? RunReport { get; internal init; }
 
     [JsonIgnore]
-    internal Status? StatusOverride { get; init; }
+    internal ModuleStatus? StatusOverride { get; init; }
 
     [JsonConstructor]
     internal PipelineSummary(
@@ -89,7 +89,7 @@ public record PipelineSummary
     /// <summary>
     /// Gets the status of the pipeline.
     /// </summary>
-    public Status Status
+    public ModuleStatus Status
     {
         get
         {
@@ -100,14 +100,14 @@ public record PipelineSummary
 
             if (Results.Any(result =>
                     result.ExceptionOrDefault is not null
-                    && result.ModuleStatus != Status.IgnoredFailure))
+                    && result.Status != ModuleStatus.FailureIgnored))
             {
-                return Status.Failed;
+                return ModuleStatus.Failed;
             }
 
             return Results.Count == Modules.Count
-                ? Status.Successful
-                : Status.Unknown;
+                ? ModuleStatus.Succeeded
+                : ModuleStatus.Unknown;
         }
     }
 

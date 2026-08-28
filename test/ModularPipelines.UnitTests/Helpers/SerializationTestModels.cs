@@ -42,7 +42,7 @@ public static class SerializationTestModels
             {
                 Foo = TestValues.FooValue,
                 Hello = TestValues.HelloValue,
-                Items = [..TestValues.ItemsValue],
+                Items = [.. TestValues.ItemsValue],
             };
     }
 }

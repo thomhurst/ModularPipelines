@@ -123,7 +123,7 @@ public class ModuleReadyEventTests : TestBase
             .AddModule<SimpleModuleWithReadyEvent>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(EventLog).Contains("Ready:SimpleModuleWithReadyEvent");
     }
 
@@ -134,7 +134,7 @@ public class ModuleReadyEventTests : TestBase
             .AddModule<ModuleWithTimingCheck>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(EventLog.Any(e => e.Contains("Ready:ModuleWithTimingCheck:ElapsedTime:True"))).IsTrue();
     }
 
@@ -145,7 +145,7 @@ public class ModuleReadyEventTests : TestBase
             .AddModule<ModuleWithReadyAndStart>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var readyIndex = EventLog.IndexOf("Ready:ModuleWithReadyAndStart");
         var startIndex = EventLog.IndexOf("Start:ModuleWithReadyAndStart");
@@ -163,7 +163,7 @@ public class ModuleReadyEventTests : TestBase
             .AddModule<DependentModuleWithReadyEvent>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(EventLog).Contains("Ready:DependentModuleWithReadyEvent");
     }
 
@@ -174,6 +174,6 @@ public class ModuleReadyEventTests : TestBase
             .AddModule<ModuleWithThrowingReadyEvent>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }

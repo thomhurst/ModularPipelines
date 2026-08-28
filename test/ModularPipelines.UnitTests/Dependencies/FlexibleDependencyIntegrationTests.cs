@@ -6,7 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -51,7 +51,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var afterDbIndex = order.IndexOf(nameof(AfterDatabaseModule));
@@ -73,7 +73,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert - should succeed as no modules have the tag
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -86,7 +86,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var multiTagIndex = order.IndexOf(nameof(ModuleWithMultipleTags));
@@ -111,7 +111,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var afterInfraIndex = order.IndexOf(nameof(AfterInfrastructureModule));
@@ -133,7 +133,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert - should succeed as no modules have the category
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion
@@ -152,7 +152,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var afterCriticalIndex = order.IndexOf(nameof(AfterCriticalModule));
@@ -174,7 +174,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var derivedIndex = order.IndexOf(nameof(DerivedCriticalModule));
@@ -193,7 +193,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert - should succeed as no modules have the attribute
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion
@@ -210,7 +210,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var configuredIndex = order.IndexOf(nameof(ModuleWithConfiguredTags));
@@ -229,7 +229,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var configuredIndex = order.IndexOf(nameof(ModuleWithConfiguredCategory));
@@ -254,7 +254,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var combinedIndex = order.IndexOf(nameof(ModuleWithMultipleFlexibleDependencies));
@@ -281,7 +281,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var order = GetExecutionOrder();
         var dbAIndex = order.IndexOf(nameof(DatabaseModuleA));

@@ -49,7 +49,7 @@ public class MetricsCollectorTests : TestBase
             .AddModule<QuickModule3>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.Metrics).IsNotNull();
     }
 
@@ -124,9 +124,9 @@ public class MetricsCollectorTests : TestBase
         var moduleTypes = CreateModuleTypes(68).GetEnumerator();
         var now = DateTimeOffset.UtcNow;
 
-        RecordCompletedModules(collector, moduleTypes, now, 34, Status.Successful);
-        RecordCompletedModules(collector, moduleTypes, now, 6, Status.Failed);
-        RecordCompletedModules(collector, moduleTypes, now, 5, Status.Skipped);
+        RecordCompletedModules(collector, moduleTypes, now, 34, ModuleStatus.Succeeded);
+        RecordCompletedModules(collector, moduleTypes, now, 6, ModuleStatus.Failed);
+        RecordCompletedModules(collector, moduleTypes, now, 5, ModuleStatus.Skipped);
         RecordPendingModules(collector, moduleTypes, now, 23);
 
         var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 4);
@@ -148,11 +148,11 @@ public class MetricsCollectorTests : TestBase
         var moduleTypes = CreateModuleTypes(5).GetEnumerator();
         var now = DateTimeOffset.UtcNow;
 
-        RecordCompletedModules(collector, moduleTypes, now, 1, Status.UsedHistory);
-        RecordCompletedModules(collector, moduleTypes, now, 1, Status.CachedResult);
-        RecordCompletedModules(collector, moduleTypes, now, 1, Status.IgnoredFailure);
-        RecordCompletedModules(collector, moduleTypes, now, 1, Status.Processing);
-        RecordCompletedModules(collector, moduleTypes, now, 1, Status.Unknown);
+        RecordCompletedModules(collector, moduleTypes, now, 1, ModuleStatus.RestoredFromHistory);
+        RecordCompletedModules(collector, moduleTypes, now, 1, ModuleStatus.RestoredFromCache);
+        RecordCompletedModules(collector, moduleTypes, now, 1, ModuleStatus.FailureIgnored);
+        RecordCompletedModules(collector, moduleTypes, now, 1, ModuleStatus.Running);
+        RecordCompletedModules(collector, moduleTypes, now, 1, ModuleStatus.Unknown);
 
         var metrics = collector.ComputeMetrics(now, now.AddMinutes(1), maxParallelism: 4);
 
@@ -219,7 +219,7 @@ public class MetricsCollectorTests : TestBase
             .AddModule<QuickModule2>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(result.ModuleTimelines).IsNotNull();
         await Assert.That(result.ModuleTimelines!.Count).IsEqualTo(2);
     }
@@ -265,13 +265,13 @@ public class MetricsCollectorTests : TestBase
         IEnumerator<Type> moduleTypes,
         DateTimeOffset now,
         int count,
-        Status status)
+        ModuleStatus status)
     {
         for (var index = 0; index < count; index++)
         {
             var moduleType = GetNextModuleType(moduleTypes);
             collector.RecordModuleReady(moduleType, now, default, default);
-            collector.RecordModuleCompleted(moduleType, now, status == Status.Successful, status == Status.Skipped, status);
+            collector.RecordModuleCompleted(moduleType, now, status == ModuleStatus.Succeeded, status == ModuleStatus.Skipped, status);
         }
     }
 

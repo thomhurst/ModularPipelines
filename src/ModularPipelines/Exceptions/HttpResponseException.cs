@@ -101,7 +101,7 @@ public class HttpResponseException : PipelineException
 
     private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
     {
-        var message = $"HTTP request failed with status code {(int)statusCode} ({statusCode})";
+        var message = $"HTTP request failed with status code {(int) statusCode} ({statusCode})";
 
         if (!string.IsNullOrWhiteSpace(reasonPhrase))
         {

@@ -31,10 +31,10 @@ public class MockedFileSystemTests
 
         // Assert
         await Assert.That(result.Modules).Count().IsEqualTo(1);
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         // Verify module result is correct
-        await Assert.That(result.Results.First().ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Results.First().Status).IsEqualTo(ModuleStatus.Succeeded);
 
         // Verify the module read from the mocked file
         mockProvider.Verify(p => p.ReadAllTextAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -56,7 +56,7 @@ public class MockedFileSystemTests
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         // Verify write was called with expected content
         mockProvider.Verify(p => p.WriteAllTextAsync(
@@ -82,7 +82,7 @@ public class MockedFileSystemTests
             .RunAsync();
 
         // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         mockProvider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Once);
     }
 

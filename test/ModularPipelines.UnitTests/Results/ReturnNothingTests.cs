@@ -49,7 +49,7 @@ public class ReturnNothingTests : TestBase
     {
         using (TUnit.Assertions.Assert.Multiple())
         {
-            await TUnit.Assertions.Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+            await TUnit.Assertions.Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
             await TUnit.Assertions.Assert.That(result.Value).IsEqualTo(None.Value);
             await TUnit.Assertions.Assert.That(result.ExceptionOrDefault).IsNull();
         }

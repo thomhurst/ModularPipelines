@@ -40,7 +40,7 @@ public class ModuleResultSerializerTests
             ModuleDuration = TimeSpan.FromSeconds(1),
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow.AddSeconds(1),
-            ModuleStatus = Status.Successful
+            Status = ModuleStatus.Succeeded
         };
 
         var serialized = serializer.Serialize(result, typeof(SimpleModule).FullName!, typeof(SimpleResult).FullName!, 1);
@@ -52,7 +52,7 @@ public class ModuleResultSerializerTests
 
         var deserialized = serializer.Deserialize(serialized);
         await Assert.That(deserialized).IsNotNull();
-        await Assert.That(deserialized!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(deserialized.ModuleTypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(SimpleModule)));
     }
 

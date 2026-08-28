@@ -189,7 +189,7 @@ internal class IgnoredModuleResultRegistrar(
                             ignoredModule.Module.GetType()));
                     cancellationToken.ThrowIfCancellationRequested();
                     var moduleType = ignoredModule.Module.GetType();
-                    if (result.ModuleStatus == Status.UsedHistory)
+                    if (result.Status == ModuleStatus.RestoredFromHistory)
                     {
                         usedHistoryModuleTypes.Add(moduleType);
                     }
@@ -528,7 +528,7 @@ internal class IgnoredModuleResultRegistrar(
 
         if (allowHistory && historicalResult != null)
         {
-            var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
+            var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, ModuleStatus.RestoredFromHistory);
             _logger.LogDebug("Using historical result for ignored module {ModuleName}",
                 moduleType.Name);
             return usedHistoryResult;
@@ -539,7 +539,7 @@ internal class IgnoredModuleResultRegistrar(
 
         // Create execution context with Skipped status using compiled delegate factory
         var executionContext = ExecutionContextFactory.Create(module, moduleType);
-        executionContext.Status = Status.Skipped;
+        executionContext.Status = ModuleStatus.Skipped;
         executionContext.SkipResult = ignoredModule.SkipDecision;
 
         // Prefer generated typed metadata so Native AOT has compiled result and

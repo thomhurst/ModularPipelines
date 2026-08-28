@@ -134,7 +134,7 @@ internal sealed class PipelineImpl : IPipeline
                     var now = DateTimeOffset.UtcNow;
                     summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
                     {
-                        StatusOverride = Status.Successful,
+                        StatusOverride = ModuleStatus.Succeeded,
                     };
                 }
                 else
@@ -148,7 +148,7 @@ internal sealed class PipelineImpl : IPipeline
             ModuleActivityTracing.RecordPipelineCompletion(
                 activity,
                 summary.Status.ToString(),
-                summary.Status == Status.Failed);
+                summary.Status == ModuleStatus.Failed);
             return summary;
         }
         catch (Exception exception)

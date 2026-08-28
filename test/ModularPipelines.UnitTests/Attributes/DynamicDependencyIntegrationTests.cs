@@ -103,7 +103,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             .AddModule<ModuleB>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
         await Assert.That(ExecutionOrder).IsEquivalentTo(new[] { "A", "B" });
     }
 
@@ -129,7 +129,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Enums.Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
 
         var dependentResult = await result.Modules
             .OfType<DynamicallySkippedDependent>()

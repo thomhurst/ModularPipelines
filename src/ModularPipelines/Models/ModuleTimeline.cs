@@ -95,5 +95,5 @@ public record ModuleTimeline
     /// Gets the final status of the module.
     /// </summary>
     [JsonInclude]
-    public Status Status { get; init; }
+    public ModuleStatus Status { get; init; }
 }

@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -85,6 +85,6 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module3>()
                 .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }

@@ -12,5 +12,5 @@ namespace ModularPipelines.Models;
 public sealed record ModuleDurationSample(
     string RunId,
     DateTimeOffset End,
-    Status Status,
+    ModuleStatus Status,
     TimeSpan Duration);

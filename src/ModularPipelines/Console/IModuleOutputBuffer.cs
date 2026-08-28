@@ -120,7 +120,7 @@ internal interface IModuleOutputBuffer
     /// Sets the final module status used for completion header formatting.
     /// </summary>
     /// <param name="status">The final module status.</param>
-    void SetStatus(Status status)
+    void SetStatus(ModuleStatus status)
     {
     }
 

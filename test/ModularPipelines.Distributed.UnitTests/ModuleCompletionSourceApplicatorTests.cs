@@ -29,7 +29,7 @@ public class ModuleCompletionSourceApplicatorTests
             ModuleDuration = TimeSpan.FromMilliseconds(100),
             ModuleStart = now,
             ModuleEnd = now.AddMilliseconds(100),
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
     }
 
@@ -49,7 +49,7 @@ public class ModuleCompletionSourceApplicatorTests
         // The ResultTask should now be completed with the applied result
         var moduleResult = await ((IInternalModule) module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
-        await Assert.That(moduleResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

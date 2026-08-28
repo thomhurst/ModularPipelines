@@ -440,12 +440,12 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    [Arguments(Status.Skipped, "⊘")]
-    [Arguments(Status.IgnoredFailure, "⚠")]
-    [Arguments(Status.UsedHistory, "↻")]
-    [Arguments(Status.CachedResult, "↻")]
+    [Arguments(ModuleStatus.Skipped, "⊘")]
+    [Arguments(ModuleStatus.FailureIgnored, "⚠")]
+    [Arguments(ModuleStatus.RestoredFromHistory, "↻")]
+    [Arguments(ModuleStatus.RestoredFromCache, "↻")]
     public async Task CompleteFlush_RendersMarkerForFinalModuleStatus(
-        Status status,
+        ModuleStatus status,
         string expectedMarker)
     {
         var writer = new StringWriter();

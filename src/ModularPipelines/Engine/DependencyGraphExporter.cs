@@ -257,7 +257,7 @@ internal sealed class DependencyGraphExporter(
                 }
 
                 return new GraphNodeExecutionState(
-                    result?.ModuleStatus == Status.Skipped,
+                    result?.Status == ModuleStatus.Skipped,
                     result?.SkipDecisionOrDefault?.Reason);
             });
 

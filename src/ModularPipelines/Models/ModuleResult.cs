@@ -46,7 +46,7 @@ public abstract record ModuleResult : IModuleResult
 
     /// <inheritdoc />
     [JsonInclude]
-    public required Status ModuleStatus { get; init; }
+    public required ModuleStatus Status { get; init; }
 
     /// <summary>
     /// Gets the fully qualified type name of the module that produced this result.
@@ -142,7 +142,7 @@ public abstract record ModuleResult : IModuleResult
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ctx.Status,
+            Status = ctx.Status,
             ModuleType = ctx.ModuleType,
         };
     }
@@ -157,7 +157,7 @@ public abstract record ModuleResult : IModuleResult
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ctx.Status,
+            Status = ctx.Status,
             ModuleType = ctx.ModuleType,
         };
     }
@@ -381,7 +381,7 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleDuration = failure.ModuleDuration,
             ModuleStart = failure.ModuleStart,
             ModuleEnd = failure.ModuleEnd,
-            ModuleStatus = failure.ModuleStatus,
+            Status = failure.Status,
             ModuleType = failure.ModuleType,
         };
 
@@ -397,7 +397,7 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleDuration = skipped.ModuleDuration,
             ModuleStart = skipped.ModuleStart,
             ModuleEnd = skipped.ModuleEnd,
-            ModuleStatus = skipped.ModuleStatus,
+            Status = skipped.Status,
             ModuleType = skipped.ModuleType,
         };
 
@@ -412,7 +412,7 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ctx.Status,
+            Status = ctx.Status,
             ModuleType = ctx.ModuleType,
         };
     }
@@ -427,7 +427,7 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ctx.Status,
+            Status = ctx.Status,
             ModuleType = ctx.ModuleType,
         };
     }
@@ -442,7 +442,7 @@ public abstract record ModuleResult<T> : ModuleResult
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ctx.Status,
+            Status = ctx.Status,
             ModuleType = ctx.ModuleType,
         };
     }
@@ -663,7 +663,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
         var moduleDuration = TimeSpan.Zero;
         var moduleStart = DateTimeOffset.MinValue;
         var moduleEnd = DateTimeOffset.MinValue;
-        var moduleStatus = Status.NotYetStarted;
+        var moduleStatus = ModuleStatus.NotStarted;
         Exception? exception = null;
         SkipDecision? skipDecision = null;
 
@@ -704,8 +704,8 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                     case "ModuleEnd":
                         moduleEnd = reader.GetDateTimeOffset();
                         break;
-                    case "ModuleStatus":
-                        moduleStatus = JsonSerializer.Deserialize<Status>(ref reader, options);
+                    case "Status":
+                        moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                         break;
                     case "Exception":
                         exception = ExceptionConverter.Read(ref reader, typeof(Exception), options);
@@ -732,7 +732,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus,
+                    Status = moduleStatus,
                 }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
             "Skipped" => skipDecision is not null
@@ -743,7 +743,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus,
+                    Status = moduleStatus,
                 }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown or unsupported discriminator for non-generic ModuleResult: {discriminator}"),
@@ -779,8 +779,8 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
         JsonSerializer.Serialize(writer, value.ModuleDuration, options);
         writer.WriteString("ModuleStart", value.ModuleStart);
         writer.WriteString("ModuleEnd", value.ModuleEnd);
-        writer.WritePropertyName("ModuleStatus");
-        JsonSerializer.Serialize(writer, value.ModuleStatus, options);
+        writer.WritePropertyName("Status");
+        JsonSerializer.Serialize(writer, value.Status, options);
 
         // Write variant-specific properties
         switch (value)
@@ -827,7 +827,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         var moduleDuration = TimeSpan.Zero;
         var moduleStart = DateTimeOffset.MinValue;
         var moduleEnd = DateTimeOffset.MinValue;
-        var moduleStatus = Status.NotYetStarted;
+        var moduleStatus = ModuleStatus.NotStarted;
         JsonElement? valueElement = null;
         Exception? exception = null;
         SkipDecision? skipDecision = null;
@@ -872,8 +872,8 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     case "ModuleEnd":
                         moduleEnd = reader.GetDateTimeOffset();
                         break;
-                    case "ModuleStatus":
-                        moduleStatus = JsonSerializer.Deserialize<Status>(ref reader, options);
+                    case "Status":
+                        moduleStatus = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                         break;
                     case "Value":
                         valueElement = JsonElement.ParseValue(ref reader);
@@ -905,7 +905,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 ModuleDuration = moduleDuration,
                 ModuleStart = moduleStart,
                 ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus,
+                Status = moduleStatus,
             },
             "Failure" => exception is not null
                 ? new ModuleResult<T>.Failure(exception)
@@ -915,7 +915,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus,
+                    Status = moduleStatus,
                 }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
             "Skipped" => skipDecision is not null
@@ -926,7 +926,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
-                    ModuleStatus = moduleStatus,
+                    Status = moduleStatus,
                 }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown discriminator: {discriminator}"),
@@ -989,8 +989,8 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         JsonSerializer.Serialize(writer, value.ModuleDuration, options);
         writer.WriteString("ModuleStart", value.ModuleStart);
         writer.WriteString("ModuleEnd", value.ModuleEnd);
-        writer.WritePropertyName("ModuleStatus");
-        JsonSerializer.Serialize(writer, value.ModuleStatus, options);
+        writer.WritePropertyName("Status");
+        JsonSerializer.Serialize(writer, value.Status, options);
 
         // Write variant-specific properties
         switch (value)

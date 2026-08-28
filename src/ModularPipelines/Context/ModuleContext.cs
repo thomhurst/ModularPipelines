@@ -144,7 +144,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         }
         finally
         {
-            var isSuccessful = tracker.Status == Status.Successful;
+            var isSuccessful = tracker.Status == ModuleStatus.Succeeded;
             if (isSuccessful)
             {
                 await _estimatedTimeProvider.SaveSubModuleTimeAsync(

@@ -15,5 +15,5 @@ internal interface IInternalModuleLogger : IModuleLogger
     /// <summary>
     /// Sets the final module status used when rendering buffered output.
     /// </summary>
-    void SetStatus(Status status);
+    void SetStatus(ModuleStatus status);
 }

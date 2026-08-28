@@ -14,7 +14,7 @@ using NReco.Logging.File;
 using Spectre.Console;
 using File = ModularPipelines.FileSystem.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -311,11 +311,11 @@ public class ModuleLoggerTests
             Mock.Of<IFormattedLogValuesObfuscator>(),
             CreateConsoleCoordinator(moduleOutputBuffer.Object).Object,
             Mock.Of<IOutputCoordinator>());
-        logger.SetStatus(Status.Skipped);
+        logger.SetStatus(ModuleStatus.Skipped);
 
         await logger.DisposeAsync();
 
-        moduleOutputBuffer.Verify(x => x.SetStatus(Status.Skipped), Times.Once);
+        moduleOutputBuffer.Verify(x => x.SetStatus(ModuleStatus.Skipped), Times.Once);
         moduleOutputBuffer.Verify(x => x.MarkComplete(), Times.Once);
     }
 

@@ -7,7 +7,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -32,13 +32,13 @@ public class ModuleHistoryTests
     }
 
     [ModularPipelines.Attributes.DependsOn<SkipFromCategory>]
-    private class UsesCategoryDependency : Module<Status>
+    private class UsesCategoryDependency : Module<ModuleStatus>
     {
-        protected internal override async Task<Status> ExecuteAsync(
+        protected internal override async Task<ModuleStatus> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return (await context.GetModule<SkipFromCategory>()).ModuleStatus;
+            return (await context.GetModule<SkipFromCategory>()).Status;
         }
     }
 
@@ -136,7 +136,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -152,7 +152,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -166,7 +166,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -180,7 +180,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -196,7 +196,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -213,7 +213,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -228,7 +228,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -243,7 +243,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -259,7 +259,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
     [Test]
@@ -277,9 +277,9 @@ public class ModuleHistoryTests
         var dependencyResult = await summary.Modules.OfType<SkipFromCategory>().Single();
         var dependentResult = await summary.Modules.OfType<UsesCategoryDependency>().Single();
 
-        await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Status.UsedHistory);
-        await Assert.That(dependentResult.ModuleStatus).IsEqualTo(Status.Successful);
-        await Assert.That(dependentResult.ValueOrDefault).IsEqualTo(Status.UsedHistory);
+        await Assert.That(dependencyResult.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
+        await Assert.That(dependentResult.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(dependentResult.ValueOrDefault).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
     [Test]
@@ -297,8 +297,8 @@ public class ModuleHistoryTests
         var dependencyResult = await summary.Modules.OfType<SkipFromCategory>().Single();
         var dependentResult = await summary.Modules.OfType<UsesCategoryDependency>().Single();
 
-        await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Status.Skipped);
-        await Assert.That(dependentResult.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(dependencyResult.Status).IsEqualTo(ModuleStatus.Skipped);
+        await Assert.That(dependentResult.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
     [Test]
@@ -315,7 +315,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
     [Test]
@@ -330,7 +330,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
     [Test]
@@ -345,7 +345,7 @@ public class ModuleHistoryTests
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
     }
 
 }

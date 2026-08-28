@@ -404,10 +404,12 @@ public static class GeneratedSecretMetadata
         public ConcurrentDictionary<string, byte> CoveredAssemblyIdentities { get; } = new(StringComparer.Ordinal);
 
         public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
-            CoveredTypeNamesByAssemblyIdentity { get; } = new(StringComparer.Ordinal);
+            CoveredTypeNamesByAssemblyIdentity
+        { get; } = new(StringComparer.Ordinal);
 
         public ConcurrentDictionary<string, ConcurrentDictionary<string, byte>>
-            ReflectionFallbackTypeNamesByAssemblyIdentity { get; } = new(StringComparer.Ordinal);
+            ReflectionFallbackTypeNamesByAssemblyIdentity
+        { get; } = new(StringComparer.Ordinal);
     }
 
     private sealed class AssemblyCoverage

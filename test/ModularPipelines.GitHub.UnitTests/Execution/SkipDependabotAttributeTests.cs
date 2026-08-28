@@ -8,7 +8,7 @@ using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.TestHelpers;
 using Moq;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.GitHub.UnitTests.Execution;
 
@@ -71,7 +71,7 @@ public class SkipDependabotAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -91,7 +91,7 @@ public class SkipDependabotAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -108,7 +108,7 @@ public class SkipDependabotAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module2))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -125,7 +125,7 @@ public class SkipDependabotAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module3))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -142,6 +142,6 @@ public class SkipDependabotAttributeTests : TestBase
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(Module4))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }

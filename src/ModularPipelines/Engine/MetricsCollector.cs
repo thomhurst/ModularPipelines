@@ -45,14 +45,14 @@ internal class MetricsCollector : IMetricsCollector
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.StartTime = time;
-        data.Status = Status.Processing;
+        data.Status = ModuleStatus.Running;
     }
 
-    public void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, Status status)
+    public void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status)
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.EndTime = time;
-        data.WasSuccessful = status is Status.Successful or Status.UsedHistory or Status.CachedResult;
+        data.WasSuccessful = status is ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache;
         data.WasSkipped = skipped;
         data.Status = status;
     }
@@ -86,30 +86,30 @@ internal class MetricsCollector : IMetricsCollector
 
             switch (data.Status)
             {
-                case Status.Successful:
-                case Status.UsedHistory:
-                case Status.CachedResult:
+                case ModuleStatus.Succeeded:
+                case ModuleStatus.RestoredFromHistory:
+                case ModuleStatus.RestoredFromCache:
                     successfulCount++;
                     break;
-                case Status.Failed:
-                case Status.PipelineTerminated:
-                case Status.TimedOut:
-                case Status.DependencyFailed:
+                case ModuleStatus.Failed:
+                case ModuleStatus.Cancelled:
+                case ModuleStatus.TimedOut:
+                case ModuleStatus.DependencyFailed:
                     failedCount++;
                     break;
-                case Status.IgnoredFailure:
+                case ModuleStatus.FailureIgnored:
                     ignoredFailureCount++;
                     break;
-                case Status.Skipped:
+                case ModuleStatus.Skipped:
                     skippedCount++;
                     break;
-                case Status.NotYetStarted:
+                case ModuleStatus.NotStarted:
                     pendingCount++;
                     break;
-                case Status.Processing:
+                case ModuleStatus.Running:
                     processingCount++;
                     break;
-                case Status.Unknown:
+                case ModuleStatus.Unknown:
                     unknownCount++;
                     break;
                 default:
@@ -217,7 +217,7 @@ internal class MetricsCollector : IMetricsCollector
         public DateTimeOffset? EndTime { get; set; }
         public bool WasSuccessful { get; set; }
         public bool WasSkipped { get; set; }
-        public Status Status { get; set; }
+        public ModuleStatus Status { get; set; }
     }
 
     private record ConcurrencySnapshot(int Concurrency, DateTimeOffset Time);

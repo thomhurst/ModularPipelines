@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using Spectre.Console;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Console;
 
@@ -44,7 +44,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private Action<Exception>? _deferredFlushFailureHandler;
-    private Status _status = Status.Successful;
+    private ModuleStatus _status = ModuleStatus.Succeeded;
     private bool _isComplete;
     private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
@@ -287,7 +287,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public void SetStatus(Status status)
+    public void SetStatus(ModuleStatus status)
     {
         lock (_lock)
         {
@@ -836,7 +836,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName}{continuationText} ({durationText})";
         }
 
-        Status status;
+        ModuleStatus status;
 
         lock (_lock)
         {

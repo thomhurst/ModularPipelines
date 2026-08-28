@@ -5,7 +5,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -127,7 +127,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;
@@ -146,7 +146,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDepForCategoryFilter>().Single();
         var result = await testModule;
@@ -164,7 +164,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var requiredResult = await pipelineSummary.Modules
             .OfType<TestModuleWithRequiredDep>()
@@ -210,7 +210,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
             .IsEqualTo(1);
         await Assert.That((await compileModule).ValueOrDefault).IsEqualTo("compiled");
@@ -277,7 +277,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile", "test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;

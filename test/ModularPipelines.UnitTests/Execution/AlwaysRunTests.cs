@@ -9,7 +9,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -104,10 +104,10 @@ public class AlwaysRunTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(result1.ModuleStatus).IsEqualTo(Status.Failed);
-            await Assert.That(result2.ModuleStatus).IsEqualTo(Status.Failed);
-            await Assert.That(result3.ModuleStatus).IsEqualTo(Status.Failed);
-            await Assert.That(result4.ModuleStatus).IsNotEqualTo(Status.NotYetStarted);
+            await Assert.That(result1.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(result2.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(result3.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(result4.Status).IsNotEqualTo(ModuleStatus.NotStarted);
         }
     }
 
@@ -131,9 +131,9 @@ public class AlwaysRunTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(Status.Failed);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(alwaysRunResult).IsNotNull();
-            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(alwaysRunResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 

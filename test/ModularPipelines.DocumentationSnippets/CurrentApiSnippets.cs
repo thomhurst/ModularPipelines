@@ -52,7 +52,7 @@ public static class CurrentApiSnippets
         await using var pipeline = await builder.BuildAsync();
         var summary = await pipeline.RunAsync();
 
-        return summary.Status == Status.Failed ? 1 : 0;
+        return summary.Status == ModuleStatus.Failed ? 1 : 0;
     }
 
     public static async Task VerifySuccessfulPipeline(string[] args)
@@ -65,7 +65,7 @@ public static class CurrentApiSnippets
         builder.AddModule<BuildModule>();
 
         var result = await builder.RunAsync();
-        if (result.Status != Status.Successful)
+        if (result.Status != ModuleStatus.Succeeded)
         {
             throw new InvalidOperationException("Expected a successful pipeline.");
         }

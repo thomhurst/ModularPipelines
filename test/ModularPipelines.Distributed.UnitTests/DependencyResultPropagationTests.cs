@@ -49,7 +49,7 @@ public class DependencyResultPropagationTests
             ModuleDuration = TimeSpan.FromMilliseconds(100),
             ModuleStart = now,
             ModuleEnd = now.AddMilliseconds(100),
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
     }
 
@@ -92,7 +92,7 @@ public class DependencyResultPropagationTests
             ModuleDuration = TimeSpan.Zero,
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
-            ModuleStatus = Status.Skipped,
+            Status = ModuleStatus.Skipped,
         };
         resultRegistry.RegisterResult(typeof(DependencyModule), localSkip);
 
@@ -107,9 +107,9 @@ public class DependencyResultPropagationTests
         // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
         var moduleResult = await ((IInternalModule) depModule).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
-        await Assert.That(moduleResult!.ModuleStatus).IsEqualTo(Status.Successful);
-        await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.ModuleStatus)
-            .IsEqualTo(Status.Successful);
+        await Assert.That(moduleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.Status)
+            .IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

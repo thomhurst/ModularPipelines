@@ -42,11 +42,11 @@ public class IgnoredFailureTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.IgnoredFailure);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.FailureIgnored);
             await Assert.That(moduleResult.ExceptionOrDefault).IsNotNull();
             await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
             await Assert.That(pipelineSummary.Results).Count().IsEqualTo(1);
-            await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+            await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 }

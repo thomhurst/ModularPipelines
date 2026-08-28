@@ -125,7 +125,7 @@ public class ExecutionHintTests : TestBase
             .AddModule<CpuIntensiveModule1>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -135,7 +135,7 @@ public class ExecutionHintTests : TestBase
             .AddModule<NoHintModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -148,7 +148,7 @@ public class ExecutionHintTests : TestBase
             .AddModule<NoHintModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -165,7 +165,7 @@ public class ExecutionHintTests : TestBase
             })
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         // The max concurrency should not exceed 2
         await Assert.That(_maxCpuConcurrency).IsLessThanOrEqualTo(2);
     }

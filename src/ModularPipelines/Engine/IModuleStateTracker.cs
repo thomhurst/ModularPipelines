@@ -30,7 +30,7 @@ internal interface IModuleStateTracker
     /// <param name="success">True if execution succeeded (or failure was ignored), false otherwise.</param>
     /// <param name="exception">Optional exception if execution failed.</param>
     /// <param name="statusOverride">Optional status override. When provided, this status is used instead of computing from the success parameter.</param>
-    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null);
+    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, ModuleStatus? statusOverride = null);
 
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing).

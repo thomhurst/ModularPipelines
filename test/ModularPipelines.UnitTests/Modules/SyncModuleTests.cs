@@ -7,7 +7,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Modules;
 
@@ -31,7 +31,7 @@ public class SyncModuleTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsEqualTo("Hello from sync module");
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     public class SyncModuleReturningNull : SyncModule<string?>
@@ -50,7 +50,7 @@ public class SyncModuleTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsNull();
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     public class SyncModuleWithComplexType : SyncModule<Dictionary<string, int>>
@@ -109,7 +109,7 @@ public class SyncModuleTests : TestBase
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var result = resultRegistry.GetResult(typeof(ThrowingSyncModule))!;
 
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Failed);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(result.ExceptionOrDefault).IsNotNull();
         await Assert.That(result.ExceptionOrDefault!.Message).IsEqualTo("Sync module exception");
     }

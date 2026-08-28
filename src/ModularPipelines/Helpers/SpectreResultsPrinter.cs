@@ -2,11 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using Spectre.Console;
-using ModuleStatus = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
@@ -69,16 +69,16 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var failedCount = metrics?.FailedModules
             ?? CountModules(pipelineSummary, static timeline => timeline.Status is ModuleStatus.Failed
                 or ModuleStatus.TimedOut
-                or ModuleStatus.PipelineTerminated
+                or ModuleStatus.Cancelled
                 or ModuleStatus.DependencyFailed);
         var skippedCount = metrics?.SkippedModules
             ?? CountModules(pipelineSummary, static timeline => timeline.WasSkipped);
         var ignoredCount = metrics?.IgnoredFailureModules
-            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.IgnoredFailure);
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.FailureIgnored);
         var pendingCount = metrics?.PendingModules
-            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.NotYetStarted);
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.NotStarted);
         var processingCount = metrics?.ProcessingModules
-            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.Processing);
+            ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.Running);
         var unknownCount = metrics?.UnknownModules
             ?? CountModules(pipelineSummary, static timeline => timeline.Status == ModuleStatus.Unknown);
 
@@ -103,7 +103,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var summaryLine = CreateSummaryLine(pipelineSummary);
 
         // Create the header rule
-        var headerText = pipelineSummary.Status == ModuleStatus.Successful
+        var headerText = pipelineSummary.Status == ModuleStatus.Succeeded
             ? "[bold green]Pipeline Completed Successfully[/]"
             : pipelineSummary.Status == ModuleStatus.Failed
                 ? "[bold red]Pipeline Failed[/]"
@@ -136,7 +136,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         // Add columns with alignment
         table.AddColumn(new TableColumn("[bold]Module[/]").LeftAligned());
-        table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
+        table.AddColumn(new TableColumn("[bold]ModuleStatus[/]").Centered());
         table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
         var reportLookup = pipelineSummary.RunReport is null
             ? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal)
@@ -170,9 +170,9 @@ internal class SpectreResultsPrinter : IResultsPrinter
                     {
                         ModuleStatus.Failed => 0,
                         ModuleStatus.TimedOut => 0,
-                        ModuleStatus.PipelineTerminated => 0,
+                        ModuleStatus.Cancelled => 0,
                         ModuleStatus.DependencyFailed => 0,
-                        ModuleStatus.IgnoredFailure => 1,
+                        ModuleStatus.FailureIgnored => 1,
                         ModuleStatus.Skipped => 2,
                         _ => 3,
                     };
@@ -269,13 +269,13 @@ internal class SpectreResultsPrinter : IResultsPrinter
         {
             ModuleStatus.Failed => $"[red]{moduleName}[/]",
             ModuleStatus.TimedOut => $"[red]{moduleName}[/]",
-            ModuleStatus.PipelineTerminated => $"[red]{moduleName}[/]",
+            ModuleStatus.Cancelled => $"[red]{moduleName}[/]",
             ModuleStatus.DependencyFailed => $"[red]{moduleName}[/]",
-            ModuleStatus.IgnoredFailure => $"[yellow]{moduleName}[/]",
+            ModuleStatus.FailureIgnored => $"[yellow]{moduleName}[/]",
             ModuleStatus.Skipped => $"[dim]{moduleName}[/]",
-            ModuleStatus.Successful => $"[green]{moduleName}[/]",
-            ModuleStatus.UsedHistory => $"[green3]{moduleName}[/]",
-            ModuleStatus.CachedResult => $"[green3]{moduleName}[/]",
+            ModuleStatus.Succeeded => $"[green]{moduleName}[/]",
+            ModuleStatus.RestoredFromHistory => $"[green3]{moduleName}[/]",
+            ModuleStatus.RestoredFromCache => $"[green3]{moduleName}[/]",
             _ => $"[cyan]{moduleName}[/]",
         };
     }
@@ -284,17 +284,17 @@ internal class SpectreResultsPrinter : IResultsPrinter
     {
         return status switch
         {
-            ModuleStatus.Successful => "[green]Passed[/]",
+            ModuleStatus.Succeeded => "[green]Passed[/]",
             ModuleStatus.Failed => "[red]Failed[/]",
             ModuleStatus.TimedOut => "[red]Timeout[/]",
-            ModuleStatus.PipelineTerminated => "[red]Terminated[/]",
+            ModuleStatus.Cancelled => "[red]Terminated[/]",
             ModuleStatus.DependencyFailed => "[red]Dependency Failed[/]",
-            ModuleStatus.IgnoredFailure => "[yellow]Ignored[/]",
+            ModuleStatus.FailureIgnored => "[yellow]Ignored[/]",
             ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
-            ModuleStatus.UsedHistory => "[green3]History[/]",
-            ModuleStatus.CachedResult => "[green3]Cached[/]",
-            ModuleStatus.Processing => "[blue]Running[/]",
-            ModuleStatus.NotYetStarted => "[dim]Pending[/]",
+            ModuleStatus.RestoredFromHistory => "[green3]History[/]",
+            ModuleStatus.RestoredFromCache => "[green3]Cached[/]",
+            ModuleStatus.Running => "[blue]Running[/]",
+            ModuleStatus.NotStarted => "[dim]Pending[/]",
             ModuleStatus.Unknown => "[dim]Unknown[/]",
             _ => "[dim]-[/]",
         };
@@ -307,7 +307,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
     {
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
 
-        var statusFormatted = pipelineSummary.Status == ModuleStatus.Successful
+        var statusFormatted = pipelineSummary.Status == ModuleStatus.Succeeded
             ? "[bold green]Passed[/]"
             : pipelineSummary.Status == ModuleStatus.Failed
                 ? "[bold red]Failed[/]"
@@ -396,11 +396,11 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
     private static void PrintFailedModules(PipelineSummary pipelineSummary)
     {
-        // Only show modules that actually failed, not cascaded failures (PipelineTerminated)
+        // Only show modules that actually failed, not cascaded failures (Cancelled)
         // Cascaded failures are modules that never started because their dependencies failed
         var failedResults = pipelineSummary.Results
             .Where(result => result.ExceptionOrDefault is not null)
-            .Where(r => r.ModuleStatus is ModuleStatus.Failed or ModuleStatus.TimedOut)
+            .Where(r => r.Status is ModuleStatus.Failed or ModuleStatus.TimedOut)
             .ToList();
 
         if (failedResults.Count == 0)

@@ -47,9 +47,9 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Arguments(Status.TimedOut)]
-    [Arguments(Status.Failed)]
-    public async Task CreateCollectorFailureResult_PreservesTerminalStatus(Status status)
+    [Arguments(ModuleStatus.TimedOut)]
+    [Arguments(ModuleStatus.Failed)]
+    public async Task CreateCollectorFailureResult_PreservesTerminalStatus(ModuleStatus status)
     {
         var module = new TestModule();
         var exception = new InvalidOperationException("Collector failed");
@@ -62,7 +62,7 @@ public class DistributedModuleExecutorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(result.ModuleStatus).IsEqualTo(status);
+            await Assert.That(result.Status).IsEqualTo(status);
             await Assert.That(result.ExceptionOrDefault).IsSameReferenceAs(exception);
         }
     }

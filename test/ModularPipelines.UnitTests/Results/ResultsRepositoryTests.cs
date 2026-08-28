@@ -8,7 +8,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Results;
 
@@ -70,8 +70,8 @@ public class ResultsRepositoryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.Successful);
-            await Assert.That(module2Result.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(module1Result.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(module2Result.Status).IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 
@@ -95,8 +95,8 @@ public class ResultsRepositoryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.UsedHistory);
-            await Assert.That(module2Result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+            await Assert.That(module1Result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
+            await Assert.That(module2Result.Status).IsEqualTo(ModuleStatus.RestoredFromHistory);
         }
     }
 }

@@ -79,7 +79,7 @@ public class PrioritySchedulingTests : TestBase
             .AddModule<CriticalPriorityModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -89,7 +89,7 @@ public class PrioritySchedulingTests : TestBase
             .AddModule<DefaultPriorityModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -102,7 +102,7 @@ public class PrioritySchedulingTests : TestBase
             .AddModule<CriticalPriorityModule>()
             .RunAsync();
 
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(ExecutionOrder.Count).IsEqualTo(4);
     }
 }

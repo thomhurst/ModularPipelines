@@ -5,7 +5,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests;
 
@@ -213,7 +213,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(tracker.CompletedCount).IsEqualTo(expectedModuleCount);
     }
 
@@ -328,7 +328,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(tracker.CompletedCount).IsEqualTo(chainDepth);
 
         // Verify all chain modules executed
@@ -468,7 +468,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed
@@ -604,7 +604,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed

@@ -51,7 +51,7 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     /// <summary>
     /// Gets or sets the current execution status.
     /// </summary>
-    public Status Status { get; set; } = Status.NotYetStarted;
+    public ModuleStatus Status { get; set; } = ModuleStatus.NotStarted;
 
     /// <summary>
     /// Gets or sets when the module started executing.
@@ -240,7 +240,7 @@ internal interface IModuleExecutionContext
 
     Type ModuleType { get; }
 
-    Status Status { get; set; }
+    ModuleStatus Status { get; set; }
 
     DateTimeOffset StartTime { get; set; }
 

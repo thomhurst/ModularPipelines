@@ -7,7 +7,7 @@ using ModularPipelines.Options;
 using Moq;
 using Spectre.Console;
 using Spectre.Console.Rendering;
-using ModuleStatus = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -173,7 +173,7 @@ public class SpectreResultsPrinterTests
                 {
                     ModuleName = nameof(SkippedModule),
                     ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
-                    Status = ModuleStatus.Successful,
+                    Status = ModuleStatus.Succeeded,
                     ExecutionDuration = TimeSpan.FromSeconds(5),
                 },
             ]) with
@@ -366,7 +366,7 @@ public class SpectreResultsPrinterTests
             ModuleDuration = end - start,
             ModuleStart = start,
             ModuleEnd = end,
-            ModuleStatus = ModuleStatus.Failed,
+            Status = ModuleStatus.Failed,
         };
 
         return new PipelineSummary(

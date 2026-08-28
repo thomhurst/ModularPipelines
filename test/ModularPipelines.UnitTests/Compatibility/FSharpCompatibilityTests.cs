@@ -15,7 +15,7 @@ public class FSharpCompatibilityTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(dependencyResult.ValueOrDefault).IsEqualTo("dependency");
             await Assert.That(dependentResult.ValueOrDefault).IsEqualTo("dependency-dependent");
         }
@@ -31,7 +31,7 @@ public class FSharpCompatibilityTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(Status.Successful);
+            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(dependencyResult.ValueOrDefault).IsEqualTo("dependency");
             await Assert.That(dependentResult.ValueOrDefault).IsEqualTo("dependency-configured");
         }

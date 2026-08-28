@@ -96,17 +96,17 @@ internal static class ModuleResultFactory
         "AOT",
         "IL3050",
         Justification = "Type-erased result mutation is used by dynamic and history paths that are unsupported in Native AOT.")]
-    public static IModuleResult WithStatus(IModuleResult result, Status status)
+    public static IModuleResult WithStatus(IModuleResult result, ModuleStatus status)
     {
         // Handle non-generic Failure/Skipped types directly (most efficient path)
         if (result is ModuleResult.Failure failure)
         {
-            return failure with { ModuleStatus = status };
+            return failure with { Status = status };
         }
 
         if (result is ModuleResult.Skipped skipped)
         {
-            return skipped with { ModuleStatus = status };
+            return skipped with { Status = status };
         }
 
         // Generic variants require reflection to call WithStatusGeneric<T>, which handles
@@ -143,8 +143,8 @@ internal static class ModuleResultFactory
         return ModuleResult<T>.CreateFailure(exception, ctx);
     }
 
-    private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, Status status)
+    private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, ModuleStatus status)
     {
-        return result with { ModuleStatus = status };
+        return result with { Status = status };
     }
 }

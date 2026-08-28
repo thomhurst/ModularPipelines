@@ -3,7 +3,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -180,7 +180,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithProgrammaticDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -200,7 +200,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithTypeDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion
@@ -215,7 +215,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithOptionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -225,7 +225,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithOptionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion
@@ -240,7 +240,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithActiveConditionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -259,7 +259,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithInactiveConditionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion
@@ -275,7 +275,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -286,7 +286,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -298,7 +298,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithChainedDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -309,7 +309,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithChainedDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     #endregion

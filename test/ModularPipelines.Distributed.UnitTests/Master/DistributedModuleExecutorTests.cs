@@ -162,7 +162,7 @@ public class DistributedModuleExecutorTests
     private static ModuleResult<T> CreateSuccessResult<T>(
         T value,
         string moduleName,
-        Status status = Status.Successful)
+        ModuleStatus status = ModuleStatus.Succeeded)
         where T : notnull
     {
         var now = DateTimeOffset.UtcNow;
@@ -173,7 +173,7 @@ public class DistributedModuleExecutorTests
             ModuleDuration = TimeSpan.FromMilliseconds(100),
             ModuleStart = now,
             ModuleEnd = now.AddMilliseconds(100),
-            ModuleStatus = status,
+            Status = status,
         };
     }
 
@@ -315,7 +315,7 @@ public class DistributedModuleExecutorTests
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(registeredResult.ModuleName).IsEqualTo("DistributedModule");
     }
 
@@ -370,7 +370,7 @@ public class DistributedModuleExecutorTests
         var historyResult = CreateSuccessResult(
             new SimpleResult { Message = "history" },
             "DistributedModule",
-            Status.UsedHistory);
+            ModuleStatus.RestoredFromHistory);
         resultRegistry.RegisterResult(typeof(DistributedModule), historyResult);
 
         var executor = CreateExecutor(scheduler, resultRegistry: resultRegistry);
@@ -382,7 +382,7 @@ public class DistributedModuleExecutorTests
             typeof(DistributedModule),
             true,
             null,
-            Status.UsedHistory), Times.Once());
+            ModuleStatus.RestoredFromHistory), Times.Once());
     }
 
     [Test]
@@ -644,7 +644,7 @@ public class DistributedModuleExecutorTests
         // The result was published through the coordinator and collected by the result collector
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]
@@ -1049,7 +1049,7 @@ public class DistributedModuleExecutorTests
                 typeof(DistributedModule),
                 It.IsAny<bool>(),
                 It.IsAny<Exception?>(),
-                It.IsAny<Status?>()),
+                It.IsAny<ModuleStatus?>()),
             Times.Never());
     }
 
@@ -1385,7 +1385,7 @@ public class DistributedModuleExecutorTests
         // Assert — work was distributed and result collected (if barrier didn't work, result would be lost)
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
-        await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     [Test]

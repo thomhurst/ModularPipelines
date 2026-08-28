@@ -97,7 +97,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     {
         try
         {
-            if (!((IModule) module).Configuration.CacheEnabled || moduleResult.ModuleStatus != Status.Successful)
+            if (!((IModule) module).Configuration.CacheEnabled || moduleResult.Status != ModuleStatus.Succeeded)
             {
                 return;
             }
@@ -224,7 +224,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var result = await DeserializeResultAsync<T>(resultEntry, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (result is not ModuleResult<T>.Success || result.ModuleStatus != Status.Successful)
+            if (result is not ModuleResult<T>.Success || result.Status != ModuleStatus.Succeeded)
             {
                 throw new InvalidDataException("Module cache result is not a successful result.");
             }
@@ -435,9 +435,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         fingerprint.Append("dependency", dependencyType.AssemblyQualifiedName!);
         fingerprint.Append(
             "dependency-status",
-            dependencyResult.ModuleStatus is Status.UsedHistory or Status.CachedResult
-                ? Status.Successful.ToString()
-                : dependencyResult.ModuleStatus.ToString());
+            dependencyResult.Status is ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache
+                ? ModuleStatus.Succeeded.ToString()
+                : dependencyResult.Status.ToString());
 
         if (dependencyResult.ValueOrDefault is { } value)
         {

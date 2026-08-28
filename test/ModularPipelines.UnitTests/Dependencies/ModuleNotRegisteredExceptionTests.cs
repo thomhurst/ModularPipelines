@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using Status = ModularPipelines.Enums.Status;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -62,7 +62,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
             .AddModule<Module2WithRequiredDep>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
         // Module1 was auto-registered
         await Assert.That(pipelineSummary.Modules.Count()).IsEqualTo(2);
     }

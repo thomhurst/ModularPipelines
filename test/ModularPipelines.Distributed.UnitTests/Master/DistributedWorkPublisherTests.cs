@@ -108,7 +108,7 @@ public class DistributedWorkPublisherTests
             ModuleDuration = TimeSpan.FromMilliseconds(100),
             ModuleStart = now,
             ModuleEnd = now.AddMilliseconds(100),
-            ModuleStatus = Status.Successful,
+            Status = ModuleStatus.Succeeded,
         };
     }
 
