@@ -197,9 +197,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         sb.AppendLine("#nullable enable");
         sb.AppendLine();
         sb.AppendLine("using System.CodeDom.Compiler;");
-        sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine("using ModularPipelines.Modules;");
+        sb.AppendLine("using ModularPipelines;");
         sb.AppendLine();
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();

@@ -6,7 +6,7 @@ namespace ModularPipelines.SourceGenerator.UnitTests;
 public class ModuleExtensionsGeneratorTests
 {
     private const string TestInfrastructure = """
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public abstract class Module<T>;
         }

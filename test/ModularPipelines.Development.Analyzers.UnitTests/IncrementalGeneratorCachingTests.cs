@@ -1,4 +1,3 @@
-using ModularPipelines.Secrets;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,7 +12,7 @@ public class IncrementalGeneratorCachingTests
     public async Task Module_Extensions_Are_Cached_After_Trivia_Changes()
     {
         const string source = """
-                              namespace ModularPipelines.Modules
+                              namespace ModularPipelines
                               {
                                   public abstract class Module<T>;
                               }
@@ -59,7 +58,7 @@ public class IncrementalGeneratorCachingTests
     public async Task Module_Event_Metadata_Is_Cached_After_Trivia_Changes()
     {
         const string source = """
-                              namespace ModularPipelines.Modules
+                              namespace ModularPipelines
                               {
                                   public abstract class Module<T>;
                               }
@@ -86,7 +85,7 @@ public class IncrementalGeneratorCachingTests
                                   public abstract class CommandLineToolOptions;
                               }
 
-                              namespace ModularPipelines.Attributes
+                              namespace ModularPipelines.Secrets
                               {
                                   [System.AttributeUsage(System.AttributeTargets.Property)]
                                   public sealed class SecretValueAttribute : System.Attribute;
@@ -130,7 +129,7 @@ public class IncrementalGeneratorCachingTests
     public async Task Module_Event_Metadata_Only_Performs_Semantic_Analysis_For_Class_Candidates()
     {
         const string source = """
-                              namespace ModularPipelines.Modules
+                              namespace ModularPipelines
                               {
                                   public abstract class Module<T>;
                               }

@@ -11,7 +11,7 @@ public class VirtualCommandAnalyzerTests
     private const string TestSource = @"
 using System.Threading.Tasks;
 
-namespace ModularPipelines.Models
+namespace ModularPipelines
 {
     public class CommandResult
     {
@@ -23,7 +23,7 @@ namespace ModularPipelines.Models
 
 namespace TestNamespace
 {
-    using ModularPipelines.Models;
+    using ModularPipelines;
 
     <<CLASS>>
 }
