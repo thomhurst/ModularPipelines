@@ -804,7 +804,9 @@ internal class ModuleRunner : IModuleRunner
         var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
-        var logger = GetModuleLogger(scopedServiceProvider, moduleType);
+        var logger = ModuleLogger.CurrentModuleType.Value == moduleType
+            ? ModuleLogger.Values.Value ?? GetModuleLogger(scopedServiceProvider, moduleType)
+            : GetModuleLogger(scopedServiceProvider, moduleType);
         var moduleContext = new ModuleContext(
             pipelineContext,
             module,

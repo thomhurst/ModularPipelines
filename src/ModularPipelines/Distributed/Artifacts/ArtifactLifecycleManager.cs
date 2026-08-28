@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Distributed.Artifacts;
 
@@ -18,6 +19,8 @@ internal class ArtifactLifecycleManager
     private readonly ArtifactOptions _options;
     private readonly ILogger<ArtifactLifecycleManager> _logger;
     private readonly string _workingDirectory;
+
+    private ILogger Logger => (ILogger?) ModuleLogger.Values.Value ?? _logger;
 
     /// <summary>
     /// Tracks completed and in-flight restores keyed by "{producerType}:{artifactName}:{normalizedRestorePath}".
@@ -94,7 +97,7 @@ internal class ArtifactLifecycleManager
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,
+                Logger.LogError(ex,
                     "Failed to upload artifact '{Name}' for module {Module}",
                     attr.Name, moduleType.Name);
                 throw;
@@ -112,7 +115,7 @@ internal class ArtifactLifecycleManager
         var resolvedPaths = ResolvePathPattern(attribute.PathPattern);
         if (resolvedPaths.Count == 0)
         {
-            _logger.LogWarning(
+            Logger.LogWarning(
                 "No files matched pattern '{Pattern}' for artifact '{Name}' on module {Module}",
                 attribute.PathPattern,
                 attribute.Name,
@@ -129,9 +132,9 @@ internal class ArtifactLifecycleManager
                 resolvedPaths,
                 cancellationToken)
             .ConfigureAwait(false);
-        if (_logger.IsEnabled(LogLevel.Information))
+        if (Logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation(
+            Logger.LogInformation(
                 "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
                 attribute.Name,
                 reference.SizeBytes,
@@ -373,7 +376,7 @@ internal class ArtifactLifecycleManager
         {
             // Remove failed entry so a retry can attempt it again
             _completedRestores.TryRemove(restoreKey, out _);
-            _logger.LogError(ex,
+            Logger.LogError(ex,
                 "Failed to download artifact '{Name}' for module {Module}",
                 artifactName, consumerModuleType.Name);
             throw;
@@ -409,7 +412,7 @@ internal class ArtifactLifecycleManager
                 throw new InvalidOperationException(message);
             }
 
-            _logger.LogWarning(
+            Logger.LogWarning(
                 "Artifact '{Name}' from module '{Producer}' was not found for consumer {Module}",
                 artifactName, producerTypeName, consumerModuleType.Name);
             return;
@@ -431,9 +434,9 @@ internal class ArtifactLifecycleManager
             await stream.CopyToAsync(fileStream, cancellationToken);
         }
 
-        if (_logger.IsEnabled(LogLevel.Information))
+        if (Logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation(
+            Logger.LogInformation(
                 "Restored artifact '{Name}' from module '{Producer}' to '{Path}'",
                 artifactName, producerTypeName, restorePath);
         }

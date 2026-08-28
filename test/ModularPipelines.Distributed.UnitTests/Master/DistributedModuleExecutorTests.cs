@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -16,6 +17,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -81,6 +83,22 @@ public class DistributedModuleExecutorTests
         protected internal override Task<int> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
+    }
+
+    [ProducesArtifact("distributed-output", "missing-output.txt")]
+    private class ArtifactLoggingModule : Module<SimpleResult>
+    {
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(new SimpleResult { Message = "done" });
+    }
+
+    [ConsumesArtifact(typeof(ArtifactLoggingModule), "distributed-output")]
+    private class ArtifactDownloadModule : Module<SimpleResult>
+    {
+        protected internal override Task<SimpleResult> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(new SimpleResult { Message = "done" });
     }
 
     [ModularPipelines.Attributes.DependsOn<DistributedModule>]
@@ -205,7 +223,9 @@ public class DistributedModuleExecutorTests
         DistributedResultCollector? resultCollector = null,
         ArtifactLifecycleManager? artifactManager = null,
         DistributedOptions? distributedOptions = null,
-        CancellationToken applicationStopping = default)
+        CancellationToken applicationStopping = default,
+        IInternalModuleLogger? moduleLogger = null,
+        ILogger<DistributedModuleExecutor>? executorLogger = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -240,8 +260,19 @@ public class DistributedModuleExecutorTests
             NewDependencyRegistry(),
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
+            NewModuleLoggerScopeFactory(moduleLogger),
             artifactManager,
-            NullLogger<DistributedModuleExecutor>.Instance);
+            executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance);
+    }
+
+    private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
+    {
+        moduleLogger ??= Mock.Of<IInternalModuleLogger>();
+        var loggerProvider = new Mock<IInternalModuleLoggerProvider>();
+        loggerProvider.Setup(provider => provider.GetLogger(It.IsAny<Type>())).Returns(moduleLogger);
+        var services = new ServiceCollection();
+        services.AddScoped(_ => loggerProvider.Object);
+        return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
     }
 
     // =================================================================
@@ -614,6 +645,176 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.ModuleStatus).IsEqualTo(Status.Successful);
+    }
+
+    [Test]
+    public async Task Master_Worker_ArtifactLogging_UsesModuleScope()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), $"distributed-artifact-logging-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
+        var module = new ArtifactLoggingModule();
+        var moduleState = new ModuleState(module, typeof(ArtifactLoggingModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ArtifactLoggingModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var fallbackLogger = new Mock<ILogger<ArtifactLifecycleManager>>();
+        var moduleLogger = new Mock<IInternalModuleLogger>();
+        moduleLogger.Setup(logger => logger.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+        IModuleLogger? ambientLogger = null;
+
+        moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, _, _) =>
+            {
+                ambientLogger = ModuleLogger.Values.Value;
+                var result = CreateSuccessResult(
+                    new SimpleResult { Message = "master-executed" },
+                    nameof(ArtifactLoggingModule));
+                ModuleCompletionSourceApplicator.TryApply(module, result);
+            })
+            .Returns(Task.CompletedTask);
+        var artifactManager = new ArtifactLifecycleManager(
+            Mock.Of<IDistributedArtifactStore>(),
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            fallbackLogger.Object,
+            workingDirectory);
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            resultRegistry,
+            coordinator,
+            resultCollector,
+            artifactManager,
+            moduleLogger: moduleLogger.Object);
+
+        try
+        {
+            await executor.ExecuteAsync([module]);
+
+            await Assert.That(ambientLogger).IsSameReferenceAs(moduleLogger.Object);
+            moduleLogger.Verify(
+                logger => logger.Log(
+                    LogLevel.Warning,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("No files matched pattern")),
+                    null,
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                Times.Once);
+            fallbackLogger.VerifyNoOtherCalls();
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Master_Worker_ArtifactDownloadFailure_MarksModuleLoggerFailed()
+    {
+        var failure = new InvalidOperationException("download failed");
+        var module = new ArtifactDownloadModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(ArtifactDownloadModule)));
+        var moduleRunner = new Mock<IModuleRunner>();
+        var moduleLogger = new Mock<IInternalModuleLogger>();
+        moduleLogger.Setup(logger => logger.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
+                typeof(ArtifactLoggingModule).FullName!,
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(failure);
+        var artifactManager = new ArtifactLifecycleManager(
+            store.Object,
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            NullLogger<ArtifactLifecycleManager>.Instance);
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            artifactManager: artifactManager,
+            moduleLogger: moduleLogger.Object);
+
+        await executor.ExecuteAsync([module]);
+
+        moduleLogger.Verify(logger => logger.SetException(failure), Times.Once);
+        moduleRunner.Verify(runner => runner.ExecuteWithoutDependencyWaitAsync(
+            It.IsAny<ModuleState>(),
+            It.IsAny<IModuleScheduler>(),
+            It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task Master_Worker_ArtifactUploadFailure_UsesModuleLogger()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), $"distributed-artifact-upload-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
+        await File.WriteAllTextAsync(Path.Combine(workingDirectory, "missing-output.txt"), "output");
+        var module = new ArtifactLoggingModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(ArtifactLoggingModule)));
+        var moduleRunner = new Mock<IModuleRunner>();
+        var moduleLogger = new Mock<IInternalModuleLogger>();
+        moduleLogger.Setup(logger => logger.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+        var executorLogger = new Mock<ILogger<DistributedModuleExecutor>>();
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(artifactStore => artifactStore.UploadAsync(
+                It.IsAny<ArtifactDescriptor>(),
+                It.IsAny<Stream>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("upload failed"));
+        moduleRunner.Setup(runner => runner.ExecuteWithoutDependencyWaitAsync(
+                It.IsAny<ModuleState>(),
+                It.IsAny<IModuleScheduler>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, _, _) =>
+            {
+                var result = CreateSuccessResult(
+                    new SimpleResult { Message = "master-executed" },
+                    nameof(ArtifactLoggingModule));
+                ModuleCompletionSourceApplicator.TryApply(module, result);
+            })
+            .Returns(Task.CompletedTask);
+        var artifactManager = new ArtifactLifecycleManager(
+            store.Object,
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            NullLogger<ArtifactLifecycleManager>.Instance,
+            workingDirectory);
+        var executor = CreateExecutor(
+            scheduler,
+            moduleRunner,
+            artifactManager: artifactManager,
+            moduleLogger: moduleLogger.Object,
+            executorLogger: executorLogger.Object);
+
+        try
+        {
+            await executor.ExecuteAsync([module]);
+
+            moduleLogger.Verify(
+                logger => logger.Log(
+                    LogLevel.Error,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                Times.Once);
+            executorLogger.Verify(
+                logger => logger.Log(
+                    It.IsAny<LogLevel>(),
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                Times.Never);
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, recursive: true);
+        }
     }
 
     [Test]
@@ -1112,6 +1313,7 @@ public class DistributedModuleExecutorTests
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
@@ -1160,6 +1362,7 @@ public class DistributedModuleExecutorTests
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
@@ -1252,6 +1455,7 @@ public class DistributedModuleExecutorTests
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            NewModuleLoggerScopeFactory(),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act — should proceed after 3 seconds timeout even though only 1/3 workers registered

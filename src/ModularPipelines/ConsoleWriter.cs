@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Logging;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -9,6 +10,12 @@ internal class ConsoleWriter : IConsoleWriter
 {
     public void LogToConsole(string value)
     {
+        if (ModuleLogger.Values.Value is IConsoleWriter moduleConsoleWriter)
+        {
+            moduleConsoleWriter.LogToConsole(value);
+            return;
+        }
+
         try
         {
             AnsiConsole.MarkupLine(value);
@@ -23,6 +30,12 @@ internal class ConsoleWriter : IConsoleWriter
 
     public void Write(IRenderable renderable)
     {
+        if (ModuleLogger.Values.Value is IConsoleWriter moduleConsoleWriter)
+        {
+            moduleConsoleWriter.Write(renderable);
+            return;
+        }
+
         AnsiConsole.Write(renderable);
     }
 }
