@@ -176,7 +176,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             new DownloadFileOptions(new Uri(nvmLinuxUrl)),
             cancellationToken).ConfigureAwait(false);
 
-        await _bash.FromFileAsync(new BashFileOptions(bashScript), cancellationToken).ConfigureAwait(false);
+        await _bash.RunFileAsync(
+            new BashFileOptions(bashScript),
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
         return new File(nvmDir);
@@ -202,9 +204,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
         var escapedVersion = ShellArgumentEscaper.Escape(version);
-        return await _bash.CommandAsync(new BashCommandOptions(
+        return await _bash.RunAsync(new BashCommandOptions(
             $"export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install {escapedVersion}"),
-            cancellationToken)
+            cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
 

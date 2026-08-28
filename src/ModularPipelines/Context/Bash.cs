@@ -15,20 +15,48 @@ internal class Bash : IBashContext
         _command = command;
     }
 
-    public virtual Task<CommandResult> CommandAsync(BashCommandOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> RunAsync(
+        string script,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
+        return RunAsync(new BashCommandOptions(script), executionOptions, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> FromFileAsync(BashFileOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> RunAsync(
+        BashCommandOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    public virtual Task<CommandResult> RunFileAsync(
+        string path,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return RunFileAsync(new BashFileOptions(path), executionOptions, cancellationToken);
+    }
+
+    public virtual async Task<CommandResult> RunFileAsync(
+        BashFileOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options with
         {
-            FilePath = await ToWslPath(options.FilePath, cancellationToken).ConfigureAwait(false),
-        }, null, cancellationToken).ConfigureAwait(false);
+            FilePath = await ToWslPath(
+                options.FilePath,
+                executionOptions?.WorkingDirectory,
+                cancellationToken).ConfigureAwait(false),
+        }, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<string> ToWslPath(string path, CancellationToken cancellationToken)
+    private async Task<string> ToWslPath(
+        string path,
+        string? workingDirectory,
+        CancellationToken cancellationToken)
     {
         if (OperatingSystem.IsWindows())
         {
@@ -38,6 +66,7 @@ internal class Bash : IBashContext
             }, new CommandExecutionOptions
             {
                 ExecutionTimeout = WslPathExecutionTimeout,
+                WorkingDirectory = workingDirectory,
             }, cancellationToken).ConfigureAwait(false);
 
             return result.StandardOutput.Trim();

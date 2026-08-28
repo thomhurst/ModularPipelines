@@ -82,14 +82,16 @@ public class PredefinedInstallersTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(downloadedScript);
         var bash = new Mock<IBashContext>();
-        bash.Setup(context => context.FromFileAsync(
+        bash.Setup(context => context.RunFileAsync(
                 It.IsAny<BashFileOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
-        bash.Setup(context => context.CommandAsync(
+        bash.Setup(context => context.RunAsync(
                 It.IsAny<BashCommandOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<BashCommandOptions, CancellationToken>((options, _) => capturedOptions = options)
+            .Callback<BashCommandOptions, CommandExecutionOptions?, CancellationToken>((options, _, _) => capturedOptions = options)
             .ReturnsAsync(result);
         var installer = CreateInstaller(
             Mock.Of<ICommandContext>(),
@@ -107,11 +109,13 @@ public class PredefinedInstallersTests
                 "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install 'lts/iron'");
         }
 
-        bash.Verify(context => context.FromFileAsync(
+        bash.Verify(context => context.RunFileAsync(
             It.Is<BashFileOptions>(options => options.FilePath == downloadedScript.Path),
+            It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>()), Times.Once);
-        bash.Verify(context => context.CommandAsync(
+        bash.Verify(context => context.RunAsync(
             It.IsAny<BashCommandOptions>(),
+            It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
