@@ -3,13 +3,13 @@ using System.Reflection.Emit;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Events;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -95,8 +95,10 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
+        public bool IsPlanningSafe => true;
+
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             context.AddDependency(dependencyType);
@@ -115,8 +117,10 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddDependencyWhenCompanionPresentAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
+        public bool IsPlanningSafe => true;
+
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             if (context.ModuleAttributes.Any(static attribute => attribute is PlanningCompanionAttribute))
@@ -139,7 +143,7 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddStartupDependencyAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -474,7 +478,7 @@ public class DependencyGraphExporterTests
             Task.FromResult(_startupConditionEnabled);
     }
 
-    private sealed class EnableStartupConditionHook : IPipelineGlobalHooks
+    private sealed class EnableStartupConditionHook : IPipelineEventHandler
     {
         public Task OnPipelineStartAsync(IPipelineContext context)
         {
@@ -483,7 +487,7 @@ public class DependencyGraphExporterTests
         }
     }
 
-    private sealed class EnableStartupDependencyHook : IPipelineGlobalHooks
+    private sealed class EnableStartupDependencyHook : IPipelineEventHandler
     {
         public Task OnPipelineStartAsync(IPipelineContext context)
         {
@@ -492,7 +496,7 @@ public class DependencyGraphExporterTests
         }
     }
 
-    private sealed class EnableStartupConfigurationHook : IPipelineGlobalHooks
+    private sealed class EnableStartupConfigurationHook : IPipelineEventHandler
     {
         public Task OnPipelineStartAsync(IPipelineContext context)
         {
@@ -1361,9 +1365,10 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CountPlanningRegistrationAttribute
-        : Attribute, IModuleRegistrationEventReceiver,
-            IPlanningSafeModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
+        public bool IsPlanningSafe => true;
+
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             Interlocked.Increment(ref _planningRegistrationEvents);
@@ -1440,7 +1445,7 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CountUnsafeRegistrationAttribute
-        : Attribute, IModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -1459,9 +1464,10 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CancelPlanningRegistrationAttribute
-        : Attribute, IModuleRegistrationEventReceiver,
-            IPlanningSafeModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
+        public bool IsPlanningSafe => true;
+
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             _planningCancellation!.Cancel();
@@ -3193,7 +3199,7 @@ public class DependencyGraphExporterTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<StartupConditionModule>();
-        builder.AddPipelineGlobalHooks<EnableStartupConditionHook>();
+        builder.AddPipelineEventHandler<EnableStartupConditionHook>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
@@ -3217,7 +3223,7 @@ public class DependencyGraphExporterTests
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<StartupDynamicDependencyModule>();
-        builder.AddPipelineGlobalHooks<EnableStartupDependencyHook>();
+        builder.AddPipelineEventHandler<EnableStartupDependencyHook>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         var dependencyRegistry = pipeline.Services.GetRequiredService<IModuleDependencyRegistry>();
@@ -3245,7 +3251,7 @@ public class DependencyGraphExporterTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule(new StartupConfiguredModule());
-        builder.AddPipelineGlobalHooks<EnableStartupConfigurationHook>();
+        builder.AddPipelineEventHandler<EnableStartupConfigurationHook>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
@@ -3266,7 +3272,7 @@ public class DependencyGraphExporterTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new StartupConfiguredModule());
-        builder.AddPipelineGlobalHooks<EnableStartupConfigurationHook>();
+        builder.AddPipelineEventHandler<EnableStartupConfigurationHook>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
@@ -3342,7 +3348,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Rejected_Render_Then_Run_Invokes_Registration_Receivers_Once()
+    public async Task Rejected_Render_Then_Run_Invokes_Registration_Handlers_Once()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<UnsafeRegistrationModule>();
@@ -3358,7 +3364,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message)
-                .Contains(nameof(IPlanningSafeModuleRegistrationEventReceiver));
+                .Contains(nameof(IModuleRegistrationHandler.IsPlanningSafe));
             await Assert.That(eventsAfterRender).IsEqualTo(0);
             await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
         }

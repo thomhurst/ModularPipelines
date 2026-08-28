@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Events;
 using ModularPipelines.Generated;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -343,29 +344,29 @@ internal static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds global hooks to run before or after all the modules have executed.
+    /// Adds a handler for pipeline lifecycle events.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
-    /// <typeparam name="TGlobalSetup">The type of hook class.</typeparam>
+    /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    internal static IServiceCollection AddPipelineGlobalHooks<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TGlobalSetup>(this IServiceCollection services)
-        where TGlobalSetup : class, IPipelineGlobalHooks
+    internal static IServiceCollection AddPipelineEventHandler<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(this IServiceCollection services)
+        where THandler : class, IPipelineEventHandler
     {
-        return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
+        return services.AddSingleton<IPipelineEventHandler, THandler>();
     }
 
     /// <summary>
-    /// Adds a global receiver for module lifecycle events.
+    /// Adds a global handler for module lifecycle events.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
-    /// <typeparam name="TReceiver">The receiver type.</typeparam>
+    /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
-    internal static IServiceCollection AddModuleEventReceiver<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TReceiver>(
+    internal static IServiceCollection AddModuleEventHandler<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(
         this IServiceCollection services)
-        where TReceiver : class, IModuleEventReceiver
+        where THandler : class, IModuleEventHandler
     {
-        return services.AddSingleton<IModuleEventReceiver, TReceiver>();
+        return services.AddSingleton<IModuleEventHandler, THandler>();
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Attributes;
@@ -14,7 +14,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 {
     private readonly object _lock = new();
     private readonly IModuleAttributeEventService _attributeEventService;
-    private readonly IAttributeEventInvoker _attributeEventInvoker;
+    private readonly IEventHandlerInvoker _eventHandlerInvoker;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IConfiguration _configuration;
@@ -25,14 +25,14 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
     public RegistrationEventExecutor(
         IModuleAttributeEventService attributeEventService,
-        IAttributeEventInvoker attributeEventInvoker,
+        IEventHandlerInvoker eventHandlerInvoker,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IConfiguration configuration,
         IHostEnvironment environment)
         : this(
             attributeEventService,
-            attributeEventInvoker,
+            eventHandlerInvoker,
             dependencyRegistry,
             metadataRegistry,
             configuration,
@@ -43,7 +43,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
     internal RegistrationEventExecutor(
         IModuleAttributeEventService attributeEventService,
-        IAttributeEventInvoker attributeEventInvoker,
+        IEventHandlerInvoker eventHandlerInvoker,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IConfiguration configuration,
@@ -51,7 +51,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         bool planningSafeOnly)
     {
         _attributeEventService = attributeEventService;
-        _attributeEventInvoker = attributeEventInvoker;
+        _eventHandlerInvoker = eventHandlerInvoker;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
         _configuration = configuration;
@@ -83,7 +83,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
             }
 
             // Discovery invokes registration events early so dynamic dependencies can affect filtering.
-            // Executors invoke this service again, so share the first invocation rather than running receivers twice.
+            // Executors invoke this service again, so share the first invocation rather than running handlers twice.
             _registeredModuleTypes = moduleArray
                 .Select(module => module.GetType())
                 .ToHashSet();
@@ -98,9 +98,9 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         foreach (var module in modules)
         {
             var moduleType = module.GetType();
-            var receivers = GetRegistrationReceivers(moduleType);
+            var handlers = GetRegistrationHandlers(moduleType);
 
-            if (receivers.Length == 0)
+            if (handlers.Length == 0)
             {
                 continue;
             }
@@ -116,15 +116,15 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
                 _dependencyRegistry,
                 _metadataRegistry);
 
-            await _attributeEventInvoker.InvokeRegistrationReceiversAsync(receivers, context).ConfigureAwait(false);
+            await _eventHandlerInvoker.InvokeRegistrationHandlersAsync(handlers, context).ConfigureAwait(false);
         }
     }
 
-    private IModuleRegistrationEventReceiver[] GetRegistrationReceivers(Type moduleType)
+    private IModuleRegistrationHandler[] GetRegistrationHandlers(Type moduleType)
     {
-        var receivers = _planningSafeOnly
-            ? _attributeEventService.GetPlanningRegistrationReceivers(moduleType)
-            : _attributeEventService.GetRegistrationReceivers(moduleType);
-        return [.. receivers];
+        var handlers = _planningSafeOnly
+            ? _attributeEventService.GetPlanningRegistrationHandlers(moduleType)
+            : _attributeEventService.GetRegistrationHandlers(moduleType);
+        return [.. handlers];
     }
 }

@@ -1,5 +1,5 @@
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -11,7 +11,7 @@ public class DynamicDependencyIntegrationTests : TestBase
 {
     private static readonly List<string> ExecutionOrder = new();
 
-    public class AddDependencyAttribute : Attribute, IModuleRegistrationEventReceiver
+    public class AddDependencyAttribute : Attribute, IModuleRegistrationHandler
     {
         private readonly Type _dependencyType;
 

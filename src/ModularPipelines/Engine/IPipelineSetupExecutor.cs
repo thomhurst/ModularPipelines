@@ -12,9 +12,9 @@ internal interface IPipelineSetupExecutor
 
     Task OnModuleStartAsync(ModuleState moduleState);
 
-    Task OnModuleEndAsync(ModuleState moduleState);
+    Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result);
 
-    Task OnModuleFailureAsync(ModuleState moduleState);
+    Task OnModuleFailureAsync(ModuleState moduleState, Exception exception);
 
-    Task OnModuleSkippedAsync(ModuleState moduleState);
+    Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason);
 }

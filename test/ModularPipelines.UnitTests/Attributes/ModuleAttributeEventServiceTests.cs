@@ -1,6 +1,6 @@
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Events;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -39,7 +39,7 @@ public class ModuleAttributeEventServiceTests
     /// A start handler with priority 100 (runs last).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class LowPriorityStartAttribute : Attribute, IModuleStartHandler, IEventHandlerPriority
+    public class LowPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
         public int Priority => 100;
@@ -51,7 +51,7 @@ public class ModuleAttributeEventServiceTests
     /// A start handler with priority 10 (runs second).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class MediumPriorityStartAttribute : Attribute, IModuleStartHandler, IEventHandlerPriority
+    public class MediumPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
         public int Priority => 10;
@@ -63,7 +63,7 @@ public class ModuleAttributeEventServiceTests
     /// A start handler with priority 1 (runs first with explicit priority).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class HighPriorityStartAttribute : Attribute, IModuleStartHandler, IEventHandlerPriority
+    public class HighPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
         public int Priority => 1;

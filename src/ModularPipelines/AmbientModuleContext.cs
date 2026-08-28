@@ -40,7 +40,7 @@ public static class AmbientModuleContext
     /// <item>During module execution (via the module runner)</item>
     /// </list>
     /// It returns null when code is executing outside of any module context,
-    /// such as during pipeline initialization or in global hooks.
+    /// such as during pipeline initialization or in pipeline event handlers.
     /// </remarks>
     public static Type? CurrentModuleType => ModuleLogger.CurrentModuleType.Value;
 

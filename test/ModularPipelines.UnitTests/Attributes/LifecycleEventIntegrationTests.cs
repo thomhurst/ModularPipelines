@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;

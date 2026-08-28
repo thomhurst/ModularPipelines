@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Caching;
 using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
@@ -47,7 +47,7 @@ public class PipelineCommandLineTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationEventReceiver
+        : Attribute, IModuleRegistrationHandler
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {

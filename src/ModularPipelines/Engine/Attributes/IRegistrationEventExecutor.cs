@@ -8,7 +8,7 @@ namespace ModularPipelines.Engine.Attributes;
 internal interface IRegistrationEventExecutor
 {
     /// <summary>
-    /// Invokes registration event receivers for all modules.
+    /// Invokes registration event handlers for all modules.
     /// This should be called before dependency resolution.
     /// </summary>
     Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules);

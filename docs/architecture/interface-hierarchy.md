@@ -63,12 +63,12 @@ public class BuildModule : Module<CommandResult>
 }
 ```
 
-## Pipeline hooks
+## Pipeline event handlers
 
-Global hooks receive `IPipelineContext`:
+Pipeline handlers receive `IPipelineContext`:
 
 ```csharp
-public class PipelineHooks : IPipelineGlobalHooks
+public class PipelineEvents : IPipelineEventHandler
 {
     public Task OnPipelineStartAsync(IPipelineContext context)
     {
@@ -86,10 +86,10 @@ public class PipelineHooks : IPipelineGlobalHooks
 }
 ```
 
-Global module event receivers receive `IModuleHookContext`:
+Global module event handlers use the same lifecycle signatures as attribute handlers:
 
 ```csharp
-public class ModuleEvents : IModuleEventReceiver
+public class ModuleEvents : IModuleEventHandler
 {
     public Task OnModuleStartAsync(IModuleHookContext context)
     {
@@ -97,7 +97,7 @@ public class ModuleEvents : IModuleEventReceiver
         return Task.CompletedTask;
     }
 
-    public Task OnModuleEndAsync(IModuleHookContext context)
+    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
     {
         context.Logger.LogInformation("Module finished");
         return Task.CompletedTask;
@@ -108,7 +108,7 @@ public class ModuleEvents : IModuleEventReceiver
 ## Requirements and run conditions
 
 Pipeline requirements and run conditions receive `IPipelineContext`, giving them the
-same shared capability surface as global hooks:
+same shared capability surface as global handlers:
 
 ```csharp
 public class LinuxRequirement : IPipelineRequirement
@@ -126,7 +126,7 @@ public class LinuxRequirement : IPipelineRequirement
 ## Guidance
 
 1. Use `IModuleContext` in modules.
-2. Use `IPipelineContext` in global hooks, requirements, and run conditions.
-3. Use `IModuleHookContext` in module event receivers and attribute handlers.
+2. Use `IPipelineContext` in pipeline event handlers, requirements, and run conditions.
+3. Use `IModuleHookContext` in global and attribute module event handlers.
 4. Use domain properties to discover capabilities.
 5. Do not depend on internal engine interfaces.

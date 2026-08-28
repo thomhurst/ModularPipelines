@@ -1,5 +1,5 @@
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -11,7 +11,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
 {
     private static readonly List<string> EventLog = new();
 
-    public class SetMetadataOnRegistrationAttribute : Attribute, IModuleRegistrationEventReceiver
+    public class SetMetadataOnRegistrationAttribute : Attribute, IModuleRegistrationHandler
     {
         private readonly string _key;
         private readonly string _value;

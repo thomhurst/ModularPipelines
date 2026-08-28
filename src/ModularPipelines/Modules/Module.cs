@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Events;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
@@ -185,7 +186,7 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
     /// <see cref="OnFailedAsync"/> is called, but <see cref="OnAfterExecuteAsync"/> is not called
     /// because the before hook did not complete. Attribute failure handlers and registered
-    /// <see cref="IModuleEventReceiver"/> implementations are still notified.
+    /// <see cref="IModuleEventHandler"/> implementations are still notified.
     /// </para>
     /// </remarks>
     protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

@@ -10,6 +10,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -398,27 +399,27 @@ public class ArtifactContractTests
                 cancellationToken);
     }
 
-    private sealed class EndHookArtifactReceiver : IModuleEventReceiver
+    private sealed class EndHookArtifactHandler : IModuleEventHandler
     {
-        public Task OnModuleEndAsync(IModuleHookContext context) =>
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result) =>
             context.ModuleType == typeof(AfterHookArtifactProducerModule)
                 ? File.WriteAllTextAsync(AfterHookProducedFile, "end-hook")
                 : Task.CompletedTask;
     }
 
-    private sealed class AwaitingEndHookReceiver : IModuleEventReceiver
+    private sealed class AwaitingEndHookHandler : IModuleEventHandler
     {
         public static Enums.ModuleStatus? ObservedStatus { get; set; }
 
-        public async Task OnModuleEndAsync(IModuleHookContext context)
+        public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
         {
             if (context.ModuleType != typeof(LocalProducerModule))
             {
                 return;
             }
 
-            var result = await ((IInternalModule) context.Module).ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
-            ObservedStatus = result.Status;
+            var awaitedResult = await ((IInternalModule) context.Module).ResultTask.WaitAsync(TimeSpan.FromSeconds(5));
+            ObservedStatus = awaitedResult.Status;
         }
     }
 
@@ -1537,7 +1538,7 @@ public class ArtifactContractTests
     {
         DeleteLocalArtifacts();
         LocalConsumerModule.ConsumedContent = null;
-        AwaitingEndHookReceiver.ObservedStatus = null;
+        AwaitingEndHookHandler.ObservedStatus = null;
         RecordingResultRepository.SaveCount = 0;
 
         try
@@ -1719,14 +1720,14 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndReceiver()
+    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndHandler()
     {
         DeleteLocalArtifacts();
 
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.AddModuleEventReceiver<EndHookArtifactReceiver>();
+            builder.AddModuleEventHandler<EndHookArtifactHandler>();
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
 
@@ -1984,7 +1985,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
             builder.AddResultsRepository<RecordingResultRepository>();
-            builder.AddModuleEventReceiver<AwaitingEndHookReceiver>();
+            builder.AddModuleEventHandler<AwaitingEndHookHandler>();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
             await using var pipeline = await builder.BuildAsync();
@@ -2007,7 +2008,7 @@ public class ArtifactContractTests
                 await Assert.That(producerResult!.Status).IsEqualTo(Enums.ModuleStatus.Failed);
                 await Assert.That(awaitedProducerResult.Status).IsEqualTo(Enums.ModuleStatus.Failed);
                 await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
-                await Assert.That(AwaitingEndHookReceiver.ObservedStatus)
+                await Assert.That(AwaitingEndHookHandler.ObservedStatus)
                     .IsEqualTo(Enums.ModuleStatus.Succeeded);
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }

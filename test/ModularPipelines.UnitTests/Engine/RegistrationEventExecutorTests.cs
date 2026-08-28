@@ -15,11 +15,11 @@ public class RegistrationEventExecutorTests
     {
         var attributeEventService = new Mock<IModuleAttributeEventService>();
         attributeEventService
-            .Setup(service => service.GetRegistrationReceivers(It.IsAny<Type>()))
+            .Setup(service => service.GetRegistrationHandlers(It.IsAny<Type>()))
             .Returns([]);
         var executor = new RegistrationEventExecutor(
             attributeEventService.Object,
-            Mock.Of<IAttributeEventInvoker>(),
+            Mock.Of<IEventHandlerInvoker>(),
             new ModuleDependencyRegistry(),
             Mock.Of<IModuleMetadataRegistry>(),
             Mock.Of<IConfiguration>(),

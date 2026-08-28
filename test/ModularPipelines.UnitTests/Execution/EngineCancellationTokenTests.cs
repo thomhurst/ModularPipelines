@@ -7,6 +7,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
@@ -318,7 +319,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    private sealed class ThrowingReadyHookReceiver : IModuleEventReceiver
+    private sealed class ThrowingReadyHookHandler : IModuleEventHandler
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
@@ -331,7 +332,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    private sealed class IndependentlyCancellingReadyHookReceiver : IModuleEventReceiver
+    private sealed class IndependentlyCancellingReadyHookHandler : IModuleEventHandler
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
@@ -470,7 +471,7 @@ public class EngineCancellationTokenTests : TestBase
         var builder = TestPipelineBuilder.Create()
             .AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
-            .AddModuleEventReceiver<ThrowingReadyHookReceiver>();
+            .AddModuleEventHandler<ThrowingReadyHookHandler>();
         builder.ConfigurePipelineOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
@@ -502,7 +503,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
-            .AddModuleEventReceiver<ThrowingReadyHookReceiver>();
+            .AddModuleEventHandler<ThrowingReadyHookHandler>();
         builder.ConfigurePipelineOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
@@ -593,7 +594,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
-            .AddModuleEventReceiver<IndependentlyCancellingReadyHookReceiver>();
+            .AddModuleEventHandler<IndependentlyCancellingReadyHookHandler>();
         builder.ConfigurePipelineOptions(options => options with
         {
             ThrowOnPipelineFailure = true,

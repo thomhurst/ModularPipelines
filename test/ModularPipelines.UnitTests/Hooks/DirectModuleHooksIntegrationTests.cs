@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -88,7 +88,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     private class Module1 : LoggingModule;
     private class Module2 : LoggingModule;
 
-    private sealed class RecordingModuleEventReceiver : IModuleEventReceiver
+    private sealed class RecordingModuleEventHandler : IModuleEventHandler
     {
         public Task OnModuleReadyAsync(IModuleHookContext context)
         {
@@ -102,7 +102,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
             return Task.CompletedTask;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
         {
             AddLogEntry("Global:End");
             return Task.CompletedTask;
@@ -242,7 +242,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<OrderedHooksModule>()
-            .AddModuleEventReceiver<RecordingModuleEventReceiver>()
+            .AddModuleEventHandler<RecordingModuleEventHandler>()
             .BuildAsync();
 
         await host.RunAsync();

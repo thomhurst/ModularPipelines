@@ -1043,7 +1043,7 @@ internal class ModuleRunner : IModuleRunner
         try
         {
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, exception).ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState, exception).ConfigureAwait(false);
         }
         finally
         {
@@ -1068,7 +1068,7 @@ internal class ModuleRunner : IModuleRunner
                     Enums.ModuleStatus.Skipped,
                     executionContext.SkipResult!)
                 .ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState, executionContext.SkipResult!).ConfigureAwait(false);
             return;
         }
 
@@ -1080,7 +1080,7 @@ internal class ModuleRunner : IModuleRunner
                 .ConfigureAwait(false);
         }
 
-        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
+        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState, result).ConfigureAwait(false);
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
         if (!_manageArtifactsLocally

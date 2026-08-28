@@ -15,7 +15,7 @@ IPipelineContext
 module-execution operations, while `IModuleHookContext` adds module lifecycle
 information.
 
-Pipeline global hooks, requirements, and run conditions use `IPipelineContext`.
+Pipeline event handlers, requirements, and run conditions use `IPipelineContext`.
 Module lifecycle hooks use `IModuleHookContext`.
 
 ## Capability interfaces
@@ -36,8 +36,8 @@ marker were removed. Each capability now has one public name.
 
 ## Extension points
 
-- `IPipelineGlobalHooks`: pipeline start and end callbacks
-- `IModuleEventReceiver`: module lifecycle callbacks
+- `IPipelineEventHandler`: pipeline start and end callbacks
+- `IModuleEventHandler`: module lifecycle callbacks
 - `IPipelineRequirement`: startup requirement checks
 - `IRunCondition`: reusable execution conditions
 - `IPipelineValidator`: custom pipeline validation

@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Events;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
-public class AttributeEventInvokerTests
+public class EventHandlerInvokerTests
 {
     private class SuccessfulHandler : IModuleStartHandler
     {
@@ -47,7 +47,7 @@ public class AttributeEventInvokerTests
         var handler1 = new SuccessfulHandler();
         var handler2 = new SuccessfulHandler();
         var handlers = new List<IModuleStartHandler> { handler1, handler2 };
-        var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
+        var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
         await invoker.InvokeStartHandlersAsync(handlers, context);
@@ -61,7 +61,7 @@ public class AttributeEventInvokerTests
     {
         var handler = new FailingHandler();
         var handlers = new List<IModuleStartHandler> { handler };
-        var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
+        var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
         await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
@@ -75,7 +75,7 @@ public class AttributeEventInvokerTests
         var failingHandler = new FailingHandlerWithContinue();
         var successHandler = new SuccessfulHandler();
         var handlers = new List<IModuleStartHandler> { failingHandler, successHandler };
-        var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
+        var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
         await invoker.InvokeStartHandlersAsync(handlers, context);

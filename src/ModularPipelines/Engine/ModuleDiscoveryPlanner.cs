@@ -20,7 +20,7 @@ namespace ModularPipelines.Engine;
 
 internal sealed class ModuleDiscoveryPlanner(
     IModuleConditionHandler moduleConditionHandler,
-    IAttributeEventInvoker attributeEventInvoker,
+    IEventHandlerInvoker eventHandlerInvoker,
     IConfiguration configuration,
     IHostEnvironment environment,
     IEnumerable<IModule> modules,
@@ -92,7 +92,7 @@ internal sealed class ModuleDiscoveryPlanner(
                 planningSafeOnly: true);
             var registrationEventExecutor = new RegistrationEventExecutor(
                 attributeEventService,
-                attributeEventInvoker,
+                eventHandlerInvoker,
                 planningDependencyRegistry,
                 planningMetadataRegistry,
                 configuration,
