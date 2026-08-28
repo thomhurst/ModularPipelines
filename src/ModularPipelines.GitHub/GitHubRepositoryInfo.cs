@@ -52,7 +52,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             var executionOptions = new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,
-                LogSettings = scope.ServiceProvider
+                Logging = scope.ServiceProvider
                 .GetRequiredService<IOptions<LoggerFilterOptions>>()
                 .Value
                 .MinLevel == LogLevel.Debug

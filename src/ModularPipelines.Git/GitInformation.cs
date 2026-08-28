@@ -228,7 +228,7 @@ internal class GitInformation : IGitInformation
             {
                 // Always use Silent logging for git initialization commands
                 // These are internal one-time setup commands that don't need to be logged
-                LogSettings = CommandLoggingOptions.Silent,
+                Logging = CommandLoggingOptions.Silent,
             };
             var result = await command.ExecuteCommandLineToolAsync(gitOptions, options, cancellationToken).ConfigureAwait(false);
             return result.StandardOutput.Trim();

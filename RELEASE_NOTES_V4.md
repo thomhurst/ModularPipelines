@@ -14,6 +14,19 @@ contexts, and their platform-specific option types have been removed. Use the
 dedicated Brew, Chocolatey, Winget, Node, or other tool integration instead of the
 removed core package-manager wrappers.
 
+## Logging options
+
+Per-call command and HTTP options now use `Logging`, matching the global
+`Commands.Logging` and `Http.Logging` properties. `IncludeTimestamps` is now
+`ShowTimestamps`.
+
+`HttpLoggingType` and `HttpOptions.LoggingType` were removed. Configure request,
+response, status-code, duration, header, and body logging through
+`HttpLoggingOptions`. `CommandLogVerbosity.Minimal` means command input only.
+
+The unused `PipelineCommandOptions.Execution` property was removed. Continue to pass
+execution behavior through `CommandExecutionOptions` on each command call.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

@@ -45,7 +45,7 @@ public class GitCommandRunnerTests
             await Assert.That(output).IsEqualTo(" raw output ");
             await Assert.That(observedOptions?.MaxCapturedOutputLength).IsEqualTo(0);
             await Assert.That(observedOptions?.WorkingDirectory).IsEqualTo("repository-root");
-            await Assert.That(observedOptions?.LogSettings).IsEqualTo(CommandLoggingOptions.Silent);
+            await Assert.That(observedOptions?.Logging).IsEqualTo(CommandLoggingOptions.Silent);
         }
     }
 }

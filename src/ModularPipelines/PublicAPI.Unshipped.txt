@@ -168,9 +168,17 @@ ModularPipelines.Modules.NonGenericSyncModuleAdapter
 ModularPipelines.Modules.NonGenericSyncModuleAdapter.NonGenericSyncModuleAdapter() -> void
 ModularPipelines.Modules.SyncModule
 ModularPipelines.Modules.SyncModule.SyncModule() -> void
+ModularPipelines.Options.CommandExecutionOptions.Logging.get -> ModularPipelines.Options.CommandLoggingOptions?
+ModularPipelines.Options.CommandExecutionOptions.Logging.init -> void
+ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.get -> bool
+ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.init -> void
+ModularPipelines.Options.DownloadOptions.Logging.get -> ModularPipelines.Options.HttpLoggingOptions?
+ModularPipelines.Options.DownloadOptions.Logging.init -> void
 ModularPipelines.Options.FailureMode
 ModularPipelines.Options.FailureMode.ContinueOnFailure = 1 -> ModularPipelines.Options.FailureMode
 ModularPipelines.Options.FailureMode.FailFast = 0 -> ModularPipelines.Options.FailureMode
+ModularPipelines.Options.HttpOptions.Logging.get -> ModularPipelines.Options.HttpLoggingOptions?
+ModularPipelines.Options.HttpOptions.Logging.init -> void
 ModularPipelines.Options.PipelineOptions.FailureMode.get -> ModularPipelines.Options.FailureMode
 ModularPipelines.Options.PipelineOptions.FailureMode.init -> void
 ModularPipelines.PipelineBuilderSettings

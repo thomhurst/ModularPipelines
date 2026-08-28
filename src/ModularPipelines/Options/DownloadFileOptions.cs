@@ -1,5 +1,3 @@
-using ModularPipelines.Http;
-
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -8,13 +6,11 @@ namespace ModularPipelines.Options;
 public record DownloadFileOptions : DownloadOptions
 {
     /// <summary>
-    /// Initialises a new instance of the <see cref="DownloadFileOptions"/> class.
     /// Initializes a new instance of the <see cref="DownloadFileOptions"/> class.
     /// </summary>
     /// <param name="downloadUri">The URI to download from.</param>
     public DownloadFileOptions(Uri downloadUri) : base(downloadUri)
     {
-        LoggingType = HttpLoggingType.Request | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
     }
 
     /// <summary>

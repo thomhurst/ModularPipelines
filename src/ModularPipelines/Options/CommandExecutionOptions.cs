@@ -27,7 +27,7 @@ public record CommandExecutionOptions
     /// <summary>
     /// Gets logging options for command execution.
     /// </summary>
-    public CommandLoggingOptions? LogSettings { get; init; }
+    public CommandLoggingOptions? Logging { get; init; }
 
     /// <summary>
     /// Gets if logging input, you can use this to edit how the input is logged.

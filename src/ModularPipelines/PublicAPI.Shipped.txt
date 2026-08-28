@@ -965,12 +965,6 @@ ModularPipelines.FileSystem.TempFolder.TempFolder(ModularPipelines.FileSystem.Fo
 ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute
 ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute.IncompleteRuntimeMetadataAttribute(string! metadataName) -> void
 ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute.MetadataName.get -> string!
-ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Http.HttpLoggingType.Duration = 8 -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Http.HttpLoggingType.None = 0 -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Http.HttpLoggingType.Request = 1 -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Http.HttpLoggingType.Response = 2 -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Http.HttpLoggingType.StatusCode = 4 -> ModularPipelines.Http.HttpLoggingType
 ModularPipelines.IConsoleWriter
 ModularPipelines.IConsoleWriter.LogToConsole(string! value) -> void
 ModularPipelines.IConsoleWriter.Write(Spectre.Console.Rendering.IRenderable! renderable) -> void
@@ -1424,8 +1418,6 @@ ModularPipelines.Options.CommandExecutionOptions.GracefulShutdownTimeout.get -> 
 ModularPipelines.Options.CommandExecutionOptions.GracefulShutdownTimeout.init -> void
 ModularPipelines.Options.CommandExecutionOptions.InputLoggingManipulator.get -> System.Func<string!, string!>?
 ModularPipelines.Options.CommandExecutionOptions.InputLoggingManipulator.init -> void
-ModularPipelines.Options.CommandExecutionOptions.LogSettings.get -> ModularPipelines.Options.CommandLoggingOptions?
-ModularPipelines.Options.CommandExecutionOptions.LogSettings.init -> void
 ModularPipelines.Options.CommandExecutionOptions.MaxCapturedOutputLength.get -> int
 ModularPipelines.Options.CommandExecutionOptions.MaxCapturedOutputLength.init -> void
 ModularPipelines.Options.CommandExecutionOptions.OutputLoggingManipulator.get -> System.Func<string!, string!>?
@@ -1469,8 +1461,6 @@ ModularPipelines.Options.CommandLineToolOptions.Tool.init -> void
 ModularPipelines.Options.CommandLoggingOptions
 ModularPipelines.Options.CommandLoggingOptions.CommandLoggingOptions() -> void
 ModularPipelines.Options.CommandLoggingOptions.CommandLoggingOptions(ModularPipelines.Options.CommandLoggingOptions! original) -> void
-ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.get -> bool
-ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.init -> void
 ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.init -> void
 ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.get -> bool
@@ -1515,8 +1505,6 @@ ModularPipelines.Options.DownloadOptions.DownloadUri.get -> System.Uri!
 ModularPipelines.Options.DownloadOptions.DownloadUri.init -> void
 ModularPipelines.Options.DownloadOptions.HttpClient.get -> System.Net.Http.HttpClient?
 ModularPipelines.Options.DownloadOptions.HttpClient.init -> void
-ModularPipelines.Options.DownloadOptions.LoggingType.get -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Options.DownloadOptions.LoggingType.init -> void
 ModularPipelines.Options.DownloadOptions.RequestConfigurator.get -> System.Action<System.Net.Http.HttpRequestMessage!>?
 ModularPipelines.Options.DownloadOptions.RequestConfigurator.init -> void
 ModularPipelines.Options.HttpLoggingOptions
@@ -1550,10 +1538,6 @@ ModularPipelines.Options.HttpOptions.HttpOptions(ModularPipelines.Options.HttpOp
 ModularPipelines.Options.HttpOptions.HttpOptions(System.Net.Http.HttpRequestMessage! HttpRequestMessage) -> void
 ModularPipelines.Options.HttpOptions.HttpRequestMessage.get -> System.Net.Http.HttpRequestMessage!
 ModularPipelines.Options.HttpOptions.HttpRequestMessage.init -> void
-ModularPipelines.Options.HttpOptions.LoggingType.get -> ModularPipelines.Http.HttpLoggingType
-ModularPipelines.Options.HttpOptions.LoggingType.init -> void
-ModularPipelines.Options.HttpOptions.LogSettings.get -> ModularPipelines.Options.HttpLoggingOptions?
-ModularPipelines.Options.HttpOptions.LogSettings.init -> void
 ModularPipelines.Options.HttpOptions.ThrowOnNonSuccessStatusCode.get -> bool
 ModularPipelines.Options.HttpOptions.ThrowOnNonSuccessStatusCode.init -> void
 ModularPipelines.Options.HttpOptions.Timeout.get -> System.TimeSpan?
@@ -1588,8 +1572,6 @@ ModularPipelines.Options.InstallerOptions.Path.init -> void
 ModularPipelines.Options.PipelineCommandOptions
 ModularPipelines.Options.PipelineCommandOptions.<Clone>$() -> ModularPipelines.Options.PipelineCommandOptions!
 ModularPipelines.Options.PipelineCommandOptions.Equals(ModularPipelines.Options.PipelineCommandOptions? other) -> bool
-ModularPipelines.Options.PipelineCommandOptions.Execution.get -> ModularPipelines.Options.CommandExecutionOptions?
-ModularPipelines.Options.PipelineCommandOptions.Execution.init -> void
 ModularPipelines.Options.PipelineCommandOptions.Logging.get -> ModularPipelines.Options.CommandLoggingOptions?
 ModularPipelines.Options.PipelineCommandOptions.Logging.init -> void
 ModularPipelines.Options.PipelineCommandOptions.PipelineCommandOptions() -> void

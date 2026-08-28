@@ -6,7 +6,7 @@ namespace ModularPipelines.Options;
 /// Options for customizing HTTP request/response logging.
 /// </summary>
 /// <remarks>
-/// <para>Set via <see cref="HttpOptions.LogSettings"/> or <see cref="PipelineHttpOptions.Logging"/>.</para>
+/// <para>Set via <see cref="HttpOptions.Logging"/> or <see cref="PipelineHttpOptions.Logging"/>.</para>
 /// <para>Controls what parts of HTTP requests and responses are logged:</para>
 /// <list type="bullet">
 /// <item><description><see cref="LogRequest"/> - Log request method, URL, and version</description></item>

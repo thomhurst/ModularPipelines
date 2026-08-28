@@ -55,7 +55,7 @@ await context.Tools.DotNet.BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {
-        LogSettings = new CommandLoggingOptions
+        Logging = new CommandLoggingOptions
         {
             Verbosity = CommandLogVerbosity.Detailed
         }
@@ -94,13 +94,13 @@ await builder.RunAsync();
 
 ```csharp
 // Silent - no command logging
-new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Silent }
+new CommandExecutionOptions { Logging = CommandLoggingOptions.Silent }
 
 // Diagnostic - maximum verbosity
-new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Diagnostic }
+new CommandExecutionOptions { Logging = CommandLoggingOptions.Diagnostic }
 
 // Default - normal verbosity
-new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Default }
+new CommandExecutionOptions { Logging = CommandLoggingOptions.Default }
 ```
 
 ### Fine-Grained Control
@@ -117,7 +117,7 @@ new CommandLoggingOptions
     ShowExitCode = true,
     ShowExecutionTime = true,
     ShowWorkingDirectory = false,
-    IncludeTimestamps = false
+    ShowTimestamps = false
 }
 ```
 
@@ -128,7 +128,7 @@ Transform logged content before it's written (useful for truncating large output
 ```csharp
 new CommandExecutionOptions
 {
-    LogSettings = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+    Logging = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
     InputLoggingManipulator = input => input.Length > 500
         ? input.Substring(0, 500) + "... (truncated)"
         : input,
@@ -140,6 +140,29 @@ new CommandExecutionOptions
 
 Logging settings are resolved in this order (highest to lowest priority):
 
-1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
+1. **Per-Call**: `CommandExecutionOptions.Logging` on individual command calls
 2. **Global Default**: `Commands.Logging` configured at pipeline level
 3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
+
+## HTTP Logging
+
+HTTP logging uses the same `Logging` name at both scopes. Per-request options override
+the pipeline default:
+
+```csharp
+await context.Network.Http.SendAsync(new HttpOptions(request)
+{
+    Logging = HttpLoggingOptions.Minimal,
+});
+
+builder.ConfigurePipelineOptions(options => options with
+{
+    Http = options.Http with
+    {
+        Logging = HttpLoggingOptions.None,
+    },
+});
+```
+
+Use `HttpLoggingOptions` properties for fine-grained request, response, status-code,
+duration, header, and body logging. `HttpLoggingType` no longer exists.

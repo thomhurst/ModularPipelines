@@ -14,11 +14,23 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class DownloaderTests : TestBase
 {
     [Test]
-    public async Task DownloadOptions_DisableResponseBodyLoggingByDefault()
+    public async Task DownloadOptions_UseMinimalFallbackLoggingByDefault()
     {
-        var options = new DownloadOptions(new Uri("https://example.test/file"));
+        HttpOptions? observedOptions = null;
+        var downloader = CreateDownloader(
+            new StringContent("download"),
+            observeOptions: options => observedOptions = options);
 
-        await Assert.That(options.LoggingType.HasFlag(ModularPipelines.Http.HttpLoggingType.Response)).IsFalse();
+        using var response = await downloader.DownloadResponseAsync(
+            new DownloadOptions(new Uri("https://example.test/file")));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedOptions!.Logging).IsNull();
+            await Assert.That(observedOptions.FallbackLogging).IsSameReferenceAs(HttpLoggingOptions.Minimal);
+            await Assert.That(observedOptions.FallbackLogging!.LogResponse).IsFalse();
+        }
     }
 
     [Test]
@@ -318,12 +330,14 @@ public class DownloaderTests : TestBase
         HttpContent content,
         IFileSystemProvider? fileSystemProvider = null,
         HttpStatusCode statusCode = HttpStatusCode.OK,
-        string? workingDirectory = null)
+        string? workingDirectory = null,
+        Action<HttpOptions>? observeOptions = null)
     {
         var http = new Mock<IHttpContext>();
         http.Setup(x => x.SendAsync(
                 It.IsAny<HttpOptions>(),
                 It.IsAny<CancellationToken>()))
+            .Callback<HttpOptions, CancellationToken>((options, _) => observeOptions?.Invoke(options))
             .ReturnsAsync(new HttpResponseMessage(statusCode)
             {
                 Content = content,

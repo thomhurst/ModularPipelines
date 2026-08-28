@@ -55,7 +55,7 @@ public class GitCommandRunner : IGitCommandRunner, IRawGitCommandRunner
 
         var executionOptions = commandEnvironmentOptions with
         {
-            LogSettings = CommandLoggingOptions.Silent,
+            Logging = CommandLoggingOptions.Silent,
         };
 
         var commandResult = await _context.Shell.RunAsync(

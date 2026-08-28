@@ -10,7 +10,7 @@ public sealed record PipelineHttpOptions
 {
     /// <summary>
     /// Gets the default logging options for all HTTP requests.
-    /// Per-request <see cref="HttpOptions.LogSettings"/> takes precedence.
+    /// Per-request <see cref="HttpOptions.Logging"/> takes precedence.
     /// </summary>
     public HttpLoggingOptions? Logging { get; init; }
 

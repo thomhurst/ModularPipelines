@@ -79,7 +79,7 @@ public class TelemetryIntegrationTests
                 },
                 new CommandExecutionOptions
                 {
-                    LogSettings = new CommandLoggingOptions { ShowCommandArguments = false },
+                    Logging = new CommandLoggingOptions { ShowCommandArguments = false },
                 },
                 cancellationToken);
         }

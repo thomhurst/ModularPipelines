@@ -51,7 +51,7 @@ public class CommandLoggerTests : TestBase
             new CommandExecutionOptions
             {
                 InternalDryRun = true,
-                LogSettings = new CommandLoggingOptions
+                Logging = new CommandLoggingOptions
                 {
                     ShowCommandArguments = true,
                 },
@@ -80,7 +80,7 @@ public class CommandLoggerTests : TestBase
             new PowershellScriptOptions($"Write-Output '{rawOutput}'"),
             new CommandExecutionOptions
             {
-                LogSettings = new CommandLoggingOptions
+                Logging = new CommandLoggingOptions
                 {
                     ShowCommandArguments = false,
                 },
@@ -216,7 +216,7 @@ public class CommandLoggerTests : TestBase
             new PowershellScriptOptions(command),
             new CommandExecutionOptions
             {
-                LogSettings = loggingOptions,
+                Logging = loggingOptions,
                 ThrowOnNonZeroExitCode = false,
             });
 
@@ -356,7 +356,7 @@ public class CommandLoggerTests : TestBase
             new PowershellScriptOptions(command),
             new CommandExecutionOptions
             {
-                LogSettings = loggingOptions,
+                Logging = loggingOptions,
                 ThrowOnNonZeroExitCode = false,
                 MaxCapturedOutputLength =
                     maxCapturedOutputLength ?? CommandExecutionOptions.DefaultMaxCapturedOutputLength,

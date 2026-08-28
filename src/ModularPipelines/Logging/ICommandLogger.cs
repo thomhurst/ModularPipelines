@@ -68,7 +68,7 @@ internal interface ICommandLogger
     /// Logs the details of a completed command execution.
     /// </summary>
     /// <param name="options">The command line tool options used for execution. Can be null for raw command line execution.</param>
-    /// <param name="execOpts">The command execution options containing logging settings. Logging behavior is controlled via <see cref="CommandExecutionOptions.LogSettings"/>.</param>
+    /// <param name="execOpts">The command execution options containing logging settings. Logging behavior is controlled via <see cref="CommandExecutionOptions.Logging"/>.</param>
     /// <param name="inputToLog">The input command to log.</param>
     /// <param name="exitCode">The exit code returned by the command.</param>
     /// <param name="runTime">The time taken to execute the command.</param>

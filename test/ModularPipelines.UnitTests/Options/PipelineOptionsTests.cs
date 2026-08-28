@@ -210,38 +210,6 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task DefaultExecutionEnvironmentVariables_AreDefensivelyCopied()
-    {
-        var environmentVariables = new Dictionary<string, string?>
-        {
-            ["ORIGINAL"] = "value",
-        };
-        var options = new PipelineOptions
-        {
-            Commands = new PipelineCommandOptions
-            {
-                Execution = new CommandExecutionOptions
-                {
-                    EnvironmentVariables = environmentVariables,
-                },
-            },
-        };
-
-        environmentVariables["ORIGINAL"] = "changed";
-        environmentVariables["ADDED"] = "later";
-
-        var snapshot = options.Commands.Execution!.EnvironmentVariables!;
-        using (Assert.Multiple())
-        {
-            await Assert.That(snapshot["ORIGINAL"]).IsEqualTo("value");
-            await Assert.That(snapshot.ContainsKey("ADDED")).IsFalse();
-            await Assert.That(
-                    ((ICollection<KeyValuePair<string, string?>>) snapshot).IsReadOnly)
-                .IsTrue();
-        }
-    }
-
-    [Test]
     public async Task PipelineBuilder_RegistersEquivalentIsolatedOptionsSnapshots()
     {
         var builder = TestPipelineBuilder.Create()
