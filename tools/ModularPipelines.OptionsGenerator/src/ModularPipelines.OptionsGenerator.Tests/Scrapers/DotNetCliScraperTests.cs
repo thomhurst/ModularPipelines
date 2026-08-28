@@ -123,6 +123,8 @@ public class DotNetCliScraperTests
 
         var project = command!.Options.Single(option => option.PropertyName == "Project");
         var exactMatch = command.Options.Single(option => option.PropertyName == "ExactMatch");
+        var commandName = command.PositionalArguments.Single(argument =>
+            argument.PropertyName == "CommandName");
         var toolArguments = command.PositionalArguments.Single(argument =>
             argument.PropertyName == "ToolArguments");
         using (Assert.Multiple())
@@ -130,6 +132,9 @@ public class DotNetCliScraperTests
             await Assert.That(project.IsFlag).IsFalse();
             await Assert.That(project.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
             await Assert.That(exactMatch.IsFlag).IsTrue();
+            await Assert.That(commandName.IsRequired).IsTrue();
+            await Assert.That(commandName.CSharpType).IsEqualTo("string");
+            await Assert.That(toolArguments.IsRequired).IsFalse();
             await Assert.That(toolArguments.IsVariadic).IsTrue();
             await Assert.That(toolArguments.CSharpType).IsEqualTo("IEnumerable<string>?");
         }

@@ -30,6 +30,7 @@ public static class DotNetExtensions
     {
         services.TryAddScoped<IDotNet, Services.DotNet>();
         services.TryAddScoped<IDotNetBuildServer, DotNetBuildServer>();
+        services.TryAddScoped<IDotNetFormat, DotNetFormat>();
         services.TryAddScoped<IDotNetNew, DotNetNew>();
         services.TryAddScoped<IDotNetNuGet, DotNetNuGet>();
         services.TryAddScoped<IDotNetPackage, DotNetPackage>();
@@ -42,7 +43,7 @@ public static class DotNetExtensions
     }
 
     /// <summary>
-    /// Gets the dotnet service from the pipeline context.
+    /// Gets the dotnet service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDotNet"/> service for executing dotnet commands.</returns>

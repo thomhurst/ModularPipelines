@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json'
+/// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json' file). This only supports Microsoft.Testing.Platform and doesn't support VSTest. For more information, see https://aka.ms/dotnet-test.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetTestOptions : DotNetOptions
 {
     /// <summary>
-    /// Defines the path of the project file to run (folder name or full path). If not specified, it defaults to the current directory.
+    /// Defines the path of the project or solution file to test. Use path to the project file, or path to the directory containing the project file. If not specified, it defaults to the current directory.
     /// </summary>
     [CliOption("--project")]
     public string? Project { get; set; }
 
     /// <summary>
-    /// Defines the path of the solution file to run. If not specified, it defaults to the current directory.
+    /// Defines the path of the solution file to test. Use path to the solution file, or path to the directory containing the solution file. If not specified, it defaults to the current directory.
     /// </summary>
     [CliOption("--solution")]
     public string? Solution { get; set; }
@@ -58,10 +58,10 @@ public record DotNetTestOptions : DotNetOptions
     public string? ConfigFile { get; set; }
 
     /// <summary>
-    /// Output directory of the diagnostic
+    /// Output directory of the diagnostic logging. If not specified the file will be generated inside the default 'TestResults' directory.
     /// </summary>
-    [CliFlag("--diagnostic-output-directory")]
-    public bool? DiagnosticOutputDirectory { get; set; }
+    [CliOption("--diagnostic-output-directory")]
+    public string? DiagnosticOutputDirectoryValue { get; set; }
 
     /// <summary>
     /// The max number of test modules that can run in parallel.
@@ -74,12 +74,6 @@ public record DotNetTestOptions : DotNetOptions
     /// </summary>
     [CliOption("--minimum-expected-tests")]
     public int? MinimumExpectedTests { get; set; }
-
-    /// <summary>
-    /// The target architecture.
-    /// </summary>
-    [CliOption("--arch", ShortForm = "-a")]
-    public string? Arch { get; set; }
 
     /// <summary>
     /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This argument can be specified multiple times to provide multiple variables.
@@ -100,16 +94,22 @@ public record DotNetTestOptions : DotNetOptions
     public string? Framework { get; set; }
 
     /// <summary>
-    /// The target operating system.
-    /// </summary>
-    [CliOption("--os")]
-    public string? Os { get; set; }
-
-    /// <summary>
     /// The target runtime to test for.
     /// </summary>
     [CliOption("--runtime", ShortForm = "-r")]
     public string? Runtime { get; set; }
+
+    /// <summary>
+    /// The target architecture.
+    /// </summary>
+    [CliOption("--arch", ShortForm = "-a")]
+    public string? Arch { get; set; }
+
+    /// <summary>
+    /// The target operating system.
+    /// </summary>
+    [CliOption("--os")]
+    public string? Os { get; set; }
 
     /// <summary>
     /// Do not restore the project before building. [default: False]
@@ -122,6 +122,12 @@ public record DotNetTestOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }
+
+    /// <summary>
+    /// The artifacts path. All output from the project, including build, publish, and pack output, will go in subfolders under the specified path.
+    /// </summary>
+    [CliOption("--artifacts-path")]
+    public string? ArtifactsPath { get; set; }
 
     /// <summary>
     /// Disable ANSI output. [default: False]
@@ -148,7 +154,7 @@ public record DotNetTestOptions : DotNetOptions
     public string? ListTests { get; set; }
 
     /// <summary>
-    /// Do not attempt to use launchSettings.json or [app].run.json
+    /// Do not attempt to use launchSettings.json or [app].run.json to configure the application. [default: False]
     /// </summary>
     [CliFlag("--no-launch-profile")]
     public bool? NoLaunchProfile { get; set; }
@@ -164,5 +170,24 @@ public record DotNetTestOptions : DotNetOptions
     /// </summary>
     [CliOption("-p", Format = OptionFormat.ColonSeparated)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
+
+    /// <summary>
+    /// The platform options operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? PlatformOptions { get; set; }
+
+    /// <summary>
+    /// The extension options operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? ExtensionOptions { get; set; }
+
+    [Obsolete("Use DiagnosticOutputDirectoryValue instead.")]
+    public bool? DiagnosticOutputDirectory
+    {
+        get => bool.TryParse(DiagnosticOutputDirectoryValue, out var value) ? value : null;
+        set => DiagnosticOutputDirectoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

@@ -47,6 +47,21 @@ public class DotNetSolution : IDotNetSolution
     }
 
     /// <summary>
+    /// Add one or more projects to a solution file.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddAsync(
+        DotNetSolutionAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionAddOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List all projects in a solution file.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -59,6 +74,36 @@ public class DotNetSolution : IDotNetSolution
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Generate a .slnx file from a .sln file.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MigrateAsync(
+        DotNetSolutionMigrateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionMigrateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove one or more projects from a solution file.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        DotNetSolutionRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetSolutionRemoveOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

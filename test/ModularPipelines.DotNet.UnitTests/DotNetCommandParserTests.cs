@@ -46,6 +46,18 @@ public class DotNetCommandParserTests : TestBase
             "dotnet nuget delete MyPackageName 1.0.0 --api-key **********");
     }
 
+    [Test]
+    public async Task Tool_Run_With_Command_Name_And_Arguments()
+    {
+        var result = await GetResult(new DotNetToolRunOptions("csharpier")
+        {
+            ToolArguments = ["check", "repository-root"]
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet tool run csharpier check repository-root");
+    }
+
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommandContext>();

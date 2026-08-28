@@ -5769,6 +5769,17 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task EscapeXmlComment_Removes_Current_Directory_Default()
+    {
+        var description =
+            $"Search the current directory when omitted. [default: {Environment.CurrentDirectory}{Path.DirectorySeparatorChar}]";
+
+        var result = GeneratorUtils.EscapeXmlComment(description);
+
+        await Assert.That(result).IsEqualTo("Search the current directory when omitted.");
+    }
+
+    [Test]
     public async Task EscapeXmlComment_Preserves_Unrelated_Home_Shaped_Paths()
     {
         const string path = "/home/site/deployments/tools/";

@@ -213,9 +213,10 @@ public static partial class GeneratorUtils
             return string.Empty;
         }
 
-        // Help text scraped from a CLI can embed the generating user's home directory
-        // in option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
-        // meaningless to consumers, so normalize them to "~" before shipping docs.
+        // Help text scraped from a CLI can embed generation-environment paths in option
+        // defaults. Those paths are meaningless to consumers, so remove a current-directory
+        // default and normalize user-home paths before shipping docs.
+        text = RemoveCurrentDirectoryDefault(text);
         text = NormalizeRunnerHomePaths(text);
         text = text
             .Replace("\r\n", " ")
@@ -252,6 +253,27 @@ public static partial class GeneratorUtils
                     .Replace($"{variant}/", "~/", StringComparison.OrdinalIgnoreCase)
                     .Replace($@"{variant}\", @"~\", StringComparison.OrdinalIgnoreCase);
             }
+        }
+
+        return text;
+    }
+
+    private static string RemoveCurrentDirectoryDefault(string text)
+    {
+        var currentDirectory = Path.TrimEndingDirectorySeparator(Environment.CurrentDirectory);
+        var variants = new[]
+        {
+            currentDirectory.Replace('\\', '/'),
+            currentDirectory.Replace('/', '\\'),
+        }.Distinct(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var variant in variants)
+        {
+            text = Regex.Replace(
+                text,
+                $@"\s*\[default:\s*{Regex.Escape(variant)}[\\/]*\]",
+                string.Empty,
+                RegexOptions.IgnoreCase);
         }
 
         return text;

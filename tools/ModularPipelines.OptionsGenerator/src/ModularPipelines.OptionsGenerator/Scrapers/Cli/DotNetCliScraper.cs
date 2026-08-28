@@ -523,11 +523,12 @@ public partial class DotNetCliScraper : CliScraperBase
                 candidate.PropertyName.Equals(
                     argument.PropertyName,
                     StringComparison.OrdinalIgnoreCase));
-            return usageArgument is { IsVariadic: true }
+            return usageArgument is not null
                 ? argument with
                 {
-                    CSharpType = "IEnumerable<string>?",
-                    IsVariadic = true,
+                    CSharpType = usageArgument.CSharpType,
+                    IsRequired = usageArgument.IsRequired,
+                    IsVariadic = usageArgument.IsVariadic,
                 }
                 : argument;
         }).ToList();

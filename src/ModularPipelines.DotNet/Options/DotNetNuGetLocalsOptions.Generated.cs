@@ -12,17 +12,14 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Clears or lists local NuGet resources such as http requests cache, packages folder, plugin operations cache  or machine-wide global packages folder.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "locals")]
 public record DotNetNuGetLocalsOptions : DotNetOptions
 {
-    /// <summary>
-    /// Forces the application to run using an invariant, English-based culture.
-    /// </summary>
-    [CliFlag("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
-
     /// <summary>
     /// Clear the selected local resources or cache location(s).
     /// </summary>
@@ -34,5 +31,17 @@ public record DotNetNuGetLocalsOptions : DotNetOptions
     /// </summary>
     [CliFlag("--list", ShortForm = "-l")]
     public bool? List { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// Specifies the cache location(s) to list or clear.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? CacheLocationS { get; set; }
 
 }

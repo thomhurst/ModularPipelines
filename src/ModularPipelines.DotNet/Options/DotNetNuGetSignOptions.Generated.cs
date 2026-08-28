@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Signs NuGet package(s) at &lt;package-paths&gt; with the specified certificate.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "sign")]
@@ -30,19 +33,19 @@ public record DotNetNuGetSignOptions : DotNetOptions
     public string? CertificatePath { get; set; }
 
     /// <summary>
-    /// Name of the X.509 certificate store to use to search for the certificate. Defaults to "My", the X.509 certificate store for personal certificates.
+    /// Name of the X.509 certificate store to use to search for the certificate. Defaults to "My", the X.509 certificate store for personal certificates. This option should be used when specifying the certificate via --certificate-subject-name or --certificate-fingerprint options.
     /// </summary>
     [CliOption("--certificate-store-name")]
     public string? CertificateStoreName { get; set; }
 
     /// <summary>
-    /// Name of the X.509 certificate store use to search for the certificate. Defaults to "CurrentUser", the X.509 certificate store used by the current user.
+    /// Name of the X.509 certificate store use to search for the certificate. Defaults to "CurrentUser", the X.509 certificate store used by the current user. This option should be used when specifying the certificate via --certificate-subject-name or --certificate-fingerprint options.
     /// </summary>
     [CliOption("--certificate-store-location")]
     public string? CertificateStoreLocation { get; set; }
 
     /// <summary>
-    /// Subject name of the certificate used to search a local certificate store for the certificate.
+    /// Subject name of the certificate used to search a local certificate store for the certificate. The search is a case-insensitive string comparison using the supplied value, which will find all certificates with the subject name containing that string, regardless of other subject values. The certificate store can be specified by --certificate-store-name and --certificate-store-location options.
     /// </summary>
     [CliOption("--certificate-subject-name")]
     public string? CertificateSubjectName { get; set; }
@@ -50,11 +53,11 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// <summary>
     /// SHA-256, SHA-384 or SHA-512 fingerprint of the certificate used to search a local certificate store for the certificate. The certificate store can be specified by --certificate-store-name and --certificate-store-location options.
     /// </summary>
-    [CliFlag("--certificate-fingerprint")]
-    public bool? CertificateFingerprint { get; set; }
+    [CliOption("--certificate-fingerprint")]
+    public string? CertificateFingerprintValue { get; set; }
 
     /// <summary>
-    /// Password for the certificate, if needed.
+    /// Password for the certificate, if needed. This option can be used to specify the password for the certificate. The command will throw an error message if certificate is password protected but password is not provided as input.
     /// </summary>
     [SecretValue]
     [CliOption("--certificate-password")]
@@ -63,8 +66,8 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// <summary>
     /// Hash algorithm to be used to sign the package. Defaults to SHA256.
     /// </summary>
-    [CliFlag("--hash-algorithm")]
-    public bool? HashAlgorithm { get; set; }
+    [CliOption("--hash-algorithm")]
+    public string? HashAlgorithmValue { get; set; }
 
     /// <summary>
     /// URL to an RFC 3161 timestamping server.
@@ -75,8 +78,8 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// <summary>
     /// Hash algorithm to be used by the RFC 3161 timestamp server. Defaults to SHA256.
     /// </summary>
-    [CliFlag("--timestamp-hash-algorithm")]
-    public bool? TimestampHashAlgorithm { get; set; }
+    [CliOption("--timestamp-hash-algorithm")]
+    public string? TimestampHashAlgorithmValue { get; set; }
 
     /// <summary>
     /// Switch to indicate if the current signature should be overwritten. By default the command will fail if the package already has a signature.
@@ -85,15 +88,48 @@ public record DotNetNuGetSignOptions : DotNetOptions
     public bool? Overwrite { get; set; }
 
     /// <summary>
+    /// Allow signing with certificates whose root certificate is not in a trusted root store. The certificate chain is still built and validated for structure, but UntrustedRoot status is treated as a warning.
+    /// </summary>
+    [CliFlag("--allow-untrusted-root")]
+    public bool? AllowUntrustedRoot { get; set; }
+
+    /// <summary>
     /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 
     /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
     /// Signs NuGet packages at &lt;package-paths&gt; with the specified certificate.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackagePaths { get; set; }
+
+    [Obsolete("Use CertificateFingerprintValue instead.")]
+    public bool? CertificateFingerprint
+    {
+        get => bool.TryParse(CertificateFingerprintValue, out var value) ? value : null;
+        set => CertificateFingerprintValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use HashAlgorithmValue instead.")]
+    public bool? HashAlgorithm
+    {
+        get => bool.TryParse(HashAlgorithmValue, out var value) ? value : null;
+        set => HashAlgorithmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use TimestampHashAlgorithmValue instead.")]
+    public bool? TimestampHashAlgorithm
+    {
+        get => bool.TryParse(TimestampHashAlgorithmValue, out var value) ? value : null;
+        set => TimestampHashAlgorithmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

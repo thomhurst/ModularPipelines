@@ -47,6 +47,36 @@ public class DotNetPackage : IDotNetPackage
     }
 
     /// <summary>
+    /// Add a NuGet package reference to the project.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddAsync(
+        DotNetPackageAddOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageAddOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Downloads a NuGet package to a local folder without requiring a project file.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadAsync(
+        DotNetPackageDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageDownloadOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List all package references of the project or solution.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -59,6 +89,51 @@ public class DotNetPackage : IDotNetPackage
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Remove a NuGet package reference from the project.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        DotNetPackageRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Searches one or more package sources for packages that match a search term. If no sources are specified, all sources defined in the NuGet.Config are used.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchAsync(
+        DotNetPackageSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageSearchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update referenced packages in a project or solution.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        DotNetPackageUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackageUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion
