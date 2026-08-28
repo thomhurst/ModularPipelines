@@ -120,7 +120,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         if (operatingSystem == OSPlatform.Windows)
         {
-            var arch = Environment.Is64BitOperatingSystem ? "x64" : "x86";
+            var arch = _environmentContext.Architecture == Architecture.X86 ? "x86" : "x64";
             var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
             return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url), cancellationToken).ConfigureAwait(false);

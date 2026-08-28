@@ -30,12 +30,15 @@ internal class EnvironmentContext : IEnvironmentContext
         IHostEnvironment hostEnvironment,
         IFileSystemProvider fileSystemProvider)
     {
+        var contentRootPath = hostEnvironment.ContentRootPath;
+        ArgumentException.ThrowIfNullOrWhiteSpace(contentRootPath);
+
         Variables = variables;
         BuildSystem = buildSystem;
         WorkingDirectory = new Folder(workingDirectory.Path, fileSystemProvider);
         EnvironmentName = hostEnvironment.EnvironmentName;
         AppDomainDirectory = new Folder(AppDomain.CurrentDomain.BaseDirectory, fileSystemProvider);
-        ContentDirectory = new Folder(hostEnvironment.ContentRootPath, fileSystemProvider);
+        ContentDirectory = new Folder(contentRootPath, fileSystemProvider);
     }
 
     /// <inheritdoc />

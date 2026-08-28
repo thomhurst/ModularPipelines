@@ -9,6 +9,7 @@ using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Options.Windows;
 using Moq;
 using File = ModularPipelines.FileSystem.File;
 
@@ -114,19 +115,55 @@ public class PredefinedInstallersTests
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
+    [Test]
+    [Arguments(Architecture.X64, "x64")]
+    [Arguments(Architecture.X86, "x86")]
+    public async Task Powershell7_On_Windows_Uses_Context_Architecture(
+        Architecture architecture,
+        string expectedArchitecture)
+    {
+        var result = CreateResult();
+        MsiInstallerOptions? capturedOptions = null;
+        var environment = new Mock<IEnvironmentContext>();
+        environment.SetupGet(context => context.OperatingSystem).Returns(OSPlatform.Windows);
+        environment.SetupGet(context => context.Architecture).Returns(architecture);
+        var windowsInstaller = new Mock<IWindowsInstallerContext>();
+        windowsInstaller.Setup(context => context.InstallMsiAsync(
+                It.IsAny<MsiInstallerOptions>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<MsiInstallerOptions, CancellationToken>((options, _) => capturedOptions = options)
+            .ReturnsAsync(result);
+        var installer = CreateInstaller(
+            Mock.Of<ICommandContext>(),
+            environment.Object,
+            Mock.Of<IDownloaderContext>(),
+            Mock.Of<IBashContext>(),
+            Mock.Of<IEnvironmentVariablesContext>(),
+            windowsInstaller.Object);
+
+        var actualResult = await installer.Powershell7Async();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(actualResult).IsSameReferenceAs(result);
+            await Assert.That(capturedOptions!.MsiPath).EndsWith($"-win-{expectedArchitecture}.msi");
+        }
+    }
+
     private static PredefinedInstallers CreateInstaller(
         ICommandContext command,
         IEnvironmentContext environment,
         IDownloaderContext downloader,
         IBashContext bash,
-        IEnvironmentVariablesContext environmentVariables)
+        IEnvironmentVariablesContext environmentVariables,
+        IWindowsInstallerContext? windowsInstaller = null)
     {
         return new PredefinedInstallers(
             command,
             environment,
             downloader,
             Mock.Of<IMacInstallerContext>(),
-            Mock.Of<IWindowsInstallerContext>(),
+            windowsInstaller ?? Mock.Of<IWindowsInstallerContext>(),
             Mock.Of<ILinuxInstallerContext>(),
             bash,
             Mock.Of<IZipContext>(),

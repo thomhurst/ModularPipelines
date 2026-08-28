@@ -1,6 +1,11 @@
+using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Environment;
+using ModularPipelines.Context.Domains.Implementations;
+using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -110,6 +115,21 @@ public class EnvironmentContextTests : TestBase
             await Assert.That(context.UserName).IsNotNull();
             await Assert.That(context.BuildSystem).IsNotNull();
         }
+    }
+
+    [Test]
+    public async Task Constructor_Rejects_Blank_Content_Root()
+    {
+        var hostEnvironment = new Mock<IHostEnvironment>();
+        hostEnvironment.SetupGet(environment => environment.ContentRootPath).Returns(string.Empty);
+
+        await Assert.That(() => new EnvironmentContext(
+                Mock.Of<IEnvironmentVariablesContext>(),
+                Mock.Of<IBuildSystemContext>(),
+                new PipelineWorkingDirectory(Environment.CurrentDirectory),
+                hostEnvironment.Object,
+                SystemFileSystemProvider.Instance))
+            .Throws<ArgumentException>();
     }
 
     private static async Task RunWithEnvironmentRestored(
