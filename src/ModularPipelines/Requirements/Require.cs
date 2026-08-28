@@ -276,8 +276,8 @@ public static class Require
         }
 
 #pragma warning disable CA1416 // Guarded by the pipeline context's Windows platform value.
-        return WindowsIdentity.GetCurrent().Owner?.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid)
-               ?? true;
+        using var identity = WindowsIdentity.GetCurrent();
+        return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 #pragma warning restore CA1416
     }
 }

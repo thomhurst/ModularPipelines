@@ -24,8 +24,10 @@ public class ExecutionOrchestratorTests
             DateTimeOffset.UtcNow,
             DateTimeOffset.UtcNow);
         var pipelineInitializer = new Mock<IPipelineInitializer>();
+        var initializerCancellationToken = CancellationToken.None;
         pipelineInitializer
             .Setup(x => x.Initialize(It.IsAny<CancellationToken>()))
+            .Callback<CancellationToken>(token => initializerCancellationToken = token)
             .ReturnsAsync(organizedModules);
         var ignoredModuleResultRegistrar = new Mock<IIgnoredModuleResultRegistrar>();
         ignoredModuleResultRegistrar
@@ -73,7 +75,11 @@ public class ExecutionOrchestratorTests
             runReportService.Object);
         await orchestrator.ExecuteAsync();
 
-        await Assert.That(wasFlushedBeforeReport).IsTrue();
+        using (Assert.Multiple())
+        {
+            await Assert.That(wasFlushedBeforeReport).IsTrue();
+            await Assert.That(initializerCancellationToken).IsEqualTo(engineCancellationToken.Token);
+        }
     }
 
     [Test]
