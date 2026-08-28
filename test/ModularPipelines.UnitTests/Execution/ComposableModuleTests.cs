@@ -22,9 +22,8 @@ public class ComposableModuleTests
     /// </summary>
     private class AlwaysSkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Skipped via composition"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Skipped via composition"));
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -38,9 +37,8 @@ public class ComposableModuleTests
     /// </summary>
     private class NeverSkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip);
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -54,9 +52,8 @@ public class ComposableModuleTests
     /// </summary>
     private class TimeoutableModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromSeconds(5))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromSeconds(5));
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -73,10 +70,9 @@ public class ComposableModuleTests
         public static bool BeforeHookCalled { get; private set; }
         public static bool AfterHookCalled { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithTimeout(TimeSpan.FromMinutes(1))
-            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
-            .Build();
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip);
 
         protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -113,9 +109,8 @@ public class ComposableModuleTests
     /// </summary>
     private class AlwaysRunModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

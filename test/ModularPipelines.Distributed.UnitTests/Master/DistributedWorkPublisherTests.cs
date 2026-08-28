@@ -44,9 +44,8 @@ public class DistributedWorkPublisherTests
 
     private class FluentConsumerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<DependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<DependencyModule>();
 
         protected internal override Task<string> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
@@ -72,9 +71,8 @@ public class DistributedWorkPublisherTests
 
     private class TaggedDependencyModule : Module<DepResult>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTags("distributed")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTags("distributed");
 
         protected internal override Task<DepResult> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)

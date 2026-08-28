@@ -15,9 +15,9 @@ To always ignore failures from a module:
 ```csharp
 public class OptionalModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailures()
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -33,9 +33,9 @@ To ignore only specific types of failures:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -51,7 +51,7 @@ For conditions that require async operations:
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailuresWhen(async (ctx, exception) =>
         {
             if (exception is HttpRequestException httpEx)
@@ -62,7 +62,7 @@ public class MyModule : Module<CommandResult>
             }
             return false;
         })
-        .Build();
+        ;
 }
 ```
 
@@ -73,11 +73,11 @@ Ignoring failures can be combined with other module behaviors:
 ```csharp
 public class ResilientModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithRetry(3)  // Try 3 times first
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
         .WithAlwaysRun()  // Run even if dependencies failed
-        .Build();
+        ;
 }
 ```
 

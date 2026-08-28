@@ -516,9 +516,8 @@ public class FlexibleDependencyIntegrationTests : TestBase
 
     private class ModuleWithConfiguredTags : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTags("database", "configured-tag")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTags("database", "configured-tag");
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -530,9 +529,8 @@ public class FlexibleDependencyIntegrationTests : TestBase
 
     private class ModuleWithConfiguredCategory : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCategory("infrastructure")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCategory("infrastructure");
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

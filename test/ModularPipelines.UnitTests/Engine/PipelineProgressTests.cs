@@ -44,9 +44,8 @@ public class PipelineProgressTests
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module4 : Module<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Testing"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Testing"));
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -58,9 +57,8 @@ public class PipelineProgressTests
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module5 : Module<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

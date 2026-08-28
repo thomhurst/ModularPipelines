@@ -15,9 +15,9 @@ With `WithAlwaysRun()`, a module will run regardless of whether any dependencies
 ```csharp
 public class CleanupModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithAlwaysRun()
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -35,11 +35,11 @@ Always run can be combined with other module behaviors:
 [DependsOn<TestModule>]
 public class CleanupModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithAlwaysRun()
         .WithIgnoreFailures()  // Don't fail the pipeline if cleanup fails
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

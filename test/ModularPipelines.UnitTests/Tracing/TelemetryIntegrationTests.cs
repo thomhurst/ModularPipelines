@@ -169,9 +169,8 @@ public class TelemetryIntegrationTests
     {
         private int _attempts;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithRetry(2, TimeSpan.Zero)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithRetry(2, TimeSpan.Zero);
 
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -185,9 +184,8 @@ public class TelemetryIntegrationTests
 
     private sealed class TimedOutModule : Module<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromMilliseconds(10))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromMilliseconds(10));
 
         protected internal override async Task<bool> ExecuteAsync(
             IModuleContext context,

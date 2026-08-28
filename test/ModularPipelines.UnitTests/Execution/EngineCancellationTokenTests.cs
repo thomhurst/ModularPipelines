@@ -43,9 +43,8 @@ public class EngineCancellationTokenTests : TestBase
     {
         protected override bool Result => true;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
     }
 
     [ModularPipelines.Attributes.DependsOn<AlwaysRunBarrierModule>]
@@ -69,9 +68,8 @@ public class EngineCancellationTokenTests : TestBase
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromSeconds(10))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromSeconds(10));
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -194,9 +192,8 @@ public class EngineCancellationTokenTests : TestBase
 
     private class AwaitingTerminatedModule : Module<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
 
         protected internal override async Task<bool> ExecuteAsync(
             IModuleContext context,

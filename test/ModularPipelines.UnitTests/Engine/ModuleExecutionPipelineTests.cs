@@ -79,16 +79,14 @@ public class ModuleExecutionPipelineTests
 
     private sealed class IgnoredTimeoutExceptionModule : TimeoutExceptionModule
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
     }
 
     private sealed class ElapsedCancellationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromMilliseconds(5))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromMilliseconds(5));
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
@@ -100,9 +98,8 @@ public class ModuleExecutionPipelineTests
 
     private sealed class IgnoredCancellationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
@@ -114,9 +111,8 @@ public class ModuleExecutionPipelineTests
 
     private sealed class AlwaysRunTimeoutExceptionModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
@@ -130,10 +126,9 @@ public class ModuleExecutionPipelineTests
 
     private sealed class AlwaysRunElapsedCancellationModule : Module<int>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithAlwaysRun()
-            .WithTimeout(TimeSpan.FromMilliseconds(5))
-            .Build();
+            .WithTimeout(TimeSpan.FromMilliseconds(5));
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
@@ -293,10 +288,8 @@ public class ModuleExecutionPipelineTests
 
     private sealed class CachedSuccessfulModule : SuccessfulModule
     {
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheKeyPart("v1")
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheKeyPart("v1");
     }
 
     [Test]

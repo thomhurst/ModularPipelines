@@ -191,9 +191,8 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class ConfiguredSkippedInvalidArtifactConsumerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -298,9 +297,8 @@ public class ArtifactContractTests
     {
         public static bool IsReady { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCacheKeyPart("local-producer-v1")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCacheKeyPart("local-producer-v1");
 
         protected internal override async Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -318,11 +316,10 @@ public class ArtifactContractTests
     {
         public static bool ShouldSkip { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ShouldSkip
                 ? SkipDecision.Skip("mutable condition requested a skip")
-                : SkipDecision.DoNotSkip)
-            .Build();
+                : SkipDecision.DoNotSkip);
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -336,11 +333,10 @@ public class ArtifactContractTests
     {
         public static bool ShouldSkip { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ShouldSkip
                 ? SkipDecision.Skip("mutable consumer skipped")
-                : SkipDecision.DoNotSkip)
-            .Build();
+                : SkipDecision.DoNotSkip);
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -432,11 +428,10 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => LocalProducerModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("producer is not ready"))
-            .Build();
+                : SkipDecision.Skip("producer is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -467,11 +462,10 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ProducerStateIntermediateModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("producer path is not ready"))
-            .Build();
+                : SkipDecision.Skip("producer path is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -500,11 +494,10 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => DependencyStateSourceModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("shared dependency state is not ready"))
-            .Build();
+                : SkipDecision.Skip("shared dependency state is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -520,11 +513,10 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => DependencyStateSourceModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("dependency state is not ready"))
-            .Build();
+                : SkipDecision.Skip("dependency state is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -683,9 +675,8 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -746,9 +737,8 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -762,9 +752,8 @@ public class ArtifactContractTests
     [ProducesArtifact("skipped-runtime", MissingRuntimeFile)]
     private sealed class SkippedArtifactProducerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -793,9 +782,8 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -814,13 +802,12 @@ public class ArtifactContractTests
 
         public static int SkipEvaluations;
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ =>
             {
                 Interlocked.Increment(ref SkipEvaluations);
                 return SkipDecision.Skip("consumer skipped");
-            })
-            .Build();
+            });
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -849,9 +836,8 @@ public class ArtifactContractTests
 
     private sealed class SkippedArtifactBlockerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("blocker skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("blocker skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -863,9 +849,8 @@ public class ArtifactContractTests
     [ProducesArtifact("dependency-ordered", MissingRuntimeFile)]
     private sealed class DependencyOrderedSkippedArtifactProducerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -909,9 +894,8 @@ public class ArtifactContractTests
 
     private sealed class HistoryBackedSkippedDependencyModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("history-backed dependency skipped"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("history-backed dependency skipped"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -950,11 +934,10 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ArtifactConsumerStateDependencyModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("dependency state is not ready"))
-            .Build();
+                : SkipDecision.Skip("dependency state is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -970,11 +953,10 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class DependencyStateInvalidArtifactConsumerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => ArtifactConsumerStateDependencyModule.IsReady
                 ? SkipDecision.DoNotSkip
-                : SkipDecision.Skip("dependency state is not ready"))
-            .Build();
+                : SkipDecision.Skip("dependency state is not ready"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -1077,9 +1059,8 @@ public class ArtifactContractTests
     [ProducesArtifact("failed-runtime", FailedRuntimeFile)]
     private sealed class IgnoredFailureArtifactProducerModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithIgnoreFailures()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithIgnoreFailures();
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,

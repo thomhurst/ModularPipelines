@@ -225,9 +225,8 @@ public class SyncModuleTests : TestBase
         public bool SkippedHookCalled { get; private set; }
         public SkipDecision? CapturedSkipDecision { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("Always skip"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("Always skip"));
 
         protected override Task OnSkippedAsync(
             IModuleContext context,
@@ -365,9 +364,8 @@ public class SyncModuleTests : TestBase
 
     public class SyncModuleWithTimeout : SyncModule<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromMinutes(5))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromMinutes(5));
 
         protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -388,9 +386,8 @@ public class SyncModuleTests : TestBase
     {
         public int ExecutionCount { get; private set; }
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithRetry(3, TimeSpan.Zero)
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithRetry(3, TimeSpan.Zero);
 
         protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {

@@ -514,9 +514,7 @@ public class ParallelLimitHandlerTests
 
     private sealed class AlwaysRunTestModule : TestModule
     {
-        protected override ModuleConfiguration Configure() =>
-            ModuleConfiguration.Create()
-                .WithAlwaysRun()
-                .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+                .WithAlwaysRun();
     }
 }

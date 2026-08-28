@@ -19,7 +19,7 @@ public class ModuleDependencyResolverTests
     {
         public Type ResultType => typeof(string);
 
-        public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create()
+        public ModuleConfiguration Configuration { get; } = new ModuleConfigurationBuilder()
             .DependsOnOptional<DependencyModule>()
             .Build();
     }

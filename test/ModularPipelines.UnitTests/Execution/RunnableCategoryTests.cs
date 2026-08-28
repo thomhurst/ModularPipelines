@@ -47,9 +47,8 @@ public class RunnableCategoryTests : TestBase
 
     private class ConfiguredCategoryModule : SimpleTestModule<bool>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithCategory("Run1")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithCategory("Run1");
 
         protected override bool Result => true;
     }

@@ -25,14 +25,13 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class ConfiguredModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .DependsOn<DependencyModule>()
             .WithTags("configured")
             .WithCategory("configured-category")
             .WithNotInParallel("configured-lock")
             .WithPriority(ModulePriority.High)
-            .WithExecutionHint(ExecutionType.IoIntensive)
-            .Build();
+            .WithExecutionHint(ExecutionType.IoIntensive);
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -54,9 +53,8 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class FailingTaggedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTags("failing")
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTags("failing");
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => throw new InvalidOperationException("Expected test failure");
@@ -74,9 +72,8 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class SelfDependentModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<SelfDependentModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<SelfDependentModule>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("self-dependent");
@@ -84,9 +81,8 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class CircularDependencyModuleA : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<CircularDependencyModuleB>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<CircularDependencyModuleB>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("a");
@@ -94,9 +90,8 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class CircularDependencyModuleB : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<CircularDependencyModuleA>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<CircularDependencyModuleA>();
 
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("b");

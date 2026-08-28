@@ -14,9 +14,8 @@ public class ModuleTimeoutTests : TestBase
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromSeconds(1))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromSeconds(1));
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -27,9 +26,8 @@ public class ModuleTimeoutTests : TestBase
 
     private class Module_NotUsingCancellationToken : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithTimeout(TimeSpan.FromSeconds(1))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromSeconds(1));
 
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

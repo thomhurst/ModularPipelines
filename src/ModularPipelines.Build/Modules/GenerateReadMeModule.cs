@@ -13,9 +13,8 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class GenerateReadMeModule : Module<None>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithAlwaysRun()
-        .Build();
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithAlwaysRun();
 
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

@@ -29,11 +29,10 @@ public class CreateReleaseModule : Module<Release>
         _publishSettings = publishSettings;
     }
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false")
         .WithSkipWhen(_ => string.IsNullOrEmpty(_githubSettings.Value.AdminToken), "The GitHub admin token is unavailable")
-        .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
-        .Build();
+        .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException);
 
     protected override async Task<Release> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

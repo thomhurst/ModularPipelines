@@ -9,9 +9,8 @@ namespace ModularPipelines.Build.Modules;
 
 public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithAlwaysRun()
-        .Build();
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithAlwaysRun();
 
     protected override Task<IReadOnlyList<File>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

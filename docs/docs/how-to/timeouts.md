@@ -20,7 +20,7 @@ builder.ConfigurePipelineOptions(options => options with
 });
 ```
 
-You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+You can override the pipeline default for one module using `Configure(ModuleConfigurationBuilder)`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
 
 `AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a
 constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even
@@ -42,9 +42,9 @@ for each retry, so increase it for pipelines whose blocking modules can legitima
 ```csharp
 public class MyModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithTimeout(TimeSpan.FromSeconds(120))
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -60,11 +60,11 @@ Timeouts can be combined with other module behaviors:
 ```csharp
 public class ResilientModule : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetry(3)  // Retry if timeout or other failure occurs
         .WithIgnoreFailures()  // Don't fail the pipeline if module times out
-        .Build();
+        ;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

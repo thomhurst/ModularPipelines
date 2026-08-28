@@ -16,7 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<None>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(ctx =>
         {
             if (FastFailValidation.IsComplete(ctx))
@@ -31,8 +31,7 @@ public class FormatMarkdownModule : Module<None>
 
             return SkipDecision.DoNotSkip;
         })
-        .WithAlwaysRun()
-        .Build();
+        .WithAlwaysRun();
 
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

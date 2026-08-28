@@ -147,11 +147,9 @@ public class ModuleCacheTests
         public const string AssemblyVersionKey = "stable-build-module-v3";
         public const string KeyPart = "configuration-value";
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
                 .WithCacheKeyPart(KeyPart)
-                .WithCacheAssemblyVersionKey(AssemblyVersionKey)
-                .Build();
+                .WithCacheAssemblyVersionKey(AssemblyVersionKey);
 
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -181,10 +179,8 @@ public class ModuleCacheTests
             return dependency.Value.GetType().FullName!;
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheKeyPart("runtime-typed-dependency-v1")
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheKeyPart("runtime-typed-dependency-v1");
     }
 
     private sealed class RuntimeTypedCachedResultModule : Module<object>
@@ -199,10 +195,8 @@ public class ModuleCacheTests
             return Task.FromResult<object>(1);
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheKeyPart("runtime-typed-result-v1")
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheKeyPart("runtime-typed-result-v1");
     }
 
     private sealed class EnvironmentCachedModule : Module<string?>
@@ -220,10 +214,8 @@ public class ModuleCacheTests
             return Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName));
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheEnvironmentVariable(EnvironmentVariableName)
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheEnvironmentVariable(EnvironmentVariableName);
     }
 
     private sealed class UncachedModule : Module<string>
@@ -310,10 +302,8 @@ public class ModuleCacheTests
                     : null);
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheKeyPart("result-transform-v1")
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheKeyPart("result-transform-v1");
     }
 
     [ModularPipelines.Attributes.DependsOn<ResultTransformingCachedModule>]
@@ -691,13 +681,11 @@ public class ModuleCacheTests
             return Task.FromResult<string>("result");
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
                 .WithCacheKeyPart("skippable-v1")
                 .WithSkipWhen(_ => ShouldSkip
                     ? SkipDecision.Skip("gate closed")
-                    : SkipDecision.DoNotSkip)
-                .Build();
+                    : SkipDecision.DoNotSkip);
     }
 
     [CacheInputs("empty-directory-input.txt")]
@@ -745,10 +733,8 @@ public class ModuleCacheTests
             return $"dependent:{dependency.ValueOrDefault}";
         }
 
-        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
-                .WithCacheKeyPart("dependent-v1")
-                .Build();
+        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+                .WithCacheKeyPart("dependent-v1");
     }
 
     [Test]
@@ -1166,7 +1152,7 @@ public class ModuleCacheTests
     [Test]
     public async Task FluentCacheInputsArePreserved()
     {
-        var configuration = ModularPipelines.Configuration.ModuleConfiguration.Create()
+        var configuration = new ModularPipelines.Configuration.ModuleConfigurationBuilder()
             .WithCacheKeyPart("configuration=v1")
             .WithCacheEnvironmentVariable("CI")
             .WithCacheAssemblyVersionKey("build-module-v3")
@@ -1185,7 +1171,7 @@ public class ModuleCacheTests
     public async Task CacheAssemblyVersionKeyRejectsWhitespace()
     {
         var exception = Assert.Throws<ArgumentException>(() =>
-            ModularPipelines.Configuration.ModuleConfiguration.Create()
+            new ModularPipelines.Configuration.ModuleConfigurationBuilder()
                 .WithCacheAssemblyVersionKey(" "));
 
         await Assert.That(exception.ParamName).IsEqualTo("value");

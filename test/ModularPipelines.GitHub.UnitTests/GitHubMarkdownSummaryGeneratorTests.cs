@@ -33,11 +33,10 @@ public class GitHubMarkdownSummaryGeneratorTests
 
     private sealed class SingleUseSkipConditionModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => Interlocked.Increment(ref _skipConditionEvaluations) == 1
                 ? SkipDecision.DoNotSkip
-                : throw new InvalidOperationException("Skip condition evaluated twice"))
-            .Build();
+                : throw new InvalidOperationException("Skip condition evaluated twice"));
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,

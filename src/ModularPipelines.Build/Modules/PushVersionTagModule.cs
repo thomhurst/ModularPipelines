@@ -28,14 +28,13 @@ public class PushVersionTagModule : Module<CommandResult>
         _gitHubSettings = gitHubSettings;
     }
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailuresWhen((ctx, ex) =>
         {
             // Use GetAwaiter().GetResult() since dependency has completed by the time this callback runs
             var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule>().GetAwaiter().GetResult();
             return ex.Message.Contains($"tag 'v{versionInformation.Value}' already exists");
-        })
-        .Build();
+        });
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

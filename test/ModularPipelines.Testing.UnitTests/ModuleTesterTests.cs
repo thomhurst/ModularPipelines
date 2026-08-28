@@ -482,9 +482,8 @@ public class ModuleTesterTests
 
     public sealed class DependentModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .DependsOn<DependencyModule>()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .DependsOn<DependencyModule>();
 
         protected override async Task<string> ExecuteAsync(
             IModuleContext context,
@@ -578,9 +577,8 @@ public class ModuleTesterTests
 
     public sealed class SkippedModule : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("not needed"))
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => SkipDecision.Skip("not needed"));
 
         protected override Task<string> ExecuteAsync(
             IModuleContext context,
@@ -780,9 +778,8 @@ public class ModuleTesterTests
 
     public sealed class CancellableAlwaysRunModule(TaskCompletionSource started) : Module<string>
     {
-        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithAlwaysRun()
-            .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun();
 
         protected override async Task<string> ExecuteAsync(
             IModuleContext context,

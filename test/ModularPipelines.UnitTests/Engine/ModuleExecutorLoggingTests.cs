@@ -46,10 +46,8 @@ public class ModuleExecutorLoggingTests
 
     private class QueuedAlwaysRunModule : Module<bool>
     {
-        protected override ModuleConfiguration Configure() =>
-            ModuleConfiguration.Create()
-                .WithAlwaysRun()
-                .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+                .WithAlwaysRun();
 
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,

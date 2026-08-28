@@ -52,10 +52,8 @@ public class DistributedModuleExecutorTests
 
     private class ShortTimeoutDistributedModule : Module<SimpleResult>
     {
-        protected override ModuleConfiguration Configure() =>
-            ModuleConfiguration.Create()
-                .WithTimeout(TimeSpan.FromMilliseconds(50))
-                .Build();
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+                .WithTimeout(TimeSpan.FromMilliseconds(50));
 
         protected internal override Task<SimpleResult> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
