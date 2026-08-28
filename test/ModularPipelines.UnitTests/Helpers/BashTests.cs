@@ -65,7 +65,11 @@ public class BashTests : TestBase
     public async Task RunFileAsync_Bounds_And_Cancels_Wsl_Path_Conversion()
     {
         var cancellationToken = new CancellationTokenSource().Token;
-        var executionOptions = new CommandExecutionOptions { ThrowOnNonZeroExitCode = false };
+        var executionOptions = new CommandExecutionOptions
+        {
+            ThrowOnNonZeroExitCode = false,
+            WorkingDirectory = "work",
+        };
         var invocations = new List<(CommandLineToolOptions Options, CommandExecutionOptions? ExecutionOptions, CancellationToken CancellationToken)>();
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(
@@ -85,6 +89,7 @@ public class BashTests : TestBase
         await Assert.That(invocations).Count().IsEqualTo(2);
         await Assert.That(invocations[0].Options.Tool).IsEqualTo("wsl");
         await Assert.That(invocations[0].ExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
+        await Assert.That(invocations[0].ExecutionOptions?.WorkingDirectory).IsEqualTo(executionOptions.WorkingDirectory);
         await Assert.That(invocations[0].CancellationToken).IsEqualTo(cancellationToken);
         await Assert.That(((BashFileOptions) invocations[1].Options).FilePath).IsEqualTo("/mnt/c/script.sh");
         await Assert.That(invocations[1].ExecutionOptions).IsSameReferenceAs(executionOptions);

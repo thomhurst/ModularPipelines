@@ -46,11 +46,17 @@ internal class Bash : IBashContext
     {
         return await _command.ExecuteCommandLineToolAsync(options with
         {
-            FilePath = await ToWslPath(options.FilePath, cancellationToken).ConfigureAwait(false),
+            FilePath = await ToWslPath(
+                options.FilePath,
+                executionOptions?.WorkingDirectory,
+                cancellationToken).ConfigureAwait(false),
         }, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<string> ToWslPath(string path, CancellationToken cancellationToken)
+    private async Task<string> ToWslPath(
+        string path,
+        string? workingDirectory,
+        CancellationToken cancellationToken)
     {
         if (OperatingSystem.IsWindows())
         {
@@ -60,6 +66,7 @@ internal class Bash : IBashContext
             }, new CommandExecutionOptions
             {
                 ExecutionTimeout = WslPathExecutionTimeout,
+                WorkingDirectory = workingDirectory,
             }, cancellationToken).ConfigureAwait(false);
 
             return result.StandardOutput.Trim();
