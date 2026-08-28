@@ -430,6 +430,8 @@ ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.PrependOptionTerm
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.PrependOptionTerminatorIfValueStartsWithDash.init -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.PropertyName.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.PropertyName.init -> void
+ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.RepeatOptionTerminator.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.RepeatOptionTerminator.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.AllEnums.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliEnumDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.CliToolDefinition() -> void
