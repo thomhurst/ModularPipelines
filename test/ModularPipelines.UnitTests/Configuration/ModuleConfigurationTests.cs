@@ -98,7 +98,7 @@ public class ModuleConfigurationTests
     [Arguments(false, null)]
     public async Task WithSkipWhen_BooleanCondition_MapsDecision(bool shouldSkip, string? expectedReason)
     {
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen(_ => shouldSkip, "Skip reason")
             .Build();
 
@@ -116,7 +116,7 @@ public class ModuleConfigurationTests
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         CancellationToken? receivedToken = null;
-        var config = ModuleConfiguration.Create()
+        var config = new ModuleConfigurationBuilder()
             .WithSkipWhen((_, cancellationToken) =>
             {
                 receivedToken = cancellationToken;
