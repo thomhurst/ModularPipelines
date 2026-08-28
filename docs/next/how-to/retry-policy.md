@@ -48,9 +48,9 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Resilience Shield[​](#advanced-resilience-shield "Direct link to Advanced Resilience Shield")
+### Custom Resilience Shield[​](#custom-resilience-shield "Direct link to Custom Resilience Shield")
 
-For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
+For resilience features outside the standard retry API, configure a Kevlar `Shield` directly:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -58,8 +58,6 @@ public class MyModule : Module<CommandResult>
 {
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-
-        .Advanced
 
         .WithShield(
 
@@ -92,8 +90,6 @@ public class MyModule : Module<CommandResult>
 {
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-
-        .Advanced
 
         .WithShield(ctx =>
 

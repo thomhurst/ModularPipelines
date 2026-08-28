@@ -4714,7 +4714,7 @@ public class MyModule : Module<FileInfo>
 | ---------------------------------------------------- | ------------------------------------------------------------------- |
 | `.WithTimeout(TimeSpan)`                             | Maximum execution time before module is cancelled                   |
 | `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter  |
-| `.Advanced.WithShield(Shield)`                       | Custom Kevlar resilience shield for advanced scenarios              |
+| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios              |
 | `.WithSkipWhen(...)`                                 | Condition to skip the module                                        |
 | `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                        |
 | `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                       |
@@ -7181,9 +7181,9 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
     .Build();
 ```
 
-### Advanced Resilience Shield[​](#advanced-resilience-shield "Direct link to Advanced Resilience Shield")
+### Custom Resilience Shield[​](#custom-resilience-shield "Direct link to Custom Resilience Shield")
 
-For resilience features outside the standard API, use a Kevlar `Shield` through the explicit `.Advanced` surface:
+For resilience features outside the standard retry API, configure a Kevlar `Shield` directly:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -7191,8 +7191,6 @@ public class MyModule : Module<CommandResult>
 {
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-
-        .Advanced
 
         .WithShield(
 
@@ -7225,8 +7223,6 @@ public class MyModule : Module<CommandResult>
 {
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-
-        .Advanced
 
         .WithShield(ctx =>
 
@@ -9241,7 +9237,7 @@ public class MyModule : Module<string>
 | V2 Override                                 | V3 Configure() Method                                     |
 | ------------------------------------------- | --------------------------------------------------------- |
 | `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                  |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithShield(Shield)`  |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.WithShield(Shield)`           |
 | `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                      |
 | `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                        |
@@ -10170,17 +10166,17 @@ The same applies to `WithIgnoreFailuresWhen`:
 
 The following have been removed in V3:
 
-| Removed                         | Replacement                                                           |
-| ------------------------------- | --------------------------------------------------------------------- |
-| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`                  |
-| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                                    |
-| `ModuleBase<T>` class           | `Module<T>`                                                           |
-| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                                          |
-| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                                    |
-| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                                         |
-| `Timeout` property              | `Configure().WithTimeout()`                                           |
-| `RetryPolicy` property          | `Configure().WithRetry(count, ...)` or `.Advanced.WithShield(shield)` |
-| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                                        |
+| Removed                         | Replacement                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`         |
+| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                           |
+| `ModuleBase<T>` class           | `Module<T>`                                                  |
+| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                                 |
+| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                           |
+| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                                |
+| `Timeout` property              | `Configure().WithTimeout()`                                  |
+| `RetryPolicy` property          | `Configure().WithRetry(count, ...)` or `.WithShield(shield)` |
+| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                               |
 
 ## New Features in V3[​](#new-features-in-v3 "Direct link to New Features in V3")
 
