@@ -1,7 +1,6 @@
 #nullable enable
 ModularPipelines.Cmd.Extensions.CmdExtensions
 ModularPipelines.Cmd.ICmd
-ModularPipelines.Cmd.ICmd.ScriptAsync(ModularPipelines.Cmd.Models.CmdScriptOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Cmd.Models.CmdScriptOptions
 ModularPipelines.Cmd.Models.CmdScriptOptions.CmdScriptOptions(ModularPipelines.Cmd.Models.CmdScriptOptions! original) -> void
 ModularPipelines.Cmd.Models.CmdScriptOptions.CmdScriptOptions(string! Script) -> void
