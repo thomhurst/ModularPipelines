@@ -318,6 +318,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <param name="targetPath">The destination path for the copied folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves the established timestamp overload.
     public Task<FolderPath> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
     {
         return CopyToAsync(targetPath, preserveTimestamps: false, cancellationToken);
@@ -390,6 +391,7 @@ public class FolderPath : IEquatable<FolderPath>
 
         return new FolderPath(targetPath, _provider);
     }
+#pragma warning restore RS0026
 
     public FolderPath MoveTo(string path)
     {
@@ -447,6 +449,7 @@ public class FolderPath : IEquatable<FolderPath>
         return GetFile(name).Create();
     }
 
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves overloads with caller-expression text.
     public IEnumerable<FolderPath> GetFolders(Func<FolderPath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, _ => false, predicateExpression);
 
     public IEnumerable<FilePath> GetFiles(Func<FilePath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, _ => false, predicateExpression);
@@ -488,6 +491,7 @@ public class FolderPath : IEquatable<FolderPath>
     public FilePath? FindFile(Func<FilePath, bool> predicate, Func<FolderPath, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
 
     public FolderPath? FindFolder(Func<FolderPath, bool> predicate, Func<FolderPath, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
+#pragma warning restore RS0026
 
     public IEnumerable<FilePath> ListFiles()
     {

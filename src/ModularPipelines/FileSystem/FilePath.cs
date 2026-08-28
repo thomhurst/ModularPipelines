@@ -107,6 +107,7 @@ public class FilePath : IEquatable<FilePath>
         return _provider.Open(Path, fileMode, fileAccess);
     }
 
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves the established content-specific overloads.
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path}", this);
@@ -154,7 +155,9 @@ public class FilePath : IEquatable<FilePath>
             await contents.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         }
     }
+#pragma warning restore RS0026
 
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves the established content-specific overloads.
     public Task AppendAsync(string contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Appending to File: {Path}", this);
@@ -168,6 +171,7 @@ public class FilePath : IEquatable<FilePath>
 
         return _provider.AppendAllLinesAsync(Path, contents, cancellationToken);
     }
+#pragma warning restore RS0026
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
     public bool Exists => _provider.FileExists(Path);
@@ -291,6 +295,7 @@ public class FilePath : IEquatable<FilePath>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance at the destination path.</returns>
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
     public Task<FilePath> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, path);
@@ -318,6 +323,7 @@ public class FilePath : IEquatable<FilePath>
         await folder.CreateAsync().ConfigureAwait(false);
         return await MoveToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
+#pragma warning restore RS0026
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public FilePath CopyTo(string path)
@@ -342,6 +348,7 @@ public class FilePath : IEquatable<FilePath>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance representing the copied file.</returns>
+#pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
     public async Task<FilePath> CopyToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
@@ -372,6 +379,7 @@ public class FilePath : IEquatable<FilePath>
         await folder.CreateAsync().ConfigureAwait(false);
         return await CopyToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
+#pragma warning restore RS0026
 
     public static FilePath GetNewTemporaryFilePath()
     {
