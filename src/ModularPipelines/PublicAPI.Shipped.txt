@@ -170,8 +170,6 @@ ModularPipelines.Attributes.Events.IModuleStartHandler.OnModuleStartAsync(Modula
 ModularPipelines.Attributes.Events.IPlanningSafeModuleRegistrationEventReceiver
 ModularPipelines.Attributes.ExcludeFromCodeCoverageAttributeChanger
 ModularPipelines.Attributes.ExecutionHintAttribute
-ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.Enums.ExecutionType executionType) -> void
-ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionType.get -> ModularPipelines.Enums.ExecutionType
 ModularPipelines.Attributes.IConditionAttribute
 ModularPipelines.Attributes.IConditionAttribute.ConditionNames.get -> string!
 ModularPipelines.Attributes.IConditionAttribute.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
@@ -346,8 +344,6 @@ ModularPipelines.Configuration.ModuleConfiguration.CacheKeyParts.get -> System.C
 ModularPipelines.Configuration.ModuleConfiguration.CacheKeyParts.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.Category.get -> string?
 ModularPipelines.Configuration.ModuleConfiguration.Category.init -> void
-ModularPipelines.Configuration.ModuleConfiguration.ExecutionType.get -> ModularPipelines.Enums.ExecutionType?
-ModularPipelines.Configuration.ModuleConfiguration.ExecutionType.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.ValueTask<bool>>?
 ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.ParallelConstraintKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
@@ -373,7 +369,6 @@ ModularPipelines.Configuration.ModuleConfigurationBuilder.WithCacheAssemblyVersi
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithCacheEnvironmentVariable(string! variableName) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithCacheKeyPart(string! value) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithCategory(string! category) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
-ModularPipelines.Configuration.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.Enums.ExecutionType executionType) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailures() -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, bool>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.ValueTask<bool>>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
@@ -555,8 +550,6 @@ ModularPipelines.Context.IFileInstaller.InstallFromWebAsync(ModularPipelines.Opt
 ModularPipelines.Context.IModuleContext
 ModularPipelines.Context.IModuleContext.GetModule<TModule>() -> TModule!
 ModularPipelines.Context.IModuleContext.GetModuleIfRegistered<TModule>() -> TModule?
-ModularPipelines.Context.IModuleContext.SubModuleAsync(string! name, System.Func<System.Threading.Tasks.Task!>! action, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
-ModularPipelines.Context.IModuleContext.SubModuleAsync<T>(string! name, System.Func<System.Threading.Tasks.Task<T>!>! action, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<T>!
 ModularPipelines.Context.IModuleHookContext
 ModularPipelines.Context.IModuleHookContext.ElapsedTime.get -> System.TimeSpan
 ModularPipelines.Context.IModuleHookContext.FailPipeline(string! reason) -> void
@@ -860,10 +853,6 @@ ModularPipelines.Enums.DependencyGraphFormat.Mermaid = 0 -> ModularPipelines.Enu
 ModularPipelines.Enums.DependencyType
 ModularPipelines.Enums.DependencyType.Optional = 1 -> ModularPipelines.Enums.DependencyType
 ModularPipelines.Enums.DependencyType.Required = 0 -> ModularPipelines.Enums.DependencyType
-ModularPipelines.Enums.ExecutionType
-ModularPipelines.Enums.ExecutionType.CpuIntensive = 1 -> ModularPipelines.Enums.ExecutionType
-ModularPipelines.Enums.ExecutionType.Default = 0 -> ModularPipelines.Enums.ExecutionType
-ModularPipelines.Enums.ExecutionType.IoIntensive = 2 -> ModularPipelines.Enums.ExecutionType
 ModularPipelines.Enums.ModulePriority
 ModularPipelines.Enums.ModulePriority.Critical = 3 -> ModularPipelines.Enums.ModulePriority
 ModularPipelines.Enums.ModulePriority.High = 2 -> ModularPipelines.Enums.ModulePriority
@@ -942,12 +931,6 @@ ModularPipelines.Exceptions.PluginVersionMismatchException.ActualCoreVersion.get
 ModularPipelines.Exceptions.PluginVersionMismatchException.PluginName.get -> string!
 ModularPipelines.Exceptions.PluginVersionMismatchException.PluginVersionMismatchException(string! pluginName, int requiredMajorVersion, System.Version? actualCoreVersion) -> void
 ModularPipelines.Exceptions.PluginVersionMismatchException.RequiredMajorVersion.get -> int
-ModularPipelines.Exceptions.SubModuleFailedException
-ModularPipelines.Exceptions.SubModuleFailedException.ParentModuleType.get -> System.Type?
-ModularPipelines.Exceptions.SubModuleFailedException.SubModuleFailedException(string! message) -> void
-ModularPipelines.Exceptions.SubModuleFailedException.SubModuleFailedException(string! message, System.Exception! innerException) -> void
-ModularPipelines.Exceptions.SubModuleFailedException.SubModuleFailedException(string! subModuleName, System.Type! parentModuleType, System.Exception! innerException) -> void
-ModularPipelines.Exceptions.SubModuleFailedException.SubModuleName.get -> string?
 ModularPipelines.Exceptions.ToolNotFoundException
 ModularPipelines.Exceptions.ToolNotFoundException.Executable.get -> string!
 ModularPipelines.Exceptions.ToolNotFoundException.ToolNotFoundException(string! executable, ModularPipelines.Models.CommandResult! result, System.Exception? innerException = null) -> void
@@ -1426,8 +1409,6 @@ ModularPipelines.Models.ModuleTimeline.EndTime.get -> System.DateTimeOffset?
 ModularPipelines.Models.ModuleTimeline.EndTime.init -> void
 ModularPipelines.Models.ModuleTimeline.ExecutionDuration.get -> System.TimeSpan?
 ModularPipelines.Models.ModuleTimeline.ExecutionDuration.init -> void
-ModularPipelines.Models.ModuleTimeline.ExecutionType.get -> ModularPipelines.Enums.ExecutionType
-ModularPipelines.Models.ModuleTimeline.ExecutionType.init -> void
 ModularPipelines.Models.ModuleTimeline.ModuleName.get -> string!
 ModularPipelines.Models.ModuleTimeline.ModuleName.init -> void
 ModularPipelines.Models.ModuleTimeline.ModuleTimeline() -> void
@@ -1754,9 +1735,6 @@ ModularPipelines.Options.DownloadOptions.LoggingType.get -> ModularPipelines.Htt
 ModularPipelines.Options.DownloadOptions.LoggingType.init -> void
 ModularPipelines.Options.DownloadOptions.RequestConfigurator.get -> System.Action<System.Net.Http.HttpRequestMessage!>?
 ModularPipelines.Options.DownloadOptions.RequestConfigurator.init -> void
-ModularPipelines.Options.ExecutionMode
-ModularPipelines.Options.ExecutionMode.StopOnFirstException = 0 -> ModularPipelines.Options.ExecutionMode
-ModularPipelines.Options.ExecutionMode.WaitForAllModules = 1 -> ModularPipelines.Options.ExecutionMode
 ModularPipelines.Options.HttpLoggingOptions
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions() -> void
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions(ModularPipelines.Options.HttpLoggingOptions! original) -> void
@@ -1922,8 +1900,6 @@ ModularPipelines.Options.PipelineOptions.DisableModuleCache.get -> bool
 ModularPipelines.Options.PipelineOptions.DisableModuleCache.init -> void
 ModularPipelines.Options.PipelineOptions.DryRun.get -> bool
 ModularPipelines.Options.PipelineOptions.DryRun.init -> void
-ModularPipelines.Options.PipelineOptions.ExecutionMode.get -> ModularPipelines.Options.ExecutionMode
-ModularPipelines.Options.PipelineOptions.ExecutionMode.init -> void
 ModularPipelines.Options.PipelineOptions.Http.get -> ModularPipelines.Options.PipelineHttpOptions!
 ModularPipelines.Options.PipelineOptions.Http.init -> void
 ModularPipelines.Options.PipelineOptions.IgnoreCategories.get -> System.Collections.Generic.IReadOnlyList<string!>?

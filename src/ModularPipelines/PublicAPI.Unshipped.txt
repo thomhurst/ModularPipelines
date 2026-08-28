@@ -1,4 +1,11 @@
 #nullable enable
+abstract ModularPipelines.Modules.NonGenericSyncModuleAdapter.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
+abstract ModularPipelines.Modules.SyncModule.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
+ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.Enums.ExecutionHint executionHint) -> void
+ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint?
+ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.init -> void
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.Enums.ExecutionHint executionHint) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunAsync(ModularPipelines.Options.BashCommandOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IBashContext.RunFileAsync(ModularPipelines.Options.BashFileOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -7,7 +14,13 @@ ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunAsync(ModularPipeli
 ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunFileAsync(ModularPipelines.Options.PowershellFileOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.IModuleContext.RunSubModuleAsync(string! name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Context.IModuleContext.RunSubModuleAsync<T>(string! name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<T>!>! body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<T>!
 ModularPipelines.Engine.RunHistoryQuery.Status.get -> ModularPipelines.Enums.ModuleStatus?
+ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Enums.ExecutionHint.CpuBound = 1 -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Enums.ExecutionHint.Default = 0 -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Enums.ExecutionHint.IoBound = 2 -> ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.Cancelled = 7 -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Enums.ModuleStatus.DependencyFailed = 8 -> ModularPipelines.Enums.ModuleStatus
@@ -28,7 +41,20 @@ ModularPipelines.Models.ModuleDurationSample.Status.get -> ModularPipelines.Enum
 ModularPipelines.Models.ModuleResult.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.ModuleResult.Status.init -> void
 ModularPipelines.Models.ModuleRunReport.Status.get -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Models.ModuleTimeline.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Models.ModuleTimeline.ExecutionHint.init -> void
 ModularPipelines.Models.ModuleTimeline.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.PipelineRunReport.Status.get -> ModularPipelines.Enums.ModuleStatus
 ModularPipelines.Models.PipelineSummary.Status.get -> ModularPipelines.Enums.ModuleStatus
+ModularPipelines.Modules.NonGenericSyncModuleAdapter
+ModularPipelines.Modules.NonGenericSyncModuleAdapter.NonGenericSyncModuleAdapter() -> void
+ModularPipelines.Modules.SyncModule
+ModularPipelines.Modules.SyncModule.SyncModule() -> void
+ModularPipelines.Options.FailureMode
+ModularPipelines.Options.FailureMode.ContinueOnFailure = 1 -> ModularPipelines.Options.FailureMode
+ModularPipelines.Options.FailureMode.FailFast = 0 -> ModularPipelines.Options.FailureMode
+ModularPipelines.Options.PipelineOptions.FailureMode.get -> ModularPipelines.Options.FailureMode
+ModularPipelines.Options.PipelineOptions.FailureMode.init -> void
+override sealed ModularPipelines.Modules.NonGenericSyncModuleAdapter.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> ModularPipelines.Models.None
+override sealed ModularPipelines.Modules.SyncModule.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 virtual ModularPipelines.Modules.Module<T>.Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder! module) -> void
