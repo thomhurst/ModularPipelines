@@ -17,7 +17,7 @@ if (args is [SmokeState.ChildArgument, var childValue])
     return;
 }
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Exercise OptionsProvider's runtime-discovered IOptions<T> path after trimming.
 builder.Services.AddSingleton<IOptions<SmokePipelineOptions>>(
@@ -37,7 +37,7 @@ if (SmokeState.HookInvocations != 3)
         $"Expected three generated hook invocations, got {SmokeState.HookInvocations}.");
 }
 
-using var failureBuilder = Pipeline.CreateBuilder(args);
+var failureBuilder = Pipeline.CreateBuilder(args);
 failureBuilder
     .AddModule<FailingModule>()
     .AddModule<PendingAfterFailureModule>();

@@ -211,7 +211,7 @@ public class RedisModuleCacheTests
     [Test]
     public async Task CacheRegistrationDoesNotReplaceDistributedOptions()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddRedisDistributed(
             options =>
             {

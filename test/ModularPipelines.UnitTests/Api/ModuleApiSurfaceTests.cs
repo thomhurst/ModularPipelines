@@ -40,7 +40,7 @@ public class ModuleApiSurfaceTests
     [Test]
     public async Task DirectIModuleImplementationsFailAtRegistrationWithGuidance()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
 
         var genericException = Assert.Throws<InvalidOperationException>(
             () => builder.AddModule<DirectModule>());

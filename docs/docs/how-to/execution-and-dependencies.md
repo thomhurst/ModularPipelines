@@ -69,7 +69,7 @@ You can also export programmatically:
 ```csharp
 using ModularPipelines.Enums;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<Module2>();
 
 await builder.ExportDependencyGraphAsync(

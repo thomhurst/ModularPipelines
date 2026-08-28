@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace ModularPipelines;
 
 /// <summary>
@@ -9,6 +11,7 @@ public static class Pipeline
     /// Creates a new pipeline builder.
     /// </summary>
     /// <param name="args">Optional command line arguments.</param>
+    /// <param name="sourceFilePath">The calling source file path, supplied by the compiler.</param>
     /// <returns>A new pipeline builder instance.</returns>
     /// <example>
     /// <code>
@@ -24,45 +27,30 @@ public static class Pipeline
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>
-    public static PipelineBuilder CreateBuilder(string[]? args = null)
+    public static PipelineBuilder CreateBuilder(
+        string[]? args = null,
+        [CallerFilePath] string sourceFilePath = "")
     {
-        return new PipelineBuilder(new PipelineBuilderOptions { Args = args });
+        return CreateBuilder(new PipelineBuilderSettings
+        {
+            Args = args,
+        }, sourceFilePath);
     }
 
     /// <summary>
-    /// Creates a new pipeline builder whose working directory is inferred from the calling source file.
+    /// Creates a new pipeline builder with the specified settings.
     /// </summary>
-    /// <param name="args">Optional command line arguments.</param>
+    /// <param name="settings">The builder settings.</param>
     /// <param name="sourceFilePath">The calling source file path, supplied by the compiler.</param>
     /// <returns>A new pipeline builder instance.</returns>
     /// <remarks>
-    /// <c>MODULAR_PIPELINES_DIRECTORY</c> can override the inferred project directory. If neither can
-    /// be resolved, the process working directory is used.
-    /// </remarks>
-    public static PipelineBuilder CreateBuilderFromSource(
-        string[]? args = null,
-        [System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "")
-    {
-        return new PipelineBuilder(new PipelineBuilderOptions
-        {
-            Args = args,
-            WorkingDirectory = PipelineDirectory.TryFindPipelineProject(sourceFilePath),
-        });
-    }
-
-    /// <summary>
-    /// Creates a new pipeline builder with the specified options.
-    /// </summary>
-    /// <param name="options">The builder options.</param>
-    /// <returns>A new pipeline builder instance.</returns>
-    /// <remarks>
-    /// This overload does not infer a pipeline project directory. When
-    /// <see cref="PipelineBuilderOptions.WorkingDirectory"/> is
-    /// unset, the configured content root is used, falling back to the process working directory.
+    /// When <see cref="PipelineBuilderSettings.WorkingDirectory"/> is unset, the calling source file's
+    /// project directory is used when available, then the configured content root, and finally the
+    /// process working directory.
     /// </remarks>
     /// <example>
     /// <code>
-    /// var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+    /// var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
     /// {
     ///     Args = args,
     ///     EnvironmentName = "Development"
@@ -73,8 +61,16 @@ public static class Pipeline
     /// var summary = await pipeline.RunAsync();
     /// </code>
     /// </example>
-    public static PipelineBuilder CreateBuilder(PipelineBuilderOptions options)
+    public static PipelineBuilder CreateBuilder(
+        PipelineBuilderSettings settings,
+        [CallerFilePath] string sourceFilePath = "")
     {
-        return new PipelineBuilder(options);
+        ArgumentNullException.ThrowIfNull(settings);
+
+        return new PipelineBuilder(settings with
+        {
+            WorkingDirectory = settings.WorkingDirectory
+                               ?? PipelineDirectory.TryFindPipelineProject(sourceFilePath),
+        });
     }
 }

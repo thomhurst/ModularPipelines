@@ -61,7 +61,7 @@ public class PipelineWorkingDirectoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 WorkingDirectory = workingDirectory.FullName,
             });
@@ -106,7 +106,7 @@ public class PipelineWorkingDirectoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 WorkingDirectory = pipelineDirectory.FullName,
             });
@@ -139,7 +139,7 @@ public class PipelineWorkingDirectoryTests
         try
         {
             var nestedDirectory = Directory.CreateDirectory(Path.Combine(projectDirectory.FullName, "src", "Pipeline"));
-            using var builder = Pipeline.CreateBuilderFromSource(
+            var builder = Pipeline.CreateBuilder(
                 sourceFilePath: Path.Combine(nestedDirectory.FullName, "Program.cs"));
             builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -156,11 +156,15 @@ public class PipelineWorkingDirectoryTests
     }
 
     [Test]
-    public async Task CreateBuilderRetainsSingleArgumentBinarySignature()
+    public async Task CreateBuilderUsesCallerFilePath()
     {
-        var method = typeof(Pipeline).GetMethod(nameof(Pipeline.CreateBuilder), [typeof(string[])]);
+        var method = typeof(Pipeline).GetMethod(
+            nameof(Pipeline.CreateBuilder),
+            [typeof(string[]), typeof(string)]);
 
-        await Assert.That(method).IsNotNull();
+        await Assert.That(method!.GetParameters()[1].GetCustomAttributesData()
+                .Select(attribute => attribute.AttributeType))
+            .Contains(typeof(System.Runtime.CompilerServices.CallerFilePathAttribute));
     }
 
     [Test]

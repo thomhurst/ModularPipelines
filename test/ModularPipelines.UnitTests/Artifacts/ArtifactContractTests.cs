@@ -71,7 +71,7 @@ public class ArtifactContractTests
     public async Task ArtifactLifecycleLoggingUsesAmbientModuleLogger()
     {
         var loggerProvider = new RecordingLoggerProvider();
-        using var builder = TestPipelineBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.ConfigureServices(services => services.AddLogging(logging => logging.AddProvider(loggerProvider)));
         builder.AddModule<AmbientArtifactLoggingProducerModule>();
         builder.AddModule<AmbientArtifactLoggingConsumerModule>();
@@ -1263,7 +1263,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsUnknownProducedArtifactName()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<MissingArtifactConsumerModule>();
 
@@ -1279,7 +1279,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsUnregisteredArtifactProducer()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<UnregisteredProducerConsumerModule>();
 
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
@@ -1293,7 +1293,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsDuplicateProducedArtifactName()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DuplicateArtifactProducerModule>();
         builder.AddModule<DuplicateArtifactConsumerModule>();
 
@@ -1308,7 +1308,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsConsumerWithoutProducerDependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<UnorderedArtifactConsumerModule>();
 
@@ -1323,7 +1323,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsOptionalProducerDependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<OptionalArtifactConsumerModule>();
 
@@ -1338,7 +1338,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncIgnoresInvalidContractOnExcludedConsumer()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             SkippedModules = [nameof(MissingArtifactConsumerModule)],
@@ -1354,7 +1354,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractOnAttributeSkippedConsumer()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<AttributeSkippedInvalidArtifactConsumerModule>();
 
@@ -1368,7 +1368,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractOnConfiguredSkippedConsumer()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<ConfiguredSkippedInvalidArtifactConsumerModule>();
 
@@ -1383,7 +1383,7 @@ public class ArtifactContractTests
     public async Task BuildAsyncRejectsInvalidContractOnDynamicallySkippedConsumer()
     {
         DynamicSkippedInvalidArtifactConsumerModule.ShouldSkip = true;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<DynamicSkippedInvalidArtifactConsumerModule>();
 
@@ -1398,7 +1398,7 @@ public class ArtifactContractTests
     public async Task BuildAsyncKeepsConsumerWhoseSkipDependsOnDependencyState()
     {
         ArtifactConsumerStateDependencyModule.IsReady = false;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<ArtifactConsumerStateDependencyModule>();
         builder.AddModule<DependencyStateInvalidArtifactConsumerModule>();
@@ -1414,7 +1414,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractOnDependencySkippedConsumer()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<SkippedArtifactValidationDependencyModule>();
         builder.AddModule<DependencySkippedInvalidArtifactConsumerModule>();
@@ -1429,7 +1429,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractWhenSkippedDependencyHasHistory()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddResultsRepository<ArtifactValidationHistoryRepository>();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<SkippedArtifactValidationDependencyModule>();
@@ -1446,7 +1446,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractWhenSelectedDependencyHasHistory()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             SkippedModules = [nameof(SkippedArtifactValidationDependencyModule)],
@@ -1466,7 +1466,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncRejectsInvalidContractWhenConsumedSkippedProducerHasHistory()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddResultsRepository<ArtifactHistoryRepository>();
         builder.AddModule<SkippedArtifactProducerModule>();
         builder.AddModule<InvalidSkippedArtifactConsumerModule>();
@@ -1482,7 +1482,7 @@ public class ArtifactContractTests
     [Test]
     public async Task BuildAsyncPreservesValidationAcrossArtifactDemandCycle()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddResultsRepository<ArtifactHistoryRepository>();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<SkippedArtifactProducerModule>();
@@ -1503,7 +1503,7 @@ public class ArtifactContractTests
     public async Task BuildAsyncDoesNotUseMutableSkipAsFallbackDemand()
     {
         MutableArtifactConsumerModule.ShouldSkip = false;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddResultsRepository<ArtifactHistoryRepository>();
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<SkippedArtifactProducerModule>();
@@ -1522,7 +1522,7 @@ public class ArtifactContractTests
     [Test]
     public async Task ValidateAsyncAcceptsMatchingArtifactContract()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LocalProducerModule>();
         builder.AddModule<LocalConsumerModule>();
 
@@ -1542,7 +1542,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
 
@@ -1594,7 +1594,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<ProducerStateConsumerModule>();
 
@@ -1631,7 +1631,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<ProducerStateIntermediateModule>();
             builder.AddModule<TransitiveProducerStateConsumerModule>();
@@ -1666,7 +1666,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<DependencyStateSourceModule>();
             builder.AddModule<SharedDependencySiblingModule>();
@@ -1701,7 +1701,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
 
@@ -1725,7 +1725,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModuleEventReceiver<EndHookArtifactReceiver>();
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
@@ -1784,7 +1784,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<MultipleDirectoryProducerModule>();
             builder.AddModule<MultipleDirectoryConsumerModule>();
 
@@ -1812,7 +1812,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<CacheOnlyProducerModule>();
             await using var pipeline = await builder.BuildAsync();
 
@@ -1833,7 +1833,7 @@ public class ArtifactContractTests
     [Test]
     public async Task StandaloneExecutionUsesFilesystemBackedArtifactStore()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<CacheOnlyProducerModule>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -1849,7 +1849,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(LocalConsumerModule)],
@@ -1881,7 +1881,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<MissingRuntimeConsumerModule>();
 
@@ -1913,7 +1913,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<MissingRuntimeIntermediateModule>();
             builder.AddModule<TransitiveMissingRuntimeConsumerModule>();
@@ -1953,7 +1953,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<IgnoredMissingRuntimeConsumerModule>();
 
@@ -1981,7 +1981,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
             builder.AddResultsRepository<RecordingResultRepository>();
             builder.AddModuleEventReceiver<AwaitingEndHookReceiver>();
@@ -2026,7 +2026,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactConsumerModule>();
 
@@ -2048,7 +2048,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
@@ -2081,7 +2081,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactConsumerModule)],
@@ -2112,7 +2112,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<ConfiguredSkippedHistoricalArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
@@ -2151,7 +2151,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
@@ -2190,7 +2190,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactBlockerModule>();
             builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
             builder.AddModule<DependencySkippedArtifactConsumerModule>();
@@ -2225,7 +2225,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactBlockerModule>();
             builder.AddModule<IndependentDependencySkippedArtifactConsumerModule>();
@@ -2261,7 +2261,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
@@ -2309,7 +2309,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
@@ -2354,7 +2354,7 @@ public class ArtifactContractTests
         {
             Directory.CreateDirectory(Path.GetDirectoryName(ProducedFile)!);
             await File.WriteAllTextAsync(ProducedFile, "cached artifact content");
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IModuleCacheResultRepository, LocalProducerCacheRepository>();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
             builder.AddModule<LocalProducerModule>();
@@ -2395,7 +2395,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<HistoryBackedSkippedDependencyModule>();
             builder.AddModule<HistoryBackedDependencyArtifactConsumerModule>();
@@ -2434,7 +2434,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
@@ -2478,7 +2478,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules =
@@ -2525,7 +2525,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules =
@@ -2581,7 +2581,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
             builder.AddModule<OscillatingFirstArtifactConsumerModule>();
@@ -2630,7 +2630,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules =
@@ -2673,7 +2673,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules =
@@ -2718,7 +2718,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<AttributeSkippedHistoricalArtifactConsumerModule>();
             builder.AddResultsRepository<ArtifactHistoryRepository>();
@@ -2752,7 +2752,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules =
@@ -2792,7 +2792,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactConsumerModule)],
@@ -2831,7 +2831,7 @@ public class ArtifactContractTests
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FailedRuntimeFile)!);
             await File.WriteAllTextAsync(FailedRuntimeFile, "stale artifact");
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<IgnoredFailureArtifactProducerModule>();
             builder.AddModule<IgnoredFailureArtifactConsumerModule>();
 
@@ -2859,7 +2859,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<ConfiguredSkippedArtifactConsumerModule>();
 
@@ -2883,7 +2883,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<PendingSkipArtifactProducerModule>();
             builder.AddModule<PendingSkipDependencyModule>();
             builder.AddModule<PendingSkippedArtifactConsumerModule>();
@@ -2924,7 +2924,7 @@ public class ArtifactContractTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.Services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = workingDirectory.FullName);
             builder.AddModule<WorkingDirectoryProducerModule>();
@@ -2971,7 +2971,7 @@ public class ArtifactContractTests
         string workingDirectory,
         string cacheDirectory)
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModuleCache<FileSystemModuleCache>(options =>
         {
             options.WorkingDirectory = workingDirectory;

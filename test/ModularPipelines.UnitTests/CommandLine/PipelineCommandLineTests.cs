@@ -664,7 +664,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ModuleOptionRunsTargetAndDependencyClosure()
     {
-        using var builder = CreateExecutionBuilder(["--module", nameof(TargetModule)]);
+        var builder = CreateExecutionBuilder(["--module", nameof(TargetModule)]);
 
         await builder.RunAsync();
 
@@ -679,7 +679,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ProgrammaticTargetModulesRunsDependencyClosure()
     {
-        using var builder = CreateExecutionBuilder();
+        var builder = CreateExecutionBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             TargetModules = [nameof(TargetModule)],
@@ -698,7 +698,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task SkipModuleOptionExcludesNamedModule()
     {
-        using var builder = CreateExecutionBuilder(["--skip-module", nameof(UnrelatedModule)]);
+        var builder = CreateExecutionBuilder(["--skip-module", nameof(UnrelatedModule)]);
 
         await builder.RunAsync();
 
@@ -713,7 +713,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task CategoriesOptionBindsExistingPipelineOption()
     {
-        using var builder = Pipeline.CreateBuilder(["--categories", "selected"]);
+        var builder = Pipeline.CreateBuilder(["--categories", "selected"]);
         builder.AddModule<SelectedCategoryModule>();
         builder.AddModule<UnrelatedModule>();
 
@@ -730,7 +730,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task NoCacheOptionBindsPipelineOption()
     {
-        using var builder = Pipeline.CreateBuilder(["--no-cache"]);
+        var builder = Pipeline.CreateBuilder(["--no-cache"]);
 
         await Assert.That(builder.Options.DisableModuleCache).IsTrue();
         await Assert.That(builder.Configuration["no-cache"]).IsNull();
@@ -739,7 +739,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task UnknownArgumentsStillFlowToHostConfiguration()
     {
-        using var builder = Pipeline.CreateBuilder(
+        var builder = Pipeline.CreateBuilder(
         [
             "--module", nameof(TargetModule),
             "--custom-setting", "custom-value",
@@ -752,7 +752,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ShortHostOptionIsNotMistakenForPipelineTypo()
     {
-        using var builder = Pipeline.CreateBuilder(["--mode", "safe"]);
+        var builder = Pipeline.CreateBuilder(["--mode", "safe"]);
 
         await Assert.That(builder.Configuration["mode"]).IsEqualTo("safe");
     }
@@ -760,7 +760,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task SeparatorForwardsLikelyTypoToHostConfiguration()
     {
-        using var builder = Pipeline.CreateBuilder(["--", "--skip-modules", "Deploy"]);
+        var builder = Pipeline.CreateBuilder(["--", "--skip-modules", "Deploy"]);
 
         await Assert.That(builder.Options.SkippedModules).IsNull();
         await Assert.That(builder.Configuration["skip-modules"]).IsEqualTo("Deploy");
@@ -818,7 +818,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task RepeatedCommaSeparatedAndEqualsValuesAreParsed()
     {
-        using var builder = Pipeline.CreateBuilder(
+        var builder = Pipeline.CreateBuilder(
         [
             "--module", "FirstModule,SecondModule",
             "--module=ThirdModule",
@@ -843,7 +843,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task AssemblyQualifiedModuleNameIsPreserved()
     {
-        using var builder = CreateExecutionBuilder(
+        var builder = CreateExecutionBuilder(
             ["--module", typeof(TargetModule).AssemblyQualifiedName!]);
 
         await builder.RunAsync();
@@ -859,7 +859,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task SelectionValidationDoesNotEvaluateRunConditions()
     {
-        using var builder = Pipeline.CreateBuilder(["--module", nameof(ConditionalModule)]);
+        var builder = Pipeline.CreateBuilder(["--module", nameof(ConditionalModule)]);
         builder.AddModule<ConditionalModule>();
 
         var result = await builder.ValidateAsync();
@@ -874,7 +874,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task CommandLineParsingCanBeDisabled()
     {
-        using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+        var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
         {
             Args = ["--module", "forwarded-value"],
             EnableCommandLineOptions = false,
@@ -887,7 +887,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task UnknownTargetProducesValidationError()
     {
-        using var builder = CreateExecutionBuilder(["--module", "MissingModule"]);
+        var builder = CreateExecutionBuilder(["--module", "MissingModule"]);
 
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(
             () => builder.RunAsync());
@@ -903,7 +903,7 @@ public class PipelineCommandLineTests
     [Arguments("--validate")]
     public async Task InformationalCommandsDoNotExecuteModules(string command)
     {
-        using var builder = CreateExecutionBuilder([command]);
+        var builder = CreateExecutionBuilder([command]);
 
         var summary = await builder.RunAsync();
 
@@ -923,7 +923,7 @@ public class PipelineCommandLineTests
         try
         {
             var path = Path.Combine(directory.FullName, "pipeline.json");
-            using var builder = CreateExecutionBuilder(["--graph", "json", path]);
+            var builder = CreateExecutionBuilder(["--graph", "json", path]);
 
             var summary = await builder.RunAsync();
             var graph = await File.ReadAllTextAsync(path);
@@ -951,7 +951,7 @@ public class PipelineCommandLineTests
         try
         {
             var path = Path.Combine(directory.FullName, "pipeline.json");
-            using var builder = Pipeline.CreateBuilder(["--graph", "json", path]);
+            var builder = Pipeline.CreateBuilder(["--graph", "json", path]);
             builder.AddModule<DependencyModule>();
             builder.AddModule<RuntimeOnlyDependencyModule>();
 
@@ -976,7 +976,7 @@ public class PipelineCommandLineTests
     public async Task HelpOptionsPrintUsage(string option)
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = CreateExecutionBuilder([option]);
+        var builder = CreateExecutionBuilder([option]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
         await builder.RunAsync();
@@ -994,7 +994,7 @@ public class PipelineCommandLineTests
     public async Task HelpDoesNotRequireAValidPipeline()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = Pipeline.CreateBuilder(["--help"]);
+        var builder = Pipeline.CreateBuilder(["--help"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
         var summary = await builder.RunAsync();
@@ -1011,7 +1011,7 @@ public class PipelineCommandLineTests
     public async Task HelpDoesNotActivateModules()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = Pipeline.CreateBuilder(["--help"]);
+        var builder = Pipeline.CreateBuilder(["--help"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ThrowingConstructorModule>();
 
@@ -1029,7 +1029,7 @@ public class PipelineCommandLineTests
     public async Task HelpDoesNotReadModuleConfiguration()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = Pipeline.CreateBuilder(["--help"]);
+        var builder = Pipeline.CreateBuilder(["--help"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ThrowingConfigurationModule>();
 
@@ -1046,7 +1046,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncBuildsDependencyOrderedWavesWithoutExecutingModules()
     {
-        using var builder = CreateExecutionBuilder();
+        var builder = CreateExecutionBuilder();
         builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -1071,7 +1071,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncSerializesModulesSharingNotInParallelKeyInEstimate()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<FirstLockedModule>();
         builder.AddModule<SecondLockedModule>();
         builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
@@ -1085,7 +1085,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncSimulatesMaxParallelismSlotsInEstimate()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -1105,7 +1105,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncSchedulesReadyModulesByPriorityInEstimate()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -1124,7 +1124,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncAppliesExecutionTypeLimitsInEstimate()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with
@@ -1149,7 +1149,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncAppliesCustomParallelLimitersInEstimate()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<FirstLimitedModule>();
         builder.AddModule<SecondLimitedModule>();
         builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
@@ -1163,7 +1163,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncCountsParallelLimiterWaitersAgainstWorkerSlots()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -1183,7 +1183,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncModelsLimiterAcquisitionBeforeExecutionTypeWait()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with
@@ -1206,7 +1206,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncReprioritizesModulesWhenConstraintReleases()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -1226,7 +1226,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncPreservesReadyChannelQueueOrder()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
@@ -1247,7 +1247,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncDefersOptionalRegistrationChecks()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<RegistrationOnlyOptionalSkipModule>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -1357,7 +1357,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncMarksAwaitedOptionalResultUnknown()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<OptionalResultDependentSkipModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1373,7 +1373,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncKeepsExcludedDependencyCyclesVisible()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
@@ -1400,7 +1400,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncUsesRunnableSubsetWhenExcludedModuleHasInvalidDependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
@@ -1420,7 +1420,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncDoesNotCascadeSkipWhenDependencyHistoryExists()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SkippedDependencyModule>();
         builder.AddModule<DependentOnSkippedModule>();
         builder.AddResultsRepository<PlanHistoryRepository>();
@@ -1441,7 +1441,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncRevalidatesHistoryAwareRunnableGraph()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
@@ -1458,7 +1458,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncIncludesRegistrationTimeDependenciesInWaves()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<RegistrationDependentModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1476,7 +1476,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncMarksResultDependentFluentSkipDecisionUnknown()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<ResultDependentSkipModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1498,7 +1498,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncContinuesOrConditionsAfterUnknownDecision()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<UnknownThenSkippedModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1519,7 +1519,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncContinuesAndConditionsAfterUnknownDecision()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<UnknownAndDoNotSkipModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1539,7 +1539,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncPropagatesUnknownDecisionsToRequiredDependents()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<ResultDependentSkipModule>();
         builder.AddModule<DependentOnUnknownModule>();
@@ -1556,7 +1556,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncPrefersCascadeSkipOverUnknownDecision()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SkippedDependencyModule>();
         builder.AddModule<ResultDependentOnSkippedModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -1578,7 +1578,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncEvaluatesAllSkipSourcesAndCascadesDependencies()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             RunOnlyCategories = ["selected"],
@@ -1612,7 +1612,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task PlanAsyncDoesNotValidateLimiterForExcludedModule()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             SkippedModules = [nameof(ExcludedInvalidLimitModule)],
@@ -1634,7 +1634,7 @@ public class PipelineCommandLineTests
     public async Task DryRunOptionPrintsPlanAndDoesNotExecuteModules()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = CreateExecutionBuilder(["--dry-run"]);
+        var builder = CreateExecutionBuilder(["--dry-run"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
 
         var summary = await builder.RunAsync();
@@ -1659,7 +1659,7 @@ public class PipelineCommandLineTests
     public async Task DryRunMarksCacheCandidatesAndQualifiesEstimate()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = Pipeline.CreateBuilder(["--dry-run"]);
+        var builder = Pipeline.CreateBuilder(["--dry-run"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModuleCache<FileSystemModuleCache>();
         builder.AddModule<CacheCandidateModule>();
@@ -1682,7 +1682,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task DryRunDoesNotMarkCacheCandidatesWhenCacheIsDisabled()
     {
-        using var builder = Pipeline.CreateBuilder(["--dry-run", "--no-cache"]);
+        var builder = Pipeline.CreateBuilder(["--dry-run", "--no-cache"]);
         builder.AddModuleCache<FileSystemModuleCache>();
         builder.AddModule<CacheCandidateModule>();
 
@@ -1696,7 +1696,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ProgrammaticDryRunOptionDoesNotExecuteModules()
     {
-        using var builder = CreateExecutionBuilder();
+        var builder = CreateExecutionBuilder();
         builder.ConfigurePipelineOptions(options => options with { DryRun = true });
 
         var summary = await builder.RunAsync();
@@ -1713,7 +1713,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ValidateCommandChecksRegistrationTimeDependencies()
     {
-        using var builder = Pipeline.CreateBuilder(["--validate"]);
+        var builder = Pipeline.CreateBuilder(["--validate"]);
         builder.AddModule<InvalidDynamicDependencyModule>();
 
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(
@@ -1724,7 +1724,7 @@ public class PipelineCommandLineTests
     public async Task ListModulesUsesFinalizedFluentCategory()
     {
         var consoleWriter = new CapturingConsoleWriter();
-        using var builder = Pipeline.CreateBuilder(["--list-modules"]);
+        var builder = Pipeline.CreateBuilder(["--list-modules"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
         builder.AddModule<ConfiguredCategoryModule>();
 
@@ -1742,7 +1742,7 @@ public class PipelineCommandLineTests
     [Test]
     public async Task ValidateCommandReturnsSuccessfulSummary()
     {
-        using var builder = CreateExecutionBuilder(["--validate"]);
+        var builder = CreateExecutionBuilder(["--validate"]);
 
         var summary = await builder.RunAsync();
 

@@ -31,7 +31,7 @@ public class ConfigurationSectionSecretMaskingTests
     public async Task FluentConfigurationMasksSectionValuesAndNestedLeaves()
     {
         var output = new StringBuilder();
-        using var builder = CreateBuilder(output);
+        var builder = CreateBuilder(output);
         builder.MaskConfigurationSection("Secrets");
 
         await builder.RunAsync();
@@ -49,7 +49,7 @@ public class ConfigurationSectionSecretMaskingTests
     public async Task OptionsCanMaskMultipleSections()
     {
         var output = new StringBuilder();
-        using var builder = CreateBuilder(output);
+        var builder = CreateBuilder(output);
         builder.Services.Configure<SecretMaskingOptions>(options =>
             options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings", "Missing"]);
 
@@ -69,7 +69,7 @@ public class ConfigurationSectionSecretMaskingTests
     [Arguments("   ")]
     public async Task FluentConfigurationRejectsInvalidPaths(string? sectionPath)
     {
-        using var builder = TestPipelineBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         await Assert.That(() => builder.MaskConfigurationSection(sectionPath!))
             .Throws<ArgumentException>();

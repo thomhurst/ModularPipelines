@@ -148,16 +148,6 @@ public record PipelineOptions
     }
 
     /// <summary>
-    /// Gets a value indicating whether assemblies whose filenames contain
-    /// <c>ModularPipeline</c> are eagerly loaded from the application directory.
-    /// </summary>
-    /// <remarks>
-    /// Disabled by default. Enable this only when a plugin relies on module initializers
-    /// instead of explicit assembly or service registration.
-    /// </remarks>
-    public bool LoadModularPipelineAssemblies { get; init; }
-
-    /// <summary>
     /// Gets the default number of retry attempts for failed operations.
     /// </summary>
     /// <remarks>

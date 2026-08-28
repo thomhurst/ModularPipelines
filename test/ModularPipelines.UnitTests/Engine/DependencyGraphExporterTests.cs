@@ -2191,7 +2191,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Renderers_Describe_The_Same_Annotated_Graph()
     {
-        using var builder = CreateBuilder();
+        var builder = CreateBuilder();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
@@ -2229,7 +2229,7 @@ public class DependencyGraphExporterTests
         try
         {
             var path = Path.Combine(directory.FullName, "graph.json");
-            using var builder = CreateBuilder();
+            var builder = CreateBuilder();
 
             await builder.ExportDependencyGraphAsync(
                 DependencyGraphFormat.Json,
@@ -2253,7 +2253,7 @@ public class DependencyGraphExporterTests
         try
         {
             var path = Path.Combine(directory.FullName, "graph.json");
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<DependencyModule>();
             builder.AddModule<RuntimePredicateConsumerModule>();
             _customDependencyAttributeConstructions = 0;
@@ -2281,7 +2281,7 @@ public class DependencyGraphExporterTests
         {
             _singleUseConfigurationCalls = 0;
             var path = Path.Combine(directory.FullName, "graph.json");
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule(_ => new SingleUseConfigurationFactoryModule());
 
             await builder.ExportDependencyGraphAsync(DependencyGraphFormat.Json, path);
@@ -2302,7 +2302,7 @@ public class DependencyGraphExporterTests
         {
             _singleUseConfigurationCalls = 0;
             var path = Path.Combine(directory.FullName, "graph.json");
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule(new SingleUseConfigurationFactoryModule());
 
             await builder.ExportDependencyGraphAsync(DependencyGraphFormat.Json, path);
@@ -2318,7 +2318,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Does_Not_Expose_Runtime_Modules_To_Planning_Skip_Conditions()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<OptionalPlanningDependencyModule>();
         builder.AddModule<OptionalLookupPlanningSkipModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2336,7 +2336,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Rejects_Planning_Predicates_That_Require_Target_Attribute_Values()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<StatefulPlanningTargetModule>();
         builder.AddModule<PlanningAttributeValueConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2357,7 +2357,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Historical_Ignored_Dependency_Does_Not_Skip_Dependent()
     {
-        using var builder = CreateBuilder();
+        var builder = CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(new DependencyHistoryRepository());
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2399,7 +2399,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Historical_Artifact_Producer_Remains_Skipped_When_Artifact_Is_Demanded()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
         builder.ConfigurePipelineOptions(options => options with
@@ -2432,7 +2432,7 @@ public class DependencyGraphExporterTests
     public async Task Artifact_Demand_Does_Not_Run_Async_Configured_Conditions()
     {
         _asyncSkipConditionEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
         builder.ConfigurePipelineOptions(options => options with
@@ -2464,7 +2464,7 @@ public class DependencyGraphExporterTests
     public async Task Definitive_Fluent_Skip_Avoids_Artifact_Demand()
     {
         _asyncSkipConditionEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
         builder.ConfigurePipelineOptions(options => options with
@@ -2496,7 +2496,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Complete_Runtime_Module_Results()
     {
         var repository = new ChangingHistoryRepository();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
         builder.ConfigurePipelineOptions(options => options with
         {
@@ -2524,7 +2524,7 @@ public class DependencyGraphExporterTests
     {
         var dependency = new HistoricalDependencyModule();
         var repository = new InstanceBoundHistoryRepository(dependency);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
         builder.ConfigurePipelineOptions(options => options with
         {
@@ -2550,7 +2550,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Configured_Skip_With_History_Does_Not_Skip_Dependent()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(new DependencyHistoryRepository());
         builder.AddModule<ConfiguredSkippedModule>();
         builder.AddModule<DependentOnConfiguredSkippedModule>();
@@ -2577,7 +2577,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Run_Condition_With_History_Does_Not_Skip_Dependent()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(new DependencyHistoryRepository());
         builder.AddModule<ConditionSkippedModule>();
         builder.AddModule<DependentOnConditionSkippedModule>();
@@ -2604,7 +2604,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Cascaded_Dependency_With_History_Does_Not_Skip_Downstream_Module()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new ModuleTypeHistoryRepository(typeof(DependentOnConditionSkippedModule)));
         builder.AddModule<ConditionSkippedModule>();
@@ -2635,7 +2635,7 @@ public class DependencyGraphExporterTests
     public async Task Cascaded_History_Lookup_Observes_Cancellation()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(
             new CancelingModuleTypeHistoryRepository(
                 typeof(DependentOnConditionSkippedModule),
@@ -2659,7 +2659,7 @@ public class DependencyGraphExporterTests
         var repository = new CancelingModuleTypeHistoryRepository(
             typeof(HistoricalDependencyModule),
             cancellationTokenSource);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleResultRepository>(repository);
         builder.ConfigurePipelineOptions(options => options with
         {
@@ -2685,7 +2685,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Run_Conditions_And_Their_Cascade_Are_Annotated_As_Skipped()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ConditionSkippedModule>();
         builder.AddModule<DependentOnConditionSkippedModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2714,7 +2714,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Configured_Skip_Conditions_And_Their_Cascade_Are_Annotated()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ConfiguredSkippedModule>();
         builder.AddModule<DependentOnConfiguredSkippedModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2742,7 +2742,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Result_Dependent_Configured_Skips_Are_Annotated_As_Unresolved()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<ResultDependentConfiguredSkipModule>();
         builder.AddModule<DependentOnUnresolvedSkipModule>();
@@ -2769,7 +2769,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Async_Configured_Skip_Is_Unresolved_Without_Starting_Work()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<AsyncConfiguredSkipModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2792,7 +2792,7 @@ public class DependencyGraphExporterTests
         var directory = Directory.CreateTempSubdirectory("modular-pipelines-graph-");
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<ExecutionMutatingModule>();
             await using var pipeline = await builder.BuildAsync();
             _ = await pipeline.RunAsync();
@@ -2813,7 +2813,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Exporter_Rejects_Graph_Render_After_Execution()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ExecutionMutatingModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2828,7 +2828,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Async_Attribute_Condition_Is_Unresolved_Without_Starting_Work()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<AsyncAttributeConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2848,7 +2848,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Deferred_Condition_Attribute_Is_Not_Constructed_During_Planning()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DeferredStatefulConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2872,7 +2872,7 @@ public class DependencyGraphExporterTests
     public async Task Custom_Generic_Attribute_Requires_Planning_Opt_In()
     {
         _customPlanningAttributeEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<CustomGenericAttributeConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2892,7 +2892,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Safe_Attribute_Skip_Remains_Definitive_With_Async_Attribute()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeSkipWithAsyncAttributeModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2911,7 +2911,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Safe_False_Any_Remains_Definitive_With_Deferred_Any()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeFalseAnyWithDeferredAnyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2926,7 +2926,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Safe_False_Any_Group_Remains_Definitive_With_Deferred_Any()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeFalseAnyGroupWithDeferredAnyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -2942,7 +2942,7 @@ public class DependencyGraphExporterTests
     public async Task Safe_False_Any_Group_Defers_When_Alternative_Is_Deferred()
     {
         _deferredGroupedConditionAttributeConstructions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeFalseAnyGroupWithDeferredAlternativeModule>();
         await using var pipeline = await builder.BuildAsync();
         var constructionsBeforeRender = _deferredGroupedConditionAttributeConstructions;
@@ -2963,7 +2963,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Synchronous_Skip_Short_Circuits_Before_Async_Condition()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SynchronouslySkippedBeforeAsyncModule>();
         builder.AddModule<DependentOnSynchronouslySkippedBeforeAsyncModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2991,7 +2991,7 @@ public class DependencyGraphExporterTests
     public async Task Synchronous_Skip_Short_Circuits_After_Async_Condition()
     {
         _asyncSkipConditionEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SynchronouslySkippedAfterAsyncModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3012,7 +3012,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Rejects_Invalid_Registration_Dependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<InvalidDynamicDependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3024,7 +3024,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Validates_Dependency_Before_Configured_Skip()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<InvalidSkippedDynamicDependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3036,7 +3036,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Includes_Registered_Dynamic_Dependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<DynamicDependencyModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3062,7 +3062,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Preserves_Companion_Attributes_Without_Constructing_Them()
     {
         _planningCompanionAttributeConstructions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<CompanionAwareDynamicDependencyModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3083,7 +3083,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Checks_Attribute_Presence_Without_Constructing_It()
     {
         _planningPresenceAttributeConstructions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<PresenceDependencyModule>();
         builder.AddModule<AttributePresenceConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3105,7 +3105,7 @@ public class DependencyGraphExporterTests
     {
         _customDependencyAttributeConstructions = 0;
         _customDependencyPredicateEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<RuntimePredicateConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3134,7 +3134,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Defers_Custom_Inheritance_Selectors()
     {
         _customDependencySelectorConstructions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<RuntimeSelectorConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3150,7 +3150,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Uses_Explicitly_Planning_Safe_Inheritance_Selectors()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<PlanningSafeSelectorConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3165,7 +3165,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Cascades_Skipped_Dynamic_Dependency()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             SkippedModules = [nameof(DependencyModule)],
@@ -3191,7 +3191,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Does_Not_Cache_Conditions_Before_Startup_Hooks()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<StartupConditionModule>();
         builder.AddPipelineGlobalHooks<EnableStartupConditionHook>();
         await using var pipeline = await builder.BuildAsync();
@@ -3214,7 +3214,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Rejected_Render_Does_Not_Cache_Registration_Before_Startup_Hooks()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<StartupDynamicDependencyModule>();
         builder.AddPipelineGlobalHooks<EnableStartupDependencyHook>();
@@ -3243,7 +3243,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Rejected_Render_Does_Not_Freeze_Direct_Module_Configuration()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(new StartupConfiguredModule());
         builder.AddPipelineGlobalHooks<EnableStartupConfigurationHook>();
         await using var pipeline = await builder.BuildAsync();
@@ -3264,7 +3264,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Rejected_Render_Does_Not_Freeze_Factory_Module_Configuration()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new StartupConfiguredModule());
         builder.AddPipelineGlobalHooks<EnableStartupConfigurationHook>();
         await using var pipeline = await builder.BuildAsync();
@@ -3285,7 +3285,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Planning_Conditions_Use_The_Supplied_Metadata_Registry()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var conditionHandler = pipeline.Services.GetRequiredService<IModuleConditionHandler>();
@@ -3306,7 +3306,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Does_Not_Share_Mutable_Module_State_With_Runtime()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<MutableConfigurationStateModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3321,7 +3321,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Preserves_User_Factory_Initialization()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ =>
         {
@@ -3344,7 +3344,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Rejected_Render_Then_Run_Invokes_Registration_Receivers_Once()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<UnsafeRegistrationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3367,7 +3367,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Configures_Factory_Copy_After_Validation()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableConfigurationStateModule());
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3393,7 +3393,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Does_Not_Replay_Configuration_Against_Injected_State()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<ConfigurationMutationCounter>();
         builder.AddModule<InjectedConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3418,7 +3418,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Configuration_Against_Global_State()
     {
         _globalConfigurationMutations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<GlobalConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3443,7 +3443,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Configuration_Through_Constructor_State()
     {
         _constructorConfigurationMutations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ConstructorConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3462,7 +3462,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Configuration_Through_Virtual_Override()
     {
         _globalConfigurationMutations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<VirtualConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3481,7 +3481,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Configuration_Through_Helper_Virtual_Override()
     {
         _globalConfigurationMutations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<HelperVirtualConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3500,7 +3500,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Configuration_Through_External_Constructor_State()
     {
         ExternalConfigurationMutationProbe.Reset();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ExternalConstructorConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3525,7 +3525,7 @@ public class DependencyGraphExporterTests
             Environment.SetEnvironmentVariable(
                 FrameworkConfigurationMutationModule.EnvironmentVariableName,
                 null);
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<FrameworkConfigurationMutationModule>();
             await using var pipeline = await builder.BuildAsync();
             var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3558,7 +3558,7 @@ public class DependencyGraphExporterTests
         await Assert.That(touchesStaticState).IsTrue();
 
         using var pluginScope = PluginRegistry.BeginIsolatedScope();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<CoreApiConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3613,7 +3613,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Static_Runtime_Bound_Planning_Condition()
     {
         _staticPlanningSkipEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<StaticRuntimeBoundPlanningConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3632,7 +3632,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Planning_Callback_Constructor_Mutation()
     {
         _planningCallbackConstructorMutations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ConstructorBoundPlanningConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3650,7 +3650,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Rejects_Shared_Module_Owned_Holder_Without_Replaying_Constructor()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<ConfigurationMutationCounter>();
         builder.AddModule<NestedInjectedConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3671,7 +3671,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Rejects_Shared_Runtime_Bound_Planning_Condition()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<ConfigurationMutationCounter>();
         builder.AddModule<InjectedRuntimeBoundPlanningConditionModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3686,7 +3686,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Preserves_Configured_Fallback_Copy()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ConfiguredFallbackFactoryModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
@@ -3708,7 +3708,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Compares_User_Struct_Fields()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new StructEqualityFactoryModule(includeDependency: true));
         await using var pipeline = await builder.BuildAsync();
@@ -3723,7 +3723,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Matches_User_Factory_To_Derived_Runtime_Type()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<FactoryInitializedBaseModule>(
             _ => new FactoryInitializedDerivedModule { IncludeDependency = true });
@@ -3740,7 +3740,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Factory_With_Different_Initialization()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new FactoryInitializedModule
         {
@@ -3763,7 +3763,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Factory_Replay_With_Shared_Mutable_State()
     {
         var sharedState = new List<string>();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new SharedMutableFactoryStateModule(sharedState));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3781,7 +3781,7 @@ public class DependencyGraphExporterTests
     {
         var sharedState = new List<string>();
         var state = new StructWrappedState(sharedState);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new StructWrappedFactoryStateModule(state));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3797,7 +3797,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Selects_Planning_Copy_Override_By_Signature()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new OverloadedPlanningCopyModule());
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3810,7 +3810,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Accepts_Independent_Fieldless_State()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new FieldlessStateFactoryModule());
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -3823,7 +3823,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Preserves_Reference_Identity_Dependent_Configuration()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ReferenceIdentityFactoryModule(DependencySentinel));
         await using var pipeline = await builder.BuildAsync();
@@ -3839,7 +3839,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Preserves_Initialized_External_Configuration()
     {
         _externalConfigurationIncludesDependency = true;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ExternalConfigurationFactoryModule());
         await using var pipeline = await builder.BuildAsync();
@@ -3856,7 +3856,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Preserves_Configuration_That_Calls_External_Helper()
     {
         ExternalConfigurationState.IncludeDependency = true;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<ExternalHelperConfigurationModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -3873,7 +3873,7 @@ public class DependencyGraphExporterTests
     public async Task Registration_Rejects_Direct_Interface_Module_Without_Activation()
     {
         _directModuleActivations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
 
         var exception = Assert.Throws<InvalidOperationException>(
             () => builder.AddModule<DirectInterfaceModule>());
@@ -3889,7 +3889,7 @@ public class DependencyGraphExporterTests
     public async Task Registration_Validates_Direct_Module_Before_Configuration()
     {
         var runtimeModule = new StatefulDirectInterfaceModule();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         StatefulDirectInterfaceModule.InitialConfigurationCallCount = runtimeModule.ConfigurationCallCount;
 
         try
@@ -3915,7 +3915,7 @@ public class DependencyGraphExporterTests
     {
         var state = new DirectModulePlanningState();
         var runtimeModule = new ServiceBackedDirectInterfaceModule(state);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(state);
         var configurationReadsBeforeExport = state.ConfigurationReads;
 
@@ -3933,7 +3933,7 @@ public class DependencyGraphExporterTests
     public async Task Registration_Rejects_Direct_Interface_Singleton_Factory_Without_Activation()
     {
         _directModuleActivations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<DirectInterfaceModule>();
 
         var exception = Assert.Throws<InvalidOperationException>(() =>
@@ -3950,7 +3950,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Accepts_Service_Provider_Owned_Factory_State()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(new PlanningSingletonDependency
         {
             IncludeDependency = true,
@@ -3971,7 +3971,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Different_Inherited_Factory_State()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new InheritedSettingsFactoryModule(new DerivedFactorySettings
         {
@@ -3990,7 +3990,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Different_Factory_Alias_Topology()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ =>
         {
@@ -4013,7 +4013,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Different_Factory_Array_Shape()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ArrayShapeFactoryModule(
             Interlocked.Increment(ref factoryCalls) == 1
@@ -4031,7 +4031,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Requires_Copy_For_Mutable_Factory_Collection()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ComparerBackedFactoryModule(
             new HashSet<string>(StringComparer.OrdinalIgnoreCase)));
@@ -4047,7 +4047,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Clones_Precreated_Module_With_NonResolvable_Constructor_State()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(new PrecreatedConfiguredModule(new PrecreatedModuleSettings
         {
@@ -4066,7 +4066,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Shared_Precreated_State_Without_Disposing_It()
     {
         var state = new PrecreatedDisposableState();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(new PrecreatedDisposableModule(state));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4096,7 +4096,7 @@ public class DependencyGraphExporterTests
             comparisons++;
             return StringComparer.Ordinal.Compare(left, right);
         });
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new CapturingComparerFactoryModule(comparer));
         await using var pipeline = await builder.BuildAsync();
@@ -4117,7 +4117,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Uses_Planning_Copy_After_Factory_Replay_Mismatch()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new FactoryInitializedPlanningCopyModule
         {
@@ -4136,7 +4136,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Uses_Runtime_Factory_Type_Without_Replay()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<FactoryInitializedBaseModule>(_ =>
             Interlocked.Increment(ref factoryCalls) == 1
                 ? new FactoryInitializedDerivedModule()
@@ -4157,7 +4157,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Preserves_Factory_Skip_Decision_Without_Replay()
     {
         var factoryCalls = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new FactorySkipModule(
             Interlocked.Increment(ref factoryCalls) == 1));
         await using var pipeline = await builder.BuildAsync();
@@ -4179,7 +4179,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Mutable_Factory_Closure_Without_Evaluating_It()
     {
         _executions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4199,7 +4199,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Rejects_ByRef_Mutable_Factory_Closure_Without_Evaluating_It()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new ByRefMutableClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4214,7 +4214,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Mutable_Reference_Closure_Without_Evaluating_It()
     {
         _executions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableReferenceClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4235,7 +4235,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Mutable_Struct_Closure_Without_Evaluating_It()
     {
         _executions = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableStructClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4256,7 +4256,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Runtime_Bound_Factory_Skip_Condition()
     {
         RuntimeBoundFactorySkipModule? runtimeModule = null;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => runtimeModule = new RuntimeBoundFactorySkipModule(shouldSkip: true));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4275,7 +4275,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Runtime_Bound_Method_Group_Skip_Condition()
     {
         RuntimeBoundMethodGroupFactorySkipModule? runtimeModule = null;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ =>
             runtimeModule = new RuntimeBoundMethodGroupFactorySkipModule(shouldSkip: true));
         await using var pipeline = await builder.BuildAsync();
@@ -4295,7 +4295,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Rejects_Runtime_Bound_Collection_Skip_Condition()
     {
         RuntimeBoundCollectionFactorySkipModule? runtimeModule = null;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ =>
             runtimeModule = new RuntimeBoundCollectionFactorySkipModule(shouldSkip: true));
         await using var pipeline = await builder.BuildAsync();
@@ -4315,7 +4315,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Validate_Unused_Async_Factory_Skip_Condition()
     {
         RuntimeBoundAsyncFactorySkipModule? runtimeModule = null;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ =>
             runtimeModule = new RuntimeBoundAsyncFactorySkipModule(shouldSkip: true));
         await using var pipeline = await builder.BuildAsync();
@@ -4337,7 +4337,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Disposes_Copy_When_Configuration_Initialization_Fails()
     {
         ConfigurationThrowingDisposableFactoryModule.Disposals = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new ConfigurationThrowingDisposableFactoryModule
         {
             HasFactoryState = true,
@@ -4359,7 +4359,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Disposes_Scoped_Planning_Module_After_Each_Render()
     {
         _planningDisposals = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddTransient<ContainerOwnedPlanningModule>();
         builder.AddModule(serviceProvider =>
             serviceProvider.GetRequiredService<ContainerOwnedPlanningModule>());
@@ -4381,7 +4381,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Disposes_Indirectly_Resolved_Scoped_Planning_Module()
     {
         _planningDisposals = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddTransient<ContainerOwnedPlanningModule>();
         builder.Services.AddTransient<ContainerOwnedPlanningModuleFactory>();
         builder.AddModule(serviceProvider => serviceProvider
@@ -4403,7 +4403,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Disposes_Isolated_Copy_When_Factory_Uses_Root_Service()
     {
         _planningDisposals = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddTransient<ContainerOwnedPlanningModule>();
         builder.Services.AddSingleton<ContainerOwnedPlanningModuleFactory>();
         builder.AddModule(serviceProvider => serviceProvider
@@ -4424,7 +4424,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Accepts_Indirectly_Resolved_Container_State()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<ContainerOwnedPlanningState>();
         builder.Services.AddTransient<ContainerOwnedPlanningStateFactory>();
         builder.AddModule(serviceProvider => new ModuleWithContainerOwnedPlanningState(
@@ -4443,7 +4443,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Disposes_Scoped_Planning_Copy()
     {
         _planningDisposals = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddKeyedTransient<ContainerOwnedPlanningCopyModule>("planning");
         builder.AddModule(new ContainerOwnedPlanningCopyModule());
 
@@ -4461,7 +4461,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Disposes_Manually_Constructed_Registered_Planning_Module()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddTransient<ContainerOwnedPlanningModule>();
         builder.Services.AddSingleton<PlanningFactoryDependency>();
         builder.AddModule(serviceProvider =>
@@ -4481,7 +4481,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Uses_Isolated_Copy_When_Factory_Returns_Runtime_Singleton()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<SingletonFactoryModule>();
         builder.AddModule(serviceProvider =>
             serviceProvider.GetRequiredService<SingletonFactoryModule>());
@@ -4497,7 +4497,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Disposes_Isolated_Planning_Modules()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DisposablePlanningModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4529,7 +4529,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Aggregates_Planner_And_Scope_Cleanup_Failures()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddScoped<ThrowingPlanningScopeService>();
         builder.AddModule<DualCleanupFailureModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -4553,7 +4553,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Preserves_Discovery_And_Cleanup_Failures()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ThrowingDisposablePlanningModule>();
         builder.AddModule<CancelPlanningModule>();
         var pipeline = await builder.BuildAsync();
@@ -4582,7 +4582,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Preserves_Post_Discovery_And_Cleanup_Failures()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<ThrowingDisposablePlanningModule>();
         builder.AddModule<InvalidDynamicDependencyModule>();
         var pipeline = await builder.BuildAsync();
@@ -4607,7 +4607,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Canceled_Render_Does_Not_Activate_Or_Register_Planning_Modules()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DisposablePlanningModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4634,7 +4634,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Observes_Cancellation_After_Loading_Estimates()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<IModuleEstimatedTimeProvider>(
             new CancelingEstimatedTimeProvider(cancellationTokenSource));
         builder.AddModule<DependencyModule>();
@@ -4650,7 +4650,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Completed_Summary_Render_Observes_An_Already_Canceled_Token()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var summary = await pipeline.RunAsync();
@@ -4670,7 +4670,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Default_Module_Constructor()
     {
         var state = new ConstructorMutationState();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(state);
         builder.AddModule<ConstructorMutatingModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -4691,7 +4691,7 @@ public class DependencyGraphExporterTests
     public async Task Render_Does_Not_Replay_Factory_Module_Constructor()
     {
         var state = new ConstructorMutationState();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(state);
         builder.AddModule(serviceProvider => new ConstructorMutatingModule(
             serviceProvider.GetRequiredService<ConstructorMutationState>()));
@@ -4715,7 +4715,7 @@ public class DependencyGraphExporterTests
         const string typeName = "Duplicate.SummaryModule";
         var firstType = CreateDynamicSummaryModuleType("SummaryAssemblyOne", typeName);
         var secondType = CreateDynamicSummaryModuleType("SummaryAssemblyTwo", typeName);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModules(firstType, secondType);
         await using var pipeline = await builder.BuildAsync();
         var summary = await pipeline.RunAsync();
@@ -4734,7 +4734,7 @@ public class DependencyGraphExporterTests
         const string typeName = "Duplicate.DeserializedSummaryModule";
         var firstType = CreateDynamicSummaryModuleType("DeserializedSummaryAssemblyOne", typeName);
         var secondType = CreateDynamicSummaryModuleType("DeserializedSummaryAssemblyTwo", typeName);
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModules(firstType, secondType);
         await using var pipeline = await builder.BuildAsync();
         _ = await pipeline.RunAsync();
@@ -4772,7 +4772,7 @@ public class DependencyGraphExporterTests
     public async Task RenderSummary_Reuses_Initialized_Dependency_Models()
     {
         _customDependencyPredicateEvaluations = 0;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         builder.AddModule<RuntimePredicateConsumerModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -4793,7 +4793,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task RenderSummary_Matches_Deserialized_Result_By_Type_Name()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var module = pipeline.Services.GetServices<IModule>()
@@ -4832,7 +4832,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Uses_Fresh_Stateful_Condition_Attributes()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<SingleUseConditionModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4846,7 +4846,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Can_Retry_After_Canceled_Module_Discovery()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4866,7 +4866,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Dot_Escapes_Line_Breaks_Inside_Label_Values()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LineBreakCategoryModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
@@ -4879,7 +4879,7 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Mermaid_Escapes_Markdown_Fence_Content()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<MarkdownFenceCategoryModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
