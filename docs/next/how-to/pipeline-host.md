@@ -138,9 +138,9 @@ builder.ConfigurePipelineOptions(options => options with
 
 {
 
-    // Execution mode
+    // Failure mode
 
-    ExecutionMode = ExecutionMode.StopOnFirstException,
+    FailureMode = FailureMode.FailFast,
 
 
 
@@ -192,7 +192,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 {
 
-    ExecutionMode = ExecutionMode.WaitForAllModules,
+    FailureMode = FailureMode.ContinueOnFailure,
 
     ThrowOnPipelineFailure = false,
 
@@ -225,7 +225,7 @@ if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
 }
 ```
 
-Use `WaitForAllModules` with `ThrowOnPipelineFailure = false` when you need to inspect the returned summary after a module fails. Fail-fast mode rethrows the module exception.
+Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 
@@ -334,7 +334,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 {
 
-    ExecutionMode = ExecutionMode.StopOnFirstException,
+    FailureMode = FailureMode.FailFast,
 
     IgnoreCategories = ["Experimental"],
 
@@ -442,7 +442,7 @@ await builder
 
     {
 
-        ExecutionMode = ExecutionMode.StopOnFirstException,
+        FailureMode = FailureMode.FailFast,
 
     })
 

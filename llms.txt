@@ -73,7 +73,7 @@
 - [OpenTelemetry](/docs/next/how-to/opentelemetry.md): Modular Pipelines emits traces and metrics through the standard .NET
 - [Parallelization Disabling](/docs/next/how-to/parallelization.md): As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
-- [Pipeline Execution Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two execution modes:
+- [Pipeline Failure Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two failure modes:
 - [Requirements](/docs/next/how-to/requirements.md): If you'd like to fail fast, you can register some Requirement classes that do some checks on start up to make sure things are as expected.
 - [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
