@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,8 @@ public sealed class PipelineBuilder
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private readonly PipelineBuilderSettings _settings;
+    private readonly HashSet<ServiceDescriptor> _defaultLoggingDescriptors;
+    private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
     private PipelineOptions _options;
 
     internal PipelineBuilder(
@@ -57,6 +60,13 @@ public sealed class PipelineBuilder
             };
         var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
+        DependencyInjectionSetup.RegisterDefaultLogging(_services);
+        _defaultLoggingDescriptors = new HashSet<ServiceDescriptor>(
+            _services,
+            ReferenceEqualityComparer.Instance);
+        _defaultLoggingProviderDescriptors = _services
+            .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
+            .ToArray();
         Logging = new PipelineLoggingBuilder(_services);
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
@@ -318,17 +328,23 @@ public sealed class PipelineBuilder
         // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
         _hostBuilder.ConfigureServices((_, services) =>
         {
-            var pipelineOptions = new FixedOptions<PipelineOptions>(_options);
-
             services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
             services.Configure<ModuleCacheOptions>(options =>
                 options.WorkingDirectory = _environment.WorkingDirectory);
 
+            if (!_defaultLoggingProviderDescriptors.All(_services.Contains))
+            {
+                services.RemoveAll<ILoggerProvider>();
+            }
+
             // Add user-registered services before plugins so plugins can inspect user configuration
             foreach (var descriptor in _services)
             {
-                services.Add(descriptor);
+                if (!_defaultLoggingDescriptors.Contains(descriptor))
+                {
+                    services.Add(descriptor);
+                }
             }
 
             // Apply plugin services after user services
@@ -340,9 +356,15 @@ public sealed class PipelineBuilder
             services
                 .AddSingleton(_commandLineOptions)
                 .AddSingleton(_options)
-                .AddSingleton<IOptions<PipelineOptions>>(pipelineOptions)
-                .AddSingleton<IOptionsSnapshot<PipelineOptions>>(pipelineOptions)
-                .AddSingleton<IOptionsMonitor<PipelineOptions>>(pipelineOptions)
+                .AddSingleton(provider => new FixedOptions<PipelineOptions>(
+                    _options,
+                    provider.GetServices<IValidateOptions<PipelineOptions>>()))
+                .AddSingleton<IOptions<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsSnapshot<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
+                .AddSingleton<IOptionsMonitor<PipelineOptions>>(provider =>
+                    provider.GetRequiredService<FixedOptions<PipelineOptions>>())
                 .AddSingleton(Microsoft.Extensions.Options.Options.Create(_options.Secrets));
 
             // Auto-register any missing required dependencies
@@ -626,17 +648,42 @@ public sealed class PipelineBuilder
     }
 
     private sealed class FixedOptions<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(T value)
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
         : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
         where T : class
     {
-        public T Value { get; } = value;
+        private readonly Lazy<T> _value;
+
+        public FixedOptions(T value, IEnumerable<IValidateOptions<T>> validators)
+        {
+            _value = new Lazy<T>(() => Validate(value, validators));
+        }
+
+        public T Value => _value.Value;
 
         public T CurrentValue => Value;
 
         public T Get(string? name) => Value;
 
         public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
+
+        private static T Validate(T value, IEnumerable<IValidateOptions<T>> validators)
+        {
+            var failures = validators
+                .Select(validator => validator.Validate(
+                    Microsoft.Extensions.Options.Options.DefaultName,
+                    value))
+                .Where(static result => result.Failed)
+                .SelectMany(static result => result.Failures ?? [])
+                .ToArray();
+
+            return failures.Length == 0
+                ? value
+                : throw new OptionsValidationException(
+                    Microsoft.Extensions.Options.Options.DefaultName,
+                    typeof(T),
+                    failures);
+        }
     }
 
     private sealed class NoopDisposable : IDisposable

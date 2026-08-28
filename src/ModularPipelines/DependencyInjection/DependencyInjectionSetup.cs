@@ -84,6 +84,24 @@ internal static class DependencyInjectionSetup
     /// Registers external integrations and bundled services:
     /// options configuration, logging provider, HTTP clients, initializers, and mediator.
     /// </summary>
+    private static void RegisterBundledServices(IServiceCollection services)
+    {
+        services.TryAddSingleton(PipelineCommandLineOptions.Empty);
+
+        services
+            .AddSingleton<PipelineCommandHandler>()
+            .AddSingleton<PipelinePlanPrinter>();
+
+        RegisterDefaultLogging(services);
+
+        services
+            .AddHttpClient()
+            .AddLoggingHttpClients()
+            .AddInitializers()
+            .AddServiceCollection()
+            .AddMediator();
+    }
+
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
@@ -92,27 +110,17 @@ internal static class DependencyInjectionSetup
         "AOT",
         "IL3050",
         Justification = "MEL.Spectre options are configured programmatically without configuration binding.")]
-    private static void RegisterBundledServices(IServiceCollection services)
+    internal static void RegisterDefaultLogging(IServiceCollection services)
     {
-        services.TryAddSingleton(PipelineCommandLineOptions.Empty);
+        services.AddLogging(builder =>
+        {
+            builder.ClearProviders();
 
-        services
-            .AddSingleton<PipelineCommandHandler>()
-            .AddSingleton<PipelinePlanPrinter>()
-            .AddLogging(builder =>
-            {
-                builder.ClearProviders();
+            builder.AddFilter("Microsoft", LogLevel.Warning)
+                .AddFilter("System", LogLevel.Warning);
 
-                builder.AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning);
-
-                builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
-            })
-            .AddHttpClient()
-            .AddLoggingHttpClients()
-            .AddInitializers()
-            .AddServiceCollection()
-            .AddMediator();
+            builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
+        });
     }
 
     /// <summary>

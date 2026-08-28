@@ -1,6 +1,8 @@
 using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -13,6 +15,15 @@ namespace ModularPipelines.UnitTests.Options;
 [NotInParallel]
 public class PipelineOptionsTests
 {
+    private sealed class TestLoggerProvider : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => NullLogger.Instance;
+
+        public void Dispose()
+        {
+        }
+    }
+
     private sealed class OptionsTestModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -257,5 +268,40 @@ public class PipelineOptionsTests
         using var builder = Pipeline.CreateBuilder();
 
         await Assert.That(builder.Logging.Services).IsSameReferenceAs(builder.Services);
+    }
+
+    [Test]
+    public async Task PipelineBuilderLoggingCanClearFrameworkProviders()
+    {
+        var loggerProvider = new TestLoggerProvider();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Logging.ClearProviders().AddProvider(loggerProvider);
+
+        await using var pipeline = await builder.BuildAsync();
+        var providers = pipeline.Services.GetServices<ILoggerProvider>().ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(providers).HasSingleItem();
+            await Assert.That(providers[0]).IsSameReferenceAs(loggerProvider);
+        }
+    }
+
+    [Test]
+    public async Task PipelineBuilderPreservesRegisteredPipelineOptionsValidators()
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services
+            .AddOptions<PipelineOptions>()
+            .Validate(_ => false, "Custom validation failure.")
+            .ValidateOnStart();
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures)
+            .Contains("Custom validation failure.");
     }
 }
