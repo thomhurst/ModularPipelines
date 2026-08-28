@@ -359,7 +359,7 @@ public sealed class PipelineBuilder
             // Apply plugin services after user services
             PluginIntegration.ApplyPluginServices(services);
 
-            if (defaultLoggingProvidersRemoved && !HasDefaultLoggingProvider(services))
+            if (!HasDefaultLoggingProvider(services))
             {
                 services.Replace(ServiceDescriptor.Singleton<
                     ISpectreConsoleLoggerControl,
@@ -374,6 +374,8 @@ public sealed class PipelineBuilder
                 .AddSingleton(_options)
                 .AddSingleton(provider => new FixedOptions<PipelineOptions>(
                     _options,
+                    provider.GetServices<IConfigureOptions<PipelineOptions>>(),
+                    provider.GetServices<IPostConfigureOptions<PipelineOptions>>(),
                     provider.GetServices<IValidateOptions<PipelineOptions>>()))
                 .AddSingleton<IOptions<PipelineOptions>>(provider =>
                     provider.GetRequiredService<FixedOptions<PipelineOptions>>())
@@ -776,9 +778,17 @@ public sealed class PipelineBuilder
     {
         private readonly Lazy<T> _value;
 
-        public FixedOptions(T value, IEnumerable<IValidateOptions<T>> validators)
+        public FixedOptions(
+            T value,
+            IEnumerable<IConfigureOptions<T>> configurations,
+            IEnumerable<IPostConfigureOptions<T>> postConfigurations,
+            IEnumerable<IValidateOptions<T>> validators)
         {
-            _value = new Lazy<T>(() => Validate(value, validators));
+            _value = new Lazy<T>(() => ConfigureAndValidate(
+                value,
+                configurations,
+                postConfigurations,
+                validators));
         }
 
         public T Value => _value.Value;
@@ -789,8 +799,33 @@ public sealed class PipelineBuilder
 
         public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
 
-        private static T Validate(T value, IEnumerable<IValidateOptions<T>> validators)
+        private static T ConfigureAndValidate(
+            T value,
+            IEnumerable<IConfigureOptions<T>> configurations,
+            IEnumerable<IPostConfigureOptions<T>> postConfigurations,
+            IEnumerable<IValidateOptions<T>> validators)
         {
+            foreach (var configuration in configurations)
+            {
+                if (configuration is IConfigureNamedOptions<T> namedConfiguration)
+                {
+                    namedConfiguration.Configure(
+                        Microsoft.Extensions.Options.Options.DefaultName,
+                        value);
+                }
+                else
+                {
+                    configuration.Configure(value);
+                }
+            }
+
+            foreach (var postConfiguration in postConfigurations)
+            {
+                postConfiguration.PostConfigure(
+                    Microsoft.Extensions.Options.Options.DefaultName,
+                    value);
+            }
+
             var failures = validators
                 .Select(validator => validator.Validate(
                     Microsoft.Extensions.Options.Options.DefaultName,

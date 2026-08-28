@@ -334,4 +334,27 @@ public class PipelineOptionsTests
         await Assert.That(exception!.Failures)
             .Contains("Custom validation failure.");
     }
+
+    [Test]
+    public async Task PipelineBuilderAppliesRegisteredPipelineOptionsConfiguration()
+    {
+        var configureCalled = false;
+        var postConfigureCalledAfterConfigure = false;
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services
+            .AddOptions<PipelineOptions>()
+            .Configure(_ => configureCalled = true)
+            .PostConfigure(_ => postConfigureCalledAfterConfigure = configureCalled)
+            .Validate(_ => postConfigureCalledAfterConfigure, "Configuration callbacks were not applied.")
+            .ValidateOnStart();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configureCalled).IsTrue();
+            await Assert.That(postConfigureCalledAfterConfigure).IsTrue();
+        }
+    }
 }

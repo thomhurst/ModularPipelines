@@ -1,5 +1,6 @@
 using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -128,6 +129,22 @@ public class PluginIntegrationTests
             .IsFalse();
     }
 
+    [Test]
+    public async Task PluginRemovingSpectreLoggingUsesNoopLoggerControl()
+    {
+        using var _ = PluginRegistry.BeginIsolatedScope();
+        PluginRegistry.Register(new RemoveLoggingProvidersPlugin());
+        var builder = Pipeline.CreateBuilder()
+            .AddModule<PluginLoggingModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var loggerControl = pipeline.Services
+            .GetRequiredService<ISpectreConsoleLoggerControl>();
+
+        await Assert.That(loggerControl is ModularPipelines.Console.NoopSpectreConsoleLoggerControl)
+            .IsTrue();
+    }
+
     private class TrackingPlugin : IModularPipelinesPlugin
     {
         public TrackingPlugin(string name)
@@ -235,6 +252,20 @@ public class PluginIntegrationTests
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging(builder => builder.AddSpectreConsole());
+        }
+
+        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
+        {
+        }
+    }
+
+    private sealed class RemoveLoggingProvidersPlugin : IModularPipelinesPlugin
+    {
+        public string Name => "RemoveLoggingProviders";
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.RemoveAll<ILoggerProvider>();
         }
 
         public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
