@@ -1,0 +1,102 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Jq_c32a871100dac39fToolsExtensions
+ModularPipelines.Context.ModularPipelines_Jq_c32a871100dac39fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Jq_c32a871100dac39fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Jq.get -> ModularPipelines.Jq.Services.IJq!
+ModularPipelines.Jq.Extensions.JqExtensions
+ModularPipelines.Jq.Options.JqExecuteOptions
+ModularPipelines.Jq.Options.JqExecuteOptions.Arg.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Models.CliValuePair!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.Arg.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.ArgJson.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Models.CliValuePair!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.ArgJson.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Args.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Args.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.AsciiOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.AsciiOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Binary.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Binary.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.BuildConfiguration.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.BuildConfiguration.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.ColorOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.ColorOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.CompactOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.CompactOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.ExitStatus.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.ExitStatus.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Filter.get -> string?
+ModularPipelines.Jq.Options.JqExecuteOptions.Filter.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.FromFile.get -> string?
+ModularPipelines.Jq.Options.JqExecuteOptions.FromFile.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Help.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Help.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Indent.get -> int?
+ModularPipelines.Jq.Options.JqExecuteOptions.Indent.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.InputFiles.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.InputFiles.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.JoinOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.JoinOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.JqExecuteOptions() -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.JqExecuteOptions(ModularPipelines.Jq.Options.JqExecuteOptions! original) -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.JsonArgs.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.JsonArgs.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.LibraryPath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.LibraryPath.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.MonochromeOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.MonochromeOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.NullInput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.NullInput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.RawFile.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Models.CliValuePair!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.RawFile.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.RawInput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.RawInput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.RawOutput.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.RawOutput.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.RawOutput0.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.RawOutput0.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.RunTests.get -> ModularPipelines.Models.CliOptionValue?
+ModularPipelines.Jq.Options.JqExecuteOptions.RunTests.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Seq.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Seq.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Slurp.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Slurp.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.SlurpFile.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Models.CliValuePair!>?
+ModularPipelines.Jq.Options.JqExecuteOptions.SlurpFile.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.SortKeys.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.SortKeys.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Stream.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Stream.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.StreamErrors.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.StreamErrors.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Tab.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Tab.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Unbuffered.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Unbuffered.set -> void
+ModularPipelines.Jq.Options.JqExecuteOptions.Version.get -> bool?
+ModularPipelines.Jq.Options.JqExecuteOptions.Version.set -> void
+ModularPipelines.Jq.Options.JqOptions
+ModularPipelines.Jq.Options.JqOptions.JqOptions() -> void
+ModularPipelines.Jq.Options.JqOptions.JqOptions(ModularPipelines.Jq.Options.JqOptions! original) -> void
+ModularPipelines.Jq.Services.IJq
+ModularPipelines.Jq.Services.IJq.ExecuteAsync(ModularPipelines.Jq.Options.JqExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Jq.Options.JqOptions.<Clone>$() -> ModularPipelines.Jq.Options.JqOptions!
+override ModularPipelines.Jq.Options.JqExecuteOptions.<Clone>$() -> ModularPipelines.Jq.Options.JqExecuteOptions!
+override ModularPipelines.Jq.Options.JqExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Jq.Options.JqExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Jq.Options.JqExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Jq.Options.JqExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Jq.Options.JqExecuteOptions.ToString() -> string!
+override ModularPipelines.Jq.Options.JqOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Jq.Options.JqOptions.Equals(object? obj) -> bool
+override ModularPipelines.Jq.Options.JqOptions.GetHashCode() -> int
+override ModularPipelines.Jq.Options.JqOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Jq.Options.JqOptions.ToString() -> string!
+override sealed ModularPipelines.Jq.Options.JqExecuteOptions.Equals(ModularPipelines.Jq.Options.JqOptions? other) -> bool
+override sealed ModularPipelines.Jq.Options.JqOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Jq_c32a871100dac39fToolsExtensions.get_Jq(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Jq.Services.IJq!
+static ModularPipelines.Jq.Extensions.JqExtensions.Jq(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Jq.Services.IJq!
+static ModularPipelines.Jq.Extensions.JqExtensions.RegisterJqContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Jq.Options.JqExecuteOptions.operator !=(ModularPipelines.Jq.Options.JqExecuteOptions? left, ModularPipelines.Jq.Options.JqExecuteOptions? right) -> bool
+static ModularPipelines.Jq.Options.JqExecuteOptions.operator ==(ModularPipelines.Jq.Options.JqExecuteOptions? left, ModularPipelines.Jq.Options.JqExecuteOptions? right) -> bool
+static ModularPipelines.Jq.Options.JqOptions.operator !=(ModularPipelines.Jq.Options.JqOptions? left, ModularPipelines.Jq.Options.JqOptions? right) -> bool
+static ModularPipelines.Jq.Options.JqOptions.operator ==(ModularPipelines.Jq.Options.JqOptions? left, ModularPipelines.Jq.Options.JqOptions? right) -> bool
+virtual ModularPipelines.Jq.Options.JqExecuteOptions.Equals(ModularPipelines.Jq.Options.JqExecuteOptions? other) -> bool
+virtual ModularPipelines.Jq.Options.JqOptions.Equals(ModularPipelines.Jq.Options.JqOptions? other) -> bool

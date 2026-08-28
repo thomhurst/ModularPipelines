@@ -1,0 +1,1378 @@
+#nullable enable
+ModularPipelines.Chocolatey.Extensions.ChocoExtensions
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ChocoApikeyOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ChocoApikeyOptions(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ChocoCacheOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ChocoCacheOptions(ModularPipelines.Chocolatey.Options.ChocoCacheOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Expired.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Expired.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ChocoConfigOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ChocoConfigOptions(ModularPipelines.Chocolatey.Options.ChocoConfigOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Value.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Value.set -> void
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ChocoExportOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ChocoExportOptions(ModularPipelines.Chocolatey.Options.ChocoExportOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.OutputFilePath.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.OutputFilePath.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoExportOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ChocoFeatureOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ChocoFeatureOptions(ModularPipelines.Chocolatey.Options.ChocoFeatureOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ChocoFeaturesOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ChocoFeaturesOptions(ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ApprovedOnly.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ApprovedOnly.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ByIdOnly.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ByIdOnly.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ChocoFindOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ChocoFindOptions(ModularPipelines.Chocolatey.Options.ChocoFindOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Exact.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Exact.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IdStartsWith.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IdStartsWith.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.NotBroken.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.NotBroken.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.OrderBy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.OrderBy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.OrderByPopularity.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.OrderByPopularity.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Page.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Page.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.PageSize.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.PageSize.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ChocoInfoOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ChocoInfoOptions(ModularPipelines.Chocolatey.Options.ChocoInfoOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ChocoInstallOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ChocoInstallOptions(ModularPipelines.Chocolatey.Options.ChocoInstallOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ChocoLicenseOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ChocoLicenseOptions(ModularPipelines.Chocolatey.Options.ChocoLicenseOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ByIdOnly.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ByIdOnly.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ChocoListOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ChocoListOptions(ModularPipelines.Chocolatey.Options.ChocoListOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Exact.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Exact.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IdStartsWith.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IdStartsWith.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IgnorePinned.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IgnorePinned.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Page.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Page.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.PageSize.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.PageSize.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoListOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ChocoNewOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ChocoNewOptions(ModularPipelines.Chocolatey.Options.ChocoNewOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Maintainer.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Maintainer.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoNewOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOptions
+ModularPipelines.Chocolatey.Options.ChocoOptions.ChocoOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoOptions.ChocoOptions(ModularPipelines.Chocolatey.Options.ChocoOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ChocoOutdatedOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ChocoOutdatedOptions(ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnorePinned.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnorePinned.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnoreUnfound.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IgnoreUnfound.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ChocoPackOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ChocoPackOptions(ModularPipelines.Chocolatey.Options.ChocoPackOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPackOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ChocoPinOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ChocoPinOptions(ModularPipelines.Chocolatey.Options.ChocoPinOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPinOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ChocoPushOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ChocoPushOptions(ModularPipelines.Chocolatey.Options.ChocoPushOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoPushOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ChocoRuleOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ChocoRuleOptions(ModularPipelines.Chocolatey.Options.ChocoRuleOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ApprovedOnly.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ApprovedOnly.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ByIdOnly.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ByIdOnly.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ChocoSearchOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ChocoSearchOptions(ModularPipelines.Chocolatey.Options.ChocoSearchOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Exact.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Exact.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IdStartsWith.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IdStartsWith.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.NotBroken.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.NotBroken.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.OrderBy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.OrderBy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.OrderByPopularity.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.OrderByPopularity.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Page.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Page.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.PageSize.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.PageSize.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ChocoSetapikeyOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ChocoSetapikeyOptions(ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ChocoSourceOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ChocoSourceOptions(ModularPipelines.Chocolatey.Options.ChocoSourceOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Priority.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Priority.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ChocoSourcesOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ChocoSourcesOptions(ModularPipelines.Chocolatey.Options.ChocoSourcesOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Priority.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Priority.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSupportOptions
+ModularPipelines.Chocolatey.Options.ChocoSupportOptions.ChocoSupportOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoSupportOptions.ChocoSupportOptions(ModularPipelines.Chocolatey.Options.ChocoSupportOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ChocoTemplateOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ChocoTemplateOptions(ModularPipelines.Chocolatey.Options.ChocoTemplateOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ChocoTemplatesOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ChocoTemplatesOptions(ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Name.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Name.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Version.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ChocoUnpackselfOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ChocoUnpackselfOptions(ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Cert.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Cert.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions() -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions! original) -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Debug.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Debug.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Except.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Except.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Force.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Force.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnoreHttpCache.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnoreHttpCache.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnorePinned.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnorePinned.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnoreUnfound.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IgnoreUnfound.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IncludeConfiguredSources.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IncludeConfiguredSources.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IncludeHeaders.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.IncludeHeaders.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.InstallIfNotInstalled.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.InstallIfNotInstalled.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.LogFile.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.LogFile.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.NoProgress.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.NoProgress.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Online.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Online.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Password.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Password.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Proxy.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Proxy.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyBypassList.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyBypassList.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyBypassOnLocal.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyBypassOnLocal.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyPassword.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyPassword.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyUser.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ProxyUser.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Source.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Source.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Trace.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Trace.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.UseSystemPowershell.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Verbose.get -> bool?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Verbose.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Version.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Version.set -> void
+ModularPipelines.Chocolatey.Services.IChoco
+ModularPipelines.Chocolatey.Services.IChoco.ApikeyAsync(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.CacheAsync(ModularPipelines.Chocolatey.Options.ChocoCacheOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.ConfigAsync(ModularPipelines.Chocolatey.Options.ChocoConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.ExportAsync(ModularPipelines.Chocolatey.Options.ChocoExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.FeatureAsync(ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.FeaturesAsync(ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.FindAsync(ModularPipelines.Chocolatey.Options.ChocoFindOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.InfoAsync(ModularPipelines.Chocolatey.Options.ChocoInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.InstallAsync(ModularPipelines.Chocolatey.Options.ChocoInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.LicenseAsync(ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.ListAsync(ModularPipelines.Chocolatey.Options.ChocoListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.NewAsync(ModularPipelines.Chocolatey.Options.ChocoNewOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.OutdatedAsync(ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.PackAsync(ModularPipelines.Chocolatey.Options.ChocoPackOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.PinAsync(ModularPipelines.Chocolatey.Options.ChocoPinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.PushAsync(ModularPipelines.Chocolatey.Options.ChocoPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.RuleAsync(ModularPipelines.Chocolatey.Options.ChocoRuleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.SearchAsync(ModularPipelines.Chocolatey.Options.ChocoSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.SetapikeyAsync(ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.SourceAsync(ModularPipelines.Chocolatey.Options.ChocoSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.SourcesAsync(ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.SupportAsync(ModularPipelines.Chocolatey.Options.ChocoSupportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.TemplateAsync(ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.TemplatesAsync(ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.UninstallAsync(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.UnpackselfAsync(ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Chocolatey.Services.IChoco.UpgradeAsync(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Choco.get -> ModularPipelines.Chocolatey.Services.IChoco!
+override abstract ModularPipelines.Chocolatey.Options.ChocoOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoOptions!
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoApikeyOptions!
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoCacheOptions!
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoCacheOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoConfigOptions!
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoConfigOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoExportOptions!
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoExportOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoFeatureOptions!
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions!
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoFindOptions!
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoFindOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoInfoOptions!
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoInfoOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoInstallOptions!
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoLicenseOptions!
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoListOptions!
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoListOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoNewOptions!
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoNewOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions!
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoPackOptions!
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPackOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoPinOptions!
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPinOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoPushOptions!
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoPushOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoRuleOptions!
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoRuleOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoSearchOptions!
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSearchOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions!
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoSourceOptions!
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSourceOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoSourcesOptions!
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoSupportOptions!
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoSupportOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoTemplateOptions!
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions!
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoUninstallOptions!
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions!
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.ToString() -> string!
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions!
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.GetHashCode() -> int
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ToString() -> string!
+override sealed ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoExportOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoFindOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoListOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoNewOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoPackOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoPinOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoPushOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoSupportOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+override sealed ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+static ModularPipelines.Chocolatey.Extensions.ChocoExtensions.Choco(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Chocolatey.Services.IChoco!
+static ModularPipelines.Chocolatey.Extensions.ChocoExtensions.RegisterChocoContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? left, ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? left, ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoCacheOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoCacheOptions? left, ModularPipelines.Chocolatey.Options.ChocoCacheOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoCacheOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoCacheOptions? left, ModularPipelines.Chocolatey.Options.ChocoCacheOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoConfigOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoConfigOptions? left, ModularPipelines.Chocolatey.Options.ChocoConfigOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoConfigOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoConfigOptions? left, ModularPipelines.Chocolatey.Options.ChocoConfigOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoExportOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoExportOptions? left, ModularPipelines.Chocolatey.Options.ChocoExportOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoExportOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoExportOptions? left, ModularPipelines.Chocolatey.Options.ChocoExportOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? left, ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? left, ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? left, ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? left, ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFindOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoFindOptions? left, ModularPipelines.Chocolatey.Options.ChocoFindOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoFindOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoFindOptions? left, ModularPipelines.Chocolatey.Options.ChocoFindOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoInfoOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoInfoOptions? left, ModularPipelines.Chocolatey.Options.ChocoInfoOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoInfoOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoInfoOptions? left, ModularPipelines.Chocolatey.Options.ChocoInfoOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoInstallOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoInstallOptions? left, ModularPipelines.Chocolatey.Options.ChocoInstallOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoInstallOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoInstallOptions? left, ModularPipelines.Chocolatey.Options.ChocoInstallOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? left, ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? left, ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoListOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoListOptions? left, ModularPipelines.Chocolatey.Options.ChocoListOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoListOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoListOptions? left, ModularPipelines.Chocolatey.Options.ChocoListOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoNewOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoNewOptions? left, ModularPipelines.Chocolatey.Options.ChocoNewOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoNewOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoNewOptions? left, ModularPipelines.Chocolatey.Options.ChocoNewOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoOptions? left, ModularPipelines.Chocolatey.Options.ChocoOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoOptions? left, ModularPipelines.Chocolatey.Options.ChocoOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? left, ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? left, ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPackOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoPackOptions? left, ModularPipelines.Chocolatey.Options.ChocoPackOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPackOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoPackOptions? left, ModularPipelines.Chocolatey.Options.ChocoPackOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPinOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoPinOptions? left, ModularPipelines.Chocolatey.Options.ChocoPinOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPinOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoPinOptions? left, ModularPipelines.Chocolatey.Options.ChocoPinOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPushOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoPushOptions? left, ModularPipelines.Chocolatey.Options.ChocoPushOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoPushOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoPushOptions? left, ModularPipelines.Chocolatey.Options.ChocoPushOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoRuleOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoRuleOptions? left, ModularPipelines.Chocolatey.Options.ChocoRuleOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoRuleOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoRuleOptions? left, ModularPipelines.Chocolatey.Options.ChocoRuleOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSearchOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoSearchOptions? left, ModularPipelines.Chocolatey.Options.ChocoSearchOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSearchOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoSearchOptions? left, ModularPipelines.Chocolatey.Options.ChocoSearchOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? left, ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? left, ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSourceOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoSourceOptions? left, ModularPipelines.Chocolatey.Options.ChocoSourceOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSourceOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoSourceOptions? left, ModularPipelines.Chocolatey.Options.ChocoSourceOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? left, ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? left, ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSupportOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoSupportOptions? left, ModularPipelines.Chocolatey.Options.ChocoSupportOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoSupportOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoSupportOptions? left, ModularPipelines.Chocolatey.Options.ChocoSupportOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? left, ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? left, ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? left, ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? left, ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? left, ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? left, ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? left, ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? left, ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.operator !=(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? left, ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? right) -> bool
+static ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.operator ==(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? left, ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? right) -> bool
+static ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions.get_Choco(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Chocolatey.Services.IChoco!
+virtual ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoApikeyOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoCacheOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoConfigOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoExportOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoExportOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoFeatureOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoFeatureOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoFeaturesOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoFindOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoFindOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoInfoOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoInstallOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoLicenseOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoLicenseOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoListOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoListOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoNewOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoNewOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoPackOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoPackOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoPinOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoPinOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoPushOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoPushOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoRuleOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoRuleOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoSearchOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoSetapikeyOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoSourceOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoSourcesOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoSupportOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoSupportOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoTemplateOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoTemplateOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions? other) -> bool
+virtual ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions? other) -> bool

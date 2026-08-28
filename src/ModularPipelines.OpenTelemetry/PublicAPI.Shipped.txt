@@ -1,0 +1,5 @@
+#nullable enable
+ModularPipelines.Extensions.OpenTelemetryPipelineBuilderExtensions
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder.AddOtlpExporter() -> ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder!
+static ModularPipelines.Extensions.OpenTelemetryPipelineBuilderExtensions.AddOpenTelemetry(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder!>? configure = null) -> ModularPipelines.PipelineBuilder!

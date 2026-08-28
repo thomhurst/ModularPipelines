@@ -1,0 +1,870 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions
+ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Snyk.get -> ModularPipelines.Snyk.Services.ISnyk!
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
+ModularPipelines.Snyk.Enums.SnykContainerTestFailOn.All = 0 -> ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
+ModularPipelines.Snyk.Enums.SnykContainerTestFailOn.Upgradable = 1 -> ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
+ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFailOn.All = 0 -> ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFailOn.Patchable = 2 -> ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFailOn.Upgradable = 1 -> ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykFilePathGroup.Code = 1 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykFilePathGroup.Global = 0 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykFilePathGroup.IacDrift = 2 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx14Json = 0 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx14Xml = 1 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx15Json = 2 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx15Xml = 3 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx16Json = 4 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx16Xml = 5 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykFormat.Spdx23Json = 6 -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NoInfo = 1 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NotApplicable = 2 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.Reachable = 0 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Critical = 3 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.All = 2 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.None = 0 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.Some = 1 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Extensions.SnykExtensions
+ModularPipelines.Snyk.Options.SnykAibomOptions
+ModularPipelines.Snyk.Options.SnykAibomOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.Experimental.get -> bool?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Experimental.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.Html.get -> bool?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Html.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykAibomOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.Repo.get -> string?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Repo.set -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.SnykAibomOptions() -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.SnykAibomOptions(ModularPipelines.Snyk.Options.SnykAibomOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykAibomOptions.Upload.get -> bool?
+ModularPipelines.Snyk.Options.SnykAibomOptions.Upload.set -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.SnykAibomTestOptions() -> void
+ModularPipelines.Snyk.Options.SnykAibomTestOptions.SnykAibomTestOptions(ModularPipelines.Snyk.Options.SnykAibomTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions
+ModularPipelines.Snyk.Options.SnykAuthOptions.ApiToken.get -> string?
+ModularPipelines.Snyk.Options.SnykAuthOptions.ApiToken.set -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.AuthType.get -> string?
+ModularPipelines.Snyk.Options.SnykAuthOptions.AuthType.set -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.ClientId.get -> string?
+ModularPipelines.Snyk.Options.SnykAuthOptions.ClientId.set -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.ClientSecret.get -> string?
+ModularPipelines.Snyk.Options.SnykAuthOptions.ClientSecret.set -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykAuthOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.SnykAuthOptions() -> void
+ModularPipelines.Snyk.Options.SnykAuthOptions.SnykAuthOptions(ModularPipelines.Snyk.Options.SnykAuthOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Path.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Path.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.ProjectName.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.ProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.ProjectTags.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.ProjectTags.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.RemoteRepoUrl.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.RemoteRepoUrl.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Report.get -> bool?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Report.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Sarif.get -> bool?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.Sarif.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SarifFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SarifFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SnykCodeTestOptions() -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.SnykCodeTestOptions(ModularPipelines.Snyk.Options.SnykCodeTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.TargetName.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.TargetName.set -> void
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.TargetReference.get -> string?
+ModularPipelines.Snyk.Options.SnykCodeTestOptions.TargetReference.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.AppVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.AppVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Deconstruct(out string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeAppVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeAppVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeBaseImageVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeBaseImageVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeNodeModules.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ExcludeNodeModules.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.File.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.File.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Image.get -> string!
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Image.init -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.NestedJarsDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.NestedJarsDepth.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Password.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Password.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Platform.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Platform.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectBusinessCriticality.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectBusinessCriticality.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectEnvironment.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectEnvironment.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectLifecycle.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectLifecycle.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectName.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectTags.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ProjectTags.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.PruneRepeatedSubdependencies.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.PruneRepeatedSubdependencies.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.SnykContainerMonitorOptions(ModularPipelines.Snyk.Options.SnykContainerMonitorOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.SnykContainerMonitorOptions(string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Tags.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Tags.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.TargetReference.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.TargetReference.set -> void
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Username.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Username.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Deconstruct(out ModularPipelines.Snyk.Enums.SnykFormat Format, out string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.ExcludeAppVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.ExcludeAppVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.ExcludeNodeModules.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.ExcludeNodeModules.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Format.get -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Format.init -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Image.get -> string!
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Image.init -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.NestedJarsDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.NestedJarsDepth.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Password.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Password.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Platform.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Platform.set -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.SnykContainerSbomOptions(ModularPipelines.Snyk.Enums.SnykFormat Format, string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.SnykContainerSbomOptions(ModularPipelines.Snyk.Options.SnykContainerSbomOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Username.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Username.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.AppVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.AppVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Deconstruct(out string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeAppVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeAppVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeBaseImageVulns.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeBaseImageVulns.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeNodeModules.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ExcludeNodeModules.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.FailOn.get -> ModularPipelines.Snyk.Enums.SnykContainerTestFailOn?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.FailOn.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.File.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.File.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Image.get -> string!
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Image.init -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.NestedJarsDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.NestedJarsDepth.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Password.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Password.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Platform.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Platform.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.PrintDeps.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.PrintDeps.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ProjectName.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.ProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Sarif.get -> bool?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Sarif.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SarifFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SarifFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SnykContainerTestOptions(ModularPipelines.Snyk.Options.SnykContainerTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.SnykContainerTestOptions(string! Image) -> void
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Username.get -> string?
+ModularPipelines.Snyk.Options.SnykContainerTestOptions.Username.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.ConfigDir.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.ConfigDir.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.FetchTfstateHeaders.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.FetchTfstateHeaders.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Filter.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Filter.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.From.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.From.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Html.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Html.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.HtmlFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.HtmlFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.IgnorePolicy.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.IgnorePolicy.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Quiet.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Quiet.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Service.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Service.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.SnykIacDescribeOptions() -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.SnykIacDescribeOptions(ModularPipelines.Snyk.Options.SnykIacDescribeOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Strict.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Strict.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfLockfile.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfLockfile.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfProviderVersion.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfProviderVersion.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.To.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.To.set -> void
+ModularPipelines.Snyk.Options.SnykIacOptions
+ModularPipelines.Snyk.Options.SnykIacOptions.SnykIacOptions() -> void
+ModularPipelines.Snyk.Options.SnykIacOptions.SnykIacOptions(ModularPipelines.Snyk.Options.SnykIacOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.DetectionDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.DetectionDepth.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.IgnorePolicy.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.IgnorePolicy.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Path.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Path.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectBusinessCriticality.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectBusinessCriticality.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectEnvironment.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectEnvironment.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectLifecycle.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectLifecycle.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectTags.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.ProjectTags.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.RemoteRepoUrl.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.RemoteRepoUrl.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Report.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Report.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Rules.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Rules.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Sarif.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Sarif.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SarifFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SarifFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Scan.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.Scan.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SnykIacTestOptions() -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.SnykIacTestOptions(ModularPipelines.Snyk.Options.SnykIacTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.TargetName.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.TargetName.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.TargetReference.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.TargetReference.set -> void
+ModularPipelines.Snyk.Options.SnykIacTestOptions.VarFile.get -> string?
+ModularPipelines.Snyk.Options.SnykIacTestOptions.VarFile.set -> void
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.ExcludeMissing.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.ExcludeMissing.set -> void
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.ExcludeUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.ExcludeUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.SnykIacUpdateExcludePolicyOptions() -> void
+ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.SnykIacUpdateExcludePolicyOptions(ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Deconstruct(out string! Id) -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Expiry.get -> string?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Expiry.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.FilePath.get -> string?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.FilePath.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.FilePathGroup.get -> ModularPipelines.Snyk.Enums.SnykFilePathGroup?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.FilePathGroup.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Id.get -> string!
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Id.init -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Path.get -> string?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Path.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Reason.get -> string?
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.Reason.set -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.SnykIgnoreOptions(ModularPipelines.Snyk.Options.SnykIgnoreOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykIgnoreOptions.SnykIgnoreOptions(string! Id) -> void
+ModularPipelines.Snyk.Options.SnykLog4shellOptions
+ModularPipelines.Snyk.Options.SnykLog4shellOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykLog4shellOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykLog4shellOptions.SnykLog4shellOptions() -> void
+ModularPipelines.Snyk.Options.SnykLog4shellOptions.SnykLog4shellOptions(ModularPipelines.Snyk.Options.SnykLog4shellOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AllProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AllProjects.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AllSubProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AllSubProjects.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AssetsProjectName.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.AssetsProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Command.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Command.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ConfigurationAttributes.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ConfigurationAttributes.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ConfigurationMatching.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ConfigurationMatching.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DetectionDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DetectionDepth.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Dev.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Dev.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DotnetRuntimeResolution.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DotnetRuntimeResolution.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DotnetTargetFramework.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.DotnetTargetFramework.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Exclude.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Exclude.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.FailFast.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.FailFast.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.File.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.File.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.GradleSubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.GradleSubProject.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.IgnorePolicy.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.IgnorePolicy.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.InitScript.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.InitScript.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MavenAggregateProject.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MavenAggregateProject.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MavenSkipWrapper.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MavenSkipWrapper.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MaxDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.MaxDepth.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PackageManager.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PackageManager.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PackagesFolder.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PackagesFolder.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PrintDepPaths.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PrintDepPaths.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PrintDeps.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PrintDeps.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectBusinessCriticality.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectBusinessCriticality.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectEnvironment.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectEnvironment.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectLifecycle.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectLifecycle.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectName.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectNamePrefix.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectNamePrefix.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectTags.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ProjectTags.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PruneRepeatedSubdependencies.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.PruneRepeatedSubdependencies.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Reachability.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Reachability.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.RemoteRepoUrl.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.RemoteRepoUrl.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ScanAllUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ScanAllUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ScanUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.ScanUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SkipUnresolved.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SkipUnresolved.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SnykMonitorOptions() -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SnykMonitorOptions(ModularPipelines.Snyk.Options.SnykMonitorOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SourceDir.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SourceDir.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.StrictOutOfSync.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.StrictOutOfSync.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.SubProject.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Tags.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Tags.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Target.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Target.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.TargetReference.get -> string?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.TargetReference.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.TrustPolicies.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.TrustPolicies.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Unmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.Unmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykMonitorOptions.YarnWorkspaces.get -> bool?
+ModularPipelines.Snyk.Options.SnykMonitorOptions.YarnWorkspaces.set -> void
+ModularPipelines.Snyk.Options.SnykOptions
+ModularPipelines.Snyk.Options.SnykOptions.SnykOptions() -> void
+ModularPipelines.Snyk.Options.SnykOptions.SnykOptions(ModularPipelines.Snyk.Options.SnykOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykPolicyOptions
+ModularPipelines.Snyk.Options.SnykPolicyOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykPolicyOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykPolicyOptions.PathToPolicyFile.get -> string?
+ModularPipelines.Snyk.Options.SnykPolicyOptions.PathToPolicyFile.set -> void
+ModularPipelines.Snyk.Options.SnykPolicyOptions.SnykPolicyOptions() -> void
+ModularPipelines.Snyk.Options.SnykPolicyOptions.SnykPolicyOptions(ModularPipelines.Snyk.Options.SnykPolicyOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllProjects.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllSubProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllSubProjects.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.AssetsProjectName.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.AssetsProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Command.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Command.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.ConfigurationAttributes.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.ConfigurationAttributes.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.ConfigurationMatching.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.ConfigurationMatching.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Deconstruct(out ModularPipelines.Snyk.Enums.SnykFormat Format) -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.DetectionDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykSbomOptions.DetectionDepth.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Dev.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Dev.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Exclude.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Exclude.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.F.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.F.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.File.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.File.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Format.get -> ModularPipelines.Snyk.Enums.SnykFormat
+ModularPipelines.Snyk.Options.SnykSbomOptions.Format.init -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.GoModuleLevel.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.GoModuleLevel.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.GradleSubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.GradleSubProject.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.IncludeProvenance.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.IncludeProvenance.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.InitScript.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.InitScript.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.MavenAggregateProject.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.MavenAggregateProject.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.MavenSkipWrapper.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.MavenSkipWrapper.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.MaxDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykSbomOptions.MaxDepth.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Name.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Name.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.PackageManager.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.PackageManager.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.PackagesFolder.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.PackagesFolder.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.PruneRepeatedSubdependencies.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.PruneRepeatedSubdependencies.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.ScanAllUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.ScanAllUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.ScanUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.ScanUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.SkipUnresolved.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.SkipUnresolved.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.SnykSbomOptions(ModularPipelines.Snyk.Enums.SnykFormat Format) -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.SnykSbomOptions(ModularPipelines.Snyk.Options.SnykSbomOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.StrictOutOfSync.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.StrictOutOfSync.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.SubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.SubProject.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.TargetDirectory.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.TargetDirectory.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Unmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Unmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.Version.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomOptions.Version.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.YarnWorkspaces.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.YarnWorkspaces.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Deconstruct(out string! File) -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.File.get -> string!
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.File.init -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Reachability.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.Reachability.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.ReachabilityFilter.get -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.ReachabilityFilter.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SnykSbomTestOptions(ModularPipelines.Snyk.Options.SnykSbomTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SnykSbomTestOptions(string! File) -> void
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SourceDir.get -> string?
+ModularPipelines.Snyk.Options.SnykSbomTestOptions.SourceDir.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions
+ModularPipelines.Snyk.Options.SnykTestOptions.AllProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.AllProjects.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.AllSubProjects.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.AllSubProjects.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.AssetsProjectName.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.AssetsProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Command.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.Command.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ConfigurationAttributes.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.ConfigurationAttributes.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ConfigurationMatching.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.ConfigurationMatching.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Debug.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Debug.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.DetectionDepth.get -> int?
+ModularPipelines.Snyk.Options.SnykTestOptions.DetectionDepth.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Dev.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Dev.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.DotnetTargetFramework.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.DotnetTargetFramework.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Exclude.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.Exclude.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.FailFast.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.FailFast.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.FailOn.get -> ModularPipelines.Snyk.Enums.SnykFailOn?
+ModularPipelines.Snyk.Options.SnykTestOptions.FailOn.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.File.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.File.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.GradleSubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.GradleSubProject.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.IgnorePolicy.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.IgnorePolicy.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.IncludeProvenance.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.IncludeProvenance.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.InitScript.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.InitScript.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Json.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Json.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.JsonFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.JsonFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.MavenAggregateProject.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.MavenAggregateProject.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.MavenSkipWrapper.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.MavenSkipWrapper.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Org.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.Org.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.PackageManager.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.PackageManager.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.PackagesFolder.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.PackagesFolder.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.PolicyPath.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.PolicyPath.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.PrintDeps.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.PrintDeps.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ProjectName.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.ProjectName.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ProjectNamePrefix.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.ProjectNamePrefix.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.PruneRepeatedSubdependencies.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.PruneRepeatedSubdependencies.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Reachability.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Reachability.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ReachabilityFilter.get -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter?
+ModularPipelines.Snyk.Options.SnykTestOptions.ReachabilityFilter.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.RemoteRepoUrl.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.RemoteRepoUrl.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Sarif.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Sarif.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SarifFileOutput.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.SarifFileOutput.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ScanAllUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.ScanAllUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ScanUnmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.ScanUnmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SeverityThreshold.get -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold?
+ModularPipelines.Snyk.Options.SnykTestOptions.SeverityThreshold.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.ShowVulnerablePaths.get -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths?
+ModularPipelines.Snyk.Options.SnykTestOptions.ShowVulnerablePaths.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SkipUnresolved.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.SkipUnresolved.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SnykTestOptions() -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SnykTestOptions(ModularPipelines.Snyk.Options.SnykTestOptions! original) -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SourceDir.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.SourceDir.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.StrictOutOfSync.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.StrictOutOfSync.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.SubProject.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.SubProject.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Target.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.Target.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.TargetReference.get -> string?
+ModularPipelines.Snyk.Options.SnykTestOptions.TargetReference.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.TrustPolicies.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.TrustPolicies.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.Unmanaged.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.Unmanaged.set -> void
+ModularPipelines.Snyk.Options.SnykTestOptions.YarnWorkspaces.get -> bool?
+ModularPipelines.Snyk.Options.SnykTestOptions.YarnWorkspaces.set -> void
+ModularPipelines.Snyk.Services.ISnyk
+ModularPipelines.Snyk.Services.ISnyk.AibomAsync(ModularPipelines.Snyk.Options.SnykAibomOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.AibomTestAsync(ModularPipelines.Snyk.Options.SnykAibomTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.AuthAsync(ModularPipelines.Snyk.Options.SnykAuthOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.CodeTestAsync(ModularPipelines.Snyk.Options.SnykCodeTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.ContainerMonitorAsync(ModularPipelines.Snyk.Options.SnykContainerMonitorOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.ContainerSbomAsync(ModularPipelines.Snyk.Options.SnykContainerSbomOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.ContainerTestAsync(ModularPipelines.Snyk.Options.SnykContainerTestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.IacAsync(ModularPipelines.Snyk.Options.SnykIacOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.IacDescribeAsync(ModularPipelines.Snyk.Options.SnykIacDescribeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.IacTestAsync(ModularPipelines.Snyk.Options.SnykIacTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.IacUpdateExcludePolicyAsync(ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.IgnoreAsync(ModularPipelines.Snyk.Options.SnykIgnoreOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.Log4shellAsync(ModularPipelines.Snyk.Options.SnykLog4shellOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.MonitorAsync(ModularPipelines.Snyk.Options.SnykMonitorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.PolicyAsync(ModularPipelines.Snyk.Options.SnykPolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.SbomAsync(ModularPipelines.Snyk.Options.SnykSbomOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.SbomTestAsync(ModularPipelines.Snyk.Options.SnykSbomTestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Snyk.Services.ISnyk.TestAsync(ModularPipelines.Snyk.Options.SnykTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Snyk.Options.SnykOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykOptions!
+override ModularPipelines.Snyk.Options.SnykAibomOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykAibomOptions!
+override ModularPipelines.Snyk.Options.SnykAibomOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykAibomOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykAibomOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykAibomOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykAibomOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykAibomTestOptions!
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykAibomTestOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykAuthOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykAuthOptions!
+override ModularPipelines.Snyk.Options.SnykAuthOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykAuthOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykAuthOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykAuthOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykAuthOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykCodeTestOptions!
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykCodeTestOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykContainerMonitorOptions!
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykContainerSbomOptions!
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerSbomOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykContainerTestOptions!
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykContainerTestOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykIacDescribeOptions!
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykIacDescribeOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykIacOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykIacOptions!
+override ModularPipelines.Snyk.Options.SnykIacOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykIacOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykIacOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykIacOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykIacOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykIacTestOptions!
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykIacTestOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions!
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykIgnoreOptions!
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykIgnoreOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykLog4shellOptions!
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykLog4shellOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykMonitorOptions!
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykMonitorOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykPolicyOptions!
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykPolicyOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykSbomOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykSbomOptions!
+override ModularPipelines.Snyk.Options.SnykSbomOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykSbomOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykSbomOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykSbomOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykSbomOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykSbomTestOptions!
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykSbomTestOptions.ToString() -> string!
+override ModularPipelines.Snyk.Options.SnykTestOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykTestOptions!
+override ModularPipelines.Snyk.Options.SnykTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Snyk.Options.SnykTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Snyk.Options.SnykTestOptions.GetHashCode() -> int
+override ModularPipelines.Snyk.Options.SnykTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Snyk.Options.SnykTestOptions.ToString() -> string!
+override sealed ModularPipelines.Snyk.Options.SnykAibomOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykAibomTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykAuthOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykCodeTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykContainerTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykIacOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykIacTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykIgnoreOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykLog4shellOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykMonitorOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykPolicyOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykSbomOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykSbomTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+override sealed ModularPipelines.Snyk.Options.SnykTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions.get_Snyk(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Snyk.Services.ISnyk!
+static ModularPipelines.Snyk.Extensions.SnykExtensions.RegisterSnykContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Snyk.Extensions.SnykExtensions.Snyk(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Snyk.Services.ISnyk!
+static ModularPipelines.Snyk.Options.SnykAibomOptions.operator !=(ModularPipelines.Snyk.Options.SnykAibomOptions? left, ModularPipelines.Snyk.Options.SnykAibomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykAibomOptions.operator ==(ModularPipelines.Snyk.Options.SnykAibomOptions? left, ModularPipelines.Snyk.Options.SnykAibomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykAibomTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykAibomTestOptions? left, ModularPipelines.Snyk.Options.SnykAibomTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykAibomTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykAibomTestOptions? left, ModularPipelines.Snyk.Options.SnykAibomTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykAuthOptions.operator !=(ModularPipelines.Snyk.Options.SnykAuthOptions? left, ModularPipelines.Snyk.Options.SnykAuthOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykAuthOptions.operator ==(ModularPipelines.Snyk.Options.SnykAuthOptions? left, ModularPipelines.Snyk.Options.SnykAuthOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykCodeTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykCodeTestOptions? left, ModularPipelines.Snyk.Options.SnykCodeTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykCodeTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykCodeTestOptions? left, ModularPipelines.Snyk.Options.SnykCodeTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.operator !=(ModularPipelines.Snyk.Options.SnykContainerMonitorOptions? left, ModularPipelines.Snyk.Options.SnykContainerMonitorOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.operator ==(ModularPipelines.Snyk.Options.SnykContainerMonitorOptions? left, ModularPipelines.Snyk.Options.SnykContainerMonitorOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerSbomOptions.operator !=(ModularPipelines.Snyk.Options.SnykContainerSbomOptions? left, ModularPipelines.Snyk.Options.SnykContainerSbomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerSbomOptions.operator ==(ModularPipelines.Snyk.Options.SnykContainerSbomOptions? left, ModularPipelines.Snyk.Options.SnykContainerSbomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykContainerTestOptions? left, ModularPipelines.Snyk.Options.SnykContainerTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykContainerTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykContainerTestOptions? left, ModularPipelines.Snyk.Options.SnykContainerTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacDescribeOptions.operator !=(ModularPipelines.Snyk.Options.SnykIacDescribeOptions? left, ModularPipelines.Snyk.Options.SnykIacDescribeOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacDescribeOptions.operator ==(ModularPipelines.Snyk.Options.SnykIacDescribeOptions? left, ModularPipelines.Snyk.Options.SnykIacDescribeOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacOptions.operator !=(ModularPipelines.Snyk.Options.SnykIacOptions? left, ModularPipelines.Snyk.Options.SnykIacOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacOptions.operator ==(ModularPipelines.Snyk.Options.SnykIacOptions? left, ModularPipelines.Snyk.Options.SnykIacOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykIacTestOptions? left, ModularPipelines.Snyk.Options.SnykIacTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykIacTestOptions? left, ModularPipelines.Snyk.Options.SnykIacTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.operator !=(ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? left, ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.operator ==(ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? left, ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIgnoreOptions.operator !=(ModularPipelines.Snyk.Options.SnykIgnoreOptions? left, ModularPipelines.Snyk.Options.SnykIgnoreOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykIgnoreOptions.operator ==(ModularPipelines.Snyk.Options.SnykIgnoreOptions? left, ModularPipelines.Snyk.Options.SnykIgnoreOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykLog4shellOptions.operator !=(ModularPipelines.Snyk.Options.SnykLog4shellOptions? left, ModularPipelines.Snyk.Options.SnykLog4shellOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykLog4shellOptions.operator ==(ModularPipelines.Snyk.Options.SnykLog4shellOptions? left, ModularPipelines.Snyk.Options.SnykLog4shellOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykMonitorOptions.operator !=(ModularPipelines.Snyk.Options.SnykMonitorOptions? left, ModularPipelines.Snyk.Options.SnykMonitorOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykMonitorOptions.operator ==(ModularPipelines.Snyk.Options.SnykMonitorOptions? left, ModularPipelines.Snyk.Options.SnykMonitorOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykOptions.operator !=(ModularPipelines.Snyk.Options.SnykOptions? left, ModularPipelines.Snyk.Options.SnykOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykOptions.operator ==(ModularPipelines.Snyk.Options.SnykOptions? left, ModularPipelines.Snyk.Options.SnykOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykPolicyOptions.operator !=(ModularPipelines.Snyk.Options.SnykPolicyOptions? left, ModularPipelines.Snyk.Options.SnykPolicyOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykPolicyOptions.operator ==(ModularPipelines.Snyk.Options.SnykPolicyOptions? left, ModularPipelines.Snyk.Options.SnykPolicyOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykSbomOptions.operator !=(ModularPipelines.Snyk.Options.SnykSbomOptions? left, ModularPipelines.Snyk.Options.SnykSbomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykSbomOptions.operator ==(ModularPipelines.Snyk.Options.SnykSbomOptions? left, ModularPipelines.Snyk.Options.SnykSbomOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykSbomTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykSbomTestOptions? left, ModularPipelines.Snyk.Options.SnykSbomTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykSbomTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykSbomTestOptions? left, ModularPipelines.Snyk.Options.SnykSbomTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykTestOptions.operator !=(ModularPipelines.Snyk.Options.SnykTestOptions? left, ModularPipelines.Snyk.Options.SnykTestOptions? right) -> bool
+static ModularPipelines.Snyk.Options.SnykTestOptions.operator ==(ModularPipelines.Snyk.Options.SnykTestOptions? left, ModularPipelines.Snyk.Options.SnykTestOptions? right) -> bool
+virtual ModularPipelines.Snyk.Options.SnykAibomOptions.Equals(ModularPipelines.Snyk.Options.SnykAibomOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykAibomTestOptions.Equals(ModularPipelines.Snyk.Options.SnykAibomTestOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykAuthOptions.Equals(ModularPipelines.Snyk.Options.SnykAuthOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykCodeTestOptions.Equals(ModularPipelines.Snyk.Options.SnykCodeTestOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykContainerMonitorOptions.Equals(ModularPipelines.Snyk.Options.SnykContainerMonitorOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykContainerSbomOptions.Equals(ModularPipelines.Snyk.Options.SnykContainerSbomOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykContainerTestOptions.Equals(ModularPipelines.Snyk.Options.SnykContainerTestOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Equals(ModularPipelines.Snyk.Options.SnykIacDescribeOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykIacOptions.Equals(ModularPipelines.Snyk.Options.SnykIacOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykIacTestOptions.Equals(ModularPipelines.Snyk.Options.SnykIacTestOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions.Equals(ModularPipelines.Snyk.Options.SnykIacUpdateExcludePolicyOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykIgnoreOptions.Equals(ModularPipelines.Snyk.Options.SnykIgnoreOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykLog4shellOptions.Equals(ModularPipelines.Snyk.Options.SnykLog4shellOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykMonitorOptions.Equals(ModularPipelines.Snyk.Options.SnykMonitorOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykPolicyOptions.Equals(ModularPipelines.Snyk.Options.SnykPolicyOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykSbomOptions.Equals(ModularPipelines.Snyk.Options.SnykSbomOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykSbomTestOptions.Equals(ModularPipelines.Snyk.Options.SnykSbomTestOptions? other) -> bool
+virtual ModularPipelines.Snyk.Options.SnykTestOptions.Equals(ModularPipelines.Snyk.Options.SnykTestOptions? other) -> bool

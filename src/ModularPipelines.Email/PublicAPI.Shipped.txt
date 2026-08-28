@@ -1,0 +1,45 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Email_d98d25541dc12cc2ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Email_d98d25541dc12cc2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Email_d98d25541dc12cc2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Email.get -> ModularPipelines.Email.IEmail!
+ModularPipelines.Email.Extensions.EmailExtensions
+ModularPipelines.Email.IEmail
+ModularPipelines.Email.IEmail.SendAsync(ModularPipelines.Email.Options.EmailSendOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+ModularPipelines.Email.Options.EmailSendOptions
+ModularPipelines.Email.Options.EmailSendOptions.Bcc.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Email.Options.EmailSendOptions.Bcc.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Body.get -> MimeKit.TextPart!
+ModularPipelines.Email.Options.EmailSendOptions.Body.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Cc.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Email.Options.EmailSendOptions.Cc.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.ClientConfigurator.get -> System.Action<MailKit.Net.Smtp.SmtpClient!>?
+ModularPipelines.Email.Options.EmailSendOptions.ClientConfigurator.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Credentials.get -> System.Net.ICredentials?
+ModularPipelines.Email.Options.EmailSendOptions.Credentials.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Deconstruct(out string! From, out System.Collections.Generic.IEnumerable<string!>! To, out string! Subject, out MimeKit.TextPart! Body, out string! SmtpServerHost) -> void
+ModularPipelines.Email.Options.EmailSendOptions.EmailSendOptions(ModularPipelines.Email.Options.EmailSendOptions! original) -> void
+ModularPipelines.Email.Options.EmailSendOptions.EmailSendOptions(string! From, System.Collections.Generic.IEnumerable<string!>! To, string! Subject, MimeKit.TextPart! Body, string! SmtpServerHost) -> void
+ModularPipelines.Email.Options.EmailSendOptions.From.get -> string!
+ModularPipelines.Email.Options.EmailSendOptions.From.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Port.get -> int
+ModularPipelines.Email.Options.EmailSendOptions.Port.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.SecureSocketOptions.get -> MailKit.Security.SecureSocketOptions
+ModularPipelines.Email.Options.EmailSendOptions.SecureSocketOptions.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.SmtpServerHost.get -> string!
+ModularPipelines.Email.Options.EmailSendOptions.SmtpServerHost.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.Subject.get -> string!
+ModularPipelines.Email.Options.EmailSendOptions.Subject.init -> void
+ModularPipelines.Email.Options.EmailSendOptions.To.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Email.Options.EmailSendOptions.To.init -> void
+override ModularPipelines.Email.Options.EmailSendOptions.Equals(object? obj) -> bool
+override ModularPipelines.Email.Options.EmailSendOptions.GetHashCode() -> int
+override ModularPipelines.Email.Options.EmailSendOptions.ToString() -> string!
+static ModularPipelines.Context.ModularPipelines_Email_d98d25541dc12cc2ToolsExtensions.get_Email(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Email.IEmail!
+static ModularPipelines.Email.Extensions.EmailExtensions.Email(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Email.IEmail!
+static ModularPipelines.Email.Extensions.EmailExtensions.RegisterEmailContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Email.Options.EmailSendOptions.operator !=(ModularPipelines.Email.Options.EmailSendOptions? left, ModularPipelines.Email.Options.EmailSendOptions? right) -> bool
+static ModularPipelines.Email.Options.EmailSendOptions.operator ==(ModularPipelines.Email.Options.EmailSendOptions? left, ModularPipelines.Email.Options.EmailSendOptions? right) -> bool
+virtual ModularPipelines.Email.Options.EmailSendOptions.<Clone>$() -> ModularPipelines.Email.Options.EmailSendOptions!
+virtual ModularPipelines.Email.Options.EmailSendOptions.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Email.Options.EmailSendOptions.Equals(ModularPipelines.Email.Options.EmailSendOptions? other) -> bool
+virtual ModularPipelines.Email.Options.EmailSendOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool

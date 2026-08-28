@@ -1,0 +1,20 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_TeamCity_60487ca7b654c6f0ToolsExtensions
+ModularPipelines.Context.ModularPipelines_TeamCity_60487ca7b654c6f0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_TeamCity_60487ca7b654c6f0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).TeamCity.get -> ModularPipelines.TeamCity.ITeamCity!
+ModularPipelines.TeamCity.Extensions.TeamCityExtensions
+ModularPipelines.TeamCity.ITeamCity
+ModularPipelines.TeamCity.ITeamCity.BeginSection(string! name) -> System.IDisposable!
+ModularPipelines.TeamCity.ITeamCity.EnvironmentVariables.get -> ModularPipelines.TeamCity.ITeamCityEnvironmentVariables!
+ModularPipelines.TeamCity.ITeamCity.WriteLine(string! message) -> void
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.BuildConfigurationName.get -> string?
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.BuildNumber.get -> string?
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.BuildPropertiesFile.get -> string?
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.BuildUrl.get -> string?
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.IsPersonal.get -> bool
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.ProjectName.get -> string?
+ModularPipelines.TeamCity.ITeamCityEnvironmentVariables.TeamCityVersion.get -> string?
+static ModularPipelines.Context.ModularPipelines_TeamCity_60487ca7b654c6f0ToolsExtensions.get_TeamCity(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.TeamCity.ITeamCity!
+static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.RegisterTeamCityContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.TeamCity(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.TeamCity.ITeamCity!

@@ -1,0 +1,1570 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_WinGet_90b9aa50b783b0dcToolsExtensions
+ModularPipelines.Context.ModularPipelines_WinGet_90b9aa50b783b0dcToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_WinGet_90b9aa50b783b0dcToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Winget.get -> ModularPipelines.WinGet.Services.IWinget!
+ModularPipelines.WinGet.Extensions.WingetExtensions
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.IncludeVersions.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.IncludeVersions.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Module.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Module.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.ModulePath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.ModulePath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.PackageId.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.PackageId.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.ProcessorPath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.ProcessorPath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Resource.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Resource.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.WingetConfigureExportOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureExportOptions.WingetConfigureExportOptions(ModularPipelines.WinGet.Options.WingetConfigureExportOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.History.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.History.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Remove.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Remove.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.WingetConfigureListOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureListOptions.WingetConfigureListOptions(ModularPipelines.WinGet.Options.WingetConfigureListOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions
+ModularPipelines.WinGet.Options.WingetConfigureOptions.AcceptConfigurationAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.AcceptConfigurationAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Disable.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Disable.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Enable.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Enable.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.File.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.File.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.History.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.History.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.ModulePath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.ModulePath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.ProcessorPath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.ProcessorPath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.WingetConfigureOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureOptions.WingetConfigureOptions(ModularPipelines.WinGet.Options.WingetConfigureOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.File.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.File.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.History.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.History.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.ModulePath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.ModulePath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.ProcessorPath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.ProcessorPath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.WingetConfigureShowOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureShowOptions.WingetConfigureShowOptions(ModularPipelines.WinGet.Options.WingetConfigureShowOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.AcceptConfigurationAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.AcceptConfigurationAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.File.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.File.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.History.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.History.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.ModulePath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.ModulePath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.ProcessorPath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.ProcessorPath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.SuppressInitialDetails.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.SuppressInitialDetails.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.WingetConfigureTestOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureTestOptions.WingetConfigureTestOptions(ModularPipelines.WinGet.Options.WingetConfigureTestOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.File.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.File.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.ModulePath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.ModulePath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.ProcessorPath.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.ProcessorPath.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.WingetConfigureValidateOptions() -> void
+ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.WingetConfigureValidateOptions(ModularPipelines.WinGet.Options.WingetConfigureValidateOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AcceptPackageAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AcceptPackageAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Architecture.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Architecture.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.DownloadDirectory.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.DownloadDirectory.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.IgnoreSecurityHash.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.IgnoreSecurityHash.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.InstallerType.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.InstallerType.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Locale.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Locale.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.OsVersion.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.OsVersion.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Platform.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Platform.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.SkipDependencies.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.SkipDependencies.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Version.get -> bool?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.WingetDownloadOptions() -> void
+ModularPipelines.WinGet.Options.WingetDownloadOptions.WingetDownloadOptions(ModularPipelines.WinGet.Options.WingetDownloadOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Export.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Export.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Get.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Get.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Schema.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Schema.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Set.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Set.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Test.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Test.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.WingetDscv3AdminSettingsOptions() -> void
+ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.WingetDscv3AdminSettingsOptions(ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options
+ModularPipelines.WinGet.Options.WingetDscv3Options.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3Options.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3Options.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3Options.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3Options.Output.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3Options.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.WingetDscv3Options() -> void
+ModularPipelines.WinGet.Options.WingetDscv3Options.WingetDscv3Options(ModularPipelines.WinGet.Options.WingetDscv3Options! original) -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Export.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Export.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Get.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Get.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Schema.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Schema.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Set.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Set.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Test.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Test.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.WingetDscv3PackageOptions() -> void
+ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.WingetDscv3PackageOptions(ModularPipelines.WinGet.Options.WingetDscv3PackageOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Export.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Export.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Get.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Get.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Schema.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Schema.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Set.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Set.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Test.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Test.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.WingetDscv3SourceOptions() -> void
+ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.WingetDscv3SourceOptions(ModularPipelines.WinGet.Options.WingetDscv3SourceOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Export.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Export.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Get.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Get.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Schema.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Schema.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Set.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Set.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Test.get -> string?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Test.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.WingetDscv3UserSettingsFileOptions() -> void
+ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.WingetDscv3UserSettingsFileOptions(ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetExportOptions
+ModularPipelines.WinGet.Options.WingetExportOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetExportOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetExportOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.get -> string?
+ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetExportOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.Output.get -> string?
+ModularPipelines.WinGet.Options.WingetExportOptions.Output.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetExportOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetExportOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetExportOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.WingetExportOptions() -> void
+ModularPipelines.WinGet.Options.WingetExportOptions.WingetExportOptions(ModularPipelines.WinGet.Options.WingetExportOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.WingetFeaturesOptions() -> void
+ModularPipelines.WinGet.Options.WingetFeaturesOptions.WingetFeaturesOptions(ModularPipelines.WinGet.Options.WingetFeaturesOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetHashOptions
+ModularPipelines.WinGet.Options.WingetHashOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetHashOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.File.get -> string?
+ModularPipelines.WinGet.Options.WingetHashOptions.File.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.Msix.get -> string?
+ModularPipelines.WinGet.Options.WingetHashOptions.Msix.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetHashOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetHashOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetHashOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.WingetHashOptions() -> void
+ModularPipelines.WinGet.Options.WingetHashOptions.WingetHashOptions(ModularPipelines.WinGet.Options.WingetHashOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetImportOptions
+ModularPipelines.WinGet.Options.WingetImportOptions.AcceptPackageAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.AcceptPackageAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.IgnoreUnavailable.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.IgnoreUnavailable.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.IgnoreVersions.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.IgnoreVersions.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.ImportFile.get -> string?
+ModularPipelines.WinGet.Options.WingetImportOptions.ImportFile.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.NoUpgrade.get -> bool?
+ModularPipelines.WinGet.Options.WingetImportOptions.NoUpgrade.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetImportOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetImportOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.WingetImportOptions() -> void
+ModularPipelines.WinGet.Options.WingetImportOptions.WingetImportOptions(ModularPipelines.WinGet.Options.WingetImportOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions
+ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptPackageAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptPackageAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Architecture.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Architecture.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Custom.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Custom.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.DependenciesOnly.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.DependenciesOnly.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.DependencySource.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.DependencySource.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Force.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.IgnoreLocalArchiveMalwareScan.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.IgnoreLocalArchiveMalwareScan.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.IgnoreSecurityHash.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.IgnoreSecurityHash.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.InstallerType.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.InstallerType.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Interactive.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Interactive.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Locale.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Locale.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Location.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Location.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Log.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Log.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.NoUpgrade.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.NoUpgrade.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Override.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Override.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Rename.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Rename.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Silent.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Silent.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.SkipDependencies.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.SkipDependencies.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Version.get -> bool?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.WingetInstallOptions() -> void
+ModularPipelines.WinGet.Options.WingetInstallOptions.WingetInstallOptions(ModularPipelines.WinGet.Options.WingetInstallOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetListOptions
+ModularPipelines.WinGet.Options.WingetListOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Count.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Count.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Details.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.Details.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetListOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Sort.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.WinGet.Options.WingetListOptions.Sort.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Tag.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Tag.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetListOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetListOptions.WingetListOptions() -> void
+ModularPipelines.WinGet.Options.WingetListOptions.WingetListOptions(ModularPipelines.WinGet.Options.WingetListOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions
+ModularPipelines.WinGet.Options.WingetMcpOptions.Disable.get -> bool?
+ModularPipelines.WinGet.Options.WingetMcpOptions.Disable.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetMcpOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.Enable.get -> bool?
+ModularPipelines.WinGet.Options.WingetMcpOptions.Enable.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetMcpOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetMcpOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetMcpOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.WingetMcpOptions() -> void
+ModularPipelines.WinGet.Options.WingetMcpOptions.WingetMcpOptions(ModularPipelines.WinGet.Options.WingetMcpOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetOptions
+ModularPipelines.WinGet.Options.WingetOptions.WingetOptions() -> void
+ModularPipelines.WinGet.Options.WingetOptions.WingetOptions(ModularPipelines.WinGet.Options.WingetOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Blocking.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Blocking.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Installed.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Installed.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Tag.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Tag.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Version.get -> string?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinAddOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.WingetPinAddOptions() -> void
+ModularPipelines.WinGet.Options.WingetPinAddOptions.WingetPinAddOptions(ModularPipelines.WinGet.Options.WingetPinAddOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions
+ModularPipelines.WinGet.Options.WingetPinListOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinListOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinListOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinListOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Tag.get -> string?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Tag.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinListOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.WingetPinListOptions() -> void
+ModularPipelines.WinGet.Options.WingetPinListOptions.WingetPinListOptions(ModularPipelines.WinGet.Options.WingetPinListOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetPinOptions
+ModularPipelines.WinGet.Options.WingetPinOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetPinOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetPinOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetPinOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetPinOptions.WingetPinOptions() -> void
+ModularPipelines.WinGet.Options.WingetPinOptions.WingetPinOptions(ModularPipelines.WinGet.Options.WingetPinOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AuthenticationMode.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Exact.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Installed.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Installed.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Tag.get -> string?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Tag.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.WingetPinRemoveOptions() -> void
+ModularPipelines.WinGet.Options.WingetPinRemoveOptions.WingetPinRemoveOptions(ModularPipelines.WinGet.Options.WingetPinRemoveOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions
+ModularPipelines.WinGet.Options.WingetPinResetOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetPinResetOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.WingetPinResetOptions() -> void
+ModularPipelines.WinGet.Options.WingetPinResetOptions.WingetPinResetOptions(ModularPipelines.WinGet.Options.WingetPinResetOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions
+ModularPipelines.WinGet.Options.WingetRepairOptions.AcceptPackageAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AcceptPackageAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Architecture.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Architecture.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Force.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.IgnoreLocalArchiveMalwareScan.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.IgnoreLocalArchiveMalwareScan.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.IgnoreSecurityHash.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.IgnoreSecurityHash.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Interactive.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Interactive.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Locale.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Locale.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Log.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Log.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.ProductCode.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.ProductCode.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Silent.get -> bool?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Silent.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Version.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.WingetRepairOptions() -> void
+ModularPipelines.WinGet.Options.WingetRepairOptions.WingetRepairOptions(ModularPipelines.WinGet.Options.WingetRepairOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions
+ModularPipelines.WinGet.Options.WingetSearchOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Count.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Count.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSearchOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Tag.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Tag.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.WingetSearchOptions() -> void
+ModularPipelines.WinGet.Options.WingetSearchOptions.WingetSearchOptions(ModularPipelines.WinGet.Options.WingetSearchOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.WingetSettingsExportOptions() -> void
+ModularPipelines.WinGet.Options.WingetSettingsExportOptions.WingetSettingsExportOptions(ModularPipelines.WinGet.Options.WingetSettingsExportOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Disable.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Disable.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Enable.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Enable.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.WingetSettingsOptions() -> void
+ModularPipelines.WinGet.Options.WingetSettingsOptions.WingetSettingsOptions(ModularPipelines.WinGet.Options.WingetSettingsOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Setting.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Setting.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.WingetSettingsResetOptions() -> void
+ModularPipelines.WinGet.Options.WingetSettingsResetOptions.WingetSettingsResetOptions(ModularPipelines.WinGet.Options.WingetSettingsResetOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Setting.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Setting.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Value.get -> string?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Value.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.WingetSettingsSetOptions() -> void
+ModularPipelines.WinGet.Options.WingetSettingsSetOptions.WingetSettingsSetOptions(ModularPipelines.WinGet.Options.WingetSettingsSetOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetShowOptions
+ModularPipelines.WinGet.Options.WingetShowOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Architecture.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Architecture.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.InstallerType.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.InstallerType.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Locale.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Locale.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Version.get -> bool?
+ModularPipelines.WinGet.Options.WingetShowOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Versions.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Versions.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetShowOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.WingetShowOptions() -> void
+ModularPipelines.WinGet.Options.WingetShowOptions.WingetShowOptions(ModularPipelines.WinGet.Options.WingetShowOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Arg.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Arg.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Explicit.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Explicit.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.TrustLevel.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.TrustLevel.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Type.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Type.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.WingetSourceAddOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceAddOptions.WingetSourceAddOptions(ModularPipelines.WinGet.Options.WingetSourceAddOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Explicit.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Explicit.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.WingetSourceEditOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceEditOptions.WingetSourceEditOptions(ModularPipelines.WinGet.Options.WingetSourceEditOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.WingetSourceExportOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceExportOptions.WingetSourceExportOptions(ModularPipelines.WinGet.Options.WingetSourceExportOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions
+ModularPipelines.WinGet.Options.WingetSourceListOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceListOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceListOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceListOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.WingetSourceListOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceListOptions.WingetSourceListOptions(ModularPipelines.WinGet.Options.WingetSourceListOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions
+ModularPipelines.WinGet.Options.WingetSourceOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions.WingetSourceOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceOptions.WingetSourceOptions(ModularPipelines.WinGet.Options.WingetSourceOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.WingetSourceRemoveOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.WingetSourceRemoveOptions(ModularPipelines.WinGet.Options.WingetSourceRemoveOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Force.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.WingetSourceResetOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceResetOptions.WingetSourceResetOptions(ModularPipelines.WinGet.Options.WingetSourceResetOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Wait.get -> bool?
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.WingetSourceUpdateOptions() -> void
+ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.WingetSourceUpdateOptions(ModularPipelines.WinGet.Options.WingetSourceUpdateOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Interactive.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Interactive.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Log.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Log.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.ProductCode.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.ProductCode.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Purge.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Purge.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Silent.get -> bool?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Silent.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Version.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.WingetUninstallOptions() -> void
+ModularPipelines.WinGet.Options.WingetUninstallOptions.WingetUninstallOptions(ModularPipelines.WinGet.Options.WingetUninstallOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptPackageAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptPackageAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptSourceAgreements.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptSourceAgreements.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Architecture.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Architecture.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationAccount.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationAccount.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Custom.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Custom.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Header.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Header.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Id.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Id.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.IgnoreLocalArchiveMalwareScan.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.IgnoreLocalArchiveMalwareScan.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.IgnoreSecurityHash.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.IgnoreSecurityHash.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.InstallerType.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.InstallerType.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Interactive.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Interactive.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Locale.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Locale.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Location.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Location.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Log.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Log.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Moniker.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Moniker.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Name.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Name.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Override.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Override.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Purge.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Purge.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Query.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Query.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Scope.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Scope.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Silent.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Silent.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.SkipDependencies.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.SkipDependencies.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Source.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Source.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Version.get -> bool?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Version.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.WingetUpgradeOptions() -> void
+ModularPipelines.WinGet.Options.WingetUpgradeOptions.WingetUpgradeOptions(ModularPipelines.WinGet.Options.WingetUpgradeOptions! original) -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions
+ModularPipelines.WinGet.Options.WingetValidateOptions.DisableInteractivity.get -> bool?
+ModularPipelines.WinGet.Options.WingetValidateOptions.DisableInteractivity.set -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.Manifest.get -> string?
+ModularPipelines.WinGet.Options.WingetValidateOptions.Manifest.set -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.NoProxy.get -> bool?
+ModularPipelines.WinGet.Options.WingetValidateOptions.NoProxy.set -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.Proxy.get -> string?
+ModularPipelines.WinGet.Options.WingetValidateOptions.Proxy.set -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.get -> string?
+ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.set -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.WingetValidateOptions() -> void
+ModularPipelines.WinGet.Options.WingetValidateOptions.WingetValidateOptions(ModularPipelines.WinGet.Options.WingetValidateOptions! original) -> void
+ModularPipelines.WinGet.Services.IWinget
+ModularPipelines.WinGet.Services.IWinget.ConfigureAsync(ModularPipelines.WinGet.Options.WingetConfigureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ConfigureExportAsync(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ConfigureListAsync(ModularPipelines.WinGet.Options.WingetConfigureListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ConfigureShowAsync(ModularPipelines.WinGet.Options.WingetConfigureShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ConfigureTestAsync(ModularPipelines.WinGet.Options.WingetConfigureTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ConfigureValidateAsync(ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.DownloadAsync(ModularPipelines.WinGet.Options.WingetDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.Dscv3AdminSettingsAsync(ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.Dscv3Async(ModularPipelines.WinGet.Options.WingetDscv3Options? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.Dscv3PackageAsync(ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.Dscv3SourceAsync(ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.Dscv3UserSettingsFileAsync(ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ExportAsync(ModularPipelines.WinGet.Options.WingetExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.FeaturesAsync(ModularPipelines.WinGet.Options.WingetFeaturesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.HashAsync(ModularPipelines.WinGet.Options.WingetHashOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ImportAsync(ModularPipelines.WinGet.Options.WingetImportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.InstallAsync(ModularPipelines.WinGet.Options.WingetInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ListAsync(ModularPipelines.WinGet.Options.WingetListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.McpAsync(ModularPipelines.WinGet.Options.WingetMcpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.PinAddAsync(ModularPipelines.WinGet.Options.WingetPinAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.PinAsync(ModularPipelines.WinGet.Options.WingetPinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.PinListAsync(ModularPipelines.WinGet.Options.WingetPinListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.PinRemoveAsync(ModularPipelines.WinGet.Options.WingetPinRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.PinResetAsync(ModularPipelines.WinGet.Options.WingetPinResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.RepairAsync(ModularPipelines.WinGet.Options.WingetRepairOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SearchAsync(ModularPipelines.WinGet.Options.WingetSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SettingsAsync(ModularPipelines.WinGet.Options.WingetSettingsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SettingsExportAsync(ModularPipelines.WinGet.Options.WingetSettingsExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SettingsResetAsync(ModularPipelines.WinGet.Options.WingetSettingsResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SettingsSetAsync(ModularPipelines.WinGet.Options.WingetSettingsSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ShowAsync(ModularPipelines.WinGet.Options.WingetShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceAddAsync(ModularPipelines.WinGet.Options.WingetSourceAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceAsync(ModularPipelines.WinGet.Options.WingetSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceEditAsync(ModularPipelines.WinGet.Options.WingetSourceEditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceExportAsync(ModularPipelines.WinGet.Options.WingetSourceExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceListAsync(ModularPipelines.WinGet.Options.WingetSourceListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceRemoveAsync(ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceResetAsync(ModularPipelines.WinGet.Options.WingetSourceResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.SourceUpdateAsync(ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.UninstallAsync(ModularPipelines.WinGet.Options.WingetUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.UpgradeAsync(ModularPipelines.WinGet.Options.WingetUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.WinGet.Services.IWinget.ValidateAsync(ModularPipelines.WinGet.Options.WingetValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.WinGet.Options.WingetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureExportOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureListOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureListOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureShowOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureShowOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureTestOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureTestOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureValidateOptions!
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDownloadOptions!
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDownloadOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions!
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDscv3Options.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDscv3Options!
+override ModularPipelines.WinGet.Options.WingetDscv3Options.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDscv3Options.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3Options.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDscv3Options.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3Options.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDscv3PackageOptions!
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDscv3SourceOptions!
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions!
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetExportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetExportOptions!
+override ModularPipelines.WinGet.Options.WingetExportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetExportOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetExportOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetExportOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetFeaturesOptions!
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetFeaturesOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetHashOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetHashOptions!
+override ModularPipelines.WinGet.Options.WingetHashOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetHashOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetHashOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetHashOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetHashOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetImportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetImportOptions!
+override ModularPipelines.WinGet.Options.WingetImportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetImportOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetImportOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetImportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetImportOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetInstallOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetInstallOptions!
+override ModularPipelines.WinGet.Options.WingetInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetInstallOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetInstallOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetListOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetListOptions!
+override ModularPipelines.WinGet.Options.WingetListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetListOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetListOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetListOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetMcpOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetMcpOptions!
+override ModularPipelines.WinGet.Options.WingetMcpOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetMcpOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetMcpOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetMcpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetMcpOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetPinAddOptions!
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetPinAddOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetPinListOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetPinListOptions!
+override ModularPipelines.WinGet.Options.WingetPinListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetPinListOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetPinListOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetPinListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetPinListOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetPinOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetPinOptions!
+override ModularPipelines.WinGet.Options.WingetPinOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetPinOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetPinOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetPinOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetPinOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetPinRemoveOptions!
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetPinRemoveOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetPinResetOptions!
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetPinResetOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetRepairOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetRepairOptions!
+override ModularPipelines.WinGet.Options.WingetRepairOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetRepairOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetRepairOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetRepairOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetRepairOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSearchOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSearchOptions!
+override ModularPipelines.WinGet.Options.WingetSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSearchOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSearchOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSettingsExportOptions!
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsExportOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSettingsOptions!
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSettingsResetOptions!
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsResetOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSettingsSetOptions!
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSettingsSetOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetShowOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetShowOptions!
+override ModularPipelines.WinGet.Options.WingetShowOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetShowOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetShowOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetShowOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetShowOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceAddOptions!
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceAddOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceEditOptions!
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceEditOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceExportOptions!
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceExportOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceListOptions!
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceListOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceOptions!
+override ModularPipelines.WinGet.Options.WingetSourceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceRemoveOptions!
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceResetOptions!
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceResetOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetSourceUpdateOptions!
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetUninstallOptions!
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetUninstallOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetUpgradeOptions!
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetUpgradeOptions.ToString() -> string!
+override ModularPipelines.WinGet.Options.WingetValidateOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetValidateOptions!
+override ModularPipelines.WinGet.Options.WingetValidateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.WinGet.Options.WingetValidateOptions.Equals(object? obj) -> bool
+override ModularPipelines.WinGet.Options.WingetValidateOptions.GetHashCode() -> int
+override ModularPipelines.WinGet.Options.WingetValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.WinGet.Options.WingetValidateOptions.ToString() -> string!
+override sealed ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetConfigureListOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetConfigureOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDownloadOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDscv3Options.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetExportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetFeaturesOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetHashOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetImportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetInstallOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetListOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetMcpOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetPinAddOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetPinListOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetPinOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetPinResetOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetRepairOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSearchOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSettingsOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetShowOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceAddOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceEditOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceExportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceListOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceResetOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetUninstallOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetUpgradeOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+override sealed ModularPipelines.WinGet.Options.WingetValidateOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_WinGet_90b9aa50b783b0dcToolsExtensions.get_Winget(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.WinGet.Services.IWinget!
+static ModularPipelines.WinGet.Extensions.WingetExtensions.RegisterWingetContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.WinGet.Extensions.WingetExtensions.Winget(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.WinGet.Services.IWinget!
+static ModularPipelines.WinGet.Options.WingetConfigureExportOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? left, ModularPipelines.WinGet.Options.WingetConfigureExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureExportOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? left, ModularPipelines.WinGet.Options.WingetConfigureExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureListOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureListOptions? left, ModularPipelines.WinGet.Options.WingetConfigureListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureListOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureListOptions? left, ModularPipelines.WinGet.Options.WingetConfigureListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureOptions? left, ModularPipelines.WinGet.Options.WingetConfigureOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureOptions? left, ModularPipelines.WinGet.Options.WingetConfigureOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureShowOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureShowOptions? left, ModularPipelines.WinGet.Options.WingetConfigureShowOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureShowOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureShowOptions? left, ModularPipelines.WinGet.Options.WingetConfigureShowOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureTestOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureTestOptions? left, ModularPipelines.WinGet.Options.WingetConfigureTestOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureTestOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureTestOptions? left, ModularPipelines.WinGet.Options.WingetConfigureTestOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.operator !=(ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? left, ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.operator ==(ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? left, ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDownloadOptions.operator !=(ModularPipelines.WinGet.Options.WingetDownloadOptions? left, ModularPipelines.WinGet.Options.WingetDownloadOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDownloadOptions.operator ==(ModularPipelines.WinGet.Options.WingetDownloadOptions? left, ModularPipelines.WinGet.Options.WingetDownloadOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.operator !=(ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? left, ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.operator ==(ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? left, ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3Options.operator !=(ModularPipelines.WinGet.Options.WingetDscv3Options? left, ModularPipelines.WinGet.Options.WingetDscv3Options? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3Options.operator ==(ModularPipelines.WinGet.Options.WingetDscv3Options? left, ModularPipelines.WinGet.Options.WingetDscv3Options? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.operator !=(ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? left, ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.operator ==(ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? left, ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.operator !=(ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? left, ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.operator ==(ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? left, ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.operator !=(ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? left, ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.operator ==(ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? left, ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetExportOptions.operator !=(ModularPipelines.WinGet.Options.WingetExportOptions? left, ModularPipelines.WinGet.Options.WingetExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetExportOptions.operator ==(ModularPipelines.WinGet.Options.WingetExportOptions? left, ModularPipelines.WinGet.Options.WingetExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetFeaturesOptions.operator !=(ModularPipelines.WinGet.Options.WingetFeaturesOptions? left, ModularPipelines.WinGet.Options.WingetFeaturesOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetFeaturesOptions.operator ==(ModularPipelines.WinGet.Options.WingetFeaturesOptions? left, ModularPipelines.WinGet.Options.WingetFeaturesOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetHashOptions.operator !=(ModularPipelines.WinGet.Options.WingetHashOptions? left, ModularPipelines.WinGet.Options.WingetHashOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetHashOptions.operator ==(ModularPipelines.WinGet.Options.WingetHashOptions? left, ModularPipelines.WinGet.Options.WingetHashOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetImportOptions.operator !=(ModularPipelines.WinGet.Options.WingetImportOptions? left, ModularPipelines.WinGet.Options.WingetImportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetImportOptions.operator ==(ModularPipelines.WinGet.Options.WingetImportOptions? left, ModularPipelines.WinGet.Options.WingetImportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetInstallOptions.operator !=(ModularPipelines.WinGet.Options.WingetInstallOptions? left, ModularPipelines.WinGet.Options.WingetInstallOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetInstallOptions.operator ==(ModularPipelines.WinGet.Options.WingetInstallOptions? left, ModularPipelines.WinGet.Options.WingetInstallOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetListOptions.operator !=(ModularPipelines.WinGet.Options.WingetListOptions? left, ModularPipelines.WinGet.Options.WingetListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetListOptions.operator ==(ModularPipelines.WinGet.Options.WingetListOptions? left, ModularPipelines.WinGet.Options.WingetListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetMcpOptions.operator !=(ModularPipelines.WinGet.Options.WingetMcpOptions? left, ModularPipelines.WinGet.Options.WingetMcpOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetMcpOptions.operator ==(ModularPipelines.WinGet.Options.WingetMcpOptions? left, ModularPipelines.WinGet.Options.WingetMcpOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetOptions.operator !=(ModularPipelines.WinGet.Options.WingetOptions? left, ModularPipelines.WinGet.Options.WingetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetOptions.operator ==(ModularPipelines.WinGet.Options.WingetOptions? left, ModularPipelines.WinGet.Options.WingetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinAddOptions.operator !=(ModularPipelines.WinGet.Options.WingetPinAddOptions? left, ModularPipelines.WinGet.Options.WingetPinAddOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinAddOptions.operator ==(ModularPipelines.WinGet.Options.WingetPinAddOptions? left, ModularPipelines.WinGet.Options.WingetPinAddOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinListOptions.operator !=(ModularPipelines.WinGet.Options.WingetPinListOptions? left, ModularPipelines.WinGet.Options.WingetPinListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinListOptions.operator ==(ModularPipelines.WinGet.Options.WingetPinListOptions? left, ModularPipelines.WinGet.Options.WingetPinListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinOptions.operator !=(ModularPipelines.WinGet.Options.WingetPinOptions? left, ModularPipelines.WinGet.Options.WingetPinOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinOptions.operator ==(ModularPipelines.WinGet.Options.WingetPinOptions? left, ModularPipelines.WinGet.Options.WingetPinOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinRemoveOptions.operator !=(ModularPipelines.WinGet.Options.WingetPinRemoveOptions? left, ModularPipelines.WinGet.Options.WingetPinRemoveOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinRemoveOptions.operator ==(ModularPipelines.WinGet.Options.WingetPinRemoveOptions? left, ModularPipelines.WinGet.Options.WingetPinRemoveOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinResetOptions.operator !=(ModularPipelines.WinGet.Options.WingetPinResetOptions? left, ModularPipelines.WinGet.Options.WingetPinResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetPinResetOptions.operator ==(ModularPipelines.WinGet.Options.WingetPinResetOptions? left, ModularPipelines.WinGet.Options.WingetPinResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetRepairOptions.operator !=(ModularPipelines.WinGet.Options.WingetRepairOptions? left, ModularPipelines.WinGet.Options.WingetRepairOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetRepairOptions.operator ==(ModularPipelines.WinGet.Options.WingetRepairOptions? left, ModularPipelines.WinGet.Options.WingetRepairOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSearchOptions.operator !=(ModularPipelines.WinGet.Options.WingetSearchOptions? left, ModularPipelines.WinGet.Options.WingetSearchOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSearchOptions.operator ==(ModularPipelines.WinGet.Options.WingetSearchOptions? left, ModularPipelines.WinGet.Options.WingetSearchOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsExportOptions.operator !=(ModularPipelines.WinGet.Options.WingetSettingsExportOptions? left, ModularPipelines.WinGet.Options.WingetSettingsExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsExportOptions.operator ==(ModularPipelines.WinGet.Options.WingetSettingsExportOptions? left, ModularPipelines.WinGet.Options.WingetSettingsExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsOptions.operator !=(ModularPipelines.WinGet.Options.WingetSettingsOptions? left, ModularPipelines.WinGet.Options.WingetSettingsOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsOptions.operator ==(ModularPipelines.WinGet.Options.WingetSettingsOptions? left, ModularPipelines.WinGet.Options.WingetSettingsOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsResetOptions.operator !=(ModularPipelines.WinGet.Options.WingetSettingsResetOptions? left, ModularPipelines.WinGet.Options.WingetSettingsResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsResetOptions.operator ==(ModularPipelines.WinGet.Options.WingetSettingsResetOptions? left, ModularPipelines.WinGet.Options.WingetSettingsResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsSetOptions.operator !=(ModularPipelines.WinGet.Options.WingetSettingsSetOptions? left, ModularPipelines.WinGet.Options.WingetSettingsSetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSettingsSetOptions.operator ==(ModularPipelines.WinGet.Options.WingetSettingsSetOptions? left, ModularPipelines.WinGet.Options.WingetSettingsSetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetShowOptions.operator !=(ModularPipelines.WinGet.Options.WingetShowOptions? left, ModularPipelines.WinGet.Options.WingetShowOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetShowOptions.operator ==(ModularPipelines.WinGet.Options.WingetShowOptions? left, ModularPipelines.WinGet.Options.WingetShowOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceAddOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceAddOptions? left, ModularPipelines.WinGet.Options.WingetSourceAddOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceAddOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceAddOptions? left, ModularPipelines.WinGet.Options.WingetSourceAddOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceEditOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceEditOptions? left, ModularPipelines.WinGet.Options.WingetSourceEditOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceEditOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceEditOptions? left, ModularPipelines.WinGet.Options.WingetSourceEditOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceExportOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceExportOptions? left, ModularPipelines.WinGet.Options.WingetSourceExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceExportOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceExportOptions? left, ModularPipelines.WinGet.Options.WingetSourceExportOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceListOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceListOptions? left, ModularPipelines.WinGet.Options.WingetSourceListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceListOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceListOptions? left, ModularPipelines.WinGet.Options.WingetSourceListOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceOptions? left, ModularPipelines.WinGet.Options.WingetSourceOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceOptions? left, ModularPipelines.WinGet.Options.WingetSourceOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? left, ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? left, ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceResetOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceResetOptions? left, ModularPipelines.WinGet.Options.WingetSourceResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceResetOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceResetOptions? left, ModularPipelines.WinGet.Options.WingetSourceResetOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.operator !=(ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? left, ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.operator ==(ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? left, ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetUninstallOptions.operator !=(ModularPipelines.WinGet.Options.WingetUninstallOptions? left, ModularPipelines.WinGet.Options.WingetUninstallOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetUninstallOptions.operator ==(ModularPipelines.WinGet.Options.WingetUninstallOptions? left, ModularPipelines.WinGet.Options.WingetUninstallOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetUpgradeOptions.operator !=(ModularPipelines.WinGet.Options.WingetUpgradeOptions? left, ModularPipelines.WinGet.Options.WingetUpgradeOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetUpgradeOptions.operator ==(ModularPipelines.WinGet.Options.WingetUpgradeOptions? left, ModularPipelines.WinGet.Options.WingetUpgradeOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetValidateOptions.operator !=(ModularPipelines.WinGet.Options.WingetValidateOptions? left, ModularPipelines.WinGet.Options.WingetValidateOptions? right) -> bool
+static ModularPipelines.WinGet.Options.WingetValidateOptions.operator ==(ModularPipelines.WinGet.Options.WingetValidateOptions? left, ModularPipelines.WinGet.Options.WingetValidateOptions? right) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureExportOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureListOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureListOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureShowOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureShowOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureTestOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureTestOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetConfigureValidateOptions.Equals(ModularPipelines.WinGet.Options.WingetConfigureValidateOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDownloadOptions.Equals(ModularPipelines.WinGet.Options.WingetDownloadOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions.Equals(ModularPipelines.WinGet.Options.WingetDscv3AdminSettingsOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDscv3Options.Equals(ModularPipelines.WinGet.Options.WingetDscv3Options? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDscv3PackageOptions.Equals(ModularPipelines.WinGet.Options.WingetDscv3PackageOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDscv3SourceOptions.Equals(ModularPipelines.WinGet.Options.WingetDscv3SourceOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions.Equals(ModularPipelines.WinGet.Options.WingetDscv3UserSettingsFileOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetExportOptions.Equals(ModularPipelines.WinGet.Options.WingetExportOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetFeaturesOptions.Equals(ModularPipelines.WinGet.Options.WingetFeaturesOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetHashOptions.Equals(ModularPipelines.WinGet.Options.WingetHashOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetImportOptions.Equals(ModularPipelines.WinGet.Options.WingetImportOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetInstallOptions.Equals(ModularPipelines.WinGet.Options.WingetInstallOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetListOptions.Equals(ModularPipelines.WinGet.Options.WingetListOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetMcpOptions.Equals(ModularPipelines.WinGet.Options.WingetMcpOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetPinAddOptions.Equals(ModularPipelines.WinGet.Options.WingetPinAddOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetPinListOptions.Equals(ModularPipelines.WinGet.Options.WingetPinListOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetPinOptions.Equals(ModularPipelines.WinGet.Options.WingetPinOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetPinRemoveOptions.Equals(ModularPipelines.WinGet.Options.WingetPinRemoveOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetPinResetOptions.Equals(ModularPipelines.WinGet.Options.WingetPinResetOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetRepairOptions.Equals(ModularPipelines.WinGet.Options.WingetRepairOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSearchOptions.Equals(ModularPipelines.WinGet.Options.WingetSearchOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSettingsExportOptions.Equals(ModularPipelines.WinGet.Options.WingetSettingsExportOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSettingsOptions.Equals(ModularPipelines.WinGet.Options.WingetSettingsOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSettingsResetOptions.Equals(ModularPipelines.WinGet.Options.WingetSettingsResetOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSettingsSetOptions.Equals(ModularPipelines.WinGet.Options.WingetSettingsSetOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetShowOptions.Equals(ModularPipelines.WinGet.Options.WingetShowOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceAddOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceAddOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceEditOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceEditOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceExportOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceExportOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceListOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceListOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceRemoveOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceRemoveOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceResetOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceResetOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetSourceUpdateOptions.Equals(ModularPipelines.WinGet.Options.WingetSourceUpdateOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetUninstallOptions.Equals(ModularPipelines.WinGet.Options.WingetUninstallOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetUpgradeOptions.Equals(ModularPipelines.WinGet.Options.WingetUpgradeOptions? other) -> bool
+virtual ModularPipelines.WinGet.Options.WingetValidateOptions.Equals(ModularPipelines.WinGet.Options.WingetValidateOptions? other) -> bool

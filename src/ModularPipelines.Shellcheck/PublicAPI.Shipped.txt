@@ -1,0 +1,95 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Shellcheck.get -> ModularPipelines.Shellcheck.Services.IShellcheck!
+ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckColor.Always = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckColor.Auto = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckColor.Never = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Checkstyle = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Diff = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Gcc = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Json = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Json1 = 4 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Quiet = 5 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Tty = 6 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Error = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Info = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Style = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Warning = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Bash = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Busybox = 4 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Dash = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Ksh = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Sh = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.CheckSourced.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.CheckSourced.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Color.get -> ModularPipelines.Shellcheck.Enums.ShellcheckColor?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Color.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Enable.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Enable.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Exclude.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Exclude.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ExtendedAnalysis.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ExtendedAnalysis.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ExternalSources.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ExternalSources.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Files.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Files.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Format.get -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Format.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Help.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Help.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Include.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Include.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ListOptional.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ListOptional.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Norc.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Norc.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Rcfile.get -> string?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Rcfile.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Severity.get -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Severity.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Shell.get -> ModularPipelines.Shellcheck.Enums.ShellcheckShell?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Shell.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ShellcheckExecuteOptions() -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ShellcheckExecuteOptions(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions! original) -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.SourcePath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.SourcePath.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Version.get -> bool?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Version.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.WikiLinkCount.get -> int?
+ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.WikiLinkCount.set -> void
+ModularPipelines.Shellcheck.Options.ShellcheckOptions
+ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions() -> void
+ModularPipelines.Shellcheck.Options.ShellcheckOptions.ShellcheckOptions(ModularPipelines.Shellcheck.Options.ShellcheckOptions! original) -> void
+ModularPipelines.Shellcheck.Services.IShellcheck
+ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Shellcheck.Options.ShellcheckOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckOptions!
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.<Clone>$() -> ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions!
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.ToString() -> string!
+override ModularPipelines.Shellcheck.Options.ShellcheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Shellcheck.Options.ShellcheckOptions.GetHashCode() -> int
+override ModularPipelines.Shellcheck.Options.ShellcheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Shellcheck.Options.ShellcheckOptions.ToString() -> string!
+override sealed ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equals(ModularPipelines.Shellcheck.Options.ShellcheckOptions? other) -> bool
+override sealed ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.get_Shellcheck(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Shellcheck.Services.IShellcheck!
+static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.RegisterShellcheckContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.Shellcheck(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Shellcheck.Services.IShellcheck!
+static ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.operator !=(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? right) -> bool
+static ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.operator ==(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? right) -> bool
+static ModularPipelines.Shellcheck.Options.ShellcheckOptions.operator !=(ModularPipelines.Shellcheck.Options.ShellcheckOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckOptions? right) -> bool
+static ModularPipelines.Shellcheck.Options.ShellcheckOptions.operator ==(ModularPipelines.Shellcheck.Options.ShellcheckOptions? left, ModularPipelines.Shellcheck.Options.ShellcheckOptions? right) -> bool
+virtual ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.Equals(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? other) -> bool
+virtual ModularPipelines.Shellcheck.Options.ShellcheckOptions.Equals(ModularPipelines.Shellcheck.Options.ShellcheckOptions? other) -> bool
