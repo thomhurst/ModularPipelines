@@ -107,7 +107,7 @@ public class PipelineContextModuleLookupTests
             Mock.Of<IShellContext>(),
             Mock.Of<IFilesContext>(),
             Mock.Of<IDataContext>(),
-            Mock.Of<IEnvironmentDomainContext>(),
+            Mock.Of<IEnvironmentContext>(),
             Mock.Of<IInstallersContext>(),
             Mock.Of<INetworkContext>(),
             Mock.Of<ISecurityContext>(),

@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -35,7 +36,7 @@ public class InstallerTests : TestBase
         }
 
         var downloader = await GetService<IDownloaderContext>();
-        var installer = await GetService<IInstaller>();
+        var installer = await GetService<IInstallersContext>();
 
         if (OperatingSystem.IsWindows())
         {
@@ -43,7 +44,7 @@ public class InstallerTests : TestBase
 
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
-            var result = await installer.WindowsInstaller.InstallExeAsync(new ExeInstallerOptions(file));
+            var result = await installer.Windows.InstallExeAsync(new ExeInstallerOptions(file));
             await Assert.That(result.ExitCode).IsEqualTo(0);
         }
         else if (OperatingSystem.IsLinux())
@@ -52,7 +53,7 @@ public class InstallerTests : TestBase
 
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
-            var result = await installer.LinuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(file));
+            var result = await installer.Linux.InstallFromDpkgAsync(new DpkgInstallOptions(file));
             await Assert.That(result.ExitCode).IsEqualTo(0);
         }
     }

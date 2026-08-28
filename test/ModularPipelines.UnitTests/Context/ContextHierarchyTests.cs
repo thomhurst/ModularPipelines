@@ -52,8 +52,8 @@ public class ContextHierarchyTests
         var environmentProperty = contextType.GetProperty("Environment");
         await Assert.That(environmentProperty).IsNotNull()
             .Because("IPipelineContext should have Environment property");
-        await Assert.That(environmentProperty!.PropertyType).IsEqualTo(typeof(IEnvironmentDomainContext))
-            .Because("Environment should be of type IEnvironmentDomainContext");
+        await Assert.That(environmentProperty!.PropertyType).IsEqualTo(typeof(IEnvironmentContext))
+            .Because("Environment should be of type IEnvironmentContext");
 
         var installersProperty = contextType.GetProperty("Installers");
         await Assert.That(installersProperty).IsNotNull()
@@ -87,9 +87,9 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task IEnvironmentDomainContext_WorkingDirectory_ShouldBeReadOnly()
+    public async Task IEnvironmentContext_WorkingDirectory_ShouldBeReadOnly()
     {
-        var workingDirectoryProperty = typeof(IEnvironmentDomainContext).GetProperty("WorkingDirectory");
+        var workingDirectoryProperty = typeof(IEnvironmentContext).GetProperty("WorkingDirectory");
 
         await Assert.That(workingDirectoryProperty).IsNotNull();
         await Assert.That(workingDirectoryProperty!.CanRead).IsTrue();

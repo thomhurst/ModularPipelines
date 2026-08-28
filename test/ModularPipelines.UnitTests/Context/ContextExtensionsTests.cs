@@ -241,7 +241,7 @@ public class ContextExtensionsTests
     {
         var buildSystemContext = new Mock<IBuildSystemContext>();
         buildSystemContext.SetupGet(context => context.Current).Returns(buildSystem);
-        var environmentContext = new Mock<IEnvironmentDomainContext>();
+        var environmentContext = new Mock<IEnvironmentContext>();
         environmentContext
             .SetupGet(context => context.BuildSystem)
             .Returns(buildSystemContext.Object);

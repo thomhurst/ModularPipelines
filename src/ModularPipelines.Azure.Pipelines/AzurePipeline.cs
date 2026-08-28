@@ -1,5 +1,6 @@
 using ModularPipelines.Console;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Pipelines;
@@ -23,7 +24,7 @@ internal class AzurePipeline : IAzurePipeline
     }
 
     public bool IsRunningOnAzurePipelines
-        => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.Get("TF_BUILD"));
+        => !string.IsNullOrWhiteSpace(_environment.Variables.Get("TF_BUILD"));
 
     public AzurePipelineVariables Variables { get; }
 

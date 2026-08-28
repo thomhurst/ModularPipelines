@@ -503,15 +503,22 @@ public class Folder : IEquatable<Folder>
             .Distinct();
     }
 
-    public static Folder CreateTemporaryFolder()
+    public static Folder CreateTemporaryFolder() => CreateTemporaryFolder(SystemFileSystemProvider.Instance);
+
+    /// <summary>
+    /// Creates a temporary folder using the specified file system provider.
+    /// </summary>
+    /// <param name="provider">The provider used to create and access the folder.</param>
+    /// <returns>The created temporary folder.</returns>
+    public static Folder CreateTemporaryFolder(IFileSystemProvider provider)
     {
-        var provider = SystemFileSystemProvider.Instance;
+        ArgumentNullException.ThrowIfNull(provider);
         var tempDirectory = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName().Replace(".", string.Empty));
         provider.CreateDirectory(tempDirectory);
 
         LogFolderOperation("Creating Temporary Folder: {Path}", tempDirectory);
 
-        return tempDirectory!;
+        return new Folder(tempDirectory, provider);
     }
 
     public static implicit operator Folder?(string? path)

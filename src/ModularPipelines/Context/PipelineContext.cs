@@ -36,7 +36,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public IDataContext Data { get; }
 
     /// <inheritdoc />
-    public IEnvironmentDomainContext Environment { get; }
+    public IEnvironmentContext Environment { get; }
 
     /// <inheritdoc />
     public IInstallersContext Installers { get; }
@@ -80,7 +80,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         Domains.IShellContext shell,
         IFilesContext files,
         IDataContext data,
-        IEnvironmentDomainContext environment,
+        IEnvironmentContext environment,
         IInstallersContext installers,
         INetworkContext network,
         ISecurityContext security,
