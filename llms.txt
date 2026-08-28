@@ -104,6 +104,7 @@
 - [choco CLI reference](/docs/next/mp-packages/cli/choco.md): ModularPipelines.Chocolatey provides strongly typed access to the choco CLI.
 - [cosign CLI reference](/docs/next/mp-packages/cli/cosign.md): ModularPipelines.Cosign provides strongly typed access to the cosign CLI.
 - [docker CLI reference](/docs/next/mp-packages/cli/docker.md): ModularPipelines.Docker provides strongly typed access to the docker CLI.
+- [dotnet CLI reference](/docs/next/mp-packages/cli/dotnet.md): ModularPipelines.DotNet provides strongly typed access to the dotnet CLI.
 - [eksctl CLI reference](/docs/next/mp-packages/cli/eksctl.md): ModularPipelines.Eksctl provides strongly typed access to the eksctl CLI.
 - [flux CLI reference](/docs/next/mp-packages/cli/flux.md): ModularPipelines.Flux provides strongly typed access to the flux CLI.
 - [flyway CLI reference](/docs/next/mp-packages/cli/flyway.md): ModularPipelines.Flyway provides strongly typed access to the flyway CLI.
