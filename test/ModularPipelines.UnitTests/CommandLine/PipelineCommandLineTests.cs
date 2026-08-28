@@ -47,7 +47,7 @@ public class PipelineCommandLineTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationHandler
+        : Attribute, IPlanningSafeModuleRegistrationHandler
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
