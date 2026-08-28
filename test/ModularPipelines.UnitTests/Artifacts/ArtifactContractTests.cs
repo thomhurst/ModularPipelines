@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -11,9 +12,9 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
-using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using ModularPipelines.Validation;
 using Moq;
 
@@ -37,43 +38,53 @@ public class ArtifactContractTests
     private const string CacheKeyArtifactFile = "cache-key-input.txt";
     private const string CacheKeyRestoreDirectory = "cache-key-restored";
 
+    private sealed class RecordingLoggerProvider : ILoggerProvider
+    {
+        public ConcurrentQueue<(string Category, string Message)> Entries { get; } = new();
+
+        public ILogger CreateLogger(string categoryName) => new RecordingLogger(categoryName, Entries);
+
+        public void Dispose()
+        {
+        }
+
+        private sealed class RecordingLogger(
+            string category,
+            ConcurrentQueue<(string Category, string Message)> entries) : ILogger
+        {
+            public IDisposable? BeginScope<TState>(TState state)
+                where TState : notnull => null;
+
+            public bool IsEnabled(LogLevel logLevel) => true;
+
+            public void Log<TState>(
+                LogLevel logLevel,
+                EventId eventId,
+                TState state,
+                Exception? exception,
+                Func<TState, Exception?, string> formatter) =>
+                entries.Enqueue((category, formatter(state, exception)));
+        }
+    }
+
     [Test]
     public async Task ArtifactLifecycleLoggingUsesAmbientModuleLogger()
     {
-        var workingDirectory = Path.Combine(Path.GetTempPath(), $"artifact-logging-{Guid.NewGuid():N}");
-        Directory.CreateDirectory(workingDirectory);
-        var fallbackLogger = new Mock<ILogger<ArtifactLifecycleManager>>();
-        var moduleLogger = new Mock<IModuleLogger>();
-        moduleLogger.Setup(logger => logger.IsEnabled(LogLevel.Warning)).Returns(true);
-        var manager = new ArtifactLifecycleManager(
-            Mock.Of<IDistributedArtifactStore>(),
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
-            fallbackLogger.Object,
-            workingDirectory);
+        var loggerProvider = new RecordingLoggerProvider();
+        using var builder = TestPipelineBuilder.Create();
+        builder.ConfigureServices(services => services.AddLogging(logging => logging.AddProvider(loggerProvider)));
+        builder.AddModule<AmbientArtifactLoggingProducerModule>();
+        builder.AddModule<AmbientArtifactLoggingConsumerModule>();
 
-        try
-        {
-            await using (new ModuleLoggerScope(moduleLogger.Object, typeof(DeclaredProducerModule)))
-            {
-                _ = await manager.UploadProducedArtifactsAsync(
-                    typeof(DeclaredProducerModule),
-                    CancellationToken.None);
-            }
+        await Assert.That(async () => await builder.ExecutePipelineAsync())
+            .Throws<ModuleFailedException>();
 
-            moduleLogger.Verify(
-                logger => logger.Log(
-                    LogLevel.Warning,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("No files matched pattern")),
-                    null,
-                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-                Times.Once);
-            fallbackLogger.VerifyNoOtherCalls();
-        }
-        finally
-        {
-            Directory.Delete(workingDirectory, recursive: true);
-        }
+        await Assert.That(loggerProvider.Entries).Contains(entry =>
+            entry.Category.Contains(nameof(AmbientArtifactLoggingProducerModule), StringComparison.Ordinal)
+            && entry.Message.Contains("No files matched pattern", StringComparison.Ordinal));
+        await Assert.That(loggerProvider.Entries).DoesNotContain(entry =>
+            entry.Category.Contains(nameof(ArtifactLifecycleManager), StringComparison.Ordinal)
+            && entry.Message.Contains("No files matched pattern", StringComparison.Ordinal));
     }
 
     [Test]
@@ -111,6 +122,25 @@ public class ArtifactContractTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("produced");
+    }
+
+    [ProducesArtifact("ambient-logging-output", ".modular-pipelines-ambient-logging/missing.txt")]
+    private sealed class AmbientArtifactLoggingProducerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("produced");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<AmbientArtifactLoggingProducerModule>]
+    [ConsumesArtifact(typeof(AmbientArtifactLoggingProducerModule), "ambient-logging-output")]
+    private sealed class AmbientArtifactLoggingConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("consumed");
     }
 
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]

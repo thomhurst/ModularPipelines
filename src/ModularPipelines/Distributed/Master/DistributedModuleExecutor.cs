@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -9,6 +10,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -29,6 +31,7 @@ internal class DistributedModuleExecutor(
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
+    IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
 {
@@ -46,6 +49,7 @@ internal class DistributedModuleExecutor(
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
+    private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
 
@@ -342,12 +346,19 @@ internal class DistributedModuleExecutor(
         WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
+        var moduleType = module.GetType();
+        await using var serviceScope = _serviceScopeFactory.CreateAsyncScope();
+        var moduleLogger = serviceScope.ServiceProvider
+            .GetRequiredService<IInternalModuleLoggerProvider>()
+            .GetLogger(moduleType);
+        await using var loggerScope = new ModuleLoggerScope(moduleLogger, moduleType);
+
         if (_artifactLifecycleManager is not null)
         {
-            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
+            await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(moduleType, cancellationToken);
         }
 
-        var moduleState = new ModuleState(module, module.GetType());
+        var moduleState = new ModuleState(module, moduleType);
         ModuleStateDependencyInitializer.Populate(
             moduleState,
             _typeRegistry.GetRegisteredModuleTypes(),

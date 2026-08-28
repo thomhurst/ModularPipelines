@@ -1,5 +1,6 @@
-using ModularPipelines.Logging;
-using Moq;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -8,36 +9,61 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel(nameof(ConsoleWriterTests))]
 public class ConsoleWriterTests
 {
+    private sealed class LogToConsoleModule(IConsoleWriter consoleWriter) : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            consoleWriter.LogToConsole("[green]module output[/]");
+            return Task.FromResult(true);
+        }
+    }
+
+    private sealed class WriteModule(IConsoleWriter consoleWriter) : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            IRenderable table = new Table().AddColumn("Value").AddRow("module output");
+            consoleWriter.Write(table);
+            return Task.FromResult(true);
+        }
+    }
+
     [Test]
     public async Task LogToConsole_UsesAmbientModuleConsoleWriter()
     {
-        var moduleLogger = new Mock<IModuleLogger>();
-        var moduleConsoleWriter = moduleLogger.As<IConsoleWriter>();
-        var consoleWriter = new ConsoleWriter();
+        var output = await ExecutePipelineAsync<LogToConsoleModule>();
 
-        await using (new ModuleLoggerScope(moduleLogger.Object, typeof(ConsoleWriterTests)))
-        {
-            consoleWriter.LogToConsole("[green]module output[/]");
-        }
-
-        moduleConsoleWriter.Verify(
-            writer => writer.LogToConsole("[green]module output[/]"),
-            Times.Once);
+        await Assert.That(output).Contains("module output");
     }
 
     [Test]
     public async Task Write_UsesAmbientModuleConsoleWriter()
     {
-        var moduleLogger = new Mock<IModuleLogger>();
-        var moduleConsoleWriter = moduleLogger.As<IConsoleWriter>();
-        var consoleWriter = new ConsoleWriter();
-        IRenderable table = new Table().AddColumn("Value").AddRow("module output");
+        var output = await ExecutePipelineAsync<WriteModule>();
 
-        await using (new ModuleLoggerScope(moduleLogger.Object, typeof(ConsoleWriterTests)))
+        await Assert.That(output).Contains("module output");
+    }
+
+    private static async Task<string> ExecutePipelineAsync<TModule>()
+        where TModule : class, IModule
+    {
+        using var builder = TestPipelineBuilder.Create();
+        builder.ConfigurePipelineOptions(options => options with
         {
-            consoleWriter.Write(table);
-        }
+            RunReport = options.RunReport with
+            {
+                IncludeModuleOutput = true,
+                MaxOutputBytesPerModule = 1024,
+            },
+        });
+        builder.AddModule<TModule>();
 
-        moduleConsoleWriter.Verify(writer => writer.Write(table), Times.Once);
+        var summary = await builder.ExecutePipelineAsync();
+
+        return summary.RunReport!.Modules.Single().Output!.StdoutTail ?? string.Empty;
     }
 }
