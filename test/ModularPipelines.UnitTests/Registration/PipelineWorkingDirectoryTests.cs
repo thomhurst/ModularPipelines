@@ -36,8 +36,8 @@ public class PipelineWorkingDirectoryTests
             var checksum = context.Files.Checksum.Md5("relative.txt");
             var zip = context.Files.Zip.ZipFolder(context.Files.GetFolder("."), "out.zip");
             var unzipped = context.Files.Zip.UnZipToFolder("out.zip", "unzipped");
-            var command = await context.Shell.PowerShell.ScriptAsync(
-                new("Write-Output $PWD.Path"),
+            var command = await context.Shell.PowerShell.RunAsync(
+                "Write-Output $PWD.Path",
                 cancellationToken: cancellationToken);
 
             return new WorkingDirectoryObservation(

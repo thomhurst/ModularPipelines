@@ -16,7 +16,7 @@ public class BashTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Shell.Bash.CommandAsync(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Shell.Bash.RunAsync("echo \"Foo bar!\"", cancellationToken: cancellationToken);
         }
     }
 
@@ -28,9 +28,7 @@ public class BashTests : TestBase
                 TestContext.OutputDirectory!,
                 "Data",
                 "BashTest.sh"));
-            return await context.Shell.Bash.FromFileAsync(
-                new BashFileOptions(file),
-                cancellationToken: cancellationToken);
+            return await context.Shell.Bash.RunFileAsync(file, cancellationToken: cancellationToken);
         }
     }
 
@@ -64,9 +62,10 @@ public class BashTests : TestBase
 
     [Test]
     [WindowsOnlyTest]
-    public async Task FromFileAsync_Bounds_And_Cancels_Wsl_Path_Conversion()
+    public async Task RunFileAsync_Bounds_And_Cancels_Wsl_Path_Conversion()
     {
         var cancellationToken = new CancellationTokenSource().Token;
+        var executionOptions = new CommandExecutionOptions { ThrowOnNonZeroExitCode = false };
         var invocations = new List<(CommandLineToolOptions Options, CommandExecutionOptions? ExecutionOptions, CancellationToken CancellationToken)>();
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(
@@ -78,13 +77,32 @@ public class BashTests : TestBase
             .ReturnsAsync((CommandLineToolOptions options, CommandExecutionOptions? _, CancellationToken _) =>
                 options.Tool == "wsl" ? CommandResult.Ok("/mnt/c/script.sh\n") : CommandResult.Ok());
 
-        await new Bash(command.Object).FromFileAsync(new BashFileOptions("C:\\script.sh"), cancellationToken);
+        await new Bash(command.Object).RunFileAsync(
+            new BashFileOptions("C:\\script.sh"),
+            executionOptions,
+            cancellationToken);
 
         await Assert.That(invocations).Count().IsEqualTo(2);
         await Assert.That(invocations[0].Options.Tool).IsEqualTo("wsl");
         await Assert.That(invocations[0].ExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
         await Assert.That(invocations[0].CancellationToken).IsEqualTo(cancellationToken);
         await Assert.That(((BashFileOptions) invocations[1].Options).FilePath).IsEqualTo("/mnt/c/script.sh");
+        await Assert.That(invocations[1].ExecutionOptions).IsSameReferenceAs(executionOptions);
         await Assert.That(invocations[1].CancellationToken).IsEqualTo(cancellationToken);
+    }
+
+    [Test]
+    public async Task RunAsync_Forwards_Options_Record_And_Execution_Options()
+    {
+        var options = new BashCommandOptions("echo test");
+        var executionOptions = new CommandExecutionOptions { WorkingDirectory = "work" };
+        var cancellationToken = new CancellationTokenSource().Token;
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
+            .ReturnsAsync(CommandResult.Ok());
+
+        await new Bash(command.Object).RunAsync(options, executionOptions, cancellationToken);
+
+        command.VerifyAll();
     }
 }

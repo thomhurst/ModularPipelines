@@ -19,17 +19,19 @@ public class FileInstallerTests
         BashFileOptions? scriptOptions = null;
         var result = CreateResult();
         var bash = new Mock<IBashContext>();
-        bash.Setup(context => context.CommandAsync(
+        bash.Setup(context => context.RunAsync(
                 It.IsAny<BashCommandOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<BashCommandOptions, CancellationToken>(
-                (options, _) => chmodOptions = options)
+            .Callback<BashCommandOptions, CommandExecutionOptions?, CancellationToken>(
+                (options, _, _) => chmodOptions = options)
             .ReturnsAsync(result);
-        bash.Setup(context => context.FromFileAsync(
+        bash.Setup(context => context.RunFileAsync(
                 It.IsAny<BashFileOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<BashFileOptions, CancellationToken>(
-                (options, _) => scriptOptions = options)
+            .Callback<BashFileOptions, CommandExecutionOptions?, CancellationToken>(
+                (options, _, _) => scriptOptions = options)
             .ReturnsAsync(result);
         var installer = new FileInstaller(
             Mock.Of<ICommandContext>(),
