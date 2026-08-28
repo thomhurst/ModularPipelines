@@ -1,4 +1,10 @@
 #nullable enable
+ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Az.get -> ModularPipelines.Azure.Services.IAz!
+ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Azure.get -> ModularPipelines.Azure.IAzure!
+static ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions.get_Az(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Azure.Services.IAz!
+static ModularPipelines.Context.ModularPipelines_Azure_d6049b21a633c0a1ToolsExtensions.get_Azure(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Azure.IAzure!
 abstract ModularPipelines.Azure.Scopes.AzureScope.<Clone>$() -> ModularPipelines.Azure.Scopes.AzureScope!
 ModularPipelines.Azure.Azure
 ModularPipelines.Azure.Azure.Az.get -> ModularPipelines.Azure.Services.IAz!
