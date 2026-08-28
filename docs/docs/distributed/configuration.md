@@ -17,8 +17,9 @@ builder.AddDistributedMode(o =>
     o.InstanceIndex = 0;
     o.TotalInstances = 4;
     o.Capabilities = ["docker", "gpu"];
-    o.HeartbeatIntervalSeconds = 10;
-    o.HeartbeatTimeoutSeconds = 30;
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+    o.CapabilityTimeout = TimeSpan.FromMinutes(5);
+    o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
 });
 ```
@@ -28,9 +29,9 @@ builder.AddDistributedMode(o =>
 | `InstanceIndex` | `int` | `0` | This instance's index. `0` = master, `> 0` = worker. Can be overridden by the `MODULAR_PIPELINES_INSTANCE` environment variable. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<string>` | `[]` | Capabilities this worker advertises. Modules with `[RequiresCapability]` will only be assigned to workers that have matching capabilities. |
-| `HeartbeatIntervalSeconds` | `int` | `10` | How often workers send heartbeat signals (seconds). |
-| `HeartbeatTimeoutSeconds` | `int` | `30` | How long before the master considers a worker unresponsive (seconds). |
-| `CapabilityTimeoutSeconds` | `int` | `300` | Maximum time to wait for a capable worker to become available before failing a module (seconds). |
+| `RunIdentifier` | `string?` | `null` | Identifier shared by every process in this pipeline run. |
+| `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for a capable worker to become available before failing a module. |
+| `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, or `"macos"`). |
 
 ### Configuration from appsettings.json
@@ -43,7 +44,7 @@ You can also bind from configuration:
     "InstanceIndex": 0,
     "TotalInstances": 4,
     "Capabilities": ["docker"],
-    "HeartbeatIntervalSeconds": 15
+    "CapabilityTimeout": "00:05:00"
   }
 }
 ```

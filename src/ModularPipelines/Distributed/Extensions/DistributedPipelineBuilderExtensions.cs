@@ -69,4 +69,30 @@ public static class DistributedPipelineBuilderExtensions
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, TFactory>();
         return builder;
     }
+
+    /// <summary>
+    /// Registers a distributed artifact store implementation.
+    /// </summary>
+    /// <returns>The pipeline builder.</returns>
+    public static PipelineBuilder AddDistributedArtifactStore<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
+        this PipelineBuilder builder)
+        where TStore : class, IDistributedArtifactStore
+    {
+        builder.Services.AddSingleton<IDistributedArtifactStore, TStore>();
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers a distributed artifact store factory for async initialization.
+    /// </summary>
+    /// <returns>The pipeline builder.</returns>
+    public static PipelineBuilder AddDistributedArtifactStoreFactory<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TFactory>(
+        this PipelineBuilder builder)
+        where TFactory : class, IDistributedArtifactStoreFactory
+    {
+        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
+        return builder;
+    }
 }

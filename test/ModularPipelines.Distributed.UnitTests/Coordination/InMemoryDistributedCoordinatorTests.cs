@@ -55,7 +55,7 @@ public class InMemoryDistributedCoordinatorTests
             RequiredCapabilities: new HashSet<string> { "docker" },
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
         await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
 

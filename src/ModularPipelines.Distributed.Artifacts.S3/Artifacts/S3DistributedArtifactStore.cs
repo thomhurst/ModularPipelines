@@ -15,20 +15,17 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
     private readonly string _bucketName;
     private readonly string _keyPrefix;
     private readonly string _runId;
-    private readonly int _ttlSeconds;
 
     public S3DistributedArtifactStore(
         IAmazonS3 s3,
         string bucketName,
         string keyPrefix,
-        string runId,
-        int ttlSeconds)
+        string runId)
     {
         _s3 = s3;
         _bucketName = bucketName;
         _keyPrefix = keyPrefix;
         _runId = runId;
-        _ttlSeconds = ttlSeconds;
     }
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)

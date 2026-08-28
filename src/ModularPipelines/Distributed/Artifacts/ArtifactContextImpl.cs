@@ -1,5 +1,6 @@
 using System.IO.Compression;
-using Microsoft.Extensions.Options;
+using ModularPipelines.Logging;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.Artifacts;
 
@@ -11,23 +12,21 @@ internal class ArtifactContextImpl : IArtifactContext
 {
     private readonly IDistributedArtifactStore _store;
     private readonly ArtifactOptions _options;
-    private readonly string _currentModuleTypeName;
 
     public ArtifactContextImpl(
         IDistributedArtifactStore store,
-        IOptions<ArtifactOptions> options,
-        string currentModuleTypeName)
+        ArtifactOptions options)
     {
         _store = store;
-        _options = options.Value;
-        _currentModuleTypeName = currentModuleTypeName;
+        _options = options;
     }
 
     public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor(
             Name: artifactName,
-            ModuleTypeName: _currentModuleTypeName,
+            ModuleTypeName: GetCurrentModuleTypeName(),
             ContentType: "application/octet-stream");
 
         await using var stream = File.OpenRead(filePath);
@@ -36,9 +35,10 @@ internal class ArtifactContextImpl : IArtifactContext
 
     public async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor(
             Name: artifactName,
-            ModuleTypeName: _currentModuleTypeName,
+            ModuleTypeName: GetCurrentModuleTypeName(),
             ContentType: "application/zip");
 
         using var ms = new MemoryStream();
@@ -49,6 +49,7 @@ internal class ArtifactContextImpl : IArtifactContext
 
     public async Task<string> DownloadAsync(string producerModuleTypeName, string artifactName, string destinationPath, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var artifacts = await _store.ListArtifactsAsync(producerModuleTypeName, cancellationToken);
         var artifact = artifacts.FirstOrDefault(a => a.Name == artifactName)
             ?? throw new InvalidOperationException(
@@ -69,4 +70,20 @@ internal class ArtifactContextImpl : IArtifactContext
         await stream.CopyToAsync(fileStream, cancellationToken);
         return destinationPath;
     }
+
+    public Task<string> DownloadAsync<TProducerModule>(
+        string artifactName,
+        string destinationPath,
+        CancellationToken cancellationToken = default)
+        where TProducerModule : IModule
+        => DownloadAsync(
+            typeof(TProducerModule).FullName!,
+            artifactName,
+            destinationPath,
+            cancellationToken);
+
+    private static string GetCurrentModuleTypeName()
+        => ModuleLogger.CurrentModuleType.Value?.FullName
+           ?? throw new InvalidOperationException(
+               "Artifacts can only be published while a module is executing.");
 }

@@ -59,7 +59,7 @@ public class RunIdentifierResolverTests
     }
 
     [Test]
-    public async Task ResolveExecutionIdentifier_DoesNotReuseGitHubWorkflowAttempt()
+    public async Task ResolveRunIdentifier_DoesNotReuseGitHubWorkflowAttempt()
     {
         var names = new[]
         {
@@ -75,7 +75,7 @@ public class RunIdentifierResolverTests
             Environment.SetEnvironmentVariable("GITHUB_RUN_ID", "1234");
             Environment.SetEnvironmentVariable("GITHUB_RUN_ATTEMPT", "2");
 
-            var result = RunIdentifierResolver.ResolveExecutionIdentifier(null);
+            var result = RunIdentifierResolver.ResolveRunIdentifier(null);
 
             await Assert.That(result).IsNull();
         }

@@ -24,7 +24,7 @@ public class SignalRWorkerCoordinatorTests
             FrozenSet<string>.Empty,
             null,
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentConfig(null, 0, false));
+            new ModuleAssignmentConfiguration(null, 0, false));
 
         await Assert.That(() => coordinator.EnqueueModuleAsync(assignment, CancellationToken.None))
             .Throws<NotSupportedException>();

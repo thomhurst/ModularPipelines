@@ -36,8 +36,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
             s3,
             _s3Options.BucketName,
             _s3Options.KeyPrefix,
-            runId,
-            _artifactOptions.TimeToLiveSeconds);
+            runId);
     }
 
     private async Task TrySetLifecycleRuleAsync(IAmazonS3 s3, CancellationToken cancellationToken)
@@ -64,7 +63,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
                             },
                             Expiration = new LifecycleRuleExpiration
                             {
-                                Days = Math.Max(1, _artifactOptions.TimeToLiveSeconds / 86400),
+                                Days = Math.Max(1, (int) Math.Ceiling(_artifactOptions.TimeToLive.TotalDays)),
                             },
                         },
                     ],

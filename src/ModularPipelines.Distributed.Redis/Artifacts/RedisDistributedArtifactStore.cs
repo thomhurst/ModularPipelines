@@ -25,7 +25,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     {
         _database = database;
         _keys = keys;
-        _keyExpiration = TimeSpan.FromSeconds(options.TimeToLiveSeconds);
+        _keyExpiration = options.TimeToLive;
         _chunkSize = options.ChunkSizeBytes;
         _maxSingleUpload = options.MaxSingleUploadBytes;
     }

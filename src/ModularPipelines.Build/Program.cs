@@ -174,7 +174,7 @@ file static class BuildPipelineConfiguration
             // default is 0 (wait forever); if a worker dies or drops its connection after
             // being assigned a module, the master would otherwise hang indefinitely (see #3174).
             // A generous bound converts that hang into a diagnosable failure instead.
-            o.ModuleResultTimeoutSeconds = 2700;
+            o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
         });
         builder.AddSignalRDistributedCoordinator(o =>
         {

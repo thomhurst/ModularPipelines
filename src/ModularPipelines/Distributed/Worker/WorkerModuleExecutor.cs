@@ -123,7 +123,7 @@ internal class WorkerModuleExecutor(
             Capabilities: capabilities,
             RegisteredAt: DateTimeOffset.UtcNow)
         {
-            ExecutionIdentifier = _options.Value.ExecutionIdentifier,
+            RunIdentifier = _options.Value.RunIdentifier,
         };
         await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",

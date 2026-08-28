@@ -2,6 +2,7 @@ using ModularPipelines.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -112,6 +113,7 @@ public class PipelineContextModuleLookupTests
             Mock.Of<INetworkContext>(),
             Mock.Of<ISecurityContext>(),
             Mock.Of<IServicesContext>(),
+            Mock.Of<IArtifactContext>(),
             Mock.Of<ISummaryLogger>());
     }
 

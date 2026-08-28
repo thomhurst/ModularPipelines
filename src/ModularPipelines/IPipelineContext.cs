@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines;
@@ -22,6 +23,7 @@ namespace ModularPipelines;
 /// <item><term>Security</term><description>Certificates and hashing</description></item>
 /// <item><term>Services</term><description>DI and configuration</description></item>
 /// <item><term>Tools</term><description>Installed tool integrations</description></item>
+/// <item><term>Artifacts</term><description>Distributed artifact publishing and downloading</description></item>
 /// <item><term>Summary</term><description>Pipeline summary logging (displayed after completion)</description></item>
 /// </list>
 /// </remarks>
@@ -76,6 +78,11 @@ public interface IPipelineContext
     /// Gets the installed tool integrations.
     /// </summary>
     IToolsContext Tools { get; }
+
+    /// <summary>
+    /// Gets the distributed artifact publishing and downloading capabilities.
+    /// </summary>
+    IArtifactContext Artifacts { get; }
 
     /// <summary>
     /// Gets the summary logger for messages displayed after pipeline completion.

@@ -4,6 +4,7 @@ using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Extensions;
@@ -53,9 +54,7 @@ public static class S3DistributedExtensions
             builder.Services.AddSingleton(new ArtifactOptions());
         }
 
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, S3DistributedArtifactStoreFactory>();
-
-        return builder;
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 
     /// <summary>
@@ -74,8 +73,6 @@ public static class S3DistributedExtensions
 
         builder.Services.AddSingleton(s3Options);
         builder.Services.AddSingleton(artifactOptions);
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, S3DistributedArtifactStoreFactory>();
-
-        return builder;
+        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 }

@@ -159,7 +159,7 @@ public class SignalRIntegrationTests
                 RequiredCapabilities: new HashSet<string>(),
                 MatrixTarget: null,
                 AssignedAt: DateTimeOffset.UtcNow,
-                Configuration: new ModuleAssignmentConfig(null, 0, false));
+                Configuration: new ModuleAssignmentConfiguration(null, 0, false));
 
             masterState.PendingAssignments.Enqueue(moduleAssignment);
 
@@ -248,19 +248,19 @@ public class SignalRIntegrationTests
                 "WindowsBuildModule", "System.String",
                 new HashSet<string> { "windows" },
                 null, DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfig(null, 0, false));
+                new ModuleAssignmentConfiguration(null, 0, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule", "System.String",
                 new HashSet<string> { "linux", "docker" },
                 null, DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfig(null, 0, false));
+                new ModuleAssignmentConfiguration(null, 0, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule", "System.String",
                 new HashSet<string>(),
                 null, DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfig(null, 0, false));
+                new ModuleAssignmentConfiguration(null, 0, false));
 
             masterState.PendingAssignments.Enqueue(windowsModule);
             masterState.PendingAssignments.Enqueue(dockerModule);
@@ -410,7 +410,7 @@ public class SignalRIntegrationTests
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
                     moduleName, "System.String", new HashSet<string>(),
-                    null, DateTimeOffset.UtcNow, new ModuleAssignmentConfig(null, 0, false)));
+                    null, DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, 0, false)));
             }
 
             // Worker requests work — will get first assignment, then re-request after each publish

@@ -64,7 +64,7 @@ public static class DistributedCoordinatorContract
             RequiredCapabilities: new HashSet<string>(),
             MatrixTarget: null,
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)

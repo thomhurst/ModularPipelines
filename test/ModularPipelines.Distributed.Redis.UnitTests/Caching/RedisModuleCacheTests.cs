@@ -52,7 +52,7 @@ public class RedisModuleCacheTests
             new ArtifactOptions
             {
                 ChunkSizeBytes = 3,
-                TimeToLiveSeconds = 60,
+                TimeToLive = TimeSpan.FromMinutes(1),
             });
     }
 
@@ -260,7 +260,7 @@ public class RedisModuleCacheTests
             new ArtifactOptions
             {
                 ChunkSizeBytes = 3,
-                TimeToLiveSeconds = 60,
+                TimeToLive = TimeSpan.FromMinutes(1),
             },
             new ModuleCacheOptions { MaximumCacheEntryBytes = maximumCacheEntryBytes });
 }

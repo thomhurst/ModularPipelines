@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
@@ -61,14 +62,14 @@ public static class RedisDistributedExtensions
     {
         var options = new RedisDistributedOptions();
         configure(options);
-        options.RunIdentifier = RunIdentifierResolver.ResolveExecutionIdentifier(options.RunIdentifier)
+        options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier)
             ?? throw new InvalidOperationException(
                 "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
                 + "Configure RunIdentifier explicitly or provide a supported CI run identifier.");
 
         builder.Services.AddSingleton(options);
         builder.Services.PostConfigure<DistributedOptions>(distributedOptions =>
-            distributedOptions.ExecutionIdentifier ??= options.RunIdentifier);
+            distributedOptions.RunIdentifier ??= options.RunIdentifier);
         builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
         {
             var opts = sp.GetRequiredService<RedisDistributedOptions>();
@@ -92,9 +93,7 @@ public static class RedisDistributedExtensions
         configure?.Invoke(options);
 
         builder.Services.AddSingleton(options);
-        builder.Services.AddSingleton<IDistributedArtifactStoreFactory, RedisDistributedArtifactStoreFactory>();
-
-        return builder;
+        return builder.AddDistributedArtifactStoreFactory<RedisDistributedArtifactStoreFactory>();
     }
 
     /// <summary>

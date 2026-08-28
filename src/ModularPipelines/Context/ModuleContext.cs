@@ -1,6 +1,7 @@
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Events;
@@ -201,6 +202,9 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
     /// <inheritdoc />
     public IToolsContext Tools => _pipelineContext.Tools;
+
+    /// <inheritdoc />
+    public IArtifactContext Artifacts => _pipelineContext.Artifacts;
 
     /// <inheritdoc />
     public ISummaryLogger Summary => _pipelineContext.Summary;

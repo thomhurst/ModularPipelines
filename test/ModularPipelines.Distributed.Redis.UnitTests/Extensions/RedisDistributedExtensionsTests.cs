@@ -37,7 +37,7 @@ public class RedisDistributedExtensionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(distributedOptions.ExecutionIdentifier).IsEqualTo("current-run");
+            await Assert.That(distributedOptions.RunIdentifier).IsEqualTo("current-run");
             await Assert.That(redisOptions.RunIdentifier).IsEqualTo("current-run");
         }
     }

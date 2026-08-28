@@ -18,8 +18,7 @@ public class S3ArtifactStoreTests
             _mockS3.Object,
             "test-bucket",
             "modpipe-artifacts",
-            "run123",
-            3600);
+            "run123");
     }
 
     [Test]

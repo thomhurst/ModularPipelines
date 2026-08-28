@@ -47,7 +47,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
         _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v1";
         _chunkSize = artifactOptions.ChunkSizeBytes;
         _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
-        _expiration = TimeSpan.FromSeconds(artifactOptions.TimeToLiveSeconds);
+        _expiration = artifactOptions.TimeToLive;
         _provisionalExpiration = _expiration > MinimumProvisionalExpiration
             ? _expiration
             : MinimumProvisionalExpiration;
@@ -63,7 +63,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
         {
             throw new ArgumentOutOfRangeException(
                 nameof(artifactOptions),
-                "ArtifactOptions.TimeToLiveSeconds must be positive.");
+                "ArtifactOptions.TimeToLive must be positive.");
         }
 
         if (_maximumCacheEntryBytes <= 0)
