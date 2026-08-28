@@ -64,7 +64,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
         // Wait-for-all may return a failed summary when configured not to throw.
         // Fail-fast retains its existing behavior and always surfaces the original.
-        if (_options.Value.ExecutionMode == ExecutionMode.StopOnFirstException
+        if (_options.Value.FailureMode == FailureMode.FailFast
             || _options.Value.ThrowOnPipelineFailure)
         {
             _exceptionRethrowService.ThrowOriginalExceptionIfPresent();

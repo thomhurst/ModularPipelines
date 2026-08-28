@@ -38,14 +38,14 @@ public class FailedPipelineTests : TestBase
     }
 
     [Test]
-    [Arguments(ExecutionMode.StopOnFirstException)]
-    [Arguments(ExecutionMode.WaitForAllModules)]
-    public async Task Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
+    [Arguments(FailureMode.FailFast)]
+    [Arguments(FailureMode.ContinueOnFailure)]
+    public async Task Given_Failing_Module_With_Dependent_Module_Then_Failures_Propagate(FailureMode failureMode)
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
-                    ExecutionMode = executionMode,
+                    FailureMode = failureMode,
                     ThrowOnPipelineFailure = true,
                 })
                 .AddModule<Module1>()
@@ -56,14 +56,14 @@ public class FailedPipelineTests : TestBase
     }
 
     [Test]
-    [Arguments(ExecutionMode.StopOnFirstException)]
-    [Arguments(ExecutionMode.WaitForAllModules)]
-    public async Task Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
+    [Arguments(FailureMode.FailFast)]
+    [Arguments(FailureMode.ContinueOnFailure)]
+    public async Task Given_Failing_Module_Then_Failures_Propagate(FailureMode failureMode)
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
-                    ExecutionMode = executionMode,
+                    FailureMode = failureMode,
                     ThrowOnPipelineFailure = true,
                 })
                 .AddModule<Module1>()
@@ -73,14 +73,14 @@ public class FailedPipelineTests : TestBase
     }
 
     [Test]
-    [Arguments(ExecutionMode.StopOnFirstException)]
-    [Arguments(ExecutionMode.WaitForAllModules)]
-    public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
+    [Arguments(FailureMode.FailFast)]
+    [Arguments(FailureMode.ContinueOnFailure)]
+    public async Task Given_No_Failing_Module_Then_No_Exceptions(FailureMode failureMode)
     {
         var pipelineSummary = await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
-                    ExecutionMode = executionMode,
+                    FailureMode = failureMode,
                 })
                 .AddModule<Module1>()
                 .AddModule<Module3>()

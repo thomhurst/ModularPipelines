@@ -8,13 +8,13 @@ namespace ModularPipelines.Attributes;
 /// </summary>
 /// <example>
 /// <code>
-/// [ExecutionHint(ExecutionType.CpuIntensive)]
+/// [ExecutionHint(ExecutionHint.CpuBound)]
 /// public class CompilationModule : Module&lt;BuildResult&gt;
 /// {
 ///     // Limited by ConcurrencyOptions.MaxCpuIntensiveModules
 /// }
 ///
-/// [ExecutionHint(ExecutionType.IoIntensive)]
+/// [ExecutionHint(ExecutionHint.IoBound)]
 /// public class DownloadDependenciesModule : Module&lt;DownloadResult&gt;
 /// {
 ///     // Limited by ConcurrencyOptions.MaxIoIntensiveModules
@@ -25,16 +25,16 @@ namespace ModularPipelines.Attributes;
 public class ExecutionHintAttribute : Attribute
 {
     /// <summary>
-    /// Gets the execution type hint for the module.
+    /// Gets the execution hint for the module.
     /// </summary>
-    public ExecutionType ExecutionType { get; }
+    public ExecutionHint ExecutionHint { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExecutionHintAttribute"/> class.
     /// </summary>
-    /// <param name="executionType">The execution type hint for the module.</param>
-    public ExecutionHintAttribute(ExecutionType executionType)
+    /// <param name="executionHint">The execution hint for the module.</param>
+    public ExecutionHintAttribute(ExecutionHint executionHint)
     {
-        ExecutionType = executionType;
+        ExecutionHint = executionHint;
     }
 }

@@ -52,12 +52,12 @@ internal class ParallelLimitProvider : IParallelLimitProvider
         return _concurrencyOptions.MaxParallelism;
     }
 
-    public AsyncSemaphore? GetExecutionTypeLock(ExecutionType executionType)
+    public AsyncSemaphore? GetExecutionHintLock(ExecutionHint executionHint)
     {
-        return executionType switch
+        return executionHint switch
         {
-            ExecutionType.CpuIntensive => _cpuIntensiveLock.Value,
-            ExecutionType.IoIntensive => _ioIntensiveLock.Value,
+            ExecutionHint.CpuBound => _cpuIntensiveLock.Value,
+            ExecutionHint.IoBound => _ioIntensiveLock.Value,
             _ => null,
         };
     }

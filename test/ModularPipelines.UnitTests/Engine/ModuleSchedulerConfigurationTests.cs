@@ -17,7 +17,7 @@ public class ModuleSchedulerConfigurationTests
 {
     [ModularPipelines.Attributes.NotInParallel("direct-lock")]
     [Priority(ModulePriority.Critical)]
-    [ExecutionHint(ExecutionType.IoIntensive)]
+    [ExecutionHint(ExecutionHint.IoBound)]
     private sealed class DirectAttributedModule : IModule
     {
         public Type ResultType => typeof(string);
@@ -37,11 +37,11 @@ public class ModuleSchedulerConfigurationTests
         await Assert.That(state).IsNotNull();
         await Assert.That(state!.RequiredLockKeys).IsEquivalentTo(["direct-lock"]);
         await Assert.That(state.Priority).IsEqualTo(ModulePriority.Critical);
-        await Assert.That(state.ExecutionType).IsEqualTo(ExecutionType.IoIntensive);
+        await Assert.That(state.ExecutionHint).IsEqualTo(ExecutionHint.IoBound);
         metricsCollector.Verify(x => x.RecordModuleInitialized(
             typeof(DirectAttributedModule),
             ModulePriority.Critical,
-            ExecutionType.IoIntensive), Times.Once);
+            ExecutionHint.IoBound), Times.Once);
     }
 
     private static ModuleScheduler CreateScheduler(IMetricsCollector metricsCollector)

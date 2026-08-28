@@ -3,15 +3,15 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Defines how the pipeline should behave when module execution encounters exceptions.
 /// </summary>
-public enum ExecutionMode
+public enum FailureMode
 {
     /// <summary>
     /// Stop pipeline execution immediately when the first exception occurs.
     /// </summary>
-    StopOnFirstException,
+    FailFast,
 
     /// <summary>
-    /// Continue running all modules and wait for all to complete before evaluating failures.
+    /// Continue running independent modules before evaluating failures.
     /// </summary>
-    WaitForAllModules,
+    ContinueOnFailure,
 }

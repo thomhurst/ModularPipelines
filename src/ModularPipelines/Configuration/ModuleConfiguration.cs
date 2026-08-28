@@ -85,9 +85,9 @@ public sealed class ModuleConfiguration
     public ModulePriority? Priority { get; init; }
 
     /// <summary>
-    /// Gets the resource-usage hint, or <see langword="null"/> to use the default execution type.
+    /// Gets the resource-usage hint, or <see langword="null"/> to use the default execution hint.
     /// </summary>
-    public ExecutionType? ExecutionType { get; init; }
+    public ExecutionHint? ExecutionHint { get; init; }
 
     /// <summary>
     /// Gets module tags used by metadata-based dependency selection.

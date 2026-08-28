@@ -203,13 +203,13 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_SurfacesAllConcurrentWorkerFaults()
+    public async Task FailFast_SurfacesAllConcurrentWorkerFaults()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
         var workersStarted = 0;
         var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var executor = CreateStopOnFirstExceptionExecutor(
+        var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
             async (moduleState, _, _) =>
@@ -231,12 +231,12 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_DoesNotDuplicateSharedWorkerFault()
+    public async Task FailFast_DoesNotDuplicateSharedWorkerFault()
     {
         var sharedException = new InvalidOperationException("Shared failure");
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
-        var executor = CreateStopOnFirstExceptionExecutor(
+        var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
             (_, _, _) => Task.FromException(sharedException));
@@ -249,7 +249,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_LateStartsQueuedAlwaysRunModule()
+    public async Task FailFast_LateStartsQueuedAlwaysRunModule()
     {
         var faultingModule = new FaultingModule();
         var alwaysRunModule = new QueuedAlwaysRunModule();
@@ -315,7 +315,7 @@ public class ModuleExecutorLoggingTests
 
         var pipelineOptions = Microsoft.Extensions.Options.Options.Create(new PipelineOptions
         {
-            ExecutionMode = ExecutionMode.StopOnFirstException,
+            FailureMode = FailureMode.FailFast,
         });
         var alwaysRunHandler = new AlwaysRunHandler(
             moduleRunner.Object,
@@ -357,13 +357,13 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_IgnoresWorkerCancellation()
+    public async Task FailFast_IgnoresWorkerCancellation()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
         var workersStarted = 0;
         var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var executor = CreateStopOnFirstExceptionExecutor(
+        var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
             async (moduleState, _, cancellationToken) =>
@@ -391,7 +391,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task StopOnFirstException_SurfacesIndependentWorkerCancellation()
+    public async Task FailFast_SurfacesIndependentWorkerCancellation()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
@@ -399,7 +399,7 @@ public class ModuleExecutorLoggingTests
         var bothWorkersStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var failFastCancellationObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var independentCancellationToken = new CancellationToken(canceled: true);
-        var executor = CreateStopOnFirstExceptionExecutor(
+        var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
             async (moduleState, _, cancellationToken) =>
@@ -430,7 +430,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
+    public async Task ContinueOnFailure_WorkerFault_DoesNotStopRemainingModules()
     {
         var dependencyRegistry = new ModuleDependencyRegistry();
         var metadataRegistry = new ModuleMetadataRegistry(new ModuleAttributeEventService());
@@ -493,7 +493,7 @@ public class ModuleExecutorLoggingTests
             secondaryExceptionContainer.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
             }),
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
 
@@ -513,7 +513,7 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task WaitForAllModules_RecoveryFault_DoesNotStopRemainingModules()
+    public async Task ContinueOnFailure_RecoveryFault_DoesNotStopRemainingModules()
     {
         var faultingModule = new FaultingModule();
         var laterModule = new LaterModule();
@@ -577,7 +577,7 @@ public class ModuleExecutorLoggingTests
             secondaryExceptionContainer.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
             }),
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
 
@@ -684,7 +684,7 @@ public class ModuleExecutorLoggingTests
         }
     }
 
-    private static ModuleExecutor CreateStopOnFirstExceptionExecutor(
+    private static ModuleExecutor CreateFailFastExecutor(
         FaultingModule faultingModule,
         LaterModule laterModule,
         Func<ModuleState, IModuleScheduler, CancellationToken, Task> executeModule)
@@ -738,7 +738,7 @@ public class ModuleExecutorLoggingTests
             new SecondaryExceptionContainer(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
-                ExecutionMode = ExecutionMode.StopOnFirstException,
+                FailureMode = FailureMode.FailFast,
             }),
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ModuleExecutor>>());
     }

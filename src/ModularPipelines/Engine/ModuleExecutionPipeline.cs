@@ -828,7 +828,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             exception,
             wasLogged: true);
 
-        if (moduleContext.Services.Options.ExecutionMode == ExecutionMode.StopOnFirstException)
+        if (moduleContext.Services.Options.FailureMode == FailureMode.FailFast)
         {
             logger.LogDebug("Module failed. Cancelling the pipeline");
             _engineCancellationToken.CancelWithException(moduleFailedException);

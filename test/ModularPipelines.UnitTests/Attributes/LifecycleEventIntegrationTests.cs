@@ -132,7 +132,7 @@ public class LifecycleEventIntegrationTests : TestBase
                 .AddModule<FailingModule>()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
-                    ExecutionMode = ExecutionMode.WaitForAllModules,
+                    FailureMode = FailureMode.ContinueOnFailure,
                 })
                 .RunAsync();
         }

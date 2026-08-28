@@ -269,7 +269,7 @@ internal class ModuleExecutor : IModuleExecutor
                     {
                         await _moduleRunner.ExecuteAsync(moduleState, scheduler, ct).ConfigureAwait(false);
                     }
-                    catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                    catch (Exception ex) when (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                     {
                         var failedModuleType = FindFailedModuleType(ex) ?? moduleState.ModuleType;
                         var pipelineException = GetPipelineException(ex);
@@ -309,7 +309,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         catch (OperationCanceledException) when (firstFailure != null)
         {
-            // Expected when we cancelled due to StopOnFirstException
+            // Expected when we cancelled due to FailFast
         }
 
         return firstFailure;
@@ -412,7 +412,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         _logger.LogError(
             exception,
-            "Module worker failed but remaining modules will continue due to ExecutionMode.WaitForAllModules");
+            "Module worker failed but remaining modules will continue due to FailureMode.ContinueOnFailure");
     }
 
     private void TryMarkModuleFailed(

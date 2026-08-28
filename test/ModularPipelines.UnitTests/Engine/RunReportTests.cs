@@ -3070,7 +3070,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.StopOnFirstException,
+                FailureMode = FailureMode.FailFast,
                 ThrowOnPipelineFailure = false,
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
@@ -3109,7 +3109,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
@@ -3150,7 +3150,7 @@ public class RunReportTests
             using var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
-                ExecutionMode = ExecutionMode.WaitForAllModules,
+                FailureMode = FailureMode.ContinueOnFailure,
                 ThrowOnPipelineFailure = false,
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
                 RunReport = options.RunReport with { ReportPath = reportPath },
@@ -3887,7 +3887,7 @@ public class RunReportTests
         builder.WriteRunReport(reportPath);
         builder.ConfigurePipelineOptions(options => options with
         {
-            ExecutionMode = ExecutionMode.WaitForAllModules,
+            FailureMode = FailureMode.ContinueOnFailure,
             ThrowOnPipelineFailure = false,
             Console = options.Console with { PrintLogo = false, PrintResults = false },
             RunReport = options.RunReport with

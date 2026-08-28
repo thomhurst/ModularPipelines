@@ -139,9 +139,9 @@ internal class ModuleState
     public ModulePriority Priority { get; set; } = ModulePriority.Normal;
 
     /// <summary>
-    /// Gets or sets the execution type hint for resource-based throttling.
+    /// Gets or sets the resource-usage hint for throttling.
     /// </summary>
-    public ExecutionType ExecutionType { get; set; } = ExecutionType.Default;
+    public ExecutionHint ExecutionHint { get; set; } = ExecutionHint.Default;
 
     /// <summary>
     /// Gets or sets when all dependencies were satisfied and the module became ready.

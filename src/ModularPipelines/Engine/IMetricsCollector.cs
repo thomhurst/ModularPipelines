@@ -21,12 +21,12 @@ internal interface IMetricsCollector
     /// <summary>
     /// Registers a module before dependency scheduling begins.
     /// </summary>
-    void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionType executionType);
+    void RecordModuleInitialized(Type moduleType, ModulePriority priority, ExecutionHint executionHint);
 
     /// <summary>
     /// Records when a module becomes ready (all dependencies satisfied).
     /// </summary>
-    void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionType executionType);
+    void RecordModuleReady(Type moduleType, DateTimeOffset time, ModulePriority priority, ExecutionHint executionHint);
 
     /// <summary>
     /// Records when a module is queued for execution.

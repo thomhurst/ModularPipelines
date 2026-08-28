@@ -17,7 +17,7 @@ builder.Configuration
 
 builder.ConfigurePipelineOptions(options => options with
 {
-    ExecutionMode = ExecutionMode.StopOnFirstException,
+    FailureMode = FailureMode.FailFast,
 });
 
 builder

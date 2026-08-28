@@ -32,16 +32,16 @@ public record ConcurrencyOptions
     public int MaxParallelism { get; init; } = Environment.ProcessorCount * ConcurrencyConstants.ParallelismMultiplier;
 
     /// <summary>
-    /// Gets the maximum number of CPU-intensive modules that can execute concurrently.
-    /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionType.CpuIntensive)]</c>.
+    /// Gets the maximum number of CPU-bound modules that can execute concurrently.
+    /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionHint.CpuBound)]</c>.
     /// Default: <c>Environment.ProcessorCount</c>.
     /// Set to <c>null</c> to use <see cref="MaxParallelism"/> instead.
     /// </summary>
     public int? MaxCpuIntensiveModules { get; init; } = Environment.ProcessorCount;
 
     /// <summary>
-    /// Gets the maximum number of I/O-intensive modules that can execute concurrently.
-    /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionType.IoIntensive)]</c>.
+    /// Gets the maximum number of I/O-bound modules that can execute concurrently.
+    /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionHint.IoBound)]</c>.
     /// Default: <c>null</c> (unlimited, bounded only by <see cref="MaxParallelism"/>).
     /// </summary>
     public int? MaxIoIntensiveModules { get; init; }

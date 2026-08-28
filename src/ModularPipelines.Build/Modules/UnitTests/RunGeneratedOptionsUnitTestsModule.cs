@@ -5,7 +5,7 @@ using ModularPipelines.Enums;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
-[ExecutionHint(ExecutionType.CpuIntensive)]
+[ExecutionHint(ExecutionHint.CpuBound)]
 [DependsOn<RunCoreUnitTestsModule>]
 public abstract class RunGeneratedOptionsUnitTestsModule(
     IOptions<PipelineSettings> pipelineSettings)
