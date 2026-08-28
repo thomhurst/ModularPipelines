@@ -1,5 +1,4 @@
 using ModularPipelines.Logging;
-using ModularPipelines.Tracing;
 
 namespace ModularPipelines;
 
@@ -62,18 +61,4 @@ public static class AmbientModuleContext
     /// Gets whether code is currently executing within a module context.
     /// </summary>
     public static bool IsInModuleContext => CurrentModuleType != null;
-
-    /// <summary>
-    /// Gets the current Activity ID if distributed tracing is enabled, or null otherwise.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This property requires an ActivityListener to be registered (e.g., via OpenTelemetry).
-    /// Without a listener, Activity objects are not created and this will return null.
-    /// </para>
-    /// <para>
-    /// For module context without Activity dependency, use <see cref="CurrentModuleName"/> instead.
-    /// </para>
-    /// </remarks>
-    public static string? CurrentActivityId => ModuleActivityTracing.GetCurrentActivityId();
 }

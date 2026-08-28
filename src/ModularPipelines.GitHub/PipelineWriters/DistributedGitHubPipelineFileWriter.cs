@@ -44,7 +44,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         _modules = modules.ToArray();
     }
 
-    public async Task Write(IPipelineContext pipelineHookContext)
+    public async Task WriteAsync(IPipelineContext pipelineHookContext)
     {
         ValidateOptions();
 

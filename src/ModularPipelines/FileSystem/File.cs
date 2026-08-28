@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.JsonUtils;
+using ModularPipelines.Serialization;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;

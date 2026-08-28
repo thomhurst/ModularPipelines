@@ -9,6 +9,14 @@ namespace ModularPipelines.UnitTests.Validation;
 /// </summary>
 public class ValidationInterfaceTests
 {
+    public sealed class TestValidator : IPipelineValidator
+    {
+        public int Order => 0;
+
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+            Task.FromResult(ValidationResult.Success());
+    }
+
     [Test]
     public async Task IPipelineValidationService_ShouldBeInternal()
     {
@@ -43,5 +51,36 @@ public class ValidationInterfaceTests
         var validateAsyncMethod = validatorType.GetMethod(nameof(IPipelineValidator.ValidateAsync));
         await Assert.That(validateAsyncMethod).IsNotNull()
             .Because("IPipelineValidator should have ValidateAsync method");
+    }
+
+    [Test]
+    public async Task SpecializedValidatorInterfacesShouldBeInternal()
+    {
+        var assembly = typeof(IPipelineValidator).Assembly;
+        var typeNames = new[]
+        {
+            "ModularPipelines.Validation.IDependencyValidator",
+            "ModularPipelines.Validation.IModuleConfigurationValidator",
+            "ModularPipelines.Validation.IOptionsValidator",
+        };
+
+        foreach (var typeName in typeNames)
+        {
+            var type = assembly.GetType(typeName);
+            await Assert.That(type).IsNotNull();
+            await Assert.That(type!.IsNotPublic).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task AddValidatorRegistersPublicValidatorExtensionPoint()
+    {
+        var builder = Pipeline.CreateBuilder();
+
+        var result = builder.AddValidator<TestValidator>();
+        var descriptor = builder.Services.Single(service => service.ServiceType == typeof(IPipelineValidator));
+
+        await Assert.That(result).IsSameReferenceAs(builder);
+        await Assert.That(descriptor.ImplementationType).IsEqualTo(typeof(TestValidator));
     }
 }

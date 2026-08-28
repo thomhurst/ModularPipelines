@@ -1,6 +1,6 @@
 namespace ModularPipelines.Distributed;
 
-public enum DistributedRole
+internal enum DistributedRole
 {
     Master,
     Worker

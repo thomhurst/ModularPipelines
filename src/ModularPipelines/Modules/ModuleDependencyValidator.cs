@@ -10,7 +10,7 @@ namespace ModularPipelines.Modules;
 /// Validates module dependencies at registration time, before the pipeline executes.
 /// This catches configuration errors early, preventing runtime failures.
 /// </summary>
-public static class ModuleDependencyValidator
+internal static class ModuleDependencyValidator
 {
     /// <summary>
     /// Validates registered module instances, including dependencies declared through fluent configuration.

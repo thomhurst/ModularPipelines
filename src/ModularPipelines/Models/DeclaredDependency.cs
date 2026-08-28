@@ -8,7 +8,7 @@ namespace ModularPipelines.Models;
 /// <param name="ModuleType">The type of the module being depended on.</param>
 /// <param name="Kind">The kind of dependency (required or optional).</param>
 /// <param name="IsOptional">Whether this dependency is optional (module runs even if dependency is not registered or skipped).</param>
-public readonly record struct DeclaredDependency(
+internal readonly record struct DeclaredDependency(
     Type ModuleType,
     DependencyType Kind,
     bool IsOptional)

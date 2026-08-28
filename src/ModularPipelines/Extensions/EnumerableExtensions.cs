@@ -19,23 +19,6 @@ public static class EnumerableExtensions
         return modules.OfType<T>().Single();
     }
 
-    /// <summary>
-    /// Gets the first item from an IAsyncEnumerable.
-    /// </summary>
-    /// <param name="asyncEnumerable">The async enumerable.</param>
-    /// <param name="cancellationToken">Used to cancel the operation.</param>
-    /// <typeparam name="T">The type held within the enumerable.</typeparam>
-    /// <returns>The first item if found.</returns>
-    public static async Task<T?> FirstOrDefaultAsync<T>(this IAsyncEnumerable<T> asyncEnumerable, CancellationToken cancellationToken = default)
-    {
-        await foreach (var item in asyncEnumerable.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            return item;
-        }
-
-        return default;
-    }
-
     internal static async IAsyncEnumerable<T> WhereAsync<T>(this IEnumerable<T> enumerable, Func<T, Task<bool>> condition)
     {
         foreach (var item in enumerable)

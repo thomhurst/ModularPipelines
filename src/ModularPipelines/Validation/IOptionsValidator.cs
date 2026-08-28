@@ -5,7 +5,7 @@ namespace ModularPipelines.Validation;
 /// <summary>
 /// Interface for validating pipeline options configuration.
 /// </summary>
-public interface IOptionsValidator : IPipelineValidator
+internal interface IOptionsValidator : IPipelineValidator
 {
     /// <summary>
     /// Validates pipeline option values that do not depend on registered modules.

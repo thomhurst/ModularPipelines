@@ -22,7 +22,7 @@ namespace ModularPipelines.Context;
 /// Provides predefined installers for common development tools.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public partial class PredefinedInstallers : IPredefinedInstallersContext
+internal partial class PredefinedInstallers : IPredefinedInstallersContext
 {
     /// <summary>
     /// Version constants for predefined installers.

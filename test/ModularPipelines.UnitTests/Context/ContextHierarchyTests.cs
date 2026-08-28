@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
@@ -113,13 +112,11 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task MatrixTargetApi_ShouldBeExperimentalUntilExecutionIsWired()
+    public async Task MatrixTargetApi_ShouldRemainHiddenUntilExecutionIsWired()
     {
         var method = typeof(IModuleContext).GetMethod("GetMatrixTarget");
-        var experimental = method?.GetCustomAttribute<ExperimentalAttribute>();
 
-        await Assert.That(experimental).IsNotNull();
-        await Assert.That(experimental!.DiagnosticId).IsEqualTo("MPDIST001");
+        await Assert.That(method).IsNull();
     }
 
     [Test]

@@ -5,7 +5,7 @@ namespace ModularPipelines.Helpers;
 /// <summary>
 /// Provides utility methods for disposing objects that may implement <see cref="IDisposable"/> or <see cref="IAsyncDisposable"/>.
 /// </summary>
-public static class Disposer
+internal static class Disposer
 {
     /// <summary>
     /// Asynchronously disposes an object if it implements <see cref="IAsyncDisposable"/> or <see cref="IDisposable"/>.

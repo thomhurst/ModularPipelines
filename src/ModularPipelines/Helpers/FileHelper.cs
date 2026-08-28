@@ -5,7 +5,7 @@ namespace ModularPipelines.Helpers;
 /// <summary>
 /// Helper methods for file system operations.
 /// </summary>
-public static class FileHelper
+internal static class FileHelper
 {
     /// <summary>
     /// Default timeout for waiting for a file.
@@ -59,7 +59,7 @@ public static class FileHelper
                 continue;
             }
 
-            if (await IsFileLocked(fileInfo).ConfigureAwait(false))
+            if (await IsFileLockedAsync(fileInfo).ConfigureAwait(false))
             {
                 continue;
             }
@@ -75,7 +75,7 @@ public static class FileHelper
     /// </summary>
     /// <param name="file">The file to check.</param>
     /// <returns>True if the file is locked; otherwise, false.</returns>
-    public static async Task<bool> IsFileLocked(FileInfo file)
+    public static async Task<bool> IsFileLockedAsync(FileInfo file)
     {
         try
         {

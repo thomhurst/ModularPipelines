@@ -16,56 +16,56 @@ namespace ModularPipelines.Tracing;
 /// Instrumentation uses only BCL <see cref="ActivitySource"/> and <see cref="Meter"/> APIs.
 /// Consumers can subscribe directly or use the optional ModularPipelines.OpenTelemetry package.
 /// </remarks>
-public static class ModuleActivityTracing
+internal static class ModuleActivityTracing
 {
-    public const string PipelineSourceName = "ModularPipelines";
-    public const string ModuleSourceName = "ModularPipelines.Modules";
-    public const string CommandSourceName = "ModularPipelines.Commands";
-    public const string MeterName = "ModularPipelines";
+    public const string PipelineSourceName = PipelineTelemetry.PipelineSourceName;
+    public const string ModuleSourceName = PipelineTelemetry.ModuleSourceName;
+    public const string CommandSourceName = PipelineTelemetry.CommandSourceName;
+    public const string MeterName = PipelineTelemetry.MeterName;
 
-    public const string PipelineNameTag = "modular_pipelines.pipeline.name";
-    public const string PipelineStatusTag = "modular_pipelines.pipeline.status";
+    public const string PipelineNameTag = PipelineTelemetry.PipelineNameTag;
+    public const string PipelineStatusTag = PipelineTelemetry.PipelineStatusTag;
 
     /// <summary>
     /// Tag key for the module type name.
     /// </summary>
-    public const string ModuleTypeTag = "modular_pipelines.module.type";
+    public const string ModuleTypeTag = PipelineTelemetry.ModuleTypeTag;
 
     /// <summary>
     /// Tag key for the module type's full name (including namespace).
     /// </summary>
-    public const string ModuleTypeFullNameTag = "modular_pipelines.module.type_full";
+    public const string ModuleTypeFullNameTag = PipelineTelemetry.ModuleTypeFullNameTag;
 
     /// <summary>
     /// Tag key for the module execution status.
     /// </summary>
-    public const string ModuleStatusTag = "modular_pipelines.module.status";
+    public const string ModuleStatusTag = PipelineTelemetry.ModuleStatusTag;
 
     /// <summary>
     /// Tag key for the module fingerprint-cache outcome.
     /// </summary>
-    public const string ModuleCacheTag = "modular_pipelines.module.cache";
+    public const string ModuleCacheTag = PipelineTelemetry.ModuleCacheTag;
 
     /// <summary>
     /// Tag key for exception type when a module fails.
     /// </summary>
-    public const string ExceptionTypeTag = "exception.type";
+    public const string ExceptionTypeTag = PipelineTelemetry.ExceptionTypeTag;
 
     /// <summary>
     /// Tag key for exception message when a module fails.
     /// </summary>
-    public const string ExceptionMessageTag = "exception.message";
+    public const string ExceptionMessageTag = PipelineTelemetry.ExceptionMessageTag;
 
-    public const string CommandToolTag = "process.executable.name";
-    public const string CommandInputTag = "process.command_line";
-    public const string CommandExitCodeTag = "process.exit.code";
-    public const string CommandDurationTag = "modular_pipelines.command.duration_ms";
+    public const string CommandToolTag = PipelineTelemetry.CommandToolTag;
+    public const string CommandInputTag = PipelineTelemetry.CommandInputTag;
+    public const string CommandExitCodeTag = PipelineTelemetry.CommandExitCodeTag;
+    public const string CommandDurationTag = PipelineTelemetry.CommandDurationTag;
 
-    public const string ModuleDurationMetric = "modular_pipelines.module.duration";
-    public const string ModulesFailedMetric = "modular_pipelines.modules.failed";
-    public const string ModuleRetriesMetric = "modular_pipelines.module.retries";
-    public const string ModuleCacheHitsMetric = "modular_pipelines.module.cache_hits";
-    public const string ModuleCacheMissesMetric = "modular_pipelines.module.cache_misses";
+    public const string ModuleDurationMetric = PipelineTelemetry.ModuleDurationMetric;
+    public const string ModulesFailedMetric = PipelineTelemetry.ModulesFailedMetric;
+    public const string ModuleRetriesMetric = PipelineTelemetry.ModuleRetriesMetric;
+    public const string ModuleCacheHitsMetric = PipelineTelemetry.ModuleCacheHitsMetric;
+    public const string ModuleCacheMissesMetric = PipelineTelemetry.ModuleCacheMissesMetric;
 
     public static readonly Meter TelemetryMeter = new(MeterName, "1.0.0");
 

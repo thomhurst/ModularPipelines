@@ -10,6 +10,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
+using ModularPipelines.Validation;
 
 namespace ModularPipelines;
 
@@ -362,6 +363,23 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
+    /// Adds a custom pipeline validator.
+    /// </summary>
+    /// <typeparam name="TValidator">The validator implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddValidator<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TValidator>(
+        this PipelineBuilder builder)
+        where TValidator : class, IPipelineValidator
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IPipelineValidator, TValidator>());
+        return builder;
+    }
+
+    /// <summary>
     /// Configures pipeline options with builder context.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
@@ -393,21 +411,6 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Adds a pipeline file writer for generating pipeline configuration files.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <typeparam name="TWriter">The type of pipeline file writer to add.</typeparam>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddPipelineFileWriter<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TWriter>(
-        this PipelineBuilder builder)
-        where TWriter : class, IBuildSystemPipelineFileWriter
-    {
-        builder.Services.AddSingleton<IBuildSystemPipelineFileWriter, TWriter>();
-        return builder;
-    }
-
-    /// <summary>
     /// Adds a requirement instance to the pipeline.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
@@ -416,57 +419,6 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirement requirement)
     {
         builder.Services.AddSingleton(requirement);
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds a singleton service to the pipeline.
-    /// </summary>
-    /// <typeparam name="TService">The service type.</typeparam>
-    /// <typeparam name="TImplementation">The implementation type.</typeparam>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddSingleton<
-        TService,
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
-        this PipelineBuilder builder)
-        where TService : class
-        where TImplementation : class, TService
-    {
-        builder.Services.AddSingleton<TService, TImplementation>();
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds a singleton service instance to the pipeline.
-    /// </summary>
-    /// <typeparam name="TService">The service type.</typeparam>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="implementationInstance">The service instance.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddSingleton<TService>(
-        this PipelineBuilder builder,
-        TService implementationInstance)
-        where TService : class
-    {
-        builder.Services.AddSingleton(implementationInstance);
-        return builder;
-    }
-
-    /// <summary>
-    /// Configures options for the pipeline.
-    /// </summary>
-    /// <typeparam name="TOptions">The options type.</typeparam>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureOptions">The configuration action.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder Configure<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions>(
-        this PipelineBuilder builder,
-        Action<TOptions> configureOptions)
-        where TOptions : class
-    {
-        builder.Services.Configure(configureOptions);
         return builder;
     }
 

@@ -5,55 +5,20 @@ namespace ModularPipelines.UnitTests.Extensions;
 
 public class CommandExtensionsTests
 {
-    [Test]
-    public async Task ToToolOptions_SingleArg()
-    {
-        var commandLineOptions = new CommandExecutionOptions()
-            .ToCommandLineToolOptions("mytool", "arg1");
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1"]);
-        }
-    }
-
-    [Test]
-    public async Task ToToolOptions_MultipleArgs()
-    {
-        var commandLineOptions = new CommandExecutionOptions()
-            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2"]);
-        }
-    }
-
-    [Test]
-    public async Task ToToolOptions_MultipleArgs_IEnumerable()
-    {
-        var commandLineOptions = new CommandExecutionOptions()
-            .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2"]);
-        }
-    }
+    private sealed record DerivedOptions : CommandLineToolOptions;
 
     [Test]
     public async Task WithArguments_AddsToExisting()
     {
-        var commandLineOptions = new CommandExecutionOptions()
-            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
+        var commandLineOptions = new DerivedOptions
+        {
+            Arguments = ["arg1", "arg2"],
+        }
             .WithArguments(["arg3", "arg4", "arg5"]);
 
         using (Assert.Multiple())
         {
-            await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
+            await Assert.That(commandLineOptions).IsTypeOf<DerivedOptions>();
             await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2", "arg3", "arg4", "arg5"]);
         }
     }

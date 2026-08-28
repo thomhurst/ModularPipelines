@@ -1,12 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.JsonUtils;
+namespace ModularPipelines.Serialization;
 
 [ExcludeFromCodeCoverage]
-public class FolderPathJsonConverter : JsonConverter<Folder>
+internal class FolderPathJsonConverter : JsonConverter<Folder>
 {
     public override Folder? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

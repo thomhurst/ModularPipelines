@@ -19,11 +19,11 @@ public record SchedulerOptions
     /// This includes pending module tracking, constraint violations, and state transitions.
     /// Default: false.
     /// </summary>
-    public bool EnableDetailedLogging { get; set; }
+    internal bool EnableDetailedLogging { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to collect and log timing metrics for module queue times and execution.
     /// Default: true.
     /// </summary>
-    public bool EnableTimingMetrics { get; set; } = true;
+    internal bool EnableTimingMetrics { get; set; } = true;
 }

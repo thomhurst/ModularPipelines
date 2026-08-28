@@ -4,9 +4,9 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace ModularPipelines.GitHub.PipelineWriters;
 
-public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
+internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
-    public async Task Write(IPipelineContext pipelineHookContext)
+    public async Task WriteAsync(IPipelineContext pipelineHookContext)
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext);
 
@@ -73,5 +73,5 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
         await options.OutputPath.WriteAsync(yaml);
     }
 
-    public abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineContext pipelineHookContext);
+    internal abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineContext pipelineHookContext);
 }

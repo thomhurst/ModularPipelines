@@ -50,10 +50,10 @@ public static class OpenTelemetryPipelineBuilderExtensions
                 }
             })
             .WithTracing(tracing => tracing.AddSource(
-                ModuleActivityTracing.PipelineSourceName,
-                ModuleActivityTracing.ModuleSourceName,
-                ModuleActivityTracing.CommandSourceName))
-            .WithMetrics(metrics => metrics.AddMeter(ModuleActivityTracing.MeterName));
+                PipelineTelemetry.PipelineSourceName,
+                PipelineTelemetry.ModuleSourceName,
+                PipelineTelemetry.CommandSourceName))
+            .WithMetrics(metrics => metrics.AddMeter(PipelineTelemetry.MeterName));
 
         builder.Services.TryAddSingleton<OpenTelemetryInitializer>();
 

@@ -6,7 +6,7 @@ using ModularPipelines.Options.Linux.AptGet;
 namespace ModularPipelines.Context.Linux;
 
 [ExcludeFromCodeCoverage]
-public class AptGet : IAptGet
+internal class AptGet : IAptGet
 {
     private readonly ICommandContext _command;
 

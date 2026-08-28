@@ -9,7 +9,7 @@ public class PluginRegistryTests
     [Test]
     public async Task Register_AddsPluginToRegistry()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var plugin = new TestPlugin("TestPlugin1");
 
         PluginRegistry.Register(plugin);
@@ -20,7 +20,7 @@ public class PluginRegistryTests
     [Test]
     public async Task Register_DuplicateName_ThrowsInvalidOperationException()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var plugin1 = new TestPlugin("DuplicateName");
         var plugin2 = new TestPlugin("DuplicateName");
 
@@ -35,7 +35,7 @@ public class PluginRegistryTests
     [Test]
     public async Task Register_NullPlugin_ThrowsArgumentNullException()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
 
         await Assert.That(() => PluginRegistry.Register(null!))
             .Throws<ArgumentNullException>();
@@ -44,7 +44,7 @@ public class PluginRegistryTests
     [Test]
     public async Task Plugins_ReturnsOrderedByPriority()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var lowPriority = new TestPlugin("Low", priority: 100);
         var highPriority = new TestPlugin("High", priority: -10);
         var defaultPriority = new TestPlugin("Default", priority: 0);
@@ -64,7 +64,7 @@ public class PluginRegistryTests
     [Test]
     public async Task Clear_RemovesAllPlugins()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         PluginRegistry.Register(new TestPlugin("Plugin1"));
         PluginRegistry.Register(new TestPlugin("Plugin2"));
 
@@ -80,12 +80,12 @@ public class PluginRegistryTests
         var originalPlugin = new TestPlugin("Original");
 
         // First, ensure we're starting clean for this test
-        using (PluginTestHelper.IsolatedRegistry())
+        using (PluginRegistry.BeginIsolatedScope())
         {
             PluginRegistry.Register(originalPlugin);
 
             // Inside isolated scope, add another
-            using (PluginTestHelper.IsolatedRegistry())
+            using (PluginRegistry.BeginIsolatedScope())
             {
                 PluginRegistry.Register(new TestPlugin("Temporary"));
 
@@ -102,13 +102,13 @@ public class PluginRegistryTests
     [Test]
     public async Task IsolatedRegistry_DoesNotLeakIntoParallelExecutionContexts()
     {
-        using var parentScope = PluginTestHelper.IsolatedRegistry();
+        using var parentScope = PluginRegistry.BeginIsolatedScope();
         var pluginRegistered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releasePluginScope = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var pluginTask = Task.Run(async () =>
         {
-            using var childScope = PluginTestHelper.IsolatedRegistry();
+            using var childScope = PluginRegistry.BeginIsolatedScope();
             PluginRegistry.Register(new TestPlugin("ScopedPlugin"));
             pluginRegistered.TrySetResult();
             await releasePluginScope.Task;

@@ -6,7 +6,7 @@ namespace ModularPipelines.Enums;
 /// Defines the type of dependency between modules.
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter<DependencyType>))]
-public enum DependencyType
+internal enum DependencyType
 {
     /// <summary>
     /// Required dependency. The dependent module will fail if this dependency is not registered.

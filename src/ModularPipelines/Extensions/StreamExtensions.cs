@@ -3,7 +3,7 @@ namespace ModularPipelines.Extensions;
 /// <summary>
 /// Extensions for Streams.
 /// </summary>
-public static class StreamExtensions
+internal static class StreamExtensions
 {
     /// <summary>
     /// Turns a generic <see cref="Stream"/> into a <see cref="MemoryStream"/>.
