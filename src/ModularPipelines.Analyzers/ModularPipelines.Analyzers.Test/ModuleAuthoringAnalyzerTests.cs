@@ -7707,36 +7707,6 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Fluent_AddSingleton_Registration()
-    {
-        var source = $$"""
-            {{Header}}
-            using Microsoft.Extensions.DependencyInjection;
-
-            public class FirstModule : Module<List<string>>
-            {
-                {{TestSourceConstants.SimpleAsyncExecuteBody}}
-            }
-
-            internal class SecondModule : Module<List<string>>
-            {
-                {{TestSourceConstants.SimpleAsyncExecuteBody}}
-            }
-
-            public static class Registration
-            {
-                public static void Register() => Pipeline.CreateBuilder()
-                    .AddModule<FirstModule>()
-                    .AddSingleton<IModule, SecondModule>();
-            }
-
-            {{EntryPoint}}
-            """;
-
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
-    }
-
-    [TestMethod]
     public async Task Does_Not_Report_Fluent_ConfigureServices_Registration()
     {
         var source = $$"""

@@ -5,8 +5,8 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Serialization;
 using ModularPipelines.Logging;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.FileSystem;
 
