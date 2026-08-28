@@ -96,10 +96,8 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationHandler
+        : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public bool IsPlanningSafe => true;
-
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             context.AddDependency(dependencyType);
@@ -118,10 +116,8 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddDependencyWhenCompanionPresentAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationHandler
+        : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public bool IsPlanningSafe => true;
-
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             if (context.ModuleAttributes.Any(static attribute => attribute is PlanningCompanionAttribute))
@@ -1366,10 +1362,8 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CountPlanningRegistrationAttribute
-        : Attribute, IModuleRegistrationHandler
+        : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public bool IsPlanningSafe => true;
-
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             Interlocked.Increment(ref _planningRegistrationEvents);
@@ -1470,10 +1464,8 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CancelPlanningRegistrationAttribute
-        : Attribute, IModuleRegistrationHandler
+        : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public bool IsPlanningSafe => true;
-
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             _planningCancellation!.Cancel();
@@ -3372,7 +3364,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message)
-                .Contains(nameof(IModuleRegistrationHandler.IsPlanningSafe));
+                .Contains(nameof(IPlanningSafeModuleRegistrationHandler));
             await Assert.That(eventsAfterRender).IsEqualTo(0);
             await Assert.That(constructionsAfterRender).IsEqualTo(0);
             await Assert.That(_planningRegistrationEvents).IsEqualTo(1);

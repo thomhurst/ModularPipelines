@@ -102,9 +102,10 @@ Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`,
 All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run
 first), or `ContinueOnError` to log a handler failure and continue.
 
-Registration attributes implement `IModuleRegistrationHandler`. Set `IsPlanningSafe` to
-`true` only for deterministic, idempotent handlers without external side effects; those
-handlers may run while exporting a resolved dependency graph.
+Registration attributes implement `IModuleRegistrationHandler`. Also implement
+`IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers
+without external side effects; those handlers may run while exporting a resolved
+dependency graph.
 
 ## Global module event handlers
 

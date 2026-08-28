@@ -51,7 +51,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         var unsafeHandlerTypes = handlerData
             .Select(static data => data.AttributeType)
             .Distinct()
-            .Where(static type => !IsPlanningSafe(type))
+            .Where(static type => !typeof(IPlanningSafeModuleRegistrationHandler).IsAssignableFrom(type))
             .ToArray();
         if (unsafeHandlerTypes.Length > 0)
         {
@@ -59,7 +59,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
                 $"Cannot export a resolved dependency graph because {moduleType.FullName} has "
                 + "registration handlers that are not planning-safe: "
                 + string.Join(", ", unsafeHandlerTypes.Select(static type => type.FullName))
-                + $". Set {nameof(IModuleRegistrationHandler.IsPlanningSafe)} to true only when "
+                + $". Implement {nameof(IPlanningSafeModuleRegistrationHandler)} only when "
                 + "the handler is deterministic, idempotent, and free of external side effects.");
         }
 
@@ -67,27 +67,6 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         var attributes = attributeData.Select(CreatePlanningAttribute).ToArray();
         var handlers = attributes.OfType<IModuleRegistrationHandler>().ToList();
         return new PlanningAttributeCache(attributes, SortByPriority(handlers));
-    }
-
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2067",
-        Justification = "The handler type is preserved by the custom-attribute metadata being inspected.")]
-    private static bool IsPlanningSafe(Type handlerType)
-    {
-        try
-        {
-            var probe = (IModuleRegistrationHandler) RuntimeHelpers.GetUninitializedObject(handlerType);
-            return probe.IsPlanningSafe;
-        }
-        catch (Exception exception)
-        {
-            throw new PipelineException(
-                $"Cannot determine whether {handlerType.FullName} is planning-safe without constructing it. "
-                + $"The {nameof(IModuleRegistrationHandler.IsPlanningSafe)} getter must not depend on "
-                + "constructor-initialized state.",
-                exception);
-        }
     }
 
     [UnconditionalSuppressMessage(

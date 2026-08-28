@@ -6,11 +6,6 @@ namespace ModularPipelines.Events;
 public interface IModuleRegistrationHandler : IEventHandler
 {
     /// <summary>
-    /// Gets whether the handler is deterministic, idempotent, and safe to invoke while planning a dependency graph.
-    /// </summary>
-    bool IsPlanningSafe => false;
-
-    /// <summary>
     /// Called when the module is being registered.
     /// </summary>
     /// <param name="context">The module registration context.</param>
