@@ -53,7 +53,7 @@ public class SyncModuleTests : TestBase
 
         await Assert.That(module.WasExecuted).IsTrue();
         await Assert.That(result.ValueOrDefault).IsEqualTo(None.Value);
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     public class SyncModuleReturningNull : SyncModule<string?>

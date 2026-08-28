@@ -20,6 +20,12 @@ public class ExecutionApiSurfaceTests
         var nonGenericAdapterExecuteAsync = typeof(NonGenericModuleAdapter).GetMethod(
             "ExecuteAsync",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+        var nonGenericSyncExecute = typeof(SyncModule).GetMethod(
+            "Execute",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+        var nonGenericSyncAdapterExecute = typeof(NonGenericSyncModuleAdapter).GetMethod(
+            "Execute",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
         var syncModuleMethods = typeof(SyncModule<>).GetMethods(
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
         var syncExecute = syncModuleMethods.SingleOrDefault(static method => method.Name == "Execute");
@@ -35,7 +41,7 @@ public class ExecutionApiSurfaceTests
         using (Assert.Multiple())
         {
             await Assert.That(assembly.GetType("ModularPipelines.Modules.Module")).IsEqualTo(typeof(PipelineModule));
-            await Assert.That(assembly.GetType("ModularPipelines.Modules.SyncModule")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.Modules.SyncModule")).IsEqualTo(typeof(SyncModule));
             await Assert.That(moduleExecuteAsync).IsNotNull();
             await Assert.That(moduleExecuteAsync!.IsAbstract).IsTrue();
             await Assert.That(nonGenericModuleExecuteAsync).IsNotNull();
@@ -45,6 +51,13 @@ public class ExecutionApiSurfaceTests
             await Assert.That(nonGenericAdapterExecuteAsync!.IsFinal).IsTrue();
             await Assert.That(nonGenericAdapterExecuteAsync.ReturnType).IsEqualTo(typeof(Task<None>));
             await Assert.That(typeof(Module<None>).IsAssignableFrom(typeof(PipelineModule))).IsTrue();
+            await Assert.That(nonGenericSyncExecute).IsNotNull();
+            await Assert.That(nonGenericSyncExecute!.IsAbstract).IsTrue();
+            await Assert.That(nonGenericSyncExecute.ReturnType).IsEqualTo(typeof(void));
+            await Assert.That(nonGenericSyncAdapterExecute).IsNotNull();
+            await Assert.That(nonGenericSyncAdapterExecute!.IsFinal).IsTrue();
+            await Assert.That(nonGenericSyncAdapterExecute.ReturnType).IsEqualTo(typeof(None));
+            await Assert.That(typeof(SyncModule<None>).IsAssignableFrom(typeof(SyncModule))).IsTrue();
             await Assert.That(syncExecute).IsNotNull();
             await Assert.That(syncExecute!.IsAbstract).IsTrue();
             await Assert.That(duplicateSyncHooks).IsEmpty();
