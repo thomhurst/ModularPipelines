@@ -1,5 +1,6 @@
 using ModularPipelines.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
@@ -10,13 +11,24 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel(nameof(ConsoleWriterTests))]
 public class ConsoleWriterTests
 {
-    private sealed class LogToConsoleModule(IConsoleWriter consoleWriter) : Module<bool>
+    private sealed class WriteMarkupLineModule(IConsoleWriter consoleWriter) : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            consoleWriter.LogToConsole("[green]module output[/]");
+            consoleWriter.WriteMarkupLine("[green]module output[/]");
+            return Task.FromResult(true);
+        }
+    }
+
+    private sealed class WriteLineModule(IConsoleWriter consoleWriter) : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            consoleWriter.WriteLine("[green]module output[/]");
             return Task.FromResult(true);
         }
     }
@@ -34,11 +46,19 @@ public class ConsoleWriterTests
     }
 
     [Test]
-    public async Task LogToConsole_UsesAmbientModuleConsoleWriter()
+    public async Task WriteMarkupLine_UsesAmbientModuleConsoleWriter()
     {
-        var output = await RunAsync<LogToConsoleModule>();
+        var output = await RunAsync<WriteMarkupLineModule>();
 
         await Assert.That(output).Contains("module output");
+    }
+
+    [Test]
+    public async Task WriteLine_EscapesMarkup()
+    {
+        var output = await RunAsync<WriteLineModule>();
+
+        await Assert.That(output).Contains("[[green]]module output[[/]]");
     }
 
     [Test]

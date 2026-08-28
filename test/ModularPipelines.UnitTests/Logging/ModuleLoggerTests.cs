@@ -26,9 +26,9 @@ public class ModuleLoggerTests
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            ((IConsoleWriter) context.Logger).LogToConsole(RandomString);
+            context.Console.WriteLine(RandomString);
 
-            ((IConsoleWriter) context.Logger).LogToConsole(new MySecrets().Value1!);
+            context.Console.WriteLine(new MySecrets().Value1!);
 
             await Task.Yield();
             return true;
@@ -58,9 +58,9 @@ public class ModuleLoggerTests
     }
 
     [Test]
-    public async Task LogToConsole_Does_Not_Write_To_File_Logger()
+    public async Task ConsoleWriteLine_Does_Not_Write_To_File_Logger()
     {
-        // This test verifies that LogToConsole output goes to console buffers,
+        // This test verifies that console output goes to console buffers,
         // NOT to file loggers. The console output itself is verified implicitly
         // through the full integration tests.
         var file = FilePath.GetNewTemporaryFilePath();
@@ -77,7 +77,7 @@ public class ModuleLoggerTests
 
         await host.DisposeAsync();
 
-        // The key behavior: LogToConsole output should NOT appear in file logs
+        // The key behavior: console output should NOT appear in file logs
         await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
     }
 

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
+using ModularPipelines.Logging;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Models;
 using Moq;
@@ -25,7 +26,7 @@ public class SecretObfuscatorTests
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
         _consoleWriterMock = new Mock<IConsoleWriter>();
-        _consoleWriterMock.Setup(x => x.LogToConsole(It.IsAny<string>()))
+        _consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
             .Callback<string>(value => _consoleOutput.AppendLine(value));
 
         _commandWriterMock = new Mock<IBuildSystemCommandWriter>();
@@ -53,7 +54,7 @@ public class SecretObfuscatorTests
         await RunAsync();
 
         _consoleWriterMock.Verify(
-            writer => writer.LogToConsole(It.Is<string>(
+            writer => writer.WriteLine(It.Is<string>(
                 value => value.StartsWith("::add-mask::", StringComparison.Ordinal))),
             Times.Never);
         await Assert.That(_consoleOutput.ToString())

@@ -177,6 +177,9 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public ILogger Logger => _logger;
 
     /// <inheritdoc />
+    public IConsoleWriter Console => (IConsoleWriter) _logger;
+
+    /// <inheritdoc />
     public IShellContext Shell => _pipelineContext.Shell;
 
     /// <inheritdoc />

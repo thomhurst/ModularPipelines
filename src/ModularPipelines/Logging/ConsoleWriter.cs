@@ -1,18 +1,28 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Logging;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
-namespace ModularPipelines;
+namespace ModularPipelines.Logging;
 
 [ExcludeFromCodeCoverage]
 internal class ConsoleWriter : IConsoleWriter
 {
-    public void LogToConsole(string value)
+    public void WriteLine(string value)
     {
         if (ModuleLogger.Values.Value is IConsoleWriter moduleConsoleWriter)
         {
-            moduleConsoleWriter.LogToConsole(value);
+            moduleConsoleWriter.WriteLine(value);
+            return;
+        }
+
+        AnsiConsole.WriteLine(value);
+    }
+
+    public void WriteMarkupLine(string value)
+    {
+        if (ModuleLogger.Values.Value is IConsoleWriter moduleConsoleWriter)
+        {
+            moduleConsoleWriter.WriteMarkupLine(value);
             return;
         }
 

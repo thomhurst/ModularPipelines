@@ -56,7 +56,9 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
 
     public abstract ValueTask DisposeAsync();
 
-    public abstract void LogToConsole(string value);
+    public abstract void WriteLine(string value);
+
+    public abstract void WriteMarkupLine(string value);
 
     public abstract void Write(IRenderable renderable);
 
@@ -258,7 +260,13 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             typeof(T).Name);
     }
 
-    public override void LogToConsole(string value)
+    public override void WriteLine(string value)
+    {
+        var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
+        _buffer.WriteLine(Markup.Escape(obfuscated));
+    }
+
+    public override void WriteMarkupLine(string value)
     {
         var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
         _buffer.WriteLine(obfuscated);

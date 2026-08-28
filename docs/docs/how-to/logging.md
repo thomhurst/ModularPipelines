@@ -34,6 +34,21 @@ If you're in a module, it's part of your `context` object. Call `context.Logger`
 ### Elsewhere
 If you're in another class, inject `IModuleLoggerAccessor` and use its `Logger` property.
 
+## Module-aware console output
+
+Use `context.Console` when a module needs plain text or Spectre.Console rendering
+instead of structured logging. Its output remains grouped with the module and secrets
+are obfuscated before rendering.
+
+```csharp
+context.Console.WriteLine("Literal [brackets] stay literal");
+context.Console.WriteMarkupLine("[green]Build succeeded[/]");
+context.Console.Write(new Table().AddColumn("Result").AddRow("Succeeded"));
+```
+
+Do not use `System.Console` or `AnsiConsole` directly; they bypass module buffering
+and can interfere with the progress display.
+
 ## Command Logging
 
 When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipelines logs the command execution details. You can control what gets logged using `CommandLoggingOptions`.

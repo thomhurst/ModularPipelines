@@ -92,6 +92,9 @@ internal class ModuleHookContext : IModuleHookContext
     public ILogger Logger => _pipelineContext.Logger;
 
     /// <inheritdoc />
+    public IConsoleWriter Console => _pipelineContext.Console;
+
+    /// <inheritdoc />
     public IShellContext Shell => _pipelineContext.Shell;
 
     /// <inheritdoc />

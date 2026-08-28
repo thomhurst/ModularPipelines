@@ -11,6 +11,7 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -138,7 +139,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
 
         var testResults = await context.Tools.Trx.ParseTrxFile(trxFile);
-        var consoleWriter = context.Services.GetRequiredService<IConsoleWriter>();
+        var consoleWriter = context.Console;
         PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);
     }
@@ -178,12 +179,12 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                 Markup.Escape(GetFailureLocation(failedTest)));
         }
 
-        consoleWriter.LogToConsole($"[red]✗ {failedTests.Count} failed[/]");
+        consoleWriter.WriteMarkupLine($"[red]✗ {failedTests.Count} failed[/]");
         consoleWriter.Write(table);
 
         if (failedTests.Count > MaximumFailuresToDisplay)
         {
-            consoleWriter.LogToConsole(
+            consoleWriter.WriteMarkupLine(
                 $"[dim]Showing first {MaximumFailuresToDisplay}; "
                 + $"{failedTests.Count - MaximumFailuresToDisplay} more in {Markup.Escape(trxFilePath)}[/]");
         }
@@ -215,7 +216,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                 Markup.Escape(GetSkipReason(skippedTest)));
         }
 
-        consoleWriter.LogToConsole($"[dim]⏭ {skippedTests.Count} skipped[/]");
+        consoleWriter.WriteMarkupLine($"[dim]⏭ {skippedTests.Count} skipped[/]");
         consoleWriter.Write(table);
     }
 

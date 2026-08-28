@@ -29,6 +29,9 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public ILogger Logger => _logger ??= _moduleLoggerAccessor.GetLogger();
 
     /// <inheritdoc />
+    public IConsoleWriter Console => (IConsoleWriter) Logger;
+
+    /// <inheritdoc />
     public IShellContext Shell { get; }
 
     /// <inheritdoc />
