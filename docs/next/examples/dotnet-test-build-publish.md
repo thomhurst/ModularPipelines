@@ -227,7 +227,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
 
     {
 
-        var apiKey = context.Environment.Variables.GetEnvironmentVariable("NUGET_API_KEY");
+        var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
 
         ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 

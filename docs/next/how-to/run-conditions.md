@@ -45,7 +45,7 @@ public sealed class RunIfRegionAttribute(string region) : RunIfAllAttribute
 
         Task.FromResult(
 
-            context.Environment.Variables.GetEnvironmentVariable("REGION") == region);
+            context.Environment.Variables.Get("REGION") == region);
 
 }
 

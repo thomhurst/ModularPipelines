@@ -3280,7 +3280,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
 
     {
 
-        var apiKey = context.Environment.Variables.GetEnvironmentVariable("NUGET_API_KEY");
+        var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
 
         ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
@@ -7352,7 +7352,7 @@ public sealed class RunIfRegionAttribute(string region) : RunIfAllAttribute
 
         Task.FromResult(
 
-            context.Environment.Variables.GetEnvironmentVariable("REGION") == region);
+            context.Environment.Variables.Get("REGION") == region);
 
 }
 
