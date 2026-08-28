@@ -232,22 +232,20 @@ if (module != null)
 
 ## Fluent Dependencies[​](#fluent-dependencies "Direct link to Fluent Dependencies")
 
-Declare runtime-selected dependencies through the module's `Configure()` method:
+Declare runtime-selected dependencies through the module's `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class Module2 : Module<string>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .DependsOn<Module1>()                    // Required
 
         .DependsOnOptional<Module3>()            // Optional
 
-        .DependsOnIf<Module4>(someCondition)     // Required when true
-
-        .Build();
+        .DependsOnIf<Module4>(someCondition);    // Required when true
 
 }
 ```

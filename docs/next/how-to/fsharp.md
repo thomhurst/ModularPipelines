@@ -89,11 +89,7 @@ F# does not support applying generic attribute types, so declare static module d
 For runtime-selected dependencies, override `Configure` and use the fluent configuration builder:
 
 ```
-override _.Configure() =
+override _.Configure(moduleConfiguration: ModuleConfigurationBuilder) =
 
-    ModuleConfiguration.Create()
-
-        .DependsOn<BuildModule>()
-
-        .Build()
+    moduleConfiguration.DependsOn<BuildModule>() |> ignore
 ```

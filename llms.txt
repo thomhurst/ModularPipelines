@@ -75,7 +75,7 @@
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
 - [Pipeline Execution Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two execution modes:
 - [Requirements](/docs/next/how-to/requirements.md): If you'd like to fail fast, you can register some Requirement classes that do some checks on start up to make sure things are as expected.
-- [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure() method.
+- [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](/docs/next/how-to/secrets.md): Use IOptions\

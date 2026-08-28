@@ -75,7 +75,7 @@
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
 - [Pipeline Execution Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two execution modes:
 - [Requirements](/docs/next/how-to/requirements.md): If you'd like to fail fast, you can register some Requirement classes that do some checks on start up to make sure things are as expected.
-- [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure() method.
+- [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](/docs/next/how-to/secrets.md): Use IOptions\
@@ -3997,11 +3997,9 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithAlwaysRun()
-
-        .Build();
+        .WithAlwaysRun();
 
 
 
@@ -4029,15 +4027,13 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithAlwaysRun()
 
         .WithIgnoreFailures()  // Don't fail the pipeline if cleanup fails
 
-        .WithTimeout(TimeSpan.FromMinutes(5))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromMinutes(5));
 
 
 
@@ -4676,14 +4672,14 @@ The pipeline represents a non-generic module's successful result internally with
 
 ## Configuring Module Behavior[​](#configuring-module-behavior "Direct link to Configuring Module Behavior")
 
-Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class MyModule : Module<FileInfo>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
@@ -4703,9 +4699,7 @@ public class MyModule : Module<FileInfo>
 
         .WithIgnoreFailures()
 
-        .WithAlwaysRun()
-
-        .Build();
+        .WithAlwaysRun();
 
 
 
@@ -4868,13 +4862,11 @@ public class BuildModule : Module<BuildOutput>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithCategory("Build")
 
-        .WithTags("critical", "fast")
-
-        .Build();
+        .WithTags("critical", "fast");
 
 
 
@@ -5139,22 +5131,20 @@ if (module != null)
 
 ## Fluent Dependencies[​](#fluent-dependencies "Direct link to Fluent Dependencies")
 
-Declare runtime-selected dependencies through the module's `Configure()` method:
+Declare runtime-selected dependencies through the module's `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class Module2 : Module<string>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .DependsOn<Module1>()                    // Required
 
         .DependsOnOptional<Module3>()            // Optional
 
-        .DependsOnIf<Module4>(someCondition)     // Required when true
-
-        .Build();
+        .DependsOnIf<Module4>(someCondition);    // Required when true
 
 }
 ```
@@ -5253,13 +5243,9 @@ F# does not support applying generic attribute types, so declare static module d
 For runtime-selected dependencies, override `Configure` and use the fluent configuration builder:
 
 ```
-override _.Configure() =
+override _.Configure(moduleConfiguration: ModuleConfigurationBuilder) =
 
-    ModuleConfiguration.Create()
-
-        .DependsOn<BuildModule>()
-
-        .Build()
+    moduleConfiguration.DependsOn<BuildModule>() |> ignore
 ```
 
 
@@ -5773,11 +5759,9 @@ public class OptionalModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailures()
-
-        .Build();
+        .WithIgnoreFailures();
 
 
 
@@ -5801,11 +5785,9 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
-
-        .Build();
+        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException);
 
 
 
@@ -5829,7 +5811,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithIgnoreFailuresWhen(async (ctx, exception) =>
 
@@ -5849,9 +5831,7 @@ public class MyModule : Module<CommandResult>
 
             return false;
 
-        })
-
-        .Build();
+        });
 
 }
 ```
@@ -5865,15 +5845,13 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithRetry(3)  // Try 3 times first
 
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
 
-        .WithAlwaysRun()  // Run even if dependencies failed
-
-        .Build();
+        .WithAlwaysRun(); // Run even if dependencies failed
 
 }
 ```
@@ -6175,17 +6153,13 @@ Use `--no-cache` to bypass all module cache reads and writes for one command-lin
 File contents do not represent every input. Add configuration or tool versions explicitly:
 
 ```
-protected override ModuleConfiguration Configure() =>
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    ModuleConfiguration.Create()
+    .WithCacheKeyPart($"configuration={configurationName}")
 
-        .WithCacheKeyPart($"configuration={configurationName}")
+    .WithCacheKeyPart($"sdk={sdkVersion}")
 
-        .WithCacheKeyPart($"sdk={sdkVersion}")
-
-        .WithCacheEnvironmentVariable("TARGET_RUNTIME")
-
-        .Build();
+    .WithCacheEnvironmentVariable("TARGET_RUNTIME");
 ```
 
 Changing any key part or declared environment value invalidates the entry.
@@ -6197,15 +6171,11 @@ By default, the fingerprint includes the module assembly's MVID so rebuilding ch
 Use an explicit version key only when your build changes the MVID independently of module behavior:
 
 ```
-protected override ModuleConfiguration Configure() =>
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    ModuleConfiguration.Create()
+    .WithCacheKeyPart("configuration=v1")
 
-        .WithCacheKeyPart("configuration=v1")
-
-        .WithCacheAssemblyVersionKey("build-module-v3")
-
-        .Build();
+    .WithCacheAssemblyVersionKey("build-module-v3");
 ```
 
 You must update this key whenever the module implementation changes. Reusing it after a behavior change can restore stale results or artifacts. Cache misses log bounded fingerprint-component diagnostics at `Debug`; user-controlled key parts, environment values, exception messages, and skip reasons appear only as SHA-256 hashes.
@@ -7147,7 +7117,7 @@ public class WindowsRequirement : IPipelineRequirement
 
 # Retries and Resilience Shields
 
-When creating modules, you can configure retries per module using the `Configure()` method. The standard API supports exponential backoff, jitter, and exception filtering without exposing the underlying resilience library.
+When creating modules, you can configure retries per module using the `Configure(ModuleConfigurationBuilder)` method. The standard API supports exponential backoff, jitter, and exception filtering without exposing the underlying resilience library.
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
@@ -7160,11 +7130,9 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
-
-        .Build();
+        .WithRetry(3); // Retry up to 3 times with exponential backoff and jitter
 
 
 
@@ -7182,7 +7150,7 @@ public class MyModule : Module<CommandResult>
 The default base delay is 100 milliseconds. Each retry uses equal jitter between half and all of its exponential-backoff ceiling. You can set a different base delay and limit retries to selected exceptions:
 
 ```
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
     .WithRetry(
 
@@ -7190,9 +7158,7 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
 
         baseDelay: TimeSpan.FromSeconds(1),
 
-        shouldRetry: exception => exception is HttpRequestException)
-
-    .Build();
+        shouldRetry: exception => exception is HttpRequestException);
 ```
 
 ### Custom Resilience Shield[​](#custom-resilience-shield "Direct link to Custom Resilience Shield")
@@ -7204,15 +7170,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithShield(
 
             Shield.When<HttpRequestException>()
 
-                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
-
-        .Build();
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))));
 
 
 
@@ -7236,7 +7200,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithShield(ctx =>
 
@@ -7248,9 +7212,7 @@ public class MyModule : Module<CommandResult>
 
                 .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
 
-        })
-
-        .Build();
+        });
 
 }
 ```
@@ -7264,15 +7226,13 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithRetry(3)
 
         .WithTimeout(TimeSpan.FromMinutes(10))
 
-        .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
-
-        .Build();
+        .WithIgnoreFailures(); // Don't fail the pipeline even after all retries
 
 }
 ```
@@ -7311,7 +7271,7 @@ builder.ConfigurePipelineOptions(options => options with
 await builder.RunAsync();
 ```
 
-This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.
+This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure(ModuleConfigurationBuilder)`.
 
 
 ---
@@ -7402,7 +7362,7 @@ public class PublishModule : Module<None>
 
 Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse environment-variable check. The `ModularPipelines.Git` package also provides `RunIfBranch`, `RunIfBranchStartsWith`, and `SkipIfBranch`; these stateful attributes use the same base classes.
 
-One-off conditions can use `Configure().WithSkipWhen(...)`.
+One-off conditions can use `Configure(ModuleConfigurationBuilder).WithSkipWhen(...)`.
 
 
 ---
@@ -7852,7 +7812,7 @@ public class DeployModule : Module<DeployResult>
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
-The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
 Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
@@ -7865,15 +7825,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(
 
             _ => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true",
 
-            "SKIP_MODULE is true")
-
-        .Build();
+            "SKIP_MODULE is true");
 
 
 
@@ -7897,15 +7855,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(
 
             async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
 
-            "This should only run on the main branch")
-
-        .Build();
+            "This should only run on the main branch");
 
 
 
@@ -7929,7 +7885,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(async (ctx, _) =>
 
@@ -7939,9 +7895,7 @@ public class MyModule : Module<CommandResult>
 
             return repositoryInfo?.BranchName != "main";
 
-        }, "This should only run on the main branch")
-
-        .Build();
+        }, "This should only run on the main branch");
 
 
 
@@ -7965,7 +7919,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(async (_, cancellationToken) =>
 
@@ -7979,9 +7933,7 @@ public class MyModule : Module<CommandResult>
 
             return !response.IsSuccessStatusCode;
 
-        }, "The remote service is unavailable")
-
-        .Build();
+        }, "The remote service is unavailable");
 
 }
 ```
@@ -7997,7 +7949,7 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
 
@@ -8009,9 +7961,7 @@ public class CleanupModule : Module<CommandResult>
 
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
 
-        .WithTimeout(TimeSpan.FromMinutes(5))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromMinutes(5));
 
 }
 ```
@@ -8019,7 +7969,7 @@ public class CleanupModule : Module<CommandResult>
 When every condition must match before the module is skipped, group them explicitly with `WithSkipWhenAll`:
 
 ```
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
     .WithSkipWhenAll(
 
@@ -8033,9 +7983,7 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
 
             ? SkipDecision.Skip("Not deploying to production")
 
-            : SkipDecision.DoNotSkip)
-
-    .Build();
+            : SkipDecision.DoNotSkip);
 ```
 
 Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons. The group composes with other skip conditions using OR-to-skip semantics.
@@ -8779,7 +8727,7 @@ builder.ConfigurePipelineOptions(options => options with
 });
 ```
 
-You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+You can override the pipeline default for one module using `Configure(ModuleConfigurationBuilder)`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
 
 `AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even when ordinary module timeouts are disabled. Configure it independently when needed:
 
@@ -8802,11 +8750,9 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithTimeout(TimeSpan.FromSeconds(120))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromSeconds(120));
 
 
 
@@ -8830,15 +8776,13 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
         .WithRetry(3)  // Retry if timeout or other failure occurs
 
-        .WithIgnoreFailures()  // Don't fail the pipeline if module times out
-
-        .Build();
+        .WithIgnoreFailures(); // Don't fail the pipeline if module times out
 
 
 

@@ -60,17 +60,13 @@ Use `--no-cache` to bypass all module cache reads and writes for one command-lin
 File contents do not represent every input. Add configuration or tool versions explicitly:
 
 ```
-protected override ModuleConfiguration Configure() =>
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    ModuleConfiguration.Create()
+    .WithCacheKeyPart($"configuration={configurationName}")
 
-        .WithCacheKeyPart($"configuration={configurationName}")
+    .WithCacheKeyPart($"sdk={sdkVersion}")
 
-        .WithCacheKeyPart($"sdk={sdkVersion}")
-
-        .WithCacheEnvironmentVariable("TARGET_RUNTIME")
-
-        .Build();
+    .WithCacheEnvironmentVariable("TARGET_RUNTIME");
 ```
 
 Changing any key part or declared environment value invalidates the entry.
@@ -82,15 +78,11 @@ By default, the fingerprint includes the module assembly's MVID so rebuilding ch
 Use an explicit version key only when your build changes the MVID independently of module behavior:
 
 ```
-protected override ModuleConfiguration Configure() =>
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    ModuleConfiguration.Create()
+    .WithCacheKeyPart("configuration=v1")
 
-        .WithCacheKeyPart("configuration=v1")
-
-        .WithCacheAssemblyVersionKey("build-module-v3")
-
-        .Build();
+    .WithCacheAssemblyVersionKey("build-module-v3");
 ```
 
 You must update this key whenever the module implementation changes. Reusing it after a behavior change can restore stale results or artifacts. Cache misses log bounded fingerprint-component diagnostics at `Debug`; user-controlled key parts, environment values, exception messages, and skip reasons appear only as SHA-256 hashes.

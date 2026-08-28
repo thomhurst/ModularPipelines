@@ -80,14 +80,14 @@ The pipeline represents a non-generic module's successful result internally with
 
 ## Configuring Module Behavior[​](#configuring-module-behavior "Direct link to Configuring Module Behavior")
 
-Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class MyModule : Module<FileInfo>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
@@ -107,9 +107,7 @@ public class MyModule : Module<FileInfo>
 
         .WithIgnoreFailures()
 
-        .WithAlwaysRun()
-
-        .Build();
+        .WithAlwaysRun();
 
 
 
@@ -272,13 +270,11 @@ public class BuildModule : Module<BuildOutput>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithCategory("Build")
 
-        .WithTags("critical", "fast")
-
-        .Build();
+        .WithTags("critical", "fast");
 
 
 

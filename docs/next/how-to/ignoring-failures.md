@@ -13,11 +13,9 @@ public class OptionalModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailures()
-
-        .Build();
+        .WithIgnoreFailures();
 
 
 
@@ -41,11 +39,9 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
-
-        .Build();
+        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException);
 
 
 
@@ -69,7 +65,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithIgnoreFailuresWhen(async (ctx, exception) =>
 
@@ -89,9 +85,7 @@ public class MyModule : Module<CommandResult>
 
             return false;
 
-        })
-
-        .Build();
+        });
 
 }
 ```
@@ -105,15 +99,13 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithRetry(3)  // Try 3 times first
 
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
 
-        .WithAlwaysRun()  // Run even if dependencies failed
-
-        .Build();
+        .WithAlwaysRun(); // Run even if dependencies failed
 
 }
 ```

@@ -2,7 +2,7 @@
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
-The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
 Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
@@ -15,15 +15,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(
 
             _ => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true",
 
-            "SKIP_MODULE is true")
-
-        .Build();
+            "SKIP_MODULE is true");
 
 
 
@@ -47,15 +45,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(
 
             async (ctx, _) => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main",
 
-            "This should only run on the main branch")
-
-        .Build();
+            "This should only run on the main branch");
 
 
 
@@ -79,7 +75,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(async (ctx, _) =>
 
@@ -89,9 +85,7 @@ public class MyModule : Module<CommandResult>
 
             return repositoryInfo?.BranchName != "main";
 
-        }, "This should only run on the main branch")
-
-        .Build();
+        }, "This should only run on the main branch");
 
 
 
@@ -115,7 +109,7 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(async (_, cancellationToken) =>
 
@@ -129,9 +123,7 @@ public class MyModule : Module<CommandResult>
 
             return !response.IsSuccessStatusCode;
 
-        }, "The remote service is unavailable")
-
-        .Build();
+        }, "The remote service is unavailable");
 
 }
 ```
@@ -147,7 +139,7 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
 
@@ -159,9 +151,7 @@ public class CleanupModule : Module<CommandResult>
 
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
 
-        .WithTimeout(TimeSpan.FromMinutes(5))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromMinutes(5));
 
 }
 ```
@@ -169,7 +159,7 @@ public class CleanupModule : Module<CommandResult>
 When every condition must match before the module is skipped, group them explicitly with `WithSkipWhenAll`:
 
 ```
-protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+protected override void Configure(ModuleConfigurationBuilder module) => module
 
     .WithSkipWhenAll(
 
@@ -183,9 +173,7 @@ protected override ModuleConfiguration Configure() => ModuleConfiguration.Create
 
             ? SkipDecision.Skip("Not deploying to production")
 
-            : SkipDecision.DoNotSkip)
-
-    .Build();
+            : SkipDecision.DoNotSkip);
 ```
 
 Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons. The group composes with other skip conditions using OR-to-skip semantics.
