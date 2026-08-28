@@ -127,7 +127,7 @@ public class DocumentationSnippetTests
         await Assert.That(pipelineHost).Contains("FailureMode = FailureMode.ContinueOnFailure");
         await Assert.That(pipelineHost).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(versionedPipelineHost)
-            .Contains("FailureMode = FailureMode.ContinueOnFailure");
+            .Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
         await Assert.That(versionedPipelineHost).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ModuleStatus.Succeeded");
