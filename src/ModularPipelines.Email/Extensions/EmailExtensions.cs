@@ -16,5 +16,5 @@ public static class EmailExtensions
         return services;
     }
 
-    public static IEmail Email(this IPipelineContext context) => context.Services.Get<IEmail>();
+    public static IEmail Email(this IPipelineContext context) => context.Services.GetRequiredService<IEmail>();
 }

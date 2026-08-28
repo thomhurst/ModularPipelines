@@ -47,5 +47,5 @@ public static class ArgoCdExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IArgoCd"/> service for executing argocd commands.</returns>
-    public static IArgoCd ArgoCd(this IPipelineContext context) => context.Services.Get<IArgoCd>();
+    public static IArgoCd ArgoCd(this IPipelineContext context) => context.Services.GetRequiredService<IArgoCd>();
 }

@@ -44,5 +44,5 @@ public static class HelmExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHelm"/> service for executing helm commands.</returns>
-    public static IHelm Helm(this IPipelineContext context) => context.Services.Get<IHelm>();
+    public static IHelm Helm(this IPipelineContext context) => context.Services.GetRequiredService<IHelm>();
 }

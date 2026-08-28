@@ -30,7 +30,7 @@ internal class ServicesContext : IServicesContext
     }
 
     /// <inheritdoc />
-    public T Get<T>() where T : class
+    public T GetRequiredService<T>() where T : class
     {
         var service = _serviceProvider.GetService<T>();
         if (service is not null)
@@ -49,7 +49,7 @@ internal class ServicesContext : IServicesContext
     }
 
     /// <inheritdoc />
-    public T? TryGet<T>() where T : class => _serviceProvider.GetService<T>();
+    public T? GetService<T>() where T : class => _serviceProvider.GetService<T>();
 
     /// <inheritdoc />
     public IConfiguration Configuration { get; }

@@ -37,5 +37,5 @@ public static class HadolintExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHadolint"/> service for executing hadolint commands.</returns>
-    public static IHadolint Hadolint(this IPipelineContext context) => context.Services.Get<IHadolint>();
+    public static IHadolint Hadolint(this IPipelineContext context) => context.Services.GetRequiredService<IHadolint>();
 }

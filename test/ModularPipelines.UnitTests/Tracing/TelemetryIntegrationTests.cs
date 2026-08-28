@@ -56,7 +56,7 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            context.Services.Get<ISecretRegistry>().AddSecret(Secret);
+            context.Services.GetRequiredService<ISecretRegistry>().AddSecret(Secret);
             return await context.Shell.RunAsync(
                 new CommandLineToolOptions(SecretTool)
                 {

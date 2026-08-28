@@ -45,5 +45,5 @@ public static class KubernetesExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKubernetes"/> service for executing kubectl commands.</returns>
-    public static IKubernetes Kubernetes(this IPipelineContext context) => context.Services.Get<IKubernetes>();
+    public static IKubernetes Kubernetes(this IPipelineContext context) => context.Services.GetRequiredService<IKubernetes>();
 }

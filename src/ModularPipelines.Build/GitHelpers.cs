@@ -75,7 +75,7 @@ public static class GitHelpers
 
     private static GitHubSettings GetGitHubSettings(IModuleContext context)
     {
-        var options = context.Services.Get<IOptions<GitHubSettings>>();
+        var options = context.Services.GetRequiredService<IOptions<GitHubSettings>>();
         return options?.Value ?? new GitHubSettings();
     }
 }

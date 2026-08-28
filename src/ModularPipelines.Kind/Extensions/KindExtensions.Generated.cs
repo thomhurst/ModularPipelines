@@ -43,5 +43,5 @@ public static class KindExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IKind"/> service for executing kind commands.</returns>
-    public static IKind Kind(this IPipelineContext context) => context.Services.Get<IKind>();
+    public static IKind Kind(this IPipelineContext context) => context.Services.GetRequiredService<IKind>();
 }

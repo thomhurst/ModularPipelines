@@ -55,5 +55,5 @@ public static class FluxExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlux"/> service for executing flux commands.</returns>
-    public static IFlux Flux(this IPipelineContext context) => context.Services.Get<IFlux>();
+    public static IFlux Flux(this IPipelineContext context) => context.Services.GetRequiredService<IFlux>();
 }

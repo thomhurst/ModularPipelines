@@ -37,5 +37,5 @@ public static class SkopeoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISkopeo"/> service for executing skopeo commands.</returns>
-    public static ISkopeo Skopeo(this IPipelineContext context) => context.Services.Get<ISkopeo>();
+    public static ISkopeo Skopeo(this IPipelineContext context) => context.Services.GetRequiredService<ISkopeo>();
 }

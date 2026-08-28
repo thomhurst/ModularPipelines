@@ -20,35 +20,26 @@ namespace ModularPipelines.UnitTests.Context;
 public class ContextExtensionsTests
 {
     [Test]
-    public async Task GetService_ShouldResolveFromDI()
+    public async Task GetRequiredService_ShouldResolveFromDI()
     {
-        // Arrange
-        var mockServices = new Mock<IServicesContext>();
         var expectedService = new TestService();
-        mockServices.Setup(s => s.Get<TestService>()).Returns(expectedService);
+        using var serviceProvider = new ServiceCollection()
+            .AddSingleton(expectedService)
+            .BuildServiceProvider();
+        var servicesContext = CreateServicesContext(serviceProvider);
 
-        var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(mockServices.Object);
+        var result = servicesContext.GetRequiredService<TestService>();
 
-        // Act
-        var result = mockContext.Object.GetService<TestService>();
-
-        // Assert
         await Assert.That(result).IsSameReferenceAs(expectedService);
     }
 
     [Test]
-    public async Task GetService_WhenServiceNotRegistered_ShouldThrow()
+    public async Task GetRequiredService_WhenServiceNotRegistered_ShouldThrow()
     {
-        // Arrange
         using var serviceProvider = new ServiceCollection().BuildServiceProvider();
         var servicesContext = CreateServicesContext(serviceProvider);
 
-        var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(servicesContext);
-
-        // Act & Assert
-        var exception = await Assert.That(() => mockContext.Object.GetService<TestService>())
+        var exception = await Assert.That(() => servicesContext.GetRequiredService<TestService>())
             .ThrowsExactly<InvalidOperationException>();
 
         using (Assert.Multiple())
@@ -113,39 +104,27 @@ public class ContextExtensionsTests
     }
 
     [Test]
-    public async Task TryGetService_WhenServiceNotRegistered_ShouldReturnNull()
+    public async Task GetService_WhenServiceNotRegistered_ShouldReturnNull()
     {
-        // Arrange
         using var serviceProvider = new ServiceCollection().BuildServiceProvider();
         var servicesContext = CreateServicesContext(serviceProvider);
 
-        var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(servicesContext);
+        var result = servicesContext.GetService<TestService>();
 
-        // Act
-        var result = mockContext.Object.TryGetService<TestService>();
-
-        // Assert
         await Assert.That(result).IsNull();
     }
 
     [Test]
-    public async Task TryGetService_WhenServiceExists_ShouldReturnService()
+    public async Task GetService_WhenServiceExists_ShouldReturnService()
     {
-        // Arrange
         var expectedService = new TestService();
         using var serviceProvider = new ServiceCollection()
             .AddSingleton(expectedService)
             .BuildServiceProvider();
         var servicesContext = CreateServicesContext(serviceProvider);
 
-        var mockContext = new Mock<IModuleContext>();
-        mockContext.Setup(c => c.Services).Returns(servicesContext);
+        var result = servicesContext.GetService<TestService>();
 
-        // Act
-        var result = mockContext.Object.TryGetService<TestService>();
-
-        // Assert
         await Assert.That(result).IsSameReferenceAs(expectedService);
     }
 

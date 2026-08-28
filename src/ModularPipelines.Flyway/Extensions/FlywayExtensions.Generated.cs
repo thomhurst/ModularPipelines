@@ -37,5 +37,5 @@ public static class FlywayExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlyway"/> service for executing flyway commands.</returns>
-    public static IFlyway Flyway(this IPipelineContext context) => context.Services.Get<IFlyway>();
+    public static IFlyway Flyway(this IPipelineContext context) => context.Services.GetRequiredService<IFlyway>();
 }

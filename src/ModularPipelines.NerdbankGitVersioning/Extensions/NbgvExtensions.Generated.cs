@@ -37,5 +37,5 @@ public static class NbgvExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INbgv"/> service for executing nbgv commands.</returns>
-    public static INbgv Nbgv(this IPipelineContext context) => context.Services.Get<INbgv>();
+    public static INbgv Nbgv(this IPipelineContext context) => context.Services.GetRequiredService<INbgv>();
 }

@@ -37,5 +37,5 @@ public static class LiquibaseExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ILiquibase"/> service for executing liquibase commands.</returns>
-    public static ILiquibase Liquibase(this IPipelineContext context) => context.Services.Get<ILiquibase>();
+    public static ILiquibase Liquibase(this IPipelineContext context) => context.Services.GetRequiredService<ILiquibase>();
 }

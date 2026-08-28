@@ -37,5 +37,5 @@ public static class VaultExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IVault"/> service for executing vault commands.</returns>
-    public static IVault Vault(this IPipelineContext context) => context.Services.Get<IVault>();
+    public static IVault Vault(this IPipelineContext context) => context.Services.GetRequiredService<IVault>();
 }

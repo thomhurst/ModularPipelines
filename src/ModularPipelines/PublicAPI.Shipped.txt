@@ -425,9 +425,7 @@ ModularPipelines.Context.Domains.ISecurityContext
 ModularPipelines.Context.Domains.ISecurityContext.Certificates.get -> ModularPipelines.Context.Domains.Security.ICertificatesContext!
 ModularPipelines.Context.Domains.IServicesContext
 ModularPipelines.Context.Domains.IServicesContext.Configuration.get -> Microsoft.Extensions.Configuration.IConfiguration!
-ModularPipelines.Context.Domains.IServicesContext.Get<T>() -> T!
 ModularPipelines.Context.Domains.IServicesContext.Options.get -> ModularPipelines.Options.PipelineOptions!
-ModularPipelines.Context.Domains.IServicesContext.TryGet<T>() -> T?
 ModularPipelines.Context.Domains.IShellContext
 ModularPipelines.Context.Domains.IShellContext.Bash.get -> ModularPipelines.Context.Domains.Shell.IBashContext!
 ModularPipelines.Context.Domains.IShellContext.PowerShell.get -> ModularPipelines.Context.Domains.Shell.IPowerShellContext!
@@ -1874,11 +1872,9 @@ static ModularPipelines.AmbientModuleContext.IsInModuleContext.get -> bool
 static ModularPipelines.Caching.ModuleCacheFingerprint.Validate(string! fingerprint) -> void
 static ModularPipelines.Context.ContextExtensions.GetConfigValue(this ModularPipelines.Context.IPipelineContext! context, string! key) -> string?
 static ModularPipelines.Context.ContextExtensions.GetRequiredConfigValue(this ModularPipelines.Context.IPipelineContext! context, string! key) -> string!
-static ModularPipelines.Context.ContextExtensions.GetService<T>(this ModularPipelines.Context.IPipelineContext! context) -> T!
 static ModularPipelines.Context.ContextExtensions.IsRunningIn(this ModularPipelines.Context.IPipelineContext! context, ModularPipelines.Enums.BuildSystem buildSystem) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningInCI(this ModularPipelines.Context.IPipelineContext! context) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningLocally(this ModularPipelines.Context.IPipelineContext! context) -> bool
-static ModularPipelines.Context.ContextExtensions.TryGetService<T>(this ModularPipelines.Context.IPipelineContext! context) -> T?
 static ModularPipelines.Context.Domains.Shell.CommandInvocation.operator !=(ModularPipelines.Context.Domains.Shell.CommandInvocation? left, ModularPipelines.Context.Domains.Shell.CommandInvocation? right) -> bool
 static ModularPipelines.Context.Domains.Shell.CommandInvocation.operator ==(ModularPipelines.Context.Domains.Shell.CommandInvocation? left, ModularPipelines.Context.Domains.Shell.CommandInvocation? right) -> bool
 static ModularPipelines.Distributed.ArtifactDescriptor.operator !=(ModularPipelines.Distributed.ArtifactDescriptor? left, ModularPipelines.Distributed.ArtifactDescriptor? right) -> bool

@@ -37,5 +37,5 @@ public static class GoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGo"/> service for executing go commands.</returns>
-    public static IGo Go(this IPipelineContext context) => context.Services.Get<IGo>();
+    public static IGo Go(this IPipelineContext context) => context.Services.GetRequiredService<IGo>();
 }

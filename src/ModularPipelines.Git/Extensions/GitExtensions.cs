@@ -40,5 +40,5 @@ public static class GitExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGit"/> service for executing Git commands and accessing repository information.</returns>
-    public static IGit Git(this IPipelineContext context) => context.Services.Get<IGit>();
+    public static IGit Git(this IPipelineContext context) => context.Services.GetRequiredService<IGit>();
 }

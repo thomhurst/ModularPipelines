@@ -139,7 +139,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
 
         var testResults = await context.Trx().ParseTrxFile(trxFile);
-        var consoleWriter = context.GetService<IConsoleWriter>();
+        var consoleWriter = context.Services.GetRequiredService<IConsoleWriter>();
         PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);
     }

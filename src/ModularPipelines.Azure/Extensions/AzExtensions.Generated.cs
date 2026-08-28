@@ -118,5 +118,5 @@ public static class AzExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IAz"/> service for executing az commands.</returns>
-    public static IAz Az(this IPipelineContext context) => context.Services.Get<IAz>();
+    public static IAz Az(this IPipelineContext context) => context.Services.GetRequiredService<IAz>();
 }

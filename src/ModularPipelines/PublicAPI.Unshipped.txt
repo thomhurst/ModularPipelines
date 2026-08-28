@@ -167,6 +167,8 @@ ModularPipelines.Context.Domains.IFilesContext.GlobFolders(string! pattern) -> S
 ModularPipelines.Context.Domains.IInstallersContext.InstallAsync(ModularPipelines.Options.InstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.IInstallersContext.InstallFromWebAsync(ModularPipelines.Options.WebInstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.ISecurityContext.Hash.get -> ModularPipelines.Context.Domains.Security.IHashContext!
+ModularPipelines.Context.Domains.IServicesContext.GetRequiredService<T>() -> T!
+ModularPipelines.Context.Domains.IServicesContext.GetService<T>() -> T?
 ModularPipelines.Context.Domains.Network.IDownloaderContext.DownloadFileAsync(ModularPipelines.Options.DownloadFileOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Context.Domains.Security.HashEncoding
 ModularPipelines.Context.Domains.Security.HashEncoding.Base64 = 1 -> ModularPipelines.Context.Domains.Security.HashEncoding

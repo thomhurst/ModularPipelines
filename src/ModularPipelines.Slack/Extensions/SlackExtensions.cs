@@ -17,5 +17,5 @@ public static class SlackExtensions
         return services;
     }
 
-    public static ISlack Slack(this IPipelineContext context) => context.Services.Get<ISlack>();
+    public static ISlack Slack(this IPipelineContext context) => context.Services.GetRequiredService<ISlack>();
 }

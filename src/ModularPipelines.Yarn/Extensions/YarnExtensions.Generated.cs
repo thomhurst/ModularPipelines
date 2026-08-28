@@ -37,5 +37,5 @@ public static class YarnExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IYarn"/> service for executing yarn commands.</returns>
-    public static IYarn Yarn(this IPipelineContext context) => context.Services.Get<IYarn>();
+    public static IYarn Yarn(this IPipelineContext context) => context.Services.GetRequiredService<IYarn>();
 }

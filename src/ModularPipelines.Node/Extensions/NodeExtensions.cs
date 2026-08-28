@@ -17,5 +17,5 @@ public static class NodeExtensions
         return services;
     }
 
-    public static INode Node(this IPipelineContext context) => context.Services.Get<INode>();
+    public static INode Node(this IPipelineContext context) => context.Services.GetRequiredService<INode>();
 }

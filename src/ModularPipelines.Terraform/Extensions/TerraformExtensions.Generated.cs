@@ -41,5 +41,5 @@ public static class TerraformExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITerraform"/> service for executing terraform commands.</returns>
-    public static ITerraform Terraform(this IPipelineContext context) => context.Services.Get<ITerraform>();
+    public static ITerraform Terraform(this IPipelineContext context) => context.Services.GetRequiredService<ITerraform>();
 }

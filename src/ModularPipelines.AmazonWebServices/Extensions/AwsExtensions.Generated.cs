@@ -37,6 +37,6 @@ public static class AwsExtensions
     /// <returns>The aws service.</returns>
     public static IAws Aws(this IPipelineContext context)
     {
-        return context.Services.Get<IAws>();
+        return context.Services.GetRequiredService<IAws>();
     }
 }

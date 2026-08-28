@@ -12,6 +12,6 @@ public static class ArtifactContextExtensions
     /// </summary>
     public static IArtifactContext Artifacts(this IPipelineContext context)
     {
-        return context.GetService<IArtifactContext>();
+        return context.Services.GetRequiredService<IArtifactContext>();
     }
 }

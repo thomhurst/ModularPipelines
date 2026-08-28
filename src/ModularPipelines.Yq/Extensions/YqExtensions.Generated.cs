@@ -37,5 +37,5 @@ public static class YqExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IYq"/> service for executing yq commands.</returns>
-    public static IYq Yq(this IPipelineContext context) => context.Services.Get<IYq>();
+    public static IYq Yq(this IPipelineContext context) => context.Services.GetRequiredService<IYq>();
 }

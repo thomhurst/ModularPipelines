@@ -37,5 +37,5 @@ public static class PipExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPip"/> service for executing pip commands.</returns>
-    public static IPip Pip(this IPipelineContext context) => context.Services.Get<IPip>();
+    public static IPip Pip(this IPipelineContext context) => context.Services.GetRequiredService<IPip>();
 }

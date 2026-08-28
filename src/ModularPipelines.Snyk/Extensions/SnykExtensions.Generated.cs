@@ -37,5 +37,5 @@ public static class SnykExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISnyk"/> service for executing snyk commands.</returns>
-    public static ISnyk Snyk(this IPipelineContext context) => context.Services.Get<ISnyk>();
+    public static ISnyk Snyk(this IPipelineContext context) => context.Services.GetRequiredService<ISnyk>();
 }

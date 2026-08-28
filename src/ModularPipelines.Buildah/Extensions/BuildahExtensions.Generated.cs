@@ -39,5 +39,5 @@ public static class BuildahExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IBuildah"/> service for executing buildah commands.</returns>
-    public static IBuildah Buildah(this IPipelineContext context) => context.Services.Get<IBuildah>();
+    public static IBuildah Buildah(this IPipelineContext context) => context.Services.GetRequiredService<IBuildah>();
 }

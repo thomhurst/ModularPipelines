@@ -57,5 +57,5 @@ public static class GhExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGh"/> service for executing gh commands.</returns>
-    public static IGh Gh(this IPipelineContext context) => context.Services.Get<IGh>();
+    public static IGh Gh(this IPipelineContext context) => context.Services.GetRequiredService<IGh>();
 }

@@ -37,5 +37,5 @@ public static class JqExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IJq"/> service for executing jq commands.</returns>
-    public static IJq Jq(this IPipelineContext context) => context.Services.Get<IJq>();
+    public static IJq Jq(this IPipelineContext context) => context.Services.GetRequiredService<IJq>();
 }
