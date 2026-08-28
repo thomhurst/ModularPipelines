@@ -1,6 +1,7 @@
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Console;
@@ -114,6 +115,14 @@ internal interface IModuleOutputBuffer
     /// This remains true while an incremental flush owns output and until its final status is rendered.
     /// </summary>
     bool NeedsCompletionFlush { get; }
+
+    /// <summary>
+    /// Sets the final module status used for completion header formatting.
+    /// </summary>
+    /// <param name="status">The final module status.</param>
+    void SetStatus(Status status)
+    {
+    }
 
     /// <summary>
     /// Marks the owning module as complete so periodic flushing no longer selects it.

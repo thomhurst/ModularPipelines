@@ -1,3 +1,5 @@
+using ModularPipelines.Enums;
+
 namespace ModularPipelines.Logging;
 
 /// <summary>
@@ -9,4 +11,9 @@ internal interface IInternalModuleLogger : IModuleLogger
     /// Sets the exception that occurred during module execution.
     /// </summary>
     void SetException(Exception exception);
+
+    /// <summary>
+    /// Sets the final module status used when rendering buffered output.
+    /// </summary>
+    void SetStatus(Status status);
 }

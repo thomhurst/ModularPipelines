@@ -188,12 +188,15 @@ public class ModuleExecutionPipelineTests
     public async Task ExecuteAsync_HonorsIgnoredTimeoutAfterPipelineCancellation()
     {
         var module = new IgnoredTimeoutExceptionModule();
+        var logger = new Mock<IInternalModuleLogger>();
 
         var result = await ExecuteAfterPipelineCancellation(
             module,
-            cancelPipelineInFailureHook: true);
+            cancelPipelineInFailureHook: true,
+            logger: logger);
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.IgnoredFailure);
+        logger.Verify(x => x.SetStatus(Status.IgnoredFailure), Times.Once);
     }
 
     [Test]
@@ -301,7 +304,7 @@ public class ModuleExecutionPipelineTests
     {
         var module = new SuccessfulModule();
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
-        var logger = new Mock<IModuleLogger>();
+        var logger = new Mock<IInternalModuleLogger>();
         var services = new Mock<IServicesContext>();
         services.SetupGet(x => x.Options).Returns(new PipelineOptions());
         var moduleContext = new Mock<IModuleContext>();
@@ -347,6 +350,7 @@ public class ModuleExecutionPipelineTests
             It.Is<It.IsAnyType>((state, _) => state.ToString() == expectedMessage),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+        logger.Verify(x => x.SetStatus(Status.Skipped), Times.Once);
     }
 
     [Test]

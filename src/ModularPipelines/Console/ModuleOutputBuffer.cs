@@ -7,6 +7,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using Spectre.Console;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Console;
 
@@ -43,6 +44,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private Action<Exception>? _deferredFlushFailureHandler;
+    private Status _status = Status.Successful;
     private bool _isComplete;
     private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
@@ -281,6 +283,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                            && (_hasRenderedIncrementalOutput || _showFailureHeaderWithoutOutput)
                            && !_hasRenderedCompletionHeader);
             }
+        }
+    }
+
+    /// <inheritdoc />
+    public void SetStatus(Status status)
+    {
+        lock (_lock)
+        {
+            _status = status;
         }
     }
 
@@ -802,9 +813,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2026{continuationText} ({durationText})";
         }
 
-        return _showSuccessMarker
-            ? $"{_moduleName} \u2713{continuationText} ({durationText})"
-            : $"{_moduleName}{continuationText} ({durationText})";
+        if (!_showSuccessMarker)
+        {
+            return $"{_moduleName}{continuationText} ({durationText})";
+        }
+
+        Status status;
+
+        lock (_lock)
+        {
+            status = _status;
+        }
+
+        var completionMarker = Markup.Remove(StatusDisplayProvider.GetDisplayInfo(status).Icon);
+        return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)
