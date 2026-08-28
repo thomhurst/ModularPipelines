@@ -336,6 +336,30 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task PipelineBuilderPreservesNamedPipelineOptionsValidators()
+    {
+        var configureCalled = false;
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services
+            .AddOptions<PipelineOptions>("worker")
+            .Configure(_ => configureCalled = true)
+            .Validate(_ => false, "Named validation failure.")
+            .ValidateOnStart();
+
+        await using var pipeline = await builder.BuildAsync();
+        var monitor = pipeline.Services.GetRequiredService<IOptionsMonitor<PipelineOptions>>();
+        var exception = Assert.Throws<OptionsValidationException>(() => monitor.Get("worker"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configureCalled).IsTrue();
+            await Assert.That(exception!.OptionsName).IsEqualTo("worker");
+            await Assert.That(exception.Failures).Contains("Named validation failure.");
+        }
+    }
+
+    [Test]
     public async Task PipelineBuilderAppliesRegisteredPipelineOptionsConfiguration()
     {
         var configureCalled = false;

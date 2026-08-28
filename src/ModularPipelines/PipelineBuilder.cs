@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -374,6 +375,7 @@ public sealed class PipelineBuilder
                 .AddSingleton(_options)
                 .AddSingleton(provider => new FixedOptions<PipelineOptions>(
                     _options,
+                    static options => options with { },
                     provider.GetServices<IConfigureOptions<PipelineOptions>>(),
                     provider.GetServices<IPostConfigureOptions<PipelineOptions>>(),
                     provider.GetServices<IValidateOptions<PipelineOptions>>()))
@@ -776,30 +778,60 @@ public sealed class PipelineBuilder
         : IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>
         where T : class
     {
+        private readonly T _initialValue;
+        private readonly Func<T, T> _clone;
+        private readonly IConfigureOptions<T>[] _configurations;
+        private readonly IPostConfigureOptions<T>[] _postConfigurations;
+        private readonly IValidateOptions<T>[] _validators;
+        private readonly ConcurrentDictionary<string, Lazy<T>> _namedValues = new(StringComparer.Ordinal);
         private readonly Lazy<T> _value;
 
         public FixedOptions(
             T value,
+            Func<T, T> clone,
             IEnumerable<IConfigureOptions<T>> configurations,
             IEnumerable<IPostConfigureOptions<T>> postConfigurations,
             IEnumerable<IValidateOptions<T>> validators)
         {
+            _initialValue = value;
+            _clone = clone;
+            _configurations = configurations.ToArray();
+            _postConfigurations = postConfigurations.ToArray();
+            _validators = validators.ToArray();
             _value = new Lazy<T>(() => ConfigureAndValidate(
+                Microsoft.Extensions.Options.Options.DefaultName,
                 value,
-                configurations,
-                postConfigurations,
-                validators));
+                _configurations,
+                _postConfigurations,
+                _validators));
         }
 
         public T Value => _value.Value;
 
         public T CurrentValue => Value;
 
-        public T Get(string? name) => Value;
+        public T Get(string? name)
+        {
+            name ??= Microsoft.Extensions.Options.Options.DefaultName;
+            if (name == Microsoft.Extensions.Options.Options.DefaultName)
+            {
+                return Value;
+            }
+
+            return _namedValues.GetOrAdd(
+                name,
+                optionName => new Lazy<T>(() => ConfigureAndValidate(
+                    optionName,
+                    _clone(_initialValue),
+                    _configurations,
+                    _postConfigurations,
+                    _validators))).Value;
+        }
 
         public IDisposable? OnChange(Action<T, string?> listener) => NoopDisposable.Instance;
 
         private static T ConfigureAndValidate(
+            string name,
             T value,
             IEnumerable<IConfigureOptions<T>> configurations,
             IEnumerable<IPostConfigureOptions<T>> postConfigurations,
@@ -809,11 +841,9 @@ public sealed class PipelineBuilder
             {
                 if (configuration is IConfigureNamedOptions<T> namedConfiguration)
                 {
-                    namedConfiguration.Configure(
-                        Microsoft.Extensions.Options.Options.DefaultName,
-                        value);
+                    namedConfiguration.Configure(name, value);
                 }
-                else
+                else if (name == Microsoft.Extensions.Options.Options.DefaultName)
                 {
                     configuration.Configure(value);
                 }
@@ -821,15 +851,11 @@ public sealed class PipelineBuilder
 
             foreach (var postConfiguration in postConfigurations)
             {
-                postConfiguration.PostConfigure(
-                    Microsoft.Extensions.Options.Options.DefaultName,
-                    value);
+                postConfiguration.PostConfigure(name, value);
             }
 
             var failures = validators
-                .Select(validator => validator.Validate(
-                    Microsoft.Extensions.Options.Options.DefaultName,
-                    value))
+                .Select(validator => validator.Validate(name, value))
                 .Where(static result => result.Failed)
                 .SelectMany(static result => result.Failures ?? [])
                 .ToArray();
@@ -837,7 +863,7 @@ public sealed class PipelineBuilder
             return failures.Length == 0
                 ? value
                 : throw new OptionsValidationException(
-                    Microsoft.Extensions.Options.Options.DefaultName,
+                    name,
                     typeof(T),
                     failures);
         }
