@@ -50,6 +50,8 @@ ModularPipelines.Attributes.CliArgumentAttribute.PrependOptionTerminator.get -> 
 ModularPipelines.Attributes.CliArgumentAttribute.PrependOptionTerminator.set -> void
 ModularPipelines.Attributes.CliArgumentAttribute.PrependOptionTerminatorIfValueStartsWithDash.get -> bool
 ModularPipelines.Attributes.CliArgumentAttribute.PrependOptionTerminatorIfValueStartsWithDash.set -> void
+ModularPipelines.Attributes.CliArgumentAttribute.RepeatOptionTerminator.get -> bool
+ModularPipelines.Attributes.CliArgumentAttribute.RepeatOptionTerminator.set -> void
 ModularPipelines.Attributes.CliArgumentAttribute.Required.get -> bool
 ModularPipelines.Attributes.CliArgumentAttribute.Required.set -> void
 ModularPipelines.Attributes.CliCommandAliasAttribute

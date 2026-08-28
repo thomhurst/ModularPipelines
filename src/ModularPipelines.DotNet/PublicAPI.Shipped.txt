@@ -1830,3 +1830,1089 @@ virtual ModularPipelines.DotNet.Services.DotNetWorkload.HistoryAsync(ModularPipe
 virtual ModularPipelines.DotNet.Services.DotNetWorkload.ListAsync(ModularPipelines.DotNet.Options.DotNetWorkloadListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 virtual ModularPipelines.DotNet.Services.DotNetWorkload.RepairAsync(ModularPipelines.DotNet.Options.DotNetWorkloadRepairOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 virtual ModularPipelines.DotNet.Services.DotNetWorkload.UpdateAsync(ModularPipelines.DotNet.Options.DotNetWorkloadUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Binarylog.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Binarylog.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.DotNetFormatAnalyzersOptions() -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.DotNetFormatAnalyzersOptions(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Exclude.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Exclude.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.ExcludeDiagnostics.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.ExcludeDiagnostics.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Include.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Include.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.IncludeGenerated.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.IncludeGenerated.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.NoRestore.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.NoRestore.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.ProjectSolution.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.ProjectSolution.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Report.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Report.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Severity.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Severity.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.VerifyNoChanges.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.VerifyNoChanges.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Binarylog.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Binarylog.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.DotNetFormatStyleOptions() -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.DotNetFormatStyleOptions(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Exclude.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Exclude.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.ExcludeDiagnostics.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.ExcludeDiagnostics.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Include.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Include.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.IncludeGenerated.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.IncludeGenerated.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.NoRestore.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.NoRestore.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.ProjectSolution.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.ProjectSolution.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Report.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Report.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Severity.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Severity.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.VerifyNoChanges.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.VerifyNoChanges.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Binarylog.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Binarylog.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.DotNetFormatWhitespaceOptions() -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.DotNetFormatWhitespaceOptions(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Exclude.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Exclude.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Folder.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Folder.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Include.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Include.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.IncludeGenerated.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.IncludeGenerated.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.NoRestore.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.NoRestore.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.ProjectSolution.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.ProjectSolution.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Report.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Report.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.VerifyNoChanges.get -> bool?
+ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.VerifyNoChanges.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.DotNetNewCreateOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.DotNetNewCreateOptions(ModularPipelines.DotNet.Options.DotNetNewCreateOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.DryRun.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.DryRun.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Force.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Force.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.NoUpdateCheck.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.NoUpdateCheck.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Output.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Output.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Project.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.TemplateArgs.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.TemplateArgs.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.TemplateShortName.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.TemplateShortName.set -> void
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.DotNetNewDetailsOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.DotNetNewDetailsOptions(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.PackageIdentifier.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.PackageIdentifier.set -> void
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.DotNetNewInstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.DotNetNewInstallOptions(ModularPipelines.DotNet.Options.DotNetNewInstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Force.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Force.set -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Package.set -> void
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Author.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Author.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Columns.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Columns.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.ColumnsAll.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.ColumnsAll.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.DotNetNewListOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.DotNetNewListOptions(ModularPipelines.DotNet.Options.DotNetNewListOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.IgnoreConstraints.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.IgnoreConstraints.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Language.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Language.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Output.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Output.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Project.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Tag.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Tag.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.TemplateName.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.TemplateName.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Type.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Type.set -> void
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewListOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Author.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Author.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Columns.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Columns.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.ColumnsAll.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.ColumnsAll.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.DotNetNewSearchOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.DotNetNewSearchOptions(ModularPipelines.DotNet.Options.DotNetNewSearchOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Language.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Language.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Package.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Package.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Tag.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Tag.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.TemplateName.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.TemplateName.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Type.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Type.set -> void
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.DotNetNewUninstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.DotNetNewUninstallOptions(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Package.set -> void
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindByValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindByValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindValueValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindValueValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.PackageSourceValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.PackageSourceValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.StoreLocationValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.StoreLocationValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.StoreNameValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.StoreNameValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetAddOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetAddSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetAddSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.AllOrConfigKey.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.AllOrConfigKey.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.DotNetNuGetConfigGetOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.DotNetNuGetConfigGetOptions(ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.ShowPath.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.ShowPath.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.WorkingDirectory.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.WorkingDirectory.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigPathsOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigPathsOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ConfigKey.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ConfigKey.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ConfigValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ConfigValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.DotNetNuGetConfigSetOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.DotNetNuGetConfigSetOptions(ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.ConfigKey.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.ConfigKey.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.DotNetNuGetConfigUnsetOptions() -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.DotNetNuGetConfigUnsetOptions(ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetDisableOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetDisableOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetDisableSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetDisableSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetDisableSourceOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetDisableSourceOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetEnableOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetEnableOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetEnableSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetEnableSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetEnableSourceOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetEnableSourceOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetListClientCertOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetListClientCertOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetListOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetListOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetListSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetListSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetListSourceOptions.FormatValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetListSourceOptions.FormatValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetLocalsOptions.CacheLocationS.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetLocalsOptions.CacheLocationS.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveClientCertOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveClientCertOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveClientCertOptions.PackageSourceValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveClientCertOptions.PackageSourceValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.AllowUntrustedRoot.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.AllowUntrustedRoot.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.CertificateFingerprintValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.CertificateFingerprintValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.HashAlgorithmValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.HashAlgorithmValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.TimestampHashAlgorithmValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.TimestampHashAlgorithmValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Package.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Package.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Fingerprint.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Fingerprint.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustCertificateOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustListOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustListOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustListOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustListOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRemoveOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Owners.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Owners.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Package.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustRepositoryOptions.Package.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Owners.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.Owners.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.SourceUrl.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSourceOptions.SourceUrl.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetTrustSyncOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.FindByValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.FindByValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.FindValueValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.FindValueValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.PackageSourceValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.PackageSourceValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.StoreLocationValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.StoreLocationValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.StoreNameValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateClientCertOptions.StoreNameValue.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateSourceOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateSourceOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateSourceOptions.Name.get -> string?
+ModularPipelines.DotNet.Options.DotNetNuGetUpdateSourceOptions.Name.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetNuGetWhyOptions.ForceEnglishOutput.get -> bool?
+ModularPipelines.DotNet.Options.DotNetNuGetWhyOptions.ForceEnglishOutput.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.DotNetPackageAddOptions() -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.DotNetPackageAddOptions(ModularPipelines.DotNet.Options.DotNetPackageAddOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Framework.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.NoRestore.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.NoRestore.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PackageDirectory.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PackageDirectory.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PackageId.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PackageId.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Project.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Source.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.AllowInsecureConnections.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.AllowInsecureConnections.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.DotNetPackageDownloadOptions() -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.DotNetPackageDownloadOptions(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Output.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Output.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Packages.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Source.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageListOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageListOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageListOptions.Framework.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetPackageListOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.DotNetPackageRemoveOptions() -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.DotNetPackageRemoveOptions(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.PackageName.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.PackageName.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Project.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.DotNetPackageSearchOptions() -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.DotNetPackageSearchOptions(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.ExactMatch.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.ExactMatch.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Format.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Format.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.SearchTerm.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.SearchTerm.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Skip.get -> int?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Skip.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Source.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Take.get -> int?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Take.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.DotNetPackageUpdateOptions() -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.DotNetPackageUpdateOptions(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Packages.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Vulnerable.get -> bool?
+ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Vulnerable.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.DotNetReferenceAddOptions() -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.DotNetReferenceAddOptions(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Framework.get -> string?
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Project.get -> bool?
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.ProjectPath.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceListOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetReferenceListOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.DotNetReferenceRemoveOptions() -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.DotNetReferenceRemoveOptions(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.File.get -> string?
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.File.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Framework.get -> string?
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Project.get -> bool?
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Project.set -> void
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.ProjectPath.set -> void
+ModularPipelines.DotNet.Options.DotNetRestoreOptions.NoLogo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetRestoreOptions.NoLogo.set -> void
+ModularPipelines.DotNet.Options.DotNetRunOptions.ApplicationArguments.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetRunOptions.ApplicationArguments.set -> void
+ModularPipelines.DotNet.Options.DotNetRunOptions.Device.get -> string?
+ModularPipelines.DotNet.Options.DotNetRunOptions.Device.set -> void
+ModularPipelines.DotNet.Options.DotNetRunOptions.ListDevices.get -> bool?
+ModularPipelines.DotNet.Options.DotNetRunOptions.ListDevices.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.DotNetSolutionAddOptions() -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.DotNetSolutionAddOptions(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.IncludeReferences.get -> bool?
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.IncludeReferences.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.InRoot.get -> bool?
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.InRoot.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.ProjectPath.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.SlnFile.get -> string?
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.SlnFile.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.SolutionFolder.get -> string?
+ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.SolutionFolder.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions
+ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.DotNetSolutionMigrateOptions() -> void
+ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.DotNetSolutionMigrateOptions(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.SlnFile.get -> string?
+ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.SlnFile.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.DotNetSolutionRemoveOptions() -> void
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.DotNetSolutionRemoveOptions(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.ProjectPath.set -> void
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.SlnFile.get -> string?
+ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.SlnFile.set -> void
+ModularPipelines.DotNet.Options.DotNetStoreOptions.Argument.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetStoreOptions.Argument.set -> void
+ModularPipelines.DotNet.Options.DotNetStoreOptions.FrameworkVersionValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetStoreOptions.FrameworkVersionValue.set -> void
+ModularPipelines.DotNet.Options.DotNetStoreOptions.NoLogo.get -> bool?
+ModularPipelines.DotNet.Options.DotNetStoreOptions.NoLogo.set -> void
+ModularPipelines.DotNet.Options.DotNetTestOptions.ArtifactsPath.get -> string?
+ModularPipelines.DotNet.Options.DotNetTestOptions.ArtifactsPath.set -> void
+ModularPipelines.DotNet.Options.DotNetTestOptions.DiagnosticOutputDirectoryValue.get -> string?
+ModularPipelines.DotNet.Options.DotNetTestOptions.DiagnosticOutputDirectoryValue.set -> void
+ModularPipelines.DotNet.Options.DotNetTestOptions.ExtensionOptions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetTestOptions.ExtensionOptions.set -> void
+ModularPipelines.DotNet.Options.DotNetTestOptions.PlatformOptions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetTestOptions.PlatformOptions.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AddSource.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AddSource.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AllowDowngrade.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AllowDowngrade.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AllowRollForward.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.AllowRollForward.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Arch.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Arch.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.CreateManifestIfNeeded.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.CreateManifestIfNeeded.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.DisableParallel.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.DisableParallel.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.DotNetToolInstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.DotNetToolInstallOptions(ModularPipelines.DotNet.Options.DotNetToolInstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Framework.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Global.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Global.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.IgnoreFailedSources.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.IgnoreFailedSources.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Local.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Local.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.NoHttpCache.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.NoHttpCache.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.PackageId.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.PackageId.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Source.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.ToolManifest.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.ToolManifest.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.ToolPath.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.ToolPath.set -> void
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions
+ModularPipelines.DotNet.Options.DotNetToolListOptions.DotNetToolListOptions() -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.DotNetToolListOptions(ModularPipelines.DotNet.Options.DotNetToolListOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Format.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Format.set -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Global.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Global.set -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Local.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolListOptions.Local.set -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.PackageId.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolListOptions.PackageId.set -> void
+ModularPipelines.DotNet.Options.DotNetToolListOptions.ToolPath.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolListOptions.ToolPath.set -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.AllowRollForward.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.AllowRollForward.set -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.CommandName.get -> string!
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.CommandName.init -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.Deconstruct(out string! CommandName) -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.DotNetToolRunOptions(ModularPipelines.DotNet.Options.DotNetToolRunOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.DotNetToolRunOptions(string! CommandName) -> void
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.ToolArguments.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetToolRunOptions.ToolArguments.set -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Detail.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Detail.set -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.DotNetToolSearchOptions() -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.DotNetToolSearchOptions(ModularPipelines.DotNet.Options.DotNetToolSearchOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.SearchTerm.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.SearchTerm.set -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Skip.get -> int?
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Skip.set -> void
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Take.get -> int?
+ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Take.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.DotNetToolUninstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.DotNetToolUninstallOptions(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Global.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Global.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Local.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Local.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.PackageId.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.PackageId.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.ToolManifest.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.ToolManifest.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.ToolPath.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.ToolPath.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.AddSource.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.AddSource.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.All.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.All.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.AllowDowngrade.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.AllowDowngrade.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.DisableParallel.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.DisableParallel.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.DotNetToolUpdateOptions() -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.DotNetToolUpdateOptions(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Framework.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Framework.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Global.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Global.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.IgnoreFailedSources.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.IgnoreFailedSources.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Local.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Local.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.NoHttpCache.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.NoHttpCache.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.PackageId.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.PackageId.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Prerelease.get -> bool?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Prerelease.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Source.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.ToolManifest.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.ToolManifest.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.ToolPath.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.ToolPath.set -> void
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.DisableParallel.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.DisableParallel.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.DotNetWorkloadInstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.DotNetWorkloadInstallOptions(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.IgnoreFailedSources.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.IgnoreFailedSources.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.IncludePreviews.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.IncludePreviews.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.NoHttpCache.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.NoHttpCache.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.SkipManifestUpdate.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.SkipManifestUpdate.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Source.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.TempDir.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.TempDir.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.WorkloadId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.WorkloadId.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Configfile.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Configfile.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.DisableParallel.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.DisableParallel.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.DotNetWorkloadRestoreOptions() -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.DotNetWorkloadRestoreOptions(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.IgnoreFailedSources.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.IgnoreFailedSources.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.IncludePreviews.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.IncludePreviews.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Interactive.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Interactive.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.NoHttpCache.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.NoHttpCache.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.ProjectSolution.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.ProjectSolution.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.SkipManifestUpdate.get -> bool?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.SkipManifestUpdate.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Source.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Source.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.TempDir.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.TempDir.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions
+ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.DotNetWorkloadSearchOptions() -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.DotNetWorkloadSearchOptions(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.SearchString.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.SearchString.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.DotNetWorkloadUninstallOptions() -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.DotNetWorkloadUninstallOptions(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions! original) -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Verbosity.get -> string?
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Verbosity.set -> void
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.WorkloadId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.WorkloadId.set -> void
+ModularPipelines.DotNet.Services.DotNetFormat
+ModularPipelines.DotNet.Services.DotNetFormat.DotNetFormat(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.DotNet.Services.IDotNet.Format.get -> ModularPipelines.DotNet.Services.IDotNetFormat!
+ModularPipelines.DotNet.Services.IDotNetBuildServer.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetBuildServerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetFormat
+ModularPipelines.DotNet.Services.IDotNetFormat.AnalyzersAsync(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetFormat.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetFormatOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetFormat.StyleAsync(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetFormat.WhitespaceAsync(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.CreateAsync(ModularPipelines.DotNet.Options.DotNetNewCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.DetailsAsync(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.InstallAsync(ModularPipelines.DotNet.Options.DotNetNewInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.ListAsync(ModularPipelines.DotNet.Options.DotNetNewListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.SearchAsync(ModularPipelines.DotNet.Options.DotNetNewSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetNew.UninstallAsync(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetPackage.AddAsync(ModularPipelines.DotNet.Options.DotNetPackageAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetPackage.DownloadAsync(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetPackage.RemoveAsync(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetPackage.SearchAsync(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetPackage.UpdateAsync(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetReference.AddAsync(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetReference.RemoveAsync(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetSolution.AddAsync(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetSolution.MigrateAsync(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetSolution.RemoveAsync(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.InstallAsync(ModularPipelines.DotNet.Options.DotNetToolInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.ListAsync(ModularPipelines.DotNet.Options.DotNetToolListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.RunAsync(ModularPipelines.DotNet.Options.DotNetToolRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.SearchAsync(ModularPipelines.DotNet.Options.DotNetToolSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.UninstallAsync(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetTool.UpdateAsync(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetWorkload.InstallAsync(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetWorkload.RestoreAsync(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetWorkload.SearchAsync(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.DotNet.Services.IDotNetWorkload.UninstallAsync(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions!
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetFormatStyleOptions!
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions!
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewCreateOptions!
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewCreateOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewDetailsOptions!
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewInstallOptions!
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewInstallOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewListOptions!
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewListOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewSearchOptions!
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewSearchOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNewUninstallOptions!
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetPackageAddOptions!
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageAddOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions!
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions!
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetPackageSearchOptions!
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions!
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetReferenceAddOptions!
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions!
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetSolutionAddOptions!
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions!
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions!
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolInstallOptions!
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolInstallOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolListOptions!
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolListOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolRunOptions!
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolRunOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolSearchOptions!
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolSearchOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolUninstallOptions!
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetToolUpdateOptions!
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions!
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions!
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions!
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.ToString() -> string!
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.<Clone>$() -> ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions!
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.GetHashCode() -> int
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.ToString() -> string!
+override sealed ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewListOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolListOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolRunOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+override sealed ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetOptions? other) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.operator !=(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? left, ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.operator ==(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? left, ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.operator !=(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? left, ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.operator ==(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? left, ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.operator !=(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? left, ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.operator ==(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? left, ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewCreateOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewCreateOptions? left, ModularPipelines.DotNet.Options.DotNetNewCreateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewCreateOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewCreateOptions? left, ModularPipelines.DotNet.Options.DotNetNewCreateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? left, ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? left, ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewInstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewInstallOptions? left, ModularPipelines.DotNet.Options.DotNetNewInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewInstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewInstallOptions? left, ModularPipelines.DotNet.Options.DotNetNewInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewListOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewListOptions? left, ModularPipelines.DotNet.Options.DotNetNewListOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewListOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewListOptions? left, ModularPipelines.DotNet.Options.DotNetNewListOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewSearchOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewSearchOptions? left, ModularPipelines.DotNet.Options.DotNetNewSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewSearchOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewSearchOptions? left, ModularPipelines.DotNet.Options.DotNetNewSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.operator !=(ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.operator ==(ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? left, ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageAddOptions.operator !=(ModularPipelines.DotNet.Options.DotNetPackageAddOptions? left, ModularPipelines.DotNet.Options.DotNetPackageAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageAddOptions.operator ==(ModularPipelines.DotNet.Options.DotNetPackageAddOptions? left, ModularPipelines.DotNet.Options.DotNetPackageAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.operator !=(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? left, ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.operator ==(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? left, ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.operator !=(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.operator ==(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.operator !=(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? left, ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.operator ==(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? left, ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.operator !=(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? left, ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.operator ==(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? left, ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.operator !=(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? left, ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.operator ==(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? left, ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.operator !=(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.operator ==(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.operator !=(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.operator ==(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.operator !=(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.operator ==(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.operator !=(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.operator ==(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? left, ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolInstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolInstallOptions? left, ModularPipelines.DotNet.Options.DotNetToolInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolInstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolInstallOptions? left, ModularPipelines.DotNet.Options.DotNetToolInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolListOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolListOptions? left, ModularPipelines.DotNet.Options.DotNetToolListOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolListOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolListOptions? left, ModularPipelines.DotNet.Options.DotNetToolListOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolRunOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolRunOptions? left, ModularPipelines.DotNet.Options.DotNetToolRunOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolRunOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolRunOptions? left, ModularPipelines.DotNet.Options.DotNetToolRunOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolSearchOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolSearchOptions? left, ModularPipelines.DotNet.Options.DotNetToolSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolSearchOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolSearchOptions? left, ModularPipelines.DotNet.Options.DotNetToolSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.operator !=(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? left, ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.operator ==(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? left, ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.operator !=(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.operator ==(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.operator !=(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.operator ==(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.operator !=(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? right) -> bool
+static ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.operator ==(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? left, ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? right) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions.Equals(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetFormatStyleOptions.Equals(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions.Equals(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewCreateOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewCreateOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewInstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewListOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewListOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewSearchOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNewUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions.Equals(ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions.Equals(ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions.Equals(ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetPackageAddOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Equals(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetPackageSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions.Equals(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetSolutionAddOptions.Equals(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions.Equals(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions.Equals(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolInstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolListOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolListOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolRunOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolRunOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolSearchOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetToolUpdateOptions.Equals(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions.Equals(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions.Equals(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? other) -> bool
+virtual ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Equals(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? other) -> bool
+virtual ModularPipelines.DotNet.Services.DotNetBuildServer.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetBuildServerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetFormat.AnalyzersAsync(ModularPipelines.DotNet.Options.DotNetFormatAnalyzersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetFormat.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetFormatOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetFormat.StyleAsync(ModularPipelines.DotNet.Options.DotNetFormatStyleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetFormat.WhitespaceAsync(ModularPipelines.DotNet.Options.DotNetFormatWhitespaceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.CreateAsync(ModularPipelines.DotNet.Options.DotNetNewCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.DetailsAsync(ModularPipelines.DotNet.Options.DotNetNewDetailsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.InstallAsync(ModularPipelines.DotNet.Options.DotNetNewInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.ListAsync(ModularPipelines.DotNet.Options.DotNetNewListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.SearchAsync(ModularPipelines.DotNet.Options.DotNetNewSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNew.UninstallAsync(ModularPipelines.DotNet.Options.DotNetNewUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetAdd.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetConfig.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetConfig.GetAsync(ModularPipelines.DotNet.Options.DotNetNuGetConfigGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetConfig.SetAsync(ModularPipelines.DotNet.Options.DotNetNuGetConfigSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetConfig.UnsetAsync(ModularPipelines.DotNet.Options.DotNetNuGetConfigUnsetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetDisable.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetDisableOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetEnable.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetEnableOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetList.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetRemove.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetTrust.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetTrustOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetNuGetUpdate.ExecuteAsync(ModularPipelines.DotNet.Options.DotNetNuGetUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetPackage.AddAsync(ModularPipelines.DotNet.Options.DotNetPackageAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetPackage.DownloadAsync(ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetPackage.RemoveAsync(ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetPackage.SearchAsync(ModularPipelines.DotNet.Options.DotNetPackageSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetPackage.UpdateAsync(ModularPipelines.DotNet.Options.DotNetPackageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetReference.AddAsync(ModularPipelines.DotNet.Options.DotNetReferenceAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetReference.RemoveAsync(ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetSolution.AddAsync(ModularPipelines.DotNet.Options.DotNetSolutionAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetSolution.MigrateAsync(ModularPipelines.DotNet.Options.DotNetSolutionMigrateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetSolution.RemoveAsync(ModularPipelines.DotNet.Options.DotNetSolutionRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.InstallAsync(ModularPipelines.DotNet.Options.DotNetToolInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.ListAsync(ModularPipelines.DotNet.Options.DotNetToolListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.RunAsync(ModularPipelines.DotNet.Options.DotNetToolRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.SearchAsync(ModularPipelines.DotNet.Options.DotNetToolSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.UninstallAsync(ModularPipelines.DotNet.Options.DotNetToolUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetTool.UpdateAsync(ModularPipelines.DotNet.Options.DotNetToolUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetWorkload.InstallAsync(ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetWorkload.RestoreAsync(ModularPipelines.DotNet.Options.DotNetWorkloadRestoreOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetWorkload.SearchAsync(ModularPipelines.DotNet.Options.DotNetWorkloadSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.DotNet.Services.DotNetWorkload.UninstallAsync(ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

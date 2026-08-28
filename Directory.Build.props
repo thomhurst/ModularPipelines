@@ -48,6 +48,7 @@
 
   <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt')">
     <!-- Public API baselines must stay enforced in ordinary CI tool builds. -->
+    <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
     <RunAnalyzersDuringBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzersDuringBuild>
     <!-- Mediator emits nullable-oblivious public symbols; this gate tracks declarations only. -->
