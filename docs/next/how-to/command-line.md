@@ -17,7 +17,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Options[​](#options "Direct link to Options")

@@ -28,7 +28,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Passing `args` also enables the [built-in pipeline command line](/ModularPipelines/docs/next/how-to/command-line.md) for listing, selecting, skipping, and validating modules.
@@ -294,7 +294,7 @@ if (validation.HasErrors)
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Complete Example[​](#complete-example "Direct link to Complete Example")
@@ -392,7 +392,7 @@ builder
 
 // Run
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Hooks and Requirements[​](#hooks-and-requirements "Direct link to Hooks and Requirements")
@@ -446,5 +446,5 @@ await builder
 
     })
 
-    .ExecutePipelineAsync();
+    .RunAsync();
 ```

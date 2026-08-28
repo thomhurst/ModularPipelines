@@ -2034,7 +2034,7 @@ builder.AddModule<PublishModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
@@ -2155,7 +2155,7 @@ builder.AddModule<TestModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 
@@ -2482,7 +2482,7 @@ builder.AddModule<AggregateResultsModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 
@@ -3101,7 +3101,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 
@@ -3524,7 +3524,7 @@ Install the .NET 10 SDK, then follow these steps:
 
 
 
-   await builder.ExecutePipelineAsync();
+   await builder.RunAsync();
 
 
 
@@ -3587,7 +3587,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddModule<MyModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Modules[​](#modules "Direct link to Modules")
@@ -3942,7 +3942,7 @@ builder.AddModule<BuildModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 
@@ -4272,7 +4272,7 @@ builder.RunOnlyCategories("UnitTest", "IntegrationTest");
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Example of Ignoring Specific Categories[​](#example-of-ignoring-specific-categories "Direct link to Example of Ignoring Specific Categories")
@@ -4298,7 +4298,7 @@ builder.IgnoreCategories("Publish", "Deploy");
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 
@@ -4323,7 +4323,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Options[​](#options "Direct link to Options")
@@ -4998,7 +4998,7 @@ builder.AddModule<Module2>(); // Module1 is auto-registered because Module2 depe
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 This simplifies pipeline configuration and ensures all required dependencies are always present. Auto-registration also handles transitive dependencies - if Module1 depends on Module0, both will be auto-registered.
@@ -5225,7 +5225,7 @@ builder
 
     .AddModule<TestModule>()
 
-    .ExecutePipelineAsync()
+    .RunAsync()
 
     .GetAwaiter()
 
@@ -6015,7 +6015,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ### Using Presets[​](#using-presets "Direct link to Using Presets")
@@ -6312,7 +6312,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 The source generator must run in the application project. Statically declared `DependsOn<TModule>` dependencies, module lifecycle attributes, command option attributes, and `SecretValue` properties then use generated metadata without runtime reflection.
@@ -6638,7 +6638,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Passing `args` also enables the [built-in pipeline command line](/ModularPipelines/docs/next/how-to/command-line.md) for listing, selecting, skipping, and validating modules.
@@ -6904,7 +6904,7 @@ if (validation.HasErrors)
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Complete Example[​](#complete-example "Direct link to Complete Example")
@@ -7002,7 +7002,7 @@ builder
 
 // Run
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Hooks and Requirements[​](#hooks-and-requirements "Direct link to Hooks and Requirements")
@@ -7056,7 +7056,7 @@ await builder
 
     })
 
-    .ExecutePipelineAsync();
+    .RunAsync();
 ```
 
 
@@ -7100,7 +7100,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 
@@ -7294,7 +7294,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure()`.
@@ -8211,7 +8211,7 @@ builder.AddResultsRepository<MyModuleRepository>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Result history resolves type-erased module results at runtime and is not supported for trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the corresponding trim and dynamic-code warnings.
@@ -8581,7 +8581,7 @@ builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ```
@@ -27684,7 +27684,7 @@ builder.Services.Configure<GitHubOptions>(builder.Configuration.GetSection("Modu
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 where `appsettings.json` is constructed as follows:

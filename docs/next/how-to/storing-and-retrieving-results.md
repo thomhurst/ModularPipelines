@@ -31,7 +31,7 @@ builder.AddResultsRepository<MyModuleRepository>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 Result history resolves type-erased module results at runtime and is not supported for trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the corresponding trim and dynamic-code warnings.

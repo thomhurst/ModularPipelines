@@ -115,7 +115,7 @@ builder.ConfigurePipelineOptions(options => options with
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ### Using Presets[​](#using-presets "Direct link to Using Presets")

@@ -69,7 +69,7 @@ builder.AddModule<BuildModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 

@@ -45,7 +45,7 @@ builder.RunOnlyCategories("UnitTest", "IntegrationTest");
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Example of Ignoring Specific Categories[​](#example-of-ignoring-specific-categories "Direct link to Example of Ignoring Specific Categories")
@@ -71,5 +71,5 @@ builder.IgnoreCategories("Publish", "Deploy");
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```

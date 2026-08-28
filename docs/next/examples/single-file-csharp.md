@@ -49,7 +49,7 @@ Install the .NET 10 SDK, then follow these steps:
 
 
 
-   await builder.ExecutePipelineAsync();
+   await builder.RunAsync();
 
 
 

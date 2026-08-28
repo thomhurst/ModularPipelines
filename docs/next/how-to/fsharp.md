@@ -75,7 +75,7 @@ builder
 
     .AddModule<TestModule>()
 
-    .ExecutePipelineAsync()
+    .RunAsync()
 
     .GetAwaiter()
 

@@ -21,7 +21,7 @@ builder
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 The source generator must run in the application project. Statically declared `DependsOn<TModule>` dependencies, module lifecycle attributes, command option attributes, and `SecretValue` properties then use generated metadata without runtime reflection.

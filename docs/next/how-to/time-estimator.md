@@ -27,7 +27,7 @@ builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ```

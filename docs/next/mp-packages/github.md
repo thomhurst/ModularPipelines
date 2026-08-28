@@ -96,7 +96,7 @@ builder.Services.Configure<GitHubOptions>(builder.Configuration.GetSection("Modu
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 where `appsettings.json` is constructed as follows:

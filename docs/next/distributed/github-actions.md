@@ -255,7 +255,7 @@ builder.AddModule<AggregateResultsModule>();
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 
 
 

@@ -9,7 +9,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddModule<MyModule>();
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 ## Modules[​](#modules "Direct link to Modules")
