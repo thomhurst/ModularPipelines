@@ -20,6 +20,8 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Testing;
 
 /// <summary>

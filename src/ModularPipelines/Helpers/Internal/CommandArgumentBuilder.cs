@@ -5,6 +5,8 @@ using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Helpers.Internal;
 
 /// <inheritdoc/>

@@ -7,6 +7,8 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Extensions;
 
 /// <summary>

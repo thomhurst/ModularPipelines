@@ -1,9 +1,11 @@
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Helpers.Internal;
 
 /// <summary>
 /// Service for creating a command model from an options object's type.
 /// </summary>
-public interface ICommandModelProvider
+internal interface ICommandModelProvider
 {
     /// <summary>
     /// Gets a cached, structured command model by reflecting over the attributes of an options type.

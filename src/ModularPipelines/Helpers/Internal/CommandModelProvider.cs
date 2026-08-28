@@ -5,6 +5,8 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Helpers.Internal;
 
 /// <inheritdoc/>

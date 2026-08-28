@@ -13,6 +13,8 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.UnitTests.Engine;
 
 public class GeneratedModuleMetadataTests

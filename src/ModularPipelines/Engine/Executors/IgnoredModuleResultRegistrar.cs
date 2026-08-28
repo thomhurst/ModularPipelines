@@ -14,6 +14,8 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine.Executors;
 
 /// <summary>

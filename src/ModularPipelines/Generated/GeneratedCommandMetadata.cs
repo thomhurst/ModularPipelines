@@ -3,11 +3,12 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ModularPipelines.Helpers.Internal;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Stores command models emitted by ModularPipelines.SourceGenerator.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class GeneratedCommandMetadata
 {
     internal const int CurrentSchemaVersion = 3;

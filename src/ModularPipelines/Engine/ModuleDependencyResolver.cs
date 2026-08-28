@@ -9,6 +9,8 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine;
 
 /// <summary>

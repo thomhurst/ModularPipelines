@@ -1,11 +1,12 @@
 using System.ComponentModel;
 using ModularPipelines.Attributes;
 
-namespace ModularPipelines.Helpers.Internal;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Representation of a command line part tied to a property.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public abstract record PropertyCommandLinePart(string PropertyName, Func<object, object?> Getter)
 {
     /// <summary>
@@ -27,6 +28,7 @@ public abstract record PropertyCommandLinePart(string PropertyName, Func<object,
 /// <summary>
 /// Representation of a positional argument.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed record ArgumentPart(
     string PropertyName,
     Func<object, object?> Getter,
@@ -44,6 +46,7 @@ public sealed record ArgumentPart(
 /// <summary>
 /// Representation of a boolean flag.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed record FlagPart(
     string PropertyName,
     Func<object, object?> Getter,
@@ -56,6 +59,7 @@ public sealed record FlagPart(
 /// <summary>
 /// Representation of an option with a value.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed record OptionPart(
     string PropertyName,
     Func<object, object?> Getter,

@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine;
 
 internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider

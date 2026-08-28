@@ -4,6 +4,8 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Context;
 
 /// <summary>

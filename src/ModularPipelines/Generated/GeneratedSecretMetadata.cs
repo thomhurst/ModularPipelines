@@ -5,11 +5,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
-namespace ModularPipelines.Engine;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Stores secret-property accessors emitted by ModularPipelines.SourceGenerator.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class GeneratedSecretMetadata
 {
     private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = [];
@@ -425,6 +426,7 @@ public static class GeneratedSecretMetadata
 /// <summary>
 /// Provides direct access to a property marked with SecretValueAttribute.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed record SecretPropertyAccessor(
     string PropertyName,
     Func<object, object?> Getter,

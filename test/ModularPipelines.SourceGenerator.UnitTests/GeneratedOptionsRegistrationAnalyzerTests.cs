@@ -29,7 +29,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             }
         }
 
-        namespace ModularPipelines.Metadata
+        namespace ModularPipelines.Generated
         {
             public static class RuntimeMetadataRegistry
             {
@@ -118,7 +118,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             new PeerSourceGenerator(
                 "PeerCommandOptions.cs",
                 """
-                using ModularPipelines.Metadata;
+                using ModularPipelines.Generated;
                 using ModularPipelines.Options;
 
                 public sealed class PeerCommandOptions : CommandLineToolOptions;
@@ -156,7 +156,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             new PeerSourceGenerator(
                 "LegacyPeerCommandOptions.cs",
                 """
-                using ModularPipelines.Metadata;
+                using ModularPipelines.Generated;
                 using ModularPipelines.Options;
 
                 public sealed class LegacyPeerCommandOptions : CommandLineToolOptions;
@@ -198,7 +198,7 @@ public class GeneratedOptionsRegistrationAnalyzerTests
             new PeerSourceGenerator(
                 "StalePeerCommandOptions.cs",
                 """
-                using ModularPipelines.Metadata;
+                using ModularPipelines.Generated;
                 using ModularPipelines.Options;
 
                 public sealed class StalePeerCommandOptions : CommandLineToolOptions;

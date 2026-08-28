@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Logging;
 
 /// <summary>

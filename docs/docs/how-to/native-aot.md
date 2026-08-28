@@ -53,6 +53,20 @@ These APIs remain available to JIT-compiled applications and carry trim/AOT
 annotations where appropriate. Tool integration packages are not AOT-certified unless
 their package explicitly declares `IsAotCompatible`.
 
+## Integrate another source generator
+
+Third-party generators that emit command-option or secret metadata should register it
+from a module initializer through `ModularPipelines.Generated.RuntimeMetadataRegistry`.
+This is the supported entry point for generator cooperation. Its model types also live
+in `ModularPipelines.Generated`; they are public so generated code in consumer
+assemblies can call them, but hidden from normal IntelliSense with
+`EditorBrowsableState.Never`.
+
+Use `RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion` when calling
+`RegisterCommandOptions`. Register secret accessors with `RegisterSecrets` for every
+generated options type, including types with no secret properties, so trimmed builds
+do not need reflection fallback.
+
 ## Validate an application
 
 Enable the analyzers and publish for a concrete runtime identifier:

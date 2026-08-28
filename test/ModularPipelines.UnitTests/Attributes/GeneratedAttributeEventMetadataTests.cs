@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.UnitTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]

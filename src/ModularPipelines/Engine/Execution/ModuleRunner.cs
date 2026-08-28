@@ -20,6 +20,8 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Tracing;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine.Execution;
 
 /// <summary>

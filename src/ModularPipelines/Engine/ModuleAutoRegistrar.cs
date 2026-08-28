@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine;
 
 /// <summary>

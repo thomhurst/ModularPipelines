@@ -5,18 +5,20 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
-namespace ModularPipelines.Engine;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Stores module discovery, registration, and dependency metadata emitted by
 /// <c>ModularPipelines.SourceGenerator</c>.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class GeneratedModuleMetadata
 {
     private static readonly object RegistrationLock = new();

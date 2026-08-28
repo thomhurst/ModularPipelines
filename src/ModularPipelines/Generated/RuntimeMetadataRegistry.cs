@@ -1,8 +1,6 @@
 using System.ComponentModel;
-using ModularPipelines.Engine;
-using ModularPipelines.Helpers.Internal;
 
-namespace ModularPipelines.Metadata;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Accepts AOT-safe runtime metadata emitted by cooperating source generators.
@@ -12,7 +10,7 @@ namespace ModularPipelines.Metadata;
 /// registers static property accessors here. This avoids runtime type discovery and reflection,
 /// which are unavailable after Native AOT trimming.
 /// </remarks>
-[EditorBrowsable(EditorBrowsableState.Advanced)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class RuntimeMetadataRegistry
 {
     /// <summary>

@@ -12,6 +12,8 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine;
 
 /// <summary>
