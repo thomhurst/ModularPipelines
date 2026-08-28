@@ -1,4 +1,4 @@
-using ModularPipelines.Context;
+using ModularPipelines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.StatefulModuleAnalyzer,
@@ -300,7 +300,7 @@ public class NotAModule
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<string>
 {
@@ -327,7 +327,7 @@ public class Module1 : Module<string>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<string>
 {
@@ -351,7 +351,7 @@ public class Module1 : Module<string>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<string>
 {
@@ -380,7 +380,7 @@ public class Module1 : Module<string>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public struct Counter
 {
@@ -410,7 +410,7 @@ public class Module1 : Module<int>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public static class IntExtensions
 {
@@ -439,7 +439,7 @@ public class Module1 : Module<int>
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public static class IntExtensions
 {
@@ -467,7 +467,7 @@ public class Module1 : Module<int>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<int>
 {
@@ -493,7 +493,7 @@ public class Module1 : Module<int>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<int>
 {
@@ -517,7 +517,7 @@ public class Module1 : Module<int>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public struct Counter
 {
@@ -543,7 +543,7 @@ public class Module1 : Module<int>
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public partial class Module1 : Module<string>
 {
@@ -570,7 +570,7 @@ public partial class Module1
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<object>
 {
@@ -589,7 +589,7 @@ public class Module1 : Module<object>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<object>
 {
@@ -608,7 +608,7 @@ public class Module1 : Module<object>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<string>
 {
@@ -714,7 +714,7 @@ public class Module1 : Module<object>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class Module1 : Module<int>
 {

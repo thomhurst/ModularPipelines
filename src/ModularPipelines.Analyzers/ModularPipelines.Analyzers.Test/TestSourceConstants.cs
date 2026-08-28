@@ -1,4 +1,4 @@
-using ModularPipelines.Context;
+using ModularPipelines;
 namespace ModularPipelines.Analyzers.Test;
 
 /// <summary>
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Modules;
 using ModularPipelines.Attributes;";
 
@@ -28,9 +28,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
+using ModularPipelines;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.Attributes;";
 
     /// <summary>
@@ -42,7 +42,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Modules;
 using ModularPipelines.Attributes;
 using Microsoft.Extensions.Logging;";
@@ -57,9 +57,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ModularPipelines.Extensions;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
+using ModularPipelines;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.Attributes;";
 
     /// <summary>

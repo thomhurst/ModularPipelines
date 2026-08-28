@@ -1,4 +1,4 @@
-using ModularPipelines.Context;
+using ModularPipelines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.EnumerableModuleResultAnalyzer>;
 using VerifyCodeFixCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<

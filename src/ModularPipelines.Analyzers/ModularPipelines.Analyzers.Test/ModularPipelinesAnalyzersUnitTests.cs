@@ -1,4 +1,4 @@
-using ModularPipelines.Context;
+using ModularPipelines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.MissingDependsOnAttributeAnalyzer,
@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ModularPipelines.Attributes;
 using ModularPipelines.Generated;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules
 {
@@ -41,8 +41,8 @@ namespace ModularPipelines.Generated
     [GeneratedCode(""ModularPipelines.SourceGenerator"", ""1.0.0"")]
     public static class AnalyzerTestsModuleContextExtensions
     {
-        public static ModularPipelines.Examples.ModularPipelines.Module1 GetModule1Module(this IModuleContext context) => context.GetModule<ModularPipelines.Examples.ModularPipelines.Module1>();
-        public static ModularPipelines.Examples.ModularPipelines.Module1? GetModule1ModuleIfRegistered(this IModuleContext context) => context.GetModuleIfRegistered<ModularPipelines.Examples.ModularPipelines.Module1>();
+        public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context) => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
+        public static ModularPipelines.Examples.Modules.Module1? GetModule1ModuleIfRegistered(this IModuleContext context) => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Module1>();
     }
 }";
 
@@ -52,8 +52,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -81,9 +80,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -181,7 +178,7 @@ public class Module2 : Module<IDictionary<string, object>>
 #nullable enable
 using System.Threading;
 using System.Threading.Tasks;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 namespace ModularPipelines.Examples.Modules;
 
@@ -214,8 +211,7 @@ public class Module2 : Module<string>
         const string source = """
             #nullable enable
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -255,8 +251,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -284,9 +279,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -336,8 +329,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -364,9 +356,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example;
 
@@ -404,8 +394,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
+            using ModularPipelines;
 
             namespace Example
             {
@@ -430,9 +419,7 @@ public class Module2 : Module<string>
             #nullable enable
             using System.Threading;
             using System.Threading.Tasks;
-            using ModularPipelines.Context;
-            using ModularPipelines.Modules;
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
 
             namespace Example
             {
@@ -484,7 +471,7 @@ public class Module2 : Module<string>
             }
             """.ReplaceLineEndings("\n");
         var fixedSource = """
-            using ModularPipelines.Attributes;
+            using ModularPipelines;
             #nullable enable
             namespace Example;
 

@@ -61,9 +61,10 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).DoesNotContain("context.Fake()");
         await Assert.That(files[0].Content)
             .DoesNotContain("using ModularPipelines.Fake.Extensions;");
-        await Assert.That(files[0].Content).Contains("using ModularPipelines.Context;");
-        await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
-        await Assert.That(files[0].Content).Contains("using ModularPipelines.Modules;");
+        await Assert.That(files[0].Content).Contains("using ModularPipelines;");
+        await Assert.That(files[0].Content).DoesNotContain("using ModularPipelines.Context;");
+        await Assert.That(files[0].Content).DoesNotContain("using ModularPipelines.Models;");
+        await Assert.That(files[0].Content).DoesNotContain("using ModularPipelines.Modules;");
         await Assert.That(files[0].Content).Contains("Module<CommandResult>");
         await Assert.That(files[0].Content).Contains("Task<CommandResult> ExecuteAsync");
         await Assert.That(files[0].Content).Contains("return await context.Tools.Fake");
@@ -865,23 +866,17 @@ public class MarkdownDocumentationGeneratorTests
         return $$"""
             #nullable enable
 
-            namespace ModularPipelines.Context
+            namespace ModularPipelines
             {
                 public interface IModuleContext
                 {
                     {{tool.TargetNamespace}}.Extensions.I{{tool.NamespacePrefix}}Tools Tools { get; }
                 }
-            }
 
-            namespace ModularPipelines.Models
-            {
                 public sealed class CommandResult
                 {
                 }
-            }
 
-            namespace ModularPipelines.Modules
-            {
                 public abstract class Module<T>
                 {
                     protected abstract Task<T> ExecuteAsync(
@@ -900,8 +895,7 @@ public class MarkdownDocumentationGeneratorTests
 
             namespace {{tool.TargetNamespace}}.Extensions
             {
-                using ModularPipelines.Context;
-                using ModularPipelines.Models;
+                using ModularPipelines;
                 using {{tool.TargetNamespace}}.Options;
 
                 public interface I{{tool.NamespacePrefix}}Service

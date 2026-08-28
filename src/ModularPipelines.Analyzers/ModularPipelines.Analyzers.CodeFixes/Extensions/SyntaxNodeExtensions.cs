@@ -10,7 +10,7 @@ internal static class SyntaxNodeExtensions
 {
     public static SyntaxNode AddUsings(this SyntaxNode documentRoot)
     {
-        return documentRoot.AddUsing("ModularPipelines.Attributes");
+        return documentRoot.AddUsing("ModularPipelines");
     }
 
     public static SyntaxNode AddUsing(this SyntaxNode documentRoot, string namespaceName)

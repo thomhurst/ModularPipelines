@@ -288,7 +288,7 @@ public class ModuleExecutionPipelineTests
 
     private sealed class CachedSuccessfulModule : SuccessfulModule
     {
-        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
                 .WithCacheKeyPart("v1");
     }
 

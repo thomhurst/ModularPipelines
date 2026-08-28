@@ -189,7 +189,7 @@ public class NewRunConditionAttributeTests : TestBase
     {
         protected override bool Result => true;
 
-        protected override void Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder module) => module
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("Fluent condition"));
     }
 
