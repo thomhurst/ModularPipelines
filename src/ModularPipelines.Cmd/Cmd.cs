@@ -38,6 +38,9 @@ internal class Cmd : ICmd
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return RunAsync(path, executionOptions, cancellationToken);
+        return _context.Shell.RunAsync(
+            new CommandLineToolOptions(path),
+            executionOptions,
+            cancellationToken);
     }
 }

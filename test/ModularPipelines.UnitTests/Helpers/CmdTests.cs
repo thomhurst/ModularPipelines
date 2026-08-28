@@ -27,7 +27,10 @@ public class CmdTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var file = context.Files.GetFile(Path.Combine(TestContext.OutputDirectory!, "Data", "CmdTest.cmd"));
+            var file = context.Files.GetFile(Path.Combine(
+                TestContext.OutputDirectory!,
+                "Data",
+                "CmdTest %PATH% & echo injected.cmd"));
             return await context.Tools.Cmd.RunFileAsync(file, cancellationToken: cancellationToken);
         }
     }
