@@ -31,7 +31,7 @@ public record DotNetToolRunOptions(
     /// <summary>
     /// Arguments forwarded to the tool
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, PrependOptionTerminator = true)]
     public IEnumerable<string>? ToolArguments { get; set; }
 
 }

@@ -137,6 +137,34 @@ public class DotNetCliScraperTests
             await Assert.That(toolArguments.IsRequired).IsFalse();
             await Assert.That(toolArguments.IsVariadic).IsTrue();
             await Assert.That(toolArguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(toolArguments.PrependOptionTerminator).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Build_Preserves_Optional_Project_Operand_Metadata()
+    {
+        const string helpText = """
+            Usage: dotnet build [<PROJECT | SOLUTION | FILE>]
+
+            Arguments:
+              <PROJECT | SOLUTION | FILE>  The project or solution file to operate on.
+
+            Options:
+              -h, --help  Show command line help.
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "build"],
+            helpText);
+
+        var projectSolution = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "ProjectSolution");
+        using (Assert.Multiple())
+        {
+            await Assert.That(projectSolution.IsRequired).IsFalse();
+            await Assert.That(projectSolution.IsVariadic).IsFalse();
+            await Assert.That(projectSolution.CSharpType).IsEqualTo("string?");
         }
     }
 

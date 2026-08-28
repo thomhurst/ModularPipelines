@@ -511,6 +511,14 @@ public partial class DotNetCliScraper : CliScraperBase
             return RenameSingleArgument(args, "Path", isVariadic: false);
         }
 
+        if (commandKey.Equals("tool run", StringComparison.OrdinalIgnoreCase))
+        {
+            return args.Select(argument =>
+                argument.PropertyName.Equals("ToolArguments", StringComparison.OrdinalIgnoreCase)
+                    ? argument with { PrependOptionTerminator = true }
+                    : argument).ToList();
+        }
+
         return args;
     }
 

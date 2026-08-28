@@ -47,15 +47,15 @@ public class DotNetCommandParserTests : TestBase
     }
 
     [Test]
-    public async Task Tool_Run_With_Command_Name_And_Arguments()
+    public async Task Tool_Run_Prepends_Option_Terminator()
     {
         var result = await GetResult(new DotNetToolRunOptions("csharpier")
         {
-            ToolArguments = ["check", "repository-root"]
+            ToolArguments = ["check", "--help"]
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "dotnet tool run csharpier check repository-root");
+            "dotnet tool run csharpier -- check --help");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

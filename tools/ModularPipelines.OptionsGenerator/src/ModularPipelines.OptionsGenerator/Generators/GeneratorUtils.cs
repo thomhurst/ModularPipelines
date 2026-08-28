@@ -240,14 +240,7 @@ public static partial class GeneratorUtils
 
         foreach (var homeDirectory in homeDirectories)
         {
-            var trimmedHomeDirectory = homeDirectory.TrimEnd('/', '\\');
-            var variants = new[]
-            {
-                trimmedHomeDirectory.Replace('\\', '/'),
-                trimmedHomeDirectory.Replace('/', '\\'),
-            }.Distinct(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var variant in variants)
+            foreach (var variant in GetPathSeparatorVariants(homeDirectory))
             {
                 text = text
                     .Replace($"{variant}/", "~/", StringComparison.OrdinalIgnoreCase)
@@ -260,14 +253,7 @@ public static partial class GeneratorUtils
 
     private static string RemoveCurrentDirectoryDefault(string text)
     {
-        var currentDirectory = Path.TrimEndingDirectorySeparator(Environment.CurrentDirectory);
-        var variants = new[]
-        {
-            currentDirectory.Replace('\\', '/'),
-            currentDirectory.Replace('/', '\\'),
-        }.Distinct(StringComparer.OrdinalIgnoreCase);
-
-        foreach (var variant in variants)
+        foreach (var variant in GetPathSeparatorVariants(Environment.CurrentDirectory))
         {
             text = Regex.Replace(
                 text,
@@ -277,6 +263,16 @@ public static partial class GeneratorUtils
         }
 
         return text;
+    }
+
+    private static string[] GetPathSeparatorVariants(string path)
+    {
+        var trimmedPath = Path.TrimEndingDirectorySeparator(path);
+        return new[]
+        {
+            trimmedPath.Replace('\\', '/'),
+            trimmedPath.Replace('/', '\\'),
+        }.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
     /// <summary>
