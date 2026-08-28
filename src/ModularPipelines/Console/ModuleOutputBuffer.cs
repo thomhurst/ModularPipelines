@@ -338,6 +338,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var effectiveFallbackLoggers = fallbackLoggers ?? [];
         var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
+        var renderedConsoleOutput = false;
 
         try
         {
@@ -347,7 +348,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 console,
                 cancellationToken);
 
-            if (shouldRenderOutputGroup)
+            if (shouldRenderOutputGroup
+                || outputs.Any(static output => output.LogEvent is not null))
             {
                 using var renderGate = await loggerControl
                     .TryAcquireRenderGateAsync(_renderGateTimeout, cancellationToken)
@@ -363,9 +365,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     flushKind,
                     isContinuation,
                     outputs,
+                    shouldRenderOutputGroup,
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
                     ref renderedCount,
+                    ref renderedConsoleOutput,
                     cancellationToken);
             }
         }
@@ -373,7 +377,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (flushKind is OutputFlushKind.Incremental)
             {
-                RecordRenderedOutput(OutputFlushKind.Incremental, renderedCount);
+                RecordRenderedOutput(OutputFlushKind.Incremental, renderedConsoleOutput);
             }
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
@@ -384,7 +388,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             RestoreStructuredDeliveryRetries(failedStructuredDeliveries);
         }
 
-        RecordRenderedOutput(flushKind, renderedCount);
+        RecordRenderedOutput(flushKind, renderedConsoleOutput);
     }
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
@@ -496,7 +500,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = _outputs.Count > 0 || needsExceptionHeader;
+            shouldRenderOutputGroup = needsExceptionHeader || _outputs.Any(ProducesConsoleOutput);
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -518,13 +522,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         bool isContinuation,
         List<BufferedOutput> outputs,
+        bool shouldRenderOutputGroup,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
+        ref bool renderedConsoleOutput,
         CancellationToken cancellationToken)
     {
         if (renderGate is null)
         {
+            renderedConsoleOutput = true;
             console.WriteLine(
                 $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
             RenderOutputGroup(
@@ -536,10 +543,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 flushKind,
                 isContinuation,
                 outputs,
+                shouldRenderOutputGroup,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: true,
                 ref renderedCount,
+                ref renderedConsoleOutput,
                 cancellationToken);
             return;
         }
@@ -555,10 +564,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 flushKind,
                 isContinuation,
                 outputs,
+                shouldRenderOutputGroup,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: false,
                 ref renderedCount,
+                ref renderedConsoleOutput,
                 cancellationToken);
         }
     }
@@ -572,21 +583,28 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         bool isContinuation,
         List<BufferedOutput> outputs,
+        bool shouldRenderOutputGroup,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
+        ref bool renderedConsoleOutput,
         CancellationToken cancellationToken)
     {
         var header = FormatHeader(exception, flushKind, isContinuation);
-        var startCommand = formatter.GetStartBlockCommand(header);
-        var endCommand = formatter.GetEndBlockCommand(header);
+        var startCommand = shouldRenderOutputGroup
+            ? formatter.GetStartBlockCommand(header)
+            : null;
+        var endCommand = shouldRenderOutputGroup
+            ? formatter.GetEndBlockCommand(header)
+            : null;
         var groupStarted = false;
         var flushCompleted = false;
 
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
+            renderedConsoleOutput |= shouldRenderOutputGroup;
 
             // Keep the synchronization gate for the complete group. MEL.Spectre uses
             // synchronous rendering, so unrelated logger calls cannot enter this group.
@@ -617,7 +635,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 WriteGroupCommand(console, directConsole, formatter, endCommand);
             }
 
-            if (groupStarted || flushCompleted)
+            if (groupStarted || (flushCompleted && shouldRenderOutputGroup))
             {
                 // Add blank line between module sections for visual separation.
                 console.WriteLine();
@@ -690,7 +708,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private void RecordRenderedOutput(OutputFlushKind flushKind, int renderedCount)
+    private void RecordRenderedOutput(OutputFlushKind flushKind, bool renderedConsoleOutput)
     {
         lock (_lock)
         {
@@ -703,7 +721,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             else
             {
                 _isIncrementalFlushInProgress = false;
-                if (renderedCount > 0)
+                if (renderedConsoleOutput)
                 {
                     _hasRenderedIncrementalOutput = true;
                 }
@@ -827,6 +845,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         var completionMarker = Markup.Remove(StatusDisplayProvider.GetDisplayInfo(status).Icon);
         return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
+    }
+
+    private bool ProducesConsoleOutput(BufferedOutput output)
+    {
+        if (output.IsRawBuildSystemCommand)
+        {
+            return true;
+        }
+
+        if (output.IsString)
+        {
+            return !string.IsNullOrEmpty(output.StringValue);
+        }
+
+        return output.LogEvent is { } logEvent && _isSpectreEnabled(logEvent.Level);
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

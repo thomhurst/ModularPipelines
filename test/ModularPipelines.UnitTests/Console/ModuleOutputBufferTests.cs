@@ -490,6 +490,58 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task BlankPipelineOutput_DoesNotRenderEmptyGroup()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(
+            "Pipeline",
+            typeof(void),
+            showSuccessMarker: false);
+        buffer.WriteLine(string.Empty);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).DoesNotContain("::group::Pipeline");
+            await Assert.That(output).DoesNotContain("::endgroup::");
+        }
+    }
+
+    [Test]
+    public async Task BlankPipelineOutput_DoesNotAcquireRenderGate()
+    {
+        var writer = new StringWriter();
+        var renderGateWaitStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            RenderGateWaitStarted = renderGateWaitStarted,
+        };
+        var buffer = new ModuleOutputBuffer(
+            "Pipeline",
+            typeof(void),
+            showSuccessMarker: false);
+        buffer.WriteLine(string.Empty);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(renderGateWaitStarted.Task.IsCompleted).IsFalse();
+    }
+
+    [Test]
     public async Task IncrementalFlush_DoesNotDrainCompletedModule()
     {
         var writer = new StringWriter();
@@ -682,6 +734,33 @@ public class ModuleOutputBufferTests
             OutputFlushKind.Incremental);
 
         await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests … (continued) (");
+    }
+
+    [Test]
+    public async Task VisibleOutputAfterFilteredIncrementalFlush_IsNotLabelledAsContinued()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog(isSpectreEnabled: static _ => false);
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            new RecordingLogger(),
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("visible output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests … (");
+        await Assert.That(output).DoesNotContain("(continued)");
+        await Assert.That(output).Contains("visible output");
     }
 
     [Test]
@@ -939,6 +1018,64 @@ public class ModuleOutputBufferTests
         }
 
         await Assert.That(buffer.HasOutput).IsTrue();
+    }
+
+    [Test]
+    public async Task IncrementalFlush_CancelledRenderGateWait_DoesNotMarkRetryAsContinued()
+    {
+        var writer = new StringWriter();
+        var renderGateWaitStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            RenderGateWaitStarted = renderGateWaitStarted,
+        };
+        var buffer = CreateBufferWithStructuredLog();
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        using var cancellationTokenSource = new CancellationTokenSource();
+        try
+        {
+            var flush = buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Incremental,
+                cancellationToken: cancellationTokenSource.Token);
+
+            await renderGateWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await cancellationTokenSource.CancelAsync();
+
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await flush.WaitAsync(TestHostSettings.DefaultTestTimeout));
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests … (");
+        await Assert.That(output).DoesNotContain("(continued)");
     }
 
     [Test]

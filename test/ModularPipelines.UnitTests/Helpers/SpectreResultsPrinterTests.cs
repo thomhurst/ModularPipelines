@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -276,15 +275,13 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
-    public async Task GitHubOutput_GroupsOnlyModuleResultsTable()
+    public async Task ResultsTable_IsVisibleWithoutBuildSystemGroup()
     {
-        var output = PrintResults(CreateFailedSummary(), new GitHubActionsFormatter());
+        var output = PrintResults(CreateFailedSummary());
 
         var headline = output.IndexOf("Pipeline Failed", StringComparison.Ordinal);
         var counts = output.IndexOf("1 failed", StringComparison.Ordinal);
-        var groupStart = output.IndexOf("::group::Module Results", StringComparison.Ordinal);
-        var table = output.IndexOf(nameof(FailedModule), groupStart, StringComparison.Ordinal);
-        var groupEnd = output.IndexOf("::endgroup::", groupStart, StringComparison.Ordinal);
+        var table = output.IndexOf(nameof(FailedModule), StringComparison.Ordinal);
         var failureDetails = output.IndexOf("Failed Modules", StringComparison.Ordinal);
         var metrics = output.IndexOf("Speedup:", StringComparison.Ordinal);
 
@@ -292,11 +289,10 @@ public class SpectreResultsPrinterTests
         {
             await Assert.That(headline).IsGreaterThanOrEqualTo(0);
             await Assert.That(counts).IsGreaterThan(headline);
-            await Assert.That(groupStart).IsGreaterThan(counts);
-            await Assert.That(table).IsGreaterThan(groupStart);
-            await Assert.That(groupEnd).IsGreaterThan(table);
-            await Assert.That(failureDetails).IsGreaterThan(groupEnd);
+            await Assert.That(table).IsGreaterThan(counts);
+            await Assert.That(failureDetails).IsGreaterThan(table);
             await Assert.That(metrics).IsGreaterThan(failureDetails);
+            await Assert.That(output).DoesNotContain("::group::Module Results");
             await Assert.That(output).Contains("root failure");
         }
     }
@@ -346,7 +342,7 @@ public class SpectreResultsPrinterTests
     [Test]
     public async Task LocalOutput_DoesNotAddModuleResultsGroup()
     {
-        var output = PrintResults(CreateFailedSummary(), new DefaultFormatter());
+        var output = PrintResults(CreateFailedSummary());
 
         using (Assert.Multiple())
         {
@@ -401,9 +397,7 @@ public class SpectreResultsPrinterTests
             ]);
     }
 
-    private static string PrintResults(
-        PipelineSummary summary,
-        IBuildSystemFormatter formatter)
+    private static string PrintResults(PipelineSummary summary)
     {
         using var writer = new StringWriter();
         var originalAnsiConsole = AnsiConsole.Console;
@@ -417,12 +411,8 @@ public class SpectreResultsPrinterTests
                 ColorSystem = ColorSystemSupport.NoColors,
             });
 
-            var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
-            formatterProvider.Setup(x => x.GetFormatter()).Returns(formatter);
             var printer = new SpectreResultsPrinter(
-                Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
-                new BuildSystemCommandWriter(writer),
-                formatterProvider.Object);
+                Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
             printer.PrintResults(summary);
             return writer.ToString();
