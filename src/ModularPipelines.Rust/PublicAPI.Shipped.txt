@@ -1,0 +1,515 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Rust_18222666a5803064ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Rust_18222666a5803064ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Rust_18222666a5803064ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Cargo.get -> ModularPipelines.Rust.Services.ICargo!
+ModularPipelines.Rust.Extensions.CargoExtensions
+ModularPipelines.Rust.Options.CargoAddOptions
+ModularPipelines.Rust.Options.CargoAddOptions.CargoAddOptions(ModularPipelines.Rust.Options.CargoAddOptions! original) -> void
+ModularPipelines.Rust.Options.CargoAddOptions.CargoAddOptions(System.Collections.Generic.IEnumerable<string!>! Dep) -> void
+ModularPipelines.Rust.Options.CargoAddOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Dep) -> void
+ModularPipelines.Rust.Options.CargoAddOptions.Dep.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Rust.Options.CargoAddOptions.Dep.init -> void
+ModularPipelines.Rust.Options.CargoBenchOptions
+ModularPipelines.Rust.Options.CargoBenchOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoBenchOptions.Args.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.Benchname.get -> string?
+ModularPipelines.Rust.Options.CargoBenchOptions.Benchname.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.CargoBenchOptions() -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.CargoBenchOptions(ModularPipelines.Rust.Options.CargoBenchOptions! original) -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoBenchOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoBenchOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoBenchOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoBenchOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.NoFailFast.get -> bool?
+ModularPipelines.Rust.Options.CargoBenchOptions.NoFailFast.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.NoRun.get -> bool?
+ModularPipelines.Rust.Options.CargoBenchOptions.NoRun.set -> void
+ModularPipelines.Rust.Options.CargoBenchOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoBenchOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions
+ModularPipelines.Rust.Options.CargoBuildOptions.CargoBuildOptions() -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.CargoBuildOptions(ModularPipelines.Rust.Options.CargoBuildOptions! original) -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoBuildOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoBuildOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.FutureIncompatReport.get -> bool?
+ModularPipelines.Rust.Options.CargoBuildOptions.FutureIncompatReport.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoBuildOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoBuildOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoBuildOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoBuildOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions
+ModularPipelines.Rust.Options.CargoCheckOptions.CargoCheckOptions() -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.CargoCheckOptions(ModularPipelines.Rust.Options.CargoCheckOptions! original) -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoCheckOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoCheckOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.FutureIncompatReport.get -> bool?
+ModularPipelines.Rust.Options.CargoCheckOptions.FutureIncompatReport.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoCheckOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoCheckOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoCheckOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoCheckOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions
+ModularPipelines.Rust.Options.CargoCleanOptions.CargoCleanOptions() -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.CargoCleanOptions(ModularPipelines.Rust.Options.CargoCleanOptions! original) -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoCleanOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoCleanOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.Doc.get -> bool?
+ModularPipelines.Rust.Options.CargoCleanOptions.Doc.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.DryRun.get -> bool?
+ModularPipelines.Rust.Options.CargoCleanOptions.DryRun.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoCleanOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoCleanOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoCleanOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions
+ModularPipelines.Rust.Options.CargoDocOptions.CargoDocOptions() -> void
+ModularPipelines.Rust.Options.CargoDocOptions.CargoDocOptions(ModularPipelines.Rust.Options.CargoDocOptions! original) -> void
+ModularPipelines.Rust.Options.CargoDocOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoDocOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoDocOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.DocumentPrivateItems.get -> bool?
+ModularPipelines.Rust.Options.CargoDocOptions.DocumentPrivateItems.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoDocOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoDocOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.NoDeps.get -> bool?
+ModularPipelines.Rust.Options.CargoDocOptions.NoDeps.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.Open.get -> bool?
+ModularPipelines.Rust.Options.CargoDocOptions.Open.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.OutputFormat.get -> string?
+ModularPipelines.Rust.Options.CargoDocOptions.OutputFormat.set -> void
+ModularPipelines.Rust.Options.CargoDocOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoDocOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions
+ModularPipelines.Rust.Options.CargoInitOptions.Bin.get -> bool?
+ModularPipelines.Rust.Options.CargoInitOptions.Bin.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.CargoInitOptions() -> void
+ModularPipelines.Rust.Options.CargoInitOptions.CargoInitOptions(ModularPipelines.Rust.Options.CargoInitOptions! original) -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Edition.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Edition.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoInitOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Lib.get -> bool?
+ModularPipelines.Rust.Options.CargoInitOptions.Lib.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Name.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Name.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Path.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Path.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoInitOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Registry.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Registry.set -> void
+ModularPipelines.Rust.Options.CargoInitOptions.Vcs.get -> string?
+ModularPipelines.Rust.Options.CargoInitOptions.Vcs.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions
+ModularPipelines.Rust.Options.CargoInstallOptions.Branch.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Branch.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.CargoInstallOptions() -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.CargoInstallOptions(ModularPipelines.Rust.Options.CargoInstallOptions! original) -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.CrateVer.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoInstallOptions.CrateVer.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Debug.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.Debug.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.DryRun.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.DryRun.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Force.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.Force.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Git.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Git.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Index.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Index.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.List.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.List.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.NoTrack.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.NoTrack.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Path.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Path.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoInstallOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Registry.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Registry.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Rev.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Rev.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Root.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Root.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Tag.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Tag.set -> void
+ModularPipelines.Rust.Options.CargoInstallOptions.Version.get -> string?
+ModularPipelines.Rust.Options.CargoInstallOptions.Version.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions
+ModularPipelines.Rust.Options.CargoNewOptions.Bin.get -> bool?
+ModularPipelines.Rust.Options.CargoNewOptions.Bin.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.CargoNewOptions(ModularPipelines.Rust.Options.CargoNewOptions! original) -> void
+ModularPipelines.Rust.Options.CargoNewOptions.CargoNewOptions(string! Path) -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Deconstruct(out string! Path) -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Edition.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Edition.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoNewOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Lib.get -> bool?
+ModularPipelines.Rust.Options.CargoNewOptions.Lib.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Name.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Name.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Path.get -> string!
+ModularPipelines.Rust.Options.CargoNewOptions.Path.init -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoNewOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Registry.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Registry.set -> void
+ModularPipelines.Rust.Options.CargoNewOptions.Vcs.get -> string?
+ModularPipelines.Rust.Options.CargoNewOptions.Vcs.set -> void
+ModularPipelines.Rust.Options.CargoOptions
+ModularPipelines.Rust.Options.CargoOptions.CargoOptions() -> void
+ModularPipelines.Rust.Options.CargoOptions.CargoOptions(ModularPipelines.Rust.Options.CargoOptions! original) -> void
+ModularPipelines.Rust.Options.CargoPublishOptions
+ModularPipelines.Rust.Options.CargoPublishOptions.AllowDirty.get -> bool?
+ModularPipelines.Rust.Options.CargoPublishOptions.AllowDirty.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.CargoPublishOptions() -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.CargoPublishOptions(ModularPipelines.Rust.Options.CargoPublishOptions! original) -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoPublishOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoPublishOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.DryRun.get -> bool?
+ModularPipelines.Rust.Options.CargoPublishOptions.DryRun.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoPublishOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Index.get -> string?
+ModularPipelines.Rust.Options.CargoPublishOptions.Index.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.NoVerify.get -> bool?
+ModularPipelines.Rust.Options.CargoPublishOptions.NoVerify.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoPublishOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoPublishOptions.Registry.get -> string?
+ModularPipelines.Rust.Options.CargoPublishOptions.Registry.set -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions
+ModularPipelines.Rust.Options.CargoRemoveOptions.CargoRemoveOptions(ModularPipelines.Rust.Options.CargoRemoveOptions! original) -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.CargoRemoveOptions(System.Collections.Generic.IEnumerable<string!>! DepId) -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoRemoveOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoRemoveOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! DepId) -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.DepId.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Rust.Options.CargoRemoveOptions.DepId.init -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.DryRun.get -> bool?
+ModularPipelines.Rust.Options.CargoRemoveOptions.DryRun.set -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoRemoveOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoRemoveOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoRemoveOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions
+ModularPipelines.Rust.Options.CargoRunOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoRunOptions.Args.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions.CargoRunOptions() -> void
+ModularPipelines.Rust.Options.CargoRunOptions.CargoRunOptions(ModularPipelines.Rust.Options.CargoRunOptions! original) -> void
+ModularPipelines.Rust.Options.CargoRunOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoRunOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoRunOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoRunOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoRunOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoRunOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoRunOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions
+ModularPipelines.Rust.Options.CargoSearchOptions.CargoSearchOptions() -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.CargoSearchOptions(ModularPipelines.Rust.Options.CargoSearchOptions! original) -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoSearchOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoSearchOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoSearchOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Index.get -> string?
+ModularPipelines.Rust.Options.CargoSearchOptions.Index.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Limit.get -> string?
+ModularPipelines.Rust.Options.CargoSearchOptions.Limit.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Query.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoSearchOptions.Query.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoSearchOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoSearchOptions.Registry.get -> string?
+ModularPipelines.Rust.Options.CargoSearchOptions.Registry.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions
+ModularPipelines.Rust.Options.CargoTestOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoTestOptions.Args.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.CargoTestOptions() -> void
+ModularPipelines.Rust.Options.CargoTestOptions.CargoTestOptions(ModularPipelines.Rust.Options.CargoTestOptions! original) -> void
+ModularPipelines.Rust.Options.CargoTestOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoTestOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoTestOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.FutureIncompatReport.get -> bool?
+ModularPipelines.Rust.Options.CargoTestOptions.FutureIncompatReport.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoTestOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.MessageFormat.get -> string?
+ModularPipelines.Rust.Options.CargoTestOptions.MessageFormat.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.NoFailFast.get -> bool?
+ModularPipelines.Rust.Options.CargoTestOptions.NoFailFast.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.NoRun.get -> bool?
+ModularPipelines.Rust.Options.CargoTestOptions.NoRun.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoTestOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoTestOptions.Testname.get -> string?
+ModularPipelines.Rust.Options.CargoTestOptions.Testname.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions
+ModularPipelines.Rust.Options.CargoUninstallOptions.CargoUninstallOptions() -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.CargoUninstallOptions(ModularPipelines.Rust.Options.CargoUninstallOptions! original) -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Root.get -> string?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Root.set -> void
+ModularPipelines.Rust.Options.CargoUninstallOptions.Spec.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoUninstallOptions.Spec.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions
+ModularPipelines.Rust.Options.CargoUpdateOptions.Breaking.get -> bool?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Breaking.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.CargoUpdateOptions() -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.CargoUpdateOptions(ModularPipelines.Rust.Options.CargoUpdateOptions! original) -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Color.get -> string?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Color.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Config.get -> string?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Config.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.DryRun.get -> bool?
+ModularPipelines.Rust.Options.CargoUpdateOptions.DryRun.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Help.get -> bool?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Help.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Precise.get -> string?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Precise.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Quiet.get -> bool?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Quiet.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Recursive.get -> bool?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Recursive.set -> void
+ModularPipelines.Rust.Options.CargoUpdateOptions.Spec.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Rust.Options.CargoUpdateOptions.Spec.set -> void
+ModularPipelines.Rust.Services.ICargo
+ModularPipelines.Rust.Services.ICargo.AddAsync(ModularPipelines.Rust.Options.CargoAddOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.BenchAsync(ModularPipelines.Rust.Options.CargoBenchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.BuildAsync(ModularPipelines.Rust.Options.CargoBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.CheckAsync(ModularPipelines.Rust.Options.CargoCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.CleanAsync(ModularPipelines.Rust.Options.CargoCleanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.DocAsync(ModularPipelines.Rust.Options.CargoDocOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.InitAsync(ModularPipelines.Rust.Options.CargoInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.InstallAsync(ModularPipelines.Rust.Options.CargoInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.NewAsync(ModularPipelines.Rust.Options.CargoNewOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.PublishAsync(ModularPipelines.Rust.Options.CargoPublishOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.RemoveAsync(ModularPipelines.Rust.Options.CargoRemoveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.RunAsync(ModularPipelines.Rust.Options.CargoRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.SearchAsync(ModularPipelines.Rust.Options.CargoSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.TestAsync(ModularPipelines.Rust.Options.CargoTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.UninstallAsync(ModularPipelines.Rust.Options.CargoUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Rust.Services.ICargo.UpdateAsync(ModularPipelines.Rust.Options.CargoUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Rust.Options.CargoAddOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoAddOptions!
+override ModularPipelines.Rust.Options.CargoAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoAddOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoAddOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoBenchOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoBenchOptions!
+override ModularPipelines.Rust.Options.CargoBenchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoBenchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoBenchOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoBenchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoBenchOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoBuildOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoBuildOptions!
+override ModularPipelines.Rust.Options.CargoBuildOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoBuildOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoBuildOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoBuildOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoCheckOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoCheckOptions!
+override ModularPipelines.Rust.Options.CargoCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoCheckOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoCheckOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoCleanOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoCleanOptions!
+override ModularPipelines.Rust.Options.CargoCleanOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoCleanOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoCleanOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoCleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoCleanOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoDocOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoDocOptions!
+override ModularPipelines.Rust.Options.CargoDocOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoDocOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoDocOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoDocOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoDocOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoInitOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoInitOptions!
+override ModularPipelines.Rust.Options.CargoInitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoInitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoInitOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoInitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoInitOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoInstallOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoInstallOptions!
+override ModularPipelines.Rust.Options.CargoInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoInstallOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoInstallOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoNewOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoNewOptions!
+override ModularPipelines.Rust.Options.CargoNewOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoNewOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoNewOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoNewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoNewOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoPublishOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoPublishOptions!
+override ModularPipelines.Rust.Options.CargoPublishOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoPublishOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoPublishOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoPublishOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoPublishOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoRemoveOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoRemoveOptions!
+override ModularPipelines.Rust.Options.CargoRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoRemoveOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoRemoveOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoRunOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoRunOptions!
+override ModularPipelines.Rust.Options.CargoRunOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoRunOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoRunOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoRunOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoRunOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoSearchOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoSearchOptions!
+override ModularPipelines.Rust.Options.CargoSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoSearchOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoSearchOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoTestOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoTestOptions!
+override ModularPipelines.Rust.Options.CargoTestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoTestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoTestOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoTestOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoUninstallOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoUninstallOptions!
+override ModularPipelines.Rust.Options.CargoUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoUninstallOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoUninstallOptions.ToString() -> string!
+override ModularPipelines.Rust.Options.CargoUpdateOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoUpdateOptions!
+override ModularPipelines.Rust.Options.CargoUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Rust.Options.CargoUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Rust.Options.CargoUpdateOptions.GetHashCode() -> int
+override ModularPipelines.Rust.Options.CargoUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Rust.Options.CargoUpdateOptions.ToString() -> string!
+override abstract ModularPipelines.Rust.Options.CargoOptions.<Clone>$() -> ModularPipelines.Rust.Options.CargoOptions!
+override sealed ModularPipelines.Rust.Options.CargoAddOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoBenchOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoBuildOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoCheckOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoCleanOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoDocOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoInitOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoInstallOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoNewOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoPublishOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoRemoveOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoRunOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoSearchOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoTestOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoUninstallOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+override sealed ModularPipelines.Rust.Options.CargoUpdateOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Rust_18222666a5803064ToolsExtensions.get_Cargo(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Rust.Services.ICargo!
+static ModularPipelines.Rust.Extensions.CargoExtensions.Cargo(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Rust.Services.ICargo!
+static ModularPipelines.Rust.Extensions.CargoExtensions.RegisterCargoContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Rust.Options.CargoAddOptions.operator !=(ModularPipelines.Rust.Options.CargoAddOptions? left, ModularPipelines.Rust.Options.CargoAddOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoAddOptions.operator ==(ModularPipelines.Rust.Options.CargoAddOptions? left, ModularPipelines.Rust.Options.CargoAddOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoBenchOptions.operator !=(ModularPipelines.Rust.Options.CargoBenchOptions? left, ModularPipelines.Rust.Options.CargoBenchOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoBenchOptions.operator ==(ModularPipelines.Rust.Options.CargoBenchOptions? left, ModularPipelines.Rust.Options.CargoBenchOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoBuildOptions.operator !=(ModularPipelines.Rust.Options.CargoBuildOptions? left, ModularPipelines.Rust.Options.CargoBuildOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoBuildOptions.operator ==(ModularPipelines.Rust.Options.CargoBuildOptions? left, ModularPipelines.Rust.Options.CargoBuildOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoCheckOptions.operator !=(ModularPipelines.Rust.Options.CargoCheckOptions? left, ModularPipelines.Rust.Options.CargoCheckOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoCheckOptions.operator ==(ModularPipelines.Rust.Options.CargoCheckOptions? left, ModularPipelines.Rust.Options.CargoCheckOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoCleanOptions.operator !=(ModularPipelines.Rust.Options.CargoCleanOptions? left, ModularPipelines.Rust.Options.CargoCleanOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoCleanOptions.operator ==(ModularPipelines.Rust.Options.CargoCleanOptions? left, ModularPipelines.Rust.Options.CargoCleanOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoDocOptions.operator !=(ModularPipelines.Rust.Options.CargoDocOptions? left, ModularPipelines.Rust.Options.CargoDocOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoDocOptions.operator ==(ModularPipelines.Rust.Options.CargoDocOptions? left, ModularPipelines.Rust.Options.CargoDocOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoInitOptions.operator !=(ModularPipelines.Rust.Options.CargoInitOptions? left, ModularPipelines.Rust.Options.CargoInitOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoInitOptions.operator ==(ModularPipelines.Rust.Options.CargoInitOptions? left, ModularPipelines.Rust.Options.CargoInitOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoInstallOptions.operator !=(ModularPipelines.Rust.Options.CargoInstallOptions? left, ModularPipelines.Rust.Options.CargoInstallOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoInstallOptions.operator ==(ModularPipelines.Rust.Options.CargoInstallOptions? left, ModularPipelines.Rust.Options.CargoInstallOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoNewOptions.operator !=(ModularPipelines.Rust.Options.CargoNewOptions? left, ModularPipelines.Rust.Options.CargoNewOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoNewOptions.operator ==(ModularPipelines.Rust.Options.CargoNewOptions? left, ModularPipelines.Rust.Options.CargoNewOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoOptions.operator !=(ModularPipelines.Rust.Options.CargoOptions? left, ModularPipelines.Rust.Options.CargoOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoOptions.operator ==(ModularPipelines.Rust.Options.CargoOptions? left, ModularPipelines.Rust.Options.CargoOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoPublishOptions.operator !=(ModularPipelines.Rust.Options.CargoPublishOptions? left, ModularPipelines.Rust.Options.CargoPublishOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoPublishOptions.operator ==(ModularPipelines.Rust.Options.CargoPublishOptions? left, ModularPipelines.Rust.Options.CargoPublishOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoRemoveOptions.operator !=(ModularPipelines.Rust.Options.CargoRemoveOptions? left, ModularPipelines.Rust.Options.CargoRemoveOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoRemoveOptions.operator ==(ModularPipelines.Rust.Options.CargoRemoveOptions? left, ModularPipelines.Rust.Options.CargoRemoveOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoRunOptions.operator !=(ModularPipelines.Rust.Options.CargoRunOptions? left, ModularPipelines.Rust.Options.CargoRunOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoRunOptions.operator ==(ModularPipelines.Rust.Options.CargoRunOptions? left, ModularPipelines.Rust.Options.CargoRunOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoSearchOptions.operator !=(ModularPipelines.Rust.Options.CargoSearchOptions? left, ModularPipelines.Rust.Options.CargoSearchOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoSearchOptions.operator ==(ModularPipelines.Rust.Options.CargoSearchOptions? left, ModularPipelines.Rust.Options.CargoSearchOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoTestOptions.operator !=(ModularPipelines.Rust.Options.CargoTestOptions? left, ModularPipelines.Rust.Options.CargoTestOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoTestOptions.operator ==(ModularPipelines.Rust.Options.CargoTestOptions? left, ModularPipelines.Rust.Options.CargoTestOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoUninstallOptions.operator !=(ModularPipelines.Rust.Options.CargoUninstallOptions? left, ModularPipelines.Rust.Options.CargoUninstallOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoUninstallOptions.operator ==(ModularPipelines.Rust.Options.CargoUninstallOptions? left, ModularPipelines.Rust.Options.CargoUninstallOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoUpdateOptions.operator !=(ModularPipelines.Rust.Options.CargoUpdateOptions? left, ModularPipelines.Rust.Options.CargoUpdateOptions? right) -> bool
+static ModularPipelines.Rust.Options.CargoUpdateOptions.operator ==(ModularPipelines.Rust.Options.CargoUpdateOptions? left, ModularPipelines.Rust.Options.CargoUpdateOptions? right) -> bool
+virtual ModularPipelines.Rust.Options.CargoAddOptions.Equals(ModularPipelines.Rust.Options.CargoAddOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoBenchOptions.Equals(ModularPipelines.Rust.Options.CargoBenchOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoBuildOptions.Equals(ModularPipelines.Rust.Options.CargoBuildOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoCheckOptions.Equals(ModularPipelines.Rust.Options.CargoCheckOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoCleanOptions.Equals(ModularPipelines.Rust.Options.CargoCleanOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoDocOptions.Equals(ModularPipelines.Rust.Options.CargoDocOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoInitOptions.Equals(ModularPipelines.Rust.Options.CargoInitOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoInstallOptions.Equals(ModularPipelines.Rust.Options.CargoInstallOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoNewOptions.Equals(ModularPipelines.Rust.Options.CargoNewOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoOptions.Equals(ModularPipelines.Rust.Options.CargoOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoPublishOptions.Equals(ModularPipelines.Rust.Options.CargoPublishOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoRemoveOptions.Equals(ModularPipelines.Rust.Options.CargoRemoveOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoRunOptions.Equals(ModularPipelines.Rust.Options.CargoRunOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoSearchOptions.Equals(ModularPipelines.Rust.Options.CargoSearchOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoTestOptions.Equals(ModularPipelines.Rust.Options.CargoTestOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoUninstallOptions.Equals(ModularPipelines.Rust.Options.CargoUninstallOptions? other) -> bool
+virtual ModularPipelines.Rust.Options.CargoUpdateOptions.Equals(ModularPipelines.Rust.Options.CargoUpdateOptions? other) -> bool

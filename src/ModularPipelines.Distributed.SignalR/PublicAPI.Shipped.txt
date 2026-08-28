@@ -1,0 +1,32 @@
+#nullable enable
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.CloudflaredPath.get -> string!
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.CloudflaredPath.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeoutSeconds.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ConnectionTimeoutSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.EnableAutoReconnect.get -> bool
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.EnableAutoReconnect.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.EnableTunnel.get -> bool
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.EnableTunnel.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.HubPath.get -> string!
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.HubPath.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveIntervalSeconds.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.KeepAliveIntervalSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MasterUrl.get -> string!
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MasterUrl.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaximumReceiveMessageSize.get -> long
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaximumReceiveMessageSize.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaxReconnectAttempts.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.MaxReconnectAttempts.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeoutSeconds.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.PeerTimeoutSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGraceSeconds.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.ReconnectGraceSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.SignalRDistributedOptions() -> void
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeoutSeconds.get -> int
+ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions.TunnelStartupTimeoutSeconds.set -> void
+ModularPipelines.Distributed.SignalR.Discovery.ISignalRMasterDiscovery
+ModularPipelines.Distributed.SignalR.Discovery.ISignalRMasterDiscovery.AdvertiseMasterUrlAsync(string! masterUrl, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Distributed.SignalR.Discovery.ISignalRMasterDiscovery.DiscoverMasterUrlAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
+ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions
+static ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions!>? configure = null) -> ModularPipelines.PipelineBuilder!

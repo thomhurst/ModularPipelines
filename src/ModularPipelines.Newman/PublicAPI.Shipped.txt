@@ -1,0 +1,105 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Newman_c68c1da57c5b2724ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Newman_c68c1da57c5b2724ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Newman_c68c1da57c5b2724ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Newman.get -> ModularPipelines.Newman.Services.INewman!
+ModularPipelines.Newman.Extensions.NewmanExtensions
+ModularPipelines.Newman.Options.NewmanOptions
+ModularPipelines.Newman.Options.NewmanOptions.NewmanOptions() -> void
+ModularPipelines.Newman.Options.NewmanOptions.NewmanOptions(ModularPipelines.Newman.Options.NewmanOptions! original) -> void
+ModularPipelines.Newman.Options.NewmanRunOptions
+ModularPipelines.Newman.Options.NewmanRunOptions.Bail.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Bail.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Collection.get -> string!
+ModularPipelines.Newman.Options.NewmanRunOptions.Collection.init -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Color.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.Color.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.CookieJar.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.CookieJar.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Deconstruct(out string! Collection) -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.DelayRequest.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.DelayRequest.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.DisableUnicode.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.DisableUnicode.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.EnvVar.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Newman.Options.NewmanRunOptions.EnvVar.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Environment.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.Environment.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportCollection.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportCollection.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportCookieJar.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportCookieJar.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportEnvironment.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportEnvironment.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportGlobals.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.ExportGlobals.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Folder.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Newman.Options.NewmanRunOptions.Folder.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.GlobalVar.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Newman.Options.NewmanRunOptions.GlobalVar.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Globals.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.Globals.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Help.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Help.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.IgnoreRedirects.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.IgnoreRedirects.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Insecure.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Insecure.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.IterationCount.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.IterationCount.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.IterationData.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.IterationData.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.NewmanRunOptions(ModularPipelines.Newman.Options.NewmanRunOptions! original) -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.NewmanRunOptions(string! Collection) -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.NoInsecureFileRead.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.NoInsecureFileRead.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.PostmanApiKey.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.PostmanApiKey.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Reporters.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Reporters.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Silent.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Silent.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientCert.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientCert.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientCertList.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientCertList.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientKey.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientKey.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientPassphrase.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.SslClientPassphrase.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.SslExtraCaCerts.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.SslExtraCaCerts.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Timeout.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Timeout.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.TimeoutRequest.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.TimeoutRequest.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.TimeoutScript.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.TimeoutScript.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.Verbose.get -> bool?
+ModularPipelines.Newman.Options.NewmanRunOptions.Verbose.set -> void
+ModularPipelines.Newman.Options.NewmanRunOptions.WorkingDir.get -> string?
+ModularPipelines.Newman.Options.NewmanRunOptions.WorkingDir.set -> void
+ModularPipelines.Newman.Services.INewman
+ModularPipelines.Newman.Services.INewman.RunAsync(ModularPipelines.Newman.Options.NewmanRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Newman.Options.NewmanOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Newman.Options.NewmanOptions.Equals(object? obj) -> bool
+override ModularPipelines.Newman.Options.NewmanOptions.GetHashCode() -> int
+override ModularPipelines.Newman.Options.NewmanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Newman.Options.NewmanOptions.ToString() -> string!
+override ModularPipelines.Newman.Options.NewmanRunOptions.<Clone>$() -> ModularPipelines.Newman.Options.NewmanRunOptions!
+override ModularPipelines.Newman.Options.NewmanRunOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Newman.Options.NewmanRunOptions.Equals(object? obj) -> bool
+override ModularPipelines.Newman.Options.NewmanRunOptions.GetHashCode() -> int
+override ModularPipelines.Newman.Options.NewmanRunOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Newman.Options.NewmanRunOptions.ToString() -> string!
+override abstract ModularPipelines.Newman.Options.NewmanOptions.<Clone>$() -> ModularPipelines.Newman.Options.NewmanOptions!
+override sealed ModularPipelines.Newman.Options.NewmanOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Newman.Options.NewmanRunOptions.Equals(ModularPipelines.Newman.Options.NewmanOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Newman_c68c1da57c5b2724ToolsExtensions.get_Newman(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Newman.Services.INewman!
+static ModularPipelines.Newman.Extensions.NewmanExtensions.Newman(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Newman.Services.INewman!
+static ModularPipelines.Newman.Extensions.NewmanExtensions.RegisterNewmanContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Newman.Options.NewmanOptions.operator !=(ModularPipelines.Newman.Options.NewmanOptions? left, ModularPipelines.Newman.Options.NewmanOptions? right) -> bool
+static ModularPipelines.Newman.Options.NewmanOptions.operator ==(ModularPipelines.Newman.Options.NewmanOptions? left, ModularPipelines.Newman.Options.NewmanOptions? right) -> bool
+static ModularPipelines.Newman.Options.NewmanRunOptions.operator !=(ModularPipelines.Newman.Options.NewmanRunOptions? left, ModularPipelines.Newman.Options.NewmanRunOptions? right) -> bool
+static ModularPipelines.Newman.Options.NewmanRunOptions.operator ==(ModularPipelines.Newman.Options.NewmanRunOptions? left, ModularPipelines.Newman.Options.NewmanRunOptions? right) -> bool
+virtual ModularPipelines.Newman.Options.NewmanOptions.Equals(ModularPipelines.Newman.Options.NewmanOptions? other) -> bool
+virtual ModularPipelines.Newman.Options.NewmanRunOptions.Equals(ModularPipelines.Newman.Options.NewmanRunOptions? other) -> bool

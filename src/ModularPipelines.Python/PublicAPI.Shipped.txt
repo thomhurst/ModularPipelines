@@ -1,0 +1,1072 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Python_832ed009d58e90e0ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Python_832ed009d58e90e0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Python_832ed009d58e90e0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Pip.get -> ModularPipelines.Python.Services.IPip!
+ModularPipelines.Python.Extensions.PipExtensions
+ModularPipelines.Python.Options.PipCacheOptions
+ModularPipelines.Python.Options.PipCacheOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Format.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Format.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Help.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Log.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipCacheOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipCacheOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipCacheOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.PipCacheOptions() -> void
+ModularPipelines.Python.Options.PipCacheOptions.PipCacheOptions(ModularPipelines.Python.Options.PipCacheOptions! original) -> void
+ModularPipelines.Python.Options.PipCacheOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Python.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipCacheOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipCacheOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipCacheOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipCacheOptions.Version.set -> void
+ModularPipelines.Python.Options.PipCheckOptions
+ModularPipelines.Python.Options.PipCheckOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Help.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Log.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipCheckOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipCheckOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipCheckOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.PipCheckOptions() -> void
+ModularPipelines.Python.Options.PipCheckOptions.PipCheckOptions(ModularPipelines.Python.Options.PipCheckOptions! original) -> void
+ModularPipelines.Python.Options.PipCheckOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Python.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipCheckOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipCheckOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipCheckOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipCheckOptions.Version.set -> void
+ModularPipelines.Python.Options.PipConfigOptions
+ModularPipelines.Python.Options.PipConfigOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Editor.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Editor.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Global.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Global.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Help.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Log.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.PipConfigOptions() -> void
+ModularPipelines.Python.Options.PipConfigOptions.PipConfigOptions(ModularPipelines.Python.Options.PipConfigOptions! original) -> void
+ModularPipelines.Python.Options.PipConfigOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Python.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Site.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Site.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.User.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.User.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipConfigOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipConfigOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipConfigOptions.Version.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions
+ModularPipelines.Python.Options.PipDownloadOptions.Abi.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Abi.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.CheckBuildDependencies.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.CheckBuildDependencies.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Constraint.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Constraint.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Dest.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Dest.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.ExtraIndexUrl.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.ExtraIndexUrl.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.FindLinks.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.FindLinks.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.GlobalOption.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.GlobalOption.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Help.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.IgnoreRequiresPython.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.IgnoreRequiresPython.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.IndexUrl.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.IndexUrl.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Log.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoBuildIsolation.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoBuildIsolation.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoClean.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoClean.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoDeps.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoDeps.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoIndex.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoIndex.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.PipDownloadOptions() -> void
+ModularPipelines.Python.Options.PipDownloadOptions.PipDownloadOptions(ModularPipelines.Python.Options.PipDownloadOptions! original) -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Platform.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Platform.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Pre.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.Pre.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.PreferBinary.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.PreferBinary.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Python.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.RequireHashes.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.RequireHashes.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Requirement.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Requirement.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Src.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Src.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.UsePep517.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.UsePep517.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipDownloadOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipDownloadOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipDownloadOptions.Version.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions
+ModularPipelines.Python.Options.PipFreezeOptions.All.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.All.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Exclude.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Exclude.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.ExcludeEditable.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.ExcludeEditable.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Help.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Local.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Local.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Log.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Path.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Path.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.PipFreezeOptions() -> void
+ModularPipelines.Python.Options.PipFreezeOptions.PipFreezeOptions(ModularPipelines.Python.Options.PipFreezeOptions! original) -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Python.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Requirement.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Requirement.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.User.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.User.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipFreezeOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipFreezeOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipFreezeOptions.Version.set -> void
+ModularPipelines.Python.Options.PipHashOptions
+ModularPipelines.Python.Options.PipHashOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipHashOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipHashOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Help.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Log.set -> void
+ModularPipelines.Python.Options.PipHashOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipHashOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipHashOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipHashOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipHashOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipHashOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipHashOptions.PipHashOptions() -> void
+ModularPipelines.Python.Options.PipHashOptions.PipHashOptions(ModularPipelines.Python.Options.PipHashOptions! original) -> void
+ModularPipelines.Python.Options.PipHashOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Python.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipHashOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipHashOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipHashOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipHashOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipHashOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipHashOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipHashOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipHashOptions.Version.set -> void
+ModularPipelines.Python.Options.PipIndexOptions
+ModularPipelines.Python.Options.PipIndexOptions.Abi.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Abi.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.ExtraIndexUrl.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.ExtraIndexUrl.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.FindLinks.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.FindLinks.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Help.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.IgnoreRequiresPython.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.IgnoreRequiresPython.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.IndexUrl.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.IndexUrl.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Log.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.NoIndex.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.NoIndex.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.PipIndexOptions() -> void
+ModularPipelines.Python.Options.PipIndexOptions.PipIndexOptions(ModularPipelines.Python.Options.PipIndexOptions! original) -> void
+ModularPipelines.Python.Options.PipIndexOptions.Platform.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Platform.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Pre.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.Pre.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Python.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipIndexOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipIndexOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipIndexOptions.Version.set -> void
+ModularPipelines.Python.Options.PipInspectOptions
+ModularPipelines.Python.Options.PipInspectOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Help.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Local.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Local.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Log.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Path.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Path.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.PipInspectOptions() -> void
+ModularPipelines.Python.Options.PipInspectOptions.PipInspectOptions(ModularPipelines.Python.Options.PipInspectOptions! original) -> void
+ModularPipelines.Python.Options.PipInspectOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Python.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.User.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.User.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipInspectOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipInspectOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipInspectOptions.Version.set -> void
+ModularPipelines.Python.Options.PipInstallOptions
+ModularPipelines.Python.Options.PipInstallOptions.Abi.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Abi.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.BreakSystemPackages.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.BreakSystemPackages.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.CheckBuildDependencies.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.CheckBuildDependencies.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Compile.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Compile.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Constraint.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Constraint.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.DryRun.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.DryRun.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Editable.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Editable.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.ExtraIndexUrl.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.ExtraIndexUrl.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.FindLinks.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.FindLinks.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.ForceReinstall.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.ForceReinstall.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.GlobalOption.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.GlobalOption.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Help.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.IgnoreInstalled.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.IgnoreInstalled.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.IgnoreRequiresPython.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.IgnoreRequiresPython.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.IndexUrl.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.IndexUrl.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Log.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoBuildIsolation.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoBuildIsolation.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoClean.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoClean.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoCompile.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoCompile.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoDeps.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoDeps.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoIndex.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoIndex.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoWarnConflicts.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoWarnConflicts.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.NoWarnScriptLocation.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.NoWarnScriptLocation.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.PipInstallOptions() -> void
+ModularPipelines.Python.Options.PipInstallOptions.PipInstallOptions(ModularPipelines.Python.Options.PipInstallOptions! original) -> void
+ModularPipelines.Python.Options.PipInstallOptions.Platform.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Platform.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Pre.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.Pre.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.PreferBinary.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.PreferBinary.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Prefix.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Prefix.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Python.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Report.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Report.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.RequireHashes.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.RequireHashes.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Requirement.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Requirement.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Root.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Root.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Src.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Src.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Target.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Target.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Upgrade.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.Upgrade.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.UsePep517.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.UsePep517.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.User.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.User.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipInstallOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipInstallOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipInstallOptions.Version.set -> void
+ModularPipelines.Python.Options.PipListOptions
+ModularPipelines.Python.Options.PipListOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipListOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipListOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipListOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipListOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipListOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipListOptions.Editable.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.Editable.set -> void
+ModularPipelines.Python.Options.PipListOptions.Exclude.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Exclude.set -> void
+ModularPipelines.Python.Options.PipListOptions.ExcludeEditable.get -> string?
+ModularPipelines.Python.Options.PipListOptions.ExcludeEditable.set -> void
+ModularPipelines.Python.Options.PipListOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipListOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipListOptions.ExtraIndexUrl.get -> string?
+ModularPipelines.Python.Options.PipListOptions.ExtraIndexUrl.set -> void
+ModularPipelines.Python.Options.PipListOptions.FindLinks.get -> string?
+ModularPipelines.Python.Options.PipListOptions.FindLinks.set -> void
+ModularPipelines.Python.Options.PipListOptions.Format.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Format.set -> void
+ModularPipelines.Python.Options.PipListOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Help.set -> void
+ModularPipelines.Python.Options.PipListOptions.IncludeEditable.get -> string?
+ModularPipelines.Python.Options.PipListOptions.IncludeEditable.set -> void
+ModularPipelines.Python.Options.PipListOptions.IndexUrl.get -> string?
+ModularPipelines.Python.Options.PipListOptions.IndexUrl.set -> void
+ModularPipelines.Python.Options.PipListOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipListOptions.Local.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Local.set -> void
+ModularPipelines.Python.Options.PipListOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Log.set -> void
+ModularPipelines.Python.Options.PipListOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipListOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipListOptions.NoIndex.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.NoIndex.set -> void
+ModularPipelines.Python.Options.PipListOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipListOptions.NotRequired.get -> string?
+ModularPipelines.Python.Options.PipListOptions.NotRequired.set -> void
+ModularPipelines.Python.Options.PipListOptions.Outdated.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Outdated.set -> void
+ModularPipelines.Python.Options.PipListOptions.Path.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Path.set -> void
+ModularPipelines.Python.Options.PipListOptions.PipListOptions() -> void
+ModularPipelines.Python.Options.PipListOptions.PipListOptions(ModularPipelines.Python.Options.PipListOptions! original) -> void
+ModularPipelines.Python.Options.PipListOptions.Pre.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.Pre.set -> void
+ModularPipelines.Python.Options.PipListOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipListOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Python.set -> void
+ModularPipelines.Python.Options.PipListOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipListOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipListOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipListOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipListOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipListOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipListOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipListOptions.Uptodate.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Uptodate.set -> void
+ModularPipelines.Python.Options.PipListOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipListOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipListOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipListOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipListOptions.User.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.User.set -> void
+ModularPipelines.Python.Options.PipListOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipListOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipListOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipListOptions.Version.set -> void
+ModularPipelines.Python.Options.PipOptions
+ModularPipelines.Python.Options.PipOptions.PipOptions() -> void
+ModularPipelines.Python.Options.PipOptions.PipOptions(ModularPipelines.Python.Options.PipOptions! original) -> void
+ModularPipelines.Python.Options.PipSearchOptions
+ModularPipelines.Python.Options.PipSearchOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Help.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Index.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Index.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Log.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipSearchOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipSearchOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipSearchOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.PipSearchOptions() -> void
+ModularPipelines.Python.Options.PipSearchOptions.PipSearchOptions(ModularPipelines.Python.Options.PipSearchOptions! original) -> void
+ModularPipelines.Python.Options.PipSearchOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Python.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipSearchOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipSearchOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipSearchOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipSearchOptions.Version.set -> void
+ModularPipelines.Python.Options.PipShowOptions
+ModularPipelines.Python.Options.PipShowOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipShowOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipShowOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Files.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Files.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Help.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Log.set -> void
+ModularPipelines.Python.Options.PipShowOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipShowOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipShowOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipShowOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipShowOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipShowOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipShowOptions.PipShowOptions() -> void
+ModularPipelines.Python.Options.PipShowOptions.PipShowOptions(ModularPipelines.Python.Options.PipShowOptions! original) -> void
+ModularPipelines.Python.Options.PipShowOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Python.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipShowOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipShowOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipShowOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipShowOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipShowOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipShowOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipShowOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipShowOptions.Version.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions
+ModularPipelines.Python.Options.PipUninstallOptions.BreakSystemPackages.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.BreakSystemPackages.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Help.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Log.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipUninstallOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipUninstallOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipUninstallOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.PipUninstallOptions() -> void
+ModularPipelines.Python.Options.PipUninstallOptions.PipUninstallOptions(ModularPipelines.Python.Options.PipUninstallOptions! original) -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Python.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipUninstallOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Requirement.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Requirement.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipUninstallOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Version.set -> void
+ModularPipelines.Python.Options.PipUninstallOptions.Yes.get -> string?
+ModularPipelines.Python.Options.PipUninstallOptions.Yes.set -> void
+ModularPipelines.Python.Options.PipWheelOptions
+ModularPipelines.Python.Options.PipWheelOptions.BuildOption.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.BuildOption.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.CacheDir.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.CacheDir.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Cert.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Cert.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.CheckBuildDependencies.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.CheckBuildDependencies.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.ClientCert.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.ClientCert.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Constraint.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Constraint.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Debug.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Debug.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Editable.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Editable.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.ExistsAction.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.ExistsAction.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.ExtraIndexUrl.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.ExtraIndexUrl.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.FindLinks.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.FindLinks.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.GlobalOption.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.GlobalOption.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Help.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Help.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.IgnoreRequiresPython.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.IgnoreRequiresPython.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.IndexUrl.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.IndexUrl.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Isolated.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Isolated.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Log.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Log.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoBuildIsolation.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoBuildIsolation.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoCacheDir.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoCacheDir.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoClean.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoClean.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoColor.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoColor.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoDeps.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoDeps.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoIndex.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoIndex.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoInput.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoInput.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.NoVerify.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.NoVerify.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.PipWheelOptions() -> void
+ModularPipelines.Python.Options.PipWheelOptions.PipWheelOptions(ModularPipelines.Python.Options.PipWheelOptions! original) -> void
+ModularPipelines.Python.Options.PipWheelOptions.Pre.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.Pre.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.PreferBinary.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.PreferBinary.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Proxy.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Proxy.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Python.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Python.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Quiet.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.Quiet.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.RequireHashes.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.RequireHashes.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.RequireVirtualenv.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.RequireVirtualenv.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Requirement.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Requirement.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Retries.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Retries.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Src.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Src.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Timeout.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Timeout.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.TrustedHost.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.TrustedHost.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.UseDeprecated.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.UseDeprecated.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.UseFeature.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.UseFeature.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.UsePep517.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.UsePep517.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Verbose.get -> bool?
+ModularPipelines.Python.Options.PipWheelOptions.Verbose.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.Version.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.Version.set -> void
+ModularPipelines.Python.Options.PipWheelOptions.WheelDir.get -> string?
+ModularPipelines.Python.Options.PipWheelOptions.WheelDir.set -> void
+ModularPipelines.Python.Services.IPip
+ModularPipelines.Python.Services.IPip.CacheAsync(ModularPipelines.Python.Options.PipCacheOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.CheckAsync(ModularPipelines.Python.Options.PipCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.ConfigAsync(ModularPipelines.Python.Options.PipConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.DownloadAsync(ModularPipelines.Python.Options.PipDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.FreezeAsync(ModularPipelines.Python.Options.PipFreezeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.HashAsync(ModularPipelines.Python.Options.PipHashOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.IndexAsync(ModularPipelines.Python.Options.PipIndexOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.InspectAsync(ModularPipelines.Python.Options.PipInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.InstallAsync(ModularPipelines.Python.Options.PipInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.ListAsync(ModularPipelines.Python.Options.PipListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.SearchAsync(ModularPipelines.Python.Options.PipSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.ShowAsync(ModularPipelines.Python.Options.PipShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.UninstallAsync(ModularPipelines.Python.Options.PipUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Python.Services.IPip.WheelAsync(ModularPipelines.Python.Options.PipWheelOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Python.Options.PipCacheOptions.<Clone>$() -> ModularPipelines.Python.Options.PipCacheOptions!
+override ModularPipelines.Python.Options.PipCacheOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipCacheOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipCacheOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipCacheOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipCacheOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipCheckOptions.<Clone>$() -> ModularPipelines.Python.Options.PipCheckOptions!
+override ModularPipelines.Python.Options.PipCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipCheckOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipCheckOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipConfigOptions.<Clone>$() -> ModularPipelines.Python.Options.PipConfigOptions!
+override ModularPipelines.Python.Options.PipConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipConfigOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipConfigOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipDownloadOptions.<Clone>$() -> ModularPipelines.Python.Options.PipDownloadOptions!
+override ModularPipelines.Python.Options.PipDownloadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipDownloadOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipDownloadOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipDownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipDownloadOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipFreezeOptions.<Clone>$() -> ModularPipelines.Python.Options.PipFreezeOptions!
+override ModularPipelines.Python.Options.PipFreezeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipFreezeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipFreezeOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipFreezeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipFreezeOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipHashOptions.<Clone>$() -> ModularPipelines.Python.Options.PipHashOptions!
+override ModularPipelines.Python.Options.PipHashOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipHashOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipHashOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipHashOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipHashOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipIndexOptions.<Clone>$() -> ModularPipelines.Python.Options.PipIndexOptions!
+override ModularPipelines.Python.Options.PipIndexOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipIndexOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipIndexOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipIndexOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipIndexOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipInspectOptions.<Clone>$() -> ModularPipelines.Python.Options.PipInspectOptions!
+override ModularPipelines.Python.Options.PipInspectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipInspectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipInspectOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipInspectOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipInstallOptions.<Clone>$() -> ModularPipelines.Python.Options.PipInstallOptions!
+override ModularPipelines.Python.Options.PipInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipInstallOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipInstallOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipListOptions.<Clone>$() -> ModularPipelines.Python.Options.PipListOptions!
+override ModularPipelines.Python.Options.PipListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipListOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipListOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipSearchOptions.<Clone>$() -> ModularPipelines.Python.Options.PipSearchOptions!
+override ModularPipelines.Python.Options.PipSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipSearchOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipSearchOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipShowOptions.<Clone>$() -> ModularPipelines.Python.Options.PipShowOptions!
+override ModularPipelines.Python.Options.PipShowOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipShowOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipShowOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipShowOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipShowOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipUninstallOptions.<Clone>$() -> ModularPipelines.Python.Options.PipUninstallOptions!
+override ModularPipelines.Python.Options.PipUninstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipUninstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipUninstallOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipUninstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipUninstallOptions.ToString() -> string!
+override ModularPipelines.Python.Options.PipWheelOptions.<Clone>$() -> ModularPipelines.Python.Options.PipWheelOptions!
+override ModularPipelines.Python.Options.PipWheelOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Python.Options.PipWheelOptions.Equals(object? obj) -> bool
+override ModularPipelines.Python.Options.PipWheelOptions.GetHashCode() -> int
+override ModularPipelines.Python.Options.PipWheelOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Python.Options.PipWheelOptions.ToString() -> string!
+override abstract ModularPipelines.Python.Options.PipOptions.<Clone>$() -> ModularPipelines.Python.Options.PipOptions!
+override sealed ModularPipelines.Python.Options.PipCacheOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipCheckOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipConfigOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipDownloadOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipFreezeOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipHashOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipIndexOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipInspectOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipInstallOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipListOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipSearchOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipShowOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipUninstallOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+override sealed ModularPipelines.Python.Options.PipWheelOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Python_832ed009d58e90e0ToolsExtensions.get_Pip(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Python.Services.IPip!
+static ModularPipelines.Python.Extensions.PipExtensions.Pip(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Python.Services.IPip!
+static ModularPipelines.Python.Extensions.PipExtensions.RegisterPipContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Python.Options.PipCacheOptions.operator !=(ModularPipelines.Python.Options.PipCacheOptions? left, ModularPipelines.Python.Options.PipCacheOptions? right) -> bool
+static ModularPipelines.Python.Options.PipCacheOptions.operator ==(ModularPipelines.Python.Options.PipCacheOptions? left, ModularPipelines.Python.Options.PipCacheOptions? right) -> bool
+static ModularPipelines.Python.Options.PipCheckOptions.operator !=(ModularPipelines.Python.Options.PipCheckOptions? left, ModularPipelines.Python.Options.PipCheckOptions? right) -> bool
+static ModularPipelines.Python.Options.PipCheckOptions.operator ==(ModularPipelines.Python.Options.PipCheckOptions? left, ModularPipelines.Python.Options.PipCheckOptions? right) -> bool
+static ModularPipelines.Python.Options.PipConfigOptions.operator !=(ModularPipelines.Python.Options.PipConfigOptions? left, ModularPipelines.Python.Options.PipConfigOptions? right) -> bool
+static ModularPipelines.Python.Options.PipConfigOptions.operator ==(ModularPipelines.Python.Options.PipConfigOptions? left, ModularPipelines.Python.Options.PipConfigOptions? right) -> bool
+static ModularPipelines.Python.Options.PipDownloadOptions.operator !=(ModularPipelines.Python.Options.PipDownloadOptions? left, ModularPipelines.Python.Options.PipDownloadOptions? right) -> bool
+static ModularPipelines.Python.Options.PipDownloadOptions.operator ==(ModularPipelines.Python.Options.PipDownloadOptions? left, ModularPipelines.Python.Options.PipDownloadOptions? right) -> bool
+static ModularPipelines.Python.Options.PipFreezeOptions.operator !=(ModularPipelines.Python.Options.PipFreezeOptions? left, ModularPipelines.Python.Options.PipFreezeOptions? right) -> bool
+static ModularPipelines.Python.Options.PipFreezeOptions.operator ==(ModularPipelines.Python.Options.PipFreezeOptions? left, ModularPipelines.Python.Options.PipFreezeOptions? right) -> bool
+static ModularPipelines.Python.Options.PipHashOptions.operator !=(ModularPipelines.Python.Options.PipHashOptions? left, ModularPipelines.Python.Options.PipHashOptions? right) -> bool
+static ModularPipelines.Python.Options.PipHashOptions.operator ==(ModularPipelines.Python.Options.PipHashOptions? left, ModularPipelines.Python.Options.PipHashOptions? right) -> bool
+static ModularPipelines.Python.Options.PipIndexOptions.operator !=(ModularPipelines.Python.Options.PipIndexOptions? left, ModularPipelines.Python.Options.PipIndexOptions? right) -> bool
+static ModularPipelines.Python.Options.PipIndexOptions.operator ==(ModularPipelines.Python.Options.PipIndexOptions? left, ModularPipelines.Python.Options.PipIndexOptions? right) -> bool
+static ModularPipelines.Python.Options.PipInspectOptions.operator !=(ModularPipelines.Python.Options.PipInspectOptions? left, ModularPipelines.Python.Options.PipInspectOptions? right) -> bool
+static ModularPipelines.Python.Options.PipInspectOptions.operator ==(ModularPipelines.Python.Options.PipInspectOptions? left, ModularPipelines.Python.Options.PipInspectOptions? right) -> bool
+static ModularPipelines.Python.Options.PipInstallOptions.operator !=(ModularPipelines.Python.Options.PipInstallOptions? left, ModularPipelines.Python.Options.PipInstallOptions? right) -> bool
+static ModularPipelines.Python.Options.PipInstallOptions.operator ==(ModularPipelines.Python.Options.PipInstallOptions? left, ModularPipelines.Python.Options.PipInstallOptions? right) -> bool
+static ModularPipelines.Python.Options.PipListOptions.operator !=(ModularPipelines.Python.Options.PipListOptions? left, ModularPipelines.Python.Options.PipListOptions? right) -> bool
+static ModularPipelines.Python.Options.PipListOptions.operator ==(ModularPipelines.Python.Options.PipListOptions? left, ModularPipelines.Python.Options.PipListOptions? right) -> bool
+static ModularPipelines.Python.Options.PipOptions.operator !=(ModularPipelines.Python.Options.PipOptions? left, ModularPipelines.Python.Options.PipOptions? right) -> bool
+static ModularPipelines.Python.Options.PipOptions.operator ==(ModularPipelines.Python.Options.PipOptions? left, ModularPipelines.Python.Options.PipOptions? right) -> bool
+static ModularPipelines.Python.Options.PipSearchOptions.operator !=(ModularPipelines.Python.Options.PipSearchOptions? left, ModularPipelines.Python.Options.PipSearchOptions? right) -> bool
+static ModularPipelines.Python.Options.PipSearchOptions.operator ==(ModularPipelines.Python.Options.PipSearchOptions? left, ModularPipelines.Python.Options.PipSearchOptions? right) -> bool
+static ModularPipelines.Python.Options.PipShowOptions.operator !=(ModularPipelines.Python.Options.PipShowOptions? left, ModularPipelines.Python.Options.PipShowOptions? right) -> bool
+static ModularPipelines.Python.Options.PipShowOptions.operator ==(ModularPipelines.Python.Options.PipShowOptions? left, ModularPipelines.Python.Options.PipShowOptions? right) -> bool
+static ModularPipelines.Python.Options.PipUninstallOptions.operator !=(ModularPipelines.Python.Options.PipUninstallOptions? left, ModularPipelines.Python.Options.PipUninstallOptions? right) -> bool
+static ModularPipelines.Python.Options.PipUninstallOptions.operator ==(ModularPipelines.Python.Options.PipUninstallOptions? left, ModularPipelines.Python.Options.PipUninstallOptions? right) -> bool
+static ModularPipelines.Python.Options.PipWheelOptions.operator !=(ModularPipelines.Python.Options.PipWheelOptions? left, ModularPipelines.Python.Options.PipWheelOptions? right) -> bool
+static ModularPipelines.Python.Options.PipWheelOptions.operator ==(ModularPipelines.Python.Options.PipWheelOptions? left, ModularPipelines.Python.Options.PipWheelOptions? right) -> bool
+virtual ModularPipelines.Python.Options.PipCacheOptions.Equals(ModularPipelines.Python.Options.PipCacheOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipCheckOptions.Equals(ModularPipelines.Python.Options.PipCheckOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipConfigOptions.Equals(ModularPipelines.Python.Options.PipConfigOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipDownloadOptions.Equals(ModularPipelines.Python.Options.PipDownloadOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipFreezeOptions.Equals(ModularPipelines.Python.Options.PipFreezeOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipHashOptions.Equals(ModularPipelines.Python.Options.PipHashOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipIndexOptions.Equals(ModularPipelines.Python.Options.PipIndexOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipInspectOptions.Equals(ModularPipelines.Python.Options.PipInspectOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipInstallOptions.Equals(ModularPipelines.Python.Options.PipInstallOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipListOptions.Equals(ModularPipelines.Python.Options.PipListOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipOptions.Equals(ModularPipelines.Python.Options.PipOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipSearchOptions.Equals(ModularPipelines.Python.Options.PipSearchOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipShowOptions.Equals(ModularPipelines.Python.Options.PipShowOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipUninstallOptions.Equals(ModularPipelines.Python.Options.PipUninstallOptions? other) -> bool
+virtual ModularPipelines.Python.Options.PipWheelOptions.Equals(ModularPipelines.Python.Options.PipWheelOptions? other) -> bool

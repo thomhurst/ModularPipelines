@@ -1,0 +1,21 @@
+#nullable enable
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.ConnectionString.get -> string!
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.ConnectionString.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.DiscoveryTimeoutSeconds.get -> int
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.DiscoveryTimeoutSeconds.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.KeyPrefix.get -> string!
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.KeyPrefix.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.PollIntervalMs.get -> int
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.PollIntervalMs.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RedisDiscoveryOptions() -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RestToken.get -> string?
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RestToken.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RestUrl.get -> string?
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RestUrl.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.get -> string?
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.set -> void
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.TtlSeconds.get -> int
+ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.TtlSeconds.set -> void
+static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions!>! configure) -> ModularPipelines.PipelineBuilder!

@@ -1,0 +1,1364 @@
+#nullable enable
+ModularPipelines.Buildah.Enums.BuildahPushFormat
+ModularPipelines.Buildah.Enums.BuildahPushFormat.Oci = 0 -> ModularPipelines.Buildah.Enums.BuildahPushFormat
+ModularPipelines.Buildah.Enums.BuildahPushFormat.V2S1 = 1 -> ModularPipelines.Buildah.Enums.BuildahPushFormat
+ModularPipelines.Buildah.Enums.BuildahPushFormat.V2S2 = 2 -> ModularPipelines.Buildah.Enums.BuildahPushFormat
+ModularPipelines.Buildah.Extensions.BuildahExtensions
+ModularPipelines.Buildah.Options.BuildahAddOptions
+ModularPipelines.Buildah.Options.BuildahAddOptions.AddHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahAddOptions.AddHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.BuildahAddOptions() -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.BuildahAddOptions(ModularPipelines.Buildah.Options.BuildahAddOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Chmod.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Chmod.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Chown.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Chown.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Contextdir.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Contextdir.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.From.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.From.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Ignorefile.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Ignorefile.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahAddOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahAddOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahAddOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions
+ModularPipelines.Buildah.Options.BuildahBuildOptions.AddHost.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.AddHost.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.AllPlatforms.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.AllPlatforms.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Annotation.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Annotation.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildArg.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildArg.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildArgFile.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildArgFile.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildContext.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildContext.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildahBuildOptions() -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.BuildahBuildOptions(ModularPipelines.Buildah.Options.BuildahBuildOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheFrom.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheFrom.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheTo.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheTo.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheTtl.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CacheTtl.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CapAdd.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CapAdd.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CapDrop.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CgroupParent.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CgroupParent.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Cgroupns.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Cgroupns.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Compress.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Compress.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Context.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Context.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CppFlag.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CppFlag.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuPeriod.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuPeriod.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuQuota.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuQuota.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuSetCpus.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuSetCpus.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuSetMems.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuSetMems.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuShares.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.CpuShares.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Cw.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Cw.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DecryptionKey.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DecryptionKey.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Device.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Device.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DisableCompression.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DisableCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DisableContentTrust.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DisableContentTrust.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Dns.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Dns.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DnsOption.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DnsOption.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DnsSearch.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.DnsSearch.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Env.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Env.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.ForceRm.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.ForceRm.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.From.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.From.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.GroupAdd.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.GroupAdd.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.HooksDir.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.HooksDir.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.HttpProxy.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.HttpProxy.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.IdentityLabel.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.IdentityLabel.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ignorefile.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ignorefile.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Iidfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Iidfile.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ipc.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ipc.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Isolation.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Isolation.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Jobs.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Jobs.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Label.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Label.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.LayerLabel.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.LayerLabel.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Layers.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Layers.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Logfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Logfile.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Logsplit.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Logsplit.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Manifest.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Manifest.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Memory.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Memory.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.MemorySwap.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.MemorySwap.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Network.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Network.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoCache.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoCache.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoHostname.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoHostname.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoHosts.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.NoHosts.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OmitHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OmitHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Os.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Os.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OsFeature.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OsFeature.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OsVersion.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.OsVersion.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Output.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Output.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Pid.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Pid.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Platform.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Platform.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Pull.get -> ModularPipelines.Models.CliOptionValue?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Pull.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Rm.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Rm.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Runtime.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Runtime.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.RuntimeFlag.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.RuntimeFlag.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Secret.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Secret.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SecurityOpt.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SecurityOpt.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.ShmSize.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.ShmSize.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SignBy.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SignBy.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SkipUnusedStages.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.SkipUnusedStages.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Squash.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Squash.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ssh.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ssh.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Stdin.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Stdin.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Tag.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Tag.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Target.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Target.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Timestamp.get -> int?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Timestamp.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ulimit.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Ulimit.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Unsetenv.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Unsetenv.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Unsetlabel.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Unsetlabel.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Userns.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Userns.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsGidMap.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsGidMap.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsGidMapGroup.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsGidMapGroup.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsUidMap.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsUidMap.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsUidMapUser.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.UsernsUidMapUser.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Uts.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Uts.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Volume.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahBuildOptions.Volume.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.BuildahCommitOptions() -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.BuildahCommitOptions(ModularPipelines.Buildah.Options.BuildahCommitOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Change.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Change.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Config.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Config.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Cw.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Cw.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.DisableCompression.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.DisableCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.EncryptLayer.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.EncryptLayer.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.EncryptionKey.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.EncryptionKey.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.IdentityLabel.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.IdentityLabel.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Iidfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Iidfile.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Manifest.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Manifest.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.OmitHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.OmitHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Rm.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Rm.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.SignBy.get -> string?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.SignBy.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Squash.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Squash.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Timestamp.get -> int?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Timestamp.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Unsetenv.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahCommitOptions.Unsetenv.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions
+ModularPipelines.Buildah.Options.BuildahConfigOptions.AddHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.AddHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Annotation.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Annotation.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Author.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Author.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.BuildahConfigOptions() -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.BuildahConfigOptions(ModularPipelines.Buildah.Options.BuildahConfigOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Cmd.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Cmd.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Comment.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Comment.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.CreatedBy.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.CreatedBy.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Domainname.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Domainname.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Healthcheck.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Healthcheck.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckInterval.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckInterval.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckRetries.get -> int?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckRetries.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckStartPeriod.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckStartPeriod.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckTimeout.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HealthcheckTimeout.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HistoryComment.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.HistoryComment.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Hostname.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Hostname.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Label.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Label.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Onbuild.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Onbuild.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.OsFeature.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.OsFeature.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.OsVersion.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.OsVersion.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Port.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Port.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Shell.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Shell.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Unsetlabel.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Unsetlabel.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.User.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.User.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Volume.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Volume.set -> void
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Workingdir.get -> string?
+ModularPipelines.Buildah.Options.BuildahConfigOptions.Workingdir.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions
+ModularPipelines.Buildah.Options.BuildahContainersOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.BuildahContainersOptions() -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.BuildahContainersOptions(ModularPipelines.Buildah.Options.BuildahContainersOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Filter.get -> string?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Filter.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Json.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Json.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Noheading.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Noheading.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Notruncate.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Notruncate.set -> void
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahContainersOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions
+ModularPipelines.Buildah.Options.BuildahCopyOptions.AddHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.AddHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.BuildahCopyOptions() -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.BuildahCopyOptions(ModularPipelines.Buildah.Options.BuildahCopyOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Chmod.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Chmod.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Chown.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Chown.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Contextdir.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Contextdir.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.From.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.From.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Ignorefile.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Ignorefile.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahCopyOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahCopyOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions
+ModularPipelines.Buildah.Options.BuildahFromOptions.AddHost.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.AddHost.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.BuildahFromOptions() -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.BuildahFromOptions(ModularPipelines.Buildah.Options.BuildahFromOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CapAdd.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CapAdd.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CapDrop.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CgroupParent.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CgroupParent.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Cgroupns.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Cgroupns.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Cidfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Cidfile.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuPeriod.get -> int?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuPeriod.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuQuota.get -> int?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuQuota.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuSetCpus.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuSetCpus.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuSetMems.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuSetMems.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuShares.get -> int?
+ModularPipelines.Buildah.Options.BuildahFromOptions.CpuShares.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.DecryptionKey.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.DecryptionKey.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Device.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Device.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Dns.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Dns.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.DnsOption.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.DnsOption.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.DnsSearch.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.DnsSearch.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.GroupAdd.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.GroupAdd.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.HttpProxy.get -> bool?
+ModularPipelines.Buildah.Options.BuildahFromOptions.HttpProxy.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Ipc.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Ipc.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Isolation.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Isolation.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Memory.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Memory.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.MemorySwap.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.MemorySwap.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Name.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Name.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Network.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Network.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Os.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Os.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Pid.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Pid.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Platform.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Platform.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Pull.get -> ModularPipelines.Models.CliOptionValue?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Pull.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.SecurityOpt.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.SecurityOpt.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.ShmSize.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.ShmSize.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahFromOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Ulimit.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Ulimit.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Userns.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Userns.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsGidMap.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsGidMap.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsGidMapGroup.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsGidMapGroup.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsUidMap.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsUidMap.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsUidMapUser.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.UsernsUidMapUser.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Uts.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Uts.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahFromOptions.Volume.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahFromOptions.Volume.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions
+ModularPipelines.Buildah.Options.BuildahImagesOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.BuildahImagesOptions() -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.BuildahImagesOptions(ModularPipelines.Buildah.Options.BuildahImagesOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Digests.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Digests.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Filter.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Filter.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.History.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.History.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Json.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Json.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.NoTrunc.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.NoTrunc.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Noheading.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Noheading.set -> void
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahImagesOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahInspectOptions
+ModularPipelines.Buildah.Options.BuildahInspectOptions.BuildahInspectOptions() -> void
+ModularPipelines.Buildah.Options.BuildahInspectOptions.BuildahInspectOptions(ModularPipelines.Buildah.Options.BuildahInspectOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Type.get -> string?
+ModularPipelines.Buildah.Options.BuildahInspectOptions.Type.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.BuildahLoginOptions() -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.BuildahLoginOptions(ModularPipelines.Buildah.Options.BuildahLoginOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.CompatAuthFile.get -> string?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.CompatAuthFile.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.GetLogin.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.GetLogin.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Password.get -> string?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Password.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.PasswordStdin.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.PasswordStdin.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Username.get -> string?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Username.set -> void
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Verbose.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLoginOptions.Verbose.set -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.BuildahLogoutOptions() -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.BuildahLogoutOptions(ModularPipelines.Buildah.Options.BuildahLogoutOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.CompatAuthFile.get -> string?
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.CompatAuthFile.set -> void
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahLogoutOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Annotation.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Annotation.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.BuildahManifestAddOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.BuildahManifestAddOptions(ModularPipelines.Buildah.Options.BuildahManifestAddOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Features.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Features.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Os.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Os.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.OsFeatures.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.OsFeatures.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.OsVersion.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.OsVersion.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Annotation.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Annotation.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.BuildahManifestAnnotateOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.BuildahManifestAnnotateOptions(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Features.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Features.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Os.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Os.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.OsFeatures.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.OsFeatures.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.OsVersion.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.OsVersion.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Amend.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Amend.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.BuildahManifestCreateOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.BuildahManifestCreateOptions(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestExistsOptions
+ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.BuildahManifestExistsOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.BuildahManifestExistsOptions(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.BuildahManifestInspectOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.BuildahManifestInspectOptions(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestOptions
+ModularPipelines.Buildah.Options.BuildahManifestOptions.BuildahManifestOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestOptions.BuildahManifestOptions(ModularPipelines.Buildah.Options.BuildahManifestOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestOptions.Command.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestOptions.Command.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.AddCompression.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.AddCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.BuildahManifestPushOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.BuildahManifestPushOptions(ModularPipelines.Buildah.Options.BuildahManifestPushOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CompressionFormat.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CompressionFormat.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CompressionLevel.get -> int?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.CompressionLevel.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Digestfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Digestfile.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.ForceCompression.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.ForceCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Format.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.RemoveSignatures.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.RemoveSignatures.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Rm.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Rm.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.SignBy.get -> string?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.SignBy.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestPushOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions
+ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.BuildahManifestRemoveOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.BuildahManifestRemoveOptions(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahManifestRmOptions
+ModularPipelines.Buildah.Options.BuildahManifestRmOptions.BuildahManifestRmOptions() -> void
+ModularPipelines.Buildah.Options.BuildahManifestRmOptions.BuildahManifestRmOptions(ModularPipelines.Buildah.Options.BuildahManifestRmOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahManifestRmOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahManifestRmOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.AttestationUrl.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.AttestationUrl.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.BaseImage.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.BaseImage.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.BuildahMkcwOptions() -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.BuildahMkcwOptions(ModularPipelines.Buildah.Options.BuildahMkcwOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Cpus.get -> int?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Cpus.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.FirmwareLibrary.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.FirmwareLibrary.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Memory.get -> int?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Memory.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Passphrase.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Passphrase.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Slop.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Slop.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Type.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.Type.set -> void
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.WorkloadId.get -> string?
+ModularPipelines.Buildah.Options.BuildahMkcwOptions.WorkloadId.set -> void
+ModularPipelines.Buildah.Options.BuildahMountOptions
+ModularPipelines.Buildah.Options.BuildahMountOptions.BuildahMountOptions() -> void
+ModularPipelines.Buildah.Options.BuildahMountOptions.BuildahMountOptions(ModularPipelines.Buildah.Options.BuildahMountOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahMountOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahMountOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahMountOptions.Json.get -> bool?
+ModularPipelines.Buildah.Options.BuildahMountOptions.Json.set -> void
+ModularPipelines.Buildah.Options.BuildahOptions
+ModularPipelines.Buildah.Options.BuildahOptions.BuildahOptions() -> void
+ModularPipelines.Buildah.Options.BuildahOptions.BuildahOptions(ModularPipelines.Buildah.Options.BuildahOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahPruneOptions
+ModularPipelines.Buildah.Options.BuildahPruneOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPruneOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahPruneOptions.BuildahPruneOptions() -> void
+ModularPipelines.Buildah.Options.BuildahPruneOptions.BuildahPruneOptions(ModularPipelines.Buildah.Options.BuildahPruneOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahPruneOptions.Force.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPruneOptions.Force.set -> void
+ModularPipelines.Buildah.Options.BuildahPruneOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPruneOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions
+ModularPipelines.Buildah.Options.BuildahPullOptions.AllTags.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPullOptions.AllTags.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Arch.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Arch.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.BuildahPullOptions() -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.BuildahPullOptions(ModularPipelines.Buildah.Options.BuildahPullOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.DecryptionKey.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahPullOptions.DecryptionKey.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Os.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Os.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Platform.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Platform.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Policy.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Policy.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.RemoveSignatures.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPullOptions.RemoveSignatures.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPullOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahPullOptions.Variant.get -> string?
+ModularPipelines.Buildah.Options.BuildahPullOptions.Variant.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions
+ModularPipelines.Buildah.Options.BuildahPushOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Authfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Authfile.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.BuildahPushOptions() -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.BuildahPushOptions(ModularPipelines.Buildah.Options.BuildahPushOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.CertDir.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.CertDir.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.CompressionFormat.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.CompressionFormat.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.CompressionLevel.get -> int?
+ModularPipelines.Buildah.Options.BuildahPushOptions.CompressionLevel.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Digestfile.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Digestfile.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.DisableCompression.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.DisableCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.EncryptLayer.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.EncryptLayer.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.EncryptionKey.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahPushOptions.EncryptionKey.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.ForceCompression.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.ForceCompression.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Format.get -> ModularPipelines.Buildah.Enums.BuildahPushFormat?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Format.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.RemoveSignatures.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.RemoveSignatures.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Retry.get -> int?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Retry.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.RetryDelay.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.RetryDelay.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.Rm.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.Rm.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.SignBy.get -> string?
+ModularPipelines.Buildah.Options.BuildahPushOptions.SignBy.set -> void
+ModularPipelines.Buildah.Options.BuildahPushOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahPushOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahRenameOptions
+ModularPipelines.Buildah.Options.BuildahRenameOptions.BuildahRenameOptions() -> void
+ModularPipelines.Buildah.Options.BuildahRenameOptions.BuildahRenameOptions(ModularPipelines.Buildah.Options.BuildahRenameOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahRenameOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRenameOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahRmOptions
+ModularPipelines.Buildah.Options.BuildahRmOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahRmOptions.BuildahRmOptions() -> void
+ModularPipelines.Buildah.Options.BuildahRmOptions.BuildahRmOptions(ModularPipelines.Buildah.Options.BuildahRmOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahRmOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions
+ModularPipelines.Buildah.Options.BuildahRmiOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmiOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions.BuildahRmiOptions() -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions.BuildahRmiOptions(ModularPipelines.Buildah.Options.BuildahRmiOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Force.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Force.set -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Prune.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRmiOptions.Prune.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions
+ModularPipelines.Buildah.Options.BuildahRunOptions.AddHistory.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.AddHistory.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.BuildahRunOptions() -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.BuildahRunOptions(ModularPipelines.Buildah.Options.BuildahRunOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.CapAdd.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.CapAdd.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.CapDrop.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Cgroupns.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Cgroupns.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Contextdir.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Contextdir.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Env.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Env.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Hostname.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Hostname.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Ipc.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Ipc.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Isolation.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Isolation.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Mount.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Mount.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Network.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Network.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoHostname.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoHostname.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoHosts.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoHosts.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoPivot.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.NoPivot.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Pid.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Pid.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Runtime.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Runtime.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.RuntimeFlag.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.RuntimeFlag.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Terminal.get -> bool?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Terminal.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.User.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.User.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Uts.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Uts.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Volume.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Volume.set -> void
+ModularPipelines.Buildah.Options.BuildahRunOptions.Workingdir.get -> string?
+ModularPipelines.Buildah.Options.BuildahRunOptions.Workingdir.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Annotation.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Annotation.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.BuildahSourceAddOptions() -> void
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.BuildahSourceAddOptions(ModularPipelines.Buildah.Options.BuildahSourceAddOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Author.get -> string?
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Author.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.BuildahSourceCreateOptions() -> void
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.BuildahSourceCreateOptions(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.TimeStamp.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.TimeStamp.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceOptions
+ModularPipelines.Buildah.Options.BuildahSourceOptions.BuildahSourceOptions() -> void
+ModularPipelines.Buildah.Options.BuildahSourceOptions.BuildahSourceOptions(ModularPipelines.Buildah.Options.BuildahSourceOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahSourceOptions.Command.get -> string?
+ModularPipelines.Buildah.Options.BuildahSourceOptions.Command.set -> void
+ModularPipelines.Buildah.Options.BuildahSourceOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourceOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.BuildahSourcePullOptions() -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.BuildahSourcePullOptions(ModularPipelines.Buildah.Options.BuildahSourcePullOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePullOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.BuildahSourcePushOptions() -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.BuildahSourcePushOptions(ModularPipelines.Buildah.Options.BuildahSourcePushOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Creds.get -> string?
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Creds.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Quiet.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Quiet.set -> void
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.TlsVerify.get -> bool?
+ModularPipelines.Buildah.Options.BuildahSourcePushOptions.TlsVerify.set -> void
+ModularPipelines.Buildah.Options.BuildahTagOptions
+ModularPipelines.Buildah.Options.BuildahTagOptions.BuildahTagOptions() -> void
+ModularPipelines.Buildah.Options.BuildahTagOptions.BuildahTagOptions(ModularPipelines.Buildah.Options.BuildahTagOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahTagOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahTagOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahUmountOptions
+ModularPipelines.Buildah.Options.BuildahUmountOptions.All.get -> bool?
+ModularPipelines.Buildah.Options.BuildahUmountOptions.All.set -> void
+ModularPipelines.Buildah.Options.BuildahUmountOptions.BuildahUmountOptions() -> void
+ModularPipelines.Buildah.Options.BuildahUmountOptions.BuildahUmountOptions(ModularPipelines.Buildah.Options.BuildahUmountOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahUmountOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahUmountOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahUnshareOptions
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.BuildahUnshareOptions() -> void
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.BuildahUnshareOptions(ModularPipelines.Buildah.Options.BuildahUnshareOptions! original) -> void
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.Help.get -> bool?
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.Help.set -> void
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.Mount.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Buildah.Options.BuildahUnshareOptions.Mount.set -> void
+ModularPipelines.Buildah.Services.BuildahManifest
+ModularPipelines.Buildah.Services.BuildahManifest.BuildahManifest(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Buildah.Services.BuildahSource
+ModularPipelines.Buildah.Services.BuildahSource.BuildahSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Buildah.Services.IBuildah
+ModularPipelines.Buildah.Services.IBuildah.AddAsync(ModularPipelines.Buildah.Options.BuildahAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.BuildAsync(ModularPipelines.Buildah.Options.BuildahBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.CommitAsync(ModularPipelines.Buildah.Options.BuildahCommitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.ConfigAsync(ModularPipelines.Buildah.Options.BuildahConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.ContainersAsync(ModularPipelines.Buildah.Options.BuildahContainersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.CopyAsync(ModularPipelines.Buildah.Options.BuildahCopyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.FromAsync(ModularPipelines.Buildah.Options.BuildahFromOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.ImagesAsync(ModularPipelines.Buildah.Options.BuildahImagesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.InspectAsync(ModularPipelines.Buildah.Options.BuildahInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.LoginAsync(ModularPipelines.Buildah.Options.BuildahLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.LogoutAsync(ModularPipelines.Buildah.Options.BuildahLogoutOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.Manifest.get -> ModularPipelines.Buildah.Services.IBuildahManifest!
+ModularPipelines.Buildah.Services.IBuildah.MkcwAsync(ModularPipelines.Buildah.Options.BuildahMkcwOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.MountAsync(ModularPipelines.Buildah.Options.BuildahMountOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.PruneAsync(ModularPipelines.Buildah.Options.BuildahPruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.PullAsync(ModularPipelines.Buildah.Options.BuildahPullOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.PushAsync(ModularPipelines.Buildah.Options.BuildahPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.RenameAsync(ModularPipelines.Buildah.Options.BuildahRenameOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.RmAsync(ModularPipelines.Buildah.Options.BuildahRmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.RmiAsync(ModularPipelines.Buildah.Options.BuildahRmiOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.RunAsync(ModularPipelines.Buildah.Options.BuildahRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.Source.get -> ModularPipelines.Buildah.Services.IBuildahSource!
+ModularPipelines.Buildah.Services.IBuildah.TagAsync(ModularPipelines.Buildah.Options.BuildahTagOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.UmountAsync(ModularPipelines.Buildah.Options.BuildahUmountOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildah.UnshareAsync(ModularPipelines.Buildah.Options.BuildahUnshareOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest
+ModularPipelines.Buildah.Services.IBuildahManifest.AddAsync(ModularPipelines.Buildah.Options.BuildahManifestAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.AnnotateAsync(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.CreateAsync(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.ExecuteAsync(ModularPipelines.Buildah.Options.BuildahManifestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.ExistsAsync(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.InspectAsync(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.PushAsync(ModularPipelines.Buildah.Options.BuildahManifestPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.RemoveAsync(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahManifest.RmAsync(ModularPipelines.Buildah.Options.BuildahManifestRmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahSource
+ModularPipelines.Buildah.Services.IBuildahSource.AddAsync(ModularPipelines.Buildah.Options.BuildahSourceAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahSource.CreateAsync(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahSource.ExecuteAsync(ModularPipelines.Buildah.Options.BuildahSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahSource.PullAsync(ModularPipelines.Buildah.Options.BuildahSourcePullOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Buildah.Services.IBuildahSource.PushAsync(ModularPipelines.Buildah.Options.BuildahSourcePushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.ModularPipelines_Buildah_cec45c01ffd0504fToolsExtensions
+ModularPipelines.Context.ModularPipelines_Buildah_cec45c01ffd0504fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Buildah_cec45c01ffd0504fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Buildah.get -> ModularPipelines.Buildah.Services.IBuildah!
+override ModularPipelines.Buildah.Options.BuildahAddOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahAddOptions!
+override ModularPipelines.Buildah.Options.BuildahAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahAddOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahAddOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahBuildOptions!
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahBuildOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahCommitOptions!
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahCommitOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahConfigOptions!
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahConfigOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahContainersOptions!
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahContainersOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahCopyOptions!
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahCopyOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahFromOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahFromOptions!
+override ModularPipelines.Buildah.Options.BuildahFromOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahFromOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahFromOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahFromOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahFromOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahImagesOptions!
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahImagesOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahInspectOptions!
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahInspectOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahLoginOptions!
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahLoginOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahLogoutOptions!
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahLogoutOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestAddOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestAddOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestCreateOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestExistsOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestInspectOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestPushOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestPushOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahManifestRmOptions!
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahManifestRmOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahMkcwOptions!
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahMkcwOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahMountOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahMountOptions!
+override ModularPipelines.Buildah.Options.BuildahMountOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahMountOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahMountOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahMountOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahMountOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahPruneOptions!
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahPruneOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahPullOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahPullOptions!
+override ModularPipelines.Buildah.Options.BuildahPullOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahPullOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahPullOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahPullOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahPullOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahPushOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahPushOptions!
+override ModularPipelines.Buildah.Options.BuildahPushOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahPushOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahPushOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahPushOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahPushOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahRenameOptions!
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahRenameOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahRmOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahRmOptions!
+override ModularPipelines.Buildah.Options.BuildahRmOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahRmOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahRmOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahRmOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahRmiOptions!
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahRmiOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahRunOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahRunOptions!
+override ModularPipelines.Buildah.Options.BuildahRunOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahRunOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahRunOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahRunOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahRunOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahSourceAddOptions!
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceAddOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahSourceCreateOptions!
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahSourceOptions!
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourceOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahSourcePullOptions!
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourcePullOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahSourcePushOptions!
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahSourcePushOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahTagOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahTagOptions!
+override ModularPipelines.Buildah.Options.BuildahTagOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahTagOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahTagOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahTagOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahTagOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahUmountOptions!
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahUmountOptions.ToString() -> string!
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahUnshareOptions!
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.Equals(object? obj) -> bool
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.GetHashCode() -> int
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Buildah.Options.BuildahUnshareOptions.ToString() -> string!
+override abstract ModularPipelines.Buildah.Options.BuildahOptions.<Clone>$() -> ModularPipelines.Buildah.Options.BuildahOptions!
+override sealed ModularPipelines.Buildah.Options.BuildahAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahBuildOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahCommitOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahConfigOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahContainersOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahCopyOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahFromOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahImagesOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahInspectOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahLoginOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahLogoutOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahManifestRmOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahMkcwOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahMountOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahPruneOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahPullOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahPushOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahRenameOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahRmOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahRmiOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahRunOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahSourceOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahTagOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahUmountOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+override sealed ModularPipelines.Buildah.Options.BuildahUnshareOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+static ModularPipelines.Buildah.Extensions.BuildahExtensions.Buildah(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Buildah.Services.IBuildah!
+static ModularPipelines.Buildah.Extensions.BuildahExtensions.RegisterBuildahContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Buildah.Options.BuildahAddOptions.operator !=(ModularPipelines.Buildah.Options.BuildahAddOptions? left, ModularPipelines.Buildah.Options.BuildahAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahAddOptions.operator ==(ModularPipelines.Buildah.Options.BuildahAddOptions? left, ModularPipelines.Buildah.Options.BuildahAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahBuildOptions.operator !=(ModularPipelines.Buildah.Options.BuildahBuildOptions? left, ModularPipelines.Buildah.Options.BuildahBuildOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahBuildOptions.operator ==(ModularPipelines.Buildah.Options.BuildahBuildOptions? left, ModularPipelines.Buildah.Options.BuildahBuildOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahCommitOptions.operator !=(ModularPipelines.Buildah.Options.BuildahCommitOptions? left, ModularPipelines.Buildah.Options.BuildahCommitOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahCommitOptions.operator ==(ModularPipelines.Buildah.Options.BuildahCommitOptions? left, ModularPipelines.Buildah.Options.BuildahCommitOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahConfigOptions.operator !=(ModularPipelines.Buildah.Options.BuildahConfigOptions? left, ModularPipelines.Buildah.Options.BuildahConfigOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahConfigOptions.operator ==(ModularPipelines.Buildah.Options.BuildahConfigOptions? left, ModularPipelines.Buildah.Options.BuildahConfigOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahContainersOptions.operator !=(ModularPipelines.Buildah.Options.BuildahContainersOptions? left, ModularPipelines.Buildah.Options.BuildahContainersOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahContainersOptions.operator ==(ModularPipelines.Buildah.Options.BuildahContainersOptions? left, ModularPipelines.Buildah.Options.BuildahContainersOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahCopyOptions.operator !=(ModularPipelines.Buildah.Options.BuildahCopyOptions? left, ModularPipelines.Buildah.Options.BuildahCopyOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahCopyOptions.operator ==(ModularPipelines.Buildah.Options.BuildahCopyOptions? left, ModularPipelines.Buildah.Options.BuildahCopyOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahFromOptions.operator !=(ModularPipelines.Buildah.Options.BuildahFromOptions? left, ModularPipelines.Buildah.Options.BuildahFromOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahFromOptions.operator ==(ModularPipelines.Buildah.Options.BuildahFromOptions? left, ModularPipelines.Buildah.Options.BuildahFromOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahImagesOptions.operator !=(ModularPipelines.Buildah.Options.BuildahImagesOptions? left, ModularPipelines.Buildah.Options.BuildahImagesOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahImagesOptions.operator ==(ModularPipelines.Buildah.Options.BuildahImagesOptions? left, ModularPipelines.Buildah.Options.BuildahImagesOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahInspectOptions.operator !=(ModularPipelines.Buildah.Options.BuildahInspectOptions? left, ModularPipelines.Buildah.Options.BuildahInspectOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahInspectOptions.operator ==(ModularPipelines.Buildah.Options.BuildahInspectOptions? left, ModularPipelines.Buildah.Options.BuildahInspectOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahLoginOptions.operator !=(ModularPipelines.Buildah.Options.BuildahLoginOptions? left, ModularPipelines.Buildah.Options.BuildahLoginOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahLoginOptions.operator ==(ModularPipelines.Buildah.Options.BuildahLoginOptions? left, ModularPipelines.Buildah.Options.BuildahLoginOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahLogoutOptions.operator !=(ModularPipelines.Buildah.Options.BuildahLogoutOptions? left, ModularPipelines.Buildah.Options.BuildahLogoutOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahLogoutOptions.operator ==(ModularPipelines.Buildah.Options.BuildahLogoutOptions? left, ModularPipelines.Buildah.Options.BuildahLogoutOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestAddOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestAddOptions? left, ModularPipelines.Buildah.Options.BuildahManifestAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestAddOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestAddOptions? left, ModularPipelines.Buildah.Options.BuildahManifestAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? left, ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? left, ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? left, ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? left, ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? left, ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? left, ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? left, ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? left, ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestOptions? left, ModularPipelines.Buildah.Options.BuildahManifestOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestOptions? left, ModularPipelines.Buildah.Options.BuildahManifestOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestPushOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestPushOptions? left, ModularPipelines.Buildah.Options.BuildahManifestPushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestPushOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestPushOptions? left, ModularPipelines.Buildah.Options.BuildahManifestPushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? left, ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? left, ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestRmOptions.operator !=(ModularPipelines.Buildah.Options.BuildahManifestRmOptions? left, ModularPipelines.Buildah.Options.BuildahManifestRmOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahManifestRmOptions.operator ==(ModularPipelines.Buildah.Options.BuildahManifestRmOptions? left, ModularPipelines.Buildah.Options.BuildahManifestRmOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahMkcwOptions.operator !=(ModularPipelines.Buildah.Options.BuildahMkcwOptions? left, ModularPipelines.Buildah.Options.BuildahMkcwOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahMkcwOptions.operator ==(ModularPipelines.Buildah.Options.BuildahMkcwOptions? left, ModularPipelines.Buildah.Options.BuildahMkcwOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahMountOptions.operator !=(ModularPipelines.Buildah.Options.BuildahMountOptions? left, ModularPipelines.Buildah.Options.BuildahMountOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahMountOptions.operator ==(ModularPipelines.Buildah.Options.BuildahMountOptions? left, ModularPipelines.Buildah.Options.BuildahMountOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahOptions.operator !=(ModularPipelines.Buildah.Options.BuildahOptions? left, ModularPipelines.Buildah.Options.BuildahOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahOptions.operator ==(ModularPipelines.Buildah.Options.BuildahOptions? left, ModularPipelines.Buildah.Options.BuildahOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPruneOptions.operator !=(ModularPipelines.Buildah.Options.BuildahPruneOptions? left, ModularPipelines.Buildah.Options.BuildahPruneOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPruneOptions.operator ==(ModularPipelines.Buildah.Options.BuildahPruneOptions? left, ModularPipelines.Buildah.Options.BuildahPruneOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPullOptions.operator !=(ModularPipelines.Buildah.Options.BuildahPullOptions? left, ModularPipelines.Buildah.Options.BuildahPullOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPullOptions.operator ==(ModularPipelines.Buildah.Options.BuildahPullOptions? left, ModularPipelines.Buildah.Options.BuildahPullOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPushOptions.operator !=(ModularPipelines.Buildah.Options.BuildahPushOptions? left, ModularPipelines.Buildah.Options.BuildahPushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahPushOptions.operator ==(ModularPipelines.Buildah.Options.BuildahPushOptions? left, ModularPipelines.Buildah.Options.BuildahPushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRenameOptions.operator !=(ModularPipelines.Buildah.Options.BuildahRenameOptions? left, ModularPipelines.Buildah.Options.BuildahRenameOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRenameOptions.operator ==(ModularPipelines.Buildah.Options.BuildahRenameOptions? left, ModularPipelines.Buildah.Options.BuildahRenameOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRmOptions.operator !=(ModularPipelines.Buildah.Options.BuildahRmOptions? left, ModularPipelines.Buildah.Options.BuildahRmOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRmOptions.operator ==(ModularPipelines.Buildah.Options.BuildahRmOptions? left, ModularPipelines.Buildah.Options.BuildahRmOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRmiOptions.operator !=(ModularPipelines.Buildah.Options.BuildahRmiOptions? left, ModularPipelines.Buildah.Options.BuildahRmiOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRmiOptions.operator ==(ModularPipelines.Buildah.Options.BuildahRmiOptions? left, ModularPipelines.Buildah.Options.BuildahRmiOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRunOptions.operator !=(ModularPipelines.Buildah.Options.BuildahRunOptions? left, ModularPipelines.Buildah.Options.BuildahRunOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahRunOptions.operator ==(ModularPipelines.Buildah.Options.BuildahRunOptions? left, ModularPipelines.Buildah.Options.BuildahRunOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceAddOptions.operator !=(ModularPipelines.Buildah.Options.BuildahSourceAddOptions? left, ModularPipelines.Buildah.Options.BuildahSourceAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceAddOptions.operator ==(ModularPipelines.Buildah.Options.BuildahSourceAddOptions? left, ModularPipelines.Buildah.Options.BuildahSourceAddOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.operator !=(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? left, ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.operator ==(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? left, ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceOptions.operator !=(ModularPipelines.Buildah.Options.BuildahSourceOptions? left, ModularPipelines.Buildah.Options.BuildahSourceOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourceOptions.operator ==(ModularPipelines.Buildah.Options.BuildahSourceOptions? left, ModularPipelines.Buildah.Options.BuildahSourceOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourcePullOptions.operator !=(ModularPipelines.Buildah.Options.BuildahSourcePullOptions? left, ModularPipelines.Buildah.Options.BuildahSourcePullOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourcePullOptions.operator ==(ModularPipelines.Buildah.Options.BuildahSourcePullOptions? left, ModularPipelines.Buildah.Options.BuildahSourcePullOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourcePushOptions.operator !=(ModularPipelines.Buildah.Options.BuildahSourcePushOptions? left, ModularPipelines.Buildah.Options.BuildahSourcePushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahSourcePushOptions.operator ==(ModularPipelines.Buildah.Options.BuildahSourcePushOptions? left, ModularPipelines.Buildah.Options.BuildahSourcePushOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahTagOptions.operator !=(ModularPipelines.Buildah.Options.BuildahTagOptions? left, ModularPipelines.Buildah.Options.BuildahTagOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahTagOptions.operator ==(ModularPipelines.Buildah.Options.BuildahTagOptions? left, ModularPipelines.Buildah.Options.BuildahTagOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahUmountOptions.operator !=(ModularPipelines.Buildah.Options.BuildahUmountOptions? left, ModularPipelines.Buildah.Options.BuildahUmountOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahUmountOptions.operator ==(ModularPipelines.Buildah.Options.BuildahUmountOptions? left, ModularPipelines.Buildah.Options.BuildahUmountOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahUnshareOptions.operator !=(ModularPipelines.Buildah.Options.BuildahUnshareOptions? left, ModularPipelines.Buildah.Options.BuildahUnshareOptions? right) -> bool
+static ModularPipelines.Buildah.Options.BuildahUnshareOptions.operator ==(ModularPipelines.Buildah.Options.BuildahUnshareOptions? left, ModularPipelines.Buildah.Options.BuildahUnshareOptions? right) -> bool
+static ModularPipelines.Context.ModularPipelines_Buildah_cec45c01ffd0504fToolsExtensions.get_Buildah(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Buildah.Services.IBuildah!
+virtual ModularPipelines.Buildah.Options.BuildahAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahAddOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahBuildOptions.Equals(ModularPipelines.Buildah.Options.BuildahBuildOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahCommitOptions.Equals(ModularPipelines.Buildah.Options.BuildahCommitOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahConfigOptions.Equals(ModularPipelines.Buildah.Options.BuildahConfigOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahContainersOptions.Equals(ModularPipelines.Buildah.Options.BuildahContainersOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahCopyOptions.Equals(ModularPipelines.Buildah.Options.BuildahCopyOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahFromOptions.Equals(ModularPipelines.Buildah.Options.BuildahFromOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahImagesOptions.Equals(ModularPipelines.Buildah.Options.BuildahImagesOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahInspectOptions.Equals(ModularPipelines.Buildah.Options.BuildahInspectOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahLoginOptions.Equals(ModularPipelines.Buildah.Options.BuildahLoginOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahLogoutOptions.Equals(ModularPipelines.Buildah.Options.BuildahLogoutOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestAddOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestCreateOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestExistsOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestPushOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestPushOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahManifestRmOptions.Equals(ModularPipelines.Buildah.Options.BuildahManifestRmOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahMkcwOptions.Equals(ModularPipelines.Buildah.Options.BuildahMkcwOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahMountOptions.Equals(ModularPipelines.Buildah.Options.BuildahMountOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahOptions.Equals(ModularPipelines.Buildah.Options.BuildahOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahPruneOptions.Equals(ModularPipelines.Buildah.Options.BuildahPruneOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahPullOptions.Equals(ModularPipelines.Buildah.Options.BuildahPullOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahPushOptions.Equals(ModularPipelines.Buildah.Options.BuildahPushOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahRenameOptions.Equals(ModularPipelines.Buildah.Options.BuildahRenameOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahRmOptions.Equals(ModularPipelines.Buildah.Options.BuildahRmOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahRmiOptions.Equals(ModularPipelines.Buildah.Options.BuildahRmiOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahRunOptions.Equals(ModularPipelines.Buildah.Options.BuildahRunOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahSourceAddOptions.Equals(ModularPipelines.Buildah.Options.BuildahSourceAddOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.Equals(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahSourceOptions.Equals(ModularPipelines.Buildah.Options.BuildahSourceOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahSourcePullOptions.Equals(ModularPipelines.Buildah.Options.BuildahSourcePullOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahSourcePushOptions.Equals(ModularPipelines.Buildah.Options.BuildahSourcePushOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahTagOptions.Equals(ModularPipelines.Buildah.Options.BuildahTagOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahUmountOptions.Equals(ModularPipelines.Buildah.Options.BuildahUmountOptions? other) -> bool
+virtual ModularPipelines.Buildah.Options.BuildahUnshareOptions.Equals(ModularPipelines.Buildah.Options.BuildahUnshareOptions? other) -> bool
+virtual ModularPipelines.Buildah.Services.BuildahManifest.AddAsync(ModularPipelines.Buildah.Options.BuildahManifestAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.AnnotateAsync(ModularPipelines.Buildah.Options.BuildahManifestAnnotateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.CreateAsync(ModularPipelines.Buildah.Options.BuildahManifestCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.ExecuteAsync(ModularPipelines.Buildah.Options.BuildahManifestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.ExistsAsync(ModularPipelines.Buildah.Options.BuildahManifestExistsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.InspectAsync(ModularPipelines.Buildah.Options.BuildahManifestInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.PushAsync(ModularPipelines.Buildah.Options.BuildahManifestPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.RemoveAsync(ModularPipelines.Buildah.Options.BuildahManifestRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahManifest.RmAsync(ModularPipelines.Buildah.Options.BuildahManifestRmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahSource.AddAsync(ModularPipelines.Buildah.Options.BuildahSourceAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahSource.CreateAsync(ModularPipelines.Buildah.Options.BuildahSourceCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahSource.ExecuteAsync(ModularPipelines.Buildah.Options.BuildahSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahSource.PullAsync(ModularPipelines.Buildah.Options.BuildahSourcePullOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Buildah.Services.BuildahSource.PushAsync(ModularPipelines.Buildah.Options.BuildahSourcePushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

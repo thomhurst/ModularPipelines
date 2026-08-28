@@ -1,0 +1,321 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Syft_45b7266d083cad58ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Syft_45b7266d083cad58ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Syft_45b7266d083cad58ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Syft.get -> ModularPipelines.Syft.Services.ISyft!
+ModularPipelines.Syft.Extensions.SyftExtensions
+ModularPipelines.Syft.Options.SyftAttestOptions
+ModularPipelines.Syft.Options.SyftAttestOptions.BasePath.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.BasePath.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Deconstruct(out string! Image) -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Enrich.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.Enrich.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Exclude.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.Exclude.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Format.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.Format.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.From.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.From.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftAttestOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Image.get -> string!
+ModularPipelines.Syft.Options.SyftAttestOptions.Image.init -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Key.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.Key.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Output.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.Output.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.OverrideDefaultCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.OverrideDefaultCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Parallelism.get -> int?
+ModularPipelines.Syft.Options.SyftAttestOptions.Parallelism.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Platform.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.Platform.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftAttestOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Scope.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.Scope.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SelectCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftAttestOptions.SelectCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceName.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceName.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceSupplier.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceSupplier.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceVersion.get -> string?
+ModularPipelines.Syft.Options.SyftAttestOptions.SourceVersion.set -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SyftAttestOptions(ModularPipelines.Syft.Options.SyftAttestOptions! original) -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.SyftAttestOptions(string! Image) -> void
+ModularPipelines.Syft.Options.SyftAttestOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftAttestOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Output.get -> string?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Output.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.OverrideDefaultCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.OverrideDefaultCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.SelectCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.SelectCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.ShowHidden.get -> bool?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.ShowHidden.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.SyftCatalogerListOptions() -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.SyftCatalogerListOptions(ModularPipelines.Syft.Options.SyftCatalogerListOptions! original) -> void
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftCatalogerListOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.SyftCatalogerOptions() -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.SyftCatalogerOptions(ModularPipelines.Syft.Options.SyftCatalogerOptions! original) -> void
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftCatalogerOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.All.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.All.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.SyftConfigLocationsOptions() -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.SyftConfigLocationsOptions(ModularPipelines.Syft.Options.SyftConfigLocationsOptions! original) -> void
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions
+ModularPipelines.Syft.Options.SyftConfigOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConfigOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.Load.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigOptions.Load.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConfigOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftConfigOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.SyftConfigOptions() -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.SyftConfigOptions(ModularPipelines.Syft.Options.SyftConfigOptions! original) -> void
+ModularPipelines.Syft.Options.SyftConfigOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftConfigOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions
+ModularPipelines.Syft.Options.SyftConvertOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConvertOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.File.get -> string?
+ModularPipelines.Syft.Options.SyftConvertOptions.File.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Format.get -> string?
+ModularPipelines.Syft.Options.SyftConvertOptions.Format.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftConvertOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Output.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConvertOptions.Output.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftConvertOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftConvertOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.SourceSbom.get -> string?
+ModularPipelines.Syft.Options.SyftConvertOptions.SourceSbom.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.SyftConvertOptions() -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.SyftConvertOptions(ModularPipelines.Syft.Options.SyftConvertOptions! original) -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Template.get -> string?
+ModularPipelines.Syft.Options.SyftConvertOptions.Template.set -> void
+ModularPipelines.Syft.Options.SyftConvertOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftConvertOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions
+ModularPipelines.Syft.Options.SyftLoginOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftLoginOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftLoginOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Password.get -> string?
+ModularPipelines.Syft.Options.SyftLoginOptions.Password.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.PasswordStdin.get -> bool?
+ModularPipelines.Syft.Options.SyftLoginOptions.PasswordStdin.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftLoginOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftLoginOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Server.get -> string?
+ModularPipelines.Syft.Options.SyftLoginOptions.Server.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.SyftLoginOptions() -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.SyftLoginOptions(ModularPipelines.Syft.Options.SyftLoginOptions! original) -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Username.get -> string?
+ModularPipelines.Syft.Options.SyftLoginOptions.Username.set -> void
+ModularPipelines.Syft.Options.SyftLoginOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftLoginOptions.Verbose.set -> void
+ModularPipelines.Syft.Options.SyftOptions
+ModularPipelines.Syft.Options.SyftOptions.SyftOptions() -> void
+ModularPipelines.Syft.Options.SyftOptions.SyftOptions(ModularPipelines.Syft.Options.SyftOptions! original) -> void
+ModularPipelines.Syft.Options.SyftScanOptions
+ModularPipelines.Syft.Options.SyftScanOptions.BasePath.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.BasePath.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.Config.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Enrich.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.Enrich.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Exclude.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.Exclude.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.File.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.File.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.From.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.From.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Help.get -> bool?
+ModularPipelines.Syft.Options.SyftScanOptions.Help.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Output.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.Output.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.OverrideDefaultCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.OverrideDefaultCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Parallelism.get -> int?
+ModularPipelines.Syft.Options.SyftScanOptions.Parallelism.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Platform.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.Platform.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.Profile.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Quiet.get -> bool?
+ModularPipelines.Syft.Options.SyftScanOptions.Quiet.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Scope.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.Scope.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SelectCatalogers.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Syft.Options.SyftScanOptions.SelectCatalogers.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Source.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.Source.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SourceName.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.SourceName.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SourceSupplier.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.SourceSupplier.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SourceVersion.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.SourceVersion.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SyftScanOptions() -> void
+ModularPipelines.Syft.Options.SyftScanOptions.SyftScanOptions(ModularPipelines.Syft.Options.SyftScanOptions! original) -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Template.get -> string?
+ModularPipelines.Syft.Options.SyftScanOptions.Template.set -> void
+ModularPipelines.Syft.Options.SyftScanOptions.Verbose.get -> int?
+ModularPipelines.Syft.Options.SyftScanOptions.Verbose.set -> void
+ModularPipelines.Syft.Services.ISyft
+ModularPipelines.Syft.Services.ISyft.AttestAsync(ModularPipelines.Syft.Options.SyftAttestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyft.Cataloger.get -> ModularPipelines.Syft.Services.ISyftCataloger!
+ModularPipelines.Syft.Services.ISyft.Config.get -> ModularPipelines.Syft.Services.ISyftConfig!
+ModularPipelines.Syft.Services.ISyft.ConvertAsync(ModularPipelines.Syft.Options.SyftConvertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyft.LoginAsync(ModularPipelines.Syft.Options.SyftLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyft.ScanAsync(ModularPipelines.Syft.Options.SyftScanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyftCataloger
+ModularPipelines.Syft.Services.ISyftCataloger.ExecuteAsync(ModularPipelines.Syft.Options.SyftCatalogerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyftCataloger.ListAsync(ModularPipelines.Syft.Options.SyftCatalogerListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyftConfig
+ModularPipelines.Syft.Services.ISyftConfig.ExecuteAsync(ModularPipelines.Syft.Options.SyftConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.ISyftConfig.LocationsAsync(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Syft.Services.SyftCataloger
+ModularPipelines.Syft.Services.SyftCataloger.SyftCataloger(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Syft.Services.SyftConfig
+ModularPipelines.Syft.Services.SyftConfig.SyftConfig(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+override ModularPipelines.Syft.Options.SyftAttestOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftAttestOptions!
+override ModularPipelines.Syft.Options.SyftAttestOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftAttestOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftAttestOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftAttestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftAttestOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftCatalogerListOptions!
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftCatalogerListOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftCatalogerOptions!
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftCatalogerOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftConfigLocationsOptions!
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftConfigLocationsOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftConfigOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftConfigOptions!
+override ModularPipelines.Syft.Options.SyftConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftConfigOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftConfigOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftConvertOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftConvertOptions!
+override ModularPipelines.Syft.Options.SyftConvertOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftConvertOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftConvertOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftConvertOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftConvertOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftLoginOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftLoginOptions!
+override ModularPipelines.Syft.Options.SyftLoginOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftLoginOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftLoginOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftLoginOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftLoginOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftOptions.ToString() -> string!
+override ModularPipelines.Syft.Options.SyftScanOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftScanOptions!
+override ModularPipelines.Syft.Options.SyftScanOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Syft.Options.SyftScanOptions.Equals(object? obj) -> bool
+override ModularPipelines.Syft.Options.SyftScanOptions.GetHashCode() -> int
+override ModularPipelines.Syft.Options.SyftScanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Syft.Options.SyftScanOptions.ToString() -> string!
+override abstract ModularPipelines.Syft.Options.SyftOptions.<Clone>$() -> ModularPipelines.Syft.Options.SyftOptions!
+override sealed ModularPipelines.Syft.Options.SyftAttestOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftCatalogerListOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftCatalogerOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftConfigOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftConvertOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftLoginOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Syft.Options.SyftScanOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Syft_45b7266d083cad58ToolsExtensions.get_Syft(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Syft.Services.ISyft!
+static ModularPipelines.Syft.Extensions.SyftExtensions.RegisterSyftContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Syft.Extensions.SyftExtensions.Syft(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Syft.Services.ISyft!
+static ModularPipelines.Syft.Options.SyftAttestOptions.operator !=(ModularPipelines.Syft.Options.SyftAttestOptions? left, ModularPipelines.Syft.Options.SyftAttestOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftAttestOptions.operator ==(ModularPipelines.Syft.Options.SyftAttestOptions? left, ModularPipelines.Syft.Options.SyftAttestOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftCatalogerListOptions.operator !=(ModularPipelines.Syft.Options.SyftCatalogerListOptions? left, ModularPipelines.Syft.Options.SyftCatalogerListOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftCatalogerListOptions.operator ==(ModularPipelines.Syft.Options.SyftCatalogerListOptions? left, ModularPipelines.Syft.Options.SyftCatalogerListOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftCatalogerOptions.operator !=(ModularPipelines.Syft.Options.SyftCatalogerOptions? left, ModularPipelines.Syft.Options.SyftCatalogerOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftCatalogerOptions.operator ==(ModularPipelines.Syft.Options.SyftCatalogerOptions? left, ModularPipelines.Syft.Options.SyftCatalogerOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConfigLocationsOptions.operator !=(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? left, ModularPipelines.Syft.Options.SyftConfigLocationsOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConfigLocationsOptions.operator ==(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? left, ModularPipelines.Syft.Options.SyftConfigLocationsOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConfigOptions.operator !=(ModularPipelines.Syft.Options.SyftConfigOptions? left, ModularPipelines.Syft.Options.SyftConfigOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConfigOptions.operator ==(ModularPipelines.Syft.Options.SyftConfigOptions? left, ModularPipelines.Syft.Options.SyftConfigOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConvertOptions.operator !=(ModularPipelines.Syft.Options.SyftConvertOptions? left, ModularPipelines.Syft.Options.SyftConvertOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftConvertOptions.operator ==(ModularPipelines.Syft.Options.SyftConvertOptions? left, ModularPipelines.Syft.Options.SyftConvertOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftLoginOptions.operator !=(ModularPipelines.Syft.Options.SyftLoginOptions? left, ModularPipelines.Syft.Options.SyftLoginOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftLoginOptions.operator ==(ModularPipelines.Syft.Options.SyftLoginOptions? left, ModularPipelines.Syft.Options.SyftLoginOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftOptions.operator !=(ModularPipelines.Syft.Options.SyftOptions? left, ModularPipelines.Syft.Options.SyftOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftOptions.operator ==(ModularPipelines.Syft.Options.SyftOptions? left, ModularPipelines.Syft.Options.SyftOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftScanOptions.operator !=(ModularPipelines.Syft.Options.SyftScanOptions? left, ModularPipelines.Syft.Options.SyftScanOptions? right) -> bool
+static ModularPipelines.Syft.Options.SyftScanOptions.operator ==(ModularPipelines.Syft.Options.SyftScanOptions? left, ModularPipelines.Syft.Options.SyftScanOptions? right) -> bool
+virtual ModularPipelines.Syft.Options.SyftAttestOptions.Equals(ModularPipelines.Syft.Options.SyftAttestOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftCatalogerListOptions.Equals(ModularPipelines.Syft.Options.SyftCatalogerListOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftCatalogerOptions.Equals(ModularPipelines.Syft.Options.SyftCatalogerOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftConfigLocationsOptions.Equals(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftConfigOptions.Equals(ModularPipelines.Syft.Options.SyftConfigOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftConvertOptions.Equals(ModularPipelines.Syft.Options.SyftConvertOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftLoginOptions.Equals(ModularPipelines.Syft.Options.SyftLoginOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftOptions.Equals(ModularPipelines.Syft.Options.SyftOptions? other) -> bool
+virtual ModularPipelines.Syft.Options.SyftScanOptions.Equals(ModularPipelines.Syft.Options.SyftScanOptions? other) -> bool
+virtual ModularPipelines.Syft.Services.SyftCataloger.ExecuteAsync(ModularPipelines.Syft.Options.SyftCatalogerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Syft.Services.SyftCataloger.ListAsync(ModularPipelines.Syft.Options.SyftCatalogerListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Syft.Services.SyftConfig.ExecuteAsync(ModularPipelines.Syft.Options.SyftConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Syft.Services.SyftConfig.LocationsAsync(ModularPipelines.Syft.Options.SyftConfigLocationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

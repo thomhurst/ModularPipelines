@@ -1,0 +1,288 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Flyway_ae9e2c6d60bd975eToolsExtensions
+ModularPipelines.Context.ModularPipelines_Flyway_ae9e2c6d60bd975eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Flyway_ae9e2c6d60bd975eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Flyway.get -> ModularPipelines.Flyway.Services.IFlyway!
+ModularPipelines.Flyway.Extensions.FlywayExtensions
+ModularPipelines.Flyway.Options.FlywayAddOptions
+ModularPipelines.Flyway.Options.FlywayAddOptions.FlywayAddOptions() -> void
+ModularPipelines.Flyway.Options.FlywayAddOptions.FlywayAddOptions(ModularPipelines.Flyway.Options.FlywayAddOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayAuthOptions
+ModularPipelines.Flyway.Options.FlywayAuthOptions.FlywayAuthOptions() -> void
+ModularPipelines.Flyway.Options.FlywayAuthOptions.FlywayAuthOptions(ModularPipelines.Flyway.Options.FlywayAuthOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayBaselineOptions
+ModularPipelines.Flyway.Options.FlywayBaselineOptions.FlywayBaselineOptions() -> void
+ModularPipelines.Flyway.Options.FlywayBaselineOptions.FlywayBaselineOptions(ModularPipelines.Flyway.Options.FlywayBaselineOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayCheckOptions
+ModularPipelines.Flyway.Options.FlywayCheckOptions.FlywayCheckOptions() -> void
+ModularPipelines.Flyway.Options.FlywayCheckOptions.FlywayCheckOptions(ModularPipelines.Flyway.Options.FlywayCheckOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayCleanOptions
+ModularPipelines.Flyway.Options.FlywayCleanOptions.FlywayCleanOptions() -> void
+ModularPipelines.Flyway.Options.FlywayCleanOptions.FlywayCleanOptions(ModularPipelines.Flyway.Options.FlywayCleanOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayDeployOptions
+ModularPipelines.Flyway.Options.FlywayDeployOptions.FlywayDeployOptions() -> void
+ModularPipelines.Flyway.Options.FlywayDeployOptions.FlywayDeployOptions(ModularPipelines.Flyway.Options.FlywayDeployOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayDiffApplyOptions
+ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.FlywayDiffApplyOptions() -> void
+ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.FlywayDiffApplyOptions(ModularPipelines.Flyway.Options.FlywayDiffApplyOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayDiffOptions
+ModularPipelines.Flyway.Options.FlywayDiffOptions.FlywayDiffOptions() -> void
+ModularPipelines.Flyway.Options.FlywayDiffOptions.FlywayDiffOptions(ModularPipelines.Flyway.Options.FlywayDiffOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayDiffTextOptions
+ModularPipelines.Flyway.Options.FlywayDiffTextOptions.FlywayDiffTextOptions() -> void
+ModularPipelines.Flyway.Options.FlywayDiffTextOptions.FlywayDiffTextOptions(ModularPipelines.Flyway.Options.FlywayDiffTextOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayGenerateOptions
+ModularPipelines.Flyway.Options.FlywayGenerateOptions.FlywayGenerateOptions() -> void
+ModularPipelines.Flyway.Options.FlywayGenerateOptions.FlywayGenerateOptions(ModularPipelines.Flyway.Options.FlywayGenerateOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayInfoOptions
+ModularPipelines.Flyway.Options.FlywayInfoOptions.FlywayInfoOptions() -> void
+ModularPipelines.Flyway.Options.FlywayInfoOptions.FlywayInfoOptions(ModularPipelines.Flyway.Options.FlywayInfoOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayInitOptions
+ModularPipelines.Flyway.Options.FlywayInitOptions.FlywayInitOptions() -> void
+ModularPipelines.Flyway.Options.FlywayInitOptions.FlywayInitOptions(ModularPipelines.Flyway.Options.FlywayInitOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayListEnginesOptions
+ModularPipelines.Flyway.Options.FlywayListEnginesOptions.FlywayListEnginesOptions() -> void
+ModularPipelines.Flyway.Options.FlywayListEnginesOptions.FlywayListEnginesOptions(ModularPipelines.Flyway.Options.FlywayListEnginesOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayMigrateOptions
+ModularPipelines.Flyway.Options.FlywayMigrateOptions.FlywayMigrateOptions() -> void
+ModularPipelines.Flyway.Options.FlywayMigrateOptions.FlywayMigrateOptions(ModularPipelines.Flyway.Options.FlywayMigrateOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayOptions
+ModularPipelines.Flyway.Options.FlywayOptions.FlywayOptions() -> void
+ModularPipelines.Flyway.Options.FlywayOptions.FlywayOptions(ModularPipelines.Flyway.Options.FlywayOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayPrepareOptions
+ModularPipelines.Flyway.Options.FlywayPrepareOptions.FlywayPrepareOptions() -> void
+ModularPipelines.Flyway.Options.FlywayPrepareOptions.FlywayPrepareOptions(ModularPipelines.Flyway.Options.FlywayPrepareOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayRepairOptions
+ModularPipelines.Flyway.Options.FlywayRepairOptions.FlywayRepairOptions() -> void
+ModularPipelines.Flyway.Options.FlywayRepairOptions.FlywayRepairOptions(ModularPipelines.Flyway.Options.FlywayRepairOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywaySnapshotOptions
+ModularPipelines.Flyway.Options.FlywaySnapshotOptions.FlywaySnapshotOptions() -> void
+ModularPipelines.Flyway.Options.FlywaySnapshotOptions.FlywaySnapshotOptions(ModularPipelines.Flyway.Options.FlywaySnapshotOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayUndoOptions
+ModularPipelines.Flyway.Options.FlywayUndoOptions.FlywayUndoOptions() -> void
+ModularPipelines.Flyway.Options.FlywayUndoOptions.FlywayUndoOptions(ModularPipelines.Flyway.Options.FlywayUndoOptions! original) -> void
+ModularPipelines.Flyway.Options.FlywayValidateOptions
+ModularPipelines.Flyway.Options.FlywayValidateOptions.FlywayValidateOptions() -> void
+ModularPipelines.Flyway.Options.FlywayValidateOptions.FlywayValidateOptions(ModularPipelines.Flyway.Options.FlywayValidateOptions! original) -> void
+ModularPipelines.Flyway.Services.IFlyway
+ModularPipelines.Flyway.Services.IFlyway.AddAsync(ModularPipelines.Flyway.Options.FlywayAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.AuthAsync(ModularPipelines.Flyway.Options.FlywayAuthOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.BaselineAsync(ModularPipelines.Flyway.Options.FlywayBaselineOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.CheckAsync(ModularPipelines.Flyway.Options.FlywayCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.CleanAsync(ModularPipelines.Flyway.Options.FlywayCleanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.DeployAsync(ModularPipelines.Flyway.Options.FlywayDeployOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.DiffApplyAsync(ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.DiffAsync(ModularPipelines.Flyway.Options.FlywayDiffOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.DiffTextAsync(ModularPipelines.Flyway.Options.FlywayDiffTextOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.GenerateAsync(ModularPipelines.Flyway.Options.FlywayGenerateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.InfoAsync(ModularPipelines.Flyway.Options.FlywayInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.InitAsync(ModularPipelines.Flyway.Options.FlywayInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.ListEnginesAsync(ModularPipelines.Flyway.Options.FlywayListEnginesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.MigrateAsync(ModularPipelines.Flyway.Options.FlywayMigrateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.PrepareAsync(ModularPipelines.Flyway.Options.FlywayPrepareOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.RepairAsync(ModularPipelines.Flyway.Options.FlywayRepairOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.SnapshotAsync(ModularPipelines.Flyway.Options.FlywaySnapshotOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.UndoAsync(ModularPipelines.Flyway.Options.FlywayUndoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flyway.Services.IFlyway.ValidateAsync(ModularPipelines.Flyway.Options.FlywayValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Flyway.Options.FlywayAddOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayAddOptions!
+override ModularPipelines.Flyway.Options.FlywayAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayAddOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayAddOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayAuthOptions!
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayAuthOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayBaselineOptions!
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayBaselineOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayCheckOptions!
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayCheckOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayCleanOptions!
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayCleanOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayDeployOptions!
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayDeployOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayDiffApplyOptions!
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayDiffOptions!
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayDiffTextOptions!
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayDiffTextOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayGenerateOptions!
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayGenerateOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayInfoOptions!
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayInfoOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayInitOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayInitOptions!
+override ModularPipelines.Flyway.Options.FlywayInitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayInitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayInitOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayInitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayInitOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayListEnginesOptions!
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayListEnginesOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayMigrateOptions!
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayMigrateOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayPrepareOptions!
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayPrepareOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayRepairOptions!
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayRepairOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywaySnapshotOptions!
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywaySnapshotOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayUndoOptions!
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayUndoOptions.ToString() -> string!
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayValidateOptions!
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.GetHashCode() -> int
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Flyway.Options.FlywayValidateOptions.ToString() -> string!
+override abstract ModularPipelines.Flyway.Options.FlywayOptions.<Clone>$() -> ModularPipelines.Flyway.Options.FlywayOptions!
+override sealed ModularPipelines.Flyway.Options.FlywayAddOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayAuthOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayBaselineOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayCheckOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayCleanOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayDeployOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayDiffOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayDiffTextOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayGenerateOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayInfoOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayInitOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayListEnginesOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayMigrateOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayPrepareOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayRepairOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywaySnapshotOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayUndoOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+override sealed ModularPipelines.Flyway.Options.FlywayValidateOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Flyway_ae9e2c6d60bd975eToolsExtensions.get_Flyway(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Flyway.Services.IFlyway!
+static ModularPipelines.Flyway.Extensions.FlywayExtensions.Flyway(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Flyway.Services.IFlyway!
+static ModularPipelines.Flyway.Extensions.FlywayExtensions.RegisterFlywayContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Flyway.Options.FlywayAddOptions.operator !=(ModularPipelines.Flyway.Options.FlywayAddOptions? left, ModularPipelines.Flyway.Options.FlywayAddOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayAddOptions.operator ==(ModularPipelines.Flyway.Options.FlywayAddOptions? left, ModularPipelines.Flyway.Options.FlywayAddOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayAuthOptions.operator !=(ModularPipelines.Flyway.Options.FlywayAuthOptions? left, ModularPipelines.Flyway.Options.FlywayAuthOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayAuthOptions.operator ==(ModularPipelines.Flyway.Options.FlywayAuthOptions? left, ModularPipelines.Flyway.Options.FlywayAuthOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayBaselineOptions.operator !=(ModularPipelines.Flyway.Options.FlywayBaselineOptions? left, ModularPipelines.Flyway.Options.FlywayBaselineOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayBaselineOptions.operator ==(ModularPipelines.Flyway.Options.FlywayBaselineOptions? left, ModularPipelines.Flyway.Options.FlywayBaselineOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayCheckOptions.operator !=(ModularPipelines.Flyway.Options.FlywayCheckOptions? left, ModularPipelines.Flyway.Options.FlywayCheckOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayCheckOptions.operator ==(ModularPipelines.Flyway.Options.FlywayCheckOptions? left, ModularPipelines.Flyway.Options.FlywayCheckOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayCleanOptions.operator !=(ModularPipelines.Flyway.Options.FlywayCleanOptions? left, ModularPipelines.Flyway.Options.FlywayCleanOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayCleanOptions.operator ==(ModularPipelines.Flyway.Options.FlywayCleanOptions? left, ModularPipelines.Flyway.Options.FlywayCleanOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDeployOptions.operator !=(ModularPipelines.Flyway.Options.FlywayDeployOptions? left, ModularPipelines.Flyway.Options.FlywayDeployOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDeployOptions.operator ==(ModularPipelines.Flyway.Options.FlywayDeployOptions? left, ModularPipelines.Flyway.Options.FlywayDeployOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.operator !=(ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? left, ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.operator ==(ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? left, ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffOptions.operator !=(ModularPipelines.Flyway.Options.FlywayDiffOptions? left, ModularPipelines.Flyway.Options.FlywayDiffOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffOptions.operator ==(ModularPipelines.Flyway.Options.FlywayDiffOptions? left, ModularPipelines.Flyway.Options.FlywayDiffOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffTextOptions.operator !=(ModularPipelines.Flyway.Options.FlywayDiffTextOptions? left, ModularPipelines.Flyway.Options.FlywayDiffTextOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayDiffTextOptions.operator ==(ModularPipelines.Flyway.Options.FlywayDiffTextOptions? left, ModularPipelines.Flyway.Options.FlywayDiffTextOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayGenerateOptions.operator !=(ModularPipelines.Flyway.Options.FlywayGenerateOptions? left, ModularPipelines.Flyway.Options.FlywayGenerateOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayGenerateOptions.operator ==(ModularPipelines.Flyway.Options.FlywayGenerateOptions? left, ModularPipelines.Flyway.Options.FlywayGenerateOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayInfoOptions.operator !=(ModularPipelines.Flyway.Options.FlywayInfoOptions? left, ModularPipelines.Flyway.Options.FlywayInfoOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayInfoOptions.operator ==(ModularPipelines.Flyway.Options.FlywayInfoOptions? left, ModularPipelines.Flyway.Options.FlywayInfoOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayInitOptions.operator !=(ModularPipelines.Flyway.Options.FlywayInitOptions? left, ModularPipelines.Flyway.Options.FlywayInitOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayInitOptions.operator ==(ModularPipelines.Flyway.Options.FlywayInitOptions? left, ModularPipelines.Flyway.Options.FlywayInitOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayListEnginesOptions.operator !=(ModularPipelines.Flyway.Options.FlywayListEnginesOptions? left, ModularPipelines.Flyway.Options.FlywayListEnginesOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayListEnginesOptions.operator ==(ModularPipelines.Flyway.Options.FlywayListEnginesOptions? left, ModularPipelines.Flyway.Options.FlywayListEnginesOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayMigrateOptions.operator !=(ModularPipelines.Flyway.Options.FlywayMigrateOptions? left, ModularPipelines.Flyway.Options.FlywayMigrateOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayMigrateOptions.operator ==(ModularPipelines.Flyway.Options.FlywayMigrateOptions? left, ModularPipelines.Flyway.Options.FlywayMigrateOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayOptions.operator !=(ModularPipelines.Flyway.Options.FlywayOptions? left, ModularPipelines.Flyway.Options.FlywayOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayOptions.operator ==(ModularPipelines.Flyway.Options.FlywayOptions? left, ModularPipelines.Flyway.Options.FlywayOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayPrepareOptions.operator !=(ModularPipelines.Flyway.Options.FlywayPrepareOptions? left, ModularPipelines.Flyway.Options.FlywayPrepareOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayPrepareOptions.operator ==(ModularPipelines.Flyway.Options.FlywayPrepareOptions? left, ModularPipelines.Flyway.Options.FlywayPrepareOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayRepairOptions.operator !=(ModularPipelines.Flyway.Options.FlywayRepairOptions? left, ModularPipelines.Flyway.Options.FlywayRepairOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayRepairOptions.operator ==(ModularPipelines.Flyway.Options.FlywayRepairOptions? left, ModularPipelines.Flyway.Options.FlywayRepairOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywaySnapshotOptions.operator !=(ModularPipelines.Flyway.Options.FlywaySnapshotOptions? left, ModularPipelines.Flyway.Options.FlywaySnapshotOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywaySnapshotOptions.operator ==(ModularPipelines.Flyway.Options.FlywaySnapshotOptions? left, ModularPipelines.Flyway.Options.FlywaySnapshotOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayUndoOptions.operator !=(ModularPipelines.Flyway.Options.FlywayUndoOptions? left, ModularPipelines.Flyway.Options.FlywayUndoOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayUndoOptions.operator ==(ModularPipelines.Flyway.Options.FlywayUndoOptions? left, ModularPipelines.Flyway.Options.FlywayUndoOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayValidateOptions.operator !=(ModularPipelines.Flyway.Options.FlywayValidateOptions? left, ModularPipelines.Flyway.Options.FlywayValidateOptions? right) -> bool
+static ModularPipelines.Flyway.Options.FlywayValidateOptions.operator ==(ModularPipelines.Flyway.Options.FlywayValidateOptions? left, ModularPipelines.Flyway.Options.FlywayValidateOptions? right) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayAddOptions.Equals(ModularPipelines.Flyway.Options.FlywayAddOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayAuthOptions.Equals(ModularPipelines.Flyway.Options.FlywayAuthOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayBaselineOptions.Equals(ModularPipelines.Flyway.Options.FlywayBaselineOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayCheckOptions.Equals(ModularPipelines.Flyway.Options.FlywayCheckOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayCleanOptions.Equals(ModularPipelines.Flyway.Options.FlywayCleanOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayDeployOptions.Equals(ModularPipelines.Flyway.Options.FlywayDeployOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayDiffApplyOptions.Equals(ModularPipelines.Flyway.Options.FlywayDiffApplyOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayDiffOptions.Equals(ModularPipelines.Flyway.Options.FlywayDiffOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayDiffTextOptions.Equals(ModularPipelines.Flyway.Options.FlywayDiffTextOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayGenerateOptions.Equals(ModularPipelines.Flyway.Options.FlywayGenerateOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayInfoOptions.Equals(ModularPipelines.Flyway.Options.FlywayInfoOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayInitOptions.Equals(ModularPipelines.Flyway.Options.FlywayInitOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayListEnginesOptions.Equals(ModularPipelines.Flyway.Options.FlywayListEnginesOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayMigrateOptions.Equals(ModularPipelines.Flyway.Options.FlywayMigrateOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayOptions.Equals(ModularPipelines.Flyway.Options.FlywayOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayPrepareOptions.Equals(ModularPipelines.Flyway.Options.FlywayPrepareOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayRepairOptions.Equals(ModularPipelines.Flyway.Options.FlywayRepairOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywaySnapshotOptions.Equals(ModularPipelines.Flyway.Options.FlywaySnapshotOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayUndoOptions.Equals(ModularPipelines.Flyway.Options.FlywayUndoOptions? other) -> bool
+virtual ModularPipelines.Flyway.Options.FlywayValidateOptions.Equals(ModularPipelines.Flyway.Options.FlywayValidateOptions? other) -> bool

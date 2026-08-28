@@ -1,0 +1,394 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Grype_0bea9285f474026dToolsExtensions
+ModularPipelines.Context.ModularPipelines_Grype_0bea9285f474026dToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Grype_0bea9285f474026dToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Grype.get -> ModularPipelines.Grype.Services.IGrype!
+ModularPipelines.Grype.Extensions.GrypeExtensions
+ModularPipelines.Grype.Options.GrypeDbCheckOptions
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.GrypeDbCheckOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.GrypeDbCheckOptions(ModularPipelines.Grype.Options.GrypeDbCheckOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbCheckOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.GrypeDbDeleteOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.GrypeDbDeleteOptions(ModularPipelines.Grype.Options.GrypeDbDeleteOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Deconstruct(out string! OldDbUrlOrPath) -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.GrypeDbDiffOptions(ModularPipelines.Grype.Options.GrypeDbDiffOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.GrypeDbDiffOptions(string! OldDbUrlOrPath) -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.NewDbUrlOrPath.get -> string?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.NewDbUrlOrPath.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.OldDbUrlOrPath.get -> string!
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.OldDbUrlOrPath.init -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Packages.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Packages.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Vulns.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbDiffOptions.Vulns.set -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Deconstruct(out string! File) -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.File.get -> string!
+ModularPipelines.Grype.Options.GrypeDbImportOptions.File.init -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.GrypeDbImportOptions(ModularPipelines.Grype.Options.GrypeDbImportOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.GrypeDbImportOptions(string! File) -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbImportOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions
+ModularPipelines.Grype.Options.GrypeDbListOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.GrypeDbListOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.GrypeDbListOptions(ModularPipelines.Grype.Options.GrypeDbListOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbListOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbListOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions
+ModularPipelines.Grype.Options.GrypeDbOptions.Command.get -> string?
+ModularPipelines.Grype.Options.GrypeDbOptions.Command.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.GrypeDbOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.GrypeDbOptions(ModularPipelines.Grype.Options.GrypeDbOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.GrypeDbProvidersOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.GrypeDbProvidersOptions(ModularPipelines.Grype.Options.GrypeDbProvidersOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.BroadCpeMatching.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.BroadCpeMatching.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Distro.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Distro.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Ecosystem.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Ecosystem.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.FixedState.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.FixedState.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.GrypeDbSearchOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.GrypeDbSearchOptions(ModularPipelines.Grype.Options.GrypeDbSearchOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Limit.get -> int?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Limit.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.ModifiedAfter.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.ModifiedAfter.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Pkg.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Pkg.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Provider.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Provider.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.PublishedAfter.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.PublishedAfter.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Vuln.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchOptions.Vuln.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Id) -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.FixedState.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.FixedState.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.GrypeDbSearchVulnOptions(ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.GrypeDbSearchVulnOptions(System.Collections.Generic.IEnumerable<string!>! Id) -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Id.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Id.init -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Limit.get -> int?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Limit.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.ModifiedAfter.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.ModifiedAfter.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Provider.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Provider.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.PublishedAfter.get -> string?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.PublishedAfter.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.GrypeDbStatusOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.GrypeDbStatusOptions(ModularPipelines.Grype.Options.GrypeDbStatusOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Output.get -> string?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Output.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbStatusOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.GrypeDbUpdateOptions() -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.GrypeDbUpdateOptions(ModularPipelines.Grype.Options.GrypeDbUpdateOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions
+ModularPipelines.Grype.Options.GrypeExplainOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Config.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.GrypeExplainOptions() -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.GrypeExplainOptions(ModularPipelines.Grype.Options.GrypeExplainOptions! original) -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.Help.get -> bool?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Help.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.Id.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Id.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.Profile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Profile.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.Quiet.get -> bool?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Quiet.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.Verbose.get -> int?
+ModularPipelines.Grype.Options.GrypeExplainOptions.Verbose.set -> void
+ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.get -> string?
+ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.set -> void
+ModularPipelines.Grype.Options.GrypeOptions
+ModularPipelines.Grype.Options.GrypeOptions.GrypeOptions() -> void
+ModularPipelines.Grype.Options.GrypeOptions.GrypeOptions(ModularPipelines.Grype.Options.GrypeOptions! original) -> void
+ModularPipelines.Grype.Services.GrypeDb
+ModularPipelines.Grype.Services.GrypeDb.GrypeDb(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Grype.Services.GrypeDb.Search.get -> ModularPipelines.Grype.Services.GrypeDbSearch!
+ModularPipelines.Grype.Services.GrypeDbSearch
+ModularPipelines.Grype.Services.GrypeDbSearch.GrypeDbSearch(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Grype.Services.IGrype
+ModularPipelines.Grype.Services.IGrype.Db.get -> ModularPipelines.Grype.Services.IGrypeDb!
+ModularPipelines.Grype.Services.IGrype.ExplainAsync(ModularPipelines.Grype.Options.GrypeExplainOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb
+ModularPipelines.Grype.Services.IGrypeDb.CheckAsync(ModularPipelines.Grype.Options.GrypeDbCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.DeleteAsync(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.DiffAsync(ModularPipelines.Grype.Options.GrypeDbDiffOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.ExecuteAsync(ModularPipelines.Grype.Options.GrypeDbOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.ImportAsync(ModularPipelines.Grype.Options.GrypeDbImportOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.ListAsync(ModularPipelines.Grype.Options.GrypeDbListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.ProvidersAsync(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.Search.get -> ModularPipelines.Grype.Services.GrypeDbSearch!
+ModularPipelines.Grype.Services.IGrypeDb.StatusAsync(ModularPipelines.Grype.Options.GrypeDbStatusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Grype.Services.IGrypeDb.UpdateAsync(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbCheckOptions!
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbCheckOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbDeleteOptions!
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbDeleteOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbDiffOptions!
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbDiffOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbImportOptions!
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbImportOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbListOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbListOptions!
+override ModularPipelines.Grype.Options.GrypeDbListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbListOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbListOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbOptions!
+override ModularPipelines.Grype.Options.GrypeDbOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbProvidersOptions!
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbProvidersOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbSearchOptions!
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbSearchOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions!
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbStatusOptions!
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbStatusOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeDbUpdateOptions!
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeDbUpdateOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeExplainOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeExplainOptions!
+override ModularPipelines.Grype.Options.GrypeExplainOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeExplainOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeExplainOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeExplainOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeExplainOptions.ToString() -> string!
+override ModularPipelines.Grype.Options.GrypeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Grype.Options.GrypeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Grype.Options.GrypeOptions.GetHashCode() -> int
+override ModularPipelines.Grype.Options.GrypeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Grype.Options.GrypeOptions.ToString() -> string!
+override abstract ModularPipelines.Grype.Options.GrypeOptions.<Clone>$() -> ModularPipelines.Grype.Options.GrypeOptions!
+override sealed ModularPipelines.Grype.Options.GrypeDbCheckOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbDiffOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbImportOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbListOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbSearchOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbStatusOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeExplainOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+override sealed ModularPipelines.Grype.Options.GrypeOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Grype_0bea9285f474026dToolsExtensions.get_Grype(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Grype.Services.IGrype!
+static ModularPipelines.Grype.Extensions.GrypeExtensions.Grype(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Grype.Services.IGrype!
+static ModularPipelines.Grype.Extensions.GrypeExtensions.RegisterGrypeContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Grype.Options.GrypeDbCheckOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbCheckOptions? left, ModularPipelines.Grype.Options.GrypeDbCheckOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbCheckOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbCheckOptions? left, ModularPipelines.Grype.Options.GrypeDbCheckOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbDeleteOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? left, ModularPipelines.Grype.Options.GrypeDbDeleteOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbDeleteOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? left, ModularPipelines.Grype.Options.GrypeDbDeleteOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbDiffOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbDiffOptions? left, ModularPipelines.Grype.Options.GrypeDbDiffOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbDiffOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbDiffOptions? left, ModularPipelines.Grype.Options.GrypeDbDiffOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbImportOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbImportOptions? left, ModularPipelines.Grype.Options.GrypeDbImportOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbImportOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbImportOptions? left, ModularPipelines.Grype.Options.GrypeDbImportOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbListOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbListOptions? left, ModularPipelines.Grype.Options.GrypeDbListOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbListOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbListOptions? left, ModularPipelines.Grype.Options.GrypeDbListOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbOptions? left, ModularPipelines.Grype.Options.GrypeDbOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbOptions? left, ModularPipelines.Grype.Options.GrypeDbOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbProvidersOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? left, ModularPipelines.Grype.Options.GrypeDbProvidersOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbProvidersOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? left, ModularPipelines.Grype.Options.GrypeDbProvidersOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbSearchOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbSearchOptions? left, ModularPipelines.Grype.Options.GrypeDbSearchOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbSearchOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbSearchOptions? left, ModularPipelines.Grype.Options.GrypeDbSearchOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions? left, ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions? left, ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbStatusOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbStatusOptions? left, ModularPipelines.Grype.Options.GrypeDbStatusOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbStatusOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbStatusOptions? left, ModularPipelines.Grype.Options.GrypeDbStatusOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbUpdateOptions.operator !=(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? left, ModularPipelines.Grype.Options.GrypeDbUpdateOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeDbUpdateOptions.operator ==(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? left, ModularPipelines.Grype.Options.GrypeDbUpdateOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeExplainOptions.operator !=(ModularPipelines.Grype.Options.GrypeExplainOptions? left, ModularPipelines.Grype.Options.GrypeExplainOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeExplainOptions.operator ==(ModularPipelines.Grype.Options.GrypeExplainOptions? left, ModularPipelines.Grype.Options.GrypeExplainOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeOptions.operator !=(ModularPipelines.Grype.Options.GrypeOptions? left, ModularPipelines.Grype.Options.GrypeOptions? right) -> bool
+static ModularPipelines.Grype.Options.GrypeOptions.operator ==(ModularPipelines.Grype.Options.GrypeOptions? left, ModularPipelines.Grype.Options.GrypeOptions? right) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbCheckOptions.Equals(ModularPipelines.Grype.Options.GrypeDbCheckOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbDeleteOptions.Equals(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbDiffOptions.Equals(ModularPipelines.Grype.Options.GrypeDbDiffOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbImportOptions.Equals(ModularPipelines.Grype.Options.GrypeDbImportOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbListOptions.Equals(ModularPipelines.Grype.Options.GrypeDbListOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbOptions.Equals(ModularPipelines.Grype.Options.GrypeDbOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbProvidersOptions.Equals(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbSearchOptions.Equals(ModularPipelines.Grype.Options.GrypeDbSearchOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions.Equals(ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbStatusOptions.Equals(ModularPipelines.Grype.Options.GrypeDbStatusOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeDbUpdateOptions.Equals(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeExplainOptions.Equals(ModularPipelines.Grype.Options.GrypeExplainOptions? other) -> bool
+virtual ModularPipelines.Grype.Options.GrypeOptions.Equals(ModularPipelines.Grype.Options.GrypeOptions? other) -> bool
+virtual ModularPipelines.Grype.Services.GrypeDb.CheckAsync(ModularPipelines.Grype.Options.GrypeDbCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.DeleteAsync(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.DiffAsync(ModularPipelines.Grype.Options.GrypeDbDiffOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.ExecuteAsync(ModularPipelines.Grype.Options.GrypeDbOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.ImportAsync(ModularPipelines.Grype.Options.GrypeDbImportOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.ListAsync(ModularPipelines.Grype.Options.GrypeDbListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.ProvidersAsync(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.StatusAsync(ModularPipelines.Grype.Options.GrypeDbStatusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDb.UpdateAsync(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDbSearch.ExecuteAsync(ModularPipelines.Grype.Options.GrypeDbSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Grype.Services.GrypeDbSearch.VulnAsync(ModularPipelines.Grype.Options.GrypeDbSearchVulnOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
