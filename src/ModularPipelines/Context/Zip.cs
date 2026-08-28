@@ -13,7 +13,7 @@ internal class Zip(
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
-    public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
+    public File CreateFromDirectory(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
         outputPath = _workingDirectory.ResolvePath(outputPath);
         var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
@@ -74,7 +74,7 @@ internal class Zip(
         return new File(outputPath, _fileSystemProvider);
     }
 
-    public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles)
+    public Folder ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputFolderPath);

@@ -11,8 +11,7 @@ namespace ModularPipelines.Context.Domains.Implementations;
 internal class FilesContext(
     IFileSystemProvider fileSystemProvider,
     PipelineWorkingDirectory workingDirectory,
-    IZipContext zip,
-    IChecksumContext checksum) : IFilesContext
+    IZipContext zip) : IFilesContext
 {
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
@@ -85,7 +84,4 @@ internal class FilesContext(
 
     /// <inheritdoc />
     public IZipContext Zip { get; } = zip;
-
-    /// <inheritdoc />
-    public IChecksumContext Checksum { get; } = checksum;
 }

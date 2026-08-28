@@ -78,7 +78,6 @@ public class InterfaceVisibilityTests
             ("ModularPipelines.Context.Domains.Shell", "IBashContext"),
             ("ModularPipelines.Context.Domains.Shell", "IPowerShellContext"),
             ("ModularPipelines.Context.Domains.Files", "IZipContext"),
-            ("ModularPipelines.Context.Domains.Files", "IChecksumContext"),
             ("ModularPipelines.Context.Domains.Data", "IJsonContext"),
             ("ModularPipelines.Context.Domains.Data", "IXmlContext"),
             ("ModularPipelines.Context.Domains.Data", "IYamlContext"),
@@ -88,7 +87,7 @@ public class InterfaceVisibilityTests
             ("ModularPipelines.Context.Domains.Network", "IHttpContext"),
             ("ModularPipelines.Context.Domains.Network", "IDownloaderContext"),
             ("ModularPipelines.Context.Domains.Security", "ICertificatesContext"),
-            ("ModularPipelines.Context.Domains.Security", "IHasherContext"),
+            ("ModularPipelines.Context.Domains.Security", "IHashContext"),
         };
 
         foreach (var (ns, interfaceName) in expectedPublicInterfaces)

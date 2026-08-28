@@ -62,6 +62,5 @@ public class FilesContextTests
         new(
             Mock.Of<IFileSystemProvider>(),
             new PipelineWorkingDirectory(TestContext.OutputDirectory!),
-            Mock.Of<IZipContext>(),
-            Mock.Of<IChecksumContext>());
+            Mock.Of<IZipContext>());
 }

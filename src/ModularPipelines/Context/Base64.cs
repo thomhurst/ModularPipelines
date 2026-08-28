@@ -16,9 +16,5 @@ internal class Base64 : IBase64Context
         return Convert.ToBase64String(bytes);
     }
 
-    public string FromBase64String(string base64Input, Encoding encoding)
-    {
-        var bytes = Convert.FromBase64String(base64Input);
-        return encoding.GetString(bytes);
-    }
+    public byte[] FromBase64String(string base64Input) => Convert.FromBase64String(base64Input);
 }

@@ -15,6 +15,7 @@ public class PublicSurfaceLeakageTests
         var internalTypeNames = new[]
         {
             "ModularPipelines.Context.Domains.Implementations.InstallersContext",
+            "ModularPipelines.Context.HashContext",
             "ModularPipelines.Distributed.DistributedRole",
             "ModularPipelines.Engine.ILogoPrinter",
             "ModularPipelines.Enums.DependencyType",
@@ -61,6 +62,11 @@ public class PublicSurfaceLeakageTests
             "ModularPipelines.Context.Domains.Installers.IMacInstallerContext",
             "ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext",
             "ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext",
+            "ModularPipelines.Context.Checksum",
+            "ModularPipelines.Context.Hasher",
+            "ModularPipelines.Context.HashType",
+            "ModularPipelines.Context.Domains.Files.IChecksumContext",
+            "ModularPipelines.Context.Domains.Security.IHasherContext",
             "ModularPipelines.Enums.WaitResult",
             "ModularPipelines.OperatingSystemHelper",
             "ModularPipelines.Options.Linux.AptGet.AptGetOptions",

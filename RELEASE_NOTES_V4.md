@@ -27,6 +27,16 @@ response, status-code, duration, header, and body logging through
 The unused `PipelineCommandOptions.Execution` property was removed. Continue to pass
 execution behavior through `CommandExecutionOptions` on each command call.
 
+## Hashing, ZIP, and Base64 APIs
+
+Text and file hashing now share `context.Security.Hash` (`IHashContext`). Use
+`Md5File`, `Sha256File`, and the other `*File` methods for files. `HashType` is now
+`HashEncoding`; `context.Files.Checksum` and `IChecksumContext` have been removed.
+
+ZIP methods now follow `System.IO.Compression.ZipFile` naming:
+`CreateFromDirectory` and `ExtractToDirectory`. `IBase64Context.FromBase64String`
+now returns `byte[]`, matching `Convert.FromBase64String`.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

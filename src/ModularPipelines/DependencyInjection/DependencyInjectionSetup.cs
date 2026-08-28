@@ -344,18 +344,17 @@ internal static class DependencyInjectionSetup
 
     /// <summary>
     /// Registers stateless utility services:
-    /// encoding (Base64, Hex), hashing (Checksum, Hasher), and serialization (JSON, XML, YAML).
+    /// encoding (Base64, Hex), hashing, and serialization (JSON, XML, YAML).
     /// </summary>
     private static void RegisterUtilityServices(IServiceCollection services)
     {
         services
             .AddSingleton<IBase64Context, Base64>()
             .AddSingleton<IHexContext, Hex>()
-            .AddSingleton<IChecksumContext, Checksum>()
             .AddSingleton<IJsonContext, Json>()
             .AddSingleton<IXmlContext, Xml>()
             .AddSingleton<IYamlContext, Yaml>()
-            .AddSingleton<IHasherContext, Hasher>()
+            .AddSingleton<IHashContext, HashContext>()
             .AddSingleton<IToolResolver, ToolResolver>();
     }
 

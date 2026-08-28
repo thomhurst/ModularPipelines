@@ -13,7 +13,7 @@ public interface ISecurityContext
     ICertificatesContext Certificates { get; }
 
     /// <summary>
-    /// Cryptographic hashing (SHA256, SHA512, MD5, etc.).
+    /// Cryptographic hashing for text and files.
     /// </summary>
-    IHasherContext Hasher { get; }
+    IHashContext Hash { get; }
 }

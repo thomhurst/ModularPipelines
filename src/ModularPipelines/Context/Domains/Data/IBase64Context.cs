@@ -27,17 +27,9 @@ public interface IBase64Context
     string ToBase64String(byte[] bytes);
 
     /// <summary>
-    /// Converts a base64 encoded string to a decoded standard string.
+    /// Converts a base64 encoded string to bytes.
     /// </summary>
     /// <param name="base64Input">The base64 string to decode.</param>
-    /// <returns>The unencoded string.</returns>
-    string FromBase64String(string base64Input) => FromBase64String(base64Input, Encoding.UTF8);
-
-    /// <summary>
-    /// Converts a base64 encoded string to a decoded standard string.
-    /// </summary>
-    /// <param name="base64Input">The base64 string to decode.</param>
-    /// <param name="encoding">The string encoding.</param>
-    /// <returns>The unencoded string.</returns>
-    string FromBase64String(string base64Input, Encoding encoding);
+    /// <returns>The decoded bytes.</returns>
+    byte[] FromBase64String(string base64Input);
 }

@@ -11,16 +11,16 @@ internal class SecurityContext : ISecurityContext
     /// Initializes a new instance of the <see cref="SecurityContext"/> class.
     /// </summary>
     /// <param name="certificates">The certificates context for X.509 certificate operations.</param>
-    /// <param name="hasher">The hasher context for cryptographic hashing operations.</param>
-    public SecurityContext(ICertificatesContext certificates, IHasherContext hasher)
+    /// <param name="hash">The hash context for cryptographic hashing operations.</param>
+    public SecurityContext(ICertificatesContext certificates, IHashContext hash)
     {
         Certificates = certificates;
-        Hasher = hasher;
+        Hash = hash;
     }
 
     /// <inheritdoc />
     public ICertificatesContext Certificates { get; }
 
     /// <inheritdoc />
-    public IHasherContext Hasher { get; }
+    public IHashContext Hash { get; }
 }
