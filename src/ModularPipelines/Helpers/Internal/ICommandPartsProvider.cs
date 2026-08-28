@@ -5,7 +5,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// Command parts are determined from CliSubCommand or CliCommandAlias attributes,
 /// or from the CommandParts property on CommandLineToolOptions.
 /// </summary>
-public interface ICommandPartsProvider
+internal interface ICommandPartsProvider
 {
     /// <summary>
     /// Gets the raw command parts (subcommands) from an options object.

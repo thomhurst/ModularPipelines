@@ -1,9 +1,11 @@
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Helpers.Internal;
 
 /// <summary>
 /// Service that builds a string argument list from a command model and an options object instance.
 /// </summary>
-public interface ICommandArgumentBuilder
+internal interface ICommandArgumentBuilder
 {
     /// <summary>
     /// Builds the list of arguments based on the values in an options object.

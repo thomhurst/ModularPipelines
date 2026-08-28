@@ -7,6 +7,8 @@ using ModularPipelines.Models;
 using ModularPipelines.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests

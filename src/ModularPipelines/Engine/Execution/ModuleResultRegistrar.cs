@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Generated;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;

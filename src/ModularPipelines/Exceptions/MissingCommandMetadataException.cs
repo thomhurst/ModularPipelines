@@ -15,7 +15,7 @@ public sealed class MissingCommandMetadataException : InvalidOperationException
             "ModularPipelines.SourceGenerator is referenced and make the options type, " +
             "its containing types, and CLI-attributed properties accessible and non-generic. " +
             "Generators that emit entire types must register static accessors through " +
-            "ModularPipelines.Metadata.RuntimeMetadataRegistry from a module initializer.")
+            "ModularPipelines.Generated.RuntimeMetadataRegistry from a module initializer.")
     {
         OptionsType = optionsType;
     }

@@ -15,7 +15,7 @@ namespace ModularPipelines.SourceGenerator;
 public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
 {
     private const string RuntimeMetadataRegistryFullName =
-        "ModularPipelines.Metadata.RuntimeMetadataRegistry";
+        "ModularPipelines.Generated.RuntimeMetadataRegistry";
 
     [Flags]
     private enum MetadataCoverage

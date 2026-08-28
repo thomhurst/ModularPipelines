@@ -2,7 +2,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Metadata;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.VisualBasic.TestFixtures;
@@ -10,6 +9,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+
+using ModularPipelines.Generated;
 
 namespace ModularPipelines.UnitTests.Attributes;
 

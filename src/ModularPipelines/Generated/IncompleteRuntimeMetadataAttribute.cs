@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace ModularPipelines.Generated;
 
 /// <summary>
@@ -7,6 +9,7 @@ namespace ModularPipelines.Generated;
 /// Public so generated assembly-level markers can share one type across project boundaries.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class IncompleteRuntimeMetadataAttribute(string metadataName) : Attribute
 {
     /// <summary>

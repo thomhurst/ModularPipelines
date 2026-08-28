@@ -10,6 +10,8 @@ using ModularPipelines.Options;
 using ModularPipelines.VisualBasic.TestFixtures;
 using Moq;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.UnitTests.Attributes;
 
 internal class GeneratedCharacterSecretOptions

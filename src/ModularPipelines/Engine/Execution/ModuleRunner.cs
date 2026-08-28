@@ -13,6 +13,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Generated;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;

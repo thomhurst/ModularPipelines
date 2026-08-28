@@ -1215,11 +1215,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var requiresGeneratedMetadataLiteral = requiresGeneratedMetadata ? "true" : "false";
         AppendAssemblyRegistration(
             sb,
-            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata",
+            "global::ModularPipelines.Generated.GeneratedCommandMetadata",
             requiresGeneratedMetadataLiteral);
         AppendAssemblyRegistration(
             sb,
-            "global::ModularPipelines.Engine.GeneratedSecretMetadata",
+            "global::ModularPipelines.Generated.GeneratedSecretMetadata",
             requiresGeneratedMetadataLiteral);
         AppendStringRegistration(
             sb,
@@ -1254,11 +1254,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var requiresGeneratedMetadataLiteral = requiresGeneratedMetadata ? "true" : "false";
         AppendAssemblyRegistration(
             sb,
-            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata",
+            "global::ModularPipelines.Generated.GeneratedCommandMetadata",
             requiresGeneratedMetadataLiteral);
         AppendAssemblyRegistration(
             sb,
-            "global::ModularPipelines.Engine.GeneratedSecretMetadata",
+            "global::ModularPipelines.Generated.GeneratedSecretMetadata",
             requiresGeneratedMetadataLiteral);
         AppendStringRegistration(
             sb,
@@ -1308,7 +1308,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             "RegisterCoveredTypeNames",
             uniqueItems.Where(item => item.IsCommandOptions),
-            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata");
+            "global::ModularPipelines.Generated.GeneratedCommandMetadata");
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
@@ -1383,7 +1383,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         StringBuilder sb,
         string methodName,
         IEnumerable<TypeMetadata> items,
-        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
+        string registryType = "global::ModularPipelines.Generated.GeneratedSecretMetadata")
     {
         AppendStringRegistration(
             sb,
@@ -1400,7 +1400,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         foreach (var assemblyGroup in items.GroupBy(static item => item.AssemblyIdentity, StringComparer.Ordinal))
         {
             sb.AppendLine(
-                $"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{methodName}(");
+                $"        global::ModularPipelines.Generated.GeneratedSecretMetadata.{methodName}(");
             sb.AppendLine("            assembly,");
             sb.AppendLine($"            {Literal(assemblyGroup.Key)},");
             sb.AppendLine("            new string[]");
@@ -1418,7 +1418,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         StringBuilder sb,
         string methodName,
         IEnumerable<string> values,
-        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
+        string registryType = "global::ModularPipelines.Generated.GeneratedSecretMetadata")
     {
         var valueList = values.ToList();
         if (valueList.Count == 0)
@@ -1487,14 +1487,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
     {
         var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
-        sb.AppendLine($"        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.{registrationMethod}(");
+        sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedCommandMetadata.{registrationMethod}(");
         if (item.IsExternal)
         {
             sb.AppendLine("            assembly,");
         }
 
         sb.AppendLine($"            typeof({item.TypeName}),");
-        sb.AppendLine("            new global::ModularPipelines.Helpers.Internal.PropertyCommandLinePart[]");
+        sb.AppendLine("            new global::ModularPipelines.Generated.PropertyCommandLinePart[]");
         sb.AppendLine("            {");
 
         foreach (var property in item.CommandMetadata.Properties)
@@ -1503,7 +1503,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             switch (property.Kind)
             {
                 case PropertyKind.Argument:
-                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.ArgumentPart(");
+                    sb.AppendLine("                new global::ModularPipelines.Generated.ArgumentPart(");
                     sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
                     sb.AppendLine("                    {");
@@ -1515,7 +1515,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }},");
                     break;
                 case PropertyKind.Flag:
-                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.FlagPart(");
+                    sb.AppendLine("                new global::ModularPipelines.Generated.FlagPart(");
                     sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
                     sb.AppendLine("                    {");
@@ -1525,7 +1525,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
                     break;
                 case PropertyKind.Option:
-                    sb.AppendLine("                new global::ModularPipelines.Helpers.Internal.OptionPart(");
+                    sb.AppendLine("                new global::ModularPipelines.Generated.OptionPart(");
                     sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliOptionAttribute({Literal(property.PrimaryValue!)})");
                     sb.AppendLine("                    {");
@@ -1555,21 +1555,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             if (item.UseTypeForEmptySecretCoverage)
             {
-                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}));");
+                sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}));");
             }
 
             return;
         }
 
         var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
-        sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{registrationMethod}(");
+        sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedSecretMetadata.{registrationMethod}(");
         if (item.IsExternal)
         {
             sb.AppendLine("            assembly,");
         }
 
         sb.AppendLine($"            typeof({item.TypeName}),");
-        sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");
+        sb.AppendLine("            new global::ModularPipelines.Generated.SecretPropertyAccessor[]");
         sb.AppendLine("            {");
 
         foreach (var property in item.SecretMetadata.Properties)

@@ -578,7 +578,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
         foreach (var module in modules)
         {
-            builder.AppendLine("        global::ModularPipelines.Engine.Attributes.GeneratedModuleEventMetadata.Register(");
+            builder.AppendLine("        global::ModularPipelines.Generated.GeneratedModuleEventMetadata.Register(");
             builder.AppendLine($"            typeof({module.TypeName}),");
             if (module.Attributes.IsEmpty)
             {

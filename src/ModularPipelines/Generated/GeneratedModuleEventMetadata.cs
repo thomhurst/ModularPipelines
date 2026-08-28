@@ -1,11 +1,12 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 
-namespace ModularPipelines.Engine.Attributes;
+namespace ModularPipelines.Generated;
 
 /// <summary>
 /// Stores module attribute factories emitted by ModularPipelines.SourceGenerator.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class GeneratedModuleEventMetadata
 {
     private static readonly ConcurrentDictionary<Type, AttributeMetadata> Factories = new();

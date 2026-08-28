@@ -719,15 +719,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
-        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedModuleMetadata.Register(");
+        sb.AppendLine("        global::ModularPipelines.Generated.GeneratedModuleMetadata.Register(");
         sb.AppendLine($"            typeof({registrationTypeName}).Assembly,");
-        sb.AppendLine("            new global::ModularPipelines.Engine.GeneratedModuleRegistration[]");
+        sb.AppendLine("            new global::ModularPipelines.Generated.GeneratedModuleRegistration[]");
         sb.AppendLine("            {");
 
         foreach (var module in emittedModules)
         {
-            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(module.TypeName, module.ResultTypeName)}>(");
-            sb.AppendLine("                    new global::ModularPipelines.Engine.ModuleDependencyMetadata[]");
+            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(module.TypeName, module.ResultTypeName)}>(");
+            sb.AppendLine("                    new global::ModularPipelines.Generated.ModuleDependencyMetadata[]");
             sb.AppendLine("                    {");
 
             foreach (var dependency in module.Dependencies)
@@ -740,8 +740,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         foreach (var dependency in closedGenericDependencies)
         {
-            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(dependency.TypeName, dependency.ResultTypeName)}>(");
-            sb.AppendLine("                    global::System.Array.Empty<global::ModularPipelines.Engine.ModuleDependencyMetadata>(),");
+            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(dependency.TypeName, dependency.ResultTypeName)}>(");
+            sb.AppendLine("                    global::System.Array.Empty<global::ModularPipelines.Generated.ModuleDependencyMetadata>(),");
             sb.AppendLine("                    dependenciesComplete: false),");
         }
 

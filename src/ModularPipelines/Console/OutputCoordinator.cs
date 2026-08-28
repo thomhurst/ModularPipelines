@@ -3,6 +3,8 @@ using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Console;
 
 /// <summary>

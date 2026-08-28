@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Exceptions;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>

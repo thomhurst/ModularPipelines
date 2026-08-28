@@ -9,6 +9,8 @@ using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
+using ModularPipelines.Generated;
+
 namespace ModularPipelines.UnitTests.Context;
 
 public class CommandLineBuilderTests : TestBase
