@@ -12,7 +12,6 @@ abstract ModularPipelines.Modules.Module.ExecuteAsync(ModularPipelines.Context.I
 abstract ModularPipelines.Modules.Module<T>.ExecuteAsync(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<T>!
 abstract ModularPipelines.Modules.NonGenericModuleAdapter.ExecuteWithoutResultAsync(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 abstract ModularPipelines.Modules.SyncModule<T>.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> T
-abstract ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
 const ModularPipelines.Metadata.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 3 -> int
 const ModularPipelines.Models.PipelineRunReport.CurrentSchemaVersion = 4 -> int
 const ModularPipelines.Tracing.ModuleActivityTracing.CommandDurationTag = "modular_pipelines.command.duration_ms" -> string!
@@ -349,7 +348,7 @@ ModularPipelines.Configuration.ModuleConfiguration.Category.get -> string?
 ModularPipelines.Configuration.ModuleConfiguration.Category.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionType.get -> ModularPipelines.Enums.ExecutionType?
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionType.init -> void
-ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.Task<bool>!>?
+ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.ValueTask<bool>>?
 ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.ModuleConfiguration() -> void
 ModularPipelines.Configuration.ModuleConfiguration.ParallelConstraintKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
@@ -379,14 +378,16 @@ ModularPipelines.Configuration.ModuleConfigurationBuilder.WithCategory(string! c
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.Enums.ExecutionType executionType) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailures() -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, bool>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
-ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.Task<bool>!>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Exception!, System.Threading.Tasks.ValueTask<bool>>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithNotInParallel() -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithNotInParallel(params string![]! constraintKeys) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithPriority(ModularPipelines.Enums.ModulePriority priority) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithRetry(int count, System.TimeSpan? baseDelay = null, System.Func<System.Exception!, bool>? shouldRetry = null) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithShield(Kevlar.Shield! shield) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithShield(System.Func<ModularPipelines.Context.IModuleContext!, Kevlar.Shield!>! factory) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, bool>! condition, string! reason) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, ModularPipelines.Models.SkipDecision!>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! condition, string! reason) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.Context.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.SkipDecision!>>! condition) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhenAll(params System.Func<ModularPipelines.Context.IModuleContext!, ModularPipelines.Models.SkipDecision!>![]! conditions) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfigurationBuilder.WithSkipWhenAll(params System.Func<ModularPipelines.Context.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.SkipDecision!>>![]! conditions) -> ModularPipelines.Configuration.ModuleConfigurationBuilder!
@@ -495,8 +496,10 @@ ModularPipelines.Context.Domains.IServicesContext.Options.get -> ModularPipeline
 ModularPipelines.Context.Domains.IServicesContext.TryGet<T>() -> T?
 ModularPipelines.Context.Domains.IShellContext
 ModularPipelines.Context.Domains.IShellContext.Bash.get -> ModularPipelines.Context.Domains.Shell.IBashContext!
-ModularPipelines.Context.Domains.IShellContext.Command.get -> ModularPipelines.Context.Domains.Shell.ICommandContext!
 ModularPipelines.Context.Domains.IShellContext.PowerShell.get -> ModularPipelines.Context.Domains.Shell.IPowerShellContext!
+ModularPipelines.Context.Domains.IShellContext.RunAsync(ModularPipelines.Options.CommandLineToolOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.Domains.IShellContext.RunAsync(string! tool, System.Collections.Generic.IReadOnlyList<string!>! arguments, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.Domains.IShellContext.RunAsync(string! tool, System.Collections.Generic.IReadOnlyList<string!>! arguments, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.Network.IDownloaderContext
 ModularPipelines.Context.Domains.Network.IDownloaderContext.DownloadFileAsync(ModularPipelines.Options.DownloadFileOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.File!>!
 ModularPipelines.Context.Domains.Network.IDownloaderContext.DownloadResponseAsync(ModularPipelines.Options.DownloadOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage!>!
@@ -1721,6 +1724,7 @@ ModularPipelines.Options.CommandLineToolOptions.ArgumentsContainToolOptions.get 
 ModularPipelines.Options.CommandLineToolOptions.ArgumentsContainToolOptions.init -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions() -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions(ModularPipelines.Options.CommandLineToolOptions! original) -> void
+ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions(string! tool) -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandParts.get -> System.Collections.Generic.IReadOnlyList<string!>?
 ModularPipelines.Options.CommandLineToolOptions.CommandParts.init -> void
 ModularPipelines.Options.CommandLineToolOptions.RunSettings.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -1783,9 +1787,6 @@ ModularPipelines.Options.DownloadOptions.RequestConfigurator.init -> void
 ModularPipelines.Options.ExecutionMode
 ModularPipelines.Options.ExecutionMode.StopOnFirstException = 0 -> ModularPipelines.Options.ExecutionMode
 ModularPipelines.Options.ExecutionMode.WaitForAllModules = 1 -> ModularPipelines.Options.ExecutionMode
-ModularPipelines.Options.GenericCommandLineToolOptions
-ModularPipelines.Options.GenericCommandLineToolOptions.GenericCommandLineToolOptions(ModularPipelines.Options.GenericCommandLineToolOptions! original) -> void
-ModularPipelines.Options.GenericCommandLineToolOptions.GenericCommandLineToolOptions(string! tool) -> void
 ModularPipelines.Options.HttpLoggingOptions
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions() -> void
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions(ModularPipelines.Options.HttpLoggingOptions! original) -> void
@@ -2398,12 +2399,6 @@ override ModularPipelines.Options.DownloadFileOptions.ToString() -> string!
 override ModularPipelines.Options.DownloadOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.DownloadOptions.GetHashCode() -> int
 override ModularPipelines.Options.DownloadOptions.ToString() -> string!
-override ModularPipelines.Options.GenericCommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.GenericCommandLineToolOptions!
-override ModularPipelines.Options.GenericCommandLineToolOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.GenericCommandLineToolOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.GenericCommandLineToolOptions.GetHashCode() -> int
-override ModularPipelines.Options.GenericCommandLineToolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.GenericCommandLineToolOptions.ToString() -> string!
 override ModularPipelines.Options.HttpLoggingOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.HttpLoggingOptions.GetHashCode() -> int
 override ModularPipelines.Options.HttpLoggingOptions.ToString() -> string!
@@ -2584,7 +2579,6 @@ override sealed ModularPipelines.Options.BashCommandOptions.Equals(ModularPipeli
 override sealed ModularPipelines.Options.BashFileOptions.Equals(ModularPipelines.Options.BashOptions? other) -> bool
 override sealed ModularPipelines.Options.BashOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.DownloadFileOptions.Equals(ModularPipelines.Options.DownloadOptions? other) -> bool
-override sealed ModularPipelines.Options.GenericCommandLineToolOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
 override sealed ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
 override sealed ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
@@ -2670,9 +2664,9 @@ static ModularPipelines.Engine.RunHistoryStoreExtensions.GetLatestAsync(this Mod
 static ModularPipelines.Engine.SecretPropertyAccessor.operator !=(ModularPipelines.Engine.SecretPropertyAccessor? left, ModularPipelines.Engine.SecretPropertyAccessor? right) -> bool
 static ModularPipelines.Engine.SecretPropertyAccessor.operator ==(ModularPipelines.Engine.SecretPropertyAccessor? left, ModularPipelines.Engine.SecretPropertyAccessor? right) -> bool
 static ModularPipelines.Exceptions.CircularDependencyException.CreateWithCyclePath(System.Collections.Generic.IReadOnlyList<System.Type!>! cyclePath) -> ModularPipelines.Exceptions.CircularDependencyException!
-static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, string! singleArgument) -> ModularPipelines.Options.GenericCommandLineToolOptions!
-static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, string![]! arguments) -> ModularPipelines.Options.GenericCommandLineToolOptions!
-static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, System.Collections.Generic.IEnumerable<string!>! arguments) -> ModularPipelines.Options.GenericCommandLineToolOptions!
+static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, string! singleArgument) -> ModularPipelines.Options.CommandLineToolOptions!
+static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, string![]! arguments) -> ModularPipelines.Options.CommandLineToolOptions!
+static ModularPipelines.Extensions.CommandExtensions.ToCommandLineToolOptions(this ModularPipelines.Options.CommandExecutionOptions! options, string! tool, System.Collections.Generic.IEnumerable<string!>! arguments) -> ModularPipelines.Options.CommandLineToolOptions!
 static ModularPipelines.Extensions.CommandExtensions.WithArguments(this ModularPipelines.Options.CommandLineToolOptions! options, params string![]! arguments) -> ModularPipelines.Options.CommandLineToolOptions!
 static ModularPipelines.Extensions.CommandExtensions.WithArguments(this ModularPipelines.Options.CommandLineToolOptions! options, string! singleArgument) -> ModularPipelines.Options.CommandLineToolOptions!
 static ModularPipelines.Extensions.CommandExtensions.WithArguments(this ModularPipelines.Options.CommandLineToolOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> ModularPipelines.Options.CommandLineToolOptions!
@@ -2802,6 +2796,7 @@ static ModularPipelines.Models.SkipDecision.Of(bool shouldSkip, string? reason) 
 static ModularPipelines.Models.SkipDecision.operator !=(ModularPipelines.Models.SkipDecision? left, ModularPipelines.Models.SkipDecision? right) -> bool
 static ModularPipelines.Models.SkipDecision.operator ==(ModularPipelines.Models.SkipDecision? left, ModularPipelines.Models.SkipDecision? right) -> bool
 static ModularPipelines.Models.SkipDecision.Skip(string? reason) -> ModularPipelines.Models.SkipDecision!
+static ModularPipelines.Models.SkipDecision.When(bool shouldSkip, string? reason) -> ModularPipelines.Models.SkipDecision!
 static ModularPipelines.Models.SubModuleEstimation.operator !=(ModularPipelines.Models.SubModuleEstimation? left, ModularPipelines.Models.SubModuleEstimation? right) -> bool
 static ModularPipelines.Models.SubModuleEstimation.operator ==(ModularPipelines.Models.SubModuleEstimation? left, ModularPipelines.Models.SubModuleEstimation? right) -> bool
 static ModularPipelines.Modules.ModuleDependencyValidator.Validate(System.Collections.Generic.IEnumerable<ModularPipelines.Modules.IModule!>! registeredModules) -> void
@@ -2832,8 +2827,6 @@ static ModularPipelines.Options.DownloadFileOptions.operator !=(ModularPipelines
 static ModularPipelines.Options.DownloadFileOptions.operator ==(ModularPipelines.Options.DownloadFileOptions? left, ModularPipelines.Options.DownloadFileOptions? right) -> bool
 static ModularPipelines.Options.DownloadOptions.operator !=(ModularPipelines.Options.DownloadOptions? left, ModularPipelines.Options.DownloadOptions? right) -> bool
 static ModularPipelines.Options.DownloadOptions.operator ==(ModularPipelines.Options.DownloadOptions? left, ModularPipelines.Options.DownloadOptions? right) -> bool
-static ModularPipelines.Options.GenericCommandLineToolOptions.operator !=(ModularPipelines.Options.GenericCommandLineToolOptions? left, ModularPipelines.Options.GenericCommandLineToolOptions? right) -> bool
-static ModularPipelines.Options.GenericCommandLineToolOptions.operator ==(ModularPipelines.Options.GenericCommandLineToolOptions? left, ModularPipelines.Options.GenericCommandLineToolOptions? right) -> bool
 static ModularPipelines.Options.HttpLoggingOptions.Default.get -> ModularPipelines.Options.HttpLoggingOptions!
 static ModularPipelines.Options.HttpLoggingOptions.DefaultSensitiveHeaders.get -> System.Collections.Generic.IReadOnlyList<string!>!
 static ModularPipelines.Options.HttpLoggingOptions.Full.get -> ModularPipelines.Options.HttpLoggingOptions!
@@ -3078,6 +3071,7 @@ virtual ModularPipelines.Options.CommandExecutionOptions.PrintMembers(System.Tex
 virtual ModularPipelines.Options.CommandLineToolOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.CommandLineToolOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 virtual ModularPipelines.Options.CommandLineToolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
 virtual ModularPipelines.Options.CommandLoggingOptions.<Clone>$() -> ModularPipelines.Options.CommandLoggingOptions!
 virtual ModularPipelines.Options.CommandLoggingOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.CommandLoggingOptions.Equals(ModularPipelines.Options.CommandLoggingOptions? other) -> bool
@@ -3091,7 +3085,6 @@ virtual ModularPipelines.Options.DownloadOptions.<Clone>$() -> ModularPipelines.
 virtual ModularPipelines.Options.DownloadOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.DownloadOptions.Equals(ModularPipelines.Options.DownloadOptions? other) -> bool
 virtual ModularPipelines.Options.DownloadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.Options.GenericCommandLineToolOptions.Equals(ModularPipelines.Options.GenericCommandLineToolOptions? other) -> bool
 virtual ModularPipelines.Options.HttpLoggingOptions.<Clone>$() -> ModularPipelines.Options.HttpLoggingOptions!
 virtual ModularPipelines.Options.HttpLoggingOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.HttpLoggingOptions.Equals(ModularPipelines.Options.HttpLoggingOptions? other) -> bool
