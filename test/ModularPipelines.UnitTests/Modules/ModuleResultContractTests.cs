@@ -185,6 +185,64 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Generic_Result_Reads_Legacy_Metadata_Keys()
+    {
+        var startTime = new DateTimeOffset(2025, 1, 2, 3, 4, 5, TimeSpan.Zero);
+        ModuleResult<int> result = new ModuleResult<int>.Success(42)
+        {
+            Name = "LegacyModule",
+            TypeName = "Legacy.Module",
+            Duration = TimeSpan.FromSeconds(6),
+            StartTime = startTime,
+            EndTime = startTime.AddSeconds(6),
+            Status = ModuleStatus.Succeeded,
+        };
+        var legacyJson = RenameMetadataProperties(JsonSerializer.Serialize(result));
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(legacyJson);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(deserialized!.Name).IsEqualTo(result.Name);
+            await Assert.That(deserialized.TypeName).IsEqualTo(result.TypeName);
+            await Assert.That(deserialized.Duration).IsEqualTo(result.Duration);
+            await Assert.That(deserialized.StartTime).IsEqualTo(result.StartTime);
+            await Assert.That(deserialized.EndTime).IsEqualTo(result.EndTime);
+            await Assert.That(deserialized.Status).IsEqualTo(result.Status);
+            await Assert.That(deserialized.Value).IsEqualTo(42);
+        }
+    }
+
+    [Test]
+    public async Task NonGeneric_Result_Reads_Legacy_Metadata_Keys()
+    {
+        var startTime = new DateTimeOffset(2025, 1, 2, 3, 4, 5, TimeSpan.Zero);
+        ModuleResult result = new ModuleResult.Failure(new InvalidOperationException("Failed"))
+        {
+            Name = "LegacyModule",
+            TypeName = "Legacy.Module",
+            Duration = TimeSpan.FromSeconds(6),
+            StartTime = startTime,
+            EndTime = startTime.AddSeconds(6),
+            Status = ModuleStatus.Failed,
+        };
+        var legacyJson = RenameMetadataProperties(JsonSerializer.Serialize(result));
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult>(legacyJson);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(deserialized!.Name).IsEqualTo(result.Name);
+            await Assert.That(deserialized.TypeName).IsEqualTo(result.TypeName);
+            await Assert.That(deserialized.Duration).IsEqualTo(result.Duration);
+            await Assert.That(deserialized.StartTime).IsEqualTo(result.StartTime);
+            await Assert.That(deserialized.EndTime).IsEqualTo(result.EndTime);
+            await Assert.That(deserialized.Status).IsEqualTo(result.Status);
+            await Assert.That(deserialized.ExceptionOrDefault?.Message).IsEqualTo("Failed");
+        }
+    }
+
+    [Test]
     public async Task Concrete_Generic_Failure_Serializes_Through_Json()
     {
         var result = (ModuleResult<int>.Failure) CreateFailure();
@@ -425,6 +483,17 @@ public class ModuleResultContractTests
             EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
+    }
+
+    private static string RenameMetadataProperties(string json)
+    {
+        return json
+            .Replace("\"Name\":", "\"ModuleName\":", StringComparison.Ordinal)
+            .Replace("\"TypeName\":", "\"ModuleTypeName\":", StringComparison.Ordinal)
+            .Replace("\"Duration\":", "\"ModuleDuration\":", StringComparison.Ordinal)
+            .Replace("\"StartTime\":", "\"ModuleStart\":", StringComparison.Ordinal)
+            .Replace("\"EndTime\":", "\"ModuleEnd\":", StringComparison.Ordinal)
+            .Replace("\"Status\":", "\"ModuleStatus\":", StringComparison.Ordinal);
     }
 
     private static ModuleResult<int> CreateFailure(Exception? exception = null)

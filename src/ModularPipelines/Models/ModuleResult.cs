@@ -688,18 +688,23 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                         discriminator = reader.GetString();
                         break;
                     case "Name":
+                    case "ModuleName":
                         name = reader.GetString();
                         break;
                     case "TypeName":
+                    case "ModuleTypeName":
                         typeName = reader.GetString();
                         break;
                     case "Duration":
+                    case "ModuleDuration":
                         duration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
                         break;
                     case "StartTime":
+                    case "ModuleStart":
                         startTime = reader.GetDateTimeOffset();
                         break;
                     case "EndTime":
+                    case "ModuleEnd":
                         endTime = reader.GetDateTimeOffset();
                         break;
                     case "Status":
@@ -857,18 +862,23 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                         valueTypeName = reader.GetString();
                         break;
                     case "Name":
+                    case "ModuleName":
                         name = reader.GetString();
                         break;
                     case "TypeName":
+                    case "ModuleTypeName":
                         typeName = reader.GetString();
                         break;
                     case "Duration":
+                    case "ModuleDuration":
                         duration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
                         break;
                     case "StartTime":
+                    case "ModuleStart":
                         startTime = reader.GetDateTimeOffset();
                         break;
                     case "EndTime":
+                    case "ModuleEnd":
                         endTime = reader.GetDateTimeOffset();
                         break;
                     case "Status":
