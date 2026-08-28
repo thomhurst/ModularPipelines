@@ -7,7 +7,6 @@ using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
 
@@ -31,17 +30,8 @@ public class CreateReleaseModule : Module<Release>
     }
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(_ =>
-        {
-            if (!_publishSettings.Value.ShouldPublish)
-            {
-                return SkipDecision.Skip("The 'ShouldPublish' flag is false");
-            }
-
-            return string.IsNullOrEmpty(_githubSettings.Value.AdminToken)
-                ? SkipDecision.Skip("The GitHub admin token is unavailable")
-                : SkipDecision.DoNotSkip;
-        })
+        .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false")
+        .WithSkipWhen(_ => string.IsNullOrEmpty(_githubSettings.Value.AdminToken), "The GitHub admin token is unavailable")
         .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
         .Build();
 

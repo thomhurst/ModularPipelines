@@ -68,9 +68,9 @@ public class SkipDecisionTests
     [Test]
     [Arguments(true)]
     [Arguments(false)]
-    public async Task Of(bool shouldSkip)
+    public async Task When(bool shouldSkip)
     {
-        var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
+        var skipDecision = SkipDecision.When(shouldSkip, "Blah!");
 
         using (Assert.Multiple())
         {
