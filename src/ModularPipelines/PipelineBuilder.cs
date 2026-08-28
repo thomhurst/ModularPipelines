@@ -364,15 +364,15 @@ public sealed class PipelineBuilder
                 }
             }
 
+            // Apply plugin services after user services
+            PluginIntegration.ApplyPluginServices(services);
+
             if (defaultLoggingProvidersRemoved && !HasDefaultLoggingProvider(services))
             {
                 services.Replace(ServiceDescriptor.Singleton<
                     ISpectreConsoleLoggerControl,
                     Console.NoopSpectreConsoleLoggerControl>());
             }
-
-            // Apply plugin services after user services
-            PluginIntegration.ApplyPluginServices(services);
 
             // Activate distributed mode if configured (replaces executor based on role)
             ActivateDistributedModeIfConfigured(services);

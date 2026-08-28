@@ -1,5 +1,9 @@
+using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Modules;
 using ModularPipelines.Plugins;
 
 namespace ModularPipelines.UnitTests.Plugins;
@@ -107,6 +111,23 @@ public class PluginIntegrationTests
         await Assert.That(testService).IsTypeOf<TestService>();
     }
 
+    [Test]
+    public async Task PluginSpectreLoggingRestoresLoggerControlAfterClearingDefaults()
+    {
+        using var _ = PluginRegistry.BeginIsolatedScope();
+        PluginRegistry.Register(new SpectreLoggingPlugin());
+        var builder = Pipeline.CreateBuilder()
+            .AddModule<PluginLoggingModule>();
+        builder.Logging.ClearProviders();
+
+        await using var pipeline = await builder.BuildAsync();
+        var loggerControl = pipeline.Services
+            .GetRequiredService<ISpectreConsoleLoggerControl>();
+
+        await Assert.That(loggerControl is ModularPipelines.Console.NoopSpectreConsoleLoggerControl)
+            .IsFalse();
+    }
+
     private class TrackingPlugin : IModularPipelinesPlugin
     {
         public TrackingPlugin(string name)
@@ -205,5 +226,26 @@ public class PluginIntegrationTests
         public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
         {
         }
+    }
+
+    private sealed class SpectreLoggingPlugin : IModularPipelinesPlugin
+    {
+        public string Name => "SpectreLogging";
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddLogging(builder => builder.AddSpectreConsole());
+        }
+
+        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
+        {
+        }
+    }
+
+    private sealed class PluginLoggingModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 }
