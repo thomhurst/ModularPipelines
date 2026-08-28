@@ -7,7 +7,7 @@ namespace ModularPipelines.Http;
 /// <summary>
 /// Provides functionality for logging HTTP requests and responses.
 /// </summary>
-public interface IHttpLogger
+internal interface IHttpLogger
 {
     /// <summary>
     /// Prints the HTTP request.

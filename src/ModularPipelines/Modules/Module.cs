@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
@@ -149,6 +150,7 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     /// </remarks>
     /// <param name="serviceProvider">The pipeline service provider.</param>
     /// <returns>An isolated module instance used only for planning.</returns>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected virtual Module<T> CreatePlanningCopy(IServiceProvider serviceProvider)
     {
         return (Module<T>) serviceProvider

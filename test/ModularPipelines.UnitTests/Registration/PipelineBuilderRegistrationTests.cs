@@ -305,12 +305,12 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task Builder_CanConfigureOptions()
+    public async Task Builder_ServicesCanConfigureOptions()
     {
         var configuredValue = false;
         var builder = TestPipelineBuilder.Create()
-            .AddModule<TestModuleA>()
-            .Configure<TestOptions>(_ => configuredValue = true);
+            .AddModule<TestModuleA>();
+        builder.Services.Configure<TestOptions>(_ => configuredValue = true);
 
         using var provider = builder.Services.BuildServiceProvider();
         _ = provider.GetRequiredService<IOptions<TestOptions>>().Value;

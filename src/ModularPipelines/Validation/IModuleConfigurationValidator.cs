@@ -5,7 +5,7 @@ namespace ModularPipelines.Validation;
 /// <summary>
 /// Interface for validating module configuration.
 /// </summary>
-public interface IModuleConfigurationValidator : IPipelineValidator
+internal interface IModuleConfigurationValidator : IPipelineValidator
 {
     /// <summary>
     /// Validates the configuration of registered modules.

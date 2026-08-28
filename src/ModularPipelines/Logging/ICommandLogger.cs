@@ -15,7 +15,7 @@ namespace ModularPipelines.Logging;
 /// <see cref="ModularPipelines.Engine.ISecretObfuscator"/> before being written to the logger.
 /// </para>
 /// </remarks>
-public interface ICommandLogger
+internal interface ICommandLogger
 {
     /// <summary>
     /// Logs a command immediately before execution starts.

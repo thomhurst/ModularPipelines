@@ -103,13 +103,6 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         }
     }
 
-    public string? GetMatrixTarget()
-    {
-        // Matrix target is stored as a service in the module's DI scope.
-        // If not present, this module is not an expanded matrix instance.
-        return _executionContext.MatrixTarget;
-    }
-
     public Task<T> RunSubModuleAsync<T>(
         string name,
         Func<CancellationToken, Task<T>> body,

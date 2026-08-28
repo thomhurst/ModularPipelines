@@ -1,6 +1,8 @@
 using ModularPipelines.Context;
 using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.GitHub.UnitTests.Engine;
 
@@ -13,9 +15,9 @@ public class PipelineWriterTests : TestBase
         protected override bool Result => true;
     }
 
-    public class GitHubYamlWriter : GitHubPipelineFileWriter
+    private sealed class GitHubYamlWriter : GitHubPipelineFileWriter
     {
-        public override async Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(
+        internal override async Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(
             IPipelineContext pipelineHookContext)
         {
             await Task.Yield();
@@ -86,7 +88,8 @@ public class PipelineWriterTests : TestBase
     {
         await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
-            .AddPipelineFileWriter<GitHubYamlWriter>()
+            .ConfigureServices(services =>
+                services.AddSingleton<IBuildSystemPipelineFileWriter>(new GitHubYamlWriter()))
             .RunAsync();
         // Normalize line endings for cross-platform consistency
         await Assert.That((await RandomFilePath.ReadAsync()).Trim().ReplaceLineEndings("\n")).

@@ -10,7 +10,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task ApplyPluginServices_CallsConfigureServicesOnAllPlugins()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var plugin1 = new TrackingPlugin("Plugin1");
         var plugin2 = new TrackingPlugin("Plugin2");
         PluginRegistry.Register(plugin1);
@@ -26,7 +26,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task ApplyPluginServices_ThrowsPluginInitializationException_WhenPluginFails()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var failingPlugin = new FailingPlugin("FailingPlugin", failOnServices: true);
         PluginRegistry.Register(failingPlugin);
 
@@ -41,7 +41,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task ApplyPluginConfiguration_CallsConfigurePipelineOnAllPlugins()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var plugin1 = new TrackingPlugin("Plugin1");
         var plugin2 = new TrackingPlugin("Plugin2");
         PluginRegistry.Register(plugin1);
@@ -57,7 +57,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task ApplyPluginConfiguration_ThrowsPluginInitializationException_WhenPluginFails()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var failingPlugin = new FailingPlugin("FailingPlugin", failOnPipeline: true);
         PluginRegistry.Register(failingPlugin);
 
@@ -72,7 +72,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task ApplyPluginServices_AppliesInPriorityOrder()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var callOrder = new List<string>();
 
         var lowPriority = new OrderTrackingPlugin("Low", 100, callOrder);
@@ -93,7 +93,7 @@ public class PluginIntegrationTests
     [Test]
     public async Task Plugins_CanRegisterServices()
     {
-        using var _ = PluginTestHelper.IsolatedRegistry();
+        using var _ = PluginRegistry.BeginIsolatedScope();
         var plugin = new ServiceRegisteringPlugin();
         PluginRegistry.Register(plugin);
 

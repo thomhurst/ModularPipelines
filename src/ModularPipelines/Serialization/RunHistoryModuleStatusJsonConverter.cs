@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
 
-namespace ModularPipelines.JsonUtils;
+namespace ModularPipelines.Serialization;
 
 internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<ModuleStatus>
 {

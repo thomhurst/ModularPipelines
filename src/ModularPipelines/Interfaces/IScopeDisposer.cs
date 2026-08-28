@@ -5,7 +5,7 @@ namespace ModularPipelines.Interfaces;
 /// <summary>
 /// Manages the disposal of dependency injection scopes.
 /// </summary>
-public interface IScopeDisposer : IDisposable
+internal interface IScopeDisposer : IDisposable
 {
     /// <summary>
     /// Gets all service scopes that need to be disposed.

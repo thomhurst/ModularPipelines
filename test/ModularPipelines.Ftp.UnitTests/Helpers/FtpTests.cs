@@ -4,7 +4,6 @@ using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
-using Disposer = ModularPipelines.Helpers.Disposer;
 
 namespace ModularPipelines.Ftp.UnitTests.Helpers;
 
@@ -44,7 +43,7 @@ public class FtpTests : TestBase
         var client = await ftp.GetFtpClientAsync(CreateOptions(ftpServer.Port));
         await Assert.That(client.IsDisposed).IsFalse();
 
-        await Disposer.DisposeObjectAsync(ftp);
+        await ((IAsyncDisposable) ftp).DisposeAsync();
         await Assert.That(client.IsDisposed).IsTrue();
     }
 

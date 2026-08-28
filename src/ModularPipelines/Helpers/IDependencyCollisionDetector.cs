@@ -1,6 +1,6 @@
 namespace ModularPipelines.Helpers;
 
-public interface IDependencyCollisionDetector
+internal interface IDependencyCollisionDetector
 {
     void CheckCollisions();
 }

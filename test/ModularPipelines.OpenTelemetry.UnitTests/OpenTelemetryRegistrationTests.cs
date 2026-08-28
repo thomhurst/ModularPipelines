@@ -30,8 +30,9 @@ public class OpenTelemetryRegistrationTests
 
         await using var pipeline = await builder.BuildAsync();
 
-        using var activity = ModuleActivityTracing.PipelineSource.StartActivity("test");
-        using var meter = new Meter(ModuleActivityTracing.MeterName);
+        using var activitySource = new ActivitySource(PipelineTelemetry.PipelineSourceName);
+        using var activity = activitySource.StartActivity("test");
+        using var meter = new Meter(PipelineTelemetry.MeterName);
         var counter = meter.CreateCounter<long>("test");
 
         await Assert.That(activity).IsNotNull();

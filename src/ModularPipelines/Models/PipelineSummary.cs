@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
-using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Models;
@@ -14,7 +13,7 @@ public record PipelineSummary
     /// This property is excluded from JSON serialization as interface types cannot be deserialized.
     /// </remarks>
     [JsonIgnore]
-    public IReadOnlyList<IModule> Modules { get; private init; }
+    internal IReadOnlyList<IModule> Modules { get; private init; }
 
     /// <summary>
     /// Gets the completed module results.
@@ -67,7 +66,6 @@ public record PipelineSummary
     [JsonIgnore]
     internal ModuleStatus? StatusOverride { get; init; }
 
-    [JsonConstructor]
     internal PipelineSummary(
         IReadOnlyList<IModule> modules,
         IReadOnlyList<IModuleResult> results,
@@ -84,6 +82,18 @@ public record PipelineSummary
         End = end;
         Metrics = metrics;
         ModuleTimelines = moduleTimelines;
+    }
+
+    [JsonConstructor]
+    internal PipelineSummary(
+        IReadOnlyList<IModuleResult> results,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        PipelineMetrics? metrics = null,
+        IReadOnlyList<ModuleTimeline>? moduleTimelines = null)
+        : this([], results, totalDuration, start, end, metrics, moduleTimelines)
+    {
     }
 
     /// <summary>
@@ -116,7 +126,7 @@ public record PipelineSummary
     /// </summary>
     /// <typeparam name="T">The module type to get.</typeparam>
     /// <returns>{T}.</returns>
-    public T GetModule<T>()
+    internal T GetModule<T>()
         where T : IModule
-        => Modules.GetModule<T>();
+        => Modules.OfType<T>().Single();
 }

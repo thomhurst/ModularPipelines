@@ -38,6 +38,8 @@ public class DependencyApiSurfaceTests
             await Assert.That(Enum.GetNames<DependencyType>()).DoesNotContain("Conditional");
             await Assert.That(typeof(DeclaredDependency).GetMethod("Lazy")).IsNull();
             await Assert.That(typeof(DeclaredDependency).GetMethod("Conditional")).IsNull();
+            await Assert.That(typeof(DependencyType).IsPublic).IsFalse();
+            await Assert.That(typeof(DeclaredDependency).IsPublic).IsFalse();
         }
     }
 }

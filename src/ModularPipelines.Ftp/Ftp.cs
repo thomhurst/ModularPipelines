@@ -1,6 +1,5 @@
 using FluentFTP;
 using ModularPipelines.Ftp.Options;
-using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Ftp;
 
@@ -25,7 +24,7 @@ internal class Ftp : IAsyncDisposable, IFtp
     {
         foreach (var asyncFtpClient in _clients)
         {
-            await Disposer.DisposeObjectAsync(asyncFtpClient).ConfigureAwait(false);
+            await asyncFtpClient.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

@@ -3,10 +3,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using File = ModularPipelines.FileSystem.File;
 
-namespace ModularPipelines.JsonUtils;
+namespace ModularPipelines.Serialization;
 
 [ExcludeFromCodeCoverage]
-public class FilePathJsonConverter : JsonConverter<File>
+internal class FilePathJsonConverter : JsonConverter<File>
 {
     public override File? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

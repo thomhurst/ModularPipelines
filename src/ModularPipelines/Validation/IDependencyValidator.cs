@@ -3,7 +3,7 @@ namespace ModularPipelines.Validation;
 /// <summary>
 /// Interface for validating module dependencies.
 /// </summary>
-public interface IDependencyValidator : IPipelineValidator
+internal interface IDependencyValidator : IPipelineValidator
 {
     /// <summary>
     /// Validates module dependencies for the specified module types.

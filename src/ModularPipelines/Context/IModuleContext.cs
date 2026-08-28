@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -180,17 +179,6 @@ public interface IModuleContext : IPipelineContext
     /// <seealso cref="Attributes.DependsOnAttribute{T}"/>
     TModule? GetModuleIfRegistered<TModule>()
         where TModule : class, IModule;
-
-    /// <summary>
-    /// Gets the matrix target value reserved for future distributed matrix execution.
-    /// </summary>
-    /// <remarks>
-    /// Matrix module expansion is not yet connected to the distributed executor.
-    /// This method currently returns <c>null</c>.
-    /// </remarks>
-    /// <returns>The matrix target string, or <c>null</c>.</returns>
-    [Experimental("MPDIST001")]
-    string? GetMatrixTarget();
 
     /// <summary>
     /// Tracks a sub-operation within the current module for progress display.

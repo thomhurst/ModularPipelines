@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -49,7 +48,10 @@ public class GitCommandRunner : IGitCommandRunner, IRawGitCommandRunner
     {
         commandEnvironmentOptions ??= new CommandExecutionOptions();
 
-        var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray());
+        var commandLineToolOptions = new CommandLineToolOptions("git")
+        {
+            Arguments = commands.OfType<string>().ToArray(),
+        };
 
         var executionOptions = commandEnvironmentOptions with
         {

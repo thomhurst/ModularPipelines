@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-public class FileInstaller : IFileInstaller
+internal class FileInstaller : IFileInstaller
 {
     private readonly ICommandContext _command;
     private readonly IDownloaderContext _downloader;
