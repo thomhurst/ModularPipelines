@@ -102,7 +102,18 @@ try {
         throw "Oversized generated file was not rejected. Error: $largeFileError"
     }
 
-    Write-Output 'OK exact staging, archive rejection, staged deletion, and size rejection passed.'
+    & $stagingScript `
+        -RepositoryRoot $testRoot `
+        -ManifestPath $manifest `
+        -AllowedOversizedPath 'docs/generated.md' `
+        -MaximumFileSizeBytes 1024
+    $stagedPaths = @(& git -C $testRoot diff --cached --name-only)
+    if (($stagedPaths.Count -ne 1) -or
+        ($stagedPaths[0] -ne 'docs/generated.md')) {
+        throw "Explicitly allowed oversized path was not staged: $($stagedPaths -join ', ')"
+    }
+
+    Write-Output 'OK exact staging, archive rejection, staged deletion, and size controls passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {

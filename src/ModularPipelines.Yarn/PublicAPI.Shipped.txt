@@ -1,0 +1,722 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Yarn_560864c0dca048f4ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Yarn_560864c0dca048f4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Yarn_560864c0dca048f4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Yarn.get -> ModularPipelines.Yarn.Services.IYarn!
+ModularPipelines.Yarn.Extensions.YarnExtensions
+ModularPipelines.Yarn.Options.YarnAddOptions
+ModularPipelines.Yarn.Options.YarnAddOptions.YarnAddOptions() -> void
+ModularPipelines.Yarn.Options.YarnAddOptions.YarnAddOptions(ModularPipelines.Yarn.Options.YarnAddOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnBinOptions
+ModularPipelines.Yarn.Options.YarnBinOptions.YarnBinOptions() -> void
+ModularPipelines.Yarn.Options.YarnBinOptions.YarnBinOptions(ModularPipelines.Yarn.Options.YarnBinOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnCacheCleanOptions
+ModularPipelines.Yarn.Options.YarnCacheCleanOptions.YarnCacheCleanOptions() -> void
+ModularPipelines.Yarn.Options.YarnCacheCleanOptions.YarnCacheCleanOptions(ModularPipelines.Yarn.Options.YarnCacheCleanOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConfigGetOptions
+ModularPipelines.Yarn.Options.YarnConfigGetOptions.YarnConfigGetOptions() -> void
+ModularPipelines.Yarn.Options.YarnConfigGetOptions.YarnConfigGetOptions(ModularPipelines.Yarn.Options.YarnConfigGetOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConfigOptions
+ModularPipelines.Yarn.Options.YarnConfigOptions.YarnConfigOptions() -> void
+ModularPipelines.Yarn.Options.YarnConfigOptions.YarnConfigOptions(ModularPipelines.Yarn.Options.YarnConfigOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConfigSetOptions
+ModularPipelines.Yarn.Options.YarnConfigSetOptions.YarnConfigSetOptions() -> void
+ModularPipelines.Yarn.Options.YarnConfigSetOptions.YarnConfigSetOptions(ModularPipelines.Yarn.Options.YarnConfigSetOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConfigUnsetOptions
+ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.YarnConfigUnsetOptions() -> void
+ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.YarnConfigUnsetOptions(ModularPipelines.Yarn.Options.YarnConfigUnsetOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConstraintsOptions
+ModularPipelines.Yarn.Options.YarnConstraintsOptions.YarnConstraintsOptions() -> void
+ModularPipelines.Yarn.Options.YarnConstraintsOptions.YarnConstraintsOptions(ModularPipelines.Yarn.Options.YarnConstraintsOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions
+ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.YarnConstraintsQueryOptions() -> void
+ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.YarnConstraintsQueryOptions(ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions
+ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.YarnConstraintsSourceOptions() -> void
+ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.YarnConstraintsSourceOptions(ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnDedupeOptions
+ModularPipelines.Yarn.Options.YarnDedupeOptions.YarnDedupeOptions() -> void
+ModularPipelines.Yarn.Options.YarnDedupeOptions.YarnDedupeOptions(ModularPipelines.Yarn.Options.YarnDedupeOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnExecOptions
+ModularPipelines.Yarn.Options.YarnExecOptions.YarnExecOptions() -> void
+ModularPipelines.Yarn.Options.YarnExecOptions.YarnExecOptions(ModularPipelines.Yarn.Options.YarnExecOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnExplainOptions
+ModularPipelines.Yarn.Options.YarnExplainOptions.YarnExplainOptions() -> void
+ModularPipelines.Yarn.Options.YarnExplainOptions.YarnExplainOptions(ModularPipelines.Yarn.Options.YarnExplainOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnInfoOptions
+ModularPipelines.Yarn.Options.YarnInfoOptions.YarnInfoOptions() -> void
+ModularPipelines.Yarn.Options.YarnInfoOptions.YarnInfoOptions(ModularPipelines.Yarn.Options.YarnInfoOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnInitOptions
+ModularPipelines.Yarn.Options.YarnInitOptions.YarnInitOptions() -> void
+ModularPipelines.Yarn.Options.YarnInitOptions.YarnInitOptions(ModularPipelines.Yarn.Options.YarnInitOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnInstallOptions
+ModularPipelines.Yarn.Options.YarnInstallOptions.YarnInstallOptions() -> void
+ModularPipelines.Yarn.Options.YarnInstallOptions.YarnInstallOptions(ModularPipelines.Yarn.Options.YarnInstallOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnLinkOptions
+ModularPipelines.Yarn.Options.YarnLinkOptions.YarnLinkOptions() -> void
+ModularPipelines.Yarn.Options.YarnLinkOptions.YarnLinkOptions(ModularPipelines.Yarn.Options.YarnLinkOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmAuditOptions
+ModularPipelines.Yarn.Options.YarnNpmAuditOptions.YarnNpmAuditOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmAuditOptions.YarnNpmAuditOptions(ModularPipelines.Yarn.Options.YarnNpmAuditOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmInfoOptions
+ModularPipelines.Yarn.Options.YarnNpmInfoOptions.YarnNpmInfoOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmInfoOptions.YarnNpmInfoOptions(ModularPipelines.Yarn.Options.YarnNpmInfoOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmLoginOptions
+ModularPipelines.Yarn.Options.YarnNpmLoginOptions.YarnNpmLoginOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmLoginOptions.YarnNpmLoginOptions(ModularPipelines.Yarn.Options.YarnNpmLoginOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmLogoutOptions
+ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.YarnNpmLogoutOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.YarnNpmLogoutOptions(ModularPipelines.Yarn.Options.YarnNpmLogoutOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmPublishOptions
+ModularPipelines.Yarn.Options.YarnNpmPublishOptions.YarnNpmPublishOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmPublishOptions.YarnNpmPublishOptions(ModularPipelines.Yarn.Options.YarnNpmPublishOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions
+ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.YarnNpmStageApproveOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.YarnNpmStageApproveOptions(ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmStageListOptions
+ModularPipelines.Yarn.Options.YarnNpmStageListOptions.YarnNpmStageListOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmStageListOptions.YarnNpmStageListOptions(ModularPipelines.Yarn.Options.YarnNpmStageListOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions
+ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.YarnNpmStageRejectOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.YarnNpmStageRejectOptions(ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmTagListOptions
+ModularPipelines.Yarn.Options.YarnNpmTagListOptions.YarnNpmTagListOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmTagListOptions.YarnNpmTagListOptions(ModularPipelines.Yarn.Options.YarnNpmTagListOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions
+ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.YarnNpmWhoamiOptions() -> void
+ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.YarnNpmWhoamiOptions(ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnOptions
+ModularPipelines.Yarn.Options.YarnOptions.YarnOptions() -> void
+ModularPipelines.Yarn.Options.YarnOptions.YarnOptions(ModularPipelines.Yarn.Options.YarnOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPackOptions
+ModularPipelines.Yarn.Options.YarnPackOptions.YarnPackOptions() -> void
+ModularPipelines.Yarn.Options.YarnPackOptions.YarnPackOptions(ModularPipelines.Yarn.Options.YarnPackOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPatchCommitOptions
+ModularPipelines.Yarn.Options.YarnPatchCommitOptions.YarnPatchCommitOptions() -> void
+ModularPipelines.Yarn.Options.YarnPatchCommitOptions.YarnPatchCommitOptions(ModularPipelines.Yarn.Options.YarnPatchCommitOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPatchOptions
+ModularPipelines.Yarn.Options.YarnPatchOptions.YarnPatchOptions() -> void
+ModularPipelines.Yarn.Options.YarnPatchOptions.YarnPatchOptions(ModularPipelines.Yarn.Options.YarnPatchOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPluginCheckOptions
+ModularPipelines.Yarn.Options.YarnPluginCheckOptions.YarnPluginCheckOptions() -> void
+ModularPipelines.Yarn.Options.YarnPluginCheckOptions.YarnPluginCheckOptions(ModularPipelines.Yarn.Options.YarnPluginCheckOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions
+ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.YarnPluginImportFromSourcesOptions() -> void
+ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.YarnPluginImportFromSourcesOptions(ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPluginImportOptions
+ModularPipelines.Yarn.Options.YarnPluginImportOptions.YarnPluginImportOptions() -> void
+ModularPipelines.Yarn.Options.YarnPluginImportOptions.YarnPluginImportOptions(ModularPipelines.Yarn.Options.YarnPluginImportOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPluginListOptions
+ModularPipelines.Yarn.Options.YarnPluginListOptions.YarnPluginListOptions() -> void
+ModularPipelines.Yarn.Options.YarnPluginListOptions.YarnPluginListOptions(ModularPipelines.Yarn.Options.YarnPluginListOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions
+ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.YarnPluginRuntimeOptions() -> void
+ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.YarnPluginRuntimeOptions(ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnRemoveOptions
+ModularPipelines.Yarn.Options.YarnRemoveOptions.YarnRemoveOptions() -> void
+ModularPipelines.Yarn.Options.YarnRemoveOptions.YarnRemoveOptions(ModularPipelines.Yarn.Options.YarnRemoveOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnRunOptions
+ModularPipelines.Yarn.Options.YarnRunOptions.YarnRunOptions() -> void
+ModularPipelines.Yarn.Options.YarnRunOptions.YarnRunOptions(ModularPipelines.Yarn.Options.YarnRunOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions
+ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.YarnSetVersionFromSourcesOptions() -> void
+ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.YarnSetVersionFromSourcesOptions(ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnSetVersionOptions
+ModularPipelines.Yarn.Options.YarnSetVersionOptions.YarnSetVersionOptions() -> void
+ModularPipelines.Yarn.Options.YarnSetVersionOptions.YarnSetVersionOptions(ModularPipelines.Yarn.Options.YarnSetVersionOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnStageOptions
+ModularPipelines.Yarn.Options.YarnStageOptions.YarnStageOptions() -> void
+ModularPipelines.Yarn.Options.YarnStageOptions.YarnStageOptions(ModularPipelines.Yarn.Options.YarnStageOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnUnlinkOptions
+ModularPipelines.Yarn.Options.YarnUnlinkOptions.YarnUnlinkOptions() -> void
+ModularPipelines.Yarn.Options.YarnUnlinkOptions.YarnUnlinkOptions(ModularPipelines.Yarn.Options.YarnUnlinkOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnUnplugOptions
+ModularPipelines.Yarn.Options.YarnUnplugOptions.YarnUnplugOptions() -> void
+ModularPipelines.Yarn.Options.YarnUnplugOptions.YarnUnplugOptions(ModularPipelines.Yarn.Options.YarnUnplugOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions
+ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.YarnUpgradeInteractiveOptions() -> void
+ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.YarnUpgradeInteractiveOptions(ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnUpOptions
+ModularPipelines.Yarn.Options.YarnUpOptions.YarnUpOptions() -> void
+ModularPipelines.Yarn.Options.YarnUpOptions.YarnUpOptions(ModularPipelines.Yarn.Options.YarnUpOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnVersionApplyOptions
+ModularPipelines.Yarn.Options.YarnVersionApplyOptions.YarnVersionApplyOptions() -> void
+ModularPipelines.Yarn.Options.YarnVersionApplyOptions.YarnVersionApplyOptions(ModularPipelines.Yarn.Options.YarnVersionApplyOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnVersionCheckOptions
+ModularPipelines.Yarn.Options.YarnVersionCheckOptions.YarnVersionCheckOptions() -> void
+ModularPipelines.Yarn.Options.YarnVersionCheckOptions.YarnVersionCheckOptions(ModularPipelines.Yarn.Options.YarnVersionCheckOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnWhyOptions
+ModularPipelines.Yarn.Options.YarnWhyOptions.YarnWhyOptions() -> void
+ModularPipelines.Yarn.Options.YarnWhyOptions.YarnWhyOptions(ModularPipelines.Yarn.Options.YarnWhyOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions
+ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.YarnWorkspacesFocusOptions() -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.YarnWorkspacesFocusOptions(ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions
+ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.YarnWorkspacesForeachOptions() -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.YarnWorkspacesForeachOptions(ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions! original) -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesListOptions
+ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.YarnWorkspacesListOptions() -> void
+ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.YarnWorkspacesListOptions(ModularPipelines.Yarn.Options.YarnWorkspacesListOptions! original) -> void
+ModularPipelines.Yarn.Services.IYarn
+ModularPipelines.Yarn.Services.IYarn.AddAsync(ModularPipelines.Yarn.Options.YarnAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.BinAsync(ModularPipelines.Yarn.Options.YarnBinOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.CacheCleanAsync(ModularPipelines.Yarn.Options.YarnCacheCleanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConfigAsync(ModularPipelines.Yarn.Options.YarnConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConfigGetAsync(ModularPipelines.Yarn.Options.YarnConfigGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConfigSetAsync(ModularPipelines.Yarn.Options.YarnConfigSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConfigUnsetAsync(ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConstraintsAsync(ModularPipelines.Yarn.Options.YarnConstraintsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConstraintsQueryAsync(ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ConstraintsSourceAsync(ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.DedupeAsync(ModularPipelines.Yarn.Options.YarnDedupeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ExecAsync(ModularPipelines.Yarn.Options.YarnExecOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.ExplainAsync(ModularPipelines.Yarn.Options.YarnExplainOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.InfoAsync(ModularPipelines.Yarn.Options.YarnInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.InitAsync(ModularPipelines.Yarn.Options.YarnInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.InstallAsync(ModularPipelines.Yarn.Options.YarnInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.LinkAsync(ModularPipelines.Yarn.Options.YarnLinkOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmAuditAsync(ModularPipelines.Yarn.Options.YarnNpmAuditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmInfoAsync(ModularPipelines.Yarn.Options.YarnNpmInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmLoginAsync(ModularPipelines.Yarn.Options.YarnNpmLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmLogoutAsync(ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmPublishAsync(ModularPipelines.Yarn.Options.YarnNpmPublishOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmStageApproveAsync(ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmStageListAsync(ModularPipelines.Yarn.Options.YarnNpmStageListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmStageRejectAsync(ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmTagListAsync(ModularPipelines.Yarn.Options.YarnNpmTagListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.NpmWhoamiAsync(ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PackAsync(ModularPipelines.Yarn.Options.YarnPackOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PatchAsync(ModularPipelines.Yarn.Options.YarnPatchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PatchCommitAsync(ModularPipelines.Yarn.Options.YarnPatchCommitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PluginCheckAsync(ModularPipelines.Yarn.Options.YarnPluginCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PluginImportAsync(ModularPipelines.Yarn.Options.YarnPluginImportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PluginImportFromSourcesAsync(ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PluginListAsync(ModularPipelines.Yarn.Options.YarnPluginListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.PluginRuntimeAsync(ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.RemoveAsync(ModularPipelines.Yarn.Options.YarnRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.RunAsync(ModularPipelines.Yarn.Options.YarnRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.SetVersionAsync(ModularPipelines.Yarn.Options.YarnSetVersionOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.SetVersionFromSourcesAsync(ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.StageAsync(ModularPipelines.Yarn.Options.YarnStageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.UnlinkAsync(ModularPipelines.Yarn.Options.YarnUnlinkOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.UnplugAsync(ModularPipelines.Yarn.Options.YarnUnplugOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.UpAsync(ModularPipelines.Yarn.Options.YarnUpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.UpgradeInteractiveAsync(ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.VersionApplyAsync(ModularPipelines.Yarn.Options.YarnVersionApplyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.VersionCheckAsync(ModularPipelines.Yarn.Options.YarnVersionCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.WhyAsync(ModularPipelines.Yarn.Options.YarnWhyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.WorkspacesFocusAsync(ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.WorkspacesForeachAsync(ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yarn.Services.IYarn.WorkspacesListAsync(ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Yarn.Options.YarnOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnOptions!
+override ModularPipelines.Yarn.Options.YarnAddOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnAddOptions!
+override ModularPipelines.Yarn.Options.YarnAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnAddOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnAddOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnBinOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnBinOptions!
+override ModularPipelines.Yarn.Options.YarnBinOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnBinOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnBinOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnBinOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnBinOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnCacheCleanOptions!
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnCacheCleanOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConfigGetOptions!
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigGetOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConfigOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConfigOptions!
+override ModularPipelines.Yarn.Options.YarnConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConfigSetOptions!
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigSetOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConfigUnsetOptions!
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConstraintsOptions!
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions!
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions!
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnDedupeOptions!
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnDedupeOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnExecOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnExecOptions!
+override ModularPipelines.Yarn.Options.YarnExecOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnExecOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnExecOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnExecOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnExecOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnExplainOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnExplainOptions!
+override ModularPipelines.Yarn.Options.YarnExplainOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnExplainOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnExplainOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnExplainOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnExplainOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnInfoOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnInfoOptions!
+override ModularPipelines.Yarn.Options.YarnInfoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnInfoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnInfoOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnInfoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnInfoOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnInitOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnInitOptions!
+override ModularPipelines.Yarn.Options.YarnInitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnInitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnInitOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnInitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnInitOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnInstallOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnInstallOptions!
+override ModularPipelines.Yarn.Options.YarnInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnInstallOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnInstallOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnLinkOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnLinkOptions!
+override ModularPipelines.Yarn.Options.YarnLinkOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnLinkOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnLinkOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnLinkOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnLinkOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmAuditOptions!
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmAuditOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmInfoOptions!
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmInfoOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmLoginOptions!
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmLoginOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmLogoutOptions!
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmPublishOptions!
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmPublishOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions!
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmStageListOptions!
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageListOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions!
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmTagListOptions!
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmTagListOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions!
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPackOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPackOptions!
+override ModularPipelines.Yarn.Options.YarnPackOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPackOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPackOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPackOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPackOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPatchCommitOptions!
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPatchCommitOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPatchOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPatchOptions!
+override ModularPipelines.Yarn.Options.YarnPatchOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPatchOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPatchOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPatchOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPatchOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPluginCheckOptions!
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginCheckOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions!
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPluginImportOptions!
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginImportOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPluginListOptions!
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginListOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions!
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnRemoveOptions!
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnRemoveOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnRunOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnRunOptions!
+override ModularPipelines.Yarn.Options.YarnRunOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnRunOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnRunOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnRunOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnRunOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions!
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnSetVersionOptions!
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnSetVersionOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnStageOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnStageOptions!
+override ModularPipelines.Yarn.Options.YarnStageOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnStageOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnStageOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnStageOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnStageOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnUnlinkOptions!
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnUnlinkOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnUnplugOptions!
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnUnplugOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions!
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnUpOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnUpOptions!
+override ModularPipelines.Yarn.Options.YarnUpOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnUpOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnUpOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnUpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnUpOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnVersionApplyOptions!
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnVersionApplyOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnVersionCheckOptions!
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnVersionCheckOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnWhyOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnWhyOptions!
+override ModularPipelines.Yarn.Options.YarnWhyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnWhyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnWhyOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnWhyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnWhyOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions!
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions!
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.ToString() -> string!
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.<Clone>$() -> ModularPipelines.Yarn.Options.YarnWorkspacesListOptions!
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.GetHashCode() -> int
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.ToString() -> string!
+override sealed ModularPipelines.Yarn.Options.YarnAddOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnBinOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnCacheCleanOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConfigGetOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConfigOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConfigSetOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConstraintsOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnDedupeOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnExecOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnExplainOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnInfoOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnInitOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnInstallOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnLinkOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmAuditOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmInfoOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmLoginOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmPublishOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmStageListOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmTagListOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPackOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPatchCommitOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPatchOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPluginCheckOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPluginImportOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPluginListOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnRemoveOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnRunOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnSetVersionOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnStageOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnUnlinkOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnUnplugOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnUpOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnVersionApplyOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnVersionCheckOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnWhyOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+override sealed ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Yarn_560864c0dca048f4ToolsExtensions.get_Yarn(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Yarn.Services.IYarn!
+static ModularPipelines.Yarn.Extensions.YarnExtensions.RegisterYarnContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Yarn.Extensions.YarnExtensions.Yarn(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Yarn.Services.IYarn!
+static ModularPipelines.Yarn.Options.YarnAddOptions.operator !=(ModularPipelines.Yarn.Options.YarnAddOptions? left, ModularPipelines.Yarn.Options.YarnAddOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnAddOptions.operator ==(ModularPipelines.Yarn.Options.YarnAddOptions? left, ModularPipelines.Yarn.Options.YarnAddOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnBinOptions.operator !=(ModularPipelines.Yarn.Options.YarnBinOptions? left, ModularPipelines.Yarn.Options.YarnBinOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnBinOptions.operator ==(ModularPipelines.Yarn.Options.YarnBinOptions? left, ModularPipelines.Yarn.Options.YarnBinOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnCacheCleanOptions.operator !=(ModularPipelines.Yarn.Options.YarnCacheCleanOptions? left, ModularPipelines.Yarn.Options.YarnCacheCleanOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnCacheCleanOptions.operator ==(ModularPipelines.Yarn.Options.YarnCacheCleanOptions? left, ModularPipelines.Yarn.Options.YarnCacheCleanOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigGetOptions.operator !=(ModularPipelines.Yarn.Options.YarnConfigGetOptions? left, ModularPipelines.Yarn.Options.YarnConfigGetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigGetOptions.operator ==(ModularPipelines.Yarn.Options.YarnConfigGetOptions? left, ModularPipelines.Yarn.Options.YarnConfigGetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigOptions.operator !=(ModularPipelines.Yarn.Options.YarnConfigOptions? left, ModularPipelines.Yarn.Options.YarnConfigOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigOptions.operator ==(ModularPipelines.Yarn.Options.YarnConfigOptions? left, ModularPipelines.Yarn.Options.YarnConfigOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigSetOptions.operator !=(ModularPipelines.Yarn.Options.YarnConfigSetOptions? left, ModularPipelines.Yarn.Options.YarnConfigSetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigSetOptions.operator ==(ModularPipelines.Yarn.Options.YarnConfigSetOptions? left, ModularPipelines.Yarn.Options.YarnConfigSetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.operator !=(ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? left, ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.operator ==(ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? left, ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsOptions.operator !=(ModularPipelines.Yarn.Options.YarnConstraintsOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsOptions.operator ==(ModularPipelines.Yarn.Options.YarnConstraintsOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.operator !=(ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.operator ==(ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.operator !=(ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.operator ==(ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? left, ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnDedupeOptions.operator !=(ModularPipelines.Yarn.Options.YarnDedupeOptions? left, ModularPipelines.Yarn.Options.YarnDedupeOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnDedupeOptions.operator ==(ModularPipelines.Yarn.Options.YarnDedupeOptions? left, ModularPipelines.Yarn.Options.YarnDedupeOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnExecOptions.operator !=(ModularPipelines.Yarn.Options.YarnExecOptions? left, ModularPipelines.Yarn.Options.YarnExecOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnExecOptions.operator ==(ModularPipelines.Yarn.Options.YarnExecOptions? left, ModularPipelines.Yarn.Options.YarnExecOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnExplainOptions.operator !=(ModularPipelines.Yarn.Options.YarnExplainOptions? left, ModularPipelines.Yarn.Options.YarnExplainOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnExplainOptions.operator ==(ModularPipelines.Yarn.Options.YarnExplainOptions? left, ModularPipelines.Yarn.Options.YarnExplainOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInfoOptions.operator !=(ModularPipelines.Yarn.Options.YarnInfoOptions? left, ModularPipelines.Yarn.Options.YarnInfoOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInfoOptions.operator ==(ModularPipelines.Yarn.Options.YarnInfoOptions? left, ModularPipelines.Yarn.Options.YarnInfoOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInitOptions.operator !=(ModularPipelines.Yarn.Options.YarnInitOptions? left, ModularPipelines.Yarn.Options.YarnInitOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInitOptions.operator ==(ModularPipelines.Yarn.Options.YarnInitOptions? left, ModularPipelines.Yarn.Options.YarnInitOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInstallOptions.operator !=(ModularPipelines.Yarn.Options.YarnInstallOptions? left, ModularPipelines.Yarn.Options.YarnInstallOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnInstallOptions.operator ==(ModularPipelines.Yarn.Options.YarnInstallOptions? left, ModularPipelines.Yarn.Options.YarnInstallOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnLinkOptions.operator !=(ModularPipelines.Yarn.Options.YarnLinkOptions? left, ModularPipelines.Yarn.Options.YarnLinkOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnLinkOptions.operator ==(ModularPipelines.Yarn.Options.YarnLinkOptions? left, ModularPipelines.Yarn.Options.YarnLinkOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmAuditOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmAuditOptions? left, ModularPipelines.Yarn.Options.YarnNpmAuditOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmAuditOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmAuditOptions? left, ModularPipelines.Yarn.Options.YarnNpmAuditOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmInfoOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmInfoOptions? left, ModularPipelines.Yarn.Options.YarnNpmInfoOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmInfoOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmInfoOptions? left, ModularPipelines.Yarn.Options.YarnNpmInfoOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmLoginOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmLoginOptions? left, ModularPipelines.Yarn.Options.YarnNpmLoginOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmLoginOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmLoginOptions? left, ModularPipelines.Yarn.Options.YarnNpmLoginOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? left, ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? left, ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmPublishOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmPublishOptions? left, ModularPipelines.Yarn.Options.YarnNpmPublishOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmPublishOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmPublishOptions? left, ModularPipelines.Yarn.Options.YarnNpmPublishOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageListOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmStageListOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageListOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmStageListOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? left, ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmTagListOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmTagListOptions? left, ModularPipelines.Yarn.Options.YarnNpmTagListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmTagListOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmTagListOptions? left, ModularPipelines.Yarn.Options.YarnNpmTagListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.operator !=(ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? left, ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.operator ==(ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? left, ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnOptions.operator !=(ModularPipelines.Yarn.Options.YarnOptions? left, ModularPipelines.Yarn.Options.YarnOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnOptions.operator ==(ModularPipelines.Yarn.Options.YarnOptions? left, ModularPipelines.Yarn.Options.YarnOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPackOptions.operator !=(ModularPipelines.Yarn.Options.YarnPackOptions? left, ModularPipelines.Yarn.Options.YarnPackOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPackOptions.operator ==(ModularPipelines.Yarn.Options.YarnPackOptions? left, ModularPipelines.Yarn.Options.YarnPackOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPatchCommitOptions.operator !=(ModularPipelines.Yarn.Options.YarnPatchCommitOptions? left, ModularPipelines.Yarn.Options.YarnPatchCommitOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPatchCommitOptions.operator ==(ModularPipelines.Yarn.Options.YarnPatchCommitOptions? left, ModularPipelines.Yarn.Options.YarnPatchCommitOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPatchOptions.operator !=(ModularPipelines.Yarn.Options.YarnPatchOptions? left, ModularPipelines.Yarn.Options.YarnPatchOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPatchOptions.operator ==(ModularPipelines.Yarn.Options.YarnPatchOptions? left, ModularPipelines.Yarn.Options.YarnPatchOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginCheckOptions.operator !=(ModularPipelines.Yarn.Options.YarnPluginCheckOptions? left, ModularPipelines.Yarn.Options.YarnPluginCheckOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginCheckOptions.operator ==(ModularPipelines.Yarn.Options.YarnPluginCheckOptions? left, ModularPipelines.Yarn.Options.YarnPluginCheckOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.operator !=(ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? left, ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.operator ==(ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? left, ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginImportOptions.operator !=(ModularPipelines.Yarn.Options.YarnPluginImportOptions? left, ModularPipelines.Yarn.Options.YarnPluginImportOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginImportOptions.operator ==(ModularPipelines.Yarn.Options.YarnPluginImportOptions? left, ModularPipelines.Yarn.Options.YarnPluginImportOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginListOptions.operator !=(ModularPipelines.Yarn.Options.YarnPluginListOptions? left, ModularPipelines.Yarn.Options.YarnPluginListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginListOptions.operator ==(ModularPipelines.Yarn.Options.YarnPluginListOptions? left, ModularPipelines.Yarn.Options.YarnPluginListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.operator !=(ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? left, ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.operator ==(ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? left, ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnRemoveOptions.operator !=(ModularPipelines.Yarn.Options.YarnRemoveOptions? left, ModularPipelines.Yarn.Options.YarnRemoveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnRemoveOptions.operator ==(ModularPipelines.Yarn.Options.YarnRemoveOptions? left, ModularPipelines.Yarn.Options.YarnRemoveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnRunOptions.operator !=(ModularPipelines.Yarn.Options.YarnRunOptions? left, ModularPipelines.Yarn.Options.YarnRunOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnRunOptions.operator ==(ModularPipelines.Yarn.Options.YarnRunOptions? left, ModularPipelines.Yarn.Options.YarnRunOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.operator !=(ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? left, ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.operator ==(ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? left, ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnSetVersionOptions.operator !=(ModularPipelines.Yarn.Options.YarnSetVersionOptions? left, ModularPipelines.Yarn.Options.YarnSetVersionOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnSetVersionOptions.operator ==(ModularPipelines.Yarn.Options.YarnSetVersionOptions? left, ModularPipelines.Yarn.Options.YarnSetVersionOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnStageOptions.operator !=(ModularPipelines.Yarn.Options.YarnStageOptions? left, ModularPipelines.Yarn.Options.YarnStageOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnStageOptions.operator ==(ModularPipelines.Yarn.Options.YarnStageOptions? left, ModularPipelines.Yarn.Options.YarnStageOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUnlinkOptions.operator !=(ModularPipelines.Yarn.Options.YarnUnlinkOptions? left, ModularPipelines.Yarn.Options.YarnUnlinkOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUnlinkOptions.operator ==(ModularPipelines.Yarn.Options.YarnUnlinkOptions? left, ModularPipelines.Yarn.Options.YarnUnlinkOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUnplugOptions.operator !=(ModularPipelines.Yarn.Options.YarnUnplugOptions? left, ModularPipelines.Yarn.Options.YarnUnplugOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUnplugOptions.operator ==(ModularPipelines.Yarn.Options.YarnUnplugOptions? left, ModularPipelines.Yarn.Options.YarnUnplugOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.operator !=(ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? left, ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.operator ==(ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? left, ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUpOptions.operator !=(ModularPipelines.Yarn.Options.YarnUpOptions? left, ModularPipelines.Yarn.Options.YarnUpOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnUpOptions.operator ==(ModularPipelines.Yarn.Options.YarnUpOptions? left, ModularPipelines.Yarn.Options.YarnUpOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnVersionApplyOptions.operator !=(ModularPipelines.Yarn.Options.YarnVersionApplyOptions? left, ModularPipelines.Yarn.Options.YarnVersionApplyOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnVersionApplyOptions.operator ==(ModularPipelines.Yarn.Options.YarnVersionApplyOptions? left, ModularPipelines.Yarn.Options.YarnVersionApplyOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnVersionCheckOptions.operator !=(ModularPipelines.Yarn.Options.YarnVersionCheckOptions? left, ModularPipelines.Yarn.Options.YarnVersionCheckOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnVersionCheckOptions.operator ==(ModularPipelines.Yarn.Options.YarnVersionCheckOptions? left, ModularPipelines.Yarn.Options.YarnVersionCheckOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWhyOptions.operator !=(ModularPipelines.Yarn.Options.YarnWhyOptions? left, ModularPipelines.Yarn.Options.YarnWhyOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWhyOptions.operator ==(ModularPipelines.Yarn.Options.YarnWhyOptions? left, ModularPipelines.Yarn.Options.YarnWhyOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.operator !=(ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.operator ==(ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.operator !=(ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.operator ==(ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.operator !=(ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? right) -> bool
+static ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.operator ==(ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? left, ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? right) -> bool
+virtual ModularPipelines.Yarn.Options.YarnAddOptions.Equals(ModularPipelines.Yarn.Options.YarnAddOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnBinOptions.Equals(ModularPipelines.Yarn.Options.YarnBinOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnCacheCleanOptions.Equals(ModularPipelines.Yarn.Options.YarnCacheCleanOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConfigGetOptions.Equals(ModularPipelines.Yarn.Options.YarnConfigGetOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConfigOptions.Equals(ModularPipelines.Yarn.Options.YarnConfigOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConfigSetOptions.Equals(ModularPipelines.Yarn.Options.YarnConfigSetOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConfigUnsetOptions.Equals(ModularPipelines.Yarn.Options.YarnConfigUnsetOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConstraintsOptions.Equals(ModularPipelines.Yarn.Options.YarnConstraintsOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions.Equals(ModularPipelines.Yarn.Options.YarnConstraintsQueryOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions.Equals(ModularPipelines.Yarn.Options.YarnConstraintsSourceOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnDedupeOptions.Equals(ModularPipelines.Yarn.Options.YarnDedupeOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnExecOptions.Equals(ModularPipelines.Yarn.Options.YarnExecOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnExplainOptions.Equals(ModularPipelines.Yarn.Options.YarnExplainOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnInfoOptions.Equals(ModularPipelines.Yarn.Options.YarnInfoOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnInitOptions.Equals(ModularPipelines.Yarn.Options.YarnInitOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnInstallOptions.Equals(ModularPipelines.Yarn.Options.YarnInstallOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnLinkOptions.Equals(ModularPipelines.Yarn.Options.YarnLinkOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmAuditOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmAuditOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmInfoOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmInfoOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmLoginOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmLoginOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmLogoutOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmLogoutOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmPublishOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmPublishOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmStageApproveOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmStageListOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmStageListOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmStageRejectOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmTagListOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmTagListOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions.Equals(ModularPipelines.Yarn.Options.YarnNpmWhoamiOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnOptions.Equals(ModularPipelines.Yarn.Options.YarnOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPackOptions.Equals(ModularPipelines.Yarn.Options.YarnPackOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPatchCommitOptions.Equals(ModularPipelines.Yarn.Options.YarnPatchCommitOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPatchOptions.Equals(ModularPipelines.Yarn.Options.YarnPatchOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPluginCheckOptions.Equals(ModularPipelines.Yarn.Options.YarnPluginCheckOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions.Equals(ModularPipelines.Yarn.Options.YarnPluginImportFromSourcesOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPluginImportOptions.Equals(ModularPipelines.Yarn.Options.YarnPluginImportOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPluginListOptions.Equals(ModularPipelines.Yarn.Options.YarnPluginListOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions.Equals(ModularPipelines.Yarn.Options.YarnPluginRuntimeOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnRemoveOptions.Equals(ModularPipelines.Yarn.Options.YarnRemoveOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnRunOptions.Equals(ModularPipelines.Yarn.Options.YarnRunOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions.Equals(ModularPipelines.Yarn.Options.YarnSetVersionFromSourcesOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnSetVersionOptions.Equals(ModularPipelines.Yarn.Options.YarnSetVersionOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnStageOptions.Equals(ModularPipelines.Yarn.Options.YarnStageOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnUnlinkOptions.Equals(ModularPipelines.Yarn.Options.YarnUnlinkOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnUnplugOptions.Equals(ModularPipelines.Yarn.Options.YarnUnplugOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions.Equals(ModularPipelines.Yarn.Options.YarnUpgradeInteractiveOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnUpOptions.Equals(ModularPipelines.Yarn.Options.YarnUpOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnVersionApplyOptions.Equals(ModularPipelines.Yarn.Options.YarnVersionApplyOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnVersionCheckOptions.Equals(ModularPipelines.Yarn.Options.YarnVersionCheckOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnWhyOptions.Equals(ModularPipelines.Yarn.Options.YarnWhyOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions.Equals(ModularPipelines.Yarn.Options.YarnWorkspacesFocusOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions.Equals(ModularPipelines.Yarn.Options.YarnWorkspacesForeachOptions? other) -> bool
+virtual ModularPipelines.Yarn.Options.YarnWorkspacesListOptions.Equals(ModularPipelines.Yarn.Options.YarnWorkspacesListOptions? other) -> bool

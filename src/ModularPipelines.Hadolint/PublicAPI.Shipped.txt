@@ -1,0 +1,94 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions
+ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Hadolint.get -> ModularPipelines.Hadolint.Services.IHadolint!
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Error = 0 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Ignore = 4 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Info = 2 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.None = 5 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Style = 3 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Warning = 1 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Checkstyle = 2 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Codacy = 6 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Codeclimate = 3 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.GitlabCodeclimate = 4 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Gnu = 5 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Json = 1 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Junit = 9 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Sarif = 8 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Sonarqube = 7 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Tty = 0 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Extensions.HadolintExtensions
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Config.get -> string?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Config.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.DisableIgnorePragma.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.DisableIgnorePragma.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Dockerfiles.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Dockerfiles.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Error.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Error.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.FailureThreshold.get -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.FailureThreshold.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.FilePathInReport.get -> string?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.FilePathInReport.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Format.get -> ModularPipelines.Hadolint.Enums.HadolintFormat?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Format.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.HadolintExecuteOptions() -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.HadolintExecuteOptions(ModularPipelines.Hadolint.Options.HadolintExecuteOptions! original) -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Help.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Help.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Ignore.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Ignore.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Info.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Info.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.NoColor.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.NoColor.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.NoFail.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.NoFail.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Output.get -> string?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Output.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.RequireLabel.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.RequireLabel.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.StrictLabels.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.StrictLabels.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Style.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Style.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.TrustedRegistry.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.TrustedRegistry.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Verbose.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Verbose.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Version.get -> bool?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Version.set -> void
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Warning.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Warning.set -> void
+ModularPipelines.Hadolint.Options.HadolintOptions
+ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions() -> void
+ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions(ModularPipelines.Hadolint.Options.HadolintOptions! original) -> void
+ModularPipelines.Hadolint.Services.IHadolint
+ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Hadolint.Options.HadolintOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintOptions!
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintExecuteOptions!
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.ToString() -> string!
+override ModularPipelines.Hadolint.Options.HadolintOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Hadolint.Options.HadolintOptions.Equals(object? obj) -> bool
+override ModularPipelines.Hadolint.Options.HadolintOptions.GetHashCode() -> int
+override ModularPipelines.Hadolint.Options.HadolintOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Hadolint.Options.HadolintOptions.ToString() -> string!
+override sealed ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(ModularPipelines.Hadolint.Options.HadolintOptions? other) -> bool
+override sealed ModularPipelines.Hadolint.Options.HadolintOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.get_Hadolint(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Hadolint.Services.IHadolint!
+static ModularPipelines.Hadolint.Extensions.HadolintExtensions.Hadolint(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Hadolint.Services.IHadolint!
+static ModularPipelines.Hadolint.Extensions.HadolintExtensions.RegisterHadolintContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Hadolint.Options.HadolintExecuteOptions.operator !=(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? left, ModularPipelines.Hadolint.Options.HadolintExecuteOptions? right) -> bool
+static ModularPipelines.Hadolint.Options.HadolintExecuteOptions.operator ==(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? left, ModularPipelines.Hadolint.Options.HadolintExecuteOptions? right) -> bool
+static ModularPipelines.Hadolint.Options.HadolintOptions.operator !=(ModularPipelines.Hadolint.Options.HadolintOptions? left, ModularPipelines.Hadolint.Options.HadolintOptions? right) -> bool
+static ModularPipelines.Hadolint.Options.HadolintOptions.operator ==(ModularPipelines.Hadolint.Options.HadolintOptions? left, ModularPipelines.Hadolint.Options.HadolintOptions? right) -> bool
+virtual ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? other) -> bool
+virtual ModularPipelines.Hadolint.Options.HadolintOptions.Equals(ModularPipelines.Hadolint.Options.HadolintOptions? other) -> bool

@@ -1,0 +1,67 @@
+#nullable enable
+abstract ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.<Clone>$() -> ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase!
+abstract ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.Prefix.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.AzurePipelineAgentVariables() -> void
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.AzurePipelineAgentVariables(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables! original) -> void
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.BuildDirectory.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.ContainerMapping.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.HomeDirectory.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Id.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.JobName.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.JobStatus.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.MachineName.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Name.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.OS.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.OSArchitecture.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.TempDirectory.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.ToolsDirectory.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.WorkFolder.get -> string!
+ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase
+ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.AzurePipelineVariableBase() -> void
+ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.AzurePipelineVariableBase(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase! original) -> void
+ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.Get(string! variableName) -> string?
+ModularPipelines.Azure.Pipelines.AzurePipelineVariables
+ModularPipelines.Azure.Pipelines.AzurePipelineVariables.Agent.get -> ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables!
+ModularPipelines.Azure.Pipelines.AzurePipelineVariables.AzurePipelineVariables(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables! agent) -> void
+ModularPipelines.Azure.Pipelines.AzurePipelineVariables.AzurePipelineVariables(ModularPipelines.Azure.Pipelines.AzurePipelineVariables! original) -> void
+ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions
+ModularPipelines.Azure.Pipelines.IAzurePipeline
+ModularPipelines.Azure.Pipelines.IAzurePipeline.BeginSection(string! name) -> System.IDisposable!
+ModularPipelines.Azure.Pipelines.IAzurePipeline.IsRunningOnAzurePipelines.get -> bool
+ModularPipelines.Azure.Pipelines.IAzurePipeline.Variables.get -> ModularPipelines.Azure.Pipelines.AzurePipelineVariables!
+ModularPipelines.Azure.Pipelines.IAzurePipeline.WriteLine(string! message) -> void
+ModularPipelines.Context.ModularPipelines_Azure_Pipelines_41b56bdfdb67da38ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Azure_Pipelines_41b56bdfdb67da38ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Azure_Pipelines_41b56bdfdb67da38ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).AzurePipeline.get -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.<Clone>$() -> ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables!
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.EqualityContract.get -> System.Type!
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.GetHashCode() -> int
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Prefix.get -> string!
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.ToString() -> string!
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.GetHashCode() -> int
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.ToString() -> string!
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariables.Equals(object? obj) -> bool
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariables.GetHashCode() -> int
+override ModularPipelines.Azure.Pipelines.AzurePipelineVariables.ToString() -> string!
+override sealed ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Equals(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? other) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.operator !=(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? right) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.operator ==(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? right) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.operator !=(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? right) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.operator ==(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? right) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineVariables.operator !=(ModularPipelines.Azure.Pipelines.AzurePipelineVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariables? right) -> bool
+static ModularPipelines.Azure.Pipelines.AzurePipelineVariables.operator ==(ModularPipelines.Azure.Pipelines.AzurePipelineVariables? left, ModularPipelines.Azure.Pipelines.AzurePipelineVariables? right) -> bool
+static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.AzurePipeline(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
+static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.RegisterAzurePipelineContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Context.ModularPipelines_Azure_Pipelines_41b56bdfdb67da38ToolsExtensions.get_AzurePipeline(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables.Equals(ModularPipelines.Azure.Pipelines.AzurePipelineAgentVariables? other) -> bool
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.Equals(ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase? other) -> bool
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariableBase.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariables.<Clone>$() -> ModularPipelines.Azure.Pipelines.AzurePipelineVariables!
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariables.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariables.Equals(ModularPipelines.Azure.Pipelines.AzurePipelineVariables? other) -> bool
+virtual ModularPipelines.Azure.Pipelines.AzurePipelineVariables.PrintMembers(System.Text.StringBuilder! builder) -> bool

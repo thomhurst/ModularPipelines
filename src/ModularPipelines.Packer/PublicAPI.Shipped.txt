@@ -1,0 +1,226 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Packer_78ff710e709a6ac4ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Packer_78ff710e709a6ac4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Packer_78ff710e709a6ac4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Packer.get -> ModularPipelines.Packer.Services.IPacker!
+ModularPipelines.Packer.Extensions.PackerExtensions
+ModularPipelines.Packer.Options.PackerBuildOptions
+ModularPipelines.Packer.Options.PackerBuildOptions.Color.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.Color.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Debug.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.Debug.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Except.get -> string?
+ModularPipelines.Packer.Options.PackerBuildOptions.Except.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Force.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.Force.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.IgnorePrereleasePlugins.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.IgnorePrereleasePlugins.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.MachineReadable.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.MachineReadable.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Only.get -> string?
+ModularPipelines.Packer.Options.PackerBuildOptions.Only.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions() -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions(ModularPipelines.Packer.Options.PackerBuildOptions! original) -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.ParallelBuilds.get -> string?
+ModularPipelines.Packer.Options.PackerBuildOptions.ParallelBuilds.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.SkipEnforcement.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.SkipEnforcement.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.TimestampUi.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.TimestampUi.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.UseSequentialEvaluation.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.UseSequentialEvaluation.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Var.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.Var.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.get -> string?
+ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.WarnOnUndeclaredVar.get -> bool?
+ModularPipelines.Packer.Options.PackerBuildOptions.WarnOnUndeclaredVar.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions
+ModularPipelines.Packer.Options.PackerConsoleOptions.ConfigType.get -> bool?
+ModularPipelines.Packer.Options.PackerConsoleOptions.ConfigType.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.PackerConsoleOptions() -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.PackerConsoleOptions(ModularPipelines.Packer.Options.PackerConsoleOptions! original) -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.UseSequentialEvaluation.get -> bool?
+ModularPipelines.Packer.Options.PackerConsoleOptions.UseSequentialEvaluation.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.Var.get -> bool?
+ModularPipelines.Packer.Options.PackerConsoleOptions.Var.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.VarFile.get -> string?
+ModularPipelines.Packer.Options.PackerConsoleOptions.VarFile.set -> void
+ModularPipelines.Packer.Options.PackerFixOptions
+ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions() -> void
+ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions(ModularPipelines.Packer.Options.PackerFixOptions! original) -> void
+ModularPipelines.Packer.Options.PackerFixOptions.Validate.get -> bool?
+ModularPipelines.Packer.Options.PackerFixOptions.Validate.set -> void
+ModularPipelines.Packer.Options.PackerFmtOptions
+ModularPipelines.Packer.Options.PackerFmtOptions.Check.get -> bool?
+ModularPipelines.Packer.Options.PackerFmtOptions.Check.set -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.Diff.get -> bool?
+ModularPipelines.Packer.Options.PackerFmtOptions.Diff.set -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.PackerFmtOptions() -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.PackerFmtOptions(ModularPipelines.Packer.Options.PackerFmtOptions! original) -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.Recursive.get -> bool?
+ModularPipelines.Packer.Options.PackerFmtOptions.Recursive.set -> void
+ModularPipelines.Packer.Options.PackerFmtOptions.Write.get -> bool?
+ModularPipelines.Packer.Options.PackerFmtOptions.Write.set -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.OutputFile.get -> string?
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.OutputFile.set -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions() -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions! original) -> void
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.WithAnnotations.get -> bool?
+ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.WithAnnotations.set -> void
+ModularPipelines.Packer.Options.PackerInitOptions
+ModularPipelines.Packer.Options.PackerInitOptions.Force.get -> bool?
+ModularPipelines.Packer.Options.PackerInitOptions.Force.set -> void
+ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions() -> void
+ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions(ModularPipelines.Packer.Options.PackerInitOptions! original) -> void
+ModularPipelines.Packer.Options.PackerInitOptions.Upgrade.get -> bool?
+ModularPipelines.Packer.Options.PackerInitOptions.Upgrade.set -> void
+ModularPipelines.Packer.Options.PackerInspectOptions
+ModularPipelines.Packer.Options.PackerInspectOptions.MachineReadable.get -> bool?
+ModularPipelines.Packer.Options.PackerInspectOptions.MachineReadable.set -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions() -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions(ModularPipelines.Packer.Options.PackerInspectOptions! original) -> void
+ModularPipelines.Packer.Options.PackerInspectOptions.UseSequentialEvaluation.get -> bool?
+ModularPipelines.Packer.Options.PackerInspectOptions.UseSequentialEvaluation.set -> void
+ModularPipelines.Packer.Options.PackerOptions
+ModularPipelines.Packer.Options.PackerOptions.PackerOptions() -> void
+ModularPipelines.Packer.Options.PackerOptions.PackerOptions(ModularPipelines.Packer.Options.PackerOptions! original) -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions
+ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions() -> void
+ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions(ModularPipelines.Packer.Options.PackerPluginsOptions! original) -> void
+ModularPipelines.Packer.Options.PackerValidateOptions
+ModularPipelines.Packer.Options.PackerValidateOptions.EvaluateDatasources.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.EvaluateDatasources.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Except.get -> string?
+ModularPipelines.Packer.Options.PackerValidateOptions.Except.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.IgnorePrereleasePlugins.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.IgnorePrereleasePlugins.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.MachineReadable.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.MachineReadable.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.NoWarnUndeclaredVar.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.NoWarnUndeclaredVar.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Only.get -> string?
+ModularPipelines.Packer.Options.PackerValidateOptions.Only.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions() -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions(ModularPipelines.Packer.Options.PackerValidateOptions! original) -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.SyntaxOnly.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.SyntaxOnly.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.UseSequentialEvaluation.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.UseSequentialEvaluation.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Var.get -> bool?
+ModularPipelines.Packer.Options.PackerValidateOptions.Var.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.get -> string?
+ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.set -> void
+ModularPipelines.Packer.Services.IPacker
+ModularPipelines.Packer.Services.IPacker.BuildAsync(ModularPipelines.Packer.Options.PackerBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.ConsoleAsync(ModularPipelines.Packer.Options.PackerConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.FixAsync(ModularPipelines.Packer.Options.PackerFixOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.FmtAsync(ModularPipelines.Packer.Options.PackerFmtOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.Hcl2UpgradeAsync(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.InitAsync(ModularPipelines.Packer.Options.PackerInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.InspectAsync(ModularPipelines.Packer.Options.PackerInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Packer.Options.PackerBuildOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerBuildOptions!
+override ModularPipelines.Packer.Options.PackerBuildOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerBuildOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerBuildOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerBuildOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerConsoleOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerConsoleOptions!
+override ModularPipelines.Packer.Options.PackerConsoleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerConsoleOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerConsoleOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerConsoleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerConsoleOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerFixOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerFixOptions!
+override ModularPipelines.Packer.Options.PackerFixOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerFixOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerFixOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerFixOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerFixOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerFmtOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerFmtOptions!
+override ModularPipelines.Packer.Options.PackerFmtOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerFmtOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerFmtOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerFmtOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerFmtOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions!
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerInitOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerInitOptions!
+override ModularPipelines.Packer.Options.PackerInitOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerInitOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerInitOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerInitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerInitOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerInspectOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerInspectOptions!
+override ModularPipelines.Packer.Options.PackerInspectOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerInspectOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerInspectOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerInspectOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerPluginsOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerPluginsOptions!
+override ModularPipelines.Packer.Options.PackerPluginsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerPluginsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerPluginsOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerPluginsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerPluginsOptions.ToString() -> string!
+override ModularPipelines.Packer.Options.PackerValidateOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerValidateOptions!
+override ModularPipelines.Packer.Options.PackerValidateOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Packer.Options.PackerValidateOptions.Equals(object? obj) -> bool
+override ModularPipelines.Packer.Options.PackerValidateOptions.GetHashCode() -> int
+override ModularPipelines.Packer.Options.PackerValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Packer.Options.PackerValidateOptions.ToString() -> string!
+override abstract ModularPipelines.Packer.Options.PackerOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerOptions!
+override sealed ModularPipelines.Packer.Options.PackerBuildOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerConsoleOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerFixOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerFmtOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerInitOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerInspectOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerPluginsOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+override sealed ModularPipelines.Packer.Options.PackerValidateOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Packer_78ff710e709a6ac4ToolsExtensions.get_Packer(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Packer.Services.IPacker!
+static ModularPipelines.Packer.Extensions.PackerExtensions.Packer(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Packer.Services.IPacker!
+static ModularPipelines.Packer.Extensions.PackerExtensions.RegisterPackerContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Packer.Options.PackerBuildOptions.operator !=(ModularPipelines.Packer.Options.PackerBuildOptions? left, ModularPipelines.Packer.Options.PackerBuildOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerBuildOptions.operator ==(ModularPipelines.Packer.Options.PackerBuildOptions? left, ModularPipelines.Packer.Options.PackerBuildOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerConsoleOptions.operator !=(ModularPipelines.Packer.Options.PackerConsoleOptions? left, ModularPipelines.Packer.Options.PackerConsoleOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerConsoleOptions.operator ==(ModularPipelines.Packer.Options.PackerConsoleOptions? left, ModularPipelines.Packer.Options.PackerConsoleOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerFixOptions.operator !=(ModularPipelines.Packer.Options.PackerFixOptions? left, ModularPipelines.Packer.Options.PackerFixOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerFixOptions.operator ==(ModularPipelines.Packer.Options.PackerFixOptions? left, ModularPipelines.Packer.Options.PackerFixOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerFmtOptions.operator !=(ModularPipelines.Packer.Options.PackerFmtOptions? left, ModularPipelines.Packer.Options.PackerFmtOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerFmtOptions.operator ==(ModularPipelines.Packer.Options.PackerFmtOptions? left, ModularPipelines.Packer.Options.PackerFmtOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.operator !=(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? left, ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.operator ==(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? left, ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerInitOptions.operator !=(ModularPipelines.Packer.Options.PackerInitOptions? left, ModularPipelines.Packer.Options.PackerInitOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerInitOptions.operator ==(ModularPipelines.Packer.Options.PackerInitOptions? left, ModularPipelines.Packer.Options.PackerInitOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerInspectOptions.operator !=(ModularPipelines.Packer.Options.PackerInspectOptions? left, ModularPipelines.Packer.Options.PackerInspectOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerInspectOptions.operator ==(ModularPipelines.Packer.Options.PackerInspectOptions? left, ModularPipelines.Packer.Options.PackerInspectOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerOptions.operator !=(ModularPipelines.Packer.Options.PackerOptions? left, ModularPipelines.Packer.Options.PackerOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerOptions.operator ==(ModularPipelines.Packer.Options.PackerOptions? left, ModularPipelines.Packer.Options.PackerOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerPluginsOptions.operator !=(ModularPipelines.Packer.Options.PackerPluginsOptions? left, ModularPipelines.Packer.Options.PackerPluginsOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerPluginsOptions.operator ==(ModularPipelines.Packer.Options.PackerPluginsOptions? left, ModularPipelines.Packer.Options.PackerPluginsOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerValidateOptions.operator !=(ModularPipelines.Packer.Options.PackerValidateOptions? left, ModularPipelines.Packer.Options.PackerValidateOptions? right) -> bool
+static ModularPipelines.Packer.Options.PackerValidateOptions.operator ==(ModularPipelines.Packer.Options.PackerValidateOptions? left, ModularPipelines.Packer.Options.PackerValidateOptions? right) -> bool
+virtual ModularPipelines.Packer.Options.PackerBuildOptions.Equals(ModularPipelines.Packer.Options.PackerBuildOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerConsoleOptions.Equals(ModularPipelines.Packer.Options.PackerConsoleOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerFixOptions.Equals(ModularPipelines.Packer.Options.PackerFixOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerFmtOptions.Equals(ModularPipelines.Packer.Options.PackerFmtOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.Equals(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerInitOptions.Equals(ModularPipelines.Packer.Options.PackerInitOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerInspectOptions.Equals(ModularPipelines.Packer.Options.PackerInspectOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerOptions.Equals(ModularPipelines.Packer.Options.PackerOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerPluginsOptions.Equals(ModularPipelines.Packer.Options.PackerPluginsOptions? other) -> bool
+virtual ModularPipelines.Packer.Options.PackerValidateOptions.Equals(ModularPipelines.Packer.Options.PackerValidateOptions? other) -> bool

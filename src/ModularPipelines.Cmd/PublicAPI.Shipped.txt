@@ -1,0 +1,35 @@
+#nullable enable
+ModularPipelines.Cmd.Extensions.CmdExtensions
+ModularPipelines.Cmd.ICmd
+ModularPipelines.Cmd.Models.CmdScriptOptions
+ModularPipelines.Cmd.Models.CmdScriptOptions.CmdScriptOptions(ModularPipelines.Cmd.Models.CmdScriptOptions! original) -> void
+ModularPipelines.Cmd.Models.CmdScriptOptions.CmdScriptOptions(string! Script) -> void
+ModularPipelines.Cmd.Models.CmdScriptOptions.Deconstruct(out string! Script) -> void
+ModularPipelines.Cmd.Models.CmdScriptOptions.Script.get -> string!
+ModularPipelines.Cmd.Models.CmdScriptOptions.Script.init -> void
+ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Cmd.get -> ModularPipelines.Cmd.ICmd!
+override ModularPipelines.Cmd.Models.CmdScriptOptions.<Clone>$() -> ModularPipelines.Cmd.Models.CmdScriptOptions!
+override ModularPipelines.Cmd.Models.CmdScriptOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Cmd.Models.CmdScriptOptions.Equals(object? obj) -> bool
+override ModularPipelines.Cmd.Models.CmdScriptOptions.GetHashCode() -> int
+override ModularPipelines.Cmd.Models.CmdScriptOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Cmd.Models.CmdScriptOptions.ToString() -> string!
+override sealed ModularPipelines.Cmd.Models.CmdScriptOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cmd.ICmd!
+static ModularPipelines.Cmd.Extensions.CmdExtensions.RegisterCmdContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Cmd.Models.CmdScriptOptions.operator !=(ModularPipelines.Cmd.Models.CmdScriptOptions? left, ModularPipelines.Cmd.Models.CmdScriptOptions? right) -> bool
+static ModularPipelines.Cmd.Models.CmdScriptOptions.operator ==(ModularPipelines.Cmd.Models.CmdScriptOptions? left, ModularPipelines.Cmd.Models.CmdScriptOptions? right) -> bool
+static ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.get_Cmd(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Cmd.ICmd!
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.Ansi.get -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.Ansi.init -> void
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.DisableAutoRunCommands.get -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.DisableAutoRunCommands.init -> void
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.DisableEcho.get -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.DisableEcho.init -> void
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.Equals(ModularPipelines.Cmd.Models.CmdScriptOptions? other) -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.StopAfter.get -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.StopAfter.init -> void
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.Unicode.get -> bool
+virtual ModularPipelines.Cmd.Models.CmdScriptOptions.Unicode.init -> void

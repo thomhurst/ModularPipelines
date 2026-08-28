@@ -10,6 +10,8 @@ param(
 
     [string[]] $AllowedPathFile = @(),
 
+    [string[]] $AllowedOversizedPath = @(),
+
     [ValidateRange(1, [long]::MaxValue)]
     [long] $MaximumFileSizeBytes = 5MB
 )
@@ -44,6 +46,7 @@ $repositoryPrefix = $repositoryPath.TrimEnd(
     [System.IO.Path]::AltDirectorySeparatorChar) +
     [System.IO.Path]::DirectorySeparatorChar
 $allowedPaths = [System.Collections.Generic.HashSet[string]]::new($pathComparer)
+$allowedOversizedPaths = [System.Collections.Generic.HashSet[string]]::new($pathComparer)
 
 function ConvertTo-SafeRelativePath([string] $Path) {
     if ([string]::IsNullOrWhiteSpace($Path) -or [System.IO.Path]::IsPathRooted($Path)) {
@@ -62,6 +65,11 @@ function ConvertTo-SafeRelativePath([string] $Path) {
 
 foreach ($path in $AllowedPath) {
     $null = $allowedPaths.Add((ConvertTo-SafeRelativePath $path))
+}
+
+foreach ($path in $AllowedOversizedPath) {
+    $relativePath = ConvertTo-SafeRelativePath $path
+    $null = $allowedOversizedPaths.Add($relativePath)
 }
 
 foreach ($pathFile in @($ManifestPath) + @($AllowedPathFile)) {
@@ -124,7 +132,8 @@ foreach ($path in $changedPaths) {
         throw "Generated change '$path' uses forbidden artifact extension '$($file.Extension)'."
     }
 
-    if ($file.Length -gt $MaximumFileSizeBytes) {
+    if ($file.Length -gt $MaximumFileSizeBytes -and
+        -not $allowedOversizedPaths.Contains($path)) {
         throw "Generated change '$path' is $($file.Length) bytes; limit is $MaximumFileSizeBytes bytes."
     }
 }

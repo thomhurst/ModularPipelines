@@ -1,0 +1,3 @@
+#nullable enable
+ModularPipelines.Testing.PluginTestHelper
+static ModularPipelines.Testing.PluginTestHelper.IsolatedRegistry() -> System.IDisposable!

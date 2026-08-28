@@ -1,0 +1,246 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Yq_c2fd971100b3f0e4ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Yq_c2fd971100b3f0e4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Yq_c2fd971100b3f0e4ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Yq.get -> ModularPipelines.Yq.Services.IYq!
+ModularPipelines.Yq.Extensions.YqExtensions
+ModularPipelines.Yq.Options.YqEvalAllOptions
+ModularPipelines.Yq.Options.YqEvalAllOptions.Colors.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Colors.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.CsvAutoParse.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.CsvAutoParse.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.CsvSeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.CsvSeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.DebugNodeInfo.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.DebugNodeInfo.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.ExitStatus.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.ExitStatus.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.Expression.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Expression.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.ExpressionArgument.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.ExpressionArgument.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.FromFile.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.FromFile.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.FrontMatter.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.FrontMatter.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.HeaderPreprocess.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.HeaderPreprocess.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.Help.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Help.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.Indent.get -> int?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Indent.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.IniPreserveQuotes.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.IniPreserveQuotes.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.Inplace.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Inplace.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.InputFormat.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.InputFormat.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaGlobals.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaGlobals.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaPrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaPrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaSuffix.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaSuffix.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaUnquoted.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.LuaUnquoted.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.NoColors.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.NoColors.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.NoDoc.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.NoDoc.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.NulOutput.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.NulOutput.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.NullInput.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.NullInput.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.OutputFormat.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.OutputFormat.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.PrettyPrint.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.PrettyPrint.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.PropertiesArrayBrackets.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.PropertiesArrayBrackets.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.PropertiesSeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.PropertiesSeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityDisableEnvOps.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityDisableEnvOps.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityDisableFileOps.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityDisableFileOps.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityEnableSystemOperator.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.SecurityEnableSystemOperator.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.ShellKeySeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.ShellKeySeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.SplitExp.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.SplitExp.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.SplitExpFile.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.SplitExpFile.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.StringInterpolation.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.StringInterpolation.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.TsvAutoParse.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.TsvAutoParse.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.UnwrapScalar.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.UnwrapScalar.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.Verbose.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.Verbose.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlAttributePrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlAttributePrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlContentName.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlContentName.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlDirectiveName.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlDirectiveName.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlKeepNamespace.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlKeepNamespace.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlProcInstPrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlProcInstPrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlRawToken.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlRawToken.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlSkipDirectives.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlSkipDirectives.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlSkipProcInst.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlSkipProcInst.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlStrictMode.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.XmlStrictMode.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlCompactSeqIndent.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlCompactSeqIndent.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlFile1.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlFile1.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlFixMergeAnchorToSpec.get -> bool?
+ModularPipelines.Yq.Options.YqEvalAllOptions.YamlFixMergeAnchorToSpec.set -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.YqEvalAllOptions() -> void
+ModularPipelines.Yq.Options.YqEvalAllOptions.YqEvalAllOptions(ModularPipelines.Yq.Options.YqEvalAllOptions! original) -> void
+ModularPipelines.Yq.Options.YqEvalOptions
+ModularPipelines.Yq.Options.YqEvalOptions.Colors.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.Colors.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.CsvAutoParse.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.CsvAutoParse.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.CsvSeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.CsvSeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.DebugNodeInfo.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.DebugNodeInfo.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.ExitStatus.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.ExitStatus.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.Expression.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.Expression.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.ExpressionArgument.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.ExpressionArgument.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.FromFile.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.FromFile.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.FrontMatter.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.FrontMatter.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.HeaderPreprocess.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.HeaderPreprocess.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.Help.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.Help.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.Indent.get -> int?
+ModularPipelines.Yq.Options.YqEvalOptions.Indent.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.IniPreserveQuotes.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.IniPreserveQuotes.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.Inplace.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.Inplace.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.InputFormat.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.InputFormat.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.LuaGlobals.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.LuaGlobals.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.LuaPrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.LuaPrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.LuaSuffix.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.LuaSuffix.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.LuaUnquoted.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.LuaUnquoted.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.NoColors.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.NoColors.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.NoDoc.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.NoDoc.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.NulOutput.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.NulOutput.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.NullInput.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.NullInput.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.OutputFormat.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.OutputFormat.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.PrettyPrint.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.PrettyPrint.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.PropertiesArrayBrackets.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.PropertiesArrayBrackets.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.PropertiesSeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.PropertiesSeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityDisableEnvOps.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityDisableEnvOps.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityDisableFileOps.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityDisableFileOps.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityEnableSystemOperator.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.SecurityEnableSystemOperator.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.ShellKeySeparator.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.ShellKeySeparator.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.SplitExp.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.SplitExp.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.SplitExpFile.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.SplitExpFile.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.StringInterpolation.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.StringInterpolation.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.TsvAutoParse.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.TsvAutoParse.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.UnwrapScalar.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.UnwrapScalar.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.Verbose.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.Verbose.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlAttributePrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlAttributePrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlContentName.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlContentName.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlDirectiveName.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlDirectiveName.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlKeepNamespace.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlKeepNamespace.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlProcInstPrefix.get -> string?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlProcInstPrefix.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlRawToken.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlRawToken.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlSkipDirectives.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlSkipDirectives.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlSkipProcInst.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlSkipProcInst.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.XmlStrictMode.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.XmlStrictMode.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.YamlCompactSeqIndent.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.YamlCompactSeqIndent.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.YamlFile1.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Yq.Options.YqEvalOptions.YamlFile1.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.YamlFixMergeAnchorToSpec.get -> bool?
+ModularPipelines.Yq.Options.YqEvalOptions.YamlFixMergeAnchorToSpec.set -> void
+ModularPipelines.Yq.Options.YqEvalOptions.YqEvalOptions() -> void
+ModularPipelines.Yq.Options.YqEvalOptions.YqEvalOptions(ModularPipelines.Yq.Options.YqEvalOptions! original) -> void
+ModularPipelines.Yq.Options.YqOptions
+ModularPipelines.Yq.Options.YqOptions.YqOptions() -> void
+ModularPipelines.Yq.Options.YqOptions.YqOptions(ModularPipelines.Yq.Options.YqOptions! original) -> void
+ModularPipelines.Yq.Services.IYq
+ModularPipelines.Yq.Services.IYq.EvalAllAsync(ModularPipelines.Yq.Options.YqEvalAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Yq.Services.IYq.EvalAsync(ModularPipelines.Yq.Options.YqEvalOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override ModularPipelines.Yq.Options.YqEvalAllOptions.<Clone>$() -> ModularPipelines.Yq.Options.YqEvalAllOptions!
+override ModularPipelines.Yq.Options.YqEvalAllOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yq.Options.YqEvalAllOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yq.Options.YqEvalAllOptions.GetHashCode() -> int
+override ModularPipelines.Yq.Options.YqEvalAllOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yq.Options.YqEvalAllOptions.ToString() -> string!
+override ModularPipelines.Yq.Options.YqEvalOptions.<Clone>$() -> ModularPipelines.Yq.Options.YqEvalOptions!
+override ModularPipelines.Yq.Options.YqEvalOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yq.Options.YqEvalOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yq.Options.YqEvalOptions.GetHashCode() -> int
+override ModularPipelines.Yq.Options.YqEvalOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yq.Options.YqEvalOptions.ToString() -> string!
+override ModularPipelines.Yq.Options.YqOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Yq.Options.YqOptions.Equals(object? obj) -> bool
+override ModularPipelines.Yq.Options.YqOptions.GetHashCode() -> int
+override ModularPipelines.Yq.Options.YqOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Yq.Options.YqOptions.ToString() -> string!
+override abstract ModularPipelines.Yq.Options.YqOptions.<Clone>$() -> ModularPipelines.Yq.Options.YqOptions!
+override sealed ModularPipelines.Yq.Options.YqEvalAllOptions.Equals(ModularPipelines.Yq.Options.YqOptions? other) -> bool
+override sealed ModularPipelines.Yq.Options.YqEvalOptions.Equals(ModularPipelines.Yq.Options.YqOptions? other) -> bool
+override sealed ModularPipelines.Yq.Options.YqOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Yq_c2fd971100b3f0e4ToolsExtensions.get_Yq(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Yq.Services.IYq!
+static ModularPipelines.Yq.Extensions.YqExtensions.RegisterYqContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Yq.Extensions.YqExtensions.Yq(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Yq.Services.IYq!
+static ModularPipelines.Yq.Options.YqEvalAllOptions.operator !=(ModularPipelines.Yq.Options.YqEvalAllOptions? left, ModularPipelines.Yq.Options.YqEvalAllOptions? right) -> bool
+static ModularPipelines.Yq.Options.YqEvalAllOptions.operator ==(ModularPipelines.Yq.Options.YqEvalAllOptions? left, ModularPipelines.Yq.Options.YqEvalAllOptions? right) -> bool
+static ModularPipelines.Yq.Options.YqEvalOptions.operator !=(ModularPipelines.Yq.Options.YqEvalOptions? left, ModularPipelines.Yq.Options.YqEvalOptions? right) -> bool
+static ModularPipelines.Yq.Options.YqEvalOptions.operator ==(ModularPipelines.Yq.Options.YqEvalOptions? left, ModularPipelines.Yq.Options.YqEvalOptions? right) -> bool
+static ModularPipelines.Yq.Options.YqOptions.operator !=(ModularPipelines.Yq.Options.YqOptions? left, ModularPipelines.Yq.Options.YqOptions? right) -> bool
+static ModularPipelines.Yq.Options.YqOptions.operator ==(ModularPipelines.Yq.Options.YqOptions? left, ModularPipelines.Yq.Options.YqOptions? right) -> bool
+virtual ModularPipelines.Yq.Options.YqEvalAllOptions.Equals(ModularPipelines.Yq.Options.YqEvalAllOptions? other) -> bool
+virtual ModularPipelines.Yq.Options.YqEvalOptions.Equals(ModularPipelines.Yq.Options.YqEvalOptions? other) -> bool
+virtual ModularPipelines.Yq.Options.YqOptions.Equals(ModularPipelines.Yq.Options.YqOptions? other) -> bool

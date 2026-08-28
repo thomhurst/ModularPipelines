@@ -34,6 +34,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Verify public API baseline coverage
+        shell: pwsh
+        run: ./scripts/Assert-PublicApiBaselines.ps1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24

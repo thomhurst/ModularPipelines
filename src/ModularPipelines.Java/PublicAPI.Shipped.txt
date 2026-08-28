@@ -1,0 +1,312 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions
+ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Gradle.get -> ModularPipelines.Java.Services.IGradle!
+ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Maven.get -> ModularPipelines.Java.Services.IMaven!
+ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Fail = 1 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Warn = 0 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Auto = 2 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Colored = 1 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Plain = 0 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Rich = 3 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Verbose = 4 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsoleUnicode
+ModularPipelines.Java.Enums.GradleConsoleUnicode.Auto = 0 -> ModularPipelines.Java.Enums.GradleConsoleUnicode
+ModularPipelines.Java.Enums.GradleConsoleUnicode.Disable = 1 -> ModularPipelines.Java.Enums.GradleConsoleUnicode
+ModularPipelines.Java.Enums.GradleConsoleUnicode.Enable = 2 -> ModularPipelines.Java.Enums.GradleConsoleUnicode
+ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradleDependencyVerification.Lenient = 1 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradleDependencyVerification.Off = 2 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradleDependencyVerification.Strict = 0 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradlePriority
+ModularPipelines.Java.Enums.GradlePriority.Low = 1 -> ModularPipelines.Java.Enums.GradlePriority
+ModularPipelines.Java.Enums.GradlePriority.Normal = 0 -> ModularPipelines.Java.Enums.GradlePriority
+ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.GradleWarningMode.All = 0 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.GradleWarningMode.Fail = 1 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.GradleWarningMode.None = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.GradleWarningMode.Summary = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.MavenColor
+ModularPipelines.Java.Enums.MavenColor.Always = 1 -> ModularPipelines.Java.Enums.MavenColor
+ModularPipelines.Java.Enums.MavenColor.Auto = 0 -> ModularPipelines.Java.Enums.MavenColor
+ModularPipelines.Java.Enums.MavenColor.Never = 2 -> ModularPipelines.Java.Enums.MavenColor
+ModularPipelines.Java.Extensions.GradleExtensions
+ModularPipelines.Java.Extensions.MavenExtensions
+ModularPipelines.Java.Options.GradleExecuteOptions
+ModularPipelines.Java.Options.GradleExecuteOptions.BuildCache.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.BuildCache.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigurationCache.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigurationCache.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigurationCacheProblems.get -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems?
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigurationCacheProblems.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigureOnDemand.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.ConfigureOnDemand.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Console.get -> ModularPipelines.Java.Enums.GradleConsole?
+ModularPipelines.Java.Options.GradleExecuteOptions.Console.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ConsoleUnicode.get -> ModularPipelines.Java.Enums.GradleConsoleUnicode?
+ModularPipelines.Java.Options.GradleExecuteOptions.ConsoleUnicode.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Continue.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Continue.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Continuous.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Continuous.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Daemon.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Daemon.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Debug.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Debug.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.DependencyVerification.get -> ModularPipelines.Java.Enums.GradleDependencyVerification?
+ModularPipelines.Java.Options.GradleExecuteOptions.DependencyVerification.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.DevelocityPluginVersion.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.DevelocityPluginVersion.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.DevelocityUrl.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.DevelocityUrl.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.DryRun.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.DryRun.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ExcludeTask.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.ExcludeTask.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ExportKeys.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.ExportKeys.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Foreground.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Foreground.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.FullStacktrace.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.FullStacktrace.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.GradleExecuteOptions() -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.GradleExecuteOptions(ModularPipelines.Java.Options.GradleExecuteOptions! original) -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.GradleUserHome.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.GradleUserHome.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Help.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Help.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.IncludeBuild.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.IncludeBuild.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Info.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Info.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.InitScript.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.InitScript.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.IsolatedProjects.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.IsolatedProjects.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.MaxWorkers.get -> int?
+ModularPipelines.Java.Options.GradleExecuteOptions.MaxWorkers.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoBuildCache.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoBuildCache.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoConfigurationCache.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoConfigurationCache.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoConfigureOnDemand.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoConfigureOnDemand.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoContinue.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoContinue.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoDaemon.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoDaemon.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoIsolatedProjects.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoIsolatedProjects.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NonInteractive.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoParallel.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoParallel.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoProblemsReport.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoProblemsReport.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoRebuild.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoRebuild.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoScan.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoScan.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.NoWatchFs.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.NoWatchFs.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Offline.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Offline.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Parallel.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Parallel.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Priority.get -> ModularPipelines.Java.Enums.GradlePriority?
+ModularPipelines.Java.Options.GradleExecuteOptions.Priority.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ProblemsReport.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.ProblemsReport.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Profile.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Profile.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectCacheDir.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectCacheDir.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectDir.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectDir.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectProp.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.ProjectProp.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.PropertyUpgradeReport.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.PropertyUpgradeReport.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Quiet.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Quiet.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.RefreshDependencies.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.RefreshDependencies.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.RefreshKeys.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.RefreshKeys.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.RerunTasks.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.RerunTasks.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Scan.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Scan.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.ShowVersion.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.ShowVersion.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Stacktrace.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Stacktrace.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Status.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Status.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Stop.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Stop.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.SystemProp.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.SystemProp.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.TaskGraph.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.TaskGraph.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Tasks.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Java.Options.GradleExecuteOptions.Tasks.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.UpdateLocks.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.UpdateLocks.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Version.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Version.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.Warn.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.Warn.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.WarningMode.get -> ModularPipelines.Java.Enums.GradleWarningMode?
+ModularPipelines.Java.Options.GradleExecuteOptions.WarningMode.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.WatchFs.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.WatchFs.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.WriteLocks.get -> bool?
+ModularPipelines.Java.Options.GradleExecuteOptions.WriteLocks.set -> void
+ModularPipelines.Java.Options.GradleExecuteOptions.WriteVerificationMetadata.get -> string?
+ModularPipelines.Java.Options.GradleExecuteOptions.WriteVerificationMetadata.set -> void
+ModularPipelines.Java.Options.GradleOptions
+ModularPipelines.Java.Options.GradleOptions.GradleOptions() -> void
+ModularPipelines.Java.Options.GradleOptions.GradleOptions(ModularPipelines.Java.Options.GradleOptions! original) -> void
+ModularPipelines.Java.Options.MavenExecuteOptions
+ModularPipelines.Java.Options.MavenExecuteOptions.ActivateProfiles.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.ActivateProfiles.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.AlsoMake.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.AlsoMake.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.AlsoMakeDependents.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.AlsoMakeDependents.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.BatchMode.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.BatchMode.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Builder.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.Builder.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.CheckPluginUpdates.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.CheckPluginUpdates.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Color.get -> ModularPipelines.Java.Enums.MavenColor?
+ModularPipelines.Java.Options.MavenExecuteOptions.Color.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Debug.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Debug.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Define.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+ModularPipelines.Java.Options.MavenExecuteOptions.Define.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.EncryptMasterPassword.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.EncryptMasterPassword.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.EncryptPassword.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.EncryptPassword.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Errors.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Errors.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.FailAtEnd.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.FailAtEnd.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.FailFast.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.FailFast.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.FailNever.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.FailNever.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.File.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.File.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.GlobalSettings.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.GlobalSettings.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.GlobalToolchains.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.GlobalToolchains.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.GoalsAndPhases.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Java.Options.MavenExecuteOptions.GoalsAndPhases.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Help.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Help.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.IgnoreTransitiveRepositories.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.IgnoreTransitiveRepositories.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.LaxChecksums.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.LaxChecksums.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.LegacyLocalRepository.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.LegacyLocalRepository.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.LogFile.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.LogFile.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.MavenExecuteOptions() -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.MavenExecuteOptions(ModularPipelines.Java.Options.MavenExecuteOptions! original) -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NonRecursive.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginRegistry.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginRegistry.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginUpdates.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NoPluginUpdates.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NoSnapshotUpdates.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NoSnapshotUpdates.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.NoTransferProgress.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.NoTransferProgress.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Offline.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Offline.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Projects.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.Projects.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Quiet.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Quiet.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.RawStreams.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.RawStreams.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.ResumeFrom.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.ResumeFrom.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Settings.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.Settings.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.ShowVersion.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.ShowVersion.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.StrictChecksums.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.StrictChecksums.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Threads.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.Threads.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Toolchains.get -> string?
+ModularPipelines.Java.Options.MavenExecuteOptions.Toolchains.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.UpdatePlugins.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.UpdatePlugins.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.UpdateSnapshots.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.UpdateSnapshots.set -> void
+ModularPipelines.Java.Options.MavenExecuteOptions.Version.get -> bool?
+ModularPipelines.Java.Options.MavenExecuteOptions.Version.set -> void
+ModularPipelines.Java.Options.MavenOptions
+ModularPipelines.Java.Options.MavenOptions.MavenOptions() -> void
+ModularPipelines.Java.Options.MavenOptions.MavenOptions(ModularPipelines.Java.Options.MavenOptions! original) -> void
+ModularPipelines.Java.Services.IGradle
+ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Java.Services.IMaven
+ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.Java.Options.GradleOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleOptions!
+override abstract ModularPipelines.Java.Options.MavenOptions.<Clone>$() -> ModularPipelines.Java.Options.MavenOptions!
+override ModularPipelines.Java.Options.GradleExecuteOptions.<Clone>$() -> ModularPipelines.Java.Options.GradleExecuteOptions!
+override ModularPipelines.Java.Options.GradleExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Java.Options.GradleExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Java.Options.GradleExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Java.Options.GradleExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Java.Options.GradleExecuteOptions.ToString() -> string!
+override ModularPipelines.Java.Options.GradleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Java.Options.GradleOptions.Equals(object? obj) -> bool
+override ModularPipelines.Java.Options.GradleOptions.GetHashCode() -> int
+override ModularPipelines.Java.Options.GradleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Java.Options.GradleOptions.ToString() -> string!
+override ModularPipelines.Java.Options.MavenExecuteOptions.<Clone>$() -> ModularPipelines.Java.Options.MavenExecuteOptions!
+override ModularPipelines.Java.Options.MavenExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Java.Options.MavenExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Java.Options.MavenExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Java.Options.MavenExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Java.Options.MavenExecuteOptions.ToString() -> string!
+override ModularPipelines.Java.Options.MavenOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Java.Options.MavenOptions.Equals(object? obj) -> bool
+override ModularPipelines.Java.Options.MavenOptions.GetHashCode() -> int
+override ModularPipelines.Java.Options.MavenOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Java.Options.MavenOptions.ToString() -> string!
+override sealed ModularPipelines.Java.Options.GradleExecuteOptions.Equals(ModularPipelines.Java.Options.GradleOptions? other) -> bool
+override sealed ModularPipelines.Java.Options.GradleOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Java.Options.MavenExecuteOptions.Equals(ModularPipelines.Java.Options.MavenOptions? other) -> bool
+override sealed ModularPipelines.Java.Options.MavenOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.get_Gradle(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Java.Services.IGradle!
+static ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.get_Maven(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Java.Services.IMaven!
+static ModularPipelines.Java.Extensions.GradleExtensions.Gradle(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IGradle!
+static ModularPipelines.Java.Extensions.GradleExtensions.RegisterGradleContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Java.Extensions.MavenExtensions.Maven(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IMaven!
+static ModularPipelines.Java.Extensions.MavenExtensions.RegisterMavenContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Java.Options.GradleExecuteOptions.operator !=(ModularPipelines.Java.Options.GradleExecuteOptions? left, ModularPipelines.Java.Options.GradleExecuteOptions? right) -> bool
+static ModularPipelines.Java.Options.GradleExecuteOptions.operator ==(ModularPipelines.Java.Options.GradleExecuteOptions? left, ModularPipelines.Java.Options.GradleExecuteOptions? right) -> bool
+static ModularPipelines.Java.Options.GradleOptions.operator !=(ModularPipelines.Java.Options.GradleOptions? left, ModularPipelines.Java.Options.GradleOptions? right) -> bool
+static ModularPipelines.Java.Options.GradleOptions.operator ==(ModularPipelines.Java.Options.GradleOptions? left, ModularPipelines.Java.Options.GradleOptions? right) -> bool
+static ModularPipelines.Java.Options.MavenExecuteOptions.operator !=(ModularPipelines.Java.Options.MavenExecuteOptions? left, ModularPipelines.Java.Options.MavenExecuteOptions? right) -> bool
+static ModularPipelines.Java.Options.MavenExecuteOptions.operator ==(ModularPipelines.Java.Options.MavenExecuteOptions? left, ModularPipelines.Java.Options.MavenExecuteOptions? right) -> bool
+static ModularPipelines.Java.Options.MavenOptions.operator !=(ModularPipelines.Java.Options.MavenOptions? left, ModularPipelines.Java.Options.MavenOptions? right) -> bool
+static ModularPipelines.Java.Options.MavenOptions.operator ==(ModularPipelines.Java.Options.MavenOptions? left, ModularPipelines.Java.Options.MavenOptions? right) -> bool
+virtual ModularPipelines.Java.Options.GradleExecuteOptions.Equals(ModularPipelines.Java.Options.GradleExecuteOptions? other) -> bool
+virtual ModularPipelines.Java.Options.GradleOptions.Equals(ModularPipelines.Java.Options.GradleOptions? other) -> bool
+virtual ModularPipelines.Java.Options.MavenExecuteOptions.Equals(ModularPipelines.Java.Options.MavenExecuteOptions? other) -> bool
+virtual ModularPipelines.Java.Options.MavenOptions.Equals(ModularPipelines.Java.Options.MavenOptions? other) -> bool

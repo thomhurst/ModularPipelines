@@ -40,6 +40,24 @@
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')" />
   </ItemGroup>
 
+  <!-- CLI regeneration validates generated API compatibility separately before it can update baselines. -->
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+    <!-- Public API baselines must stay enforced in ordinary CI tool builds. -->
+    <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
+    <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
+    <RunAnalyzersDuringBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzersDuringBuild>
+    <!-- Keep source-generated API in the baseline without promoting its advisory diagnostics. -->
+    <WarningsNotAsErrors Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">$(WarningsNotAsErrors);RS0026;MPG0005;MPG0008;MPG0011;MPG0012;MPG0013;MPG0014;MPG0015;MPG0016</WarningsNotAsErrors>
+    <!-- Mediator emits nullable-oblivious public symbols; this gate tracks declarations only. -->
+    <NoWarn Condition="'$(GITHUB_ACTIONS)' == 'true'">$(NoWarn);RS0041</NoWarn>
+    <WarningsAsErrors>$(WarningsAsErrors);RS0016;RS0017</WarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Development analyzers enforce generated tool APIs in every applicable build. -->
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers' and '$(MSBuildProjectName)' != 'ModularPipelines.Templates'">
       <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>

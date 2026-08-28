@@ -1,0 +1,115 @@
+#nullable enable
+ModularPipelines.Ansible.Extensions.AnsibleExtensions
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AnsibleExecuteOptions(ModularPipelines.Ansible.Options.AnsibleExecuteOptions! original) -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AnsibleExecuteOptions(string! Pattern) -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Args.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Args.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskBecomePass.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskBecomePass.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskPass.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskPass.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskVaultPassword.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.AskVaultPassword.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Background.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Background.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Become.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Become.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomeMethod.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomeMethod.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomePasswordFile.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomePasswordFile.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomeUser.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.BecomeUser.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Check.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Check.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Connection.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Connection.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ConnectionPasswordFile.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ConnectionPasswordFile.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Deconstruct(out string! Pattern) -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Diff.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Diff.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ExtraVars.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ExtraVars.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.FlushCache.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.FlushCache.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Forks.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Forks.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Help.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Help.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Inventory.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Inventory.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Limit.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Limit.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ListHosts.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ListHosts.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ModuleName.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ModuleName.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ModulePath.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ModulePath.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.OneLine.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.OneLine.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Pattern.get -> string!
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Pattern.init -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.PlaybookDir.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.PlaybookDir.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Poll.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Poll.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.PrivateKey.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.PrivateKey.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ScpExtraArgs.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ScpExtraArgs.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SftpExtraArgs.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SftpExtraArgs.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SshCommonArgs.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SshCommonArgs.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SshExtraArgs.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.SshExtraArgs.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.TaskTimeout.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.TaskTimeout.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Timeout.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Timeout.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Tree.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Tree.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.User.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.User.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.VaultId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.VaultId.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.VaultPasswordFile.get -> string?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.VaultPasswordFile.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Verbose.get -> int?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Verbose.set -> void
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Version.get -> bool?
+ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Version.set -> void
+ModularPipelines.Ansible.Options.AnsibleOptions
+ModularPipelines.Ansible.Options.AnsibleOptions.AnsibleOptions() -> void
+ModularPipelines.Ansible.Options.AnsibleOptions.AnsibleOptions(ModularPipelines.Ansible.Options.AnsibleOptions! original) -> void
+ModularPipelines.Ansible.Services.IAnsible
+ModularPipelines.Ansible.Services.IAnsible.ExecuteAsync(ModularPipelines.Ansible.Options.AnsibleExecuteOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Ansible.get -> ModularPipelines.Ansible.Services.IAnsible!
+override abstract ModularPipelines.Ansible.Options.AnsibleOptions.<Clone>$() -> ModularPipelines.Ansible.Options.AnsibleOptions!
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.<Clone>$() -> ModularPipelines.Ansible.Options.AnsibleExecuteOptions!
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.GetHashCode() -> int
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Ansible.Options.AnsibleExecuteOptions.ToString() -> string!
+override ModularPipelines.Ansible.Options.AnsibleOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Ansible.Options.AnsibleOptions.Equals(object? obj) -> bool
+override ModularPipelines.Ansible.Options.AnsibleOptions.GetHashCode() -> int
+override ModularPipelines.Ansible.Options.AnsibleOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Ansible.Options.AnsibleOptions.ToString() -> string!
+override sealed ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(ModularPipelines.Ansible.Options.AnsibleOptions? other) -> bool
+override sealed ModularPipelines.Ansible.Options.AnsibleOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.Ansible.Extensions.AnsibleExtensions.Ansible(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Ansible.Services.IAnsible!
+static ModularPipelines.Ansible.Extensions.AnsibleExtensions.RegisterAnsibleContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Ansible.Options.AnsibleExecuteOptions.operator !=(ModularPipelines.Ansible.Options.AnsibleExecuteOptions? left, ModularPipelines.Ansible.Options.AnsibleExecuteOptions? right) -> bool
+static ModularPipelines.Ansible.Options.AnsibleExecuteOptions.operator ==(ModularPipelines.Ansible.Options.AnsibleExecuteOptions? left, ModularPipelines.Ansible.Options.AnsibleExecuteOptions? right) -> bool
+static ModularPipelines.Ansible.Options.AnsibleOptions.operator !=(ModularPipelines.Ansible.Options.AnsibleOptions? left, ModularPipelines.Ansible.Options.AnsibleOptions? right) -> bool
+static ModularPipelines.Ansible.Options.AnsibleOptions.operator ==(ModularPipelines.Ansible.Options.AnsibleOptions? left, ModularPipelines.Ansible.Options.AnsibleOptions? right) -> bool
+static ModularPipelines.Context.ModularPipelines_Ansible_e0dc829a269dd3b2ToolsExtensions.get_Ansible(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Ansible.Services.IAnsible!
+virtual ModularPipelines.Ansible.Options.AnsibleExecuteOptions.Equals(ModularPipelines.Ansible.Options.AnsibleExecuteOptions? other) -> bool
+virtual ModularPipelines.Ansible.Options.AnsibleOptions.Equals(ModularPipelines.Ansible.Options.AnsibleOptions? other) -> bool

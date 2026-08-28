@@ -1,0 +1,1197 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_Minikube_7d2e1f0c7b805354ToolsExtensions
+ModularPipelines.Context.ModularPipelines_Minikube_7d2e1f0c7b805354ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Minikube_7d2e1f0c7b805354ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Minikube.get -> ModularPipelines.Minikube.Services.IMinikube!
+ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
+ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
+ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput.Yaml = 1 -> ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Text = 0 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Yaml = 1 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Short = 0 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Yaml = 3 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeProfileListOutput
+ModularPipelines.Minikube.Enums.MinikubeProfileListOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeProfileListOutput
+ModularPipelines.Minikube.Enums.MinikubeProfileListOutput.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeProfileListOutput
+ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
+ModularPipelines.Minikube.Enums.MinikubeServiceListOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
+ModularPipelines.Minikube.Enums.MinikubeServiceListOutput.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
+ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Docker = 6 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Kvm2 = 1 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.None = 5 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Podman = 7 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu = 3 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu2 = 2 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Ssh = 8 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Virtualbox = 0 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Vmware = 4 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Extensions.MinikubeExtensions
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.AddonName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.AddonName.init -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.ConfigFile.get -> string?
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.ConfigFile.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.Deconstruct(out string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.MinikubeAddonsConfigureOptions(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.MinikubeAddonsConfigureOptions(string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.AddonName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.AddonName.init -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.Deconstruct(out string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.MinikubeAddonsDisableOptions(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.MinikubeAddonsDisableOptions(string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.AddonName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.AddonName.init -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Deconstruct(out string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Force.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Force.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Images.get -> string?
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Images.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.MinikubeAddonsEnableOptions(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.MinikubeAddonsEnableOptions(string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Refresh.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Refresh.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Registries.get -> string?
+ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Registries.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.AddonName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.AddonName.init -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Deconstruct(out string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.MinikubeAddonsImagesOptions(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.MinikubeAddonsImagesOptions(string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Docs.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Docs.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.MinikubeAddonsListOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.MinikubeAddonsListOptions(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.AddonName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.AddonName.init -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Deconstruct(out string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Https.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Https.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Interval.get -> int?
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Interval.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.MinikubeAddonsOpenOptions(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.MinikubeAddonsOpenOptions(string! AddonName) -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Url.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Url.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Wait.get -> int?
+ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Wait.set -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOptions
+ModularPipelines.Minikube.Options.MinikubeAddonsOptions.MinikubeAddonsOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeAddonsOptions.MinikubeAddonsOptions(ModularPipelines.Minikube.Options.MinikubeAddonsOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeCacheAddOptions
+ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.All.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.All.set -> void
+ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.MinikubeCacheAddOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.MinikubeCacheAddOptions(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeCacheListOptions
+ModularPipelines.Minikube.Options.MinikubeCacheListOptions.MinikubeCacheListOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeCacheListOptions.MinikubeCacheListOptions(ModularPipelines.Minikube.Options.MinikubeCacheListOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Deconstruct(out string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.MinikubeConfigDefaultsOptions(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.MinikubeConfigDefaultsOptions(string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Output.get -> ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput?
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.PropertyName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.PropertyName.init -> void
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.Deconstruct(out string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.MinikubeConfigGetOptions(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.MinikubeConfigGetOptions(string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.PropertyName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.PropertyName.init -> void
+ModularPipelines.Minikube.Options.MinikubeConfigOptions
+ModularPipelines.Minikube.Options.MinikubeConfigOptions.MinikubeConfigOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeConfigOptions.MinikubeConfigOptions(ModularPipelines.Minikube.Options.MinikubeConfigOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.Deconstruct(out string! PropertyName, out string! PropertyValue) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.MinikubeConfigSetOptions(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.MinikubeConfigSetOptions(string! PropertyName, string! PropertyValue) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.PropertyName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.PropertyName.init -> void
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.PropertyValue.get -> string!
+ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.PropertyValue.init -> void
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.Deconstruct(out string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.MinikubeConfigUnsetOptions(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.MinikubeConfigUnsetOptions(string! PropertyName) -> void
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.PropertyName.get -> string!
+ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.PropertyName.init -> void
+ModularPipelines.Minikube.Options.MinikubeConfigViewOptions
+ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.MinikubeConfigViewOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.MinikubeConfigViewOptions(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeCpOptions
+ModularPipelines.Minikube.Options.MinikubeCpOptions.Deconstruct(out string! SourceNodeNameSourceFilePath, out string! TargetNodeNameTargetFileAbsolutePath) -> void
+ModularPipelines.Minikube.Options.MinikubeCpOptions.MinikubeCpOptions(ModularPipelines.Minikube.Options.MinikubeCpOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeCpOptions.MinikubeCpOptions(string! SourceNodeNameSourceFilePath, string! TargetNodeNameTargetFileAbsolutePath) -> void
+ModularPipelines.Minikube.Options.MinikubeCpOptions.SourceNodeNameSourceFilePath.get -> string!
+ModularPipelines.Minikube.Options.MinikubeCpOptions.SourceNodeNameSourceFilePath.init -> void
+ModularPipelines.Minikube.Options.MinikubeCpOptions.TargetNodeNameTargetFileAbsolutePath.get -> string!
+ModularPipelines.Minikube.Options.MinikubeCpOptions.TargetNodeNameTargetFileAbsolutePath.init -> void
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.MinikubeDashboardOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.MinikubeDashboardOptions(ModularPipelines.Minikube.Options.MinikubeDashboardOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Port.get -> int?
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Port.set -> void
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Url.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Url.set -> void
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.All.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.All.set -> void
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.MinikubeDeleteOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.MinikubeDeleteOptions(ModularPipelines.Minikube.Options.MinikubeDeleteOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Purge.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Purge.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.MinikubeDockerEnvOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.MinikubeDockerEnvOptions(ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.NoProxy.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.NoProxy.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Output.get -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Shell.get -> string?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Shell.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.SshAdd.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.SshAdd.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.SshHost.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.SshHost.set -> void
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Unset.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Unset.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.All.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.All.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.BuildEnv.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.BuildEnv.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.BuildOpt.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.BuildOpt.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Deconstruct(out string! Path) -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.File.get -> string?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.File.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.MinikubeImageBuildOptions(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.MinikubeImageBuildOptions(string! Path) -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Path.get -> string!
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Path.init -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Push.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Push.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Tag.get -> string?
+ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Tag.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Daemon.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Daemon.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Deconstruct(out string! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Image.get -> string!
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Image.init -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.MinikubeImageLoadOptions(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.MinikubeImageLoadOptions(string! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Overwrite.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Overwrite.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Pull.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Pull.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Remote.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Remote.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLsOptions
+ModularPipelines.Minikube.Options.MinikubeImageLsOptions.Format.get -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat?
+ModularPipelines.Minikube.Options.MinikubeImageLsOptions.Format.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageLsOptions.MinikubeImageLsOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeImageLsOptions.MinikubeImageLsOptions(ModularPipelines.Minikube.Options.MinikubeImageLsOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Image.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Image.init -> void
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions.MinikubeImageRmOptions(ModularPipelines.Minikube.Options.MinikubeImageRmOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeImageRmOptions.MinikubeImageRmOptions(System.Collections.Generic.IEnumerable<string!>! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Archive.get -> string?
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Archive.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Daemon.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Daemon.set -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Deconstruct(out string! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Image.get -> string!
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Image.init -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.MinikubeImageSaveOptions(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.MinikubeImageSaveOptions(string! Image) -> void
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Remote.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Remote.set -> void
+ModularPipelines.Minikube.Options.MinikubeIpOptions
+ModularPipelines.Minikube.Options.MinikubeIpOptions.MinikubeIpOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeIpOptions.MinikubeIpOptions(ModularPipelines.Minikube.Options.MinikubeIpOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeIpOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeIpOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeKubectlOptions
+ModularPipelines.Minikube.Options.MinikubeKubectlOptions.MinikubeKubectlOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeKubectlOptions.MinikubeKubectlOptions(ModularPipelines.Minikube.Options.MinikubeKubectlOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeKubectlOptions.Ssh.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeKubectlOptions.Ssh.set -> void
+ModularPipelines.Minikube.Options.MinikubeLicenseOptions
+ModularPipelines.Minikube.Options.MinikubeLicenseOptions.Dir.get -> string?
+ModularPipelines.Minikube.Options.MinikubeLicenseOptions.Dir.set -> void
+ModularPipelines.Minikube.Options.MinikubeLicenseOptions.MinikubeLicenseOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeLicenseOptions.MinikubeLicenseOptions(ModularPipelines.Minikube.Options.MinikubeLicenseOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Audit.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Audit.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.File.get -> string?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.File.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Follow.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Follow.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.LastStartOnly.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.LastStartOnly.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Length.get -> int?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Length.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.MinikubeLogsOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.MinikubeLogsOptions(ModularPipelines.Minikube.Options.MinikubeLogsOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Problems.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeLogsOptions.Problems.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Deconstruct(out string! SourceDirectoryTargetDirectory) -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Gid.get -> string?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Gid.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Ip.get -> string?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Ip.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Kill.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Kill.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.MinikubeMountOptions(ModularPipelines.Minikube.Options.MinikubeMountOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.MinikubeMountOptions(string! SourceDirectoryTargetDirectory) -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Msize.get -> int?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Msize.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Options.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Options.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Port.get -> int?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Port.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.SourceDirectoryTargetDirectory.get -> string!
+ModularPipelines.Minikube.Options.MinikubeMountOptions.SourceDirectoryTargetDirectory.init -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Type.get -> string?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Type.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Uid.get -> string?
+ModularPipelines.Minikube.Options.MinikubeMountOptions.Uid.set -> void
+ModularPipelines.Minikube.Options.MinikubeMountOptions._9pVersion.get -> string?
+ModularPipelines.Minikube.Options.MinikubeMountOptions._9pVersion.set -> void
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.ControlPlane.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.ControlPlane.set -> void
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.DeleteOnFailure.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.DeleteOnFailure.set -> void
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.MinikubeNodeAddOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.MinikubeNodeAddOptions(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.Worker.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.Worker.set -> void
+ModularPipelines.Minikube.Options.MinikubeNodeOptions
+ModularPipelines.Minikube.Options.MinikubeNodeOptions.MinikubeNodeOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeNodeOptions.MinikubeNodeOptions(ModularPipelines.Minikube.Options.MinikubeNodeOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeNodeStartOptions
+ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.DeleteOnFailure.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.DeleteOnFailure.set -> void
+ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.MinikubeNodeStartOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.MinikubeNodeStartOptions(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeOptions
+ModularPipelines.Minikube.Options.MinikubeOptions.MinikubeOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeOptions.MinikubeOptions(ModularPipelines.Minikube.Options.MinikubeOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubePauseOptions
+ModularPipelines.Minikube.Options.MinikubePauseOptions.AllNamespaces.get -> bool?
+ModularPipelines.Minikube.Options.MinikubePauseOptions.AllNamespaces.set -> void
+ModularPipelines.Minikube.Options.MinikubePauseOptions.MinikubePauseOptions() -> void
+ModularPipelines.Minikube.Options.MinikubePauseOptions.MinikubePauseOptions(ModularPipelines.Minikube.Options.MinikubePauseOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubePauseOptions.Namespaces.get -> string?
+ModularPipelines.Minikube.Options.MinikubePauseOptions.Namespaces.set -> void
+ModularPipelines.Minikube.Options.MinikubePauseOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubePauseOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.MinikubePodmanEnvOptions() -> void
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.MinikubePodmanEnvOptions(ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Shell.get -> string?
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Shell.set -> void
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Unset.get -> bool?
+ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Unset.set -> void
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Detailed.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Detailed.set -> void
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Light.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Light.set -> void
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.MinikubeProfileListOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.MinikubeProfileListOptions(ModularPipelines.Minikube.Options.MinikubeProfileListOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Output.get -> ModularPipelines.Minikube.Enums.MinikubeProfileListOutput?
+ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeProfileOptions
+ModularPipelines.Minikube.Options.MinikubeProfileOptions.MinikubeProfileName.get -> string?
+ModularPipelines.Minikube.Options.MinikubeProfileOptions.MinikubeProfileName.set -> void
+ModularPipelines.Minikube.Options.MinikubeProfileOptions.MinikubeProfileOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeProfileOptions.MinikubeProfileOptions(ModularPipelines.Minikube.Options.MinikubeProfileOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.MinikubeServiceListOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.MinikubeServiceListOptions(ModularPipelines.Minikube.Options.MinikubeServiceListOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Namespace.get -> string?
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Namespace.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Output.get -> ModularPipelines.Minikube.Enums.MinikubeServiceListOutput?
+ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.All.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.All.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Deconstruct(out string! Service) -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Https.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Https.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Interval.get -> int?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Interval.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.MinikubeServiceOptions(ModularPipelines.Minikube.Options.MinikubeServiceOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.MinikubeServiceOptions(string! Service) -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Namespace.get -> string?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Namespace.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Service.get -> string!
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Service.init -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Url.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Url.set -> void
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Wait.get -> int?
+ModularPipelines.Minikube.Options.MinikubeServiceOptions.Wait.set -> void
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.AppendKnown.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.AppendKnown.set -> void
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.MinikubeSshHostOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.MinikubeSshHostOptions(ModularPipelines.Minikube.Options.MinikubeSshHostOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeSshHostOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeSshKeyOptions
+ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.MinikubeSshKeyOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.MinikubeSshKeyOptions(ModularPipelines.Minikube.Options.MinikubeSshKeyOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeSshOptions
+ModularPipelines.Minikube.Options.MinikubeSshOptions.MinikubeSshOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeSshOptions.MinikubeSshOptions(ModularPipelines.Minikube.Options.MinikubeSshOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeSshOptions.NativeSsh.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeSshOptions.NativeSsh.set -> void
+ModularPipelines.Minikube.Options.MinikubeSshOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeSshOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Addons.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Addons.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerIps.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerIps.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerName.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerName.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerNames.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerNames.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerPort.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ApiServerPort.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.AutoPauseInterval.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.AutoPauseInterval.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.AutoUpdateDrivers.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.AutoUpdateDrivers.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.BaseImage.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.BaseImage.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.BinaryMirror.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.BinaryMirror.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CacheImages.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CacheImages.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CertExpiration.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CertExpiration.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Cni.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Cni.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ContainerRuntime.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ContainerRuntime.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Cpus.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Cpus.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CriSocket.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.CriSocket.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DeleteOnFailure.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DeleteOnFailure.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableCorednsLog.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableCorednsLog.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableDriverMounts.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableDriverMounts.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableMetrics.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableMetrics.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableOptimizations.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DisableOptimizations.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DiskSize.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DiskSize.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DnsDomain.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DnsDomain.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DnsProxy.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DnsProxy.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DockerEnv.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DockerEnv.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DockerOpt.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DockerOpt.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DownloadOnly.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DownloadOnly.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Driver.get -> ModularPipelines.Minikube.Enums.MinikubeStartDriver?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Driver.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DryRun.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.DryRun.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.EmbedCerts.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.EmbedCerts.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ExtraConfig.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ExtraConfig.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ExtraDisks.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ExtraDisks.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.FeatureGates.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.FeatureGates.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Force.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Force.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ForceSystemd.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ForceSystemd.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Gpus.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Gpus.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Ha.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Ha.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostDnsResolver.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostDnsResolver.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostOnlyCidr.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostOnlyCidr.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostOnlyNicType.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HostOnlyNicType.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HyperkitVpnkitSock.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HyperkitVpnkitSock.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HyperkitVsockPorts.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HyperkitVsockPorts.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervExternalAdapter.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervExternalAdapter.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervUseExternalSwitch.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervUseExternalSwitch.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervVirtualSwitch.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.HypervVirtualSwitch.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ImageMirrorCountry.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ImageMirrorCountry.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ImageRepository.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ImageRepository.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.InsecureRegistry.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.InsecureRegistry.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.InstallAddons.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.InstallAddons.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Interactive.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Interactive.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.IsoUrl.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.IsoUrl.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KeepContext.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KeepContext.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KubernetesVersion.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KubernetesVersion.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmGpu.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmGpu.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmHidden.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmHidden.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmNetwork.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmNetwork.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmNumaCount.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmNumaCount.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmQemuUri.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.KvmQemuUri.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ListenAddress.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ListenAddress.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Memory.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Memory.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MinikubeStartOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MinikubeStartOptions(ModularPipelines.Minikube.Options.MinikubeStartOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Mount.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Mount.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountGid.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountGid.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountIp.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountIp.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountMsize.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountMsize.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountOptions.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountOptions.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountPort.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountPort.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountString.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountString.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountType.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountType.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountUid.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.MountUid.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Mount_9pVersion.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Mount_9pVersion.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Namespace.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Namespace.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NatNicType.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NatNicType.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NativeSsh.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NativeSsh.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Network.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Network.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NfsShare.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NfsShare.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NfsSharesRoot.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NfsSharesRoot.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NoKubernetes.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NoKubernetes.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NoVtxCheck.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.NoVtxCheck.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Nodes.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Nodes.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Ports.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Ports.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Preload.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Preload.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.PreloadSource.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.PreloadSource.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.QemuFirmwarePath.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.QemuFirmwarePath.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.RegistryMirror.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.RegistryMirror.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Rosetta.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Rosetta.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ServiceClusterIpRange.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.ServiceClusterIpRange.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SocketVmnetClientPath.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SocketVmnetClientPath.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SocketVmnetPath.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SocketVmnetPath.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshIpAddress.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshIpAddress.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshKey.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshKey.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshPort.get -> int?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshPort.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshUser.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.SshUser.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.StaticIp.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.StaticIp.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Subnet.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Subnet.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Trace.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Trace.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Uuid.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Uuid.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Vm.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Vm.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Wait.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.Wait.set -> void
+ModularPipelines.Minikube.Options.MinikubeStartOptions.WaitTimeout.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStartOptions.WaitTimeout.set -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Layout.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Layout.set -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.MinikubeStatusOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.MinikubeStatusOptions(ModularPipelines.Minikube.Options.MinikubeStatusOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Node.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Node.set -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Watch.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStatusOptions.Watch.set -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions
+ModularPipelines.Minikube.Options.MinikubeStopOptions.All.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStopOptions.All.set -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.CancelScheduled.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStopOptions.CancelScheduled.set -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.KeepContextActive.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeStopOptions.KeepContextActive.set -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.MinikubeStopOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.MinikubeStopOptions(ModularPipelines.Minikube.Options.MinikubeStopOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStopOptions.Output.set -> void
+ModularPipelines.Minikube.Options.MinikubeStopOptions.Schedule.get -> string?
+ModularPipelines.Minikube.Options.MinikubeStopOptions.Schedule.set -> void
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.BindAddress.get -> string?
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.BindAddress.set -> void
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.Cleanup.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.Cleanup.set -> void
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.MinikubeTunnelOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeTunnelOptions.MinikubeTunnelOptions(ModularPipelines.Minikube.Options.MinikubeTunnelOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.AllNamespaces.get -> bool?
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.AllNamespaces.set -> void
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.MinikubeUnpauseOptions() -> void
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.MinikubeUnpauseOptions(ModularPipelines.Minikube.Options.MinikubeUnpauseOptions! original) -> void
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Namespaces.get -> string?
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Namespaces.set -> void
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Output.get -> string?
+ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Output.set -> void
+ModularPipelines.Minikube.Services.IMinikube
+ModularPipelines.Minikube.Services.IMinikube.Addons.get -> ModularPipelines.Minikube.Services.IMinikubeAddons!
+ModularPipelines.Minikube.Services.IMinikube.Cache.get -> ModularPipelines.Minikube.Services.IMinikubeCache!
+ModularPipelines.Minikube.Services.IMinikube.Config.get -> ModularPipelines.Minikube.Services.IMinikubeConfig!
+ModularPipelines.Minikube.Services.IMinikube.CpAsync(ModularPipelines.Minikube.Options.MinikubeCpOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.DashboardAsync(ModularPipelines.Minikube.Options.MinikubeDashboardOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.DeleteAsync(ModularPipelines.Minikube.Options.MinikubeDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.DockerEnvAsync(ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.Image.get -> ModularPipelines.Minikube.Services.IMinikubeImage!
+ModularPipelines.Minikube.Services.IMinikube.IpAsync(ModularPipelines.Minikube.Options.MinikubeIpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.KubectlAsync(ModularPipelines.Minikube.Options.MinikubeKubectlOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.LicenseAsync(ModularPipelines.Minikube.Options.MinikubeLicenseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.LogsAsync(ModularPipelines.Minikube.Options.MinikubeLogsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.MountAsync(ModularPipelines.Minikube.Options.MinikubeMountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.Node.get -> ModularPipelines.Minikube.Services.IMinikubeNode!
+ModularPipelines.Minikube.Services.IMinikube.PauseAsync(ModularPipelines.Minikube.Options.MinikubePauseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.PodmanEnvAsync(ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.Profile.get -> ModularPipelines.Minikube.Services.IMinikubeProfile!
+ModularPipelines.Minikube.Services.IMinikube.Service.get -> ModularPipelines.Minikube.Services.IMinikubeService!
+ModularPipelines.Minikube.Services.IMinikube.SshAsync(ModularPipelines.Minikube.Options.MinikubeSshOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.SshHostAsync(ModularPipelines.Minikube.Options.MinikubeSshHostOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.SshKeyAsync(ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.StartAsync(ModularPipelines.Minikube.Options.MinikubeStartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.StatusAsync(ModularPipelines.Minikube.Options.MinikubeStatusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.StopAsync(ModularPipelines.Minikube.Options.MinikubeStopOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.TunnelAsync(ModularPipelines.Minikube.Options.MinikubeTunnelOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikube.UnpauseAsync(ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons
+ModularPipelines.Minikube.Services.IMinikubeAddons.ConfigureAsync(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.DisableAsync(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.EnableAsync(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeAddonsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.ImagesAsync(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.ListAsync(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeAddons.OpenAsync(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeCache
+ModularPipelines.Minikube.Services.IMinikubeCache.AddAsync(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeCache.ListAsync(ModularPipelines.Minikube.Options.MinikubeCacheListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig
+ModularPipelines.Minikube.Services.IMinikubeConfig.DefaultsAsync(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig.GetAsync(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig.SetAsync(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig.UnsetAsync(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeConfig.ViewAsync(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeImage
+ModularPipelines.Minikube.Services.IMinikubeImage.BuildAsync(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeImage.LoadAsync(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeImage.LsAsync(ModularPipelines.Minikube.Options.MinikubeImageLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeImage.RmAsync(ModularPipelines.Minikube.Options.MinikubeImageRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeImage.SaveAsync(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeNode
+ModularPipelines.Minikube.Services.IMinikubeNode.AddAsync(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeNode.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeNodeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeNode.StartAsync(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeProfile
+ModularPipelines.Minikube.Services.IMinikubeProfile.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeProfileOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeProfile.ListAsync(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeService
+ModularPipelines.Minikube.Services.IMinikubeService.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeServiceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.IMinikubeService.ListAsync(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Services.MinikubeAddons
+ModularPipelines.Minikube.Services.MinikubeAddons.MinikubeAddons(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeCache
+ModularPipelines.Minikube.Services.MinikubeCache.MinikubeCache(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeConfig
+ModularPipelines.Minikube.Services.MinikubeConfig.MinikubeConfig(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeImage
+ModularPipelines.Minikube.Services.MinikubeImage.MinikubeImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeNode
+ModularPipelines.Minikube.Services.MinikubeNode.MinikubeNode(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeProfile
+ModularPipelines.Minikube.Services.MinikubeProfile.MinikubeProfile(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+ModularPipelines.Minikube.Services.MinikubeService
+ModularPipelines.Minikube.Services.MinikubeService.MinikubeService(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsListOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeAddonsOptions!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeAddonsOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeCacheAddOptions!
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeCacheListOptions!
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCacheListOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigGetOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigSetOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeConfigViewOptions!
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeCpOptions!
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeCpOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeDashboardOptions!
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDashboardOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeDeleteOptions!
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDeleteOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions!
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeImageBuildOptions!
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeImageLoadOptions!
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeImageLsOptions!
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageLsOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeImageRmOptions!
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageRmOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeImageSaveOptions!
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeIpOptions!
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeIpOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeKubectlOptions!
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeKubectlOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeLicenseOptions!
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeLicenseOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeLogsOptions!
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeLogsOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeMountOptions!
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeMountOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeNodeAddOptions!
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeNodeOptions!
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeNodeStartOptions!
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubePauseOptions!
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubePauseOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions!
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeProfileListOptions!
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeProfileListOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeProfileOptions!
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeProfileOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeServiceListOptions!
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeServiceListOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeServiceOptions!
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeServiceOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeSshHostOptions!
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshHostOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeSshKeyOptions!
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeSshOptions!
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeSshOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeStartOptions!
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStartOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeStatusOptions!
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStatusOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeStopOptions!
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeStopOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeTunnelOptions!
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeTunnelOptions.ToString() -> string!
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeUnpauseOptions!
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Equals(object? obj) -> bool
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.GetHashCode() -> int
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.ToString() -> string!
+override abstract ModularPipelines.Minikube.Options.MinikubeOptions.<Clone>$() -> ModularPipelines.Minikube.Options.MinikubeOptions!
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeAddonsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeCacheListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeCpOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeImageLsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeIpOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeKubectlOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeLicenseOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeLogsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeMountOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeNodeOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubePauseOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeProfileOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeServiceOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeSshHostOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeSshOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeStartOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeStatusOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeStopOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeTunnelOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+override sealed ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Minikube_7d2e1f0c7b805354ToolsExtensions.get_Minikube(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Minikube.Services.IMinikube!
+static ModularPipelines.Minikube.Extensions.MinikubeExtensions.Minikube(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Minikube.Services.IMinikube!
+static ModularPipelines.Minikube.Extensions.MinikubeExtensions.RegisterMinikubeContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeAddonsOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeAddonsOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeAddonsOptions? left, ModularPipelines.Minikube.Options.MinikubeAddonsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? left, ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? left, ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCacheListOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeCacheListOptions? left, ModularPipelines.Minikube.Options.MinikubeCacheListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCacheListOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeCacheListOptions? left, ModularPipelines.Minikube.Options.MinikubeCacheListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigGetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigGetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigSetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigSetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? left, ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCpOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeCpOptions? left, ModularPipelines.Minikube.Options.MinikubeCpOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeCpOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeCpOptions? left, ModularPipelines.Minikube.Options.MinikubeCpOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDashboardOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeDashboardOptions? left, ModularPipelines.Minikube.Options.MinikubeDashboardOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDashboardOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeDashboardOptions? left, ModularPipelines.Minikube.Options.MinikubeDashboardOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDeleteOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeDeleteOptions? left, ModularPipelines.Minikube.Options.MinikubeDeleteOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDeleteOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeDeleteOptions? left, ModularPipelines.Minikube.Options.MinikubeDeleteOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? left, ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? left, ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions? left, ModularPipelines.Minikube.Options.MinikubeImageBuildOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions? left, ModularPipelines.Minikube.Options.MinikubeImageBuildOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions? left, ModularPipelines.Minikube.Options.MinikubeImageLoadOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions? left, ModularPipelines.Minikube.Options.MinikubeImageLoadOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageLsOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeImageLsOptions? left, ModularPipelines.Minikube.Options.MinikubeImageLsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageLsOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeImageLsOptions? left, ModularPipelines.Minikube.Options.MinikubeImageLsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageRmOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeImageRmOptions? left, ModularPipelines.Minikube.Options.MinikubeImageRmOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageRmOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeImageRmOptions? left, ModularPipelines.Minikube.Options.MinikubeImageRmOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions? left, ModularPipelines.Minikube.Options.MinikubeImageSaveOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions? left, ModularPipelines.Minikube.Options.MinikubeImageSaveOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeIpOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeIpOptions? left, ModularPipelines.Minikube.Options.MinikubeIpOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeIpOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeIpOptions? left, ModularPipelines.Minikube.Options.MinikubeIpOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeKubectlOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeKubectlOptions? left, ModularPipelines.Minikube.Options.MinikubeKubectlOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeKubectlOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeKubectlOptions? left, ModularPipelines.Minikube.Options.MinikubeKubectlOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeLicenseOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeLicenseOptions? left, ModularPipelines.Minikube.Options.MinikubeLicenseOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeLicenseOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeLicenseOptions? left, ModularPipelines.Minikube.Options.MinikubeLicenseOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeLogsOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeLogsOptions? left, ModularPipelines.Minikube.Options.MinikubeLogsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeLogsOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeLogsOptions? left, ModularPipelines.Minikube.Options.MinikubeLogsOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeMountOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeMountOptions? left, ModularPipelines.Minikube.Options.MinikubeMountOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeMountOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeMountOptions? left, ModularPipelines.Minikube.Options.MinikubeMountOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeNodeOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeNodeOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? left, ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeOptions? left, ModularPipelines.Minikube.Options.MinikubeOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeOptions? left, ModularPipelines.Minikube.Options.MinikubeOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubePauseOptions.operator !=(ModularPipelines.Minikube.Options.MinikubePauseOptions? left, ModularPipelines.Minikube.Options.MinikubePauseOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubePauseOptions.operator ==(ModularPipelines.Minikube.Options.MinikubePauseOptions? left, ModularPipelines.Minikube.Options.MinikubePauseOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.operator !=(ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? left, ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.operator ==(ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? left, ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeProfileListOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? left, ModularPipelines.Minikube.Options.MinikubeProfileListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeProfileListOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? left, ModularPipelines.Minikube.Options.MinikubeProfileListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeProfileOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeProfileOptions? left, ModularPipelines.Minikube.Options.MinikubeProfileOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeProfileOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeProfileOptions? left, ModularPipelines.Minikube.Options.MinikubeProfileOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeServiceListOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? left, ModularPipelines.Minikube.Options.MinikubeServiceListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeServiceListOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? left, ModularPipelines.Minikube.Options.MinikubeServiceListOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeServiceOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeServiceOptions? left, ModularPipelines.Minikube.Options.MinikubeServiceOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeServiceOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeServiceOptions? left, ModularPipelines.Minikube.Options.MinikubeServiceOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshHostOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeSshHostOptions? left, ModularPipelines.Minikube.Options.MinikubeSshHostOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshHostOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeSshHostOptions? left, ModularPipelines.Minikube.Options.MinikubeSshHostOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? left, ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? left, ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeSshOptions? left, ModularPipelines.Minikube.Options.MinikubeSshOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeSshOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeSshOptions? left, ModularPipelines.Minikube.Options.MinikubeSshOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStartOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeStartOptions? left, ModularPipelines.Minikube.Options.MinikubeStartOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStartOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeStartOptions? left, ModularPipelines.Minikube.Options.MinikubeStartOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStatusOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeStatusOptions? left, ModularPipelines.Minikube.Options.MinikubeStatusOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStatusOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeStatusOptions? left, ModularPipelines.Minikube.Options.MinikubeStatusOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStopOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeStopOptions? left, ModularPipelines.Minikube.Options.MinikubeStopOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeStopOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeStopOptions? left, ModularPipelines.Minikube.Options.MinikubeStopOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeTunnelOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeTunnelOptions? left, ModularPipelines.Minikube.Options.MinikubeTunnelOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeTunnelOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeTunnelOptions? left, ModularPipelines.Minikube.Options.MinikubeTunnelOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.operator !=(ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? left, ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? right) -> bool
+static ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.operator ==(ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? left, ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? right) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeAddonsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeAddonsOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeCacheAddOptions.Equals(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeCacheListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeCacheListOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigGetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigSetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeConfigViewOptions.Equals(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeCpOptions.Equals(ModularPipelines.Minikube.Options.MinikubeCpOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeDashboardOptions.Equals(ModularPipelines.Minikube.Options.MinikubeDashboardOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeDeleteOptions.Equals(ModularPipelines.Minikube.Options.MinikubeDeleteOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions.Equals(ModularPipelines.Minikube.Options.MinikubeDockerEnvOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeImageBuildOptions.Equals(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeImageLoadOptions.Equals(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeImageLsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeImageLsOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeImageRmOptions.Equals(ModularPipelines.Minikube.Options.MinikubeImageRmOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeImageSaveOptions.Equals(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeIpOptions.Equals(ModularPipelines.Minikube.Options.MinikubeIpOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeKubectlOptions.Equals(ModularPipelines.Minikube.Options.MinikubeKubectlOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeLicenseOptions.Equals(ModularPipelines.Minikube.Options.MinikubeLicenseOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeLogsOptions.Equals(ModularPipelines.Minikube.Options.MinikubeLogsOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeMountOptions.Equals(ModularPipelines.Minikube.Options.MinikubeMountOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeNodeAddOptions.Equals(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeNodeOptions.Equals(ModularPipelines.Minikube.Options.MinikubeNodeOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.Equals(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeOptions.Equals(ModularPipelines.Minikube.Options.MinikubeOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubePauseOptions.Equals(ModularPipelines.Minikube.Options.MinikubePauseOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions.Equals(ModularPipelines.Minikube.Options.MinikubePodmanEnvOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeProfileListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeProfileOptions.Equals(ModularPipelines.Minikube.Options.MinikubeProfileOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeServiceListOptions.Equals(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeServiceOptions.Equals(ModularPipelines.Minikube.Options.MinikubeServiceOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeSshHostOptions.Equals(ModularPipelines.Minikube.Options.MinikubeSshHostOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeSshKeyOptions.Equals(ModularPipelines.Minikube.Options.MinikubeSshKeyOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeSshOptions.Equals(ModularPipelines.Minikube.Options.MinikubeSshOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeStartOptions.Equals(ModularPipelines.Minikube.Options.MinikubeStartOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeStatusOptions.Equals(ModularPipelines.Minikube.Options.MinikubeStatusOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeStopOptions.Equals(ModularPipelines.Minikube.Options.MinikubeStopOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeTunnelOptions.Equals(ModularPipelines.Minikube.Options.MinikubeTunnelOptions? other) -> bool
+virtual ModularPipelines.Minikube.Options.MinikubeUnpauseOptions.Equals(ModularPipelines.Minikube.Options.MinikubeUnpauseOptions? other) -> bool
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.ConfigureAsync(ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.DisableAsync(ModularPipelines.Minikube.Options.MinikubeAddonsDisableOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.EnableAsync(ModularPipelines.Minikube.Options.MinikubeAddonsEnableOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeAddonsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.ImagesAsync(ModularPipelines.Minikube.Options.MinikubeAddonsImagesOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.ListAsync(ModularPipelines.Minikube.Options.MinikubeAddonsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeAddons.OpenAsync(ModularPipelines.Minikube.Options.MinikubeAddonsOpenOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeCache.AddAsync(ModularPipelines.Minikube.Options.MinikubeCacheAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeCache.ListAsync(ModularPipelines.Minikube.Options.MinikubeCacheListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.DefaultsAsync(ModularPipelines.Minikube.Options.MinikubeConfigDefaultsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.GetAsync(ModularPipelines.Minikube.Options.MinikubeConfigGetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.SetAsync(ModularPipelines.Minikube.Options.MinikubeConfigSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.UnsetAsync(ModularPipelines.Minikube.Options.MinikubeConfigUnsetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeConfig.ViewAsync(ModularPipelines.Minikube.Options.MinikubeConfigViewOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeImage.BuildAsync(ModularPipelines.Minikube.Options.MinikubeImageBuildOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeImage.LoadAsync(ModularPipelines.Minikube.Options.MinikubeImageLoadOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeImage.LsAsync(ModularPipelines.Minikube.Options.MinikubeImageLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeImage.RmAsync(ModularPipelines.Minikube.Options.MinikubeImageRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeImage.SaveAsync(ModularPipelines.Minikube.Options.MinikubeImageSaveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeNode.AddAsync(ModularPipelines.Minikube.Options.MinikubeNodeAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeNode.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeNodeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeNode.StartAsync(ModularPipelines.Minikube.Options.MinikubeNodeStartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeProfile.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeProfileOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeProfile.ListAsync(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeService.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeServiceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Minikube.Services.MinikubeService.ListAsync(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

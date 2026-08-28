@@ -647,7 +647,7 @@ jobs:
             BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
           fi
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
-            -c Release "${BUILD_ARGS[@]}"
+            -c Release -p:SkipPublicApiAnalysis=true "${BUILD_ARGS[@]}"
 
       - name: Validate generated API compatibility
         id: api-compat
@@ -655,10 +655,28 @@ jobs:
         continue-on-error: true
         run: |
           PACKAGE="${{ steps.package.outputs.package }}"
-          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release --output "$RUNNER_TEMP/api-current"
+          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release \
+            -p:SkipPublicApiAnalysis=true --output "$RUNNER_TEMP/api-current"
           pwsh -File tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 \
             -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
             -CurrentDirectory "$RUNNER_TEMP/api-current"
+
+      - name: Record generated public API changes
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $package = "${{ steps.package.outputs.package }}"
+          $project = "src/$package/$package.csproj"
+          dotnet restore $project -p:SkipPublicApiAnalysis=false
+          dotnet format $project analyzers --no-restore --diagnostics RS0016 RS0017 --severity error
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to update the public API baseline for $package"
+          }
+
+          Add-Content -LiteralPath "$env:RUNNER_TEMP/generated-paths.txt" -Value @(
+            "src/$package/PublicAPI.Shipped.txt"
+            "src/$package/PublicAPI.Unshipped.txt"
+          )
 
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
@@ -668,6 +686,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedOversizedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
@@ -932,7 +954,11 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        run: dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" -c Release
+        run: >-
+          dotnet build
+          "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
+          -c Release
+          -p:SkipPublicApiAnalysis=true
 
       - name: Validate generated API compatibility
         id: api-compat
@@ -941,7 +967,8 @@ jobs:
         shell: pwsh
         run: |
           $package = "${{ steps.package.outputs.package }}"
-          dotnet pack "src/$package/$package.csproj" -c Release --output "$env:RUNNER_TEMP/api-current"
+          dotnet pack "src/$package/$package.csproj" -c Release `
+            -p:SkipPublicApiAnalysis=true --output "$env:RUNNER_TEMP/api-current"
           if ($LASTEXITCODE -ne 0) {
             throw "Failed to pack current API for $package"
           }
@@ -949,6 +976,23 @@ jobs:
           tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 `
             -BaselineDirectory "$env:RUNNER_TEMP/api-baseline" `
             -CurrentDirectory "$env:RUNNER_TEMP/api-current"
+
+      - name: Record generated public API changes
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $package = "${{ steps.package.outputs.package }}"
+          $project = "src/$package/$package.csproj"
+          dotnet restore $project -p:SkipPublicApiAnalysis=false
+          dotnet format $project analyzers --no-restore --diagnostics RS0016 RS0017 --severity error
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to update the public API baseline for $package"
+          }
+
+          Add-Content -LiteralPath "$env:RUNNER_TEMP/generated-paths.txt" -Value @(
+            "src/$package/PublicAPI.Shipped.txt"
+            "src/$package/PublicAPI.Unshipped.txt"
+          )
 
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
@@ -958,6 +1002,10 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
+            -AllowedOversizedPath @(
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
+              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
+            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}

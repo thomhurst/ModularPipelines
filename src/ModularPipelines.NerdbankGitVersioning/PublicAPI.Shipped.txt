@@ -1,0 +1,186 @@
+#nullable enable
+ModularPipelines.Context.ModularPipelines_NerdbankGitVersioning_2b1d36a08c66b2a5ToolsExtensions
+ModularPipelines.Context.ModularPipelines_NerdbankGitVersioning_2b1d36a08c66b2a5ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_NerdbankGitVersioning_2b1d36a08c66b2a5ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Nbgv.get -> ModularPipelines.NerdbankGitVersioning.Services.INbgv!
+ModularPipelines.NerdbankGitVersioning.Extensions.NbgvExtensions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.AllVars.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.AllVars.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.CiSystem.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.CiSystem.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.CommonVars.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.CommonVars.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Define.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Define.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Metadata.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Metadata.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.NbgvCloudOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.NbgvCloudOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.SkipCloudBuildNumber.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.SkipCloudBuildNumber.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Version.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Version.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Deconstruct(out string! Version) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.NbgvGetCommitsOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.NbgvGetCommitsOptions(string! Version) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Quiet.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Quiet.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Version.get -> string!
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Version.init -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.CommitIsh.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.CommitIsh.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Format.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Format.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Metadata.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Metadata.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.NbgvGetVersionOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.NbgvGetVersionOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.PublicRelease.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.PublicRelease.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Variable.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Variable.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.NbgvInstallOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.NbgvInstallOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Path.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Path.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Source.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Source.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Version.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Version.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.NbgvOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.NbgvOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.CommitMessagePattern.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.CommitMessagePattern.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Format.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Format.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.NbgvPrepareReleaseOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.NbgvPrepareReleaseOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.NextVersion.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.NextVersion.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Tag.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Tag.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.VersionIncrement.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.VersionIncrement.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.WhatIf.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.WhatIf.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Deconstruct(out string! Version) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.NbgvSetVersionOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.NbgvSetVersionOptions(string! Version) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Version.get -> string!
+ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Version.init -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.NbgvTagOptions() -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.NbgvTagOptions(ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions! original) -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Project.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Project.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.VersionOrRef.get -> string?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.VersionOrRef.set -> void
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.WhatIf.get -> bool?
+ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.WhatIf.set -> void
+ModularPipelines.NerdbankGitVersioning.Services.INbgv
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.CloudAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.GetCommitsAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.GetVersionAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.InstallAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.PrepareReleaseAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.SetVersionAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.NerdbankGitVersioning.Services.INbgv.TagAsync(ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+override abstract ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.ToString() -> string!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Equals(object? obj) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.GetHashCode() -> int
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.ToString() -> string!
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_NerdbankGitVersioning_2b1d36a08c66b2a5ToolsExtensions.get_Nbgv(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.NerdbankGitVersioning.Services.INbgv!
+static ModularPipelines.NerdbankGitVersioning.Extensions.NbgvExtensions.Nbgv(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.NerdbankGitVersioning.Services.INbgv!
+static ModularPipelines.NerdbankGitVersioning.Extensions.NbgvExtensions.RegisterNbgvContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.operator !=(ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? right) -> bool
+static ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.operator ==(ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? left, ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? right) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvInstallOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvPrepareReleaseOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvSetVersionOptions? other) -> bool
+virtual ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions? other) -> bool

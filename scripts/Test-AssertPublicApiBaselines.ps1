@@ -1,0 +1,50 @@
+$ErrorActionPreference = 'Stop'
+
+$scriptPath = Join-Path $PSScriptRoot 'Assert-PublicApiBaselines.ps1'
+$testRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("public-api-baselines-{0}" -f [guid]::NewGuid())
+
+function Add-File([string] $RelativePath, [string] $Content = '') {
+    $path = Join-Path $testRoot $RelativePath
+    $directory = Split-Path $path -Parent
+    New-Item -ItemType Directory -Path $directory -Force | Out-Null
+    Set-Content -LiteralPath $path -Value $Content
+}
+
+function Add-BaselinePair([string] $RelativeDirectory) {
+    Add-File "$RelativeDirectory/PublicAPI.Shipped.txt" '#nullable enable'
+    Add-File "$RelativeDirectory/PublicAPI.Unshipped.txt" '#nullable enable'
+}
+
+try {
+    Add-File 'src/ModularPipelines/ModularPipelines.csproj' '<Project />'
+    Add-BaselinePair 'src/ModularPipelines'
+    Add-File 'src/ModularPipelines.Cmd/ModularPipelines.Cmd.csproj' '<Project />'
+    Add-BaselinePair 'src/ModularPipelines.Cmd'
+    Add-File 'src/ModularPipelines.Example/ModularPipelines.Example.csproj' '<Project />'
+    Add-File 'src/ModularPipelines.Example/ModularPipelines.Example.slnx' '<Solution />'
+    Add-BaselinePair 'src/ModularPipelines.Example'
+    Add-File 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj' '<Project />'
+    Add-BaselinePair 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator'
+
+    $successOutput = & $scriptPath -RepositoryRoot $testRoot
+    if ($successOutput -notmatch 'Verified public API baselines for 4 package projects') {
+        throw "Expected successful coverage output, got: $successOutput"
+    }
+
+    Remove-Item -LiteralPath (Join-Path $testRoot 'src/ModularPipelines.Example/PublicAPI.Unshipped.txt')
+    $failureOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        throw 'Missing baseline unexpectedly passed.'
+    }
+
+    if (($failureOutput -join "`n") -notmatch 'ModularPipelines.Example[\\/]PublicAPI.Unshipped.txt') {
+        throw "Missing baseline path was not reported: $($failureOutput -join "`n")"
+    }
+
+    Write-Output 'Assert-PublicApiBaselines tests passed.'
+}
+finally {
+    if (Test-Path -LiteralPath $testRoot) {
+        Remove-Item -LiteralPath $testRoot -Recurse -Force
+    }
+}
