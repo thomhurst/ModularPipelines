@@ -2261,12 +2261,10 @@ public class ModuleCacheTests
                     await staleEntry.WriteAsync("stale"u8.ToArray());
                 }
 
-                await using (var failingEntry = archive
+                await using var failingEntry = archive
                                  .CreateEntry("artifacts/blocked/child.txt")
-                                 .Open())
-                {
-                    await failingEntry.WriteAsync("blocked"u8.ToArray());
-                }
+                                 .Open();
+                await failingEntry.WriteAsync("blocked"u8.ToArray());
             }
 
             await System.IO.File.WriteAllTextAsync(
@@ -2499,10 +2497,10 @@ public class ModuleCacheTests
             ModuleResult<string> failure = new ModuleResult<string>.Failure(
                 new InvalidOperationException("poisoned cache result"))
             {
-                ModuleName = nameof(VaryingArtifactSetModule),
-                ModuleDuration = TimeSpan.Zero,
-                ModuleStart = DateTimeOffset.UtcNow,
-                ModuleEnd = DateTimeOffset.UtcNow,
+                Name = nameof(VaryingArtifactSetModule),
+                Duration = TimeSpan.Zero,
+                StartTime = DateTimeOffset.UtcNow,
+                EndTime = DateTimeOffset.UtcNow,
                 Status = ModuleStatus.Failed,
             };
             var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();

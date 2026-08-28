@@ -96,10 +96,10 @@ public class ModuleStatusCompatibilityTests
     {
         ModuleResult result = new ModuleResult.Failure(new InvalidOperationException("Failed"))
         {
-            ModuleName = "LegacyModule",
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.MinValue,
-            ModuleEnd = DateTimeOffset.MinValue,
+            Name = "LegacyModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
             Status = ModuleStatus.Failed,
         };
         var legacyJson = RenameStatusProperty(JsonSerializer.Serialize(result));
@@ -114,10 +114,10 @@ public class ModuleStatusCompatibilityTests
     {
         ModuleResult<int> result = new ModuleResult<int>.Success(42)
         {
-            ModuleName = "LegacyModule",
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.MinValue,
-            ModuleEnd = DateTimeOffset.MinValue,
+            Name = "LegacyModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
             Status = ModuleStatus.Succeeded,
         };
         var legacyJson = RenameStatusProperty(JsonSerializer.Serialize(result));

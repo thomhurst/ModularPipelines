@@ -122,10 +122,10 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
     {
         var stepStringList = pipelineSummary.Results
-            .Where(x => x.ModuleDuration != TimeSpan.Zero)
-            .OrderBy(x => x.ModuleStart)
-            .ThenBy(s => s.ModuleEnd)
-            .Select(x => $"{x.ModuleName} :{AddCritIfFailed(x)} {x.ModuleStart:HH:mm:ss:fff}, {x.ModuleEnd:HH:mm:ss:fff}").ToList();
+            .Where(x => x.Duration != TimeSpan.Zero)
+            .OrderBy(x => x.StartTime)
+            .ThenBy(s => s.EndTime)
+            .Select(x => $"{x.Name} :{AddCritIfFailed(x)} {x.StartTime:HH:mm:ss:fff}, {x.EndTime:HH:mm:ss:fff}").ToList();
 
         var text = $"""
                     ```mermaid
@@ -160,14 +160,14 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
     private static string GenerateTableSummary(PipelineSummary pipelineSummary)
     {
-        var stepStringList = pipelineSummary.Results.OrderBy(x => x.ModuleEnd)
-            .ThenBy(s => s.ModuleStart)
+        var stepStringList = pipelineSummary.Results.OrderBy(x => x.EndTime)
+            .ThenBy(s => s.StartTime)
             .Select(module =>
                 {
-                    var isSameDay = module.ModuleStart.Date == module.ModuleEnd.Date;
+                    var isSameDay = module.StartTime.Date == module.EndTime.Date;
 
-                    var (startTime, endTime, duration) = (module.ModuleStart, module.ModuleEnd, module.ModuleDuration);
-                    var text = $"| {module.ModuleName} | {GetStatusString(module.Status)} | {GetTime(startTime, isSameDay)} | {GetTime(endTime, isSameDay)} | {duration} |";
+                    var (startTime, endTime, duration) = (module.StartTime, module.EndTime, module.Duration);
+                    var text = $"| {module.Name} | {GetStatusString(module.Status)} | {GetTime(startTime, isSameDay)} | {GetTime(endTime, isSameDay)} | {duration} |";
                     return text;
                 }
             ).ToList();

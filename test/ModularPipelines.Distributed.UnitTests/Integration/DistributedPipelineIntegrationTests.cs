@@ -70,11 +70,11 @@ public class DistributedPipelineIntegrationTests
         var now = DateTimeOffset.UtcNow;
         var successResult = new ModuleResult<SimpleResult>.Success(new SimpleResult { Message = "A done" })
         {
-            ModuleName = "ModuleA",
-            ModuleTypeName = typeof(ModuleA).FullName,
-            ModuleDuration = TimeSpan.FromSeconds(1),
-            ModuleStart = now,
-            ModuleEnd = now.AddSeconds(1),
+            Name = "ModuleA",
+            TypeName = typeof(ModuleA).FullName,
+            Duration = TimeSpan.FromSeconds(1),
+            StartTime = now,
+            EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
 
@@ -91,7 +91,7 @@ public class DistributedPipelineIntegrationTests
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(result.ModuleName).IsEqualTo("ModuleA");
+        await Assert.That(result.Name).IsEqualTo("ModuleA");
     }
 
     [Test]
@@ -146,11 +146,11 @@ public class DistributedPipelineIntegrationTests
 
         var resultA = new ModuleResult<SimpleResult>.Success(new SimpleResult { Message = "A" })
         {
-            ModuleName = "ModuleA",
-            ModuleTypeName = typeof(ModuleA).FullName,
-            ModuleDuration = TimeSpan.FromSeconds(1),
-            ModuleStart = now,
-            ModuleEnd = now.AddSeconds(1),
+            Name = "ModuleA",
+            TypeName = typeof(ModuleA).FullName,
+            Duration = TimeSpan.FromSeconds(1),
+            StartTime = now,
+            EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
         var serializedA = serializer.Serialize(resultA, typeof(ModuleA).FullName!, typeof(SimpleResult).FullName!, 1);
@@ -158,11 +158,11 @@ public class DistributedPipelineIntegrationTests
 
         var resultB = new ModuleResult<string>.Success("B")
         {
-            ModuleName = "ModuleB",
-            ModuleTypeName = typeof(ModuleB).FullName,
-            ModuleDuration = TimeSpan.FromSeconds(1),
-            ModuleStart = now,
-            ModuleEnd = now.AddSeconds(1),
+            Name = "ModuleB",
+            TypeName = typeof(ModuleB).FullName,
+            Duration = TimeSpan.FromSeconds(1),
+            StartTime = now,
+            EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
         var serializedB = serializer.Serialize(resultB, typeof(ModuleB).FullName!, typeof(string).FullName!, 1);
@@ -170,11 +170,11 @@ public class DistributedPipelineIntegrationTests
 
         var resultC = new ModuleResult<int>.Success(42)
         {
-            ModuleName = "ModuleC",
-            ModuleTypeName = typeof(ModuleC).FullName,
-            ModuleDuration = TimeSpan.FromSeconds(1),
-            ModuleStart = now,
-            ModuleEnd = now.AddSeconds(1),
+            Name = "ModuleC",
+            TypeName = typeof(ModuleC).FullName,
+            Duration = TimeSpan.FromSeconds(1),
+            StartTime = now,
+            EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
         var serializedC = serializer.Serialize(resultC, typeof(ModuleC).FullName!, typeof(int).FullName!, 1);
@@ -187,14 +187,14 @@ public class DistributedPipelineIntegrationTests
 
         await Assert.That(collectedA).IsNotNull();
         await Assert.That(collectedA!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(collectedA.ModuleName).IsEqualTo("ModuleA");
+        await Assert.That(collectedA.Name).IsEqualTo("ModuleA");
 
         await Assert.That(collectedB).IsNotNull();
         await Assert.That(collectedB!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(collectedB.ModuleName).IsEqualTo("ModuleB");
+        await Assert.That(collectedB.Name).IsEqualTo("ModuleB");
 
         await Assert.That(collectedC).IsNotNull();
         await Assert.That(collectedC!.Status).IsEqualTo(ModuleStatus.Succeeded);
-        await Assert.That(collectedC.ModuleName).IsEqualTo("ModuleC");
+        await Assert.That(collectedC.Name).IsEqualTo("ModuleC");
     }
 }

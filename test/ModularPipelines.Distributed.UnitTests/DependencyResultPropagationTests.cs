@@ -44,11 +44,11 @@ public class DependencyResultPropagationTests
         var now = DateTimeOffset.UtcNow;
         return new ModuleResult<T>.Success(value)
         {
-            ModuleName = moduleName,
-            ModuleTypeName = moduleName,
-            ModuleDuration = TimeSpan.FromMilliseconds(100),
-            ModuleStart = now,
-            ModuleEnd = now.AddMilliseconds(100),
+            Name = moduleName,
+            TypeName = moduleName,
+            Duration = TimeSpan.FromMilliseconds(100),
+            StartTime = now,
+            EndTime = now.AddMilliseconds(100),
             Status = ModuleStatus.Succeeded,
         };
     }
@@ -87,11 +87,11 @@ public class DependencyResultPropagationTests
         var resultRegistry = new ModuleResultRegistry();
         var localSkip = new ModuleResult.Skipped(SkipDecision.Skip("Unavailable on this worker"))
         {
-            ModuleName = nameof(DependencyModule),
-            ModuleTypeName = typeof(DependencyModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(DependencyModule),
+            TypeName = typeof(DependencyModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Skipped,
         };
         resultRegistry.RegisterResult(typeof(DependencyModule), localSkip);

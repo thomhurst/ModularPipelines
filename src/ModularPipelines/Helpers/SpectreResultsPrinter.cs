@@ -420,7 +420,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
                 continue;
             }
 
-            var escapedModuleName = SpectreMarkupEscaper.Escape(result.ModuleName);
+            var escapedModuleName = SpectreMarkupEscaper.Escape(result.Name);
             AnsiConsole.MarkupLine($"  [red]\u2717[/] [bold]{escapedModuleName}[/]");
 
             PrintException(exception, isInner: false);

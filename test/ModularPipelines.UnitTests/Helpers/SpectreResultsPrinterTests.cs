@@ -363,11 +363,11 @@ public class SpectreResultsPrinterTests
         var module = new FailedModule();
         var result = new ModuleResult.Failure(new InvalidOperationException("root failure"))
         {
-            ModuleName = nameof(FailedModule),
-            ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FailedModule)),
-            ModuleDuration = end - start,
-            ModuleStart = start,
-            ModuleEnd = end,
+            Name = nameof(FailedModule),
+            TypeName = ModuleTypeIdentifier.Get(typeof(FailedModule)),
+            Duration = end - start,
+            StartTime = start,
+            EndTime = end,
             Status = ModuleStatus.Failed,
         };
 

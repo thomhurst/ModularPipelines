@@ -101,11 +101,11 @@ public class DistributedWorkPublisherTests
         var now = DateTimeOffset.UtcNow;
         return new ModuleResult<T>.Success(value)
         {
-            ModuleName = moduleName,
-            ModuleTypeName = moduleName,
-            ModuleDuration = TimeSpan.FromMilliseconds(100),
-            ModuleStart = now,
-            ModuleEnd = now.AddMilliseconds(100),
+            Name = moduleName,
+            TypeName = moduleName,
+            Duration = TimeSpan.FromMilliseconds(100),
+            StartTime = now,
+            EndTime = now.AddMilliseconds(100),
             Status = ModuleStatus.Succeeded,
         };
     }

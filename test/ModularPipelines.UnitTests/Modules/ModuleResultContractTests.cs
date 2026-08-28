@@ -10,6 +10,42 @@ namespace ModularPipelines.UnitTests.Modules;
 public class ModuleResultContractTests
 {
     [Test]
+    public async Task MetadataSurface_UsesConciseNames()
+    {
+        var propertyNames = typeof(IModuleResult)
+            .GetProperties()
+            .Select(static property => property.Name)
+            .ToArray();
+        var constructorParameter = typeof(ModuleResult<int>.Success)
+            .GetConstructors()
+            .Single()
+            .GetParameters()
+            .Single();
+        var deconstructParameter = typeof(ModuleResult<int>.Success)
+            .GetMethod(nameof(ModuleResult<int>.Success.Deconstruct))!
+            .GetParameters()
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(propertyNames).IsEquivalentTo(
+            [
+                "Name",
+                "TypeName",
+                "Duration",
+                "StartTime",
+                "EndTime",
+                "Status",
+                "ValueOrDefault",
+                "ExceptionOrDefault",
+                "SkipDecisionOrDefault",
+            ]);
+            await Assert.That(constructorParameter.Name).IsEqualTo("value");
+            await Assert.That(deconstructParameter.Name).IsEqualTo("value");
+        }
+    }
+
+    [Test]
     public async Task DistributedValueTypeResult_AppliesToModule()
     {
         var module = new IntModule();
@@ -31,7 +67,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task Failure_TryGetValue_ReturnsFalse()
     {
-        ModuleResult<int> result = CreateFailure();
+        var result = CreateFailure();
 
         var hasValue = result.TryGetValue(out var value);
 
@@ -45,7 +81,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task Generic_Failure_Can_Be_Pattern_Matched()
     {
-        ModuleResult<int> result = CreateFailure();
+        var result = CreateFailure();
 
         var message = result switch
         {
@@ -58,7 +94,7 @@ public class ModuleResultContractTests
             await Assert.That(result).IsTypeOf<ModuleResult<int>.Failure>();
             await Assert.That(message).IsEqualTo("Failed");
             await Assert.That(result.ExceptionOrDefault?.Message).IsEqualTo("Failed");
-            await Assert.That(result.ModuleTypeName).IsEqualTo(typeof(IntModule).FullName);
+            await Assert.That(result.TypeName).IsEqualTo(typeof(IntModule).FullName);
         }
     }
 
@@ -67,7 +103,7 @@ public class ModuleResultContractTests
     {
         var success = CreateSuccess(42);
         ModuleResult<int> result = success;
-        success.Deconstruct(Value: out var deconstructedValue);
+        success.Deconstruct(value: out var deconstructedValue);
 
         using (Assert.Multiple())
         {
@@ -83,11 +119,11 @@ public class ModuleResultContractTests
         var decision = SkipDecision.Skip("Not needed");
         ModuleResult<int> result = new ModuleResult.Skipped(decision)
         {
-            ModuleName = nameof(IntModule),
-            ModuleTypeName = typeof(IntModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            TypeName = typeof(IntModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Skipped,
         };
 
@@ -102,14 +138,14 @@ public class ModuleResultContractTests
             await Assert.That(result).IsTypeOf<ModuleResult<int>.Skipped>();
             await Assert.That(reason).IsEqualTo("Not needed");
             await Assert.That(result.SkipDecisionOrDefault).IsEqualTo(decision);
-            await Assert.That(result.ModuleTypeName).IsEqualTo(typeof(IntModule).FullName);
+            await Assert.That(result.TypeName).IsEqualTo(typeof(IntModule).FullName);
         }
     }
 
     [Test]
     public async Task Generic_Failure_RoundTrips_Through_Json()
     {
-        ModuleResult<int> result = CreateFailure();
+        var result = CreateFailure();
 
         var json = JsonSerializer.Serialize(result);
         var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(json);
@@ -118,8 +154,8 @@ public class ModuleResultContractTests
         {
             await Assert.That(deserialized).IsTypeOf<ModuleResult<int>.Failure>();
             await Assert.That(deserialized!.ExceptionOrDefault?.Message).IsEqualTo("Failed");
-            await Assert.That(deserialized.ModuleName).IsEqualTo(nameof(IntModule));
-            await Assert.That(deserialized.ModuleTypeName).IsEqualTo(typeof(IntModule).FullName);
+            await Assert.That(deserialized.Name).IsEqualTo(nameof(IntModule));
+            await Assert.That(deserialized.TypeName).IsEqualTo(typeof(IntModule).FullName);
         }
     }
 
@@ -128,11 +164,11 @@ public class ModuleResultContractTests
     {
         ModuleResult<int> result = new ModuleResult<int>.Skipped(SkipDecision.Skip("Not needed"))
         {
-            ModuleName = nameof(IntModule),
-            ModuleTypeName = typeof(IntModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            TypeName = typeof(IntModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Skipped,
         };
 
@@ -143,8 +179,8 @@ public class ModuleResultContractTests
         {
             await Assert.That(deserialized).IsTypeOf<ModuleResult<int>.Skipped>();
             await Assert.That(deserialized!.SkipDecisionOrDefault?.Reason).IsEqualTo("Not needed");
-            await Assert.That(deserialized.ModuleName).IsEqualTo(nameof(IntModule));
-            await Assert.That(deserialized.ModuleTypeName).IsEqualTo(typeof(IntModule).FullName);
+            await Assert.That(deserialized.Name).IsEqualTo(nameof(IntModule));
+            await Assert.That(deserialized.TypeName).IsEqualTo(typeof(IntModule).FullName);
         }
     }
 
@@ -165,10 +201,10 @@ public class ModuleResultContractTests
     {
         var result = new ModuleResult<int>.Skipped(SkipDecision.Skip("Not needed"))
         {
-            ModuleName = nameof(IntModule),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Skipped,
         };
 
@@ -180,14 +216,14 @@ public class ModuleResultContractTests
     }
 
     [Test]
-    public async Task Success_Constructor_PreservesValueNamedArgument()
+    public async Task Success_Constructor_UsesLowercaseValueNamedArgument()
     {
-        var success = new ModuleResult<int>.Success(Value: 42)
+        var success = new ModuleResult<int>.Success(value: 42)
         {
-            ModuleName = nameof(IntModule),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -211,7 +247,7 @@ public class ModuleResultContractTests
         const string json = """
                             {
                               "$type": "Success",
-                              "ModuleName": "MissingValueModule"
+                              "Name": "MissingValueModule"
                             }
                             """;
 
@@ -227,10 +263,10 @@ public class ModuleResultContractTests
         ModuleResult<IRuntimeValue> result = new ModuleResult<IRuntimeValue>.Success(
             new RuntimeValue("common", "derived"))
         {
-            ModuleName = nameof(RuntimeValue),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(RuntimeValue),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -247,10 +283,10 @@ public class ModuleResultContractTests
     {
         ModuleResult<int?> result = new ModuleResult<int?>.Success(null)
         {
-            ModuleName = nameof(IntModule),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -265,7 +301,7 @@ public class ModuleResultContractTests
     public async Task Failure_Value_ThrowsWithModuleContext()
     {
         var failure = new InvalidOperationException("Compilation failed");
-        ModuleResult<int> result = CreateFailure(failure);
+        var result = CreateFailure(failure);
 
         var exception = await Assert.That(() => result.Value)
             .Throws<InvalidOperationException>();
@@ -280,7 +316,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task Skipped_Value_ThrowsWithModuleContext()
     {
-        ModuleResult<int> result = CreateSkipped("No source changes");
+        var result = CreateSkipped("No source changes");
 
         var exception = await Assert.That(() => result.Value)
             .Throws<InvalidOperationException>();
@@ -293,10 +329,10 @@ public class ModuleResultContractTests
     {
         ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
-            ModuleName = "NullableModule",
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = "NullableModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -306,7 +342,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task Failure_ToString_DoesNotEvaluateRequiredValue()
     {
-        ModuleResult<int> result = CreateFailure(new InvalidOperationException("Compilation failed"));
+        var result = CreateFailure(new InvalidOperationException("Compilation failed"));
 
         var formatted = result.ToString();
 
@@ -316,7 +352,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task Skipped_ToString_DoesNotEvaluateRequiredValue()
     {
-        ModuleResult<int> result = CreateSkipped("No source changes");
+        var result = CreateSkipped("No source changes");
 
         var formatted = result.ToString();
 
@@ -328,10 +364,10 @@ public class ModuleResultContractTests
     {
         ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
-            ModuleName = "NullableModule",
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = "NullableModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -358,10 +394,10 @@ public class ModuleResultContractTests
     {
         ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
-            ModuleName = "NullableModule",
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = "NullableModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
 
@@ -383,10 +419,10 @@ public class ModuleResultContractTests
     {
         return new ModuleResult<int>.Success(value)
         {
-            ModuleName = nameof(IntModule),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         };
     }
@@ -395,11 +431,11 @@ public class ModuleResultContractTests
     {
         return new ModuleResult.Failure(exception ?? new InvalidOperationException("Failed"))
         {
-            ModuleName = nameof(IntModule),
-            ModuleTypeName = typeof(IntModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            TypeName = typeof(IntModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Failed,
         };
     }
@@ -408,10 +444,10 @@ public class ModuleResultContractTests
     {
         return new ModuleResult.Skipped(SkipDecision.Skip(reason))
         {
-            ModuleName = nameof(IntModule),
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = DateTimeOffset.UtcNow,
-            ModuleEnd = DateTimeOffset.UtcNow,
+            Name = nameof(IntModule),
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Skipped,
         };
     }

@@ -2510,7 +2510,7 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
         var summary = await pipeline.RunAsync();
         var dependentResult = summary.Results.Single(result =>
-            result.ModuleName == nameof(HistoricalDependentModule));
+            result.Name == nameof(HistoricalDependentModule));
 
         using (Assert.Multiple())
         {
@@ -4742,11 +4742,11 @@ public class DependencyGraphExporterTests
         var now = DateTimeOffset.UtcNow;
         var result = new ModuleResult.Skipped(SkipDecision.Skip("ambiguous skip"))
         {
-            ModuleName = "DeserializedSummaryModule",
-            ModuleTypeName = typeName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = now,
-            ModuleEnd = now,
+            Name = "DeserializedSummaryModule",
+            TypeName = typeName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
             Status = ModuleStatus.Skipped,
         };
         var summary = new PipelineSummary(
@@ -4802,11 +4802,11 @@ public class DependencyGraphExporterTests
         var now = DateTimeOffset.UtcNow;
         var result = new ModuleResult.Skipped(SkipDecision.Skip("distributed skip"))
         {
-            ModuleName = nameof(DependencyModule),
-            ModuleTypeName = typeof(DependencyModule).FullName,
-            ModuleDuration = TimeSpan.Zero,
-            ModuleStart = now,
-            ModuleEnd = now,
+            Name = nameof(DependencyModule),
+            TypeName = typeof(DependencyModule).FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
             Status = ModuleStatus.Skipped,
         };
         var summary = new PipelineSummary(

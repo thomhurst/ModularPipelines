@@ -378,11 +378,11 @@ public class ModuleTestBuilder<TModule>
             var now = DateTimeOffset.UtcNow;
             var result = new ModuleResult<TResult>.Success(value)
             {
-                ModuleName = typeof(TDependency).Name,
-                ModuleTypeName = typeof(TDependency).FullName,
-                ModuleDuration = TimeSpan.Zero,
-                ModuleStart = now,
-                ModuleEnd = now,
+                Name = typeof(TDependency).Name,
+                TypeName = typeof(TDependency).FullName,
+                Duration = TimeSpan.Zero,
+                StartTime = now,
+                EndTime = now,
                 Status = ModuleStatus.Succeeded,
                 ModuleType = typeof(TDependency),
             };

@@ -10,27 +10,27 @@ public interface IModuleResult
     /// <summary>
     /// Gets the name of the module.
     /// </summary>
-    string ModuleName { get; }
+    string Name { get; }
 
     /// <summary>
     /// Gets the fully qualified module type name, when available.
     /// </summary>
-    string? ModuleTypeName => null;
+    string? TypeName => null;
 
     /// <summary>
     /// Gets how long the module ran for.
     /// </summary>
-    TimeSpan ModuleDuration { get; }
+    TimeSpan Duration { get; }
 
     /// <summary>
     /// Gets when the module started.
     /// </summary>
-    DateTimeOffset ModuleStart { get; }
+    DateTimeOffset StartTime { get; }
 
     /// <summary>
     /// Gets when the module ended.
     /// </summary>
-    DateTimeOffset ModuleEnd { get; }
+    DateTimeOffset EndTime { get; }
 
     /// <summary>
     /// Gets the status of the module.
