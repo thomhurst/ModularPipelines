@@ -1,7 +1,7 @@
 #nullable enable
 ~override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.Equals(object obj) -> bool
 ~override ModularPipelines.OptionsGenerator.Models.CliCompatibilityConstructorParameter.ToString() -> string
-abstract ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
+virtual ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
 abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.NamespacePrefix.get -> string!
 abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.OutputDirectory.get -> string!
 abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.ScrapeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
@@ -54,6 +54,7 @@ ModularPipelines.Options.CommandLineToolOptions.ArgumentsContainToolOptions.get 
 ModularPipelines.Options.CommandLineToolOptions.ArgumentsContainToolOptions.init -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions() -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions(ModularPipelines.Options.CommandLineToolOptions! original) -> void
+ModularPipelines.Options.CommandLineToolOptions.CommandLineToolOptions(string! tool) -> void
 ModularPipelines.Options.CommandLineToolOptions.CommandParts.get -> System.Collections.Generic.IReadOnlyList<string!>?
 ModularPipelines.Options.CommandLineToolOptions.CommandParts.init -> void
 ModularPipelines.Options.CommandLineToolOptions.RunSettings.get -> System.Collections.Generic.IEnumerable<string!>?
