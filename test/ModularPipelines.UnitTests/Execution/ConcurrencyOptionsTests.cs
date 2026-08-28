@@ -40,8 +40,16 @@ public class ConcurrencyOptionsTests : TestBase
         // Default MaxIoIntensiveModules should be null (unlimited)
         await Assert.That(options.MaxIoIntensiveModules).IsNull();
         await Assert.That(options.NotificationTimeout).IsEqualTo(TimeSpan.FromMilliseconds(100));
-        await Assert.That(options.EnableDetailedLogging).IsFalse();
-        await Assert.That(options.EnableTimingMetrics).IsTrue();
+    }
+
+    [Test]
+    public async Task ConcurrencyOptions_DoesNotExposeUnusedDiagnostics()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(typeof(ConcurrencyOptions).GetProperty("EnableDetailedLogging")).IsNull();
+            await Assert.That(typeof(ConcurrencyOptions).GetProperty("EnableTimingMetrics")).IsNull();
+        }
     }
 
     [Test]

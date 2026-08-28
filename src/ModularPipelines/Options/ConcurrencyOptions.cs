@@ -50,14 +50,4 @@ public record ConcurrencyOptions
     /// Gets the confirmation delay before treating a blocked scheduler as deadlocked.
     /// </summary>
     public TimeSpan NotificationTimeout { get; init; } = TimeSpan.FromMilliseconds(100);
-
-    /// <summary>
-    /// Gets a value indicating whether detailed scheduler diagnostics are enabled.
-    /// </summary>
-    public bool EnableDetailedLogging { get; init; }
-
-    /// <summary>
-    /// Gets a value indicating whether scheduler timing metrics are enabled.
-    /// </summary>
-    public bool EnableTimingMetrics { get; init; } = true;
 }

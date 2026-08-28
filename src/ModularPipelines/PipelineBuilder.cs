@@ -343,7 +343,10 @@ public sealed class PipelineBuilder
                 !_defaultLoggingProviderDescriptors.All(_services.Contains);
             if (defaultLoggingProvidersRemoved)
             {
-                services.RemoveAll<ILoggerProvider>();
+                foreach (var descriptor in services.Where(IsDefaultLoggingProvider).ToArray())
+                {
+                    services.Remove(descriptor);
+                }
             }
 
             // Add user-registered services before plugins so plugins can inspect user configuration
@@ -663,10 +666,20 @@ public sealed class PipelineBuilder
     }
 
     private bool HasDefaultLoggingProvider(IServiceCollection services)
-        => services.Any(descriptor =>
-            descriptor.ServiceType == typeof(ILoggerProvider)
-            && descriptor.ImplementationType is { } implementationType
-            && _defaultLoggingProviderTypes.Contains(implementationType));
+        => services.Any(IsDefaultLoggingProvider);
+
+    private bool IsDefaultLoggingProvider(ServiceDescriptor descriptor)
+    {
+        if (descriptor.ServiceType != typeof(ILoggerProvider))
+        {
+            return false;
+        }
+
+        var implementationType = descriptor.ImplementationType
+                                 ?? descriptor.ImplementationInstance?.GetType();
+        return implementationType is not null
+               && _defaultLoggingProviderTypes.Contains(implementationType);
+    }
 
     private sealed class FixedOptions<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
