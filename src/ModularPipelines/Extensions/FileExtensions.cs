@@ -1,5 +1,5 @@
 using System.Text;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Extensions;
 
@@ -13,27 +13,27 @@ public static class FileExtensions
     /// </summary>
     /// <param name="files">The file collection.</param>
     /// <returns>The files as paths.</returns>
-    public static IEnumerable<string> AsPaths(this IEnumerable<File> files) => files.Select(f => f.Path);
+    public static IEnumerable<string> AsPaths(this IEnumerable<FilePath> files) => files.Select(f => f.Path);
 
     /// <summary>
     /// Converts the files into string paths.
     /// </summary>
     /// <param name="files">The file collection.</param>
     /// <returns>The files as paths.</returns>
-    public static IReadOnlyList<string> AsPaths(this IList<File> files) =>
+    public static IReadOnlyList<string> AsPaths(this IList<FilePath> files) =>
         [.. files.Select(f => f.Path)];
 
     /// <summary>
-    /// Turns a nullable File object in a non-nullable File object if the file exists.
+    /// Turns a nullable FilePath object in a non-nullable FilePath object if the file exists.
     /// </summary>
     /// <param name="file">The file to check.</param>
     /// <param name="message">Helper message.</param>
     /// <returns>The input object if not null.</returns>
-    public static File AssertExists(this File? file, string? message = null)
+    public static FilePath AssertExists(this FilePath? file, string? message = null)
     {
         if (file is null)
         {
-            throw new ArgumentNullException(nameof(file), $"File reference is null{GetMessage(null, message)}");
+            throw new ArgumentNullException(nameof(file), $"FilePath reference is null{GetMessage(null, message)}");
         }
 
         if (!file.Exists)
@@ -44,7 +44,7 @@ public static class FileExtensions
         return file;
     }
 
-    private static string? GetMessage(File? file, string? message)
+    private static string? GetMessage(FilePath? file, string? message)
     {
         if (file is null && message is null)
         {

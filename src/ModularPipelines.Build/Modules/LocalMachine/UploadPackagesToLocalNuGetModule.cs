@@ -5,7 +5,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 

@@ -8,7 +8,7 @@ using ModularPipelines.Git.Attributes;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 

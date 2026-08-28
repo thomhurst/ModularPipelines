@@ -1,14 +1,14 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Distributed.Serialization;
 
 /// <summary>
-/// Serializes File paths relative to the git root for cross-platform distributed transfer.
+/// Serializes FilePath paths relative to the git root for cross-platform distributed transfer.
 /// On deserialization, resolves the relative path against the local git root.
 /// </summary>
-internal class PortableFilePathJsonConverter : JsonConverter<File>
+internal class PortableFilePathJsonConverter : JsonConverter<FilePath>
 {
     private readonly string _gitRoot;
 
@@ -17,7 +17,7 @@ internal class PortableFilePathJsonConverter : JsonConverter<File>
         _gitRoot = gitRoot;
     }
 
-    public override File? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override FilePath? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
         {
@@ -29,15 +29,15 @@ internal class PortableFilePathJsonConverter : JsonConverter<File>
         // If it's already an absolute path for this platform, use it directly
         if (Path.IsPathRooted(serializedPath))
         {
-            return new File(serializedPath);
+            return new FilePath(serializedPath);
         }
 
         // Relative path from another instance — resolve against local git root
         var localPath = Path.GetFullPath(Path.Combine(_gitRoot, serializedPath));
-        return new File(localPath);
+        return new FilePath(localPath);
     }
 
-    public override void Write(Utf8JsonWriter writer, File value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, FilePath value, JsonSerializerOptions options)
     {
         var absolutePath = value.Path;
 

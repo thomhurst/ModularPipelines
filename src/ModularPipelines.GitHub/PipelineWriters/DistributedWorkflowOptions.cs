@@ -1,4 +1,4 @@
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.GitHub.PipelineWriters;
 
@@ -35,12 +35,12 @@ public sealed record DistributedWorkflowOptions
     /// <summary>
     /// Gets the workflow output path.
     /// </summary>
-    public File OutputPath { get; init; } = new(".github/workflows/modular-pipelines.yml");
+    public FilePath OutputPath { get; init; } = new(".github/workflows/modular-pipelines.yml");
 
     /// <summary>
     /// Gets the pipeline project path passed to <c>dotnet run --project</c>.
     /// </summary>
-    public File PipelineProjectPath { get; init; } = new(".");
+    public FilePath PipelineProjectPath { get; init; } = new(".");
 
     /// <summary>
     /// Gets the .NET SDK version installed by the workflow.

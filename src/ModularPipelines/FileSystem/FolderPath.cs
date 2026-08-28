@@ -14,7 +14,7 @@ namespace ModularPipelines.FileSystem;
 /// Represents a folder in the file system with extended functionality for pipeline operations.
 /// </summary>
 [JsonConverter(typeof(FolderPathJsonConverter))]
-public class Folder : IEquatable<Folder>
+public class FolderPath : IEquatable<FolderPath>
 {
     [JsonIgnore]
     private readonly DirectoryInfo _directoryInfo;
@@ -30,19 +30,19 @@ public class Folder : IEquatable<Folder>
         }
     }
 
-    public Folder(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
+    public FolderPath(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal Folder(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName, SystemFileSystemProvider.Instance)
+    internal FolderPath(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal Folder(string path, IFileSystemProvider provider) : this(new DirectoryInfo(path), path, provider)
+    internal FolderPath(string path, IFileSystemProvider provider) : this(new DirectoryInfo(path), path, provider)
     {
     }
 
-    private Folder(DirectoryInfo directoryInfo, string originalPath, IFileSystemProvider provider)
+    private FolderPath(DirectoryInfo directoryInfo, string originalPath, IFileSystemProvider provider)
     {
         _directoryInfo = directoryInfo;
         OriginalPath = originalPath;
@@ -56,17 +56,17 @@ public class Folder : IEquatable<Folder>
     public string Name => _directoryInfo.Name;
 
     [JsonConverter(typeof(FolderPathJsonConverter))]
-    public Folder? Parent => System.IO.Path.GetDirectoryName(
+    public FolderPath? Parent => System.IO.Path.GetDirectoryName(
         Path.TrimEnd(
             System.IO.Path.DirectorySeparatorChar,
             System.IO.Path.AltDirectorySeparatorChar)) is { } parent
-        ? new Folder(parent, _provider)
+        ? new FolderPath(parent, _provider)
         : null;
 
     public string Path => _directoryInfo.FullName;
 
     /// <summary>
-    /// Gets the original path string that was used to construct this Folder instance.
+    /// Gets the original path string that was used to construct this FolderPath instance.
     /// </summary>
     /// <remarks>
     /// Unlike <see cref="Path"/> which always returns the absolute path,
@@ -81,7 +81,7 @@ public class Folder : IEquatable<Folder>
     }
 
     [JsonConverter(typeof(FolderPathJsonConverter))]
-    public Folder Root
+    public FolderPath Root
     {
         get
         {
@@ -91,7 +91,7 @@ public class Folder : IEquatable<Folder>
                 return this;
             }
 
-            return new Folder(rootPath, _provider);
+            return new FolderPath(rootPath, _provider);
         }
     }
 
@@ -101,7 +101,7 @@ public class Folder : IEquatable<Folder>
 
     public string Extension => System.IO.Path.GetExtension(Path);
 
-    public Folder Create()
+    public FolderPath Create()
     {
         LogFolderOperation("Creating Folder: {Path}", this);
 
@@ -117,7 +117,7 @@ public class Folder : IEquatable<Folder>
     /// </remarks>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>This folder instance for method chaining.</returns>
-    public Task<Folder> CreateAsync(CancellationToken cancellationToken = default)
+    public Task<FolderPath> CreateAsync(CancellationToken cancellationToken = default)
     {
         LogFolderOperation("Creating Folder: {Path}", this);
 
@@ -252,8 +252,8 @@ public class Folder : IEquatable<Folder>
     /// Copies the folder and its contents to the specified target path.
     /// </summary>
     /// <param name="targetPath">The destination path for the copied folder.</param>
-    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
-    public Folder CopyTo(string targetPath)
+    /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    public FolderPath CopyTo(string targetPath)
     {
         return CopyTo(targetPath, preserveTimestamps: false);
     }
@@ -266,8 +266,8 @@ public class Folder : IEquatable<Folder>
     /// When true, preserves CreationTimeUtc, LastWriteTimeUtc, and LastAccessTimeUtc
     /// for all files and directories.
     /// </param>
-    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
-    public Folder CopyTo(string targetPath, bool preserveTimestamps)
+    /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    public FolderPath CopyTo(string targetPath, bool preserveTimestamps)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
         var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
@@ -309,7 +309,7 @@ public class Folder : IEquatable<Folder>
             CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
         }
 
-        return new Folder(targetPath, _provider);
+        return new FolderPath(targetPath, _provider);
     }
 
     /// <summary>
@@ -317,8 +317,8 @@ public class Folder : IEquatable<Folder>
     /// </summary>
     /// <param name="targetPath">The destination path for the copied folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
-    public Task<Folder> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
+    /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    public Task<FolderPath> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
     {
         return CopyToAsync(targetPath, preserveTimestamps: false, cancellationToken);
     }
@@ -332,8 +332,8 @@ public class Folder : IEquatable<Folder>
     /// for all files and directories.
     /// </param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
-    public async Task<Folder> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
+    /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    public async Task<FolderPath> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
         var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
@@ -388,15 +388,15 @@ public class Folder : IEquatable<Folder>
             CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
         }
 
-        return new Folder(targetPath, _provider);
+        return new FolderPath(targetPath, _provider);
     }
 
-    public Folder MoveTo(string path)
+    public FolderPath MoveTo(string path)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination}", this, path);
 
         _provider.MoveDirectory(Path, path);
-        return new Folder(path, _provider);
+        return new FolderPath(path, _provider);
     }
 
     /// <summary>
@@ -407,28 +407,28 @@ public class Folder : IEquatable<Folder>
     /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A new Folder instance at the destination path.</returns>
-    public Task<Folder> MoveToAsync(string path, CancellationToken cancellationToken = default)
+    /// <returns>A new FolderPath instance at the destination path.</returns>
+    public Task<FolderPath> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination}", this, path);
 
         return Task.Run(() =>
         {
             _provider.MoveDirectory(Path, path);
-            return new Folder(path, _provider);
+            return new FolderPath(path, _provider);
         }, cancellationToken);
     }
 
-    public Folder GetFolder(string name)
+    public FolderPath GetFolder(string name)
     {
         var combinedPath = _provider.Combine(Path, name);
 
         LogFolderOperation("Getting Folder: {Path}", combinedPath);
 
-        return new Folder(combinedPath, _provider);
+        return new FolderPath(combinedPath, _provider);
     }
 
-    public Folder CreateFolder(string name)
+    public FolderPath CreateFolder(string name)
     {
         var folder = GetFolder(name).Create();
 
@@ -437,21 +437,21 @@ public class Folder : IEquatable<Folder>
         return folder;
     }
 
-    public File GetFile(string name)
+    public FilePath GetFile(string name)
     {
-        return new File(_provider.Combine(Path, name), _provider);
+        return new FilePath(_provider.Combine(Path, name), _provider);
     }
 
-    public File CreateFile(string name)
+    public FilePath CreateFile(string name)
     {
         return GetFile(name).Create();
     }
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, _ => false, predicateExpression);
+    public IEnumerable<FolderPath> GetFolders(Func<FolderPath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, _ => false, predicateExpression);
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, _ => false, predicateExpression);
+    public IEnumerable<FilePath> GetFiles(Func<FilePath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, _ => false, predicateExpression);
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
+    public IEnumerable<FolderPath> GetFolders(Func<FolderPath, bool> predicate, Func<FolderPath, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
         LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
 
@@ -460,7 +460,7 @@ public class Folder : IEquatable<Folder>
             .Where(predicate);
     }
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
+    public IEnumerable<FilePath> GetFiles(Func<FilePath, bool> predicate, Func<FolderPath, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
         LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression}", this, predicateExpression);
 
@@ -469,7 +469,7 @@ public class Folder : IEquatable<Folder>
             .Where(predicate);
     }
 
-    public IEnumerable<File> GetFiles(string globPattern)
+    public IEnumerable<FilePath> GetFiles(string globPattern)
     {
         LogFolderOperationWithExpression("Searching Files in: {Path} > {Glob}", this, globPattern);
 
@@ -477,40 +477,40 @@ public class Folder : IEquatable<Folder>
             .AddInclude(globPattern);
         return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
             .Where(path => matcher.Match(_provider.GetRelativePath(Path, path)).HasMatches)
-            .Select(path => new File(path, _provider))
+            .Select(path => new FilePath(path, _provider))
             .Distinct();
     }
 
-    public File? FindFile(Func<File, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFile(predicate, _ => false, predicateExpression);
+    public FilePath? FindFile(Func<FilePath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFile(predicate, _ => false, predicateExpression);
 
-    public Folder? FindFolder(Func<Folder, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFolder(predicate, _ => false, predicateExpression);
+    public FolderPath? FindFolder(Func<FolderPath, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFolder(predicate, _ => false, predicateExpression);
 
-    public File? FindFile(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
+    public FilePath? FindFile(Func<FilePath, bool> predicate, Func<FolderPath, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
 
-    public Folder? FindFolder(Func<Folder, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
+    public FolderPath? FindFolder(Func<FolderPath, bool> predicate, Func<FolderPath, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
 
-    public IEnumerable<File> ListFiles()
+    public IEnumerable<FilePath> ListFiles()
     {
         return _provider.EnumerateFiles(Path, "*", SearchOption.TopDirectoryOnly)
-            .Select(path => new File(path, _provider))
+            .Select(path => new FilePath(path, _provider))
             .Distinct();
     }
 
-    public IEnumerable<Folder> ListFolders()
+    public IEnumerable<FolderPath> ListFolders()
     {
         return _provider.EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly)
-            .Select(path => new Folder(path, _provider))
+            .Select(path => new FolderPath(path, _provider))
             .Distinct();
     }
 
-    public static Folder CreateTemporaryFolder() => CreateTemporaryFolder(SystemFileSystemProvider.Instance);
+    public static FolderPath CreateTemporaryFolder() => CreateTemporaryFolder(SystemFileSystemProvider.Instance);
 
     /// <summary>
     /// Creates a temporary folder using the specified file system provider.
     /// </summary>
     /// <param name="provider">The provider used to create and access the folder.</param>
     /// <returns>The created temporary folder.</returns>
-    public static Folder CreateTemporaryFolder(IFileSystemProvider provider)
+    public static FolderPath CreateTemporaryFolder(IFileSystemProvider provider)
     {
         ArgumentNullException.ThrowIfNull(provider);
         var tempDirectory = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName().Replace(".", string.Empty));
@@ -518,10 +518,10 @@ public class Folder : IEquatable<Folder>
 
         LogFolderOperation("Creating Temporary Folder: {Path}", tempDirectory);
 
-        return new Folder(tempDirectory, provider);
+        return new FolderPath(tempDirectory, provider);
     }
 
-    public static implicit operator Folder?(string? path)
+    public static implicit operator FolderPath?(string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -532,18 +532,18 @@ public class Folder : IEquatable<Folder>
     }
 
     [return: NotNullIfNotNull("directoryInfo")]
-    public static implicit operator Folder?(DirectoryInfo? directoryInfo)
+    public static implicit operator FolderPath?(DirectoryInfo? directoryInfo)
     {
         if (directoryInfo == null)
         {
             return null;
         }
 
-        return new Folder(directoryInfo);
+        return new FolderPath(directoryInfo);
     }
 
     [return: NotNullIfNotNull(parameterName: "folder")]
-    public static implicit operator string?(Folder? folder)
+    public static implicit operator string?(FolderPath? folder)
     {
         return folder?.Path;
     }
@@ -555,7 +555,7 @@ public class Folder : IEquatable<Folder>
     }
 
     /// <inheritdoc/>
-    public bool Equals(Folder? other)
+    public bool Equals(FolderPath? other)
     {
         if (other is null)
         {
@@ -583,7 +583,7 @@ public class Folder : IEquatable<Folder>
             return true;
         }
 
-        return obj is Folder other && Equals(other);
+        return obj is FolderPath other && Equals(other);
     }
 
     /// <inheritdoc/>
@@ -597,40 +597,40 @@ public class Folder : IEquatable<Folder>
         return Path.GetHashCode();
     }
 
-    public static bool operator ==(Folder? left, Folder? right)
+    public static bool operator ==(FolderPath? left, FolderPath? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Folder? left, Folder? right)
+    public static bool operator !=(FolderPath? left, FolderPath? right)
     {
         return !Equals(left, right);
     }
 
-    private IEnumerable<Folder> EnumerateFolders(Func<Folder, bool> exclusionFilter)
+    private IEnumerable<FolderPath> EnumerateFolders(Func<FolderPath, bool> exclusionFilter)
     {
         if (ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
         {
             return SafeWalk.EnumerateFolders(this, exclusionFilter)
-                .Select(path => new Folder(path, _provider));
+                .Select(path => new FolderPath(path, _provider));
         }
 
         return _provider.EnumerateDirectories(Path, "*", SearchOption.AllDirectories)
             .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: true, exclusionFilter))
-            .Select(path => new Folder(path, _provider));
+            .Select(path => new FolderPath(path, _provider));
     }
 
-    private IEnumerable<File> EnumerateFiles(Func<Folder, bool> exclusionFilter)
+    private IEnumerable<FilePath> EnumerateFiles(Func<FolderPath, bool> exclusionFilter)
     {
         if (ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
         {
             return SafeWalk.EnumerateFiles(this, exclusionFilter)
-                .Select(path => new File(path, _provider));
+                .Select(path => new FilePath(path, _provider));
         }
 
         return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
             .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: false, exclusionFilter))
-            .Select(path => new File(path, _provider));
+            .Select(path => new FilePath(path, _provider));
     }
 
     private static void CopyDirectoryMetadata(
@@ -674,7 +674,7 @@ public class Folder : IEquatable<Folder>
     private bool IsExcludedByDirectoryFilter(
         string entryPath,
         bool includeEntry,
-        Func<Folder, bool> exclusionFilter)
+        Func<FolderPath, bool> exclusionFilter)
     {
         var current = includeEntry
             ? entryPath
@@ -686,7 +686,7 @@ public class Folder : IEquatable<Folder>
                 break;
             }
 
-            if (exclusionFilter(new Folder(current, _provider)))
+            if (exclusionFilter(new FolderPath(current, _provider)))
             {
                 return true;
             }

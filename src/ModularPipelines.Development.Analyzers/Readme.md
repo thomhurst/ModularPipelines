@@ -23,7 +23,7 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 *   Easy to Skip or Ignore Failures for each individual module by passing in custom logic
 *   Hooks that can run before and/or after modules
 *   Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
-*   Easy to use File and Folder classes, that can search, read, update, delete and more
+*   Easy to use FilePath and FolderPath classes, that can search, read, update, delete and more
 *   Source controlled pipelines
 *   Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
 *   No need to learn new syntaxes such as YAML defined pipelines
@@ -109,9 +109,9 @@ await builder.RunAsync();
 ### Custom Modules
 
 ```csharp
-public class FindNugetPackagesModule : Module<List<File>>
+public class FindNugetPackagesModule : Module<List<FilePath>>
 {
-    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<FilePath>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Git().Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");

@@ -1,4 +1,4 @@
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.GitHub.PipelineWriters;
 
@@ -8,9 +8,9 @@ public record GitHubPipelineFileWriterOptions
 
     public required TriggerCondition TriggerCondition { get; init; }
 
-    public required File OutputPath { get; init; }
+    public required FilePath OutputPath { get; init; }
 
-    public required File PipelineProjectPath { get; init; }
+    public required FilePath PipelineProjectPath { get; init; }
 
     public string? DotNetRunFramework { get; init; }
 

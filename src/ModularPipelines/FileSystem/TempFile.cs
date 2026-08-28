@@ -29,7 +29,7 @@ public sealed class TempFile : IAsyncDisposable, IDisposable
     /// </summary>
     public TempFile()
     {
-        File = File.GetNewTemporaryFilePath();
+        File = FilePath.GetNewTemporaryFilePath();
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public sealed class TempFile : IAsyncDisposable, IDisposable
     /// </summary>
     /// <param name="file">The file to wrap as a temporary file.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="file"/> is null.</exception>
-    public TempFile(File file)
+    public TempFile(FilePath file)
     {
         ArgumentNullException.ThrowIfNull(file);
         File = file;
@@ -46,7 +46,7 @@ public sealed class TempFile : IAsyncDisposable, IDisposable
     /// <summary>
     /// Gets the underlying temporary file.
     /// </summary>
-    public File File { get; }
+    public FilePath File { get; }
 
     /// <summary>
     /// Asynchronously disposes the temporary file, deleting it if it exists.

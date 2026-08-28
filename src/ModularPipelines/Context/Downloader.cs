@@ -5,7 +5,6 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
@@ -36,7 +35,7 @@ internal class Downloader : IDownloaderContext
         return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
+    public async Task<FilePath> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
     {
         using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
@@ -74,7 +73,7 @@ internal class Downloader : IDownloaderContext
 
             _moduleLoggerAccessor.Logger.LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
 
-            return new File(filePathToSave, _fileSystemProvider);
+            return new FilePath(filePathToSave, _fileSystemProvider);
         }
     }
 

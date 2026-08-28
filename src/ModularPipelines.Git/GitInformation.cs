@@ -155,7 +155,7 @@ internal class GitInformation : IGitInformation
             lastCommitTimestamp,
             previousCommit).ConfigureAwait(false);
 
-        return new GitRepositoryInfo(new Folder(root))
+        return new GitRepositoryInfo(new FolderPath(root))
         {
             BranchName = NullIfEmpty(await branchName.ConfigureAwait(false)),
             DefaultBranchName = NullIfEmpty(await defaultBranchName.ConfigureAwait(false)),

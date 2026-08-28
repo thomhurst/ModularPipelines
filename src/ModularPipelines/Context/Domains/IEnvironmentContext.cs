@@ -37,7 +37,7 @@ public interface IEnvironmentContext
     /// or override an individual command with
     /// <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
     /// </remarks>
-    Folder WorkingDirectory { get; }
+    FolderPath WorkingDirectory { get; }
 
     /// <summary>
     /// Gets the host environment name, such as Development or Production.
@@ -45,12 +45,12 @@ public interface IEnvironmentContext
     string EnvironmentName { get; }
 
     /// <inheritdoc cref="System.AppDomain.BaseDirectory" />
-    Folder AppDomainDirectory { get; }
+    FolderPath AppDomainDirectory { get; }
 
     /// <summary>
     /// Gets the host content root directory.
     /// </summary>
-    Folder ContentDirectory { get; }
+    FolderPath ContentDirectory { get; }
 
     /// <summary>
     /// Gets environment variable operations.

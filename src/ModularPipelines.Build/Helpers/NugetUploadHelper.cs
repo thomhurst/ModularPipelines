@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Helpers;
 
@@ -11,7 +11,7 @@ public static class NugetUploadHelper
 {
     public static async Task<CommandResult[]> UploadPackagesAsync(
         IModuleContext context,
-        IEnumerable<File> packagePaths,
+        IEnumerable<FilePath> packagePaths,
         string source,
         string? apiKey,
         CancellationToken cancellationToken)

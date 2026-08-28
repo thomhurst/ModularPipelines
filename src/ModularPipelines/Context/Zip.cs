@@ -2,7 +2,6 @@ using System.IO.Compression;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
@@ -13,7 +12,7 @@ internal class Zip(
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
-    public File CreateFromDirectory(Folder folder, string outputPath, CompressionLevel compressionLevel)
+    public FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel)
     {
         outputPath = _workingDirectory.ResolvePath(outputPath);
         var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
@@ -71,10 +70,10 @@ internal class Zip(
             throw new InvalidOperationException($"Failed to create zip file at '{outputPath}'.");
         }
 
-        return new File(outputPath, _fileSystemProvider);
+        return new FilePath(outputPath, _fileSystemProvider);
     }
 
-    public Folder ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles)
+    public FolderPath ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputFolderPath);
@@ -111,7 +110,7 @@ internal class Zip(
             throw new IOException($"Failed to extract zip file '{zipPath}': An I/O error occurred while extracting the archive.", ex);
         }
 
-        return new Folder(outputFolderPath, _fileSystemProvider);
+        return new FolderPath(outputFolderPath, _fileSystemProvider);
     }
 
     private void ExtractEntry(

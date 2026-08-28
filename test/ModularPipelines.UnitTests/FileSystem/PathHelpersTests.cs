@@ -9,7 +9,7 @@ public class PathHelpersTests
     [Test]
     public async Task Get_Directory()
     {
-        var outputDirectory = new DirectoryInfo(new Folder(TestContext.WorkingDirectory).FindAncestorContainingProject()!);
+        var outputDirectory = new DirectoryInfo(new FolderPath(TestContext.WorkingDirectory).FindAncestorContainingProject()!);
 
         var fooTxt = outputDirectory.EnumerateFiles("*Foo.txt", SearchOption.AllDirectories).First();
         await Assert.That(fooTxt.FullName.GetDirectory()).IsEqualTo(fooTxt.Directory!.FullName);
@@ -18,7 +18,7 @@ public class PathHelpersTests
     [Test]
     public async Task File_Path_Type()
     {
-        var outputDirectory = new DirectoryInfo(new Folder(TestContext.WorkingDirectory).FindAncestorContainingProject()!);
+        var outputDirectory = new DirectoryInfo(new FolderPath(TestContext.WorkingDirectory).FindAncestorContainingProject()!);
 
         var fooTxt = outputDirectory.EnumerateFiles("*Foo.txt", SearchOption.AllDirectories).First();
         await Assert.That(fooTxt.FullName.GetPathType()).IsEqualTo(PathType.File);

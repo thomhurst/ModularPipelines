@@ -1,12 +1,11 @@
 using Microsoft.Extensions.FileSystemGlobbing;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.FileSystem;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context.Domains.Implementations;
 
 /// <summary>
-/// Provides file system operations with rich File and Folder return types.
+/// Provides file system operations with rich FilePath and FolderPath return types.
 /// </summary>
 internal class FilesContext(
     IFileSystemProvider fileSystemProvider,
@@ -17,29 +16,29 @@ internal class FilesContext(
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     /// <inheritdoc />
-    public File GetFile(string path)
+    public FilePath GetFile(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        return new File(_workingDirectory.ResolvePath(path), _fileSystemProvider);
+        return new FilePath(_workingDirectory.ResolvePath(path), _fileSystemProvider);
     }
 
     /// <inheritdoc />
-    public Folder GetFolder(string path)
+    public FolderPath GetFolder(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        return new Folder(_workingDirectory.ResolvePath(path), _fileSystemProvider);
+        return new FolderPath(_workingDirectory.ResolvePath(path), _fileSystemProvider);
     }
 
     /// <inheritdoc />
-    public Folder GetFolder(System.Environment.SpecialFolder specialFolder) =>
+    public FolderPath GetFolder(System.Environment.SpecialFolder specialFolder) =>
         new(System.Environment.GetFolderPath(specialFolder), _fileSystemProvider);
 
     /// <inheritdoc />
-    public IEnumerable<File> Glob(string pattern) =>
+    public IEnumerable<FilePath> Glob(string pattern) =>
         GetFolder(_workingDirectory.Path).GetFiles(pattern);
 
     /// <inheritdoc />
-    public IEnumerable<Folder> GlobFolders(string pattern)
+    public IEnumerable<FolderPath> GlobFolders(string pattern)
     {
         var currentDirectory = _workingDirectory.Path;
         var matcher = new Matcher(StringComparison.OrdinalIgnoreCase)

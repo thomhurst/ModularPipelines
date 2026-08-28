@@ -8,7 +8,7 @@ namespace ModularPipelines.GitHub.UnitTests.Engine;
 
 public class PipelineWriterTests : TestBase
 {
-    public static readonly ModularPipelines.FileSystem.File RandomFilePath = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath();
+    public static readonly ModularPipelines.FileSystem.FilePath RandomFilePath = ModularPipelines.FileSystem.FilePath.GetNewTemporaryFilePath();
 
     private class DummyModule : SimpleTestModule<bool>
     {

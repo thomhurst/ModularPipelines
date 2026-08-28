@@ -14,7 +14,7 @@ namespace ModularPipelines.UnitTests.Results;
 
 public class ResultsRepositoryTests : TestBase
 {
-    public static readonly Folder Folder = Folder.CreateTemporaryFolder();
+    public static readonly FolderPath Folder = FolderPath.CreateTemporaryFolder();
 
     private class JsonResultRepository : IModuleResultRepository
     {

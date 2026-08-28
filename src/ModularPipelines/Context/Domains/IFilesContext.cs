@@ -1,38 +1,37 @@
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.FileSystem;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context.Domains;
 
 /// <summary>
-/// Provides file system operations with rich File and Folder return types.
+/// Provides file system operations with rich FilePath and FolderPath return types.
 /// </summary>
 public interface IFilesContext
 {
     /// <summary>
-    /// Get a File object for the specified path.
+    /// Get a FilePath object for the specified path.
     /// </summary>
-    File GetFile(string path);
+    FilePath GetFile(string path);
 
     /// <summary>
-    /// Get a Folder object for the specified path.
+    /// Get a FolderPath object for the specified path.
     /// </summary>
-    Folder GetFolder(string path);
+    FolderPath GetFolder(string path);
 
     /// <summary>
-    /// Get a Folder object for the specified special folder.
+    /// Get a FolderPath object for the specified special folder.
     /// </summary>
-    Folder GetFolder(System.Environment.SpecialFolder specialFolder);
+    FolderPath GetFolder(System.Environment.SpecialFolder specialFolder);
 
     /// <summary>
-    /// Search for files matching a glob pattern. Returns rich File objects.
+    /// Search for files matching a glob pattern. Returns rich FilePath objects.
     /// </summary>
-    IEnumerable<File> Glob(string pattern);
+    IEnumerable<FilePath> Glob(string pattern);
 
     /// <summary>
     /// Search for folders matching a glob pattern.
     /// </summary>
-    IEnumerable<Folder> GlobFolders(string pattern);
+    IEnumerable<FolderPath> GlobFolders(string pattern);
 
     /// <summary>
     /// Read file contents as string.

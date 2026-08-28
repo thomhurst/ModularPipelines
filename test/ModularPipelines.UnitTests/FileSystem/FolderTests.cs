@@ -32,9 +32,9 @@ public class FolderTests : TestBase
         await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(0);
     }
 
-    private class FindFileModule : Module<ModularPipelines.FileSystem.File>
+    private class FindFileModule : Module<ModularPipelines.FileSystem.FilePath>
     {
-        protected internal override Task<ModularPipelines.FileSystem.File> ExecuteAsync(
+        protected internal override Task<ModularPipelines.FileSystem.FilePath> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(context.Files
@@ -74,7 +74,7 @@ public class FolderTests : TestBase
     [Test]
     public async Task FindFile()
     {
-        var data = new Folder(Path.Combine(TestContext.OutputDirectory!, "Data"));
+        var data = new FolderPath(Path.Combine(TestContext.OutputDirectory!, "Data"));
         var file = data.FindFile(x => x.Name == "Foo.txt");
         await Assert.That(file).IsNotNull();
         await Assert.That(file!.Exists).IsTrue();
@@ -126,7 +126,7 @@ public class FolderTests : TestBase
     [Test]
     public async Task FindFolder()
     {
-        var data = new Folder(Path.Combine(TestContext.OutputDirectory!, "Data"));
+        var data = new FolderPath(Path.Combine(TestContext.OutputDirectory!, "Data"));
         var zip = data.FindFolder(x => x.Name == "Zip");
         await Assert.That(zip).IsNotNull();
         await Assert.That(zip!.Exists).IsTrue();
@@ -160,15 +160,15 @@ public class FolderTests : TestBase
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.ListFiles().ToList()).Count().IsEqualTo(10);
-            await Assert.That(new Folder(destinationPath).Exists).IsFalse();
+            await Assert.That(new FolderPath(destinationPath).Exists).IsFalse();
         }
 
-        // MoveTo returns a new Folder instance at the destination path
+        // MoveTo returns a new FolderPath instance at the destination path
         var movedFolder = folder.MoveTo(destinationPath);
 
         using (Assert.Multiple())
         {
-            await Assert.That(new Folder(originalPath).Exists).IsFalse();
+            await Assert.That(new FolderPath(originalPath).Exists).IsFalse();
             await Assert.That(movedFolder.Exists).IsTrue();
             await Assert.That(movedFolder.ListFiles().ToList()).Count().IsEqualTo(10);
         }
@@ -179,7 +179,7 @@ public class FolderTests : TestBase
     {
         var folder = CreateRandomFolder();
 
-        var folder2 = new Folder(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+        var folder2 = new FolderPath(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
 
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
@@ -229,7 +229,7 @@ public class FolderTests : TestBase
     [Test]
     public async Task CreateFolder()
     {
-        var folder = new Folder(Path.GetRandomFileName());
+        var folder = new FolderPath(Path.GetRandomFileName());
 
         await Assert.That(folder.Exists).IsFalse();
 
@@ -272,7 +272,7 @@ public class FolderTests : TestBase
     {
         DirectoryInfo? directoryInfo = null;
 
-        Folder? file = directoryInfo;
+        FolderPath? file = directoryInfo;
         await Assert.That(file).IsNull();
     }
 
@@ -281,7 +281,7 @@ public class FolderTests : TestBase
     {
         string? fileInfo = null;
 
-        Folder? file = fileInfo;
+        FolderPath? file = fileInfo;
         await Assert.That(file).IsNull();
     }
 
@@ -290,7 +290,7 @@ public class FolderTests : TestBase
     {
         var directoryInfo = new DirectoryInfo(Path.GetTempFileName());
 
-        Folder file = directoryInfo;
+        FolderPath file = directoryInfo;
         await Assert.That(file).IsNotNull();
     }
 
@@ -299,7 +299,7 @@ public class FolderTests : TestBase
     {
         var path = Path.GetTempFileName();
 
-        Folder file = path!;
+        FolderPath file = path!;
         await Assert.That(file).IsNotNull();
     }
 
@@ -319,8 +319,8 @@ public class FolderTests : TestBase
     public async Task EqualityTrue()
     {
         var path = Path.GetRandomFileName();
-        var folder = new Folder(path);
-        var folder2 = new Folder(path);
+        var folder = new FolderPath(path);
+        var folder2 = new FolderPath(path);
 
         using (Assert.Multiple())
         {
@@ -334,8 +334,8 @@ public class FolderTests : TestBase
     [Test]
     public async Task EqualityFalse()
     {
-        var folder = new Folder(Path.GetRandomFileName());
-        var folder2 = new Folder(Path.GetRandomFileName());
+        var folder = new FolderPath(Path.GetRandomFileName());
+        var folder2 = new FolderPath(Path.GetRandomFileName());
 
         using (Assert.Multiple())
         {
@@ -349,21 +349,21 @@ public class FolderTests : TestBase
     [Test]
     public async Task AssertExists()
     {
-        var folder = (Folder?) CreateRandomFolder();
+        var folder = (FolderPath?) CreateRandomFolder();
         await Assert.That(() => folder.AssertExists()).ThrowsNothing();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNotExists()
     {
-        Folder folder = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath().Path!;
+        FolderPath folder = ModularPipelines.FileSystem.FilePath.GetNewTemporaryFilePath().Path!;
         await Assert.That(() => folder.AssertExists()).Throws<DirectoryNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
-        var folder = null as Folder;
+        var folder = null as FolderPath;
         await Assert.That(() => folder.AssertExists()).Throws<DirectoryNotFoundException>();
     }
 
@@ -410,11 +410,11 @@ public class FolderTests : TestBase
             exclude => exclude.Name.StartsWith('.'))).ThrowsNothing();
     }
 
-    private static Folder CreateRandomFolder()
+    private static FolderPath CreateRandomFolder()
     {
         var tempFolderPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempFolderPath);
 
-        return new Folder(tempFolderPath);
+        return new FolderPath(tempFolderPath);
     }
 }

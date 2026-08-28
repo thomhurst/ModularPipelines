@@ -6,7 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -57,7 +57,7 @@ public class GenerateReadMeModule : Module<None>
         return None.Value;
     }
 
-    private string GetModuleReadMeDescription(File file)
+    private string GetModuleReadMeDescription(FilePath file)
     {
         var projectRootElement = ProjectRootElement.Open(file)!;
 

@@ -1,6 +1,5 @@
 using System.IO.Compression;
 using ModularPipelines.FileSystem;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context.Domains.Files;
 
@@ -14,8 +13,8 @@ public interface IZipContext
     /// </summary>
     /// <param name="folder">The folder to compress.</param>
     /// <param name="outputPath">The path where the ZIP file will be created.</param>
-    /// <returns>A <see cref="File"/> representing the created ZIP file.</returns>
-    File CreateFromDirectory(Folder folder, string outputPath) =>
+    /// <returns>A <see cref="FilePath"/> representing the created ZIP file.</returns>
+    FilePath CreateFromDirectory(FolderPath folder, string outputPath) =>
         CreateFromDirectory(folder, outputPath, CompressionLevel.Optimal);
 
     /// <summary>
@@ -24,16 +23,16 @@ public interface IZipContext
     /// <param name="folder">The folder to compress.</param>
     /// <param name="outputPath">The path where the ZIP file will be created.</param>
     /// <param name="compressionLevel">The level of compression to use.</param>
-    /// <returns>A <see cref="File"/> representing the created ZIP file.</returns>
-    File CreateFromDirectory(Folder folder, string outputPath, CompressionLevel compressionLevel);
+    /// <returns>A <see cref="FilePath"/> representing the created ZIP file.</returns>
+    FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel);
 
     /// <summary>
     /// Extracts a ZIP file to a folder, overwriting existing files by default.
     /// </summary>
     /// <param name="zipPath">The path to the ZIP file to extract.</param>
     /// <param name="outputFolderPath">The path where the contents will be extracted.</param>
-    /// <returns>A <see cref="Folder"/> representing the extraction destination folder.</returns>
-    Folder ExtractToDirectory(string zipPath, string outputFolderPath) =>
+    /// <returns>A <see cref="FolderPath"/> representing the extraction destination folder.</returns>
+    FolderPath ExtractToDirectory(string zipPath, string outputFolderPath) =>
         ExtractToDirectory(zipPath, outputFolderPath, true);
 
     /// <summary>
@@ -42,6 +41,6 @@ public interface IZipContext
     /// <param name="zipPath">The path to the ZIP file to extract.</param>
     /// <param name="outputFolderPath">The path where the contents will be extracted.</param>
     /// <param name="overwriteFiles">If <c>true</c>, existing files will be overwritten; otherwise, an exception is thrown for conflicts.</param>
-    /// <returns>A <see cref="Folder"/> representing the extraction destination folder.</returns>
-    Folder ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles);
+    /// <returns>A <see cref="FolderPath"/> representing the extraction destination folder.</returns>
+    FolderPath ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles);
 }

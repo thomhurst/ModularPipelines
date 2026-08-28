@@ -35,10 +35,10 @@ internal class EnvironmentContext : IEnvironmentContext
 
         Variables = variables;
         BuildSystem = buildSystem;
-        WorkingDirectory = new Folder(workingDirectory.Path, fileSystemProvider);
+        WorkingDirectory = new FolderPath(workingDirectory.Path, fileSystemProvider);
         EnvironmentName = hostEnvironment.EnvironmentName;
-        AppDomainDirectory = new Folder(AppDomain.CurrentDomain.BaseDirectory, fileSystemProvider);
-        ContentDirectory = new Folder(contentRootPath, fileSystemProvider);
+        AppDomainDirectory = new FolderPath(AppDomain.CurrentDomain.BaseDirectory, fileSystemProvider);
+        ContentDirectory = new FolderPath(contentRootPath, fileSystemProvider);
     }
 
     /// <inheritdoc />
@@ -84,16 +84,16 @@ internal class EnvironmentContext : IEnvironmentContext
     public string UserName => System.Environment.UserName;
 
     /// <inheritdoc />
-    public Folder WorkingDirectory { get; }
+    public FolderPath WorkingDirectory { get; }
 
     /// <inheritdoc />
     public string EnvironmentName { get; }
 
     /// <inheritdoc />
-    public Folder AppDomainDirectory { get; }
+    public FolderPath AppDomainDirectory { get; }
 
     /// <inheritdoc />
-    public Folder ContentDirectory { get; }
+    public FolderPath ContentDirectory { get; }
 
     /// <inheritdoc />
     public IEnvironmentVariablesContext Variables { get; }

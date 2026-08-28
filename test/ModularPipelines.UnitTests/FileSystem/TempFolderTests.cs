@@ -10,7 +10,7 @@ public class TempFolderTests
     public async Task Dispose_Removes_ReadOnly_Contents()
     {
         var path = Path.Combine(Path.GetTempPath(), $"modular-pipelines-{Guid.NewGuid():N}");
-        var folder = new Folder(path).Create();
+        var folder = new FolderPath(path).Create();
         var file = folder.CreateFile("read-only.txt");
         await file.WriteAsync("contents");
         System.IO.File.SetAttributes(file.Path, FileAttributes.ReadOnly);
@@ -38,7 +38,7 @@ public class TempFolderTests
             System.IO.File.SetAttributes(externalFile, FileAttributes.ReadOnly);
             Directory.CreateSymbolicLink(Path.Combine(path, "external"), externalPath);
 
-            using (new TempFolder(new Folder(path)))
+            using (new TempFolder(new FolderPath(path)))
             {
             }
 
@@ -81,7 +81,7 @@ public class TempFolderTests
             System.IO.File.SetAttributes(externalFile, FileAttributes.ReadOnly);
             System.IO.File.CreateSymbolicLink(Path.Combine(path, "external.txt"), externalFile);
 
-            using (new TempFolder(new Folder(path)))
+            using (new TempFolder(new FolderPath(path)))
             {
             }
 

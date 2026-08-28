@@ -11,9 +11,9 @@ It is recommended to use this token, and pass it in everywhere applicable. This 
 ## Example
 
 ```csharp
-public class MyModule : Module<File>
+public class MyModule : Module<FilePath>
 {
-    protected override async Task<File> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<FilePath> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
     }

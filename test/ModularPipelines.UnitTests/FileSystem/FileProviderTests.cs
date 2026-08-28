@@ -1,6 +1,5 @@
 using ModularPipelines.FileSystem;
 using Moq;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
@@ -13,7 +12,7 @@ public class FileProviderTests
         mockProvider.Setup(p => p.ReadAllTextAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("mocked content");
 
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         var result = await file.ReadAsync();
 
@@ -24,7 +23,7 @@ public class FileProviderTests
     public async Task WriteAsync_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         await file.WriteAsync("test content");
 
@@ -35,7 +34,7 @@ public class FileProviderTests
     public async Task Delete_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         file.Delete();
 
@@ -46,7 +45,7 @@ public class FileProviderTests
     public async Task CopyTo_ReturnsFileWithSameProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/source/file.txt", mockProvider.Object);
+        var file = new FilePath("/source/file.txt", mockProvider.Object);
 
         var copied = file.CopyTo("/dest/file.txt");
 
@@ -62,7 +61,7 @@ public class FileProviderTests
     public async Task MoveTo_ReturnsFileWithSameProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/source/file.txt", mockProvider.Object);
+        var file = new FilePath("/source/file.txt", mockProvider.Object);
 
         var moved = file.MoveTo("/dest/file.txt");
 
@@ -80,7 +79,7 @@ public class FileProviderTests
         var tempFile = Path.GetTempFileName();
         try
         {
-            var file = new File(tempFile);
+            var file = new FilePath(tempFile);
             // Should work without throwing - uses default SystemFileSystemProvider
             await Assert.That(file.Exists).IsTrue();
         }
@@ -98,7 +97,7 @@ public class FileProviderTests
         mockProvider.Setup(p => p.ReadAllBytesAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedBytes);
 
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         var result = await file.ReadBytesAsync();
 
@@ -109,7 +108,7 @@ public class FileProviderTests
     public async Task WriteAsync_Bytes_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
         var contents = new byte[] { 1, 2, 3 };
 
         await file.WriteAsync(contents);
@@ -121,7 +120,7 @@ public class FileProviderTests
     public async Task WriteAsync_Lines_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
         var lines = new[] { "line1", "line2" };
 
         await file.WriteAsync(lines);
@@ -133,7 +132,7 @@ public class FileProviderTests
     public async Task AppendAsync_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         await file.AppendAsync("appended content");
 
@@ -144,7 +143,7 @@ public class FileProviderTests
     public async Task AppendAsync_Lines_UsesProvider()
     {
         var mockProvider = new Mock<IFileSystemProvider>();
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
         var lines = new[] { "line1", "line2" };
 
         await file.AppendAsync(lines);
@@ -160,7 +159,7 @@ public class FileProviderTests
         var stream = new MemoryStream();
         mockProvider.Setup(p => p.Create(It.IsAny<string>())).Returns(stream);
 
-        var file = new File("/test/path.txt", mockProvider.Object);
+        var file = new FilePath("/test/path.txt", mockProvider.Object);
 
         file.Create();
 
@@ -175,7 +174,7 @@ public class FileProviderTests
         var tempFile = Path.GetTempFileName();
         try
         {
-            var file = new File(tempFile);
+            var file = new FilePath(tempFile);
 
             await using var stream = file.GetStream(FileAccess.ReadWrite);
             await Assert.That(stream).IsNotNull();
@@ -196,7 +195,7 @@ public class FileProviderTests
         mockProvider.Setup(p => p.OpenRead(It.IsAny<string>())).Returns(sourceStream);
         mockProvider.Setup(p => p.Create(It.IsAny<string>())).Returns(destStream);
 
-        var file = new File("/source/file.txt", mockProvider.Object);
+        var file = new FilePath("/source/file.txt", mockProvider.Object);
 
         var copied = await file.CopyToAsync("/dest/file.txt");
 

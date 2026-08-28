@@ -88,6 +88,13 @@ The custom JSON converters use the same new property names. Consumers of persist
 distributed `ModuleResult` JSON must migrate those five field names together with the
 .NET API.
 
+## File-system path types
+
+`ModularPipelines.FileSystem.File` and `Folder` have been renamed to `FilePath`
+and `FolderPath`. This avoids collisions with `System.IO.File` in projects that
+use implicit global usings. Method names such as `IFilesContext.GetFile` and
+`GetFolder` are unchanged; only their path types have changed.
+
 ## Module condition predicates
 
 `WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use

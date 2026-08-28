@@ -1,5 +1,5 @@
+using ModularPipelines.FileSystem;
 using ModularPipelines.Options;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context.Domains.Network;
 
@@ -11,7 +11,7 @@ public interface IDownloaderContext
     /// <param name="options">The download options including the source URL and destination path.</param>
     /// <param name="cancellationToken">A token to cancel the download operation.</param>
     /// <returns>The downloaded file.</returns>
-    public Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default);
+    public Task<FilePath> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Downloads content from the web as a string.

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.FileSystem;
+namespace ModularPipelines.FileSystem;
 
 internal static class SafeWalk
 {
@@ -7,7 +7,7 @@ internal static class SafeWalk
         IgnoreInaccessible = true,
     };
 
-    public static IEnumerable<string> EnumerateFiles(Folder path, Func<Folder, bool> directoryExclusionFilters)
+    public static IEnumerable<string> EnumerateFiles(FolderPath path, Func<FolderPath, bool> directoryExclusionFilters)
     {
         foreach (var file in Directory.EnumerateFiles(path, "*", SafeEnumerationOptions))
         {
@@ -29,7 +29,7 @@ internal static class SafeWalk
         }
     }
 
-    public static IEnumerable<string> EnumerateFolders(Folder path, Func<Folder, bool> exclusionFilters)
+    public static IEnumerable<string> EnumerateFolders(FolderPath path, Func<FolderPath, bool> exclusionFilters)
     {
         var innerFolders = new List<string>();
         foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeEnumerationOptions)

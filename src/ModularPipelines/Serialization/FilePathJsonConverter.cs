@@ -1,24 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using File = ModularPipelines.FileSystem.File;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Serialization;
 
 [ExcludeFromCodeCoverage]
-internal class FilePathJsonConverter : JsonConverter<File>
+internal class FilePathJsonConverter : JsonConverter<FilePath>
 {
-    public override File? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override FilePath? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
         {
             return null;
         }
 
-        return new File(reader.GetString()!);
+        return new FilePath(reader.GetString()!);
     }
 
-    public override void Write(Utf8JsonWriter writer, File value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, FilePath value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.Path);
     }
