@@ -108,7 +108,7 @@ public interface IModuleContext : IPipelineContext
     /// Thrown if the specified module was not registered with the pipeline.
     /// Ensure the module is registered via <c>AddModule&lt;TModule&gt;()</c> in your pipeline configuration.
     /// </exception>
-    /// <exception cref="Exceptions.ModuleReferencingSelfException">
+    /// <exception cref="Exceptions.ModuleSelfDependencyException">
     /// Thrown if a module attempts to retrieve itself. A module cannot depend on its own result.
     /// </exception>
     /// <seealso cref="Module{T}"/>

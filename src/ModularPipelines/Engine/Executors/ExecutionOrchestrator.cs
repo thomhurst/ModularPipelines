@@ -82,7 +82,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             return await ExecuteInternal(cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is PipelineCancelledException or TaskCanceledException or OperationCanceledException)
+        catch (OperationCanceledException)
         {
             // Check if we have an original exception stored with preserved stack trace
             _exceptionRethrowService.ThrowOriginalExceptionIfPresent();

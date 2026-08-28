@@ -49,7 +49,7 @@ namespace ModularPipelines.Exceptions;
 /// </list>
 /// </remarks>
 /// <seealso cref="PipelineException"/>
-/// <seealso cref="PipelineCancelledException"/>
+/// <seealso cref="PipelineCanceledException"/>
 public class ModuleTimeoutException : PipelineException
 {
     /// <summary>
@@ -57,7 +57,7 @@ public class ModuleTimeoutException : PipelineException
     /// </summary>
     /// <param name="moduleType">The type of the module that timed out.</param>
     /// <param name="configuredTimeout">The timeout duration that was configured.</param>
-    internal ModuleTimeoutException(Type moduleType, TimeSpan configuredTimeout)
+    public ModuleTimeoutException(Type moduleType, TimeSpan configuredTimeout)
         : this(moduleType, configuredTimeout, configuredTimeout, wasCancellationTokenRespected: true)
     {
     }
@@ -70,7 +70,7 @@ public class ModuleTimeoutException : PipelineException
     /// <param name="configuredTimeout">The timeout duration that was configured.</param>
     /// <param name="elapsedTime">The actual time elapsed before timeout was enforced.</param>
     /// <param name="wasCancellationTokenRespected">Whether the module completed within the cancellation grace period.</param>
-    internal ModuleTimeoutException(
+    public ModuleTimeoutException(
         Type moduleType,
         TimeSpan configuredTimeout,
         TimeSpan elapsedTime,

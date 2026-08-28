@@ -3,7 +3,7 @@ namespace ModularPipelines.Exceptions;
 /// <summary>
 /// Thrown when an object's exact runtime type was not processed by the source generator for secrets.
 /// </summary>
-public sealed class MissingSecretMetadataException : InvalidOperationException
+public sealed class MissingSecretMetadataException : PipelineException
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MissingSecretMetadataException"/> class.

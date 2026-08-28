@@ -32,7 +32,7 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
         var moduleType = moduleDependencyModel.Module.GetType();
         if (moduleDependencyModel.IsDependentOn.Any(d => d.Module.GetType() == moduleType))
         {
-            throw new ModuleReferencingSelfException(
+            throw new ModuleSelfDependencyException(
                 $"Module '{moduleType.Name}' cannot reference itself. " +
                 "A module cannot depend on its own result.");
         }

@@ -23,7 +23,7 @@ internal static class ModuleDependencyValidator
     /// Validates all registered module dependencies.
     /// </summary>
     /// <param name="registeredModuleTypes">The types of all registered modules.</param>
-    /// <exception cref="ModuleReferencingSelfException">
+    /// <exception cref="ModuleSelfDependencyException">
     /// Thrown when a module depends on itself.
     /// </exception>
     /// <exception cref="DependencyCollisionException">
@@ -78,7 +78,7 @@ internal static class ModuleDependencyValidator
             {
                 if (dependencyType == moduleType)
                 {
-                    throw new ModuleReferencingSelfException(
+                    throw new ModuleSelfDependencyException(
                         $"Module '{moduleType.Name}' cannot reference itself. " +
                         "A module cannot depend on its own result.");
                 }
@@ -152,7 +152,7 @@ internal static class ModuleDependencyValidator
             {
                 if (dependencyType == moduleType)
                 {
-                    throw new ModuleReferencingSelfException(
+                    throw new ModuleSelfDependencyException(
                         $"Module '{moduleType.Name}' cannot reference itself. " +
                         "A module cannot depend on its own result.");
                 }

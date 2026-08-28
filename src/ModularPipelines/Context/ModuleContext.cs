@@ -60,7 +60,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         // Check for self-reference
         if (moduleType == _currentModule.GetType())
         {
-            throw new ModuleReferencingSelfException(
+            throw new ModuleSelfDependencyException(
                 $"Module '{moduleType.Name}' cannot reference itself. " +
                 "A module cannot depend on its own result.");
         }
@@ -86,7 +86,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         // Check for self-reference - still throw, as this is a programming error
         if (moduleType == _currentModule.GetType())
         {
-            throw new ModuleReferencingSelfException(
+            throw new ModuleSelfDependencyException(
                 $"Module '{moduleType.Name}' cannot reference itself. " +
                 "A module cannot depend on its own result.");
         }
@@ -230,7 +230,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         // Check for self-reference
         if (moduleType == _currentModule.GetType())
         {
-            throw new ModuleReferencingSelfException(
+            throw new ModuleSelfDependencyException(
                 $"Module '{moduleType.Name}' cannot reference itself. " +
                 "A module cannot depend on its own result.");
         }

@@ -132,7 +132,7 @@ internal static class ModuleActivityTracing
         var status = exception switch
         {
             PipelineFailedException pipelineFailedException => pipelineFailedException.Summary.Status,
-            PipelineCancelledException or OperationCanceledException => ModuleStatus.Cancelled,
+            OperationCanceledException => ModuleStatus.Cancelled,
             _ => ModuleStatus.Failed,
         };
         activity?.SetTag(PipelineStatusTag, status.ToString());

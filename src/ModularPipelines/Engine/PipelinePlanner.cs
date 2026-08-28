@@ -151,7 +151,7 @@ internal sealed class PipelinePlanner
             ModuleDependencyValidator.Validate(_modules, _dependencyRegistry, _metadataRegistry);
         }
         catch (Exception exception) when (exception is ModuleNotRegisteredException
-            or ModuleReferencingSelfException
+            or ModuleSelfDependencyException
             or DependencyCollisionException)
         {
             var runnableModules = await _moduleRetriever

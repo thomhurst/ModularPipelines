@@ -20,7 +20,7 @@ namespace ModularPipelines.Exceptions;
 /// {
 ///     await pipelineHost.ExecuteAsync();
 /// }
-/// catch (ModuleReferencingSelfException ex)
+/// catch (ModuleSelfDependencyException ex)
 /// {
 ///     Console.WriteLine($"Self-reference detected: {ex.Message}");
 /// }
@@ -41,13 +41,13 @@ namespace ModularPipelines.Exceptions;
 /// </remarks>
 /// <seealso cref="PipelineException"/>
 /// <seealso cref="CircularDependencyException"/>
-public class ModuleReferencingSelfException : PipelineException
+public class ModuleSelfDependencyException : PipelineException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModuleReferencingSelfException"/> class.
+    /// Initializes a new instance of the <see cref="ModuleSelfDependencyException"/> class.
     /// </summary>
     /// <param name="message">The message describing the self-reference error.</param>
-    public ModuleReferencingSelfException(string? message) : base(message)
+    public ModuleSelfDependencyException(string? message) : base(message)
     {
     }
 }
