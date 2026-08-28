@@ -1,5 +1,4 @@
 #nullable enable
-abstract ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriter.GetGitHubPipelineFileWriterOptions(ModularPipelines.Context.IPipelineContext! pipelineHookContext) -> System.Threading.Tasks.Task<ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions!>!
 ModularPipelines.Context.ModularPipelines_GitHub_6ba1250c2ba2f295ToolsExtensions
 ModularPipelines.Context.ModularPipelines_GitHub_6ba1250c2ba2f295ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_GitHub_6ba1250c2ba2f295ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Gh.get -> ModularPipelines.GitHub.Services.IGh!
@@ -2084,9 +2083,6 @@ ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.RedisSecretNa
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.RedisSecretName.init -> void
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.TriggerCondition.get -> ModularPipelines.GitHub.PipelineWriters.TriggerCondition!
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.TriggerCondition.init -> void
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriter
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriter.GitHubPipelineFileWriter() -> void
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriter.Write(ModularPipelines.Context.IPipelineContext! pipelineHookContext) -> System.Threading.Tasks.Task!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.CacheNuGet.get -> bool
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.CacheNuGet.init -> void

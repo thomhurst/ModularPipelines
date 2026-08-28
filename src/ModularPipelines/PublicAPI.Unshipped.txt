@@ -1,6 +1,27 @@
 #nullable enable
 abstract ModularPipelines.Modules.NonGenericSyncModuleAdapter.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.Modules.SyncModule.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
+const ModularPipelines.Tracing.PipelineTelemetry.CommandDurationTag = "modular_pipelines.command.duration_ms" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.CommandInputTag = "process.command_line" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.CommandSourceName = "ModularPipelines.Commands" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.CommandToolTag = "process.executable.name" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ExceptionMessageTag = "exception.message" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ExceptionTypeTag = "exception.type" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.MeterName = "ModularPipelines" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleCacheHitsMetric = "modular_pipelines.module.cache_hits" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleCacheMissesMetric = "modular_pipelines.module.cache_misses" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleCacheTag = "modular_pipelines.module.cache" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleDurationMetric = "modular_pipelines.module.duration" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleRetriesMetric = "modular_pipelines.module.retries" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModulesFailedMetric = "modular_pipelines.modules.failed" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleSourceName = "ModularPipelines.Modules" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleStatusTag = "modular_pipelines.module.status" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleTypeFullNameTag = "modular_pipelines.module.type_full" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ModuleTypeTag = "modular_pipelines.module.type" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.PipelineNameTag = "modular_pipelines.pipeline.name" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.PipelineSourceName = "ModularPipelines" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.PipelineStatusTag = "modular_pipelines.pipeline.status" -> string!
 ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.Enums.ExecutionHint executionHint) -> void
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint?
@@ -55,6 +76,36 @@ ModularPipelines.Options.FailureMode.ContinueOnFailure = 1 -> ModularPipelines.O
 ModularPipelines.Options.FailureMode.FailFast = 0 -> ModularPipelines.Options.FailureMode
 ModularPipelines.Options.PipelineOptions.FailureMode.get -> ModularPipelines.Options.FailureMode
 ModularPipelines.Options.PipelineOptions.FailureMode.init -> void
+ModularPipelines.PipelineBuilderSettings
+ModularPipelines.PipelineBuilderSettings.<Clone>$() -> ModularPipelines.PipelineBuilderSettings!
+ModularPipelines.PipelineBuilderSettings.ApplicationName.get -> string?
+ModularPipelines.PipelineBuilderSettings.ApplicationName.init -> void
+ModularPipelines.PipelineBuilderSettings.Args.get -> System.Collections.Generic.IReadOnlyList<string!>?
+ModularPipelines.PipelineBuilderSettings.Args.init -> void
+ModularPipelines.PipelineBuilderSettings.ContentRootPath.get -> string?
+ModularPipelines.PipelineBuilderSettings.ContentRootPath.init -> void
+ModularPipelines.PipelineBuilderSettings.EnableCommandLineOptions.get -> bool
+ModularPipelines.PipelineBuilderSettings.EnableCommandLineOptions.init -> void
+ModularPipelines.PipelineBuilderSettings.EnvironmentName.get -> string?
+ModularPipelines.PipelineBuilderSettings.EnvironmentName.init -> void
+ModularPipelines.PipelineBuilderSettings.Equals(ModularPipelines.PipelineBuilderSettings? other) -> bool
+ModularPipelines.PipelineBuilderSettings.LoadModularPipelinesAssemblies.get -> bool
+ModularPipelines.PipelineBuilderSettings.LoadModularPipelinesAssemblies.init -> void
+ModularPipelines.PipelineBuilderSettings.PipelineBuilderSettings() -> void
+ModularPipelines.PipelineBuilderSettings.WorkingDirectory.get -> string?
+ModularPipelines.PipelineBuilderSettings.WorkingDirectory.init -> void
+ModularPipelines.Tracing.PipelineTelemetry
+override ModularPipelines.PipelineBuilderSettings.Equals(object? obj) -> bool
+override ModularPipelines.PipelineBuilderSettings.GetHashCode() -> int
+override ModularPipelines.PipelineBuilderSettings.ToString() -> string!
 override sealed ModularPipelines.Modules.NonGenericSyncModuleAdapter.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> ModularPipelines.Models.None
 override sealed ModularPipelines.Modules.SyncModule.ExecuteWithoutResult(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
+static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, params string![]! arguments) -> TOptions!
+static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, string! singleArgument) -> TOptions!
+static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!
+static ModularPipelines.Pipeline.CreateBuilder(ModularPipelines.PipelineBuilderSettings! settings, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Pipeline.CreateBuilder(string![]? args = null, string! sourceFilePath = "") -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderExtensions.AddValidator<TValidator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderSettings.operator !=(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
+static ModularPipelines.PipelineBuilderSettings.operator ==(ModularPipelines.PipelineBuilderSettings? left, ModularPipelines.PipelineBuilderSettings? right) -> bool
 virtual ModularPipelines.Modules.Module<T>.Configure(ModularPipelines.Configuration.ModuleConfigurationBuilder! module) -> void
