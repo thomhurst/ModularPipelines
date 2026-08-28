@@ -67,12 +67,9 @@ public static class Pipeline
     {
         ArgumentNullException.ThrowIfNull(settings);
 
-        return new PipelineBuilder(settings with
-        {
-            WorkingDirectory = settings.WorkingDirectory
-                               ?? settings.ContentRootPath
-                               ?? PipelineDirectory.TryFindPipelineProject(sourceFilePath),
-        });
+        return new PipelineBuilder(
+            settings,
+            PipelineDirectory.TryFindPipelineProject(sourceFilePath));
     }
 
     internal static PipelineBuilder CreateBuilderWithoutProjectInference(PipelineBuilderSettings settings)

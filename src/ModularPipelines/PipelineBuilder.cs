@@ -42,7 +42,9 @@ public sealed class PipelineBuilder
     private readonly PipelineBuilderSettings _settings;
     private PipelineOptions _options;
 
-    internal PipelineBuilder(PipelineBuilderSettings settings)
+    internal PipelineBuilder(
+        PipelineBuilderSettings settings,
+        string? inferredWorkingDirectory = null)
     {
         _settings = settings;
 
@@ -74,7 +76,7 @@ public sealed class PipelineBuilder
             _configuration.AddCommandLine(args);
         }
 
-        _environment = CreateHostEnvironment(settings, args);
+        _environment = CreateHostEnvironment(settings, args, inferredWorkingDirectory);
         _resources = _environment.Resources;
         _configuration.SetBasePath(_environment.WorkingDirectory);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
@@ -279,7 +281,8 @@ public sealed class PipelineBuilder
 
     private static PipelineHostEnvironment CreateHostEnvironment(
         PipelineBuilderSettings settings,
-        IReadOnlyList<string> hostArguments)
+        IReadOnlyList<string> hostArguments,
+        string? inferredWorkingDirectory)
     {
         var hostConfiguration = new ConfigurationManager();
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
@@ -297,7 +300,8 @@ public sealed class PipelineBuilder
             Directory.GetCurrentDirectory(),
             settings.WorkingDirectory,
             settings.ContentRootPath,
-            hostConfiguration[HostDefaults.ContentRootKey]));
+            hostConfiguration[HostDefaults.ContentRootKey],
+            inferredWorkingDirectory));
         var contentRootPath = Path.GetFullPath(FirstNonEmpty(
             workingDirectory,
             settings.ContentRootPath,
