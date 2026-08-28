@@ -25,7 +25,7 @@ public sealed class IsCI : IPlanningRunCondition
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)
     {
-        var ciEnvVar = context.Environment.Variables.GetEnvironmentVariable("CI");
+        var ciEnvVar = context.Environment.Variables.Get("CI");
         var isCI = !string.IsNullOrEmpty(ciEnvVar) &&
                    !string.Equals(ciEnvVar, "false", StringComparison.OrdinalIgnoreCase);
         return Task.FromResult(isCI);

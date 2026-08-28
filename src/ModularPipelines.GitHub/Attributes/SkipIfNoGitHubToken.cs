@@ -13,7 +13,7 @@ public class SkipIfNoGitHubToken : Attribute, IConditionAttribute
 
     public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        var token = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN");
+        var token = pipelineContext.Environment.Variables.Get("GITHUB_TOKEN");
 
         return Task.FromResult(string.IsNullOrEmpty(token));
     }

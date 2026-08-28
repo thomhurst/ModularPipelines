@@ -9,35 +9,35 @@ internal class EnvironmentVariables : IEnvironmentVariablesContext
 
     private static char Delimiter => OperatingSystem.IsWindows() ? ';' : ':';
 
-    public string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
+    public string? Get(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
         return Environment.GetEnvironmentVariable(name, target);
     }
 
-    public IReadOnlyDictionary<string, string> GetEnvironmentVariables(
+    public IReadOnlyDictionary<string, string?> GetAll(
         EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
         return Environment.GetEnvironmentVariables(target)
             .Cast<DictionaryEntry>()
-            .ToDictionary(variable => variable.Key.ToString()!, variable => variable.Value!.ToString()!);
+            .ToDictionary(variable => variable.Key.ToString()!, variable => variable.Value?.ToString());
     }
 
-    public void SetEnvironmentVariable(string variableName, string value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
+    public void Set(string name, string? value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        Environment.SetEnvironmentVariable(variableName, value, target);
+        Environment.SetEnvironmentVariable(name, value, target);
     }
 
     public IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        return GetEnvironmentVariable(PathVariableName, target)?.Split(Delimiter) ?? [];
+        return Get(PathVariableName, target)?.Split(Delimiter) ?? [];
     }
 
     public void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        var oldValue = Environment.GetEnvironmentVariable(PathVariableName, target);
+        var oldValue = Get(PathVariableName, target);
 
         var newValue = $"{oldValue}{Delimiter}{pathToAdd}";
 
-        Environment.SetEnvironmentVariable(PathVariableName, newValue, target);
+        Set(PathVariableName, newValue, target);
     }
 }

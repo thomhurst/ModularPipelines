@@ -43,7 +43,7 @@ public sealed class RunIfRegionAttribute(string region) : RunIfAllAttribute
 {
     public override Task<bool> EvaluateAsync(IPipelineContext context) =>
         Task.FromResult(
-            context.Environment.Variables.GetEnvironmentVariable("REGION") == region);
+            context.Environment.Variables.Get("REGION") == region);
 }
 
 [RunIfRegion("eu-west-2")]

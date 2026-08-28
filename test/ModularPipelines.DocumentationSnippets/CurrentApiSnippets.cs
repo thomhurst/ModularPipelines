@@ -273,7 +273,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var apiKey = context.Environment.Variables.GetEnvironmentVariable("NUGET_API_KEY");
+            var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
             ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
             var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
@@ -317,7 +317,7 @@ public static class CurrentApiSnippets
     {
         public Task<bool> EvaluateAsync(IPipelineContext context)
             => Task.FromResult(!string.IsNullOrEmpty(
-                context.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN")));
+                context.Environment.Variables.Get("GITHUB_TOKEN")));
     }
 
     public sealed class VersionCalculator : SyncModule<string>

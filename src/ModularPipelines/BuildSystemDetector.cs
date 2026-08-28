@@ -64,7 +64,7 @@ internal class BuildSystemDetector : IBuildSystemDetector
     {
         foreach (var (variable, buildSystem) in DetectionOrder)
         {
-            if (string.IsNullOrEmpty(_environmentVariables.GetEnvironmentVariable(variable)))
+            if (string.IsNullOrEmpty(_environmentVariables.Get(variable)))
             {
                 continue;
             }

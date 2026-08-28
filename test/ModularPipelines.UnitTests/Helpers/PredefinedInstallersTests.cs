@@ -35,7 +35,7 @@ public class PredefinedInstallersTests
                 })
             .ReturnsAsync(result);
         var environmentVariables = new Mock<IEnvironmentVariablesContext>();
-        environmentVariables.Setup(context => context.GetEnvironmentVariable(
+        environmentVariables.Setup(context => context.Get(
                 "ALLUSERSPROFILE",
                 EnvironmentVariableTarget.Process))
             .Returns(allUsersProfile);

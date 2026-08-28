@@ -69,9 +69,9 @@ public class ParameterizedRunConditionAttributeTests
     public async Task EnvironmentVariableAttributes_SupportSetValueAndUnsetChecks()
     {
         var variables = new Mock<IEnvironmentVariablesContext>();
-        variables.Setup(x => x.GetEnvironmentVariable("CI", EnvironmentVariableTarget.Process))
+        variables.Setup(x => x.Get("CI", EnvironmentVariableTarget.Process))
             .Returns("true");
-        variables.Setup(x => x.GetEnvironmentVariable("MISSING", EnvironmentVariableTarget.Process))
+        variables.Setup(x => x.Get("MISSING", EnvironmentVariableTarget.Process))
             .Returns((string?) null);
         var context = CreateContext(variables.Object);
 
