@@ -41,11 +41,11 @@
   </ItemGroup>
 
   <!-- CLI regeneration validates generated API compatibility separately before it can update baselines. -->
-  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true'">
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
   </ItemGroup>
 
-  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true'">
+  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <!-- Public API baselines must stay enforced in ordinary CI tool builds. -->
     <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
