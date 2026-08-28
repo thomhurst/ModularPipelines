@@ -40,7 +40,7 @@ public class PipelineRequirementTests
         };
 
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageEqualTo("Requirements failed:\r\nFailingRequirement");
     }
 
@@ -55,7 +55,7 @@ public class PipelineRequirementTests
                 .RunAsync();
         };
         await Assert.That(executePipelineDelegate)
-            .Throws<FailedRequirementsException>()
+            .Throws<RequirementNotMetException>()
             .And.HasMessageEqualTo("Requirements failed:\r\n" + TestConstants.RequirementErrorMessage);
     }
 
@@ -70,7 +70,7 @@ public class PipelineRequirementTests
 
     private class SuccessfulRequirement : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public async Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return true;
@@ -79,7 +79,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirement : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public async Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return false;
@@ -88,7 +88,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirementWithReason : IPipelineRequirement
     {
-        public async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public async Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return RequirementDecision.Failed(TestConstants.RequirementErrorMessage);

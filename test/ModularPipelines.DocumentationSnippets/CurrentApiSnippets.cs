@@ -303,9 +303,14 @@ public static class CurrentApiSnippets
 
     public sealed class HasDotNetSdkRequirement : PipelineRequirement
     {
-        public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public override async Task<RequirementDecision> EvaluateAsync(
+            IPipelineContext context,
+            CancellationToken cancellationToken)
         {
-            var result = await context.Shell.RunAsync("dotnet", ["--version"])
+            var result = await context.Shell.RunAsync(
+                    "dotnet",
+                    ["--version"],
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             return result.ExitCode == 0 ? Pass() : Fail(".NET SDK is not installed");

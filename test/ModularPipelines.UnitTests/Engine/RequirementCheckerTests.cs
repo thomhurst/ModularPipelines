@@ -25,7 +25,7 @@ public class RequirementCheckerTests
             .Returns(Mock.Of<IPipelineContext>());
         var checker = new RequirementChecker(requirements, contextProvider.Object);
 
-        await checker.CheckRequirementsAsync();
+        await checker.CheckRequirementsAsync(CancellationToken.None);
 
         var actualOrder = executionOrder.ToArray();
         await Assert.That(actualOrder.Length).IsEqualTo(3);
@@ -40,7 +40,7 @@ public class RequirementCheckerTests
     {
         public int Order => order;
 
-        public Task<RequirementDecision> MustAsync(IPipelineContext context)
+        public Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             executionOrder.Enqueue(order);
             return Task.FromResult(RequirementDecision.Passed);

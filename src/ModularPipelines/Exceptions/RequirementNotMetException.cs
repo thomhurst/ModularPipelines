@@ -21,7 +21,7 @@ namespace ModularPipelines.Exceptions;
 /// {
 ///     await pipelineHost.ExecuteAsync();
 /// }
-/// catch (FailedRequirementsException ex)
+/// catch (RequirementNotMetException ex)
 /// {
 ///     Console.WriteLine($"Requirements not met: {ex.Message}");
 ///     // The message contains details about which requirements failed
@@ -35,13 +35,13 @@ namespace ModularPipelines.Exceptions;
 /// </remarks>
 /// <seealso cref="PipelineException"/>
 /// <seealso cref="PipelineValidationException"/>
-public class FailedRequirementsException : PipelineException
+public class RequirementNotMetException : PipelineException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FailedRequirementsException"/> class with a specified error message.
+    /// Initializes a new instance of the <see cref="RequirementNotMetException"/> class with a specified error message.
     /// </summary>
     /// <param name="message">The message describing which requirements failed.</param>
-    public FailedRequirementsException(string? message) : base(message)
+    public RequirementNotMetException(string? message) : base(message)
     {
     }
 }

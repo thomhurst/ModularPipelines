@@ -17,7 +17,7 @@ namespace ModularPipelines.Exceptions;
 /// <item><see cref="CommandOptionsValidationException"/> - Command-line options failed validation</item>
 /// <item><see cref="DependencyCollisionException"/> - Module dependency conflicts</item>
 /// <item><see cref="DependencyFailedException"/> - A dependency module failed</item>
-/// <item><see cref="FailedRequirementsException"/> - Pipeline requirements not met</item>
+/// <item><see cref="RequirementNotMetException"/> - Pipeline requirements not met</item>
 /// <item><see cref="InvalidModuleTypeException"/> - Type does not implement IModule</item>
 /// <item><see cref="MissingCommandMetadataException"/> - Command metadata was not generated</item>
 /// <item><see cref="MissingSecretMetadataException"/> - Secret metadata was not generated</item>

@@ -741,8 +741,6 @@ ModularPipelines.Exceptions.DependencyCollisionException.DependencyCollisionExce
 ModularPipelines.Exceptions.DependencyFailedException
 ModularPipelines.Exceptions.DependencyFailedException.DependencyFailedException(System.Exception! exception, ModularPipelines.Modules.IModule! module) -> void
 ModularPipelines.Exceptions.DependencyFailedException.FailingModuleName.get -> string!
-ModularPipelines.Exceptions.FailedRequirementsException
-ModularPipelines.Exceptions.FailedRequirementsException.FailedRequirementsException(string? message) -> void
 ModularPipelines.Exceptions.InvalidModuleTypeException
 ModularPipelines.Exceptions.InvalidModuleTypeException.InvalidModuleTypeException(System.Type! invalidType) -> void
 ModularPipelines.Exceptions.InvalidModuleTypeException.InvalidType.get -> System.Type!
@@ -1180,7 +1178,6 @@ ModularPipelines.Models.RequirementDecision
 ModularPipelines.Models.RequirementDecision.<Clone>$() -> ModularPipelines.Models.RequirementDecision!
 ModularPipelines.Models.RequirementDecision.Equals(ModularPipelines.Models.RequirementDecision? other) -> bool
 ModularPipelines.Models.RequirementDecision.Reason.get -> string?
-ModularPipelines.Models.RequirementDecision.Success.get -> bool
 ModularPipelines.Models.RunCorrelation
 ModularPipelines.Models.RunCorrelation.<Clone>$() -> ModularPipelines.Models.RunCorrelation!
 ModularPipelines.Models.RunCorrelation.BuildSystem.get -> ModularPipelines.Enums.BuildSystem
@@ -1563,26 +1560,12 @@ ModularPipelines.Plugins.IModularPipelinesPlugin.Name.get -> string!
 ModularPipelines.Plugins.IModularPipelinesPlugin.Priority.get -> int
 ModularPipelines.Plugins.PluginRegistry
 ModularPipelines.Requirements.DelegateRequirement
-ModularPipelines.Requirements.DelegateRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 ModularPipelines.Requirements.DelegateRequirement.Order.get -> int
 ModularPipelines.Requirements.IPipelineRequirement
-ModularPipelines.Requirements.IPipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 ModularPipelines.Requirements.IPipelineRequirement.Order.get -> int
-ModularPipelines.Requirements.LinuxRequirement
-ModularPipelines.Requirements.LinuxRequirement.LinuxRequirement() -> void
-ModularPipelines.Requirements.LinuxRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
-ModularPipelines.Requirements.MacOSRequirement
-ModularPipelines.Requirements.MacOSRequirement.MacOSRequirement() -> void
-ModularPipelines.Requirements.MacOSRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 ModularPipelines.Requirements.PipelineRequirement
 ModularPipelines.Requirements.PipelineRequirement.PipelineRequirement() -> void
 ModularPipelines.Requirements.Require
-ModularPipelines.Requirements.WindowsAdminRequirement
-ModularPipelines.Requirements.WindowsAdminRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
-ModularPipelines.Requirements.WindowsAdminRequirement.WindowsAdminRequirement() -> void
-ModularPipelines.Requirements.WindowsRequirement
-ModularPipelines.Requirements.WindowsRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
-ModularPipelines.Requirements.WindowsRequirement.WindowsRequirement() -> void
 ModularPipelines.Validation.IPipelineValidator
 ModularPipelines.Validation.IPipelineValidator.Order.get -> int
 ModularPipelines.Validation.IPipelineValidator.ValidateAsync(System.IServiceProvider! services) -> System.Threading.Tasks.Task<ModularPipelines.Validation.ValidationResult!>!
@@ -1987,9 +1970,6 @@ static ModularPipelines.Models.PipelineSummary.operator !=(ModularPipelines.Mode
 static ModularPipelines.Models.PipelineSummary.operator ==(ModularPipelines.Models.PipelineSummary? left, ModularPipelines.Models.PipelineSummary? right) -> bool
 static ModularPipelines.Models.RequirementDecision.Failed(string? reason) -> ModularPipelines.Models.RequirementDecision!
 static ModularPipelines.Models.RequirementDecision.implicit operator ModularPipelines.Models.RequirementDecision!(bool passed) -> ModularPipelines.Models.RequirementDecision!
-static ModularPipelines.Models.RequirementDecision.implicit operator ModularPipelines.Models.RequirementDecision!(string! reason) -> ModularPipelines.Models.RequirementDecision!
-static ModularPipelines.Models.RequirementDecision.implicit operator System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!(ModularPipelines.Models.RequirementDecision! decision) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
-static ModularPipelines.Models.RequirementDecision.Of(bool passed, string? reason) -> ModularPipelines.Models.RequirementDecision!
 static ModularPipelines.Models.RequirementDecision.operator !=(ModularPipelines.Models.RequirementDecision? left, ModularPipelines.Models.RequirementDecision? right) -> bool
 static ModularPipelines.Models.RequirementDecision.operator ==(ModularPipelines.Models.RequirementDecision? left, ModularPipelines.Models.RequirementDecision? right) -> bool
 static ModularPipelines.Models.RunCorrelation.operator !=(ModularPipelines.Models.RunCorrelation? left, ModularPipelines.Models.RunCorrelation? right) -> bool
@@ -2097,14 +2077,12 @@ static ModularPipelines.Plugins.PluginRegistry.Register(ModularPipelines.Plugins
 static ModularPipelines.Requirements.PipelineRequirement.Fail(string! reason) -> ModularPipelines.Models.RequirementDecision!
 static ModularPipelines.Requirements.PipelineRequirement.Pass() -> ModularPipelines.Models.RequirementDecision!
 static ModularPipelines.Requirements.PipelineRequirement.When(bool condition, string! failureReason) -> ModularPipelines.Models.RequirementDecision!
-static ModularPipelines.Requirements.Require.CIEnvironment(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.DirectoryExists(string! directoryPath, string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.EnvironmentVariable(string! variableName, string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.FileExists(string! filePath, string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.LocalEnvironment(string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.Platform(System.Runtime.InteropServices.OSPlatform platform, string? failureReason = null, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Requirements.Require.That(System.Func<ModularPipelines.Context.IPipelineContext!, bool>! condition, string! failureReason, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
-static ModularPipelines.Requirements.Require.ThatAsync(System.Func<ModularPipelines.Context.IPipelineContext!, System.Threading.Tasks.Task<bool>!>! condition, string! failureReason, int order = 0) -> ModularPipelines.Requirements.IPipelineRequirement!
 static ModularPipelines.Validation.ValidationError.operator !=(ModularPipelines.Validation.ValidationError? left, ModularPipelines.Validation.ValidationError? right) -> bool
 static ModularPipelines.Validation.ValidationError.operator ==(ModularPipelines.Validation.ValidationError? left, ModularPipelines.Validation.ValidationError? right) -> bool
 static ModularPipelines.Validation.ValidationResult.Success() -> ModularPipelines.Validation.ValidationResult!
@@ -2234,8 +2212,6 @@ virtual ModularPipelines.Options.WebInstallerOptions.<Clone>$() -> ModularPipeli
 virtual ModularPipelines.Options.WebInstallerOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.WebInstallerOptions.Equals(ModularPipelines.Options.WebInstallerOptions? other) -> bool
 virtual ModularPipelines.Options.WebInstallerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.Requirements.PipelineRequirement.Must(ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Models.RequirementDecision!
-virtual ModularPipelines.Requirements.PipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 virtual ModularPipelines.Requirements.PipelineRequirement.Order.get -> int
 virtual ModularPipelines.Validation.ValidationError.<Clone>$() -> ModularPipelines.Validation.ValidationError!
 virtual ModularPipelines.Validation.ValidationError.EqualityContract.get -> System.Type!

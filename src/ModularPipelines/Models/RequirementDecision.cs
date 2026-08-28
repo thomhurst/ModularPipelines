@@ -6,7 +6,7 @@ namespace ModularPipelines.Models;
 public sealed record RequirementDecision
 {
     [JsonInclude]
-    public bool Success { get; private set; }
+    public bool IsSatisfied { get; private set; }
 
     [JsonInclude]
     public string? Reason { get; private init; }
@@ -17,9 +17,9 @@ public sealed record RequirementDecision
     {
     }
 
-    private RequirementDecision(bool success)
+    private RequirementDecision(bool isSatisfied)
     {
-        Success = success;
+        IsSatisfied = isSatisfied;
     }
 
     public static readonly RequirementDecision Passed = new(true);
@@ -29,14 +29,5 @@ public sealed record RequirementDecision
         Reason = reason,
     };
 
-    public static RequirementDecision Of(bool passed, string? reason) => new(passed)
-    {
-        Reason = passed ? null : reason,
-    };
-
     public static implicit operator RequirementDecision(bool passed) => passed ? Passed : Failed(null);
-
-    public static implicit operator RequirementDecision(string reason) => Failed(reason);
-
-    public static implicit operator Task<RequirementDecision>(RequirementDecision decision) => Task.FromResult(decision);
 }

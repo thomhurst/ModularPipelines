@@ -64,6 +64,22 @@ The documented `ModularPipelines.Cmd` entry point is now `context.Tools.Cmd`.
 `ModularPipelines.Cmd.Models` to `ModularPipelines.Options`; `CmdFileOptions`
 provides the typed `RunFileAsync` overload.
 
+## Pipeline requirements
+
+Requirement evaluation now uses `EvaluateAsync(IPipelineContext, CancellationToken)`
+instead of `MustAsync(IPipelineContext)` or the synchronous `PipelineRequirement.Must`.
+Synchronous implementations can return `Task.FromResult(...)` from `EvaluateAsync`.
+
+`RequirementDecision.Success` is now `IsSatisfied`. The implicit conversions from a
+failure-reason string and to `Task<RequirementDecision>`, along with the `Of` factory,
+have been removed. Use `Passed`, `Failed(reason)`, or the remaining `bool` conversion.
+
+Replace the removed `WindowsRequirement`, `LinuxRequirement`, `MacOSRequirement`, and
+`WindowsAdminRequirement` classes with `Require.Windows()`, `Require.Linux()`,
+`Require.MacOS()`, and `Require.WindowsAdmin()`. `Require.CIEnvironment()` is now
+`Require.Ci()`. `FailedRequirementsException` is now
+`RequirementNotMetException`.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

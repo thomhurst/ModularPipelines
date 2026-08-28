@@ -12,8 +12,11 @@ public interface IPipelineRequirement
     /// Evaluates whether the requirement is satisfied.
     /// </summary>
     /// <param name="context">The pipeline context for evaluation.</param>
+    /// <param name="cancellationToken">A token that cancels requirement evaluation.</param>
     /// <returns>A task that represents the asynchronous requirement evaluation containing the decision.</returns>
-    Task<RequirementDecision> MustAsync(IPipelineContext context);
+    Task<RequirementDecision> EvaluateAsync(
+        IPipelineContext context,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets the order in which this requirement should be evaluated relative to other requirements.
