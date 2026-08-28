@@ -5150,11 +5150,15 @@ public class GeneratorHardeningTests
             [BaselineProperty(
                 "Input",
                 "string?",
-                argumentPosition: 0,
+                argumentPosition: 1,
                 phase: CommandLinePhase.EarlyOperand)]);
 
-        await Assert.That(preserved.PositionalArguments.Single().Phase)
-            .IsEqualTo(CommandLinePhase.Passthrough);
+        var argument = preserved.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(argument.PositionIndex).IsEqualTo(0);
+        }
     }
 
     [Test]

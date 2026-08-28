@@ -108,7 +108,8 @@ public record CliPositionalArgument
 
     /// <summary>
     /// Allows an intentional rendering-phase migration for an existing generated operand.
-    /// The compatibility guard still requires the same property name, type, and position.
+    /// The compatibility guard still requires the same property name and type. Position may
+    /// change because positional indexes are scoped to a rendering phase.
     /// </summary>
     public bool AllowRenderingPhaseMigrationFromBaseline { get; init; }
 

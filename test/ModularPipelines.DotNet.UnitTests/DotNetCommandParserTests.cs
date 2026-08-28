@@ -51,11 +51,12 @@ public class DotNetCommandParserTests : TestBase
     {
         var result = await GetResult(new DotNetToolRunOptions("csharpier")
         {
+            AllowRollForward = true,
             ToolArguments = ["check", "--help"]
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "dotnet tool run csharpier -- check --help");
+            "dotnet tool run csharpier --allow-roll-forward -- check --help");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

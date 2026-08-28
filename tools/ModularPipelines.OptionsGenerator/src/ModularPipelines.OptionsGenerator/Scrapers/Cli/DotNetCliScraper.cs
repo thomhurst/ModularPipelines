@@ -515,7 +515,12 @@ public partial class DotNetCliScraper : CliScraperBase
         {
             return args.Select(argument =>
                 argument.PropertyName.Equals("ToolArguments", StringComparison.OrdinalIgnoreCase)
-                    ? argument with { PrependOptionTerminator = true }
+                    ? argument with
+                    {
+                        Phase = CommandLinePhase.Passthrough,
+                        PrependOptionTerminator = true,
+                        AllowRenderingPhaseMigrationFromBaseline = true,
+                    }
                     : argument).ToList();
         }
 

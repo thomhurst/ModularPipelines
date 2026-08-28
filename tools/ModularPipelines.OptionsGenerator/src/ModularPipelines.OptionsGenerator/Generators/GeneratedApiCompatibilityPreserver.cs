@@ -2410,7 +2410,6 @@ internal static class GeneratedApiCompatibilityPreserver
         GeneratedApiProperty baseline) =>
         current.ArgumentPosition is not null
         && baseline.ArgumentPosition is not null
-        && current.ArgumentPosition == baseline.ArgumentPosition
         && (!baseline.PrependOptionTerminator || current.PrependOptionTerminator)
         && (!baseline.PrependOptionTerminatorIfValueStartsWithDash
             || current.PrependOptionTerminatorIfValueStartsWithDash)

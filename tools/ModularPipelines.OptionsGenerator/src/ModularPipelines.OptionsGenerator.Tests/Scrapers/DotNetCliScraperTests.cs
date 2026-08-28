@@ -137,7 +137,9 @@ public class DotNetCliScraperTests
             await Assert.That(toolArguments.IsRequired).IsFalse();
             await Assert.That(toolArguments.IsVariadic).IsTrue();
             await Assert.That(toolArguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(toolArguments.Phase).IsEqualTo(CommandLinePhase.Passthrough);
             await Assert.That(toolArguments.PrependOptionTerminator).IsTrue();
+            await Assert.That(toolArguments.AllowRenderingPhaseMigrationFromBaseline).IsTrue();
         }
     }
 
