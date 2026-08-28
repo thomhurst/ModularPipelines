@@ -30,9 +30,8 @@ public class CmdTests : TestBase
                 TestContext.OutputDirectory!,
                 "Data",
                 "CmdTest %PATH% & echo injected.cmd"));
-            return await context.Tools.Cmd.RunFileAsync(
-                new CmdFileOptions(file.Path),
-                cancellationToken: cancellationToken);
+            var options = new CmdFileOptions("missing.cmd") with { FilePath = file.Path };
+            return await context.Tools.Cmd.RunFileAsync(options, cancellationToken: cancellationToken);
         }
     }
 
@@ -78,4 +77,5 @@ public class CmdTests : TestBase
 
         await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
+
 }

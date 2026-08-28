@@ -15,8 +15,8 @@ public static class CmdExtensions
     /// <summary>
     /// Registers the Command Prompt integration.
     /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <returns>The service collection.</returns>
+    /// <param name="services">The collection that receives the Command Prompt registration.</param>
+    /// <returns>The same collection, for further service registrations.</returns>
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
     {

@@ -46,6 +46,9 @@ internal class CmdContext : ICmdContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return _context.Shell.RunAsync(options, executionOptions, cancellationToken);
+        return _context.Shell.RunAsync(
+            options with { Tool = options.FilePath },
+            executionOptions,
+            cancellationToken);
     }
 }
