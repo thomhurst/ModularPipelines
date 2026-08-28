@@ -32,6 +32,8 @@ public record CliPositionalArgument
                                  || collection is not null,
                     PrependOptionTerminator = group.Any(argument =>
                         argument.PrependOptionTerminator),
+                    RepeatOptionTerminator = group.Any(argument =>
+                        argument.RepeatOptionTerminator),
                     PrependOptionTerminatorIfValueStartsWithDash = group.Any(argument =>
                         argument.PrependOptionTerminatorIfValueStartsWithDash),
                     AssociatedOptionSwitch = associatedOptionSwitches.Count == 1
@@ -99,6 +101,11 @@ public record CliPositionalArgument
     /// Whether the generated CLI argument must be preceded by the <c>--</c> option terminator.
     /// </summary>
     public bool PrependOptionTerminator { get; init; }
+
+    /// <summary>
+    /// Whether the generated CLI argument needs a fresh option terminator after an earlier one.
+    /// </summary>
+    public bool RepeatOptionTerminator { get; init; }
 
     /// <summary>
     /// Whether a dash-prefixed generated CLI argument must be preceded by the <c>--</c>

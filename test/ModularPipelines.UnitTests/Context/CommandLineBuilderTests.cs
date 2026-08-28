@@ -641,6 +641,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Repeats_Explicit_Option_Terminator_For_Later_Argument_Group()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestRepeatedOptionTerminatorOptions
+        {
+            PlatformOptions = ["--filter", "Category=Unit"],
+            ExtensionOptions = ["--report-trx"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "dotnet test -- --filter Category=Unit -- --report-trx");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Terminal_Option_Before_Terminal_Argument()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -1932,6 +1947,17 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
         public IReadOnlyList<string>? Parameters { get; init; }
+    }
+
+    [CliTool("dotnet")]
+    [CliSubCommand("test")]
+    private sealed record TestRepeatedOptionTerminatorOptions : CommandLineToolOptions
+    {
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public IReadOnlyList<string>? PlatformOptions { get; init; }
+
+        [CliArgument(1, PrependOptionTerminator = true, RepeatOptionTerminator = true)]
+        public IReadOnlyList<string>? ExtensionOptions { get; init; }
     }
 
     [CliTool("dotnet")]

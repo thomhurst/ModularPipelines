@@ -59,6 +59,20 @@ public class DotNetCommandParserTests : TestBase
             "dotnet tool run csharpier --allow-roll-forward -- check --help");
     }
 
+    [Test]
+    public async Task Test_Preserves_Platform_And_Extension_Option_Terminators()
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            NoBuild = true,
+            PlatformOptions = ["--filter", "Category=Unit"],
+            ExtensionOptions = ["--report-trx"]
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet test --no-build -- --filter Category=Unit -- --report-trx");
+    }
+
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommandContext>();

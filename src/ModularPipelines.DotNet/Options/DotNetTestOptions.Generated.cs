@@ -174,13 +174,13 @@ public record DotNetTestOptions : DotNetOptions
     /// <summary>
     /// The platform options operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? PlatformOptions { get; set; }
 
     /// <summary>
     /// The extension options operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, RepeatOptionTerminator = true)]
     public IEnumerable<string>? ExtensionOptions { get; set; }
 
     [Obsolete("Use DiagnosticOutputDirectoryValue instead.")]

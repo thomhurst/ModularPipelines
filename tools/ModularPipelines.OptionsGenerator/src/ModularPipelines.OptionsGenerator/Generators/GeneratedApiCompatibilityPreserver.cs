@@ -635,6 +635,7 @@ internal static class GeneratedApiCompatibilityPreserver
                 IsRequired = property.IsRequired,
                 Phase = property.Phase ?? CommandLinePhase.Passthrough,
                 PrependOptionTerminator = property.PrependOptionTerminator,
+                RepeatOptionTerminator = property.RepeatOptionTerminator,
                 PrependOptionTerminatorIfValueStartsWithDash =
                     property.PrependOptionTerminatorIfValueStartsWithDash,
                 IsSecret = property.IsSecret,
@@ -1876,6 +1877,8 @@ internal static class GeneratedApiCompatibilityPreserver
                 {
                     PrependOptionTerminator = baseline.PrependOptionTerminator
                                               || occupied.PrependOptionTerminator,
+                    RepeatOptionTerminator = baseline.RepeatOptionTerminator
+                                             || occupied.RepeatOptionTerminator,
                     PrependOptionTerminatorIfValueStartsWithDash =
                         baseline.PrependOptionTerminatorIfValueStartsWithDash
                         || occupied.PrependOptionTerminatorIfValueStartsWithDash,
@@ -1912,6 +1915,7 @@ internal static class GeneratedApiCompatibilityPreserver
             IsRequired = true,
             Phase = baseline.Phase ?? CommandLinePhase.Passthrough,
             PrependOptionTerminator = baseline.PrependOptionTerminator,
+            RepeatOptionTerminator = baseline.RepeatOptionTerminator,
             PrependOptionTerminatorIfValueStartsWithDash =
                 baseline.PrependOptionTerminatorIfValueStartsWithDash,
             IsSecret = baseline.IsSecret,
@@ -2411,6 +2415,7 @@ internal static class GeneratedApiCompatibilityPreserver
         current.ArgumentPosition is not null
         && baseline.ArgumentPosition is not null
         && (!baseline.PrependOptionTerminator || current.PrependOptionTerminator)
+        && (!baseline.RepeatOptionTerminator || current.RepeatOptionTerminator)
         && (!baseline.PrependOptionTerminatorIfValueStartsWithDash
             || current.PrependOptionTerminatorIfValueStartsWithDash)
         && command.PositionalArguments.Any(argument =>
@@ -2919,6 +2924,7 @@ internal static class GeneratedApiCompatibilityPreserver
             UseInitAccessor: argument.IsRequired,
             Phase: argument.Phase,
             PrependOptionTerminator: argument.PrependOptionTerminator,
+            RepeatOptionTerminator: argument.RepeatOptionTerminator,
             PrependOptionTerminatorIfValueStartsWithDash:
                 argument.PrependOptionTerminatorIfValueStartsWithDash);
 
@@ -2972,6 +2978,7 @@ internal static class GeneratedApiCompatibilityPreserver
                && current.ArgumentPosition == baseline.ArgumentPosition
                && (current.Phase == baseline.Phase || baseline.Phase is null)
                && (!baseline.PrependOptionTerminator || current.PrependOptionTerminator)
+               && (!baseline.RepeatOptionTerminator || current.RepeatOptionTerminator)
                && (!baseline.PrependOptionTerminatorIfValueStartsWithDash
                    || current.PrependOptionTerminatorIfValueStartsWithDash);
     }
@@ -2986,6 +2993,7 @@ internal static class GeneratedApiCompatibilityPreserver
         return left.ArgumentPosition == right.ArgumentPosition
                && phasesMatch
                && left.PrependOptionTerminator == right.PrependOptionTerminator
+               && left.RepeatOptionTerminator == right.RepeatOptionTerminator
                && left.PrependOptionTerminatorIfValueStartsWithDash
                == right.PrependOptionTerminatorIfValueStartsWithDash;
     }
@@ -3418,6 +3426,7 @@ internal static class GeneratedApiCompatibilityPreserver
             GetNullableEnumNamedArgument<CommandLinePhase>(cliSwitch, "Phase")
             ?? GetNullableEnumNamedArgument<CommandLinePhase>(cliArgument, "Phase"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminator"),
+            GetBooleanNamedArgument(cliArgument, "RepeatOptionTerminator"),
             GetBooleanNamedArgument(cliArgument, "PrependOptionTerminatorIfValueStartsWithDash"),
             secretValue is not null,
             GetStringArguments(secretValue),
@@ -3742,6 +3751,7 @@ internal sealed record GeneratedApiProperty(
     bool GroupValues = false,
     CommandLinePhase? Phase = null,
     bool PrependOptionTerminator = false,
+    bool RepeatOptionTerminator = false,
     bool PrependOptionTerminatorIfValueStartsWithDash = false,
     bool IsSecret = false,
     string[]? SecretValueKeys = null,

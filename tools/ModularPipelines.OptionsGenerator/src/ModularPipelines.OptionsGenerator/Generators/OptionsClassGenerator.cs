@@ -600,6 +600,11 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add("PrependOptionTerminator = true");
         }
 
+        if (positional.RepeatOptionTerminator)
+        {
+            parts.Add("RepeatOptionTerminator = true");
+        }
+
         if (positional.PrependOptionTerminatorIfValueStartsWithDash)
         {
             parts.Add("PrependOptionTerminatorIfValueStartsWithDash = true");

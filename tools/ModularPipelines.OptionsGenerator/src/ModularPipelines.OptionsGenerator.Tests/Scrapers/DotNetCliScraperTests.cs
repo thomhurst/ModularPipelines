@@ -170,6 +170,37 @@ public class DotNetCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Test_Preserves_Both_Option_Terminators()
+    {
+        const string helpText = """
+            Usage: dotnet test [options] [[--] <platformOptions>... -- [<extensionOptions>...]]
+
+            Arguments:
+              <platformOptions>   Arguments passed to the test platform.
+              <extensionOptions>  Arguments passed to test extensions.
+
+            Options:
+              --no-build  Do not build before testing. [default: False]
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "test"],
+            helpText);
+
+        var platformOptions = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "PlatformOptions");
+        var extensionOptions = command.PositionalArguments.Single(argument =>
+            argument.PropertyName == "ExtensionOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(platformOptions.PrependOptionTerminator).IsTrue();
+            await Assert.That(platformOptions.RepeatOptionTerminator).IsFalse();
+            await Assert.That(extensionOptions.PrependOptionTerminator).IsTrue();
+            await Assert.That(extensionOptions.RepeatOptionTerminator).IsTrue();
+        }
+    }
+
     private static CliOptionDefinition Flag(string switchName, string propertyName) => new()
     {
         SwitchName = switchName,

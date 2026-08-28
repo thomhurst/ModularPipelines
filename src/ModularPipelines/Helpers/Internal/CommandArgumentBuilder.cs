@@ -169,9 +169,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             }
 
             if (RequiresOptionTerminator(argumentPart, values)
-                && !emittedOptionTerminator)
+                && (!emittedOptionTerminator || argumentPart.Attribute.RepeatOptionTerminator))
             {
-                optionTerminatorIndex = args.Count;
+                optionTerminatorIndex ??= args.Count;
                 args.Add("--");
                 emittedOptionTerminator = true;
             }

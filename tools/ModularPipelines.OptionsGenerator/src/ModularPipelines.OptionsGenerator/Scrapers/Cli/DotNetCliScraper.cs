@@ -524,6 +524,20 @@ public partial class DotNetCliScraper : CliScraperBase
                     : argument).ToList();
         }
 
+        if (commandKey.Equals("test", StringComparison.OrdinalIgnoreCase))
+        {
+            return args.Select(argument => argument.PropertyName switch
+            {
+                "PlatformOptions" => argument with { PrependOptionTerminator = true },
+                "ExtensionOptions" => argument with
+                {
+                    PrependOptionTerminator = true,
+                    RepeatOptionTerminator = true,
+                },
+                _ => argument,
+            }).ToList();
+        }
+
         return args;
     }
 
