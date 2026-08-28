@@ -188,12 +188,15 @@ public class ModuleExecutionPipelineTests
     public async Task ExecuteAsync_HonorsIgnoredTimeoutAfterPipelineCancellation()
     {
         var module = new IgnoredTimeoutExceptionModule();
+        var logger = new Mock<IInternalModuleLogger>();
 
         var result = await ExecuteAfterPipelineCancellation(
             module,
-            cancelPipelineInFailureHook: true);
+            cancelPipelineInFailureHook: true,
+            logger: logger);
 
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.IgnoredFailure);
+        logger.Verify(x => x.SetStatus(Status.IgnoredFailure), Times.Once);
     }
 
     [Test]

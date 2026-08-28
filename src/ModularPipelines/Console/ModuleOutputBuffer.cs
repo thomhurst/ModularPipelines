@@ -802,12 +802,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
         var continuationText = isContinuation ? " (continued)" : string.Empty;
-        Status status;
-
-        lock (_lock)
-        {
-            status = _status;
-        }
 
         if (exception != null)
         {
@@ -819,10 +813,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return $"{_moduleName} \u2026{continuationText} ({durationText})";
         }
 
-        var completionMarker = status is Status.Skipped ? "\u2298" : "\u2713";
-        return _showSuccessMarker
-            ? $"{_moduleName} {completionMarker}{continuationText} ({durationText})"
-            : $"{_moduleName}{continuationText} ({durationText})";
+        if (!_showSuccessMarker)
+        {
+            return $"{_moduleName}{continuationText} ({durationText})";
+        }
+
+        Status status;
+
+        lock (_lock)
+        {
+            status = _status;
+        }
+
+        var completionMarker = Markup.Remove(StatusDisplayProvider.GetDisplayInfo(status).Icon);
+        return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

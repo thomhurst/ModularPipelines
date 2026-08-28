@@ -205,6 +205,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         finally
         {
+            if (logger is IInternalModuleLogger internalLogger)
+            {
+                internalLogger.SetStatus(executionContext.Status);
+            }
+
             try
             {
                 moduleResult = await InvokePendingAfterHookAsync(
@@ -387,11 +392,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
-
-        if (logger is IInternalModuleLogger internalLogger)
-        {
-            internalLogger.SetStatus(Status.Skipped);
-        }
 
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,

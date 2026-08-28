@@ -440,13 +440,19 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task CompleteFlush_RendersSkippedMarkerForSkippedModuleOutput()
+    [Arguments(Status.Skipped, "⊘")]
+    [Arguments(Status.IgnoredFailure, "⚠")]
+    [Arguments(Status.UsedHistory, "↻")]
+    [Arguments(Status.CachedResult, "↻")]
+    public async Task CompleteFlush_RendersMarkerForFinalModuleStatus(
+        Status status,
+        string expectedMarker)
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
-        buffer.WriteLine("skipped output");
-        buffer.SetStatus(Status.Skipped);
+        buffer.WriteLine("module output");
+        buffer.SetStatus(status);
 
         await buffer.FlushToAsync(
             writer,
@@ -456,7 +462,7 @@ public class ModuleOutputBufferTests
             OutputFlushKind.Complete);
 
         var output = writer.ToString();
-        await Assert.That(output).Contains("ModuleOutputBufferTests ⊘");
+        await Assert.That(output).Contains($"ModuleOutputBufferTests {expectedMarker}");
         await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
     }
 
