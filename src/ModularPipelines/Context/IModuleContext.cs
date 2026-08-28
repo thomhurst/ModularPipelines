@@ -188,6 +188,7 @@ public interface IModuleContext : IPipelineContext
     /// <param name="body">The async operation to execute.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The result of the sub-operation.</returns>
+#pragma warning disable RS0026 // Generic and non-generic delegates intentionally share the optional cancellation-token shape.
     Task<T> RunSubModuleAsync<T>(
         string name,
         Func<CancellationToken, Task<T>> body,
@@ -204,4 +205,5 @@ public interface IModuleContext : IPipelineContext
         string name,
         Func<CancellationToken, Task> body,
         CancellationToken cancellationToken = default);
+#pragma warning restore RS0026
 }
