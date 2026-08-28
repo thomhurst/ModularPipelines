@@ -38,17 +38,17 @@ internal interface IProgressDisplay
     void OnModuleSkipped(ModuleState moduleState);
 
     /// <summary>
-    /// Registers a sub-module as created and begins tracking its progress.
+    /// Registers a sub-operation as created and begins tracking its progress.
     /// </summary>
-    /// <param name="parentModule">The parent module that created the sub-module.</param>
-    /// <param name="subModule">The created sub-module.</param>
-    /// <param name="estimatedDuration">Estimated time for the sub-module to complete.</param>
+    /// <param name="parentModule">The parent module that created the sub-operation.</param>
+    /// <param name="subModule">The created sub-operation.</param>
+    /// <param name="estimatedDuration">Estimated time for the sub-operation to complete.</param>
     void OnSubModuleCreated(IModule parentModule, SubModuleBase subModule, TimeSpan estimatedDuration);
 
     /// <summary>
-    /// Updates display when a sub-module completes.
+    /// Updates display when a sub-operation completes.
     /// </summary>
-    /// <param name="subModule">The completed sub-module.</param>
-    /// <param name="isSuccessful">Whether the sub-module completed successfully.</param>
+    /// <param name="subModule">The completed sub-operation.</param>
+    /// <param name="isSuccessful">Whether the sub-operation completed successfully.</param>
     void OnSubModuleCompleted(SubModuleBase subModule, bool isSuccessful);
 }

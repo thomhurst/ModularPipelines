@@ -23,6 +23,16 @@ public class SyncModuleTests : TestBase
         }
     }
 
+    public class SimpleNonGenericSyncModule : SyncModule
+    {
+        public bool WasExecuted { get; private set; }
+
+        protected override void Execute(IModuleContext context, CancellationToken cancellationToken)
+        {
+            WasExecuted = true;
+        }
+    }
+
     [Test]
     public async Task SyncModule_Executes_And_Returns_Value()
     {
@@ -31,6 +41,18 @@ public class SyncModuleTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsEqualTo("Hello from sync module");
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
+    }
+
+    [Test]
+    public async Task NonGeneric_SyncModule_Executes_Without_A_Result()
+    {
+        var module = await RunModule<SimpleNonGenericSyncModule>();
+
+        var result = await module;
+
+        await Assert.That(module.WasExecuted).IsTrue();
+        await Assert.That(result.ValueOrDefault).IsEqualTo(None.Value);
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 

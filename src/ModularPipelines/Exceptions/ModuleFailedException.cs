@@ -30,7 +30,6 @@ namespace ModularPipelines.Exceptions;
 /// </remarks>
 /// <seealso cref="PipelineException"/>
 /// <seealso cref="DependencyFailedException"/>
-/// <seealso cref="SubModuleFailedException"/>
 internal class ModuleFailedException : PipelineException
 {
     /// <summary>

@@ -123,16 +123,19 @@ public class ContextHierarchyTests
     }
 
     [Test]
-    public async Task IModuleContext_ShouldHaveSubModuleAsyncMethods()
+    public async Task IModuleContext_ShouldHaveTokenAwareRunSubModuleAsyncMethods()
     {
         var moduleContextType = typeof(IModuleContext);
 
         var subModuleMethods = moduleContextType.GetMethods()
-            .Where(m => m.Name == "SubModuleAsync")
+            .Where(m => m.Name == "RunSubModuleAsync")
             .ToArray();
 
         await Assert.That(subModuleMethods).Count().IsEqualTo(2);
+        await Assert.That(moduleContextType.GetMethods().Any(m => m.Name == "SubModuleAsync")).IsFalse();
         await Assert.That(subModuleMethods.All(
             method => method.GetParameters()[^1].ParameterType == typeof(CancellationToken))).IsTrue();
+        await Assert.That(subModuleMethods.All(
+            method => method.GetParameters()[1].ParameterType.GenericTypeArguments[0] == typeof(CancellationToken))).IsTrue();
     }
 }

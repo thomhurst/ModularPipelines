@@ -4,12 +4,12 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Events;
 
 /// <summary>
-/// Notification that is published when a submodule is created.
+/// Notification that is published when a sub-operation is created.
 /// </summary>
 internal record SubModuleCreatedNotification(IModule ParentModule, SubModuleBase SubModule, TimeSpan EstimatedDuration) : INotification
 {
     /// <summary>
-    /// Gets the timestamp when the submodule was created.
+    /// Gets the timestamp when the sub-operation was created.
     /// </summary>
     public DateTimeOffset Timestamp { get; } = DateTimeOffset.UtcNow;
 }

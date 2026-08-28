@@ -197,17 +197,23 @@ public interface IModuleContext : IPipelineContext
     /// </summary>
     /// <typeparam name="T">The result type of the sub-operation.</typeparam>
     /// <param name="name">A descriptive name for the sub-operation.</param>
-    /// <param name="action">The async operation to execute.</param>
+    /// <param name="body">The async operation to execute.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The result of the sub-operation.</returns>
-    Task<T> SubModuleAsync<T>(string name, Func<Task<T>> action, CancellationToken cancellationToken = default);
+    Task<T> RunSubModuleAsync<T>(
+        string name,
+        Func<CancellationToken, Task<T>> body,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tracks a sub-operation within the current module for progress display.
     /// </summary>
     /// <param name="name">A descriptive name for the sub-operation.</param>
-    /// <param name="action">The async operation to execute.</param>
+    /// <param name="body">The async operation to execute.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A task representing the sub-operation.</returns>
-    Task SubModuleAsync(string name, Func<Task> action, CancellationToken cancellationToken = default);
+    Task RunSubModuleAsync(
+        string name,
+        Func<CancellationToken, Task> body,
+        CancellationToken cancellationToken = default);
 }

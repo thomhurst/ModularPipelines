@@ -54,7 +54,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            _logger.LogWarning(e, "Error retrieving submodule estimated time for {Module}", moduleType.Name);
+            _logger.LogWarning(e, "Error retrieving sub-operation estimated time for {Module}", moduleType.Name);
             return new List<SubModuleEstimation>();
         }
     }
@@ -67,7 +67,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            _logger.LogWarning(e, "Error saving submodule execution time for {Module}", moduleType.Name);
+            _logger.LogWarning(e, "Error saving sub-operation execution time for {Module}", moduleType.Name);
         }
     }
 
