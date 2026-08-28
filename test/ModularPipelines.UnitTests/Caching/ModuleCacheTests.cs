@@ -1188,7 +1188,7 @@ public class ModuleCacheTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModuleCache<FileSystemModuleCache>(options =>
             {
                 options.WorkingDirectory = temporaryDirectory;

@@ -106,18 +106,20 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task ModularPipelineAssemblyLoading_IsOptIn()
+    public async Task ModularPipelineAssemblyLoading_IsBuilderSetting()
     {
-        var builder = TestPipelineBuilder.Create();
-
-        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsFalse();
-
-        builder.ConfigurePipelineOptions(options => options with
+        var defaultSettings = new PipelineBuilderSettings();
+        var optedInSettings = defaultSettings with
         {
-            LoadModularPipelineAssemblies = true,
-        });
+            LoadModularPipelinesAssemblies = true,
+        };
 
-        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsTrue();
+        using (Assert.Multiple())
+        {
+            await Assert.That(defaultSettings.LoadModularPipelinesAssemblies).IsFalse();
+            await Assert.That(optedInSettings.LoadModularPipelinesAssemblies).IsTrue();
+            await Assert.That(typeof(PipelineOptions).GetProperty("LoadModularPipelineAssemblies")).IsNull();
+        }
     }
 
     [Test]
@@ -142,7 +144,7 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task Environment_IsCachedAndHonorsBuilderOptions()
+    public async Task Environment_IsCachedAndHonorsBuilderSettings()
     {
         var contentRoot = Path.GetTempPath();
         var fileName = $"pipeline-environment-{Guid.NewGuid():N}.txt";
@@ -151,7 +153,7 @@ public class PipelineBuilderRegistrationTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 ApplicationName = "ConfiguredApp",
                 EnvironmentName = "ConfiguredEnvironment",
@@ -177,7 +179,7 @@ public class PipelineBuilderRegistrationTests
     public async Task Environment_HonorsCommandLineHostConfiguration()
     {
         var contentRoot = Path.GetTempPath();
-        using var builder = Pipeline.CreateBuilder(
+        var builder = Pipeline.CreateBuilder(
         [
             "--applicationName", "CommandLineApp",
             "--environment", "CommandLineEnvironment",
@@ -198,7 +200,6 @@ public class PipelineBuilderRegistrationTests
         builder.Environment.ContentRootFileProvider = fileProvider.Object;
         builder.AddModule<TestModuleA>();
 
-        builder.Dispose();
         disposable.Verify(x => x.Dispose(), Times.Never);
 
         var pipeline = await builder.BuildAsync();
@@ -206,6 +207,16 @@ public class PipelineBuilderRegistrationTests
 
         await pipeline.DisposeAsync();
         disposable.Verify(x => x.Dispose(), Times.Once);
+    }
+
+    [Test]
+    public async Task PipelineBuilder_IsNotDisposable()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(typeof(IDisposable).IsAssignableFrom(typeof(PipelineBuilder))).IsFalse();
+            await Assert.That(typeof(PipelineBuilder).GetMethod(nameof(IDisposable.Dispose))).IsNull();
+        }
     }
 
     [Test]

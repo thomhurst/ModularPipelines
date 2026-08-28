@@ -40,6 +40,28 @@ protected override void Configure(ModuleConfigurationBuilder module)
 }
 ```
 
+## Pipeline builder creation
+
+`Pipeline.CreateBuilder(args)` now infers the pipeline project directory from the
+calling source file. `Pipeline.CreateBuilderFromSource` has been removed; use
+`CreateBuilder` for both inferred and explicitly configured builders.
+
+`PipelineBuilderOptions` is now `PipelineBuilderSettings`. The build-time assembly
+discovery flag moved from `PipelineOptions.LoadModularPipelineAssemblies` to
+`PipelineBuilderSettings.LoadModularPipelinesAssemblies`:
+
+```csharp
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
+{
+    Args = args,
+    LoadModularPipelinesAssemblies = true,
+});
+```
+
+`PipelineBuilder` no longer implements `IDisposable`; its previous `Dispose` method
+performed no cleanup. Remove `using` declarations around builders. Resources created
+by a successful build remain owned by the resulting pipeline.
+
 ## CLI argument ordering
 
 `CommandLinePhase` is now the only ordering model for flags, options, and arguments.

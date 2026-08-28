@@ -51,7 +51,7 @@ public class ConsoleWriterTests
     private static async Task<string> RunAsync<TModule>()
         where TModule : class, IModule
     {
-        using var builder = TestPipelineBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.ConfigurePipelineOptions(options => options with
         {
             RunReport = options.RunReport with

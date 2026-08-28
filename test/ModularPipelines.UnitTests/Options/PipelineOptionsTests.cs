@@ -21,7 +21,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    [Arguments(typeof(PipelineBuilderOptions))]
+    [Arguments(typeof(PipelineBuilderSettings))]
     [Arguments(typeof(PipelineOptions))]
     [Arguments(typeof(PipelineConsoleOptions))]
     [Arguments(typeof(PipelineHttpOptions))]
@@ -78,14 +78,14 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PipelineBuilderOptions_IsASealedRecord()
+    public async Task PipelineBuilderSettings_IsASealedRecord()
     {
-        var original = new PipelineBuilderOptions { ApplicationName = "original" };
+        var original = new PipelineBuilderSettings { ApplicationName = "original" };
         var updated = original with { ApplicationName = "updated" };
 
         using (Assert.Multiple())
         {
-            await Assert.That(typeof(PipelineBuilderOptions).IsSealed).IsTrue();
+            await Assert.That(typeof(PipelineBuilderSettings).IsSealed).IsTrue();
             await Assert.That(original.ApplicationName).IsEqualTo("original");
             await Assert.That(updated.ApplicationName).IsEqualTo("updated");
         }
@@ -94,7 +94,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task CategoryBuilderMethodsReplaceEarlierFilters()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
 
         builder.RunOnlyCategories("first");
         builder.RunOnlyCategories("second");

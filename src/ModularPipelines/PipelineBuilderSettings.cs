@@ -1,9 +1,9 @@
 namespace ModularPipelines;
 
 /// <summary>
-/// Options for configuring the pipeline builder.
+/// Settings for creating a pipeline builder.
 /// </summary>
-public sealed record PipelineBuilderOptions
+public sealed record PipelineBuilderSettings
 {
     /// <summary>
     /// Gets the command line arguments.
@@ -35,7 +35,18 @@ public sealed record PipelineBuilderOptions
     /// Gets the default working directory for commands and relative file paths.
     /// </summary>
     /// <remarks>
-    /// When omitted, the configured content root is used, falling back to the process working directory.
+    /// When omitted, the configured content root is used when available, then the calling
+    /// source file's project directory, and finally the process working directory.
     /// </remarks>
     public string? WorkingDirectory { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether assemblies whose filenames contain
+    /// <c>ModularPipelines</c> are eagerly loaded from the application directory.
+    /// </summary>
+    /// <remarks>
+    /// Disabled by default. Enable this only when a plugin relies on module initializers
+    /// instead of explicit assembly or service registration.
+    /// </remarks>
+    public bool LoadModularPipelinesAssemblies { get; init; }
 }

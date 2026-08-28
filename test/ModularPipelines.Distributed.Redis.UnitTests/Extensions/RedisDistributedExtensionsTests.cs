@@ -21,7 +21,7 @@ public class RedisDistributedExtensionsTests
     [Test]
     public async Task CoordinatorRunIdentifierScopesWorkerRegistrations()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddDistributedMode(_ => { });
         builder.AddRedisDistributedCoordinator(options =>
         {
@@ -56,7 +56,7 @@ public class RedisDistributedExtensionsTests
                 Environment.SetEnvironmentVariable(name, null);
             }
 
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddDistributedMode(_ => { });
 
             var exception = Assert.Throws<InvalidOperationException>(() =>

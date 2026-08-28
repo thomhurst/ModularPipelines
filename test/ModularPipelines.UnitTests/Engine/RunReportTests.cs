@@ -2141,7 +2141,7 @@ public class RunReportTests
     public async Task BuilderRegistrationInvokesRunReportEnricher()
     {
         var directory = CreateTemporaryDirectory();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },
@@ -2847,7 +2847,7 @@ public class RunReportTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
@@ -2888,7 +2888,7 @@ public class RunReportTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
@@ -2929,30 +2929,27 @@ public class RunReportTests
 
         try
         {
-            PipelineRunReport failedReport;
-            using (var builder = Pipeline.CreateBuilder())
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
             {
-                builder.ConfigurePipelineOptions(options => options with
+                Console = options.Console with { PrintLogo = false, PrintResults = false },
+                RunReport = options.RunReport with
                 {
-                    Console = options.Console with { PrintLogo = false, PrintResults = false },
-                    RunReport = options.RunReport with
-                    {
-                        ReportPath = reportPath,
-                        HistoryDirectory = historyPath,
-                        HistoryRetention = 2,
-                    },
-                });
-                builder.AddModule<SuccessfulModule>();
-                builder.AddRequirement(Require.That(_ => false, "requirement failed"));
+                    ReportPath = reportPath,
+                    HistoryDirectory = historyPath,
+                    HistoryRetention = 2,
+                },
+            });
+            builder.AddModule<SuccessfulModule>();
+            builder.AddRequirement(Require.That(_ => false, "requirement failed"));
 
-                await Assert.ThrowsAsync<FailedRequirementsException>(
-                    () => builder.RunAsync());
+            await Assert.ThrowsAsync<FailedRequirementsException>(
+                () => builder.RunAsync());
 
-                failedReport = RunReportJsonSerializer.Deserialize(
-                    await File.ReadAllTextAsync(reportPath))!;
-            }
+            var failedReport = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath))!;
 
-            using var successfulBuilder = Pipeline.CreateBuilder();
+            var successfulBuilder = Pipeline.CreateBuilder();
             successfulBuilder.ConfigurePipelineOptions(options => options with
             {
                 Console = options.Console with { PrintLogo = false, PrintResults = false },
@@ -3067,7 +3064,7 @@ public class RunReportTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 FailureMode = FailureMode.FailFast,
@@ -3106,7 +3103,7 @@ public class RunReportTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
@@ -3147,7 +3144,7 @@ public class RunReportTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.ConfigurePipelineOptions(options => options with
             {
                 FailureMode = FailureMode.ContinueOnFailure,
@@ -3666,7 +3663,7 @@ public class RunReportTests
     [Test]
     public async Task RunReportIncludesMaskedModuleOutputWhenEnabled()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },
@@ -3883,7 +3880,7 @@ public class RunReportTests
         string reportPath,
         string historyPath)
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.WriteRunReport(reportPath);
         builder.ConfigurePipelineOptions(options => options with
         {
@@ -3905,7 +3902,7 @@ public class RunReportTests
 
     private static async Task<PipelineSummary> RunPipelineWithoutReportAsync(string historyPath)
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.ConfigurePipelineOptions(options => options with
         {
             Console = options.Console with { PrintLogo = false, PrintResults = false },

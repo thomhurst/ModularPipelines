@@ -33,7 +33,7 @@ public interface IEnvironmentContext
     /// Gets the pipeline's configured working directory.
     /// </summary>
     /// <remarks>
-    /// Set <see cref="PipelineBuilderOptions.WorkingDirectory"/> when creating the pipeline,
+    /// Set <see cref="PipelineBuilderSettings.WorkingDirectory"/> when creating the pipeline,
     /// or override an individual command with
     /// <see cref="Options.CommandExecutionOptions.WorkingDirectory"/>.
     /// </remarks>

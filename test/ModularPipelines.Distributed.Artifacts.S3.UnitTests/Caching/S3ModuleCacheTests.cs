@@ -96,7 +96,7 @@ public class S3ModuleCacheTests
     [Test]
     public async Task CacheRegistrationDoesNotReplaceArtifactStoreOptions()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddS3DistributedArtifactStore(options =>
         {
             options.BucketName = "artifact-bucket";

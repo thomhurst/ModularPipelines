@@ -73,7 +73,7 @@ public class GitHubMarkdownSummaryGeneratorTests
         try
         {
             Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<DependencyModule>();
             builder.AddModule<TargetModule>();
 
@@ -106,7 +106,7 @@ public class GitHubMarkdownSummaryGeneratorTests
         {
             _skipConditionEvaluations = 0;
             Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.AddModule<SingleUseSkipConditionModule>();
 
             await builder.RunAsync();
@@ -134,7 +134,7 @@ public class GitHubMarkdownSummaryGeneratorTests
         try
         {
             Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
-            using var builder = Pipeline.CreateBuilder();
+            var builder = Pipeline.CreateBuilder();
             builder.Services.AddSingleton<IDependencyGraphExporter, OversizedDependencyGraphRenderer>();
             builder.AddModule<DependencyModule>();
 

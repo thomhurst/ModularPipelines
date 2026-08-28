@@ -120,7 +120,7 @@ To forward every argument to host configuration, disable pipeline command-line
 options:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 {
     Args = args,
     EnableCommandLineOptions = false,

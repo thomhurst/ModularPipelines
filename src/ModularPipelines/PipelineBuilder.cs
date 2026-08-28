@@ -31,7 +31,7 @@ namespace ModularPipelines;
 /// <remarks>
 /// Resources created while configuring the builder are transferred to the built pipeline.
 /// </remarks>
-public sealed class PipelineBuilder : IDisposable
+public sealed class PipelineBuilder
 {
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
@@ -39,17 +39,20 @@ public sealed class PipelineBuilder : IDisposable
     private readonly PipelineHostEnvironment _environment;
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
+    private readonly PipelineBuilderSettings _settings;
     private PipelineOptions _options;
 
-    internal PipelineBuilder(PipelineBuilderOptions options)
+    internal PipelineBuilder(
+        PipelineBuilderSettings settings,
+        string? projectInferenceSourcePath = null)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        _settings = settings;
 
-        _commandLineOptions = options.EnableCommandLineOptions
-            ? PipelineCommandLineParser.Parse(options.Args)
+        _commandLineOptions = settings.EnableCommandLineOptions
+            ? PipelineCommandLineParser.Parse(settings.Args)
             : PipelineCommandLineOptions.Empty with
             {
-                HostArguments = options.Args?.ToArray() ?? [],
+                HostArguments = settings.Args?.ToArray() ?? [],
             };
         var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
@@ -73,7 +76,7 @@ public sealed class PipelineBuilder : IDisposable
             _configuration.AddCommandLine(args);
         }
 
-        _environment = CreateHostEnvironment(options, args);
+        _environment = CreateHostEnvironment(settings, args, projectInferenceSourcePath);
         _resources = _environment.Resources;
         _configuration.SetBasePath(_environment.WorkingDirectory);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
@@ -123,13 +126,6 @@ public sealed class PipelineBuilder : IDisposable
     /// Gets the default working directory for commands and relative file paths.
     /// </summary>
     public string WorkingDirectory => _environment.WorkingDirectory;
-
-    /// <summary>
-    /// Retained for source compatibility. Resources are owned by the built pipeline.
-    /// </summary>
-    public void Dispose()
-    {
-    }
 
     /// <summary>
     /// Sets the minimum log level for the pipeline.
@@ -284,8 +280,9 @@ public sealed class PipelineBuilder : IDisposable
     }
 
     private static PipelineHostEnvironment CreateHostEnvironment(
-        PipelineBuilderOptions options,
-        IReadOnlyList<string> hostArguments)
+        PipelineBuilderSettings settings,
+        IReadOnlyList<string> hostArguments,
+        string? projectInferenceSourcePath)
     {
         var hostConfiguration = new ConfigurationManager();
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
@@ -296,21 +293,29 @@ public sealed class PipelineBuilder : IDisposable
 
         var environmentName = FirstNonEmpty(
             Environments.Production,
-            options.EnvironmentName,
+            settings.EnvironmentName,
             hostConfiguration[HostDefaults.EnvironmentKey],
             System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-        var workingDirectory = Path.GetFullPath(FirstNonEmpty(
-            Directory.GetCurrentDirectory(),
-            options.WorkingDirectory,
-            options.ContentRootPath,
-            hostConfiguration[HostDefaults.ContentRootKey]));
+        var configuredWorkingDirectory = FirstNonEmpty(
+            string.Empty,
+            settings.WorkingDirectory,
+            settings.ContentRootPath,
+            hostConfiguration[HostDefaults.ContentRootKey]);
+        var workingDirectory = Path.GetFullPath(
+            !string.IsNullOrEmpty(configuredWorkingDirectory)
+                ? configuredWorkingDirectory
+                : FirstNonEmpty(
+                    Directory.GetCurrentDirectory(),
+                    projectInferenceSourcePath is null
+                        ? null
+                        : PipelineDirectory.TryFindPipelineProject(projectInferenceSourcePath)));
         var contentRootPath = Path.GetFullPath(FirstNonEmpty(
             workingDirectory,
-            options.ContentRootPath,
+            settings.ContentRootPath,
             hostConfiguration[HostDefaults.ContentRootKey]));
         var applicationName = FirstNonEmpty(
             string.Empty,
-            options.ApplicationName,
+            settings.ApplicationName,
             hostConfiguration[HostDefaults.ApplicationKey],
             Assembly.GetEntryAssembly()?.GetName().Name);
 
@@ -334,7 +339,7 @@ public sealed class PipelineBuilder : IDisposable
 
     private async Task<IPipeline> BuildPipelineAsync(bool initializePipeline)
     {
-        LoadModularPipelineAssembliesIfNotLoadedYet();
+        LoadModularPipelinesAssembliesIfNotLoadedYet();
 
         // Apply plugin configuration to the builder (modules, hooks, options)
         PluginIntegration.ApplyPluginConfiguration(this);
@@ -384,7 +389,7 @@ public sealed class PipelineBuilder : IDisposable
         return await PipelineImpl.CreateAsync(_hostBuilder, _resources, initializePipeline).ConfigureAwait(false);
     }
 
-    private void LoadModularPipelineAssembliesIfNotLoadedYet()
+    private void LoadModularPipelinesAssembliesIfNotLoadedYet()
     {
         if (!RuntimeFeature.IsDynamicCodeSupported)
         {
@@ -392,9 +397,9 @@ public sealed class PipelineBuilder : IDisposable
         }
 
         var coreVersion = typeof(PipelineBuilder).Assembly.GetName().Version;
-        LoadReferencedModularPipelineAssemblies(coreVersion);
+        LoadReferencedModularPipelinesAssemblies(coreVersion);
 
-        if (!_options.LoadModularPipelineAssemblies)
+        if (!_settings.LoadModularPipelinesAssemblies)
         {
             return;
         }
@@ -413,7 +418,7 @@ public sealed class PipelineBuilder : IDisposable
         }
     }
 
-    private static void LoadReferencedModularPipelineAssemblies(Version? coreVersion)
+    private static void LoadReferencedModularPipelinesAssemblies(Version? coreVersion)
     {
         ReferencedAssemblyTraversal.LoadModularPipelinesAssemblies(
             AppDomain.CurrentDomain.GetAssemblies(),

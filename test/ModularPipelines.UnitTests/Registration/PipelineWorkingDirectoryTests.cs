@@ -61,7 +61,7 @@ public class PipelineWorkingDirectoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 WorkingDirectory = workingDirectory.FullName,
             });
@@ -106,7 +106,7 @@ public class PipelineWorkingDirectoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 WorkingDirectory = pipelineDirectory.FullName,
             });
@@ -139,7 +139,7 @@ public class PipelineWorkingDirectoryTests
         try
         {
             var nestedDirectory = Directory.CreateDirectory(Path.Combine(projectDirectory.FullName, "src", "Pipeline"));
-            using var builder = Pipeline.CreateBuilderFromSource(
+            var builder = Pipeline.CreateBuilder(
                 sourceFilePath: Path.Combine(nestedDirectory.FullName, "Program.cs"));
             builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -156,11 +156,118 @@ public class PipelineWorkingDirectoryTests
     }
 
     [Test]
-    public async Task CreateBuilderRetainsSingleArgumentBinarySignature()
+    public async Task ExplicitContentRootOverridesInferredPipelineProject()
     {
-        var method = typeof(Pipeline).GetMethod(nameof(Pipeline.CreateBuilder), [typeof(string[])]);
+        var projectDirectory = Directory.CreateTempSubdirectory("pipeline-project-");
+        var contentRoot = Directory.CreateTempSubdirectory("pipeline-content-root-");
+        await File.WriteAllTextAsync(Path.Combine(projectDirectory.FullName, "appsettings.json"), "{}");
+        await File.WriteAllTextAsync(Path.Combine(projectDirectory.FullName, "Pipeline.csproj"), "<Project />");
 
-        await Assert.That(method).IsNotNull();
+        try
+        {
+            var builder = Pipeline.CreateBuilder(
+                new PipelineBuilderSettings { ContentRootPath = contentRoot.FullName },
+                Path.Combine(projectDirectory.FullName, "Program.cs"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(builder.WorkingDirectory).IsEqualTo(contentRoot.FullName);
+                await Assert.That(builder.Environment.ContentRootPath).IsEqualTo(contentRoot.FullName);
+            }
+        }
+        finally
+        {
+            projectDirectory.Delete(recursive: true);
+            contentRoot.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task HostConfiguredContentRootOverridesInferredPipelineProject()
+    {
+        var projectDirectory = Directory.CreateTempSubdirectory("pipeline-project-");
+        var contentRoot = Directory.CreateTempSubdirectory("pipeline-content-root-");
+        await File.WriteAllTextAsync(Path.Combine(projectDirectory.FullName, "Pipeline.csproj"), "<Project />");
+
+        try
+        {
+            var builder = Pipeline.CreateBuilder(
+                new PipelineBuilderSettings
+                {
+                    Args = ["--contentRoot", contentRoot.FullName],
+                },
+                Path.Combine(projectDirectory.FullName, "Program.cs"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(builder.WorkingDirectory).IsEqualTo(contentRoot.FullName);
+                await Assert.That(builder.Environment.ContentRootPath).IsEqualTo(contentRoot.FullName);
+            }
+        }
+        finally
+        {
+            projectDirectory.Delete(recursive: true);
+            contentRoot.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ExplicitWorkingDirectorySkipsProjectInference()
+    {
+        var variableName = "MODULAR_PIPELINES_DIRECTORY";
+        var previousValue = Environment.GetEnvironmentVariable(variableName);
+        var workingDirectory = Directory.CreateTempSubdirectory("pipeline-working-directory-");
+        Environment.SetEnvironmentVariable(
+            variableName,
+            Path.Combine(Path.GetTempPath(), $"missing-pipeline-{Guid.NewGuid():N}"));
+
+        try
+        {
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
+            {
+                WorkingDirectory = workingDirectory.FullName,
+            });
+
+            await Assert.That(builder.WorkingDirectory).IsEqualTo(workingDirectory.FullName);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variableName, previousValue);
+            workingDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task NonInferringBuilderIgnoresPipelineDirectoryEnvironmentVariable()
+    {
+        var variableName = "MODULAR_PIPELINES_DIRECTORY";
+        var previousValue = Environment.GetEnvironmentVariable(variableName);
+        Environment.SetEnvironmentVariable(
+            variableName,
+            Path.Combine(Path.GetTempPath(), $"missing-pipeline-{Guid.NewGuid():N}"));
+
+        try
+        {
+            var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings());
+
+            await Assert.That(builder.WorkingDirectory).IsEqualTo(Environment.CurrentDirectory);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variableName, previousValue);
+        }
+    }
+
+    [Test]
+    public async Task CreateBuilderUsesCallerFilePath()
+    {
+        var method = typeof(Pipeline).GetMethod(
+            nameof(Pipeline.CreateBuilder),
+            [typeof(string[]), typeof(string)]);
+
+        await Assert.That(method!.GetParameters()[1].GetCustomAttributesData()
+                .Select(attribute => attribute.AttributeType))
+            .Contains(typeof(System.Runtime.CompilerServices.CallerFilePathAttribute));
     }
 
     [Test]

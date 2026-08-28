@@ -159,7 +159,7 @@ public class RequireFactoryTests
 
         try
         {
-            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
             {
                 WorkingDirectory = workingDirectory.FullName,
             });

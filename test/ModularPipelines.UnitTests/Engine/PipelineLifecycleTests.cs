@@ -169,7 +169,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Pipeline_Disposal_Is_Idempotent()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         var pipeline = await builder.BuildAsync();
 
@@ -180,7 +180,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Reentrant_Disposal_Does_Not_Await_Itself()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<ReentrantDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -195,7 +195,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Cross_Thread_Reentrant_Disposal_Does_Not_Deadlock()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<CrossThreadReentrantDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -210,7 +210,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Non_Flowing_Cross_Thread_Reentrant_Disposal_Does_Not_Deadlock()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<NonFlowingCrossThreadReentrantDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -226,7 +226,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Concurrent_Disposal_Awaits_The_Shared_Task()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<BlockingDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -246,7 +246,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Captured_Disposal_Context_Observes_Completed_Failure()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<CapturedContextThrowingDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -265,7 +265,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Disposal_Aggregates_Scope_And_Host_Failures()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddScoped<ThrowingScopedDisposalTracker>();
         builder.Services.AddSingleton<ThrowingRootDisposalTracker>();
@@ -290,7 +290,7 @@ public class PipelineLifecycleTests
     public async Task Canceled_Disposal_Produces_A_Canceled_Task()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<CancelingDisposalTracker>();
         var pipeline = await builder.BuildAsync();
@@ -308,7 +308,7 @@ public class PipelineLifecycleTests
     public async Task Initialization_Failure_Disposes_The_Built_Host()
     {
         DisposalTracker? disposalTracker = null;
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton(_ => disposalTracker = new DisposalTracker());
         builder.Services.AddSingleton<IInitializer, ThrowingInitializer>();
@@ -322,7 +322,7 @@ public class PipelineLifecycleTests
     [Test]
     public async Task Initialization_Failure_Is_Preserved_When_Disposal_Also_Fails()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
         builder.Services.AddSingleton<ThrowingDisposalTracker>();
         builder.Services.AddSingleton<IInitializer, ThrowingCleanupInitializer>();
