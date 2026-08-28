@@ -105,8 +105,8 @@ public class EngineCancellationTokenTests : TestBase
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments =
                     [

@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
@@ -17,33 +16,21 @@ internal class Nvm : INvm
 
     public virtual Task<CommandResult> UseAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
-        {
-            Arguments = ["use", version],
-        }, null, cancellationToken);
+        return _context.Shell.RunAsync("nvm", ["use", version], cancellationToken);
     }
 
     public virtual Task<CommandResult> InstallAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
-        {
-            Arguments = ["install", version],
-        }, null, cancellationToken);
+        return _context.Shell.RunAsync("nvm", ["install", version], cancellationToken);
     }
 
     public virtual Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
-        {
-            Arguments = ["version"],
-        }, null, cancellationToken);
+        return _context.Shell.RunAsync("nvm", ["version"], cancellationToken);
     }
 
     public virtual Task<CommandResult> WhichAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
-        {
-            Arguments = ["which"],
-        }, null, cancellationToken);
+        return _context.Shell.RunAsync("nvm", ["which"], cancellationToken);
     }
 }

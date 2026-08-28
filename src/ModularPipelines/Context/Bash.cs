@@ -32,7 +32,7 @@ internal class Bash : IBashContext
     {
         if (OperatingSystem.IsWindows())
         {
-            var result = await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("wsl")
+            var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("wsl")
             {
                 Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
             }, new CommandExecutionOptions

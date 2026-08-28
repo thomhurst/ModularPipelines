@@ -5,8 +5,24 @@ namespace ModularPipelines.Options;
 /// Static command identities use [CliTool] on the tool base and [CliSubCommand] on
 /// command options. Runtime Tool and CommandParts values override those attributes.
 /// </summary>
-public abstract record CommandLineToolOptions
+public record CommandLineToolOptions
 {
+    /// <summary>
+    /// Initializes options for a strongly typed command whose tool is supplied by metadata.
+    /// </summary>
+    protected CommandLineToolOptions()
+    {
+    }
+
+    /// <summary>
+    /// Initializes options for an arbitrary command-line tool.
+    /// </summary>
+    /// <param name="tool">The name or path of the command-line tool to execute.</param>
+    public CommandLineToolOptions(string tool)
+    {
+        Tool = tool;
+    }
+
     /// <summary>
     /// Gets the CLI tool name for runtime-configured tools. A non-null value overrides
     /// the nearest [CliTool] attribute in the options type hierarchy.

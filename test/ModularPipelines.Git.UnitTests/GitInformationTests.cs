@@ -46,8 +46,8 @@ public class GitInformationTests : TestBase
     public async Task RunCommandsOrNull_Forces_Nonzero_Exit_Detection()
     {
         CommandExecutionOptions? observedOptions = null;
-        var command = new Mock<ICommandContext>();
-        command.Setup(context => context.ExecuteCommandLineToolAsync(
+        var shell = new Mock<IShellContext>();
+        shell.Setup(context => context.RunAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
@@ -57,8 +57,6 @@ public class GitInformationTests : TestBase
                     observedOptions = options;
                     return Task.FromResult(CommandResult.Ok());
                 });
-        var shell = new Mock<IShellContext>();
-        shell.SetupGet(context => context.Command).Returns(command.Object);
         var pipelineContext = new Mock<IPipelineContext>();
         pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
         var runner = new GitCommandRunner(
@@ -94,7 +92,7 @@ public class GitInformationTests : TestBase
     {
         var command = CreateRepositoryCommand((options, _) => options switch
         {
-            GenericCommandLineToolOptions { Tool: "git" } => CommandResult.Ok("origin/main\n"),
+            CommandLineToolOptions { Tool: "git" } => CommandResult.Ok("origin/main\n"),
             _ => CommandResult.Ok(),
         });
         var result = await GetGitInformation(command);
@@ -115,7 +113,7 @@ public class GitInformationTests : TestBase
         CommandExecutionOptions? remoteExecutionOptions = null;
         var command = CreateRepositoryCommand((options, executionOptions) => options switch
         {
-            GenericCommandLineToolOptions { Tool: "git" } => CommandResult.Ok(),
+            CommandLineToolOptions { Tool: "git" } => CommandResult.Ok(),
             GitRemoteShowOptions => CaptureRemoteOptions(executionOptions, out remoteExecutionOptions),
             _ => CommandResult.Ok(),
         });
@@ -240,8 +238,8 @@ public class GitInformationTests : TestBase
     public async Task Git_Command_Runner_Preserves_Output_Capture_Limit()
     {
         CommandExecutionOptions? observedOptions = null;
-        var command = new Mock<ICommandContext>();
-        command.Setup(context => context.ExecuteCommandLineToolAsync(
+        var shell = new Mock<IShellContext>();
+        shell.Setup(context => context.RunAsync(
                 It.IsAny<CommandLineToolOptions>(),
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
@@ -251,8 +249,6 @@ public class GitInformationTests : TestBase
                     observedOptions = options;
                     return Task.FromResult(CommandResult.Ok("output"));
                 });
-        var shell = new Mock<IShellContext>();
-        shell.SetupGet(context => context.Command).Returns(command.Object);
         var pipelineContext = new Mock<IPipelineContext>();
         pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
         var runner = new GitCommandRunner(

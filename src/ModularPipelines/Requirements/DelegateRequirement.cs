@@ -15,8 +15,7 @@ namespace ModularPipelines.Requirements;
 /// <code>
 /// services.AddRequirement(Require.ThatAsync(
 ///     async context =&gt; {
-///         var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
-///             new GenericCommandLineToolOptions("docker") { Arguments = ["--version"] });
+///         var result = await context.Shell.RunAsync("docker", ["--version"]);
 ///         return result.ExitCode == 0;
 ///     },
 ///     "Docker must be installed"));

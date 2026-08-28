@@ -19,7 +19,7 @@ public class Module1 : Module<CommandResult>
 
     private async Task<CommandResult> ExecuteCommand(IModuleContext context)
     {{
-        return (await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git"")))!;
+        return (await context.Shell.RunAsync(""git"", []))!;
     }}
 }}
 ";
@@ -59,7 +59,7 @@ public class Module1 : Module<CommandResult>
 
     private async Task<CommandResult> ExecuteCommand(IModuleContext context)
     {{
-        return (await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git"")))!;
+        return (await context.Shell.RunAsync(""git"", []))!;
     }}
 }}
 ";

@@ -90,7 +90,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <inheritdoc/>
     public virtual async Task<CommandResult> ChocolateyAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("powershell.exe")
+        var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("powershell.exe")
         {
             Arguments =
             [
@@ -192,7 +192,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
             // Windows: CliWrap handles argument escaping automatically via WithArguments()
-            return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
+            return await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
             }, cancellationToken: cancellationToken).ConfigureAwait(false);

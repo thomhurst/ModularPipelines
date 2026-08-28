@@ -1,4 +1,6 @@
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Context.Domains.Implementations;
 
@@ -7,6 +9,8 @@ namespace ModularPipelines.Context.Domains.Implementations;
 /// </summary>
 internal class ShellContext : IShellContext
 {
+    private readonly ICommandContext _command;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ShellContext"/> class.
     /// </summary>
@@ -15,13 +19,41 @@ internal class ShellContext : IShellContext
     /// <param name="powerShell">The PowerShell context for PowerShell script execution.</param>
     public ShellContext(ICommandContext command, IBashContext bash, IPowerShellContext powerShell)
     {
-        Command = command;
+        _command = command;
         Bash = bash;
         PowerShell = powerShell;
     }
 
     /// <inheritdoc />
-    public ICommandContext Command { get; }
+    public virtual Task<CommandResult> RunAsync(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual Task<CommandResult> RunAsync(
+        string tool,
+        IReadOnlyList<string> arguments,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return RunAsync(
+            new CommandLineToolOptions(tool) { Arguments = arguments },
+            executionOptions,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public virtual Task<CommandResult> RunAsync(
+        string tool,
+        IReadOnlyList<string> arguments,
+        CancellationToken cancellationToken)
+    {
+        return RunAsync(tool, arguments, null, cancellationToken);
+    }
 
     /// <inheritdoc />
     public IBashContext Bash { get; }

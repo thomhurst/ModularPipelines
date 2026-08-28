@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
@@ -24,9 +23,6 @@ internal class Node : INode
 
     public virtual Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("node")
-        {
-            Arguments = ["-v"],
-        }, null, cancellationToken);
+        return _context.Shell.RunAsync("node", ["-v"], cancellationToken);
     }
 }

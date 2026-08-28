@@ -34,9 +34,9 @@ run conditions now receive `IPipelineContext` directly.
 | `Security` | `ISecurityContext` | Certificates and hashing |
 | `Services` | `IServicesContext` | Dependency injection and configuration |
 
-Each leaf capability has one public interface in its domain namespace. For example,
-general command execution uses
-`ModularPipelines.Context.Domains.Shell.ICommandContext`.
+Modules execute general commands directly through `IShellContext.RunAsync`. Generated
+tool services use `ModularPipelines.Context.Domains.Shell.ICommandContext` as their DI
+seam.
 
 ## Modules
 
@@ -49,9 +49,7 @@ public class BuildModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return context.Shell.Command.ExecuteCommandLineToolAsync(
-            new DotNetBuildOptions(),
-            cancellationToken: cancellationToken);
+        return context.Shell.RunAsync(new DotNetBuildOptions(), cancellationToken: cancellationToken);
     }
 
     private sealed record DotNetBuildOptions : CommandLineToolOptions

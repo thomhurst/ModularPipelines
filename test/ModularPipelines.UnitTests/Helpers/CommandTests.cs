@@ -100,7 +100,7 @@ public class CommandTests : TestBase
 
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("unused"),
+                new CommandLineToolOptions("unused"),
                 new CommandExecutionOptions
                 {
                     CommandLineCredentials = new CommandLineCredentials
@@ -149,8 +149,8 @@ public class CommandTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-Command", "echo 'Foo bar!'"],
                 },
@@ -211,7 +211,7 @@ public class CommandTests : TestBase
 
         var exception = await Assert.ThrowsAsync<CommandException>(() =>
             command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments =
                     [
@@ -247,7 +247,7 @@ public class CommandTests : TestBase
         var command = await GetService<ICommandContext>();
 
         var exception = await Assert.ThrowsAsync<ToolNotFoundException>(() =>
-            command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(executable)));
+            command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(executable)));
 
         using (Assert.Multiple())
         {
@@ -269,7 +269,7 @@ public class CommandTests : TestBase
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("pwsh")
+            new CommandLineToolOptions("pwsh")
             {
                 Arguments = ["-NoProfile", "-Command", $"Write-Output '{secret}'"],
             },
@@ -316,7 +316,7 @@ public class CommandTests : TestBase
         });
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("unused"),
+            new CommandLineToolOptions("unused"),
             new CommandExecutionOptions
             {
                 InternalDryRun = true,
@@ -342,7 +342,7 @@ public class CommandTests : TestBase
             services.AddSingleton<ICommandInterceptor, RegisterEnvironmentSecretInterceptor>());
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("unused"),
+            new CommandLineToolOptions("unused"),
             new CommandExecutionOptions
             {
                 EnvironmentVariables = new Dictionary<string, string?>
@@ -381,7 +381,7 @@ public class CommandTests : TestBase
         });
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("unused"),
+            new CommandLineToolOptions("unused"),
             new CommandExecutionOptions
             {
                 EnvironmentVariables = new Dictionary<string, string?>
@@ -413,7 +413,7 @@ public class CommandTests : TestBase
         });
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("unused")
+            new CommandLineToolOptions("unused")
             {
                 Arguments = [secret],
             },
@@ -442,7 +442,7 @@ public class CommandTests : TestBase
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("pwsh")
+            new CommandLineToolOptions("pwsh")
             {
                 Arguments = ["-NoProfile", "-Command", "exit 0"],
             },
@@ -485,7 +485,7 @@ public class CommandTests : TestBase
 
         var command = await GetService<ICommandContext>();
         var result = await command.ExecuteCommandLineToolAsync(
-            new GenericCommandLineToolOptions("pwsh")
+            new CommandLineToolOptions("pwsh")
             {
                 Arguments = ["-NoProfile", "-Command", "exit 0"],
             },
@@ -524,7 +524,7 @@ public class CommandTests : TestBase
             var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("mp-runtime-test")
+                new CommandLineToolOptions("mp-runtime-test")
                 {
                     Arguments = ["hello world"],
                 },
@@ -571,7 +571,7 @@ public class CommandTests : TestBase
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
                 command.ExecuteCommandLineToolAsync(
-                    new GenericCommandLineToolOptions(scriptPath)
+                    new CommandLineToolOptions(scriptPath)
                     {
                         Arguments = ["first line\r\nsecond line"],
                     }));
@@ -605,7 +605,7 @@ public class CommandTests : TestBase
             var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions(scriptPath)
+                new CommandLineToolOptions(scriptPath)
                 {
                     Arguments = [argument],
                 });
@@ -647,7 +647,7 @@ public class CommandTests : TestBase
                 isWindows: true);
 
             var result = await command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions(relativeToolPath),
+                new CommandLineToolOptions(relativeToolPath),
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = tempDirectory,
@@ -689,7 +689,7 @@ public class CommandTests : TestBase
             var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("mp-runtime-path-test"),
+                new CommandLineToolOptions("mp-runtime-path-test"),
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = workingDirectory,
@@ -728,7 +728,7 @@ public class CommandTests : TestBase
                 "Wait-Process -Id $child.Id");
 
             var executionTask = command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
                 },
@@ -781,7 +781,7 @@ public class CommandTests : TestBase
                 $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) {{ Start-Sleep -Milliseconds 10 }}");
 
             var executionTask = command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
                 },
@@ -833,7 +833,7 @@ public class CommandTests : TestBase
                 "{ Start-Sleep -Milliseconds 10 }";
 
             var executionTask = command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
                 },
@@ -865,7 +865,7 @@ public class CommandTests : TestBase
 
         var exception = await Assert.ThrowsAsync<TimeoutException>(() =>
             command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", "Start-Sleep -Seconds 60"],
                 },
@@ -929,7 +929,7 @@ public class CommandTests : TestBase
                 "Wait-Process -Id $intermediate.Id");
 
             executionTask = command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("pwsh")
+                new CommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", parentScript],
                 },

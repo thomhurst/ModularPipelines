@@ -57,8 +57,8 @@ public class TelemetryIntegrationTests
             CancellationToken cancellationToken)
         {
             context.Services.Get<ISecretRegistry>().AddSecret(Secret);
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions(SecretTool)
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions(SecretTool)
                 {
                     Arguments = [Secret],
                 },
@@ -72,8 +72,8 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("hidden-arguments-tool")
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("hidden-arguments-tool")
                 {
                     Arguments = [UnregisteredSensitiveArgument],
                 },
@@ -91,8 +91,8 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("silent-tool")
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("silent-tool")
                 {
                     Arguments = [UnregisteredSensitiveArgument],
                 },
@@ -106,8 +106,8 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("manipulated-input-tool"),
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("manipulated-input-tool"),
                 new CommandExecutionOptions
                 {
                     InputLoggingManipulator = _ =>
@@ -126,8 +126,8 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("throwing-input-manipulator-tool"),
+            return await context.Shell.RunAsync(
+                new CommandLineToolOptions("throwing-input-manipulator-tool"),
                 new CommandExecutionOptions
                 {
                     InputLoggingManipulator = _ =>
@@ -146,7 +146,7 @@ public class TelemetryIntegrationTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+            return await context.Shell.RunAsync(
                 new InvalidCommandOptions { Token = Secret },
                 cancellationToken: cancellationToken);
         }
