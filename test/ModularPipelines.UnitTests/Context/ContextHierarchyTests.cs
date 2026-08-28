@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.UnitTests.Context;

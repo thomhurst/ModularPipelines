@@ -1,5 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
-using ModularPipelines.Context.Domains.Security;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Context;
 

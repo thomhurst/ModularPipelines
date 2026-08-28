@@ -11,10 +11,13 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
 
 namespace ModularPipelines;

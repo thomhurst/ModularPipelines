@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;

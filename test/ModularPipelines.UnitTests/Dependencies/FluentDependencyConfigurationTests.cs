@@ -101,7 +101,7 @@ public class FluentDependencyConfigurationTests : TestBase
     /// <summary>
     /// A module that combines both attribute and programmatic dependencies.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<BaseModule>]
+    [ModularPipelines.DependsOn<BaseModule>]
     private class ModuleWithBothAttributeAndProgrammaticDependencies : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

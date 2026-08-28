@@ -1,0 +1,21 @@
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Reporting;
+
+public interface IModuleResultRepository
+{
+    /// <summary>
+    /// Gets a value indicating whether this repository is enabled and should be used for storing/retrieving results.
+    /// </summary>
+    /// <remarks>
+    /// When <c>false</c>, the pipeline will skip history-related operations.
+    /// Implementations that provide actual storage should return <c>true</c>.
+    /// </remarks>
+    bool IsEnabled { get; }
+
+    Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext);
+
+    Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext);
+}

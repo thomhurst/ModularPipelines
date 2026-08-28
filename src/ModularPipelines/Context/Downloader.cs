@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;

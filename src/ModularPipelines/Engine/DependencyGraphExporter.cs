@@ -10,6 +10,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

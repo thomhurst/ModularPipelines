@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 

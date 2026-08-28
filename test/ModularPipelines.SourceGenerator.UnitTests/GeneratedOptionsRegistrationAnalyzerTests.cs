@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 

@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;

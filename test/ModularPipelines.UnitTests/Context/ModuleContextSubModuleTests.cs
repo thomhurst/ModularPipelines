@@ -1,7 +1,8 @@
+using ModularPipelines.Reporting;
+using ModularPipelines.Events;
 using Mediator;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Events;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;

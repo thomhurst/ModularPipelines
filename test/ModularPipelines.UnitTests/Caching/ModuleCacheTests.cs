@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
@@ -165,7 +166,7 @@ public class ModuleCacheTests
             CancellationToken cancellationToken) => Task.FromResult<object>(Value);
     }
 
-    [ModularPipelines.Attributes.DependsOn<RuntimeTypedDependencyModule>]
+    [ModularPipelines.DependsOn<RuntimeTypedDependencyModule>]
     private sealed class RuntimeTypedCachedDependentModule : Module<string>
     {
         public static int ExecutionCount;
@@ -306,7 +307,7 @@ public class ModuleCacheTests
                 .WithCacheKeyPart("result-transform-v1");
     }
 
-    [ModularPipelines.Attributes.DependsOn<ResultTransformingCachedModule>]
+    [ModularPipelines.DependsOn<ResultTransformingCachedModule>]
     private sealed class TransformedResultDependentModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(
@@ -719,7 +720,7 @@ public class ModuleCacheTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class CachedDependentModule : Module<string>
     {
         public static int ExecutionCount;

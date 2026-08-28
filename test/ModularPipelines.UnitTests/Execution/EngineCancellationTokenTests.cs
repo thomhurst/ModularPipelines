@@ -1,9 +1,10 @@
+using ModularPipelines.Events;
+using ModularPipelines.Context;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
@@ -33,13 +34,13 @@ public class EngineCancellationTokenTests : TestBase
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<BadModule>]
+    [ModularPipelines.DependsOn<BadModule>]
     private class Module1 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<BadModule>]
+    [ModularPipelines.DependsOn<BadModule>]
     private class AlwaysRunBarrierModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -48,7 +49,7 @@ public class EngineCancellationTokenTests : TestBase
             .WithAlwaysRun();
     }
 
-    [ModularPipelines.Attributes.DependsOn<AlwaysRunBarrierModule>]
+    [ModularPipelines.DependsOn<AlwaysRunBarrierModule>]
     private class ModuleBehindAlwaysRunBarrier : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -148,7 +149,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<WaitForAllCompletingModule>]
+    [ModularPipelines.DependsOn<WaitForAllCompletingModule>]
     private class WaitForAllPendingModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -180,7 +181,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<CoordinatedFailingModule>]
+    [ModularPipelines.DependsOn<CoordinatedFailingModule>]
     private class CancelledBeforeStartModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -217,7 +218,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<CoordinatedDependencyFailureModule>]
+    [ModularPipelines.DependsOn<CoordinatedDependencyFailureModule>]
     private class TerminatedBeforeExecutionModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
@@ -243,13 +244,13 @@ public class EngineCancellationTokenTests : TestBase
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<ReadyHookFailingModule>]
+    [ModularPipelines.DependsOn<ReadyHookFailingModule>]
     private class ReadyHookDependentModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<ReadyHookFailingModule>]
+    [ModularPipelines.DependsOn<ReadyHookFailingModule>]
     private class ReadyHookSiblingDependentModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -355,7 +356,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<StopOnFirstQueuedDependencyModule>]
+    [ModularPipelines.DependsOn<StopOnFirstQueuedDependencyModule>]
     private class StopOnFirstPendingModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(

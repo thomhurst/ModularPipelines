@@ -5,6 +5,7 @@ using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 

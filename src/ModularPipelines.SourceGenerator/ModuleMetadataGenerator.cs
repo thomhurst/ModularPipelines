@@ -15,13 +15,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string ModuleInterfaceFullName = "ModularPipelines.Modules.IModule";
     internal const string ModuleNamespace = "ModularPipelines.Modules";
     internal const string GenericModuleMetadataName = "Module`1";
-    internal const string DependsOnAttributeFullName = "ModularPipelines.Attributes.DependsOnAttribute";
+    internal const string DependsOnAttributeFullName = "ModularPipelines.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
     internal const string SelectorDependencyAttributeFullName =
-        "ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute";
+        "ModularPipelines.DependsOnAllModulesInheritingFromAttribute";
 
     internal const string PredicateDependencyAttributeFullName =
-        "ModularPipelines.Attributes.DependsOnBaseAttribute";
+        "ModularPipelines.DependsOnBaseAttribute";
 
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.PipelineBuilderExtensions";

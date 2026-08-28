@@ -1,6 +1,7 @@
 using System.Text;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

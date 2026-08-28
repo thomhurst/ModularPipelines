@@ -28,7 +28,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
     internal const string CliGlobalOptionsAttributeFullName = "ModularPipelines.Attributes.CliGlobalOptionsAttribute";
-    internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
+    internal const string SecretValueAttributeFullName = "ModularPipelines.Secrets.SecretValueAttribute";
     internal const string ExperimentalAttributeFullName = "System.Diagnostics.CodeAnalysis.ExperimentalAttribute";
     internal const string IncompleteRuntimeMetadataAttributeFullName =
         "ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute";

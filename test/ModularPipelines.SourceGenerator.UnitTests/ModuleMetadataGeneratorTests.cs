@@ -37,12 +37,12 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+                public sealed class DependencyModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOn<DependencyModule>(Optional = true)]
+                [ModularPipelines.DependsOn<DependencyModule>(Optional = true)]
                 public interface IHasDependency;
 
-                public abstract class BaseModule : ModularPipelines.Modules.Module<string>, IHasDependency;
+                public abstract class BaseModule : ModularPipelines.Module<string>, IHasDependency;
 
                 public sealed class BuildModule : BaseModule;
             }
@@ -68,12 +68,12 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+                public sealed class DependencyModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
-                public abstract class BaseModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn<DependencyModule>]
+                public abstract class BaseModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+                [ModularPipelines.DependsOn<DependencyModule>]
                 public sealed class BuildModule : BaseModule;
             }
             """);
@@ -97,8 +97,8 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
-                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed partial class BuildModule : ModularPipelines.Module<string>;
+                public sealed partial class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -115,10 +115,10 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+                public sealed class DependencyModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
-                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn<DependencyModule>]
+                public sealed partial class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -155,11 +155,11 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
 
                 public static class Container
                 {
-                    private sealed class HiddenModule : ModularPipelines.Modules.Module<string>;
+                    private sealed class HiddenModule : ModularPipelines.Module<string>;
                 }
             }
             """);
@@ -184,8 +184,8 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
             }
             """);
 
@@ -204,10 +204,10 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn(typeof(GenericModule<string>))]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn(typeof(GenericModule<string>))]
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -232,10 +232,10 @@ public class ModuleMetadataGeneratorTests
             {
                 public static class Container
                 {
-                    private sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                    private sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                    [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                    public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                    [ModularPipelines.DependsOn<GenericModule<int>>]
+                    public sealed class BuildModule : ModularPipelines.Module<string>;
                 }
             }
             """);
@@ -259,13 +259,13 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class LeafModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                [ModularPipelines.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
-                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn<GenericModule<int>>]
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -304,7 +304,7 @@ public class ModuleMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -346,8 +346,8 @@ public class ModuleMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class StarterModule : ModularPipelines.Modules.Module<string>;
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class StarterModule : ModularPipelines.Module<string>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -413,7 +413,7 @@ public class ModuleMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -469,7 +469,7 @@ public class ModuleMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -525,7 +525,7 @@ public class ModuleMetadataGeneratorTests
             {
                 using ModularPipelines;
 
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
 
                 public static class Registration
                 {
@@ -565,13 +565,13 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                public abstract class BaseModule : ModularPipelines.Modules.Module<string>;
+                public abstract class BaseModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
+                [ModularPipelines.DependsOnAllModulesInheritingFrom<BaseModule>]
                 public interface IHasSelectorDependency;
 
                 public sealed class BuildModule
-                    : ModularPipelines.Modules.Module<string>, IHasSelectorDependency;
+                    : ModularPipelines.Module<string>, IHasSelectorDependency;
             }
             """);
 
@@ -606,17 +606,17 @@ public class ModuleMetadataGeneratorTests
             {
                 public sealed class MarkerAttribute : System.Attribute;
 
-                [ModularPipelines.Attributes.DependsOnModulesWithTag("build")]
-                public sealed class TagModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOnModulesWithTag("build")]
+                public sealed class TagModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOnModulesInCategory("deploy")]
-                public sealed class CategoryModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOnModulesInCategory("deploy")]
+                public sealed class CategoryModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOnModulesWithAttribute<MarkerAttribute>]
-                public sealed class AttributeModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOnModulesWithAttribute<MarkerAttribute>]
+                public sealed class AttributeModule : ModularPipelines.Module<string>;
 
                 [ModularPipelines.Attributes.CustomSelector]
-                public sealed class CustomModule : ModularPipelines.Modules.Module<string>;
+                public sealed class CustomModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -652,10 +652,10 @@ public class ModuleMetadataGeneratorTests
 
             namespace Consumer
             {
-                public sealed class BaseModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BaseModule : ModularPipelines.Module<string>;
 
                 [ModularPipelines.Attributes.CustomDependsOn]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -674,7 +674,7 @@ public class ModuleMetadataGeneratorTests
             """
             namespace ExternalModules
             {
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
             }
             """,
             """
@@ -726,14 +726,14 @@ public class ModuleMetadataGeneratorTests
             """
             namespace ExternalModules
             {
-                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
             }
             """,
             """
             namespace Consumer
             {
-                [ModularPipelines.Attributes.DependsOn<ExternalModules.GenericModule<string>>]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<bool>;
+                [ModularPipelines.DependsOn<ExternalModules.GenericModule<string>>]
+                public sealed class BuildModule : ModularPipelines.Module<bool>;
             }
             """);
 
@@ -765,8 +765,8 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                [ModularPipelines.Attributes.DependsOn(typeof(string))]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn(typeof(string))]
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -785,10 +785,10 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+                public sealed class DependencyModule : ModularPipelines.Module<string>;
 
                 public sealed class OptionalDependencyAttribute
-                    : ModularPipelines.Attributes.DependsOnAttribute<DependencyModule>
+                    : ModularPipelines.DependsOnAttribute<DependencyModule>
                 {
                     public OptionalDependencyAttribute()
                     {
@@ -797,7 +797,7 @@ public class ModuleMetadataGeneratorTests
                 }
 
                 [OptionalDependency]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -820,10 +820,10 @@ public class ModuleMetadataGeneratorTests
             """
             namespace Consumer
             {
-                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+                public sealed class DependencyModule : ModularPipelines.Module<string>;
 
-                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                [ModularPipelines.DependsOn<DependencyModule>]
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 

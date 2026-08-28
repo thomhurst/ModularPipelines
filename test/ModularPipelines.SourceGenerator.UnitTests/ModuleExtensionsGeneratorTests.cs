@@ -18,12 +18,12 @@ public class ModuleExtensionsGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace First
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
 
             namespace Second
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -47,7 +47,7 @@ public class ModuleExtensionsGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -63,7 +63,7 @@ public class ModuleExtensionsGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                internal sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                internal sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -85,8 +85,8 @@ public class ModuleExtensionsGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
-                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed partial class BuildModule : ModularPipelines.Module<string>;
+                public sealed partial class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -104,7 +104,7 @@ public class ModuleExtensionsGeneratorTests
             """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """);
 
@@ -117,7 +117,7 @@ public class ModuleExtensionsGeneratorTests
         const string source = """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """;
         var sharedLibrary = GeneratorTestHarness.Run(
@@ -148,7 +148,7 @@ public class ModuleExtensionsGeneratorTests
         const string source = """
             namespace Consumer
             {
-                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed class BuildModule : ModularPipelines.Module<string>;
             }
             """;
         var hyphenated = GeneratorTestHarness.Run(

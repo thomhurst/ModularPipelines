@@ -228,7 +228,7 @@ internal static class SymbolExtensions
     internal static bool IsDependsOnAttribute(this INamedTypeSymbol attributeClass, Compilation compilation)
     {
         // Get the non-generic DependsOnAttribute type
-        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
+        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.DependsOnAttribute");
         if (dependsOnAttributeType is null)
         {
             return false;
@@ -246,7 +246,7 @@ internal static class SymbolExtensions
         }
 
         // Get and check the generic version (DependsOnAttribute`1)
-        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute`1");
+        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.DependsOnAttribute`1");
         return genericDependsOnAttributeType is not null &&
                SymbolEqualityComparer.Default.Equals(attributeToCompare, genericDependsOnAttributeType);
     }

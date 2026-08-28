@@ -1,6 +1,6 @@
+using ModularPipelines.Context;
 // This file provides a base class for Git command services to reduce duplication.
 
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;

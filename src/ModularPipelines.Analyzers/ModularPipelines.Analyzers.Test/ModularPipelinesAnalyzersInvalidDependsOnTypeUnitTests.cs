@@ -49,7 +49,7 @@ public class Module2 : Module<List<string>>
 
     private const string AliasedBadModuleSource = $@"
 {TestSourceConstants.StandardUsingsWithLogging}
-using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+using Dependency = ModularPipelines.DependsOnAttribute;
 
 {TestSourceConstants.ExamplesNamespace}
 

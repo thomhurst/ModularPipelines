@@ -19,7 +19,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     /// <summary>
     /// The fully qualified name of the Module&lt;T&gt; base class.
     /// </summary>
-    internal const string ModuleBaseFullName = "ModularPipelines.Modules.Module`1";
+    internal const string ModuleBaseFullName = "ModularPipelines.Module`1";
 
     private const string GeneratorName = "ModularPipelines.SourceGenerator";
     private const string GeneratorVersion = "1.0.0";

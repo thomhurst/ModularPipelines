@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;

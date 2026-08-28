@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
@@ -46,7 +46,7 @@ public class DistributedModuleExecutorTests
     private class DistributedModule : Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
     }
 
@@ -56,7 +56,7 @@ public class DistributedModuleExecutorTests
                 .WithTimeout(TimeSpan.FromMilliseconds(50));
 
         protected internal override Task<SimpleResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
     }
 
@@ -64,7 +64,7 @@ public class DistributedModuleExecutorTests
     private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("linux done");
     }
 
@@ -72,14 +72,14 @@ public class DistributedModuleExecutorTests
     private class UnixModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("unix done");
     }
 
     private class AnotherDistributedModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
     }
 
@@ -87,7 +87,7 @@ public class DistributedModuleExecutorTests
     private class ArtifactLoggingModule : Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(new SimpleResult { Message = "done" });
     }
 
@@ -95,15 +95,15 @@ public class DistributedModuleExecutorTests
     private class ArtifactDownloadModule : Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(new SimpleResult { Message = "done" });
     }
 
-    [ModularPipelines.Attributes.DependsOn<DistributedModule>]
+    [ModularPipelines.DependsOn<DistributedModule>]
     private class DependsOnDistributedModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("dependent done");
     }
 

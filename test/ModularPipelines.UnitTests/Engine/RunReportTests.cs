@@ -1,3 +1,7 @@
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
+using ModularPipelines.Events;
+using ModularPipelines.Context;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Loader;
@@ -8,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Console;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;

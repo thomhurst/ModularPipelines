@@ -1,6 +1,7 @@
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Context;
 

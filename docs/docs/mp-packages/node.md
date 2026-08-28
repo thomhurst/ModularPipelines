@@ -27,9 +27,7 @@ Use the discoverable `context.Tools` surface from a module:
 ## Module example
 
 ```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
+using ModularPipelines;
 
 public class UseNodeModule : Module<CommandResult>
 {

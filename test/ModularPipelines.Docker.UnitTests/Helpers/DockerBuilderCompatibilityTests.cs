@@ -2,6 +2,7 @@
 
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Docker.Enums;
 using ModularPipelines.Docker.Extensions;

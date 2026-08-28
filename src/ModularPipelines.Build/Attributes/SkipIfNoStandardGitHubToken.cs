@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Build.Attributes;

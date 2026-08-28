@@ -13,7 +13,7 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 {
-    internal const string ModuleBaseFullName = "ModularPipelines.Modules.Module`1";
+    internal const string ModuleBaseFullName = "ModularPipelines.Module`1";
 
     private const string AttributeUsageFullName = "System.AttributeUsageAttribute";
 

@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Snyk.Enums;
 using ModularPipelines.Snyk.Options;

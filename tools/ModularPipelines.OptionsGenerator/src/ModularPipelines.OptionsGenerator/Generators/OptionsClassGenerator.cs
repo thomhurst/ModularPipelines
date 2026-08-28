@@ -71,6 +71,11 @@ public class OptionsClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        if (requiredParameters.Any(static parameter => parameter.IsSecret))
+        {
+            sb.AppendLine("using ModularPipelines.Secrets;");
+        }
+
         if (requiredParameters.Any(static parameter =>
                 parameter.Option?.RequiresModelsNamespace == true)
             || compatibilityProperties.Any(static property =>
@@ -389,6 +394,12 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         sb.AppendLine("using ModularPipelines.Attributes;");
+
+        if (command.Options.Any(static option => option.IsSecret)
+            || command.PositionalArguments.Any(static argument => argument.IsSecret))
+        {
+            sb.AppendLine("using ModularPipelines.Secrets;");
+        }
 
         // Include the existing Options namespace where the base class lives
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");

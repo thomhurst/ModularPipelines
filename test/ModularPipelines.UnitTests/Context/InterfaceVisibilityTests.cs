@@ -1,3 +1,4 @@
+using ModularPipelines.Events;
 using System.Reflection;
 using ModularPipelines.Context;
 using ModularPipelines.Events;
@@ -36,7 +37,7 @@ public class InterfaceVisibilityTests
             "ModularPipelines.Modules.SubModuleBase",
             "ModularPipelines.Context.ICommandLineBuilder",
             "ModularPipelines.Engine.LogoPrinter",
-            "ModularPipelines.IBuildSystemDetector",
+            "ModularPipelines.Context.IBuildSystemDetector",
         ];
 
         foreach (var typeName in internalTypeNames)
@@ -64,31 +65,31 @@ public class InterfaceVisibilityTests
         var expectedPublicInterfaces = new[]
         {
             // Core context interfaces
-            ("ModularPipelines.Context", "IPipelineContext"),
-            ("ModularPipelines.Context", "IModuleContext"),
+            ("ModularPipelines", "IPipelineContext"),
+            ("ModularPipelines", "IModuleContext"),
             // Domain context interfaces
-            ("ModularPipelines.Context.Domains", "IShellContext"),
-            ("ModularPipelines.Context.Domains", "IFilesContext"),
-            ("ModularPipelines.Context.Domains", "IDataContext"),
-            ("ModularPipelines.Context.Domains", "IEnvironmentContext"),
-            ("ModularPipelines.Context.Domains", "IInstallersContext"),
-            ("ModularPipelines.Context.Domains", "INetworkContext"),
-            ("ModularPipelines.Context.Domains", "ISecurityContext"),
-            ("ModularPipelines.Context.Domains", "IServicesContext"),
-            ("ModularPipelines.Context.Domains.Shell", "ICommandContext"),
-            ("ModularPipelines.Context.Domains.Shell", "IBashContext"),
-            ("ModularPipelines.Context.Domains.Shell", "IPowerShellContext"),
-            ("ModularPipelines.Context.Domains.Files", "IZipContext"),
-            ("ModularPipelines.Context.Domains.Data", "IJsonContext"),
-            ("ModularPipelines.Context.Domains.Data", "IXmlContext"),
-            ("ModularPipelines.Context.Domains.Data", "IYamlContext"),
-            ("ModularPipelines.Context.Domains.Data", "IBase64Context"),
-            ("ModularPipelines.Context.Domains.Data", "IHexContext"),
-            ("ModularPipelines.Context.Domains.Environment", "IEnvironmentVariablesContext"),
-            ("ModularPipelines.Context.Domains.Network", "IHttpContext"),
-            ("ModularPipelines.Context.Domains.Network", "IDownloaderContext"),
-            ("ModularPipelines.Context.Domains.Security", "ICertificatesContext"),
-            ("ModularPipelines.Context.Domains.Security", "IHashContext"),
+            ("ModularPipelines.Context", "IShellContext"),
+            ("ModularPipelines.Context", "IFilesContext"),
+            ("ModularPipelines.Context", "IDataContext"),
+            ("ModularPipelines.Context", "IEnvironmentContext"),
+            ("ModularPipelines.Context", "IInstallersContext"),
+            ("ModularPipelines.Context", "INetworkContext"),
+            ("ModularPipelines.Context", "ISecurityContext"),
+            ("ModularPipelines.Context", "IServicesContext"),
+            ("ModularPipelines.Context", "ICommandContext"),
+            ("ModularPipelines.Context", "IBashContext"),
+            ("ModularPipelines.Context", "IPowerShellContext"),
+            ("ModularPipelines.Context", "IZipContext"),
+            ("ModularPipelines.Context", "IJsonContext"),
+            ("ModularPipelines.Context", "IXmlContext"),
+            ("ModularPipelines.Context", "IYamlContext"),
+            ("ModularPipelines.Context", "IBase64Context"),
+            ("ModularPipelines.Context", "IHexContext"),
+            ("ModularPipelines.Context", "IEnvironmentVariablesContext"),
+            ("ModularPipelines.Context", "IHttpContext"),
+            ("ModularPipelines.Context", "IDownloaderContext"),
+            ("ModularPipelines.Context", "ICertificatesContext"),
+            ("ModularPipelines.Context", "IHashContext"),
         };
 
         foreach (var (ns, interfaceName) in expectedPublicInterfaces)
@@ -127,7 +128,6 @@ public class InterfaceVisibilityTests
             "ICertificates",
             "IHasher",
             "IPipelineHookContext",
-            "IEnvironmentContext",
             "IFileSystemContext",
             "IInstaller",
         };

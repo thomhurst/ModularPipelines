@@ -19,7 +19,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         "Microsoft.Extensions.DependencyInjection.IServiceCollection";
 
     private const string PipelineContextFullName =
-        "ModularPipelines.Context.IPipelineContext";
+        "ModularPipelines.IPipelineContext";
 
     private const string AssemblyMetadataAttributeFullName =
         "System.Reflection.AssemblyMetadataAttribute";

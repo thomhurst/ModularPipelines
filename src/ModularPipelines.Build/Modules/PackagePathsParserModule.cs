@@ -7,7 +7,7 @@ using ModularPipelines.FileSystem;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackProjectsModule>]
-[RunIfAll<ModularPipelines.Conditions.OnLinux>]
+[RunIfAll<ModularPipelines.OnLinux>]
 public class PackagePathsParserModule : Module<List<FilePath>>
 {
     private const string PackageCreationSuccessPrefix = "Successfully created package '";

@@ -7,6 +7,8 @@ using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 
 namespace ModularPipelines.Console;

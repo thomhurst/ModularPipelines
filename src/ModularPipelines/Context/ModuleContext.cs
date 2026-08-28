@@ -1,7 +1,6 @@
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Events;
@@ -10,6 +9,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Context;
 
@@ -176,7 +176,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public ILogger Logger => _logger;
 
     /// <inheritdoc />
-    public Domains.IShellContext Shell => _pipelineContext.Shell;
+    public IShellContext Shell => _pipelineContext.Shell;
 
     /// <inheritdoc />
     public IFilesContext Files => _pipelineContext.Files;

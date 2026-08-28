@@ -1,4 +1,5 @@
 Imports ModularPipelines.Attributes
+Imports ModularPipelines.Secrets
 
 Namespace ModularPipelines.VisualBasic.TestFixtures
     Public NotInheritable Class VisualBasicSecretOptions

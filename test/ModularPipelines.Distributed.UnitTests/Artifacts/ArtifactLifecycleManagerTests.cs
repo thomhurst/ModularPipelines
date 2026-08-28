@@ -11,42 +11,42 @@ namespace ModularPipelines.Distributed.UnitTests.Artifacts;
 [ProducesArtifact("build-output", "test-output")]
 public class ProducerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult<string>("done");
 }
 
 [ProducesArtifact("single-glob-output", "single-match-*")]
 public class SingleGlobProducerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult("done");
 }
 
 [ProducesArtifact("single-file-glob-output", "release-*/manifest.json")]
 public class SingleFileGlobProducerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "restored")]
 public class ConsumerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult<string>("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "restored")]
 public class SecondConsumerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult<string>("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "different-path")]
 public class DifferentPathConsumerModule : Module<string>
 {
-    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+    protected internal override Task<string> ExecuteAsync(ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult<string>("done");
 }
 

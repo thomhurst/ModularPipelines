@@ -12,6 +12,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 using ModularPipelines.Tracing;
 
 namespace ModularPipelines.Engine;

@@ -20,22 +20,22 @@ public class DependencyResultPropagationTests
     private class DependencyModule : Module<DepResult>
     {
         protected internal override Task<DepResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<DepResult>(new DepResult { Value = "dep-value" });
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private class ConsumerModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string>("consumed");
     }
 
     private class IndependentModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
     }
 

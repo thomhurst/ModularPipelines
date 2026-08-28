@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Models;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

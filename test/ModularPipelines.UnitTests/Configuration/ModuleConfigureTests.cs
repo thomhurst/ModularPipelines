@@ -48,7 +48,7 @@ public class ModuleConfigureTests
     [ExecutionHint(ExecutionHint.CpuBound)]
     [ModuleTag("attribute-tag")]
     [ModuleCategory("attribute-category")]
-    [ModularPipelines.Attributes.DependsOn<TestModule>]
+    [ModularPipelines.DependsOn<TestModule>]
     private class UnifiedConfigurationModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -62,7 +62,7 @@ public class ModuleConfigureTests
             => Task.FromResult<string>("test");
     }
 
-    [ModularPipelines.Attributes.DependsOn<TestModule>]
+    [ModularPipelines.DependsOn<TestModule>]
     private class RequiredAndOptionalDependencyModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) =>

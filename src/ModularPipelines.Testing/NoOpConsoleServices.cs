@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;

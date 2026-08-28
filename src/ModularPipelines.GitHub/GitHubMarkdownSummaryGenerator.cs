@@ -1,3 +1,5 @@
+using ModularPipelines.Reporting;
+using ModularPipelines.Events;
 using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;

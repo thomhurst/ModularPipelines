@@ -196,7 +196,7 @@ internal class DistributedModuleExecutor(
         IModule module,
         Type moduleType,
         Exception exception,
-        Enums.ModuleStatus status)
+        ModuleStatus status)
     {
         var executionContext = new ModuleExecutionContext(module, moduleType)
         {
@@ -475,7 +475,7 @@ internal class DistributedModuleExecutor(
                 moduleType,
                 new TimeoutException(
                     $"Module {moduleType.Name} did not produce a result within the configured timeout"),
-                Enums.ModuleStatus.TimedOut);
+                ModuleStatus.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
             await cts.CancelAsync();
         }
@@ -487,7 +487,7 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex, Enums.ModuleStatus.Failed);
+            RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
         }
@@ -539,7 +539,7 @@ internal class DistributedModuleExecutor(
         IModule module,
         Type moduleType,
         Exception exception,
-        Enums.ModuleStatus status)
+        ModuleStatus status)
     {
         try
         {

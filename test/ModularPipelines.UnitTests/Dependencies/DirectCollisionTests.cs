@@ -24,7 +24,7 @@ public class DirectCollisionTests
         await Assert.That(exception.InnerException).IsTypeOf<DependencyCollisionException>();
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
+    [ModularPipelines.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ public class DirectCollisionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule1>]
+    [ModularPipelines.DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

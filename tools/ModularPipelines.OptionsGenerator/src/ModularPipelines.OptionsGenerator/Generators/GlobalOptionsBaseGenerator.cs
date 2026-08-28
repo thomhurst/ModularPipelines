@@ -46,6 +46,11 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine("using ModularPipelines.Options;");
 
+        if (globalOptions.Any(static option => option.IsSecret))
+        {
+            sb.AppendLine("using ModularPipelines.Secrets;");
+        }
+
         if (globalOptions.Any(o => o.RequiresModelsNamespace))
         {
             sb.AppendLine("using ModularPipelines.Models;");

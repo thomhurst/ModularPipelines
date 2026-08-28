@@ -21,7 +21,7 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("compile")]
-    [ModularPipelines.Attributes.DependsOn<CompileModule>]
+    [ModularPipelines.DependsOn<CompileModule>]
     private class CompileResultConsumerModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(
@@ -34,7 +34,7 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Optional - gracefully handle if dependency is filtered
+    [ModularPipelines.DependsOn<CompileModule>(Optional = true)]  // Optional - gracefully handle if dependency is filtered
     private class TestModuleWithOptionalDep : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -53,7 +53,7 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Must be optional when dependency might be filtered by category
+    [ModularPipelines.DependsOn<CompileModule>(Optional = true)]  // Must be optional when dependency might be filtered by category
     private class TestModuleWithOptionalDepForCategoryFilter : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -72,14 +72,14 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [ModularPipelines.Attributes.DependsOn<CompileModule>]
+    [ModularPipelines.DependsOn<CompileModule>]
     private class TestModuleWithRequiredDep : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A cascade-skipped module must not execute");
     }
 
     [ModuleCategory("test")]
-    [ModularPipelines.Attributes.DependsOn<TestModuleWithRequiredDep>]
+    [ModularPipelines.DependsOn<TestModuleWithRequiredDep>]
     private class TransitiveRequiredDepModule : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A transitively cascade-skipped module must not execute");
@@ -93,7 +93,7 @@ public class CategoryFilterDependencyTests : TestBase
         protected override string Result => throw new InvalidOperationException("A fluently skipped module must not execute");
     }
 
-    [ModularPipelines.Attributes.DependsOn<FluentlySkippedModule>]
+    [ModularPipelines.DependsOn<FluentlySkippedModule>]
     private class FluentSkipDependentModule : SimpleTestModule<string>
     {
         protected override string Result => throw new InvalidOperationException("A dependent of a skipped module must not execute");

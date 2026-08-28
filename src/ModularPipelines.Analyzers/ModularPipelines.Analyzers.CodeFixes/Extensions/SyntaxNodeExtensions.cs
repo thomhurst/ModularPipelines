@@ -67,7 +67,7 @@ internal static class SyntaxNodeExtensions
         CancellationToken cancellationToken)
     {
         var moduleContextType = semanticModel.Compilation.GetTypeByMetadataName(
-            "ModularPipelines.Context.IModuleContext");
+            "ModularPipelines.IModuleContext");
         var method = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
         if (moduleContextType is null
             || method is null

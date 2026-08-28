@@ -8,6 +8,7 @@ open ModularPipelines.Configuration
 open ModularPipelines.Context
 open ModularPipelines.Extensions
 open ModularPipelines.Modules
+open ModularPipelines.Secrets
 
 type DependencyModule() =
     inherit Module<string>()

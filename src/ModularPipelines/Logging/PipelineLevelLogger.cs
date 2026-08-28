@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 

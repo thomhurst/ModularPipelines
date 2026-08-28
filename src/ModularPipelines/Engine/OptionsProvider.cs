@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Engine;
 

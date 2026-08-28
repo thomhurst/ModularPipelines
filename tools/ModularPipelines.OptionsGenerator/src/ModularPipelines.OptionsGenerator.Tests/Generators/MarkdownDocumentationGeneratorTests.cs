@@ -885,7 +885,7 @@ public class MarkdownDocumentationGeneratorTests
                 public abstract class Module<T>
                 {
                     protected abstract Task<T> ExecuteAsync(
-                        ModularPipelines.Context.IModuleContext context,
+                        ModularPipelines.IModuleContext context,
                         CancellationToken cancellationToken);
                 }
             }

@@ -1,4 +1,5 @@
 // test/ModularPipelines.UnitTests/Attributes/ModuleRegistrationContextTests.cs
+using ModularPipelines.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -26,7 +26,7 @@ public class FailedPipelineTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module2>(Optional = true)]
+    [ModularPipelines.DependsOn<Module2>(Optional = true)]
     private class Module3 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

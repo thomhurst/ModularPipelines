@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Eksctl.Enums;
 using ModularPipelines.Eksctl.Options;

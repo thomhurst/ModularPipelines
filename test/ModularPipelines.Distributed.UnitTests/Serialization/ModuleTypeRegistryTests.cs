@@ -13,7 +13,7 @@ public class ModuleTypeRegistryTests
     private class TestModule : Module<TestResult>
     {
         protected internal override Task<TestResult> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<TestResult>(new TestResult { Value = "test" });
@@ -23,7 +23,7 @@ public class ModuleTypeRegistryTests
     private class AnotherModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<string>("hello");

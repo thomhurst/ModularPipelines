@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

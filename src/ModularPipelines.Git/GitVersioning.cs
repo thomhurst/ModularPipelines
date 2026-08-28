@@ -1,6 +1,6 @@
+using ModularPipelines.Context;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;

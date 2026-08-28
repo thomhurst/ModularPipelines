@@ -25,7 +25,7 @@ public class PipelineProgressTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module2 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -36,12 +36,12 @@ public class PipelineProgressTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module3 : ThrowingTestModule<bool>
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module4 : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -54,7 +54,7 @@ public class PipelineProgressTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class Module5 : Module<bool>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

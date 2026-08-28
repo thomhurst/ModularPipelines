@@ -1,7 +1,7 @@
 using Mediator;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
@@ -83,7 +83,7 @@ public class IgnoredModuleResultRegistrarTests
             Task.FromResult(string.Empty);
     }
 
-    [ModularPipelines.Attributes.DependsOn<ForeignOperatingSystemModule>]
+    [ModularPipelines.DependsOn<ForeignOperatingSystemModule>]
     private sealed class CrossPlatformDependentModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

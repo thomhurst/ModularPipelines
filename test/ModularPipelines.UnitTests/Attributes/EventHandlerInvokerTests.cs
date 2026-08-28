@@ -1,3 +1,4 @@
+using ModularPipelines.Events;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;

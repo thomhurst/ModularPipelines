@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -19,7 +20,7 @@ public class IncrementalGeneratorCachingTests
 
                               namespace Consumer
                               {
-                                  public class CacheTarget : ModularPipelines.Modules.Module<string>;
+                                  public class CacheTarget : ModularPipelines.Module<string>;
                               }
                               """;
 
@@ -69,7 +70,7 @@ public class IncrementalGeneratorCachingTests
                                   public sealed class SampleAttribute(string value) : System.Attribute;
 
                                   [Sample("value")]
-                                  public class CacheTarget : ModularPipelines.Modules.Module<string>;
+                                  public class CacheTarget : ModularPipelines.Module<string>;
                               }
                               """;
 
@@ -97,12 +98,12 @@ public class IncrementalGeneratorCachingTests
 
                                   public class SecretTarget
                                   {
-                                      [ModularPipelines.Attributes.SecretValue]
+                                      [ModularPipelines.Secrets.SecretValue]
                                       public string? Value { get; init; }
                                   }
 
                                   public record SecretRecord(
-                                      [property: ModularPipelines.Attributes.SecretValue] string Value);
+                                      [property: ModularPipelines.Secrets.SecretValue] string Value);
 
                                   public class PlainClass;
                                   public record PlainRecord;
@@ -137,7 +138,7 @@ public class IncrementalGeneratorCachingTests
                               namespace Consumer
                               {
                                   public sealed class SampleAttribute : System.Attribute;
-                                  public class ModuleTarget : ModularPipelines.Modules.Module<string>;
+                                  public class ModuleTarget : ModularPipelines.Module<string>;
                                   public class NotAModule : System.IDisposable
                                   {
                                       public void Dispose() { }

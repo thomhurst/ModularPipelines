@@ -18,7 +18,7 @@ public class DistributedPipelineIntegrationTests
     private class ModuleA : Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<SimpleResult>(new SimpleResult { Message = "A done" });
@@ -28,7 +28,7 @@ public class DistributedPipelineIntegrationTests
     private class ModuleB : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult<string>("B done");
@@ -38,7 +38,7 @@ public class DistributedPipelineIntegrationTests
     private class ModuleC : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
-            ModularPipelines.Context.IModuleContext context,
+            ModularPipelines.IModuleContext context,
             CancellationToken cancellationToken)
         {
             return Task.FromResult(42);

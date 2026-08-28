@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Secrets;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.GitHub.Options;
 

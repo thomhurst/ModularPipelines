@@ -1,6 +1,5 @@
 using ModularPipelines.Console;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Pipelines;

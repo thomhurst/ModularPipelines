@@ -1,5 +1,5 @@
 using System.IO.Compression;
-using ModularPipelines.Context.Domains.Files;
+using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 

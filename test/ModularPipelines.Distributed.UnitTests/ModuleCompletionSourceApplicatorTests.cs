@@ -15,7 +15,7 @@ public class ModuleCompletionSourceApplicatorTests
     private class TestModule : Module<SimpleResult>
     {
         protected internal override Task<SimpleResult> ExecuteAsync(
-            Context.IModuleContext context, CancellationToken cancellationToken)
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "test" });
     }
 

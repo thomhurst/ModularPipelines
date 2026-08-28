@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;

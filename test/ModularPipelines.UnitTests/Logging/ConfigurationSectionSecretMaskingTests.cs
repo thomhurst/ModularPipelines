@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

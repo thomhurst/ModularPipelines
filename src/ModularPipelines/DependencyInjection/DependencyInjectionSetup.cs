@@ -9,13 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
-using ModularPipelines.Context.Domains.Data;
-using ModularPipelines.Context.Domains.Environment;
-using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
-using ModularPipelines.Context.Domains.Network;
-using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
@@ -38,6 +32,8 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using ModularPipelines.Validation;
 using Spectre.Console;
 
@@ -152,7 +148,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IZipContext, Zip>()
             .AddScoped<IPowerShellContext, PowerShell>()
             .AddScoped<IBashContext, Bash>()
-            .AddScoped<ModularPipelines.Context.Domains.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
+            .AddScoped<ModularPipelines.Context.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
             .AddScoped<IFilesContext, FilesContext>()
             .AddSingleton<IDataContext, DataContext>()
             .AddSingleton<IBuildSystemContext, BuildSystemContext>()

@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Context;
 
@@ -28,7 +28,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public ILogger Logger => _logger ??= _moduleLoggerAccessor.GetLogger();
 
     /// <inheritdoc />
-    public Domains.IShellContext Shell { get; }
+    public IShellContext Shell { get; }
 
     /// <inheritdoc />
     public IFilesContext Files { get; }
@@ -78,7 +78,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         IModuleResultRepository moduleResultRepository,
         IInternalModuleLoggerAccessor moduleLoggerAccessor,
         EngineCancellationToken engineCancellationToken,
-        Domains.IShellContext shell,
+        IShellContext shell,
         IFilesContext files,
         IDataContext data,
         IEnvironmentContext environment,

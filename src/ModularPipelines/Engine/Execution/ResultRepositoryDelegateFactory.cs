@@ -5,6 +5,7 @@ using System.Reflection;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine.Execution;
 

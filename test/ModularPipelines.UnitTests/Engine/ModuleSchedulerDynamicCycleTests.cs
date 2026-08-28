@@ -13,7 +13,7 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class ModuleSchedulerDynamicCycleTests
 {
-    [ModularPipelines.Attributes.DependsOn<DynamicModule>(Optional = true)]
+    [ModularPipelines.DependsOn<DynamicModule>(Optional = true)]
     private class ExistingModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -21,7 +21,7 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string>(nameof(ExistingModule));
     }
 
-    [ModularPipelines.Attributes.DependsOn<ExistingModule>]
+    [ModularPipelines.DependsOn<ExistingModule>]
     private class DynamicModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -43,7 +43,7 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string>(nameof(ReadyDependencyModule));
     }
 
-    [ModularPipelines.Attributes.DependsOn<ReadyDependencyModule>]
+    [ModularPipelines.DependsOn<ReadyDependencyModule>]
     private class NewlyReadyDependentModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

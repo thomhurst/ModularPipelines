@@ -1,3 +1,4 @@
+using ModularPipelines.Events;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
-using ModularPipelines.Events;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;

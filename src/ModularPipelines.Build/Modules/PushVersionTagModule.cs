@@ -15,7 +15,7 @@ namespace ModularPipelines.Build.Modules;
 [ModuleCategory("VersionTag")]
 [SkipIfNoStandardGitHubToken]
 [RunOnlyOnBranch("main")]
-[RunIfAll<ModularPipelines.Conditions.OnLinux>]
+[RunIfAll<ModularPipelines.OnLinux>]
 [DependsOn<NugetVersionGeneratorModule>]
 public class PushVersionTagModule : Module<CommandResult>
 {

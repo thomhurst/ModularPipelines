@@ -1,3 +1,4 @@
+using ModularPipelines.Reporting;
 using System.Text.Json;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;

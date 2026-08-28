@@ -1,8 +1,10 @@
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 using Spectre.Console;
 
 namespace ModularPipelines.PipelineCli;
@@ -108,7 +110,7 @@ internal sealed class PipelineCommandHandler(
             now,
             now)
         {
-            StatusOverride = Enums.ModuleStatus.Succeeded,
+            StatusOverride = ModuleStatus.Succeeded,
         };
     }
 }

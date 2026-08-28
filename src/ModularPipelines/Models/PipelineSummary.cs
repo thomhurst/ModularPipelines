@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Models;
 

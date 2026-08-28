@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Context.Domains.Data;
+using ModularPipelines.Context;
 using YamlDotNet.Serialization;
 
 namespace ModularPipelines.Context;

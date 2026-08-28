@@ -1,3 +1,4 @@
+using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -166,7 +167,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     /// <summary>
     /// Module that depends on Module1 and uses hooks.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.DependsOn<Module1>]
     private class DependentLoggingModule : LoggingModule;
 
     /// <summary>

@@ -159,7 +159,7 @@ public class ComposableModuleTests
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(TimeoutableModule))!;
         // The module should have executed successfully with the custom timeout
-        await Assert.That(moduleResult.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+        await Assert.That(moduleResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
     }
 
     [Test]

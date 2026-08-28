@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;

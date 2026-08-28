@@ -54,7 +54,7 @@ public class VirtualCommandAnalyzer : DiagnosticAnalyzer
 
         var task = context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task`1");
 
-        var commandResult = context.Compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandResult");
+        var commandResult = context.Compilation.GetTypeByMetadataName("ModularPipelines.CommandResult");
 
         if (task is null || commandResult is null)
         {

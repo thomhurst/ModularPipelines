@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.ArgoCd.Enums;
 using ModularPipelines.ArgoCd.Options;
 using ModularPipelines.Attributes;

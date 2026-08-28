@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 
 using ModularPipelines.Generated;
 

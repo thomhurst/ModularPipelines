@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Context.Domains.Environment;
+using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context.Domains.Implementations;

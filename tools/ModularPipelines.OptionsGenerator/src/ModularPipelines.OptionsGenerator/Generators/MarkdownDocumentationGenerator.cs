@@ -211,9 +211,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         var optionsExpression = BuildOptionsExpression(command);
 
         sb.AppendLine("```csharp");
-        sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine("using ModularPipelines.Modules;");
+        sb.AppendLine("using ModularPipelines;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
         sb.AppendLine("public class RunCommandModule : Module<CommandResult>");

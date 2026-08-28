@@ -1,7 +1,8 @@
 using System.Reflection;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using PipelineModule = ModularPipelines.Modules.Module;
+using PipelineModule = ModularPipelines.Module;
+using PipelineSyncModule = ModularPipelines.SyncModule;
 
 namespace ModularPipelines.UnitTests.Modules;
 
@@ -20,7 +21,7 @@ public class ExecutionApiSurfaceTests
         var nonGenericAdapterExecuteAsync = typeof(NonGenericModuleAdapter).GetMethod(
             "ExecuteAsync",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-        var nonGenericSyncExecute = typeof(SyncModule).GetMethod(
+        var nonGenericSyncExecute = typeof(PipelineSyncModule).GetMethod(
             "Execute",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
         var nonGenericSyncAdapterExecute = typeof(NonGenericSyncModuleAdapter).GetMethod(
@@ -40,8 +41,8 @@ public class ExecutionApiSurfaceTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(assembly.GetType("ModularPipelines.Modules.Module")).IsEqualTo(typeof(PipelineModule));
-            await Assert.That(assembly.GetType("ModularPipelines.Modules.SyncModule")).IsEqualTo(typeof(SyncModule));
+            await Assert.That(assembly.GetType("ModularPipelines.Module")).IsEqualTo(typeof(PipelineModule));
+            await Assert.That(assembly.GetType("ModularPipelines.SyncModule")).IsEqualTo(typeof(PipelineSyncModule));
             await Assert.That(moduleExecuteAsync).IsNotNull();
             await Assert.That(moduleExecuteAsync!.IsAbstract).IsTrue();
             await Assert.That(nonGenericModuleExecuteAsync).IsNotNull();
@@ -57,7 +58,7 @@ public class ExecutionApiSurfaceTests
             await Assert.That(nonGenericSyncAdapterExecute).IsNotNull();
             await Assert.That(nonGenericSyncAdapterExecute!.IsFinal).IsTrue();
             await Assert.That(nonGenericSyncAdapterExecute.ReturnType).IsEqualTo(typeof(None));
-            await Assert.That(typeof(SyncModule<None>).IsAssignableFrom(typeof(SyncModule))).IsTrue();
+            await Assert.That(typeof(SyncModule<None>).IsAssignableFrom(typeof(PipelineSyncModule))).IsTrue();
             await Assert.That(syncExecute).IsNotNull();
             await Assert.That(syncExecute!.IsAbstract).IsTrue();
             await Assert.That(duplicateSyncHooks).IsEmpty();

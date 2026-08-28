@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using System.Diagnostics;
 
 namespace ModularPipelines.UnitTests.Documentation;

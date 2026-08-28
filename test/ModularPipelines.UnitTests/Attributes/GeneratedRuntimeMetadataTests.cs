@@ -1,3 +1,4 @@
+using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;

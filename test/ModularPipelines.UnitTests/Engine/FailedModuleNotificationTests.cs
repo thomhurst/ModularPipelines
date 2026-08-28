@@ -1,7 +1,7 @@
+using ModularPipelines.Events;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;

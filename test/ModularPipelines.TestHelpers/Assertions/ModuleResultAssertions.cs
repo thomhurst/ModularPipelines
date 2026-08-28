@@ -21,7 +21,7 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
             await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
             await Assert.That(moduleResult.ValueOrDefault).IsNotNull();
         }
@@ -39,7 +39,7 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Status).IsEqualTo(Enums.ModuleStatus.Succeeded);
+            await Assert.That(moduleResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
             await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
         }
     }

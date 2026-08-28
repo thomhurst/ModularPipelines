@@ -26,7 +26,7 @@ public class NestedCollisionTests
             .IsEqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
+    [ModularPipelines.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -36,7 +36,7 @@ public class NestedCollisionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
+    [ModularPipelines.DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ public class NestedCollisionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
+    [ModularPipelines.DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -56,7 +56,7 @@ public class NestedCollisionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
+    [ModularPipelines.DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -66,7 +66,7 @@ public class NestedCollisionTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
+    [ModularPipelines.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule5 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

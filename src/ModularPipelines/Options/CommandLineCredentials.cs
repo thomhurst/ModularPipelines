@@ -1,4 +1,4 @@
-using ModularPipelines.Attributes;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
 

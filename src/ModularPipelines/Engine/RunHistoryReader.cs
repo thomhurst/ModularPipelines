@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 

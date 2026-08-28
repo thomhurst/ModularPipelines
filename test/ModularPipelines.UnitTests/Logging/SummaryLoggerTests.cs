@@ -323,12 +323,12 @@ public class SummaryLoggerTests
         const int iterationsPerTask = 100;
         const int taskCount = 10;
 
-        for (int t = 0; t < taskCount; t++)
+        for (var t = 0; t < taskCount; t++)
         {
             var taskIndex = t;
             tasks.Add(Task.Run(() =>
             {
-                for (int i = 0; i < iterationsPerTask; i++)
+                for (var i = 0; i < iterationsPerTask; i++)
                 {
                     logger.Information($"Task {taskIndex} message {i}");
                 }

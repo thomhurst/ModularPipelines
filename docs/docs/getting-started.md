@@ -53,11 +53,8 @@ Replace `Program.cs` with this complete example, updating the solution path for 
 
 ```csharp
 using ModularPipelines;
-using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<BuildModule>();

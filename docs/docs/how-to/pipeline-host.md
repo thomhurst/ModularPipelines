@@ -141,7 +141,7 @@ await using var pipeline = await builder.BuildAsync();
 var summary = await pipeline.RunAsync();
 
 // Check results
-if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
+if (summary.Status == ModularPipelines.ModuleStatus.Failed)
 {
     Environment.Exit(1);
 }

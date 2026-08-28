@@ -23,72 +23,72 @@ public class FlexibleDependencyApiExportTests
     }
 
     [Test]
-    public async Task DependsOnBaseAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task DependsOnBaseAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify DependsOnBaseAttribute is in ModularPipelines.Attributes namespace
+        // Verify DependsOnBaseAttribute is in ModularPipelines.root namespace
         var type = typeof(DependsOnBaseAttribute);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsAbstract).IsTrue();
         await Assert.That(type.IsSubclassOf(typeof(Attribute))).IsTrue();
     }
 
     [Test]
-    public async Task ModuleTagAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task ModuleTagAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify ModuleTagAttribute is in ModularPipelines.Attributes namespace
+        // Verify ModuleTagAttribute is in ModularPipelines.root namespace
         var type = typeof(ModuleTagAttribute);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsSealed).IsTrue();
         await Assert.That(type.IsSubclassOf(typeof(Attribute))).IsTrue();
     }
 
     [Test]
-    public async Task ModuleCategoryAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task ModuleCategoryAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify ModuleCategoryAttribute is in ModularPipelines.Attributes namespace
+        // Verify ModuleCategoryAttribute is in ModularPipelines.root namespace
         var type = typeof(ModuleCategoryAttribute);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsSealed).IsTrue();
         await Assert.That(type.IsSubclassOf(typeof(Attribute))).IsTrue();
     }
 
     [Test]
-    public async Task DependsOnModulesWithTagAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task DependsOnModulesWithTagAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify DependsOnModulesWithTagAttribute is in ModularPipelines.Attributes namespace
+        // Verify DependsOnModulesWithTagAttribute is in ModularPipelines.root namespace
         var type = typeof(DependsOnModulesWithTagAttribute);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsSealed).IsTrue();
         await Assert.That(type.IsSubclassOf(typeof(DependsOnBaseAttribute))).IsTrue();
     }
 
     [Test]
-    public async Task DependsOnModulesInCategoryAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task DependsOnModulesInCategoryAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify DependsOnModulesInCategoryAttribute is in ModularPipelines.Attributes namespace
+        // Verify DependsOnModulesInCategoryAttribute is in ModularPipelines.root namespace
         var type = typeof(DependsOnModulesInCategoryAttribute);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsSealed).IsTrue();
         await Assert.That(type.IsSubclassOf(typeof(DependsOnBaseAttribute))).IsTrue();
     }
 
     [Test]
-    public async Task DependsOnModulesWithAttributeAttribute_IsAccessibleFromAttributesNamespace()
+    public async Task DependsOnModulesWithAttributeAttribute_IsAccessibleFromRootNamespace()
     {
-        // Verify DependsOnModulesWithAttributeAttribute<T> is in ModularPipelines.Attributes namespace
+        // Verify DependsOnModulesWithAttributeAttribute<T> is in ModularPipelines.root namespace
         var type = typeof(DependsOnModulesWithAttributeAttribute<>);
 
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Attributes");
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
         await Assert.That(type.IsPublic).IsTrue();
         await Assert.That(type.IsGenericTypeDefinition).IsTrue();
 

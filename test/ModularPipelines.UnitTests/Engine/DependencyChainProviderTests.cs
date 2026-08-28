@@ -48,7 +48,7 @@ public class DependencyChainProviderTests
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private class DependentModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;

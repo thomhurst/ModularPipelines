@@ -96,7 +96,7 @@ internal static class AnalyzerConstants
         /// <summary>
         /// The metadata name for the generic Module&lt;T&gt; base type.
         /// </summary>
-        internal const string Module = "ModularPipelines.Modules.Module`1";
+        internal const string Module = "ModularPipelines.Module`1";
 
         /// <summary>
         /// The fully qualified System.Console type in global:: format.

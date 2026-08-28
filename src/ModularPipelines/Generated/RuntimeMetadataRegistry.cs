@@ -1,5 +1,4 @@
 using System.ComponentModel;
-
 namespace ModularPipelines.Generated;
 
 /// <summary>

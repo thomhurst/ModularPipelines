@@ -8,6 +8,7 @@ using CliWrap.Exceptions;
 using Microsoft.Extensions.Options;
 using Microsoft.Win32.SafeHandles;
 using ModularPipelines.Constants;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
@@ -15,8 +16,9 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
-using CommandResult = ModularPipelines.Models.CommandResult;
+using CommandResult = ModularPipelines.CommandResult;
 
 namespace ModularPipelines.Context;
 

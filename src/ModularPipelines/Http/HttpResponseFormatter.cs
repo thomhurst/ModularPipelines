@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Http;
 

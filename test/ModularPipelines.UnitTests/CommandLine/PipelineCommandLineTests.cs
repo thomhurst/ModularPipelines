@@ -1,7 +1,10 @@
+using ModularPipelines.Logging;
+using ModularPipelines.Reporting;
+using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -67,7 +70,7 @@ public class PipelineCommandLineTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class TargetModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -161,7 +164,7 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class ResultDependentSkipModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -177,7 +180,7 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class UnknownThenSkippedModule : DryRunModule
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -189,7 +192,7 @@ public class PipelineCommandLineTests
             .WithSkipWhen(_ => SkipDecision.Skip("later condition"));
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class UnknownAndDoNotSkipModule : DryRunModule
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -202,7 +205,7 @@ public class PipelineCommandLineTests
                 (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip));
     }
 
-    [ModularPipelines.Attributes.DependsOn<ResultDependentSkipModule>]
+    [ModularPipelines.DependsOn<ResultDependentSkipModule>]
     private sealed class DependentOnUnknownModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -308,7 +311,7 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.DependsOn<SkippedDependencyModule>]
     private sealed class DependentOnSkippedModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -320,7 +323,7 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.DependsOn<SkippedDependencyModule>]
     private sealed class ResultDependentOnSkippedModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -442,9 +445,9 @@ public class PipelineCommandLineTests
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<FirstParallelRootModule>]
-    [ModularPipelines.Attributes.DependsOn<SecondParallelRootModule>]
-    [ModularPipelines.Attributes.DependsOn<ThirdParallelRootModule>]
+    [ModularPipelines.DependsOn<FirstParallelRootModule>]
+    [ModularPipelines.DependsOn<SecondParallelRootModule>]
+    [ModularPipelines.DependsOn<ThirdParallelRootModule>]
     private sealed class ParallelJoinModule : DryRunModule
     {
     }
@@ -516,7 +519,7 @@ public class PipelineCommandLineTests
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<IndependentRootModule>]
+    [ModularPipelines.DependsOn<IndependentRootModule>]
     private sealed class LongTailModule : DryRunModule
     {
     }
@@ -547,7 +550,7 @@ public class PipelineCommandLineTests
 
     [Priority(ModulePriority.High)]
     [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
-    [ModularPipelines.Attributes.DependsOn<PriorityConstraintRootModule>]
+    [ModularPipelines.DependsOn<PriorityConstraintRootModule>]
     private sealed class PriorityConstraintDependentModule : DryRunModule
     {
     }
@@ -558,7 +561,7 @@ public class PipelineCommandLineTests
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<PriorityConstraintDependentModule>]
+    [ModularPipelines.DependsOn<PriorityConstraintDependentModule>]
     private sealed class PriorityConstraintTailModule : DryRunModule
     {
     }
@@ -579,12 +582,12 @@ public class PipelineCommandLineTests
     }
 
     [Priority(ModulePriority.Critical)]
-    [ModularPipelines.Attributes.DependsOn<QueuedCriticalRootModule>]
+    [ModularPipelines.DependsOn<QueuedCriticalRootModule>]
     private sealed class QueuedCriticalChildModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<QueuedCriticalChildModule>]
+    [ModularPipelines.DependsOn<QueuedCriticalChildModule>]
     private sealed class QueuedLongTailModule : DryRunModule
     {
     }
@@ -617,27 +620,27 @@ public class PipelineCommandLineTests
             });
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedCycleBModule>]
+    [ModularPipelines.DependsOn<SkippedCycleBModule>]
     [ModuleCategory("excluded")]
     private sealed class SkippedCycleAModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedCycleAModule>]
+    [ModularPipelines.DependsOn<SkippedCycleAModule>]
     [ModuleCategory("excluded")]
     private sealed class SkippedCycleBModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<ExcludedSkippedDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<HistoryCycleBModule>]
+    [ModularPipelines.DependsOn<ExcludedSkippedDependencyModule>]
+    [ModularPipelines.DependsOn<HistoryCycleBModule>]
     [ModuleCategory("selected")]
     private sealed class HistoryCycleAModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<ExcludedSkippedDependencyModule>]
-    [ModularPipelines.Attributes.DependsOn<HistoryCycleAModule>]
+    [ModularPipelines.DependsOn<ExcludedSkippedDependencyModule>]
+    [ModularPipelines.DependsOn<HistoryCycleAModule>]
     [ModuleCategory("selected")]
     private sealed class HistoryCycleBModule : DryRunModule
     {
@@ -1644,7 +1647,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(builder.Options.DryRun).IsTrue();
             await Assert.That(summary.Results).IsEmpty();
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
             await Assert.That(consoleWriter.Renderable).IsNotNull();
             await Assert.That(output).Contains("Pipeline dry-run plan");
             await Assert.That(output).Contains("Wave ETA");
@@ -1673,7 +1676,7 @@ public class PipelineCommandLineTests
         {
             await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().IsCacheCandidate)
                 .IsTrue();
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
             await Assert.That(output).Contains("Run (cache candidate)");
             await Assert.That(output).Contains("cache hits may reduce actual duration");
         }
@@ -1735,7 +1738,7 @@ public class PipelineCommandLineTests
         using (Assert.Multiple())
         {
             await Assert.That(output).Contains("configured-category");
-            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+            await Assert.That(summary.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
         }
     }
 
@@ -1746,7 +1749,7 @@ public class PipelineCommandLineTests
 
         var summary = await builder.RunAsync();
 
-        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.Enums.ModuleStatus.Succeeded);
+        await Assert.That(summary.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
     }
 
     private static string Render(IRenderable renderable)

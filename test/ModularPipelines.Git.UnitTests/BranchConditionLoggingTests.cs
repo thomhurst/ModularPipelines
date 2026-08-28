@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Models;

@@ -27,20 +27,20 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     /// <inheritdoc />
     public void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
     {
-        RegisterFailureResult(module, moduleType, exception, Enums.ModuleStatus.Cancelled);
+        RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled);
     }
 
     /// <inheritdoc />
     public void RegisterDependencyFailedResult(IModule module, Type moduleType, Exception exception)
     {
-        RegisterFailureResult(module, moduleType, exception, Enums.ModuleStatus.DependencyFailed);
+        RegisterFailureResult(module, moduleType, exception, ModuleStatus.DependencyFailed);
     }
 
     private void RegisterFailureResult(
         IModule module,
         Type moduleType,
         Exception exception,
-        Enums.ModuleStatus status)
+        ModuleStatus status)
     {
         var resultType = module.ResultType;
 

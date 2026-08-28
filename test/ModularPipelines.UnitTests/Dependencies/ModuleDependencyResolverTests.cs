@@ -14,7 +14,7 @@ public class ModuleDependencyResolverTests
             => Task.FromResult<string>("dependency");
     }
 
-    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class DirectModule : IModule
     {
         public Type ResultType => typeof(string);

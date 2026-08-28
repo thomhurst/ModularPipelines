@@ -67,7 +67,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
     }
 
     /// <inheritdoc />
-    public async Task InvokeEndEventAsync(ModuleLifecycleContext context, Enums.ModuleStatus status, IModuleResult result)
+    public async Task InvokeEndEventAsync(ModuleLifecycleContext context, ModuleStatus status, IModuleResult result)
     {
         var handlers = _attributeEventService.GetEndHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -110,7 +110,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
     }
 
     /// <inheritdoc />
-    public async Task InvokeSkippedEventAsync(ModuleLifecycleContext context, Enums.ModuleStatus status, SkipDecision skipReason)
+    public async Task InvokeSkippedEventAsync(ModuleLifecycleContext context, ModuleStatus status, SkipDecision skipReason)
     {
         var handlers = _attributeEventService.GetSkippedHandlers(context.ModuleType);
         if (handlers.Count == 0)

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -237,7 +237,7 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [SkipIf<DependencyCompletedCondition>]
-    [ModularPipelines.Attributes.DependsOn<ConditionDependencyModule>]
+    [ModularPipelines.DependsOn<ConditionDependencyModule>]
     private class ConditionAfterDependencyModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;

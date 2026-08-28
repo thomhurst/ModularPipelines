@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Using Include="ModularPipelines" />
+  </ItemGroup>
+</Project>
