@@ -150,7 +150,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<ICertificatesContext, Certificates>()
             .AddScoped<IDownloaderContext, Downloader>()
             .AddScoped<IZipContext, Zip>()
-            .AddScoped<IPowerShellContext, Powershell>()
+            .AddScoped<IPowerShellContext, PowerShell>()
             .AddScoped<IBashContext, Bash>()
             .AddScoped<ModularPipelines.Context.Domains.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
             .AddScoped<IFilesContext, FilesContext>()

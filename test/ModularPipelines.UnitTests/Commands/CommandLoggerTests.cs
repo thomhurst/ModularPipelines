@@ -77,7 +77,7 @@ public class CommandLoggerTests : TestBase
         });
 
         var commandResult = await result.T.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions($"Write-Output '{rawOutput}'"),
+            new PowerShellScriptOptions($"Write-Output '{rawOutput}'"),
             new CommandExecutionOptions
             {
                 LogSettings = new CommandLoggingOptions
@@ -105,7 +105,7 @@ public class CommandLoggerTests : TestBase
         var command = await GetService<ICommandContext>();
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
+            new PowerShellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
             new CommandExecutionOptions
             {
                 MaxCapturedOutputLength = 10,
@@ -132,7 +132,7 @@ public class CommandLoggerTests : TestBase
         [Matrix(true, false)] bool logExitCode,
         [Matrix(true, false)] bool logDuration)
     {
-        var file = await RunPowershellCommand("""
+        var file = await RunPowerShellCommand("""
                                         echo Hello world!
                                         throw "Error!"
                                         """, logInput, logOutput, logError, logExitCode, logDuration);
@@ -186,7 +186,7 @@ public class CommandLoggerTests : TestBase
         }
     }
 
-    private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,
+    private async Task<string> RunPowerShellCommand(string command, bool logInput, bool logOutput, bool logError,
         bool logExitCode, bool logDuration)
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
@@ -213,7 +213,7 @@ public class CommandLoggerTests : TestBase
         };
 
         await result.T.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions(command),
+            new PowerShellScriptOptions(command),
             new CommandExecutionOptions
             {
                 LogSettings = loggingOptions,
@@ -228,7 +228,7 @@ public class CommandLoggerTests : TestBase
     [Test]
     public async Task Silent_Verbosity_Logs_Nothing()
     {
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Silent });
 
@@ -245,7 +245,7 @@ public class CommandLoggerTests : TestBase
     [Test]
     public async Task Minimal_Verbosity_Logs_Only_Input()
     {
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Minimal });
 
@@ -262,7 +262,7 @@ public class CommandLoggerTests : TestBase
     [Test]
     public async Task Normal_Verbosity_Logs_Input_And_Output()
     {
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal });
 
@@ -279,7 +279,7 @@ public class CommandLoggerTests : TestBase
     [Test]
     public async Task Detailed_Verbosity_Logs_Input_Output_ExitCode_Duration()
     {
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
 
@@ -296,7 +296,7 @@ public class CommandLoggerTests : TestBase
     [Test]
     public async Task Diagnostic_Verbosity_Logs_Everything_Including_WorkingDirectory()
     {
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Diagnostic });
 
@@ -316,7 +316,7 @@ public class CommandLoggerTests : TestBase
     public async Task Command_Logs_Complete_Output_When_Result_Is_Truncated()
     {
         const string output = "complete-output";
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             $"Write-Output '{output}'",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
             maxCapturedOutputLength: 4);
@@ -330,7 +330,7 @@ public class CommandLoggerTests : TestBase
     public async Task Failed_Fast_Command_Logs_Short_Standard_Output()
     {
         const string output = "failure-output";
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             $"Write-Output '{output}'; exit 1",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
 
@@ -339,7 +339,7 @@ public class CommandLoggerTests : TestBase
         await Assert.That(logFile).Contains("exit 1");
     }
 
-    private async Task<string> RunPowershellCommandWithLoggingOptions(
+    private async Task<string> RunPowerShellCommandWithLoggingOptions(
         string command,
         CommandLoggingOptions loggingOptions,
         int? maxCapturedOutputLength = null)
@@ -353,7 +353,7 @@ public class CommandLoggerTests : TestBase
         });
 
         await result.T.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions(command),
+            new PowerShellScriptOptions(command),
             new CommandExecutionOptions
             {
                 LogSettings = loggingOptions,
@@ -371,7 +371,7 @@ public class CommandLoggerTests : TestBase
     public async Task Command_Header_Precedes_Streamed_Output_And_Completion()
     {
         var marker = $"ordered-output-{Guid.NewGuid():N}";
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
 
@@ -409,7 +409,7 @@ public class CommandLoggerTests : TestBase
     public async Task Failed_Command_Logs_Error_Before_Completion()
     {
         var marker = $"ordered-error-{Guid.NewGuid():N}";
-        var file = await RunPowershellCommandWithLoggingOptions(
+        var file = await RunPowerShellCommandWithLoggingOptions(
             $"[Console]::Error.WriteLine('{marker}'); Start-Sleep -Milliseconds 750; exit 7",
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
 
@@ -445,7 +445,7 @@ public class CommandLoggerTests : TestBase
                       while (-not (Test-Path '{{releaseFile}}')) { Start-Sleep -Milliseconds 10 }
                       """;
 
-        var commandTask = result.T.ExecuteCommandLineToolAsync(new PowershellScriptOptions(script));
+        var commandTask = result.T.ExecuteCommandLineToolAsync(new PowerShellScriptOptions(script));
 
         try
         {
@@ -474,7 +474,7 @@ public class CommandLoggerTests : TestBase
 
         var exception = await Assert.ThrowsAsync<AggregateException>(() =>
             commandContext.ExecuteCommandLineToolAsync(
-                new PowershellScriptOptions(
+                new PowerShellScriptOptions(
                     $"Write-Output '{marker}'; "
                     + "Start-Sleep -Milliseconds 750; "
                     + $"Write-Output '{marker}'")));
@@ -503,7 +503,7 @@ public class CommandLoggerTests : TestBase
 
         var exception = await Assert.ThrowsAsync<AggregateException>(() =>
             commandContext.ExecuteCommandLineToolAsync(
-                new PowershellScriptOptions(
+                new PowerShellScriptOptions(
                     $"[System.IO.File]::WriteAllText('{sideEffectFile}', 'executed')"),
                 new CommandExecutionOptions
                 {
@@ -537,7 +537,7 @@ public class CommandLoggerTests : TestBase
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             result.T.ExecuteCommandLineToolAsync(
-                new PowershellScriptOptions("Write-Output 'not-executed'"),
+                new PowerShellScriptOptions("Write-Output 'not-executed'"),
                 new CommandExecutionOptions
                 {
                     ExecutionTimeout = TimeSpan.FromMilliseconds(-2),
@@ -557,7 +557,7 @@ public class CommandLoggerTests : TestBase
             TestContext.WorkingDirectory,
             $"command-cancellation-{Guid.NewGuid():N}.ready");
         var commandTask = commandContext.ExecuteCommandLineToolAsync(
-            new PowershellScriptOptions(
+            new PowerShellScriptOptions(
                 "[IO.File]::WriteAllText($env:MP_COMMAND_CANCELLATION_READY_FILE, 'ready'); "
                 + "Start-Sleep -Seconds 30"),
             new CommandExecutionOptions
@@ -612,7 +612,7 @@ public class CommandLoggerTests : TestBase
 
         var exception = await Assert.ThrowsAsync<CommandException>(() =>
             commandContext.ExecuteCommandLineToolAsync(
-                new PowershellScriptOptions(
+                new PowerShellScriptOptions(
                     $"Write-Output '{marker}'; "
                     + "Start-Sleep -Milliseconds 750; "
                     + "exit 7")));
@@ -647,7 +647,7 @@ public class CommandLoggerTests : TestBase
 
         var commandTask =
             commandContext.ExecuteCommandLineToolAsync(
-                new PowershellScriptOptions(
+                new PowerShellScriptOptions(
                     $"Write-Output '{marker}'; Start-Sleep -Seconds 30"),
                 new CommandExecutionOptions
                 {

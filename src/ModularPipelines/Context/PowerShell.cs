@@ -4,11 +4,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Powershell : IPowerShellContext
+internal class PowerShell : IPowerShellContext
 {
     private readonly ICommandContext _command;
 
-    public Powershell(ICommandContext command)
+    public PowerShell(ICommandContext command)
     {
         _command = command;
     }
@@ -18,11 +18,11 @@ internal class Powershell : IPowerShellContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return RunAsync(new PowershellScriptOptions(script), executionOptions, cancellationToken);
+        return RunAsync(new PowerShellScriptOptions(script), executionOptions, cancellationToken);
     }
 
     public virtual Task<CommandResult> RunAsync(
-        PowershellScriptOptions options,
+        PowerShellScriptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -34,11 +34,11 @@ internal class Powershell : IPowerShellContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return RunFileAsync(new PowershellFileOptions(path), executionOptions, cancellationToken);
+        return RunFileAsync(new PowerShellFileOptions(path), executionOptions, cancellationToken);
     }
 
     public virtual Task<CommandResult> RunFileAsync(
-        PowershellFileOptions options,
+        PowerShellFileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

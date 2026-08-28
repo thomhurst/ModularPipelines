@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options;
@@ -5,5 +6,6 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Options for executing PowerShell commands using the pwsh executable.
 /// </summary>
+[ExcludeFromCodeCoverage]
 [CliTool("pwsh")]
-public record PowershellOptions : CommandLineToolOptions;
+public record PowerShellOptions : CommandLineToolOptions;
