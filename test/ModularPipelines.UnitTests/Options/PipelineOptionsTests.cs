@@ -254,7 +254,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task ConfigureOptionsRejectsNullResult()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
 
         var exception = Assert.Throws<InvalidOperationException>(
             () => builder.ConfigureOptions(_ => null!));
@@ -266,7 +266,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilderExposesLoggingBuilder()
     {
-        using var builder = Pipeline.CreateBuilder();
+        var builder = Pipeline.CreateBuilder();
 
         await Assert.That(builder.Logging.Services).IsSameReferenceAs(builder.Services);
     }
