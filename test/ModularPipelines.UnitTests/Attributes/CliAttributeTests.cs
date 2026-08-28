@@ -921,15 +921,6 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CommandModel_Preserves_Shipped_Multi_Operand_Options()
-    {
-        var arguments = BuildArguments(
-            new ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions("curl"));
-
-        await Assert.That(string.Join('|', arguments)).IsEqualTo("--assume-yes|install|curl");
-    }
-
-    [Test]
     public async Task CommandModel_Allows_Argument_Positions_In_Separate_Scopes()
     {
         await Assert.That(() =>

@@ -27,8 +27,7 @@ Capabilities are grouped under `ModularPipelines.Context.Domains`:
 - `Data`: `IJsonContext`, `IXmlContext`, `IYamlContext`, `IBase64Context`,
   `IHexContext`
 - `Environment`: `IEnvironmentVariablesContext`, `IBuildSystemContext`
-- `Installers`: `IWindowsInstallerContext`, `ILinuxInstallerContext`,
-  `IMacInstallerContext`, `IPredefinedInstallersContext`
+- `Installers`: `IInstallersContext` for generic local and web installers
 - `Network`: `IHttpContext`, `IDownloaderContext`
 - `Security`: `ICertificatesContext`, `IHasherContext`
 

@@ -14,9 +14,7 @@ public class PublicSurfaceLeakageTests
         var assembly = typeof(Pipeline).Assembly;
         var internalTypeNames = new[]
         {
-            "ModularPipelines.Context.FileInstaller",
-            "ModularPipelines.Context.Linux.AptGet",
-            "ModularPipelines.Context.PredefinedInstallers",
+            "ModularPipelines.Context.Domains.Implementations.InstallersContext",
             "ModularPipelines.Distributed.DistributedRole",
             "ModularPipelines.Engine.ILogoPrinter",
             "ModularPipelines.Enums.DependencyType",
@@ -55,8 +53,22 @@ public class PublicSurfaceLeakageTests
         {
             "ModularPipelines.Attributes.ExcludeFromCodeCoverageAttributeChanger",
             "ModularPipelines.Context.CommandServiceBase",
+            "ModularPipelines.Context.FileInstaller",
+            "ModularPipelines.Context.Linux.AptGet",
+            "ModularPipelines.Context.Linux.IAptGet",
+            "ModularPipelines.Context.PredefinedInstallers",
+            "ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext",
+            "ModularPipelines.Context.Domains.Installers.IMacInstallerContext",
+            "ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext",
+            "ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext",
             "ModularPipelines.Enums.WaitResult",
             "ModularPipelines.OperatingSystemHelper",
+            "ModularPipelines.Options.Linux.AptGet.AptGetOptions",
+            "ModularPipelines.Options.Linux.DpkgInstallOptions",
+            "ModularPipelines.Options.Mac.MacBrewOptions",
+            "ModularPipelines.Options.Windows.ExeInstallerOptions",
+            "ModularPipelines.Options.Windows.MsiInstallerOptions",
+            "ModularPipelines.Options.Windows.WindowsInstallerOptionsBase",
             "ModularPipelines.Plugins.PluginTestHelper",
         };
 

@@ -432,26 +432,9 @@ ModularPipelines.Context.Domains.IFilesContext.ReadAsync(string! path, System.Th
 ModularPipelines.Context.Domains.IFilesContext.WriteAsync(string! path, string! content, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 ModularPipelines.Context.Domains.IFilesContext.Zip.get -> ModularPipelines.Context.Domains.Files.IZipContext!
 ModularPipelines.Context.Domains.IInstallersContext
-ModularPipelines.Context.Domains.IInstallersContext.File.get -> ModularPipelines.Context.IFileInstaller!
-ModularPipelines.Context.Domains.IInstallersContext.Linux.get -> ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext!
-ModularPipelines.Context.Domains.IInstallersContext.Mac.get -> ModularPipelines.Context.Domains.Installers.IMacInstallerContext!
-ModularPipelines.Context.Domains.IInstallersContext.Predefined.get -> ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext!
-ModularPipelines.Context.Domains.IInstallersContext.Windows.get -> ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext!
 ModularPipelines.Context.Domains.INetworkContext
 ModularPipelines.Context.Domains.INetworkContext.Downloader.get -> ModularPipelines.Context.Domains.Network.IDownloaderContext!
 ModularPipelines.Context.Domains.INetworkContext.Http.get -> ModularPipelines.Context.Domains.Network.IHttpContext!
-ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext
-ModularPipelines.Context.Domains.Installers.ILinuxInstallerContext.InstallFromDpkgAsync(ModularPipelines.Options.Linux.DpkgInstallOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IMacInstallerContext
-ModularPipelines.Context.Domains.Installers.IMacInstallerContext.InstallFromBrewAsync(ModularPipelines.Options.Mac.MacBrewOptions! macBrewOptions, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext
-ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext.ChocolateyAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext.NodeAsync(string! version = "--lts", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext.NvmAsync(string? version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.File?>!
-ModularPipelines.Context.Domains.Installers.IPredefinedInstallersContext.Powershell7Async(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext
-ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext.InstallExeAsync(ModularPipelines.Options.Windows.ExeInstallerOptions! exeInstallerOptions, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Domains.Installers.IWindowsInstallerContext.InstallMsiAsync(ModularPipelines.Options.Windows.MsiInstallerOptions! msiInstallerOptions, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.Domains.ISecurityContext
 ModularPipelines.Context.Domains.ISecurityContext.Certificates.get -> ModularPipelines.Context.Domains.Security.ICertificatesContext!
 ModularPipelines.Context.Domains.ISecurityContext.Hasher.get -> ModularPipelines.Context.Domains.Security.IHasherContext!
@@ -515,9 +498,6 @@ ModularPipelines.Context.IDependencyContext.GetAttributes<TAttribute>(System.Typ
 ModularPipelines.Context.IDependencyContext.GetCategory(System.Type! moduleType) -> string?
 ModularPipelines.Context.IDependencyContext.GetTags(System.Type! moduleType) -> System.Collections.Generic.IReadOnlySet<string!>!
 ModularPipelines.Context.IDependencyContext.HasAttribute<TAttribute>(System.Type! moduleType) -> bool
-ModularPipelines.Context.IFileInstaller
-ModularPipelines.Context.IFileInstaller.InstallFromFileAsync(ModularPipelines.Options.InstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.IFileInstaller.InstallFromWebAsync(ModularPipelines.Options.WebInstallerOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.IModuleContext
 ModularPipelines.Context.IModuleContext.GetModule<TModule>() -> TModule!
 ModularPipelines.Context.IModuleContext.GetModuleIfRegistered<TModule>() -> TModule?
@@ -546,19 +526,6 @@ ModularPipelines.Context.IPipelineContext.Summary.get -> ModularPipelines.Loggin
 ModularPipelines.Context.IPipelineContext.Tools.get -> ModularPipelines.Context.IToolsContext!
 ModularPipelines.Context.IToolsContext
 ModularPipelines.Context.IToolsContext.Get<T>() -> T!
-ModularPipelines.Context.Linux.IAptGet
-ModularPipelines.Context.Linux.IAptGet.AutocleanAsync(ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.BuildDepAsync(ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.CheckAsync(ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.CleanAsync(ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.CustomAsync(ModularPipelines.Options.Linux.AptGet.AptGetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.DistUpgradeAsync(ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.InstallAsync(ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.PackageAsync(ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.RemoveAsync(ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.SourceAsync(ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.UpdateAsync(ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Context.Linux.IAptGet.UpgradeAsync(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Distributed.ArtifactDescriptor
 ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(ModularPipelines.Distributed.ArtifactDescriptor! original) -> void
 ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(string! Name, string! ModuleTypeName, string? ContentType = null, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Metadata = null) -> void
@@ -1618,52 +1585,6 @@ ModularPipelines.Options.InstallerOptions.InstallerOptions(ModularPipelines.Opti
 ModularPipelines.Options.InstallerOptions.InstallerOptions(string! Path) -> void
 ModularPipelines.Options.InstallerOptions.Path.get -> string!
 ModularPipelines.Options.InstallerOptions.Path.init -> void
-ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions
-ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.AptGetAutocleanOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.AptGetAutocleanOptions(ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions
-ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.AptGetBuildDepOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.AptGetBuildDepOptions(ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions
-ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.AptGetCheckOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.AptGetCheckOptions(ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions
-ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.AptGetCleanOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.AptGetCleanOptions(ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions
-ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.AptGetDistUpgradeOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.AptGetDistUpgradeOptions(ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions
-ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.AptGetInstallOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.AptGetInstallOptions(ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.AptGetInstallOptions(string! package) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetOptions
-ModularPipelines.Options.Linux.AptGet.AptGetOptions.AptGetOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetOptions.AptGetOptions(ModularPipelines.Options.Linux.AptGet.AptGetOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions
-ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.AptGetPackageOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.AptGetPackageOptions(ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions
-ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.AptGetRemoveOptions(ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.AptGetRemoveOptions(string! package) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions
-ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.AptGetSourceOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.AptGetSourceOptions(ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions
-ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.AptGetUpdateOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.AptGetUpdateOptions(ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions! original) -> void
-ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions
-ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.AptGetUpgradeOptions() -> void
-ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.AptGetUpgradeOptions(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions! original) -> void
-ModularPipelines.Options.Linux.DpkgInstallOptions
-ModularPipelines.Options.Linux.DpkgInstallOptions.DpkgInstallOptions(ModularPipelines.Options.Linux.DpkgInstallOptions! original) -> void
-ModularPipelines.Options.Linux.DpkgInstallOptions.DpkgInstallOptions(string! path) -> void
-ModularPipelines.Options.Mac.MacBrewOptions
-ModularPipelines.Options.Mac.MacBrewOptions.Deconstruct(out string! PackageName) -> void
-ModularPipelines.Options.Mac.MacBrewOptions.MacBrewOptions(ModularPipelines.Options.Mac.MacBrewOptions! original) -> void
-ModularPipelines.Options.Mac.MacBrewOptions.MacBrewOptions(string! PackageName) -> void
-ModularPipelines.Options.Mac.MacBrewOptions.PackageName.get -> string!
-ModularPipelines.Options.Mac.MacBrewOptions.PackageName.init -> void
 ModularPipelines.Options.PipelineCommandOptions
 ModularPipelines.Options.PipelineCommandOptions.<Clone>$() -> ModularPipelines.Options.PipelineCommandOptions!
 ModularPipelines.Options.PipelineCommandOptions.Equals(ModularPipelines.Options.PipelineCommandOptions? other) -> bool
@@ -1792,18 +1713,6 @@ ModularPipelines.Options.WebInstallerOptions.DownloadUri.get -> System.Uri!
 ModularPipelines.Options.WebInstallerOptions.DownloadUri.init -> void
 ModularPipelines.Options.WebInstallerOptions.WebInstallerOptions(ModularPipelines.Options.WebInstallerOptions! original) -> void
 ModularPipelines.Options.WebInstallerOptions.WebInstallerOptions(System.Uri! DownloadUri) -> void
-ModularPipelines.Options.Windows.ExeInstallerOptions
-ModularPipelines.Options.Windows.ExeInstallerOptions.ExeInstallerOptions(ModularPipelines.Options.Windows.ExeInstallerOptions! original) -> void
-ModularPipelines.Options.Windows.ExeInstallerOptions.ExeInstallerOptions(string! exePath) -> void
-ModularPipelines.Options.Windows.MsiInstallerOptions
-ModularPipelines.Options.Windows.MsiInstallerOptions.Deconstruct(out string! MsiPath) -> void
-ModularPipelines.Options.Windows.MsiInstallerOptions.MsiInstallerOptions(ModularPipelines.Options.Windows.MsiInstallerOptions! original) -> void
-ModularPipelines.Options.Windows.MsiInstallerOptions.MsiInstallerOptions(string! MsiPath) -> void
-ModularPipelines.Options.Windows.MsiInstallerOptions.MsiPath.get -> string!
-ModularPipelines.Options.Windows.MsiInstallerOptions.MsiPath.init -> void
-ModularPipelines.Options.Windows.WindowsInstallerOptionsBase
-ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.WindowsInstallerOptionsBase() -> void
-ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.WindowsInstallerOptionsBase(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase! original) -> void
 ModularPipelines.Pipeline
 ModularPipelines.PipelineBuilder
 ModularPipelines.PipelineBuilder.BuildAsync() -> System.Threading.Tasks.Task<ModularPipelines.IPipeline!>!
@@ -1870,7 +1779,6 @@ ModularPipelines.Validation.ValidationResult.IsValid.get -> bool
 ModularPipelines.Validation.ValidationResult.Merge(ModularPipelines.Validation.ValidationResult! other) -> void
 ModularPipelines.Validation.ValidationResult.ValidationResult() -> void
 override abstract ModularPipelines.Models.ModuleResult<T>.<Clone>$() -> ModularPipelines.Models.ModuleResult<T>!
-override abstract ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.<Clone>$() -> ModularPipelines.Options.Windows.WindowsInstallerOptionsBase!
 override ModularPipelines.Attributes.DependsOnModulesInCategoryAttribute.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
 override ModularPipelines.Attributes.DependsOnModulesWithAttributeAttribute<TAttribute>.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
 override ModularPipelines.Attributes.DependsOnModulesWithTagAttribute.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
@@ -2110,90 +2018,6 @@ override ModularPipelines.Options.HttpResilienceOptions.ToString() -> string!
 override ModularPipelines.Options.InstallerOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.InstallerOptions.GetHashCode() -> int
 override ModularPipelines.Options.InstallerOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.<Clone>$() -> ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.ToString() -> string!
-override ModularPipelines.Options.Linux.DpkgInstallOptions.<Clone>$() -> ModularPipelines.Options.Linux.DpkgInstallOptions!
-override ModularPipelines.Options.Linux.DpkgInstallOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Linux.DpkgInstallOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Linux.DpkgInstallOptions.GetHashCode() -> int
-override ModularPipelines.Options.Linux.DpkgInstallOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Linux.DpkgInstallOptions.ToString() -> string!
-override ModularPipelines.Options.Mac.MacBrewOptions.<Clone>$() -> ModularPipelines.Options.Mac.MacBrewOptions!
-override ModularPipelines.Options.Mac.MacBrewOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Mac.MacBrewOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Mac.MacBrewOptions.GetHashCode() -> int
-override ModularPipelines.Options.Mac.MacBrewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Mac.MacBrewOptions.ToString() -> string!
 override ModularPipelines.Options.PipelineCommandOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.PipelineCommandOptions.GetHashCode() -> int
 override ModularPipelines.Options.PipelineCommandOptions.ToString() -> string!
@@ -2236,23 +2060,6 @@ override ModularPipelines.Options.SecretMaskingOptions.ToString() -> string!
 override ModularPipelines.Options.WebInstallerOptions.Equals(object? obj) -> bool
 override ModularPipelines.Options.WebInstallerOptions.GetHashCode() -> int
 override ModularPipelines.Options.WebInstallerOptions.ToString() -> string!
-override ModularPipelines.Options.Windows.ExeInstallerOptions.<Clone>$() -> ModularPipelines.Options.Windows.ExeInstallerOptions!
-override ModularPipelines.Options.Windows.ExeInstallerOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Windows.ExeInstallerOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Windows.ExeInstallerOptions.GetHashCode() -> int
-override ModularPipelines.Options.Windows.ExeInstallerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Windows.ExeInstallerOptions.ToString() -> string!
-override ModularPipelines.Options.Windows.MsiInstallerOptions.<Clone>$() -> ModularPipelines.Options.Windows.MsiInstallerOptions!
-override ModularPipelines.Options.Windows.MsiInstallerOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Windows.MsiInstallerOptions.Equals(object? obj) -> bool
-override ModularPipelines.Options.Windows.MsiInstallerOptions.GetHashCode() -> int
-override ModularPipelines.Options.Windows.MsiInstallerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Windows.MsiInstallerOptions.ToString() -> string!
-override ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.EqualityContract.get -> System.Type!
-override ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.Equals(object? obj) -> bool
-override ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.GetHashCode() -> int
-override ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.ToString() -> string!
 override ModularPipelines.Validation.ValidationError.Equals(object? obj) -> bool
 override ModularPipelines.Validation.ValidationError.GetHashCode() -> int
 override ModularPipelines.Validation.ValidationError.ToString() -> string!
@@ -2272,26 +2079,9 @@ override sealed ModularPipelines.Options.BashCommandOptions.Equals(ModularPipeli
 override sealed ModularPipelines.Options.BashFileOptions.Equals(ModularPipelines.Options.BashOptions? other) -> bool
 override sealed ModularPipelines.Options.BashOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.DownloadFileOptions.Equals(ModularPipelines.Options.DownloadOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-override sealed ModularPipelines.Options.Linux.DpkgInstallOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
-override sealed ModularPipelines.Options.Mac.MacBrewOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.PowershellFileOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
 override sealed ModularPipelines.Options.PowershellOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.PowershellScriptOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
-override sealed ModularPipelines.Options.Windows.ExeInstallerOptions.Equals(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? other) -> bool
-override sealed ModularPipelines.Options.Windows.MsiInstallerOptions.Equals(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? other) -> bool
-override sealed ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.AmbientModuleContext.CurrentModuleFullName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleType.get -> System.Type?
@@ -2476,34 +2266,6 @@ static ModularPipelines.Options.HttpResilienceOptions.operator !=(ModularPipelin
 static ModularPipelines.Options.HttpResilienceOptions.operator ==(ModularPipelines.Options.HttpResilienceOptions? left, ModularPipelines.Options.HttpResilienceOptions? right) -> bool
 static ModularPipelines.Options.InstallerOptions.operator !=(ModularPipelines.Options.InstallerOptions? left, ModularPipelines.Options.InstallerOptions? right) -> bool
 static ModularPipelines.Options.InstallerOptions.operator ==(ModularPipelines.Options.InstallerOptions? left, ModularPipelines.Options.InstallerOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.operator !=(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? right) -> bool
-static ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.operator ==(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? left, ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? right) -> bool
-static ModularPipelines.Options.Linux.DpkgInstallOptions.operator !=(ModularPipelines.Options.Linux.DpkgInstallOptions? left, ModularPipelines.Options.Linux.DpkgInstallOptions? right) -> bool
-static ModularPipelines.Options.Linux.DpkgInstallOptions.operator ==(ModularPipelines.Options.Linux.DpkgInstallOptions? left, ModularPipelines.Options.Linux.DpkgInstallOptions? right) -> bool
-static ModularPipelines.Options.Mac.MacBrewOptions.operator !=(ModularPipelines.Options.Mac.MacBrewOptions? left, ModularPipelines.Options.Mac.MacBrewOptions? right) -> bool
-static ModularPipelines.Options.Mac.MacBrewOptions.operator ==(ModularPipelines.Options.Mac.MacBrewOptions? left, ModularPipelines.Options.Mac.MacBrewOptions? right) -> bool
 static ModularPipelines.Options.PipelineCommandOptions.operator !=(ModularPipelines.Options.PipelineCommandOptions? left, ModularPipelines.Options.PipelineCommandOptions? right) -> bool
 static ModularPipelines.Options.PipelineCommandOptions.operator ==(ModularPipelines.Options.PipelineCommandOptions? left, ModularPipelines.Options.PipelineCommandOptions? right) -> bool
 static ModularPipelines.Options.PipelineConsoleOptions.operator !=(ModularPipelines.Options.PipelineConsoleOptions? left, ModularPipelines.Options.PipelineConsoleOptions? right) -> bool
@@ -2527,12 +2289,6 @@ static ModularPipelines.Options.SecretMaskingOptions.operator !=(ModularPipeline
 static ModularPipelines.Options.SecretMaskingOptions.operator ==(ModularPipelines.Options.SecretMaskingOptions? left, ModularPipelines.Options.SecretMaskingOptions? right) -> bool
 static ModularPipelines.Options.WebInstallerOptions.operator !=(ModularPipelines.Options.WebInstallerOptions? left, ModularPipelines.Options.WebInstallerOptions? right) -> bool
 static ModularPipelines.Options.WebInstallerOptions.operator ==(ModularPipelines.Options.WebInstallerOptions? left, ModularPipelines.Options.WebInstallerOptions? right) -> bool
-static ModularPipelines.Options.Windows.ExeInstallerOptions.operator !=(ModularPipelines.Options.Windows.ExeInstallerOptions? left, ModularPipelines.Options.Windows.ExeInstallerOptions? right) -> bool
-static ModularPipelines.Options.Windows.ExeInstallerOptions.operator ==(ModularPipelines.Options.Windows.ExeInstallerOptions? left, ModularPipelines.Options.Windows.ExeInstallerOptions? right) -> bool
-static ModularPipelines.Options.Windows.MsiInstallerOptions.operator !=(ModularPipelines.Options.Windows.MsiInstallerOptions? left, ModularPipelines.Options.Windows.MsiInstallerOptions? right) -> bool
-static ModularPipelines.Options.Windows.MsiInstallerOptions.operator ==(ModularPipelines.Options.Windows.MsiInstallerOptions? left, ModularPipelines.Options.Windows.MsiInstallerOptions? right) -> bool
-static ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.operator !=(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? left, ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? right) -> bool
-static ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.operator ==(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? left, ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? right) -> bool
 static ModularPipelines.PipelineBuilderExtensions.AddModule<TModule>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddModule<TModule>(this ModularPipelines.PipelineBuilder! builder, System.Func<System.IServiceProvider!, TModule!>! factory) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddModule<TModule>(this ModularPipelines.PipelineBuilder! builder, TModule! module) -> ModularPipelines.PipelineBuilder!
@@ -2684,83 +2440,6 @@ virtual ModularPipelines.Options.InstallerOptions.<Clone>$() -> ModularPipelines
 virtual ModularPipelines.Options.InstallerOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.InstallerOptions.Equals(ModularPipelines.Options.InstallerOptions? other) -> bool
 virtual ModularPipelines.Options.InstallerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetAutocleanOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetBuildDepOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetCheckOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetCleanOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetDistUpgradeOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetInstallOptions.Package.get -> string?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.AssumeYes.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.AssumeYes.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Build.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Build.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ConfigFile.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ConfigFile.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DefaultRelease.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DefaultRelease.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DownloadOnly.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DownloadOnly.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DryRun.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.DryRun.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.FixBroken.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.FixBroken.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.FixMissing.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.FixMissing.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ForceYes.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ForceYes.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Help.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Help.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.IgnoreHold.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.IgnoreHold.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ListCleanup.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ListCleanup.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoDownload.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoDownload.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoRemove.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoRemove.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoUpgrade.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.NoUpgrade.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.OnlySource.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.OnlySource.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Option.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Option.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.PrintUris.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.PrintUris.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Quiet.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Quiet.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Reinstall.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Reinstall.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ShowUpgraded.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.ShowUpgraded.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.TrivialOnly.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.TrivialOnly.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.VerboseVersions.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.VerboseVersions.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Version.get -> bool?
-virtual ModularPipelines.Options.Linux.AptGet.AptGetOptions.Version.set -> void
-virtual ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetPackageOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetRemoveOptions.Package.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetSourceOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetUpdateOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.CommandName.get -> string!
-virtual ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions.Equals(ModularPipelines.Options.Linux.AptGet.AptGetUpgradeOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.DpkgInstallOptions.Equals(ModularPipelines.Options.Linux.DpkgInstallOptions? other) -> bool
-virtual ModularPipelines.Options.Linux.DpkgInstallOptions.Path.get -> string!
-virtual ModularPipelines.Options.Linux.DpkgInstallOptions.Path.init -> void
-virtual ModularPipelines.Options.Mac.MacBrewOptions.Equals(ModularPipelines.Options.Mac.MacBrewOptions? other) -> bool
 virtual ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.Options.PipelineOptions!
 virtual ModularPipelines.Options.PipelineOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.PipelineOptions.Equals(ModularPipelines.Options.PipelineOptions? other) -> bool
@@ -2780,15 +2459,6 @@ virtual ModularPipelines.Options.WebInstallerOptions.<Clone>$() -> ModularPipeli
 virtual ModularPipelines.Options.WebInstallerOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.WebInstallerOptions.Equals(ModularPipelines.Options.WebInstallerOptions? other) -> bool
 virtual ModularPipelines.Options.WebInstallerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.Options.Windows.ExeInstallerOptions.Equals(ModularPipelines.Options.Windows.ExeInstallerOptions? other) -> bool
-virtual ModularPipelines.Options.Windows.MsiInstallerOptions.Equals(ModularPipelines.Options.Windows.MsiInstallerOptions? other) -> bool
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.DisableUserInterface.get -> bool?
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.DisableUserInterface.set -> void
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.Equals(ModularPipelines.Options.Windows.WindowsInstallerOptionsBase? other) -> bool
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.NoRestart.get -> bool
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.NoRestart.init -> void
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.RestartApplications.get -> bool
-virtual ModularPipelines.Options.Windows.WindowsInstallerOptionsBase.RestartApplications.init -> void
 virtual ModularPipelines.Requirements.PipelineRequirement.Must(ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Models.RequirementDecision!
 virtual ModularPipelines.Requirements.PipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
 virtual ModularPipelines.Requirements.PipelineRequirement.Order.get -> int
