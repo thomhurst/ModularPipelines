@@ -19,8 +19,7 @@ The easiest way to add retries is with `WithRetry()`:
 public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
-        ;
+        .WithRetry(3); // Retry up to 3 times with exponential backoff and jitter
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -38,8 +37,7 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
     .WithRetry(
         count: 5,
         baseDelay: TimeSpan.FromSeconds(1),
-        shouldRetry: exception => exception is HttpRequestException)
-    ;
+        shouldRetry: exception => exception is HttpRequestException);
 ```
 
 ### Custom Resilience Shield
@@ -52,8 +50,7 @@ public class MyModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithShield(
             Shield.When<HttpRequestException>()
-                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))))
-        ;
+                .Retry(5, Backoff.Custom(i => TimeSpan.FromSeconds(i * i))));
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -75,8 +72,7 @@ public class MyModule : Module<CommandResult>
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
             return Shield.When<Exception>()
                 .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
-        })
-        ;
+        });
 }
 ```
 
@@ -90,8 +86,7 @@ public class ResilientModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithRetry(3)
         .WithTimeout(TimeSpan.FromMinutes(10))
-        .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
-        ;
+        .WithIgnoreFailures(); // Don't fail the pipeline even after all retries
 }
 ```
 

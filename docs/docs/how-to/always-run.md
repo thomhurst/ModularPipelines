@@ -16,8 +16,7 @@ With `WithAlwaysRun()`, a module will run regardless of whether any dependencies
 public class CleanupModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithAlwaysRun()
-        ;
+        .WithAlwaysRun();
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -38,8 +37,7 @@ public class CleanupModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithAlwaysRun()
         .WithIgnoreFailures()  // Don't fail the pipeline if cleanup fails
-        .WithTimeout(TimeSpan.FromMinutes(5))
-        ;
+        .WithTimeout(TimeSpan.FromMinutes(5));
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

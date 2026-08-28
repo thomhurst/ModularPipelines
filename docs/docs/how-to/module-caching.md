@@ -52,10 +52,9 @@ File contents do not represent every input. Add configuration or tool versions e
 
 ```csharp
 protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithCacheKeyPart($"configuration={configurationName}")
-        .WithCacheKeyPart($"sdk={sdkVersion}")
-        .WithCacheEnvironmentVariable("TARGET_RUNTIME")
-        ;
+    .WithCacheKeyPart($"configuration={configurationName}")
+    .WithCacheKeyPart($"sdk={sdkVersion}")
+    .WithCacheEnvironmentVariable("TARGET_RUNTIME");
 ```
 
 Changing any key part or declared environment value invalidates the entry.
@@ -72,9 +71,8 @@ Use an explicit version key only when your build changes the MVID independently 
 
 ```csharp
 protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithCacheKeyPart("configuration=v1")
-        .WithCacheAssemblyVersionKey("build-module-v3")
-        ;
+    .WithCacheKeyPart("configuration=v1")
+    .WithCacheAssemblyVersionKey("build-module-v3");
 ```
 
 You must update this key whenever the module implementation changes. Reusing it after a behavior

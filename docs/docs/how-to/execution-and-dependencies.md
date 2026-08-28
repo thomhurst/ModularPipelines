@@ -182,7 +182,6 @@ public class Module2 : Module<string>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .DependsOn<Module1>()                    // Required
         .DependsOnOptional<Module3>()            // Optional
-        .DependsOnIf<Module4>(someCondition)     // Required when true
-        ;
+        .DependsOnIf<Module4>(someCondition);    // Required when true
 }
 ```

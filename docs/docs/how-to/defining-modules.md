@@ -73,8 +73,7 @@ public class MyModule : Module<FileInfo>
         .WithCategory("build")
         .DependsOn<RestoreModule>()
         .WithIgnoreFailures()
-        .WithAlwaysRun()
-        ;
+        .WithAlwaysRun();
 
     protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
@@ -181,8 +180,7 @@ public class BuildModule : Module<BuildOutput>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithCategory("Build")
-        .WithTags("critical", "fast")
-        ;
+        .WithTags("critical", "fast");
 
     protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)

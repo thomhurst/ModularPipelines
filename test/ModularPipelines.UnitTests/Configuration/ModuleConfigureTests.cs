@@ -161,13 +161,15 @@ public class ModuleConfigureTests
     {
         const System.Reflection.BindingFlags publicStatic =
             System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static;
+        const System.Reflection.BindingFlags publicInstance =
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
 
         using (Assert.Multiple())
         {
             await Assert.That(typeof(ModuleConfiguration).GetConstructors()).IsEmpty();
             await Assert.That(typeof(ModuleConfiguration).GetProperty("Default", publicStatic)).IsNull();
             await Assert.That(typeof(ModuleConfiguration).GetMethod("Create", publicStatic)).IsNull();
-            await Assert.That(typeof(ModuleConfigurationBuilder).GetMethod("Build", publicStatic)).IsNull();
+            await Assert.That(typeof(ModuleConfigurationBuilder).GetMethod("Build", publicInstance)).IsNull();
         }
     }
 }

@@ -43,8 +43,7 @@ for each retry, so increase it for pipelines whose blocking modules can legitima
 public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithTimeout(TimeSpan.FromSeconds(120))
-        ;
+        .WithTimeout(TimeSpan.FromSeconds(120));
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -63,8 +62,7 @@ public class ResilientModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithTimeout(TimeSpan.FromMinutes(5))
         .WithRetry(3)  // Retry if timeout or other failure occurs
-        .WithIgnoreFailures()  // Don't fail the pipeline if module times out
-        ;
+        .WithIgnoreFailures(); // Don't fail the pipeline if module times out
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

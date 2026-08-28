@@ -16,8 +16,7 @@ To always ignore failures from a module:
 public class OptionalModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithIgnoreFailures()
-        ;
+        .WithIgnoreFailures();
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -34,8 +33,7 @@ To ignore only specific types of failures:
 public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
-        ;
+        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException);
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -61,8 +59,7 @@ public class MyModule : Module<CommandResult>
                 return isMaintenanceMode;
             }
             return false;
-        })
-        ;
+        });
 }
 ```
 
@@ -76,8 +73,7 @@ public class ResilientModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithRetry(3)  // Try 3 times first
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
-        .WithAlwaysRun()  // Run even if dependencies failed
-        ;
+        .WithAlwaysRun(); // Run even if dependencies failed
 }
 ```
 
