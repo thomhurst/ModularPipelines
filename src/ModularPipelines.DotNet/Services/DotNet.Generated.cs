@@ -25,9 +25,10 @@ internal partial class DotNet : IDotNet
     /// Initializes a new instance of the <see cref="DotNet"/> class.
     /// </summary>
     public DotNet(
-        IDotNetBuildServer buildserver,
+        IDotNetBuildServer buildServer,
+        IDotNetFormat format,
         IDotNetNew @new,
-        IDotNetNuGet nuget,
+        IDotNetNuGet nuGet,
         IDotNetPackage package,
         IDotNetReference reference,
         IDotNetSdk sdk,
@@ -37,9 +38,10 @@ internal partial class DotNet : IDotNet
         ICommandContext command
     )
     {
-        BuildServer = buildserver;
+        BuildServer = buildServer;
+        Format = format;
         New = @new;
-        NuGet = nuget;
+        NuGet = nuGet;
         Package = package;
         Reference = reference;
         Sdk = sdk;
@@ -53,6 +55,9 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public IDotNetBuildServer BuildServer { get; }
+
+    /// <inheritdoc />
+    public IDotNetFormat Format { get; }
 
     /// <inheritdoc />
     public IDotNetNew New { get; }

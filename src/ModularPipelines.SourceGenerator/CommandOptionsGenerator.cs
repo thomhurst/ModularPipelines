@@ -920,7 +920,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 false,
-                attribute.ConstructorArguments.Length > 0);
+                attribute.ConstructorArguments.Length > 0,
+                GetNamedBool(attribute, "RepeatOptionTerminator"));
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -1508,6 +1509,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        RepeatOptionTerminator = {BooleanLiteral(property.RepeatOptionTerminator)},");
                     sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }},");
@@ -2311,7 +2313,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         int ManualOperandCount,
         string AccessorTypeName,
         bool IsSupportedPropertyType,
-        bool HasExplicitArgumentPosition);
+        bool HasExplicitArgumentPosition,
+        bool RepeatOptionTerminator = false);
 
     private enum PropertyKind
     {

@@ -26,4 +26,10 @@ public record DotNetNuGetConfigPathsOptions : DotNetOptions
     [CliOption("--working-directory")]
     public string? WorkingDirectory { get; set; }
 
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
 }

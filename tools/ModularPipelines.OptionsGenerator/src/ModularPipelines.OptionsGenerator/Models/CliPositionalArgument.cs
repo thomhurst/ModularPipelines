@@ -32,6 +32,8 @@ public record CliPositionalArgument
                                  || collection is not null,
                     PrependOptionTerminator = group.Any(argument =>
                         argument.PrependOptionTerminator),
+                    RepeatOptionTerminator = group.Any(argument =>
+                        argument.RepeatOptionTerminator),
                     PrependOptionTerminatorIfValueStartsWithDash = group.Any(argument =>
                         argument.PrependOptionTerminatorIfValueStartsWithDash),
                     AssociatedOptionSwitch = associatedOptionSwitches.Count == 1
@@ -101,6 +103,11 @@ public record CliPositionalArgument
     public bool PrependOptionTerminator { get; init; }
 
     /// <summary>
+    /// Whether the generated CLI argument needs a fresh option terminator after an earlier one.
+    /// </summary>
+    public bool RepeatOptionTerminator { get; init; }
+
+    /// <summary>
     /// Whether a dash-prefixed generated CLI argument must be preceded by the <c>--</c>
     /// option terminator.
     /// </summary>
@@ -108,7 +115,8 @@ public record CliPositionalArgument
 
     /// <summary>
     /// Allows an intentional rendering-phase migration for an existing generated operand.
-    /// The compatibility guard still requires the same property name, type, and position.
+    /// The compatibility guard still requires the same property name and type. Position may
+    /// change because positional indexes are scoped to a rendering phase.
     /// </summary>
     public bool AllowRenderingPhaseMigrationFromBaseline { get; init; }
 

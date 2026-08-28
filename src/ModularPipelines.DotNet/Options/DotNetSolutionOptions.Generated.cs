@@ -21,7 +21,7 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetSolutionOptions : DotNetOptions
 {
     /// <summary>
-    /// The solution file to operate on. If not specified, the command
+    /// The solution file to operate on. If not specified, the command will search the current directory for one.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SlnFile { get; set; }

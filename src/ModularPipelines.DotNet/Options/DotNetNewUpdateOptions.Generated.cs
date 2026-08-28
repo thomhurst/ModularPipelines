@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Checks the currently installed template packages for update, and install the
+/// Checks the currently installed template packages for update, and install the updates.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

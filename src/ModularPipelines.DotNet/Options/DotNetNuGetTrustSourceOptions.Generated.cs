@@ -12,15 +12,48 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Adds a trusted signer based on a given package source.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "source")]
 public record DotNetNuGetTrustSourceOptions : DotNetOptions
 {
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
+    /// If a source-url is provided, it must be a v3 package source URL (like https://api.nuget.org/v3/index.json). Other package source types are not supported.
+    /// </summary>
+    [CliOption("--source-url")]
+    public string? SourceUrl { get; set; }
+
+    /// <summary>
+    /// Semi-colon separated list of trusted owners to further restrict the trust of a repository.
+    /// </summary>
+    [CliOption("--owners")]
+    public string? Owners { get; set; }
+
+    /// <summary>
+    /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
+    /// </summary>
+    [CliOption("--configfile")]
+    public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// "The name of the trusted signer to add. If only &lt;NAME&gt; is provided without --&lt;source-url&gt;, the package source from your NuGet configuration files with the same name is added to the trusted list. If &lt;NAME&gt; already exists in the configuration, the package source is appended to it."
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
 
 }

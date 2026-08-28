@@ -511,6 +511,33 @@ public partial class DotNetCliScraper : CliScraperBase
             return RenameSingleArgument(args, "Path", isVariadic: false);
         }
 
+        if (commandKey.Equals("tool run", StringComparison.OrdinalIgnoreCase))
+        {
+            return args.Select(argument =>
+                argument.PropertyName.Equals("ToolArguments", StringComparison.OrdinalIgnoreCase)
+                    ? argument with
+                    {
+                        Phase = CommandLinePhase.Passthrough,
+                        PrependOptionTerminator = true,
+                        AllowRenderingPhaseMigrationFromBaseline = true,
+                    }
+                    : argument).ToList();
+        }
+
+        if (commandKey.Equals("test", StringComparison.OrdinalIgnoreCase))
+        {
+            return args.Select(argument => argument.PropertyName switch
+            {
+                "PlatformOptions" => argument with { PrependOptionTerminator = true },
+                "ExtensionOptions" => argument with
+                {
+                    PrependOptionTerminator = true,
+                    RepeatOptionTerminator = true,
+                },
+                _ => argument,
+            }).ToList();
+        }
+
         return args;
     }
 
@@ -523,11 +550,12 @@ public partial class DotNetCliScraper : CliScraperBase
                 candidate.PropertyName.Equals(
                     argument.PropertyName,
                     StringComparison.OrdinalIgnoreCase));
-            return usageArgument is { IsVariadic: true }
+            return usageArgument is not null
                 ? argument with
                 {
-                    CSharpType = "IEnumerable<string>?",
-                    IsVariadic = true,
+                    CSharpType = usageArgument.CSharpType,
+                    IsRequired = usageArgument.IsRequired,
+                    IsVariadic = usageArgument.IsVariadic,
                 }
                 : argument;
         }).ToList();

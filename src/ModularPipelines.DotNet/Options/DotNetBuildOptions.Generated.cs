@@ -34,12 +34,6 @@ public record DotNetBuildOptions : DotNetOptions
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// The target runtime to build for.
-    /// </summary>
-    [CliOption("--runtime", ShortForm = "-r")]
-    public string? Runtime { get; set; }
-
-    /// <summary>
     /// Set the value of the $(VersionSuffix) property to use when building the project.
     /// </summary>
     [CliOption("--version-suffix")]
@@ -52,7 +46,7 @@ public record DotNetBuildOptions : DotNetOptions
     public bool? NoRestore { get; set; }
 
     /// <summary>
-    /// Allows the command to stop and wait for user input or action (for example to
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
@@ -94,6 +88,12 @@ public record DotNetBuildOptions : DotNetOptions
     public bool? NoSelfContained { get; set; }
 
     /// <summary>
+    /// The target runtime to build for.
+    /// </summary>
+    [CliOption("--runtime", ShortForm = "-r")]
+    public string? Runtime { get; set; }
+
+    /// <summary>
     /// The target architecture.
     /// </summary>
     [CliOption("--arch", ShortForm = "-a")]
@@ -106,7 +106,7 @@ public record DotNetBuildOptions : DotNetOptions
     public string? Os { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
@@ -118,7 +118,7 @@ public record DotNetBuildOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// The project or solution or C# (file-based
+    /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

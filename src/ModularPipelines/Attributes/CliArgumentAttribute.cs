@@ -43,6 +43,12 @@ public sealed class CliArgumentAttribute : Attribute
     public bool PrependOptionTerminator { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this argument emits its requested
+    /// <c>--</c> marker even when an earlier argument already emitted one.
+    /// </summary>
+    public bool RepeatOptionTerminator { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether <c>--</c> is emitted immediately
     /// before this argument when any rendered value starts with a dash.
     /// </summary>

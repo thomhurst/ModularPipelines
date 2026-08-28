@@ -5150,11 +5150,15 @@ public class GeneratorHardeningTests
             [BaselineProperty(
                 "Input",
                 "string?",
-                argumentPosition: 0,
+                argumentPosition: 1,
                 phase: CommandLinePhase.EarlyOperand)]);
 
-        await Assert.That(preserved.PositionalArguments.Single().Phase)
-            .IsEqualTo(CommandLinePhase.Passthrough);
+        var argument = preserved.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(argument.PositionIndex).IsEqualTo(0);
+        }
     }
 
     [Test]
@@ -5766,6 +5770,17 @@ public class GeneratorHardeningTests
 
         await Assert.That(result).StartsWith("default ~");
         await Assert.That(result).DoesNotContain(homeDirectory);
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Removes_Current_Directory_Default()
+    {
+        var description =
+            $"Search the current directory when omitted. [default: {Environment.CurrentDirectory}{Path.DirectorySeparatorChar}]";
+
+        var result = GeneratorUtils.EscapeXmlComment(description);
+
+        await Assert.That(result).IsEqualTo("Search the current directory when omitted.");
     }
 
     [Test]

@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Removes the client certificate configuration that matches the given package source name.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "remove", "client-cert")]
@@ -20,13 +23,26 @@ public record DotNetNuGetRemoveClientCertOptions : DotNetOptions
     /// <summary>
     /// Package source name.
     /// </summary>
-    [CliFlag("--package-source", ShortForm = "-s")]
-    public bool? PackageSource { get; set; }
+    [CliOption("--package-source", ShortForm = "-s")]
+    public string? PackageSourceValue { get; set; }
 
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
     /// </summary>
     [CliOption("--configfile")]
     public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    [Obsolete("Use PackageSourceValue instead.")]
+    public bool? PackageSource
+    {
+        get => bool.TryParse(PackageSourceValue, out var value) ? value : null;
+        set => PackageSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

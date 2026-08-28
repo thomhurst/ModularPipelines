@@ -123,6 +123,8 @@ public class DotNetCliScraperTests
 
         var project = command!.Options.Single(option => option.PropertyName == "Project");
         var exactMatch = command.Options.Single(option => option.PropertyName == "ExactMatch");
+        var commandName = command.PositionalArguments.Single(argument =>
+            argument.PropertyName == "CommandName");
         var toolArguments = command.PositionalArguments.Single(argument =>
             argument.PropertyName == "ToolArguments");
         using (Assert.Multiple())
@@ -130,8 +132,72 @@ public class DotNetCliScraperTests
             await Assert.That(project.IsFlag).IsFalse();
             await Assert.That(project.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
             await Assert.That(exactMatch.IsFlag).IsTrue();
+            await Assert.That(commandName.IsRequired).IsTrue();
+            await Assert.That(commandName.CSharpType).IsEqualTo("string");
+            await Assert.That(toolArguments.IsRequired).IsFalse();
             await Assert.That(toolArguments.IsVariadic).IsTrue();
             await Assert.That(toolArguments.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(toolArguments.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(toolArguments.PrependOptionTerminator).IsTrue();
+            await Assert.That(toolArguments.AllowRenderingPhaseMigrationFromBaseline).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Build_Preserves_Optional_Project_Operand_Metadata()
+    {
+        const string helpText = """
+            Usage: dotnet build [<PROJECT | SOLUTION | FILE>]
+
+            Arguments:
+              <PROJECT | SOLUTION | FILE>  The project or solution file to operate on.
+
+            Options:
+              -h, --help  Show command line help.
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "build"],
+            helpText);
+
+        var projectSolution = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "ProjectSolution");
+        using (Assert.Multiple())
+        {
+            await Assert.That(projectSolution.IsRequired).IsFalse();
+            await Assert.That(projectSolution.IsVariadic).IsFalse();
+            await Assert.That(projectSolution.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Test_Preserves_Both_Option_Terminators()
+    {
+        const string helpText = """
+            Usage: dotnet test [options] [[--] <platformOptions>... -- [<extensionOptions>...]]
+
+            Arguments:
+              <platformOptions>   Arguments passed to the test platform.
+              <extensionOptions>  Arguments passed to test extensions.
+
+            Options:
+              --no-build  Do not build before testing. [default: False]
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(
+            ["dotnet", "test"],
+            helpText);
+
+        var platformOptions = command!.PositionalArguments.Single(argument =>
+            argument.PropertyName == "PlatformOptions");
+        var extensionOptions = command.PositionalArguments.Single(argument =>
+            argument.PropertyName == "ExtensionOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(platformOptions.PrependOptionTerminator).IsTrue();
+            await Assert.That(platformOptions.RepeatOptionTerminator).IsFalse();
+            await Assert.That(extensionOptions.PrependOptionTerminator).IsTrue();
+            await Assert.That(extensionOptions.RepeatOptionTerminator).IsTrue();
         }
     }
 

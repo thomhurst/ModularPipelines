@@ -213,9 +213,10 @@ public static partial class GeneratorUtils
             return string.Empty;
         }
 
-        // Help text scraped from a CLI can embed the generating user's home directory
-        // in option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
-        // meaningless to consumers, so normalize them to "~" before shipping docs.
+        // Help text scraped from a CLI can embed generation-environment paths in option
+        // defaults. Those paths are meaningless to consumers, so remove a current-directory
+        // default and normalize user-home paths before shipping docs.
+        text = RemoveCurrentDirectoryDefault(text);
         text = NormalizeRunnerHomePaths(text);
         text = text
             .Replace("\r\n", " ")
@@ -239,14 +240,7 @@ public static partial class GeneratorUtils
 
         foreach (var homeDirectory in homeDirectories)
         {
-            var trimmedHomeDirectory = homeDirectory.TrimEnd('/', '\\');
-            var variants = new[]
-            {
-                trimmedHomeDirectory.Replace('\\', '/'),
-                trimmedHomeDirectory.Replace('/', '\\'),
-            }.Distinct(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var variant in variants)
+            foreach (var variant in GetPathSeparatorVariants(homeDirectory))
             {
                 text = text
                     .Replace($"{variant}/", "~/", StringComparison.OrdinalIgnoreCase)
@@ -255,6 +249,30 @@ public static partial class GeneratorUtils
         }
 
         return text;
+    }
+
+    private static string RemoveCurrentDirectoryDefault(string text)
+    {
+        foreach (var variant in GetPathSeparatorVariants(Environment.CurrentDirectory))
+        {
+            text = Regex.Replace(
+                text,
+                $@"\s*\[default:\s*{Regex.Escape(variant)}[\\/]*\]",
+                string.Empty,
+                RegexOptions.IgnoreCase);
+        }
+
+        return text;
+    }
+
+    private static string[] GetPathSeparatorVariants(string path)
+    {
+        var trimmedPath = Path.TrimEndingDirectorySeparator(path);
+        return new[]
+        {
+            trimmedPath.Replace('\\', '/'),
+            trimmedPath.Replace('/', '\\'),
+        }.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
     /// <summary>

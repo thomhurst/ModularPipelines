@@ -12,27 +12,54 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Adds a trusted signer with the given name, based on the repository signature or countersignature of a signed package.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "certificate")]
 public record DotNetNuGetTrustCertificateOptions : DotNetOptions
 {
     /// <summary>
-    /// [default: False]
-    /// </summary>
-    [CliFlag("--allow-untrusted-root")]
-    public bool? AllowUntrustedRoot { get; set; }
-
-    /// <summary>
-    /// [default: SHA256]
+    /// Specifies the hash algorithm used to calculate the certificate fingerprint. Defaults to SHA256. Values supported are SHA256, SHA384 and SHA512.
     /// </summary>
     [CliOption("--algorithm")]
     public string? Algorithm { get; set; }
 
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal],
+    /// Specifies if the certificate for the trusted signer should be allowed to chain to an untrusted root. This is not recommended.
+    /// </summary>
+    [CliFlag("--allow-untrusted-root")]
+    public bool? AllowUntrustedRoot { get; set; }
+
+    /// <summary>
+    /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
+    /// </summary>
+    [CliOption("--configfile")]
+    public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Set the verbosity level of the command. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The name of the trusted signer to add. If a trusted signer with the given name already exists, the certificate item is added to that signer. Otherwise a trusted author is created with a certificate item from the given certificate information.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// The fingerprint of the certificate.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Fingerprint { get; set; }
 
 }

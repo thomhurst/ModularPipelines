@@ -12,6 +12,9 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
+/// <summary>
+/// Adds a client certificate configuration that matches the given package source name.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "add", "client-cert")]
@@ -20,8 +23,8 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// <summary>
     /// Package source name.
     /// </summary>
-    [CliFlag("--package-source", ShortForm = "-s")]
-    public bool? PackageSource { get; set; }
+    [CliOption("--package-source", ShortForm = "-s")]
+    public string? PackageSourceValue { get; set; }
 
     /// <summary>
     /// Path to certificate file.
@@ -46,26 +49,26 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// <summary>
     /// Certificate store location (see docs).
     /// </summary>
-    [CliFlag("--store-location")]
-    public bool? StoreLocation { get; set; }
+    [CliOption("--store-location")]
+    public string? StoreLocationValue { get; set; }
 
     /// <summary>
     /// Certificate store name (see docs).
     /// </summary>
-    [CliFlag("--store-name")]
-    public bool? StoreName { get; set; }
+    [CliOption("--store-name")]
+    public string? StoreNameValue { get; set; }
 
     /// <summary>
     /// Search method to find certificate in certificate store (see docs).
     /// </summary>
-    [CliFlag("--find-by")]
-    public bool? FindBy { get; set; }
+    [CliOption("--find-by")]
+    public string? FindByValue { get; set; }
 
     /// <summary>
     /// Search the certificate store for the supplied value. Used with FindValue (see docs).
     /// </summary>
-    [CliFlag("--find-value")]
-    public bool? FindValue { get; set; }
+    [CliOption("--find-value")]
+    public string? FindValueValue { get; set; }
 
     /// <summary>
     /// Skip certificate validation.
@@ -78,5 +81,46 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// </summary>
     [CliOption("--configfile")]
     public string? Configfile { get; set; }
+
+    /// <summary>
+    /// Forces the application to run using an invariant, English-based culture.
+    /// </summary>
+    [CliFlag("--force-english-output")]
+    public bool? ForceEnglishOutput { get; set; }
+
+    [Obsolete("Use PackageSourceValue instead.")]
+    public bool? PackageSource
+    {
+        get => bool.TryParse(PackageSourceValue, out var value) ? value : null;
+        set => PackageSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StoreLocationValue instead.")]
+    public bool? StoreLocation
+    {
+        get => bool.TryParse(StoreLocationValue, out var value) ? value : null;
+        set => StoreLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use StoreNameValue instead.")]
+    public bool? StoreName
+    {
+        get => bool.TryParse(StoreNameValue, out var value) ? value : null;
+        set => StoreNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FindByValue instead.")]
+    public bool? FindBy
+    {
+        get => bool.TryParse(FindByValue, out var value) ? value : null;
+        set => FindByValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    [Obsolete("Use FindValueValue instead.")]
+    public bool? FindValue
+    {
+        get => bool.TryParse(FindValueValue, out var value) ? value : null;
+        set => FindValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }

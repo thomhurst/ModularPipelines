@@ -39,6 +39,12 @@ public record DotNetToolRestoreOptions : DotNetOptions
     public string? ToolManifest { get; set; }
 
     /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
+    /// </summary>
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
+
+    /// <summary>
     /// Prevent restoring multiple projects in parallel. [default: False]
     /// </summary>
     [CliFlag("--disable-parallel")]
@@ -61,11 +67,5 @@ public record DotNetToolRestoreOptions : DotNetOptions
     /// </summary>
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
-
-    /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
-    /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
 
 }

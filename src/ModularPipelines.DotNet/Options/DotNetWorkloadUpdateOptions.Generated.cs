@@ -21,6 +21,18 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetWorkloadUpdateOptions : DotNetOptions
 {
     /// <summary>
+    /// Specify a temporary directory for this command to download and extract NuGet packages (must be secure).
+    /// </summary>
+    [CliOption("--temp-dir")]
+    public string? TempDir { get; set; }
+
+    /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
+    /// </summary>
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
+
+    /// <summary>
     /// The NuGet configuration file to use.
     /// </summary>
     [CliOption("--configfile")]
@@ -37,24 +49,6 @@ public record DotNetWorkloadUpdateOptions : DotNetOptions
     /// </summary>
     [CliFlag("--include-previews")]
     public bool? IncludePreviews { get; set; }
-
-    /// <summary>
-    /// Specify a temporary directory for this command to download and extract NuGet packages (must be secure).
-    /// </summary>
-    [CliOption("--temp-dir")]
-    public string? TempDir { get; set; }
-
-    /// <summary>
-    /// Include workloads installed with earlier SDK versions in update. [default: False]
-    /// </summary>
-    [CliFlag("--from-previous-sdk")]
-    public bool? FromPreviousSdk { get; set; }
-
-    /// <summary>
-    /// Only update advertising manifests. [default: False]
-    /// </summary>
-    [CliFlag("--advertising-manifests-only")]
-    public bool? AdvertisingManifestsOnly { get; set; }
 
     /// <summary>
     /// Prevent restoring multiple projects in parallel. [default: False]
@@ -81,10 +75,16 @@ public record DotNetWorkloadUpdateOptions : DotNetOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal],
+    /// Include workloads installed with earlier SDK versions in update. [default: False]
     /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliFlag("--from-previous-sdk")]
+    public bool? FromPreviousSdk { get; set; }
+
+    /// <summary>
+    /// Only update advertising manifests. [default: False]
+    /// </summary>
+    [CliFlag("--advertising-manifests-only")]
+    public bool? AdvertisingManifestsOnly { get; set; }
 
     /// <summary>
     /// Update workloads to a previous version specified by the argument. Use the 'dotnet workload history' to see available workload history records.

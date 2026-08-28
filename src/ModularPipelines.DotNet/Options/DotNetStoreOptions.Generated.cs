@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Stores the specified assemblies for the .NET Platform. By default, these will
+/// Stores the specified assemblies for the .NET Platform. By default, these will be optimized for the target runtime and framework.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record DotNetStoreOptions : DotNetOptions
     public string? Manifest { get; set; }
 
     /// <summary>
-    /// The Microsoft.NETCore.App package version
+    /// The Microsoft.NETCore.App package version that will be used to run the assemblies.
     /// </summary>
-    [CliFlag("--framework-version")]
-    public bool? FrameworkVersion { get; set; }
+    [CliOption("--framework-version")]
+    public string? FrameworkVersionValue { get; set; }
 
     /// <summary>
     /// The output directory to store the given assemblies in.
@@ -69,9 +69,28 @@ public record DotNetStoreOptions : DotNetOptions
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// Force the command to ignore any
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
+
+    /// <summary>
+    /// Do not display the startup banner or the copyright message. [default: True]
+    /// </summary>
+    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    public bool? NoLogo { get; set; }
+
+    /// <summary>
+    /// The &lt;argument&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Argument { get; set; }
+
+    [Obsolete("Use FrameworkVersionValue instead.")]
+    public bool? FrameworkVersion
+    {
+        get => bool.TryParse(FrameworkVersionValue, out var value) ? value : null;
+        set => FrameworkVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+    }
 
 }
