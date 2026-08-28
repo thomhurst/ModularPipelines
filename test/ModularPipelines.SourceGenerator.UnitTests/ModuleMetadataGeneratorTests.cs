@@ -6,11 +6,12 @@ public class ModuleMetadataGeneratorTests
         namespace ModularPipelines.Modules
         {
             public interface IModule;
-            public abstract class Module<T> : IModule;
         }
 
-        namespace ModularPipelines.Attributes
+        namespace ModularPipelines
         {
+            public abstract class Module<T> : Modules.IModule;
+
             [System.AttributeUsage(
                 System.AttributeTargets.Class | System.AttributeTargets.Interface,
                 AllowMultiple = true,
@@ -555,7 +556,7 @@ public class ModuleMetadataGeneratorTests
     public async Task Inherited_Selector_Dependency_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
-            namespace ModularPipelines.Attributes
+            namespace ModularPipelines
             {
                 public class DependsOnAllModulesInheritingFromAttribute : System.Attribute;
 
@@ -585,7 +586,7 @@ public class ModuleMetadataGeneratorTests
     public async Task Predicate_Selector_Dependencies_Report_Aot_Diagnostics()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
-            namespace ModularPipelines.Attributes
+            namespace ModularPipelines
             {
                 public abstract class DependsOnBaseAttribute : System.Attribute;
 
@@ -598,8 +599,12 @@ public class ModuleMetadataGeneratorTests
                 public sealed class DependsOnModulesWithAttributeAttribute<TAttribute>
                     : DependsOnBaseAttribute
                     where TAttribute : System.Attribute;
+            }
 
-                public sealed class CustomSelectorAttribute : DependsOnBaseAttribute;
+            namespace ModularPipelines.Attributes
+            {
+                public sealed class CustomSelectorAttribute
+                    : ModularPipelines.DependsOnBaseAttribute;
             }
 
             namespace Consumer

@@ -11,12 +11,12 @@ public class ModuleEventMetadataGeneratorTests
         namespace ModularPipelines.Modules
         {
             public interface IModule;
-
-            public abstract class Module<T> : IModule;
         }
 
         namespace ModularPipelines
         {
+            public abstract class Module<T> : Modules.IModule;
+
             public static class PipelineBuilderExtensions
             {
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
@@ -35,7 +35,7 @@ public class ModuleEventMetadataGeneratorTests
             }
         }
 
-        namespace ModularPipelines.Attributes
+        namespace ModularPipelines
         {
             [System.AttributeUsage(
                 System.AttributeTargets.Class,

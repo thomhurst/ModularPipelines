@@ -13,10 +13,11 @@ namespace ModularPipelines.SourceGenerator;
 public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 {
     internal const string ModuleInterfaceFullName = "ModularPipelines.Modules.IModule";
-    internal const string ModuleNamespace = "ModularPipelines.Modules";
+    internal const string ModuleNamespace = "ModularPipelines";
     internal const string GenericModuleMetadataName = "Module`1";
     internal const string DependsOnAttributeFullName = "ModularPipelines.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
+    internal const string DependsOnAttributeNamespace = "ModularPipelines";
     internal const string SelectorDependencyAttributeFullName =
         "ModularPipelines.DependsOnAllModulesInheritingFromAttribute";
 
@@ -579,7 +580,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         for (var current = attribute.AttributeClass; current is not null; current = current.BaseType)
         {
             if (current.MetadataName == GenericDependsOnAttributeMetadataName
-                && current.ContainingNamespace.ToDisplayString() == "ModularPipelines.Attributes")
+                && current.ContainingNamespace.ToDisplayString() == DependsOnAttributeNamespace)
             {
                 dependencyType = current.TypeArguments[0];
                 return true;
@@ -599,7 +600,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                    || (attributeType.OriginalDefinition.MetadataName
                            == GenericDependsOnAttributeMetadataName
                        && attributeType.ContainingNamespace.ToDisplayString()
-                           == "ModularPipelines.Attributes"));
+                           == DependsOnAttributeNamespace));
     }
 
     private static bool ImplementsModule(INamedTypeSymbol type, Compilation compilation)

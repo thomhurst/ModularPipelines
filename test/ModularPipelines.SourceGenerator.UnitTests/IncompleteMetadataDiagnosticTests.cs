@@ -1,4 +1,3 @@
-using ModularPipelines.Secrets;
 using Microsoft.CodeAnalysis;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
@@ -30,14 +29,17 @@ public class IncompleteMetadataDiagnosticTests
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class CliArgumentAttribute(int position) : System.Attribute;
+        }
 
+        namespace ModularPipelines.Secrets
+        {
             [System.AttributeUsage(System.AttributeTargets.Property)]
             public sealed class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
 
     private const string ModuleInfrastructure = """
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public abstract class Module<T>;
         }
