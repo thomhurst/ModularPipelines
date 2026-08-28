@@ -21,7 +21,7 @@ namespace ModularPipelines;
 /// }
 ///
 /// // Usage:
-/// [RunIfAny&lt;OnUnixPlatforms&gt;]
+/// [RunIf&lt;OnUnixPlatforms&gt;]
 /// public class UnixModule : Module&lt;None&gt; { }
 /// </code>
 /// </para>

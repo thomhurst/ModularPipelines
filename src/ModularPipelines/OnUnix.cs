@@ -11,7 +11,7 @@ namespace ModularPipelines;
 /// </remarks>
 /// <example>
 /// <code>
-/// [RunIfAny&lt;OnUnix&gt;]
+/// [RunIf&lt;OnUnix&gt;]
 /// public class UnixModule : Module&lt;None&gt; { }
 /// </code>
 /// </example>

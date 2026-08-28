@@ -140,7 +140,7 @@ internal static class OperatingSystemConditions
         Justification = "Stateful OS attributes expose identifiers directly; generic conditions have a new() constraint preserving a public parameterless constructor.")]
     private static HashSet<string>? GetSupportedOperatingSystems(IConditionAttribute attribute)
     {
-        if (attribute.Logic != ConditionLogic.All)
+        if (attribute.Logic is not (ConditionLogic.All or ConditionLogic.Any))
         {
             return null;
         }
@@ -151,7 +151,9 @@ internal static class OperatingSystemConditions
             return null;
         }
 
-        HashSet<string>? supportedOperatingSystems = null;
+        HashSet<string>? supportedOperatingSystems = attribute.Logic == ConditionLogic.All
+            ? null
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var conditionType in conditionTypes)
         {
@@ -161,7 +163,11 @@ internal static class OperatingSystemConditions
                 return null;
             }
 
-            if (supportedOperatingSystems is null)
+            if (attribute.Logic == ConditionLogic.Any)
+            {
+                supportedOperatingSystems!.UnionWith(conditionOperatingSystems);
+            }
+            else if (supportedOperatingSystems is null)
             {
                 supportedOperatingSystems = conditionOperatingSystems;
             }

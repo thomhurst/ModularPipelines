@@ -8,7 +8,7 @@ namespace ModularPipelines;
 /// </summary>
 /// <example>
 /// <code>
-/// [RunIfAll&lt;OnWindows&gt;]
+/// [RunIf&lt;OnWindows&gt;]
 /// public class WindowsOnlyModule : Module&lt;None&gt; { }
 /// </code>
 /// </example>

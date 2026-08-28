@@ -32,6 +32,24 @@ public class OperatingSystemConditionsTests
     }
 
     [Test]
+    public async Task Alternative_Operating_System_Attributes_Match_Either_Worker()
+    {
+        var target = OperatingSystemConditions
+            .GetTargets(new RunIfAnyAttribute<OnLinux, OnMacOS>())
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
+                .Contains(target);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
+                .Contains(target);
+            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
+                .DoesNotContain(target);
+        }
+    }
+
+    [Test]
     public async Task Contradictory_Operating_System_Conditions_Have_No_Routable_Target()
     {
         var targets = OperatingSystemConditions.GetTargets(
