@@ -1,6 +1,7 @@
 using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -270,6 +271,19 @@ public class PipelineOptionsTests
         var builder = Pipeline.CreateBuilder();
 
         await Assert.That(builder.Logging.Services).IsSameReferenceAs(builder.Services);
+    }
+
+    [Test]
+    public async Task PipelineBuilderServicesAllowTryAddLoggingReplacements()
+    {
+        var builder = Pipeline.CreateBuilder()
+            .AddModule<OptionsTestModule>();
+        builder.Services.TryAddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<ILoggerFactory>())
+            .IsSameReferenceAs(NullLoggerFactory.Instance);
     }
 
     [Test]

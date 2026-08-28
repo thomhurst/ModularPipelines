@@ -62,13 +62,19 @@ public sealed class PipelineBuilder
             };
         var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
-        DependencyInjectionSetup.RegisterDefaultLogging(_services);
+        var defaultLoggingServices = new ServiceCollection();
+        DependencyInjectionSetup.RegisterDefaultLogging(defaultLoggingServices);
+        _defaultLoggingProviderDescriptors = defaultLoggingServices
+            .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
+            .ToArray();
+        foreach (var descriptor in _defaultLoggingProviderDescriptors)
+        {
+            _services.Add(descriptor);
+        }
+
         _defaultLoggingDescriptors = new HashSet<ServiceDescriptor>(
             _services,
             ReferenceEqualityComparer.Instance);
-        _defaultLoggingProviderDescriptors = _services
-            .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
-            .ToArray();
         _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
             .Select(static descriptor => descriptor.ImplementationType)
             .OfType<Type>()

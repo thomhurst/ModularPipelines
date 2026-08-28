@@ -545,6 +545,26 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateAsync_WithOversizedNotificationTimeout_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SimpleModule>();
+        builder.ConfigureOptions(options => options with
+        {
+            Concurrency = options.Concurrency with
+            {
+                NotificationTimeout = TimeSpan.FromMilliseconds((double) int.MaxValue + 1),
+            },
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options
+            && error.Message.Contains("Concurrency.NotificationTimeout"))).IsTrue();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithInvalidNestedHttpResilience_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();

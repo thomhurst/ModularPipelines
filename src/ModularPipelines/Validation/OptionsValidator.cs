@@ -132,6 +132,13 @@ internal class OptionsValidator : IOptionsValidator
                 ValidationErrorCategory.Options,
                 $"Concurrency.NotificationTimeout cannot be negative. Current value: {options.NotificationTimeout}"));
         }
+        else if (options.NotificationTimeout.TotalMilliseconds > int.MaxValue)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"Concurrency.NotificationTimeout cannot exceed {int.MaxValue} milliseconds. " +
+                $"Current value: {options.NotificationTimeout}"));
+        }
     }
 
     private static void ValidateCategoryFilters(
