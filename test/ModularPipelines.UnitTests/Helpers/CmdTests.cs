@@ -1,4 +1,3 @@
-using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -31,7 +30,9 @@ public class CmdTests : TestBase
                 TestContext.OutputDirectory!,
                 "Data",
                 "CmdTest %PATH% & echo injected.cmd"));
-            return await context.Tools.Cmd.RunFileAsync(file, cancellationToken: cancellationToken);
+            return await context.Tools.Cmd.RunFileAsync(
+                new CmdFileOptions(file.Path),
+                cancellationToken: cancellationToken);
         }
     }
 

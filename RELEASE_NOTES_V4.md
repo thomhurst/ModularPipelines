@@ -37,6 +37,13 @@ ZIP methods now follow `System.IO.Compression.ZipFile` naming:
 `CreateFromDirectory` and `ExtractToDirectory`. `IBase64Context.FromBase64String`
 now returns `byte[]`, matching `Convert.FromBase64String`.
 
+## Command Prompt integration
+
+The documented `ModularPipelines.Cmd` entry point is now `context.Tools.Cmd`.
+`ICmd` is now `ICmdContext`. `CmdScriptOptions` moved from
+`ModularPipelines.Cmd.Models` to `ModularPipelines.Options`; `CmdFileOptions`
+provides the typed `RunFileAsync` overload.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

@@ -6,16 +6,29 @@ using ModularPipelines.Context;
 
 namespace ModularPipelines.Cmd.Extensions;
 
+/// <summary>
+/// Registers and resolves the Windows Command Prompt integration.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class CmdExtensions
 {
+    /// <summary>
+    /// Registers the Command Prompt integration.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection.</returns>
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
     {
-        services.TryAddScoped<ICmd, Cmd>();
+        services.TryAddScoped<ICmdContext, CmdContext>();
 
         return services;
     }
 
-    public static ICmd Cmd(this IPipelineContext context) => context.Services.Get<ICmd>();
+    /// <summary>
+    /// Gets the Command Prompt integration from a pipeline context.
+    /// </summary>
+    /// <param name="context">The pipeline context.</param>
+    /// <returns>The Command Prompt context.</returns>
+    public static ICmdContext Cmd(this IPipelineContext context) => context.Services.Get<ICmdContext>();
 }

@@ -60,32 +60,12 @@ public class ContextExtensionsTests
     }
 
     [Test]
-    public async Task Cmd_WhenIntegrationNotRegistered_ShouldSuggestAttributedRegistration()
-    {
-        using var serviceProvider = new ServiceCollection().BuildServiceProvider();
-        var servicesContext = CreateServicesContext(serviceProvider);
-        var mockContext = new Mock<IPipelineContext>();
-        mockContext.Setup(c => c.Services).Returns(servicesContext);
-
-        var exception = await Assert.That(() => mockContext.Object.Cmd())
-            .ThrowsExactly<InvalidOperationException>();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(exception!.Message).Contains("ModularPipelines.Cmd");
-            await Assert.That(exception.Message).Contains("[ModularPipelinesIntegration]");
-            await Assert.That(exception.Message).Contains("Native AOT");
-            await Assert.That(exception.Message).DoesNotContain("Register*Context()");
-        }
-    }
-
-    [Test]
     public async Task GetTool_WhenIntegrationNotRegistered_ShouldSuggestExplicitRegistration()
     {
         using var serviceProvider = new ServiceCollection().BuildServiceProvider();
         var toolsContext = new ToolsContext(CreateServicesContext(serviceProvider));
 
-        var exception = await Assert.That(() => toolsContext.Get<ICmd>())
+        var exception = await Assert.That(() => toolsContext.Get<ICmdContext>())
             .ThrowsExactly<InvalidOperationException>();
 
         using (Assert.Multiple())

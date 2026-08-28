@@ -45,7 +45,7 @@ public class DependencyInjectionTests
                 .AddModule<TestModule1>()
                 .BuildAsync();
 
-            pipeline.Services.GetRequiredService<ICmd>();
+            pipeline.Services.GetRequiredService<ICmdContext>();
         }
     }
 

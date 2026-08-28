@@ -1,4 +1,64 @@
 #nullable enable
-ModularPipelines.Cmd.ICmd.RunAsync(ModularPipelines.Cmd.Models.CmdScriptOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Cmd.ICmd.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Cmd.ICmd.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Cmd.ICmdContext
+ModularPipelines.Cmd.ICmdContext.RunAsync(ModularPipelines.Options.CmdScriptOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Cmd.ICmdContext.RunAsync(string! script, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Cmd.ICmdContext.RunFileAsync(ModularPipelines.Options.CmdFileOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Cmd.ICmdContext.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Cmd.get -> ModularPipelines.Cmd.ICmdContext!
+ModularPipelines.Options.CmdFileOptions
+ModularPipelines.Options.CmdFileOptions.CmdFileOptions(ModularPipelines.Options.CmdFileOptions! original) -> void
+ModularPipelines.Options.CmdFileOptions.CmdFileOptions(string! FilePath) -> void
+ModularPipelines.Options.CmdFileOptions.Deconstruct(out string! FilePath) -> void
+ModularPipelines.Options.CmdFileOptions.FilePath.get -> string!
+ModularPipelines.Options.CmdFileOptions.FilePath.init -> void
+ModularPipelines.Options.CmdOptions
+ModularPipelines.Options.CmdOptions.CmdOptions() -> void
+ModularPipelines.Options.CmdOptions.CmdOptions(ModularPipelines.Options.CmdOptions! original) -> void
+ModularPipelines.Options.CmdScriptOptions
+ModularPipelines.Options.CmdScriptOptions.CmdScriptOptions(ModularPipelines.Options.CmdScriptOptions! original) -> void
+ModularPipelines.Options.CmdScriptOptions.CmdScriptOptions(string! Script) -> void
+ModularPipelines.Options.CmdScriptOptions.Deconstruct(out string! Script) -> void
+ModularPipelines.Options.CmdScriptOptions.Script.get -> string!
+ModularPipelines.Options.CmdScriptOptions.Script.init -> void
+override ModularPipelines.Options.CmdFileOptions.<Clone>$() -> ModularPipelines.Options.CmdFileOptions!
+override ModularPipelines.Options.CmdFileOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Options.CmdFileOptions.Equals(object? obj) -> bool
+override ModularPipelines.Options.CmdFileOptions.GetHashCode() -> int
+override ModularPipelines.Options.CmdFileOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Options.CmdFileOptions.ToString() -> string!
+override ModularPipelines.Options.CmdOptions.<Clone>$() -> ModularPipelines.Options.CmdOptions!
+override ModularPipelines.Options.CmdOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Options.CmdOptions.Equals(object? obj) -> bool
+override ModularPipelines.Options.CmdOptions.GetHashCode() -> int
+override ModularPipelines.Options.CmdOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Options.CmdOptions.ToString() -> string!
+override ModularPipelines.Options.CmdScriptOptions.<Clone>$() -> ModularPipelines.Options.CmdScriptOptions!
+override ModularPipelines.Options.CmdScriptOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Options.CmdScriptOptions.Equals(object? obj) -> bool
+override ModularPipelines.Options.CmdScriptOptions.GetHashCode() -> int
+override ModularPipelines.Options.CmdScriptOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Options.CmdScriptOptions.ToString() -> string!
+override sealed ModularPipelines.Options.CmdFileOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Options.CmdOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+override sealed ModularPipelines.Options.CmdScriptOptions.Equals(ModularPipelines.Options.CmdOptions? other) -> bool
+static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cmd.ICmdContext!
+static ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.get_Cmd(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Cmd.ICmdContext!
+static ModularPipelines.Options.CmdFileOptions.operator !=(ModularPipelines.Options.CmdFileOptions? left, ModularPipelines.Options.CmdFileOptions? right) -> bool
+static ModularPipelines.Options.CmdFileOptions.operator ==(ModularPipelines.Options.CmdFileOptions? left, ModularPipelines.Options.CmdFileOptions? right) -> bool
+static ModularPipelines.Options.CmdOptions.operator !=(ModularPipelines.Options.CmdOptions? left, ModularPipelines.Options.CmdOptions? right) -> bool
+static ModularPipelines.Options.CmdOptions.operator ==(ModularPipelines.Options.CmdOptions? left, ModularPipelines.Options.CmdOptions? right) -> bool
+static ModularPipelines.Options.CmdScriptOptions.operator !=(ModularPipelines.Options.CmdScriptOptions? left, ModularPipelines.Options.CmdScriptOptions? right) -> bool
+static ModularPipelines.Options.CmdScriptOptions.operator ==(ModularPipelines.Options.CmdScriptOptions? left, ModularPipelines.Options.CmdScriptOptions? right) -> bool
+virtual ModularPipelines.Options.CmdFileOptions.Equals(ModularPipelines.Options.CmdFileOptions? other) -> bool
+virtual ModularPipelines.Options.CmdOptions.Ansi.get -> bool
+virtual ModularPipelines.Options.CmdOptions.Ansi.init -> void
+virtual ModularPipelines.Options.CmdOptions.DisableAutoRunCommands.get -> bool
+virtual ModularPipelines.Options.CmdOptions.DisableAutoRunCommands.init -> void
+virtual ModularPipelines.Options.CmdOptions.DisableEcho.get -> bool
+virtual ModularPipelines.Options.CmdOptions.DisableEcho.init -> void
+virtual ModularPipelines.Options.CmdOptions.Equals(ModularPipelines.Options.CmdOptions? other) -> bool
+virtual ModularPipelines.Options.CmdOptions.StopAfter.get -> bool
+virtual ModularPipelines.Options.CmdOptions.StopAfter.init -> void
+virtual ModularPipelines.Options.CmdOptions.Unicode.get -> bool
+virtual ModularPipelines.Options.CmdOptions.Unicode.init -> void
+virtual ModularPipelines.Options.CmdScriptOptions.Equals(ModularPipelines.Options.CmdScriptOptions? other) -> bool
