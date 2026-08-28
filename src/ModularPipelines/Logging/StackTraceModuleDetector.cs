@@ -159,7 +159,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             .Select(sf => sf.GetMethod())
             .FirstOrDefault(m => m?.DeclaringType != null
                 && m.DeclaringType != typeof(StackTraceModuleDetector)
-                && m.DeclaringType != typeof(ModuleLoggerProvider)
+                && m.DeclaringType != typeof(ModuleLoggerAccessor)
                 && !m.DeclaringType.FullName?.StartsWith("ModularPipelines.Logging") == true);
 
         if (relevantFrame == null)

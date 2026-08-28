@@ -1,5 +1,5 @@
 using System.Net;
-using ModularPipelines.Logging;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
@@ -15,7 +15,7 @@ internal interface IHttpLogger
     /// <param name="request">The HTTP request to print.</param>
     /// <param name="logger">The current module logger.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task PrintRequest(HttpRequestMessage request, IModuleLogger logger);
+    Task PrintRequest(HttpRequestMessage request, ILogger logger);
 
     /// <summary>
     /// Prints the HTTP request.
@@ -26,7 +26,7 @@ internal interface IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task PrintRequest(
         HttpRequestMessage request,
-        IModuleLogger logger,
+        ILogger logger,
         CancellationToken cancellationToken)
     {
         return PrintRequest(request, logger).WaitAsync(cancellationToken);
@@ -39,7 +39,7 @@ internal interface IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the request to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task PrintRequest(HttpRequestMessage request, IModuleLogger logger, HttpLoggingOptions options);
+    Task PrintRequest(HttpRequestMessage request, ILogger logger, HttpLoggingOptions options);
 
     /// <summary>
     /// Prints the HTTP request with logging options.
@@ -51,7 +51,7 @@ internal interface IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task PrintRequest(
         HttpRequestMessage request,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
@@ -64,7 +64,7 @@ internal interface IHttpLogger
     /// <param name="response">The HTTP response to print.</param>
     /// <param name="logger">The current module logger.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task PrintResponse(HttpResponseMessage response, IModuleLogger logger);
+    Task PrintResponse(HttpResponseMessage response, ILogger logger);
 
     /// <summary>
     /// Prints the HTTP response.
@@ -75,7 +75,7 @@ internal interface IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task PrintResponse(
         HttpResponseMessage response,
-        IModuleLogger logger,
+        ILogger logger,
         CancellationToken cancellationToken)
     {
         return PrintResponse(response, logger).WaitAsync(cancellationToken);
@@ -88,7 +88,7 @@ internal interface IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the response to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task PrintResponse(HttpResponseMessage response, IModuleLogger logger, HttpLoggingOptions options);
+    Task PrintResponse(HttpResponseMessage response, ILogger logger, HttpLoggingOptions options);
 
     /// <summary>
     /// Prints the HTTP response with logging options.
@@ -100,7 +100,7 @@ internal interface IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task PrintResponse(
         HttpResponseMessage response,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
@@ -112,12 +112,12 @@ internal interface IHttpLogger
     /// </summary>
     /// <param name="httpStatusCode">The HTTP status code to print.</param>
     /// <param name="logger">The current module logger.</param>
-    void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger);
+    void PrintStatusCode(HttpStatusCode? httpStatusCode, ILogger logger);
 
     /// <summary>
     /// Prints the duration of the HTTP request.
     /// </summary>
     /// <param name="duration">The duration to print.</param>
     /// <param name="logger">The current module logger.</param>
-    void PrintDuration(TimeSpan duration, IModuleLogger logger);
+    void PrintDuration(TimeSpan duration, ILogger logger);
 }

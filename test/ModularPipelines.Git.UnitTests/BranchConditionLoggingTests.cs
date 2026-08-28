@@ -32,7 +32,7 @@ public class BranchConditionLoggingTests
     [Test]
     public async Task RunIfBranch_UsesDetachedPlaceholderForEmptyBranch()
     {
-        var logger = new Mock<IModuleLogger>();
+        var logger = new Mock<ILogger>();
         logger.Setup(x => x.IsEnabled(LogLevel.Debug)).Returns(true);
         var gitInformation = new Mock<IGitInformation>();
         gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
@@ -65,7 +65,7 @@ public class BranchConditionLoggingTests
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
         var services = new Mock<IServicesContext>();
         services.Setup(x => x.Get<IGit>()).Returns(git);
-        var logger = Mock.Of<IModuleLogger>();
+        var logger = Mock.Of<ILogger>();
         var context = Mock.Of<IPipelineContext>(x =>
             x.Logger == logger &&
             x.Services == services.Object);

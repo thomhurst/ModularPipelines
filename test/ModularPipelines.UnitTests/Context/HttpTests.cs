@@ -118,7 +118,7 @@ public class HttpTests : TestBase
             .Returns(httpClient);
         var http = new ModularPipelines.Http.Http(
             httpClientFactory.Object,
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -152,7 +152,7 @@ public class HttpTests : TestBase
         };
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -192,7 +192,7 @@ public class HttpTests : TestBase
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -232,7 +232,7 @@ public class HttpTests : TestBase
         };
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -277,7 +277,7 @@ public class HttpTests : TestBase
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -315,7 +315,7 @@ public class HttpTests : TestBase
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             new LegacyBodyLogger(logRequest: false),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
@@ -339,7 +339,7 @@ public class HttpTests : TestBase
             new ImmediateResponseHandler(new StringContent("response")));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             new LegacyBodyLogger(logRequest: true),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var request = new HttpRequestMessage(
@@ -422,15 +422,15 @@ public class HttpTests : TestBase
         httpLogger
             .Setup(x => x.PrintResponse(
                 It.IsAny<HttpResponseMessage>(),
-                It.IsAny<IModuleLogger>(),
+                It.IsAny<ILogger>(),
                 It.IsAny<HttpLoggingOptions>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<HttpResponseMessage, IModuleLogger, HttpLoggingOptions, CancellationToken>(
+            .Callback<HttpResponseMessage, ILogger, HttpLoggingOptions, CancellationToken>(
                 (response, _, _, _) => loggedContentType = response.Content.GetType())
             .Returns(Task.CompletedTask);
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             httpLogger.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
@@ -526,10 +526,10 @@ public class HttpTests : TestBase
         var content = new StreamContent(contentStream);
         content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
         using var httpClient = new HttpClient(new ImmediateResponseHandler(content));
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
-            .Returns(Mock.Of<IModuleLogger>());
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
+            .Returns(Mock.Of<ILogger>());
         var httpLogger = new HttpLogger(
             Mock.Of<IHttpRequestFormatter>(),
             new HttpResponseFormatter(
@@ -538,7 +538,7 @@ public class HttpTests : TestBase
                 Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions())));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             httpLogger,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
@@ -565,7 +565,7 @@ public class HttpTests : TestBase
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -603,7 +603,7 @@ public class HttpTests : TestBase
             .Returns(httpClient);
         var http = new ModularPipelines.Http.Http(
             httpClientFactory.Object,
-            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IModuleLoggerAccessor>(),
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -637,10 +637,10 @@ public class HttpTests : TestBase
             new MemoryStream("response body"u8.ToArray()));
         content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
         using var httpClient = new HttpClient(new ImmediateResponseHandler(content));
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
-            .Returns(Mock.Of<IModuleLogger>());
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
+            .Returns(Mock.Of<ILogger>());
         var httpLogger = new HttpLogger(
             Mock.Of<IHttpRequestFormatter>(),
             new HttpResponseFormatter(
@@ -649,7 +649,7 @@ public class HttpTests : TestBase
                 Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions())));
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             httpLogger,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
@@ -684,10 +684,10 @@ public class HttpTests : TestBase
         var content = new StreamContent(contentStream);
         content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
 
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
-            .Returns(Mock.Of<IModuleLogger>());
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
+            .Returns(Mock.Of<ILogger>());
         var httpLogger = new HttpLogger(
             Mock.Of<IHttpRequestFormatter>(),
             new HttpResponseFormatter(
@@ -701,7 +701,7 @@ public class HttpTests : TestBase
             .Returns(httpClient);
         var http = new ModularPipelines.Http.Http(
             httpClientFactory.Object,
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             httpLogger,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
@@ -732,12 +732,12 @@ public class HttpTests : TestBase
                 Content = retryContent,
             },
             new HttpResponseMessage(HttpStatusCode.OK));
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
-            .Returns(Mock.Of<IModuleLogger>());
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
+            .Returns(Mock.Of<ILogger>());
         using var handler = new ResilienceHttpHandler(
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
                 Http = new PipelineHttpOptions
@@ -771,12 +771,12 @@ public class HttpTests : TestBase
         var innerHandler = new SequenceResponseHandler(
             new HttpResponseMessage(HttpStatusCode.ServiceUnavailable),
             new HttpResponseMessage(HttpStatusCode.OK));
-        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
-        moduleLoggerProvider
-            .Setup(x => x.GetLogger())
-            .Returns(Mock.Of<IModuleLogger>());
+        var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
+        moduleLoggerAccessor
+            .Setup(x => x.Logger)
+            .Returns(Mock.Of<ILogger>());
         using var handler = new ResilienceHttpHandler(
-            moduleLoggerProvider.Object,
+            moduleLoggerAccessor.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
                 Http = new PipelineHttpOptions
@@ -1128,7 +1128,7 @@ public class HttpTests : TestBase
 
     private sealed class LegacyBodyLogger(bool logRequest) : IHttpLogger
     {
-        public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
+        public Task PrintRequest(HttpRequestMessage request, ILogger logger)
         {
             return logRequest
                 ? request.Content!.ReadAsStringAsync()
@@ -1137,7 +1137,7 @@ public class HttpTests : TestBase
 
         public Task PrintRequest(
             HttpRequestMessage request,
-            IModuleLogger logger,
+            ILogger logger,
             HttpLoggingOptions options)
         {
             return logRequest
@@ -1145,7 +1145,7 @@ public class HttpTests : TestBase
                 : Task.CompletedTask;
         }
 
-        public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
+        public Task PrintResponse(HttpResponseMessage response, ILogger logger)
         {
             return logRequest
                 ? Task.CompletedTask
@@ -1154,7 +1154,7 @@ public class HttpTests : TestBase
 
         public Task PrintResponse(
             HttpResponseMessage response,
-            IModuleLogger logger,
+            ILogger logger,
             HttpLoggingOptions options)
         {
             return logRequest
@@ -1162,11 +1162,11 @@ public class HttpTests : TestBase
                 : response.Content.ReadAsStringAsync();
         }
 
-        public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
+        public void PrintStatusCode(HttpStatusCode? httpStatusCode, ILogger logger)
         {
         }
 
-        public void PrintDuration(TimeSpan duration, IModuleLogger logger)
+        public void PrintDuration(TimeSpan duration, ILogger logger)
         {
         }
     }

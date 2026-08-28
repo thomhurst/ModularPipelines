@@ -221,7 +221,7 @@ internal sealed class PipelinePlanner
                 scopedServices.GetRequiredService<IPipelineContext>(),
                 module,
                 executionContext,
-                scopedServices.GetRequiredService<IInternalModuleLoggerProvider>().GetLogger(module.GetType()),
+                scopedServices.GetRequiredService<IInternalModuleLoggerAccessor>().GetLogger(module.GetType()),
                 _mediator,
                 _estimatedTimeProvider,
                 moduleResultAccessAllowed: false);

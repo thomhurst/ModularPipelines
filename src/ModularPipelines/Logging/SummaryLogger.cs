@@ -31,11 +31,11 @@ internal class SummaryLogger : IInternalSummaryLogger
     }
 
     /// <inheritdoc />
-    public void Info(string message)
+    public void Information(string message)
         => AddEntry(SummaryLogLevel.Information, message, null);
 
     /// <inheritdoc />
-    public void Info(string category, string message)
+    public void Information(string category, string message)
         => AddEntry(SummaryLogLevel.Information, message, category);
 
     /// <inheritdoc />

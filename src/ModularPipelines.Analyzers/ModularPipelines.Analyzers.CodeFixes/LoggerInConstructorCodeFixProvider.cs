@@ -351,7 +351,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             _ => null,
         };
         var contextLoggerType = semanticModel.Compilation.GetTypeByMetadataName(
-            "ModularPipelines.Logging.IModuleLogger");
+            "Microsoft.Extensions.Logging.ILogger");
 
         if (requiredReceiverType is null
             || contextLoggerType is null

@@ -5,18 +5,18 @@ sidebar_position: 8
 
 # Logging
 
-## IModuleLogger
-When logging in your pipeline, you should always use an IModuleLogger. Do not inject in your own ILogger, and do not write to the console directly using the `Console` class, or any other class that would write directly to the console.
+## ILogger
+When logging in a module, use the `ILogger` exposed by `context.Logger`. Do not inject a category logger such as `ILogger<T>` into a module, and do not write directly through `Console` or another console API.
 
-This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.
+The context logger applies Modular Pipelines' secret masking and groups output with the current module while still using the standard Microsoft.Extensions.Logging API.
 
 These are detailed below.
 
 ## Secret Obfuscation
-If secrets have been defined (See [Secrets](secrets) for details on this), then if any of them are attempted to be written to logs via IModuleLogger, either directly, or through things like HTTP or Command logs, they will be obfuscated in the output. So for instance, if you made a HTTP call with a bearer token of 'MySuperSecretToken', when the HTTP request is logged, that bearer will show as '**********'.
+If secrets have been defined (See [Secrets](secrets) for details on this), then if any of them are attempted to be written through the context logger, either directly or through HTTP and command logs, they will be obfuscated in the output. For example, a bearer token of 'MySuperSecretToken' will appear as '**********'.
 
 ## Grouped Logs
-When writing logs through IModuleLogger, logs will be grouped by what module they're in.
+When writing through `context.Logger`, logs are grouped by the current module.
 Since all modules attempt to run in parallel, if there was no log organisation, then logs would be everywhere and all jumbled up, and hard to navigate. This keeps logs together, clean, and easy to read. This is why it's very important not to write to the console directly, as that'll prevent this from working.
 
 ## Interfering with Console Progress 
@@ -26,13 +26,13 @@ If you start writing to the console directly, then you'll be writing over the to
 ## Analyzers
 If you forget the above, Modular Pipelines has analyzers built as part of its framework. It'll detect direct uses of `Console`, or trying to inject in custom `ILogger`s and will result in errors, asking you to fix the issues.
 
-## How to access IModuleLogger
+## How to access ILogger
 
 ### Module
 If you're in a module, it's part of your `context` object. Call `context.Logger`.
 
 ### Elsewhere
-If you're in another class, you can inject in `IModuleLoggerProvider` and call `GetLogger`.
+If you're in another class, inject `IModuleLoggerAccessor` and use its `Logger` property.
 
 ## Command Logging
 

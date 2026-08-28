@@ -266,7 +266,7 @@ public class DistributedModuleExecutorTests
     private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
     {
         moduleLogger ??= Mock.Of<IInternalModuleLogger>();
-        var loggerProvider = new Mock<IInternalModuleLoggerProvider>();
+        var loggerProvider = new Mock<IInternalModuleLoggerAccessor>();
         loggerProvider.Setup(provider => provider.GetLogger(It.IsAny<Type>())).Returns(moduleLogger);
         var services = new ServiceCollection();
         services.AddScoped(_ => loggerProvider.Object);

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Logging;
@@ -10,18 +11,18 @@ namespace ModularPipelines.Http;
 internal class Http : IHttpContext
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly IHttpLogger _httpLogger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public Http(
         IHttpClientFactory httpClientFactory,
-        IModuleLoggerProvider moduleLoggerProvider,
+        IModuleLoggerAccessor moduleLoggerAccessor,
         IHttpLogger httpLogger,
         IOptions<PipelineOptions> pipelineOptions)
     {
         _httpClientFactory = httpClientFactory;
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerAccessor = moduleLoggerAccessor;
         _httpLogger = httpLogger;
         _pipelineOptions = pipelineOptions;
     }
@@ -86,7 +87,7 @@ internal class Http : IHttpContext
         Func<HttpResponseMessage, HttpResponseMessage> wrapResponse,
         CancellationToken cancellationToken)
     {
-        var logger = _moduleLoggerProvider.GetLogger();
+        var logger = _moduleLoggerAccessor.Logger;
         var loggingOptions = GetEffectiveLoggingOptions(httpOptions);
 
         await _httpLogger
@@ -147,7 +148,7 @@ internal class Http : IHttpContext
 
     private void LogDuration(
         TimeSpan duration,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions loggingOptions)
     {
         if (loggingOptions.LogDuration)
@@ -158,7 +159,7 @@ internal class Http : IHttpContext
 
     private void LogStatusCode(
         HttpStatusCode? httpStatusCode,
-        IModuleLogger logger,
+        ILogger logger,
         HttpLoggingOptions loggingOptions)
     {
         if (loggingOptions.LogStatusCode)

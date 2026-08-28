@@ -10,13 +10,29 @@ namespace ModularPipelines.UnitTests.Logging;
 
 public class SummaryLoggerTests
 {
+    [Test]
+    public async Task SummaryContracts_SeparateWritingFromReading()
+    {
+        var writerMethods = typeof(ISummaryLogger).GetMethods().Select(method => method.Name);
+        var readerMethods = typeof(ISummaryLogReader).GetMethods().Select(method => method.Name);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writerMethods).Contains(nameof(ISummaryLogger.Information));
+            await Assert.That(writerMethods).DoesNotContain(nameof(ISummaryLogReader.GetEntries));
+            await Assert.That(writerMethods).DoesNotContain(nameof(ISummaryLogReader.GetOutput));
+            await Assert.That(readerMethods).Contains(nameof(ISummaryLogReader.GetEntries));
+            await Assert.That(readerMethods).Contains(nameof(ISummaryLogReader.GetOutput));
+        }
+    }
+
     #region Summary API Tests
 
     private class SummaryInfoLoggingModule : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            context.Summary.Info("Info message");
+            context.Summary.Information("Info message");
             await Task.CompletedTask;
             return true;
         }
@@ -66,7 +82,7 @@ public class SummaryLoggerTests
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            context.Summary.Info("Build", "Build completed");
+            context.Summary.Information("Build", "Build completed");
             context.Summary.Success("Build", "All tests passed");
             context.Summary.KeyValue("Artifacts", "Path", "/output/artifacts");
             await Task.CompletedTask;
@@ -201,7 +217,7 @@ public class SummaryLoggerTests
     {
         var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
-        logger.Info("Message 1");
+        logger.Information("Message 1");
         logger.Success("Message 2");
         logger.Warning("Message 3");
 
@@ -215,9 +231,9 @@ public class SummaryLoggerTests
     {
         var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
-        logger.Info("Build", "Build message");
-        logger.Info("Deploy", "Deploy message");
-        logger.Info("Build", "Another build message");
+        logger.Information("Build", "Build message");
+        logger.Information("Deploy", "Deploy message");
+        logger.Information("Build", "Another build message");
 
         var buildEntries = logger.GetEntries("Build");
         var deployEntries = logger.GetEntries("Deploy");
@@ -231,7 +247,7 @@ public class SummaryLoggerTests
     {
         var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
-        logger.Info("Info message");
+        logger.Information("Info message");
         logger.Success("Success message");
         logger.Warning("Warning message");
         logger.Error("Error message");
@@ -249,9 +265,9 @@ public class SummaryLoggerTests
     {
         var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
-        logger.Info("Category1", "Message in Category1");
-        logger.Info("Category2", "Message in Category2");
-        logger.Info("Uncategorized message");
+        logger.Information("Category1", "Message in Category1");
+        logger.Information("Category2", "Message in Category2");
+        logger.Information("Uncategorized message");
 
         var output = logger.GetOutput();
 
@@ -314,7 +330,7 @@ public class SummaryLoggerTests
             {
                 for (int i = 0; i < iterationsPerTask; i++)
                 {
-                    logger.Info($"Task {taskIndex} message {i}");
+                    logger.Information($"Task {taskIndex} message {i}");
                 }
             }));
         }

@@ -4,12 +4,12 @@ namespace ModularPipelines.Http;
 
 internal class StatusCodeLoggingHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLoggerProvider _loggerProvider;
+    private readonly IModuleLoggerAccessor _loggerAccessor;
     private readonly IHttpLogger _httpLogger;
 
-    public StatusCodeLoggingHttpHandler(IModuleLoggerProvider loggerProvider, IHttpLogger httpLogger)
+    public StatusCodeLoggingHttpHandler(IModuleLoggerAccessor loggerAccessor, IHttpLogger httpLogger)
     {
-        _loggerProvider = loggerProvider;
+        _loggerAccessor = loggerAccessor;
         _httpLogger = httpLogger;
     }
 
@@ -19,14 +19,14 @@ internal class StatusCodeLoggingHttpHandler : DelegatingHandler
         {
             var httpResponseMessage = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
-            var logger = _loggerProvider.GetLogger();
+            var logger = _loggerAccessor.Logger;
             _httpLogger.PrintStatusCode(httpResponseMessage.StatusCode, logger);
 
             return httpResponseMessage;
         }
         catch (HttpRequestException e)
         {
-            var logger = _loggerProvider.GetLogger();
+            var logger = _loggerAccessor.Logger;
             _httpLogger.PrintStatusCode(e.StatusCode, logger);
             throw;
         }

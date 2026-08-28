@@ -78,7 +78,7 @@ internal sealed class ModulePlanningSkipEvaluator(
                 scopedServices.GetRequiredService<IPipelineContext>(),
                 module,
                 executionContext,
-                scopedServices.GetRequiredService<IInternalModuleLoggerProvider>()
+                scopedServices.GetRequiredService<IInternalModuleLoggerAccessor>()
                     .GetLogger(module.GetType()),
                 mediator,
                 estimatedTimeProvider,

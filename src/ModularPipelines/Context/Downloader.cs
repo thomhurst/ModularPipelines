@@ -11,18 +11,18 @@ namespace ModularPipelines.Context;
 
 internal class Downloader : IDownloaderContext
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly IHttpContext _http;
     private readonly IFileSystemProvider _fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory;
 
     public Downloader(
-        IModuleLoggerProvider moduleLoggerProvider,
+        IModuleLoggerAccessor moduleLoggerAccessor,
         IHttpContext http,
         IFileSystemProvider fileSystemProvider,
         PipelineWorkingDirectory workingDirectory)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerAccessor = moduleLoggerAccessor;
         _http = http;
         _fileSystemProvider = fileSystemProvider;
         _workingDirectory = workingDirectory;
@@ -72,7 +72,7 @@ internal class Downloader : IDownloaderContext
                 }
             }
 
-            _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
+            _moduleLoggerAccessor.Logger.LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
 
             return new File(filePathToSave, _fileSystemProvider);
         }

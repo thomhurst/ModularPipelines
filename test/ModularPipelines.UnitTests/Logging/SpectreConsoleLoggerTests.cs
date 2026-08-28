@@ -85,14 +85,14 @@ public class SpectreConsoleLoggerTests
     public async Task Logs_Inline_Output_With_Command_Output_Placeholder()
     {
         var logger = new CapturingModuleLogger();
-        var loggerProvider = new Mock<IModuleLoggerProvider>();
-        loggerProvider.Setup(x => x.GetLogger()).Returns(logger);
+        var loggerAccessor = new Mock<IModuleLoggerAccessor>();
+        loggerAccessor.Setup(x => x.Logger).Returns(logger);
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
             .Returns((string? value, object? _) => value ?? string.Empty);
         var commandLogger = new CommandLogger(
-            loggerProvider.Object,
+            loggerAccessor.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             secretObfuscator.Object);
 

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -15,7 +16,7 @@ namespace ModularPipelines.Context;
 /// </remarks>
 internal class PipelineContext : IPipelineContext, IInternalPipelineContext
 {
-    private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IInternalModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly ModuleLookup _moduleLookup;
 
     /// <summary>
@@ -24,7 +25,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     private IModuleLogger? _logger;
 
     /// <inheritdoc />
-    public IModuleLogger Logger => _logger ??= _moduleLoggerProvider.GetLogger();
+    public ILogger Logger => _logger ??= _moduleLoggerAccessor.GetLogger();
 
     /// <inheritdoc />
     public Domains.IShellContext Shell { get; }
@@ -65,7 +66,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
 
     public void InitializeLogger(Type getType)
     {
-        _logger = _moduleLoggerProvider.GetLogger(getType);
+        _logger = _moduleLoggerAccessor.GetLogger(getType);
     }
 
     /// <summary>
@@ -75,7 +76,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         ModuleLookup moduleLookup,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IModuleResultRepository moduleResultRepository,
-        IInternalModuleLoggerProvider moduleLoggerProvider,
+        IInternalModuleLoggerAccessor moduleLoggerAccessor,
         EngineCancellationToken engineCancellationToken,
         Domains.IShellContext shell,
         IFilesContext files,
@@ -88,7 +89,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         ISummaryLogger summary)
     {
         _moduleLookup = moduleLookup;
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerAccessor = moduleLoggerAccessor;
         DependencyCollisionDetector = dependencyCollisionDetector;
         ModuleResultRepository = moduleResultRepository;
         EngineCancellationToken = engineCancellationToken;

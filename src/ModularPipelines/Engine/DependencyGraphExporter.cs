@@ -441,7 +441,7 @@ internal sealed class DependencyGraphExporter(
                 scopedServices.GetRequiredService<IPipelineContext>(),
                 module,
                 executionContext,
-                scopedServices.GetRequiredService<IInternalModuleLoggerProvider>().GetLogger(module.GetType()),
+                scopedServices.GetRequiredService<IInternalModuleLoggerAccessor>().GetLogger(module.GetType()),
                 mediator,
                 estimatedTimeProvider,
                 moduleResultAccessAllowed: false);

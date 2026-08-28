@@ -448,7 +448,7 @@ namespace AnalyzerExamples;
 public static class CustomLoggerExtensions
 {{
     public static void LogInformation(
-        this ModularPipelines.Logging.IModuleLogger logger,
+        this Microsoft.Extensions.Logging.ILogger logger,
         string message,
         string value)
     {{

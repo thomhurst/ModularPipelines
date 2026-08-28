@@ -42,6 +42,7 @@ ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunFileAsync(ModularPi
 ModularPipelines.Context.Domains.Shell.IPowerShellContext.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Context.IModuleContext.RunSubModuleAsync(string! name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 ModularPipelines.Context.IModuleContext.RunSubModuleAsync<T>(string! name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<T>!>! body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<T>!
+ModularPipelines.Context.IPipelineContext.Logger.get -> Microsoft.Extensions.Logging.ILogger!
 ModularPipelines.Engine.RunHistoryQuery.Status.get -> ModularPipelines.Enums.ModuleStatus?
 ModularPipelines.Enums.ExecutionHint
 ModularPipelines.Enums.ExecutionHint.CpuBound = 1 -> ModularPipelines.Enums.ExecutionHint
@@ -152,6 +153,14 @@ ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string!
 ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string! PropertyName, System.Func<object!, object?>! Getter, System.Collections.Generic.IReadOnlyList<string!>? SecretValueKeys = null) -> void
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.init -> void
+ModularPipelines.Logging.IModuleLoggerAccessor
+ModularPipelines.Logging.IModuleLoggerAccessor.Logger.get -> Microsoft.Extensions.Logging.ILogger!
+ModularPipelines.Logging.ISummaryLogReader
+ModularPipelines.Logging.ISummaryLogReader.GetEntries() -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Logging.SummaryLogEntry!>!
+ModularPipelines.Logging.ISummaryLogReader.GetEntries(string! category) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Logging.SummaryLogEntry!>!
+ModularPipelines.Logging.ISummaryLogReader.GetOutput() -> string!
+ModularPipelines.Logging.ISummaryLogger.Information(string! category, string! message) -> void
+ModularPipelines.Logging.ISummaryLogger.Information(string! message) -> void
 ModularPipelines.Models.IModuleResult.Duration.get -> System.TimeSpan
 ModularPipelines.Models.IModuleResult.EndTime.get -> System.DateTimeOffset
 ModularPipelines.Models.IModuleResult.Name.get -> string!

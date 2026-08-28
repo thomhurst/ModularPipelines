@@ -13,6 +13,14 @@ await context.Installers.InstallFromWebAsync(new WebInstallerOptions(downloadUri
 contexts, and their platform-specific option types have been removed. Use the
 dedicated Brew, Chocolatey, Winget, Node, or other tool integration instead of the
 removed core package-manager wrappers.
+## Logging surface
+
+- `context.Logger` now exposes the standard Microsoft.Extensions.Logging `ILogger`
+  contract. The framework-owned logger lifecycle is no longer publicly disposable.
+- Replace injected `IModuleLoggerProvider` with `IModuleLoggerAccessor` and read its
+  `Logger` property.
+- `ISummaryLogger.Info(...)` is now `Information(...)`.
+- Summary read methods moved from `ISummaryLogger` to `ISummaryLogReader`.
 
 ## Logging options
 

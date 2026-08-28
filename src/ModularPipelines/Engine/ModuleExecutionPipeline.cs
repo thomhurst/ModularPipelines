@@ -302,7 +302,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleConfiguration config,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
-        IModuleLogger logger)
+        ILogger logger)
     {
         if (_pipelineOptions.Value.DisableModuleCache
             || !config.CacheEnabled
@@ -369,7 +369,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         SkipDecision skipDecision,
-        IModuleLogger logger)
+        ILogger logger)
     {
         executionContext.Status = ModuleStatus.Skipped;
         executionContext.SkipResult = skipDecision;
@@ -403,7 +403,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private async Task<ModuleResult<T>?> TryGetHistoricalResult<T>(
         Module<T> module,
         IModuleContext moduleContext,
-        IModuleLogger logger)
+        ILogger logger)
     {
         try
         {
@@ -422,7 +422,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private async Task<ModuleResult<T>?> TryGetCachedResult<T>(
         Module<T> module,
         IModuleContext moduleContext,
-        IModuleLogger logger,
+        ILogger logger,
         CancellationToken cancellationToken)
     {
         try
@@ -449,7 +449,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         ModuleResult<T> historicalResult,
         SkipDecision skipDecision,
-        IModuleLogger logger,
+        ILogger logger,
         string message)
     {
         executionContext.Status = ModuleStatus.RestoredFromHistory;
@@ -462,7 +462,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private static ModuleResult<T> UseCachedResult<T>(
         ModuleExecutionContext<T> executionContext,
         ModuleResult<T> cachedResult,
-        IModuleLogger logger)
+        ILogger logger)
     {
         executionContext.Status = ModuleStatus.RestoredFromCache;
         var result = cachedResult with { Status = ModuleStatus.RestoredFromCache };
@@ -531,7 +531,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private static void LogTimeoutConfiguration(
         ModuleConfiguration config,
         TimeSpan timeout,
-        IModuleLogger logger)
+        ILogger logger)
     {
         if (config.Timeout is not null)
         {
@@ -723,7 +723,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Exception exception,
-        IModuleLogger logger,
+        ILogger logger,
         Action<ModuleResult<T>> preserveResult,
         bool completeModule = true)
     {
@@ -819,7 +819,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Exception exception,
-        IModuleLogger logger)
+        ILogger logger)
     {
         ((IInternalModuleLogger) logger).SetException(exception);
 
@@ -893,7 +893,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         public void RecordAttempt() => Interlocked.Increment(ref _moduleAttemptCount);
     }
 
-    private static void LogModuleStatus(ModuleExecutionContext executionContext, IModuleLogger logger)
+    private static void LogModuleStatus(ModuleExecutionContext executionContext, ILogger logger)
     {
         var moduleName = executionContext.ModuleType.Name;
         var message = StatusDisplayProvider.FormatStatusMessage(moduleName, executionContext.Status);

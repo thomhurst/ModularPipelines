@@ -23,11 +23,11 @@ namespace ModularPipelines.Logging;
 /// </para>
 /// <code>
 /// // Simple information logging
-/// context.Summary.Info("Build completed successfully");
+/// context.Summary.Information("Build completed successfully");
 ///
 /// // Categorized logging for grouped display
 /// context.Summary.Success("Version", $"Built version {version}");
-/// context.Summary.Info("Artifacts", $"Published to {artifactPath}");
+/// context.Summary.Information("Artifacts", $"Published to {artifactPath}");
 ///
 /// // Warning and error logging
 /// context.Summary.Warning("Some tests were skipped");
@@ -44,14 +44,14 @@ public interface ISummaryLogger
     /// Logs an informational message to the pipeline summary.
     /// </summary>
     /// <param name="message">The message to log.</param>
-    void Info(string message);
+    void Information(string message);
 
     /// <summary>
     /// Logs an informational message with a category to the pipeline summary.
     /// </summary>
     /// <param name="category">The category for grouping related messages.</param>
     /// <param name="message">The message to log.</param>
-    void Info(string category, string message);
+    void Information(string category, string message);
 
     /// <summary>
     /// Logs a success message to the pipeline summary.
@@ -125,23 +125,4 @@ public interface ISummaryLogger
     /// <param name="category">The category for grouping related messages.</param>
     /// <param name="message">The message to log.</param>
     void Log(SummaryLogLevel level, string category, string message);
-
-    /// <summary>
-    /// Gets all log entries that have been recorded.
-    /// </summary>
-    /// <returns>A read-only collection of all log entries.</returns>
-    IReadOnlyList<SummaryLogEntry> GetEntries();
-
-    /// <summary>
-    /// Gets log entries filtered by category.
-    /// </summary>
-    /// <param name="category">The category to filter by.</param>
-    /// <returns>A read-only collection of log entries matching the category.</returns>
-    IReadOnlyList<SummaryLogEntry> GetEntries(string category);
-
-    /// <summary>
-    /// Gets all buffered log messages as a single formatted string.
-    /// </summary>
-    /// <returns>A string containing all buffered messages, formatted with log levels and categories.</returns>
-    string GetOutput();
 }

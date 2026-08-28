@@ -26,7 +26,7 @@ public class Module1 : Module<List<string>>
 ";
 
     private static readonly string BadModuleSourceILogger = CreateModuleWithLoggerConstructor("ILogger logger");
-    private static readonly string BadModuleSourceILoggerProvider = CreateModuleWithLoggerConstructor("ILoggerProvider loggerProvider");
+    private static readonly string BadModuleSourceILoggerProvider = CreateModuleWithLoggerConstructor("ILoggerProvider loggerAccessor");
     private static readonly string BadModuleSourceILoggerFactory = CreateModuleWithLoggerConstructor("ILoggerFactory loggerFactory");
     private static readonly string BadModuleSourceILoggerGeneric = CreateModuleWithLoggerConstructor("ILogger<Module1> logger");
     private static readonly string AttributedLoggerParameterSource =
@@ -763,16 +763,16 @@ public static class LoggerExtensions
     {{
     }}
 
-    public static void LogCustom(this IModuleLogger logger)
+    public static void LogCustom(this ILogger<Module1> logger)
     {{
     }}
 }}
 
 public class Module1 : Module<List<string>>
 {{
-    private readonly ILogger _logger;
+    private readonly ILogger<Module1> _logger;
 
-    public Module1(ILogger logger)
+    public Module1(ILogger<Module1> logger)
     {{
         _logger = logger;
     }}
@@ -806,7 +806,7 @@ using ModularPipelines.Logging;
 
 public class Module1 : Module<List<string>>
 {{
-    public Module1(IModuleLoggerProvider moduleLoggerProvider)
+    public Module1(IModuleLoggerAccessor moduleLoggerAccessor)
     {{
     }}
 
