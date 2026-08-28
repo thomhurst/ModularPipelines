@@ -75,7 +75,9 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<FromBase64Module>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.ValueOrDefault).IsEquivalentTo("Foo bar!"u8.ToArray());
+        await Assert.That(moduleResult.ValueOrDefault).IsEquivalentTo(
+            "Foo bar!"u8.ToArray(),
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
