@@ -143,7 +143,7 @@ await foreach (var failedRun in historyStore.GetRunsAsync(new RunHistoryQuery
 
     Since = DateTimeOffset.UtcNow.AddDays(-30),
 
-    Status = Status.Failed,
+    Status = ModuleStatus.Failed,
 
 }, cancellationToken))
 

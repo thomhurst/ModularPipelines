@@ -216,7 +216,7 @@ var summary = await pipeline.RunAsync();
 
 // Check results
 
-if (summary.Status == ModularPipelines.Enums.Status.Failed)
+if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
 
 {
 

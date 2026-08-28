@@ -180,7 +180,7 @@ public class MyModule : Module<string>
 
     {
 
-        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+        context.Logger.LogInformation("Module completed with status: {Status}", result.Status);
 
         return Task.FromResult<ModuleResult<string>?>(null);
 

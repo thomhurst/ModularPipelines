@@ -51,7 +51,7 @@ The fingerprint contains:
 * explicit key parts and declared environment variable values;
 * normalized results from all direct, selector-based, and dynamic dependencies.
 
-A hit has `Status.UsedHistory`. Cache lookup or storage failures are logged and the module executes normally.
+A history hit has `ModuleStatus.RestoredFromHistory`; a fingerprint-cache hit has `ModuleStatus.RestoredFromCache`. Cache lookup or storage failures are logged and the module executes normally.
 
 Use `--no-cache` to bypass all module cache reads and writes for one command-line run. For programmatic control, set `PipelineOptions.DisableModuleCache` to `true`.
 

@@ -4776,7 +4776,7 @@ public class MyModule : Module<string>
 
     {
 
-        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+        context.Logger.LogInformation("Module completed with status: {Status}", result.Status);
 
         return Task.FromResult<ModuleResult<string>?>(null);
 
@@ -6166,7 +6166,7 @@ The fingerprint contains:
 * explicit key parts and declared environment variable values;
 * normalized results from all direct, selector-based, and dynamic dependencies.
 
-A hit has `Status.UsedHistory`. Cache lookup or storage failures are logged and the module executes normally.
+A history hit has `ModuleStatus.RestoredFromHistory`; a fingerprint-cache hit has `ModuleStatus.RestoredFromCache`. Cache lookup or storage failures are logged and the module executes normally.
 
 Use `--no-cache` to bypass all module cache reads and writes for one command-line run. For programmatic control, set `PipelineOptions.DisableModuleCache` to `true`.
 
@@ -6840,7 +6840,7 @@ var summary = await pipeline.RunAsync();
 
 // Check results
 
-if (summary.Status == ModularPipelines.Enums.Status.Failed)
+if (summary.Status == ModularPipelines.Enums.ModuleStatus.Failed)
 
 {
 
@@ -7552,7 +7552,7 @@ await foreach (var failedRun in historyStore.GetRunsAsync(new RunHistoryQuery
 
     Since = DateTimeOffset.UtcNow.AddDays(-30),
 
-    Status = Status.Failed,
+    Status = ModuleStatus.Failed,
 
 }, cancellationToken))
 
@@ -8523,7 +8523,7 @@ var run = await ModuleTester.For<BuildModule, BuildArtifact>()
 
 ## Assert skipped and failed runs[​](#assert-skipped-and-failed-runs "Direct link to Assert skipped and failed runs")
 
-The harness configures `ThrowOnPipelineFailure = false`, so failed modules are returned for assertions. Successful runs expose `Status.Successful`.
+The harness configures `ThrowOnPipelineFailure = false`, so failed modules are returned for assertions. Successful runs expose `ModuleStatus.Succeeded`.
 
 The run object exposes safe outcome properties:
 
