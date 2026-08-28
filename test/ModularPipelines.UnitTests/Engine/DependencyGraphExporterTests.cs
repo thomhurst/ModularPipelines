@@ -33,6 +33,7 @@ public class DependencyGraphExporterTests
     private static int _planningActivations;
     private static int _planningDisposals;
     private static int _planningRegistrationEvents;
+    private static int _unsafeRegistrationConstructions;
     private static int _directModuleActivations;
     private static CancellationTokenSource? _planningCancellation;
     private static readonly object DependencySentinel = new();
@@ -1447,6 +1448,11 @@ public class DependencyGraphExporterTests
     private sealed class CountUnsafeRegistrationAttribute
         : Attribute, IModuleRegistrationHandler
     {
+        public CountUnsafeRegistrationAttribute()
+        {
+            Interlocked.Increment(ref _unsafeRegistrationConstructions);
+        }
+
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
             Interlocked.Increment(ref _planningRegistrationEvents);
@@ -3348,17 +3354,19 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Rejected_Render_Then_Run_Invokes_Registration_Handlers_Once()
+    public async Task Rejected_Render_Does_Not_Construct_Unsafe_Handler_During_Planning()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<UnsafeRegistrationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
         _planningRegistrationEvents = 0;
+        _unsafeRegistrationConstructions = 0;
 
         var exception = await Assert.ThrowsAsync<PipelineException>(
             () => exporter.RenderAsync(DependencyGraphFormat.Json));
         var eventsAfterRender = _planningRegistrationEvents;
+        var constructionsAfterRender = _unsafeRegistrationConstructions;
         _ = await pipeline.RunAsync();
 
         using (Assert.Multiple())
@@ -3366,6 +3374,7 @@ public class DependencyGraphExporterTests
             await Assert.That(exception!.Message)
                 .Contains(nameof(IModuleRegistrationHandler.IsPlanningSafe));
             await Assert.That(eventsAfterRender).IsEqualTo(0);
+            await Assert.That(constructionsAfterRender).IsEqualTo(0);
             await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
         }
     }
