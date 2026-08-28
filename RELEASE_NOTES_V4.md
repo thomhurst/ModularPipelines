@@ -1,5 +1,19 @@
 # ModularPipelines V4 Release Notes
 
+## Installers
+
+The core installer surface now contains only generic local and web installation:
+
+```csharp
+await context.Installers.InstallAsync(new InstallerOptions("./setup.sh"));
+await context.Installers.InstallFromWebAsync(new WebInstallerOptions(downloadUri));
+```
+
+`context.Installers.File`, the Windows, Linux, macOS, and predefined installer
+contexts, and their platform-specific option types have been removed. Use the
+dedicated Brew, Chocolatey, Winget, Node, or other tool integration instead of the
+removed core package-manager wrappers.
+
 ## Failure modes and execution hints
 
 Pipeline failure behavior now uses `FailureMode` instead of `ExecutionMode`:

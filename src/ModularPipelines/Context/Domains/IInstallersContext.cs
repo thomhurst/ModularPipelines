@@ -1,38 +1,28 @@
-using ModularPipelines.Context.Domains.Installers;
-
-#pragma warning disable SA1135 // Using directives should be qualified
-using ModularPipelines.Context;
-#pragma warning restore SA1135 // Using directives should be qualified
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Context.Domains;
 
 /// <summary>
-/// Provides platform-specific software installation capabilities.
+/// Provides generic software installation capabilities.
 /// </summary>
 public interface IInstallersContext
 {
     /// <summary>
-    /// File-based installers (local files and web downloads).
+    /// Runs an installer from the local file system.
     /// </summary>
-    IFileInstaller File { get; }
+    /// <param name="options">The installer options.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    Task<CommandResult> InstallAsync(
+        InstallerOptions options,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Windows installers (MSI, EXE, Chocolatey).
+    /// Downloads and runs an installer.
     /// </summary>
-    IWindowsInstallerContext Windows { get; }
-
-    /// <summary>
-    /// Linux installers (apt, dpkg).
-    /// </summary>
-    ILinuxInstallerContext Linux { get; }
-
-    /// <summary>
-    /// macOS installers (Homebrew).
-    /// </summary>
-    IMacInstallerContext Mac { get; }
-
-    /// <summary>
-    /// Pre-configured installers for common tools.
-    /// </summary>
-    IPredefinedInstallersContext Predefined { get; }
+    /// <param name="options">The web installer options.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    Task<CommandResult> InstallFromWebAsync(
+        WebInstallerOptions options,
+        CancellationToken cancellationToken = default);
 }

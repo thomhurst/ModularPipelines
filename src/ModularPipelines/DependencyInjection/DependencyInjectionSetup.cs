@@ -14,11 +14,9 @@ using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
-using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Context.Linux;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;
@@ -151,12 +149,6 @@ internal static class DependencyInjectionSetup
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificatesContext, Certificates>()
             .AddScoped<IDownloaderContext, Downloader>()
-            .AddScoped<IFileInstaller, FileInstaller>()
-            .AddScoped<IPredefinedInstallersContext, PredefinedInstallers>()
-            .AddScoped<IWindowsInstallerContext, WindowsInstaller>()
-            .AddScoped<IMacInstallerContext, MacInstaller>()
-            .AddScoped<ILinuxInstallerContext, LinuxInstaller>()
-            .AddScoped<IAptGet, AptGet>()
             .AddScoped<IZipContext, Zip>()
             .AddScoped<IPowerShellContext, Powershell>()
             .AddScoped<IBashContext, Bash>()

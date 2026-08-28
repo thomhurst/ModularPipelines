@@ -29,7 +29,7 @@ run conditions now receive `IPipelineContext` directly.
 | `Files` | `IFilesContext` | File operations, ZIP archives, and checksums |
 | `Data` | `IDataContext` | JSON, XML, YAML, Base64, and hexadecimal data |
 | `Environment` | `IEnvironmentContext` | Environment and build-system information |
-| `Installers` | `IInstallersContext` | Platform and predefined installers |
+| `Installers` | `IInstallersContext` | Generic local and web installers |
 | `Network` | `INetworkContext` | HTTP and downloads |
 | `Security` | `ISecurityContext` | Certificates and hashing |
 | `Services` | `IServicesContext` | Dependency injection and configuration |
