@@ -44,7 +44,7 @@ public sealed class PipelineBuilder
 
     internal PipelineBuilder(
         PipelineBuilderSettings settings,
-        string? inferredWorkingDirectory = null)
+        string? projectInferenceSourcePath = null)
     {
         _settings = settings;
 
@@ -76,7 +76,7 @@ public sealed class PipelineBuilder
             _configuration.AddCommandLine(args);
         }
 
-        _environment = CreateHostEnvironment(settings, args, inferredWorkingDirectory);
+        _environment = CreateHostEnvironment(settings, args, projectInferenceSourcePath);
         _resources = _environment.Resources;
         _configuration.SetBasePath(_environment.WorkingDirectory);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
@@ -282,7 +282,7 @@ public sealed class PipelineBuilder
     private static PipelineHostEnvironment CreateHostEnvironment(
         PipelineBuilderSettings settings,
         IReadOnlyList<string> hostArguments,
-        string? inferredWorkingDirectory)
+        string? projectInferenceSourcePath)
     {
         var hostConfiguration = new ConfigurationManager();
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
@@ -296,12 +296,19 @@ public sealed class PipelineBuilder
             settings.EnvironmentName,
             hostConfiguration[HostDefaults.EnvironmentKey],
             System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-        var workingDirectory = Path.GetFullPath(FirstNonEmpty(
-            Directory.GetCurrentDirectory(),
+        var configuredWorkingDirectory = FirstNonEmpty(
+            string.Empty,
             settings.WorkingDirectory,
             settings.ContentRootPath,
-            hostConfiguration[HostDefaults.ContentRootKey],
-            inferredWorkingDirectory));
+            hostConfiguration[HostDefaults.ContentRootKey]);
+        var workingDirectory = Path.GetFullPath(
+            !string.IsNullOrEmpty(configuredWorkingDirectory)
+                ? configuredWorkingDirectory
+                : FirstNonEmpty(
+                    Directory.GetCurrentDirectory(),
+                    projectInferenceSourcePath is null
+                        ? null
+                        : PipelineDirectory.TryFindPipelineProject(projectInferenceSourcePath)));
         var contentRootPath = Path.GetFullPath(FirstNonEmpty(
             workingDirectory,
             settings.ContentRootPath,

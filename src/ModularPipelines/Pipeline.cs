@@ -69,7 +69,7 @@ public static class Pipeline
 
         return new PipelineBuilder(
             settings,
-            PipelineDirectory.TryFindPipelineProject(sourceFilePath));
+            sourceFilePath);
     }
 
     internal static PipelineBuilder CreateBuilderWithoutProjectInference(PipelineBuilderSettings settings)

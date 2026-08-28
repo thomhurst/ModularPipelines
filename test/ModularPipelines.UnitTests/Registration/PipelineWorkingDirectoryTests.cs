@@ -212,6 +212,32 @@ public class PipelineWorkingDirectoryTests
     }
 
     [Test]
+    public async Task ExplicitWorkingDirectorySkipsProjectInference()
+    {
+        var variableName = "MODULAR_PIPELINES_DIRECTORY";
+        var previousValue = Environment.GetEnvironmentVariable(variableName);
+        var workingDirectory = Directory.CreateTempSubdirectory("pipeline-working-directory-");
+        Environment.SetEnvironmentVariable(
+            variableName,
+            Path.Combine(Path.GetTempPath(), $"missing-pipeline-{Guid.NewGuid():N}"));
+
+        try
+        {
+            var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
+            {
+                WorkingDirectory = workingDirectory.FullName,
+            });
+
+            await Assert.That(builder.WorkingDirectory).IsEqualTo(workingDirectory.FullName);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variableName, previousValue);
+            workingDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task NonInferringBuilderIgnoresPipelineDirectoryEnvironmentVariable()
     {
         var variableName = "MODULAR_PIPELINES_DIRECTORY";
