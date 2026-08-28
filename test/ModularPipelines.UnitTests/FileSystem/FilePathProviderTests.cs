@@ -3,7 +3,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
-public class FileProviderTests
+public class FilePathProviderTests
 {
     [Test]
     public async Task ReadAsync_UsesProvider()

@@ -6,7 +6,7 @@ using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
-public class FileTests : TestBase
+public class FilePathTests : TestBase
 {
     [Test]
     public async Task Delete()

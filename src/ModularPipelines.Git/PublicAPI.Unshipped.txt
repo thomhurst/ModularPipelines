@@ -1,1 +1,4 @@
 #nullable enable
+ModularPipelines.Git.Models.GitRepositoryInfo.Deconstruct(out ModularPipelines.FileSystem.FolderPath! Root) -> void
+ModularPipelines.Git.Models.GitRepositoryInfo.GitRepositoryInfo(ModularPipelines.FileSystem.FolderPath! Root) -> void
+ModularPipelines.Git.Models.GitRepositoryInfo.Root.get -> ModularPipelines.FileSystem.FolderPath!

@@ -15,13 +15,13 @@ public class PortablePathConverterTests
             Converters = { new PortableFilePathJsonConverter(gitRoot) },
         };
 
-        var absolutePath = Path.Combine(gitRoot, "src", "MyProject", "FilePath.cs");
+        var absolutePath = Path.Combine(gitRoot, "src", "MyProject", "File.cs");
         var file = new FilePath(absolutePath);
 
         var json = JsonSerializer.Serialize(file, options);
 
         // Should be relative with forward slashes
-        await Assert.That(json).IsEqualTo("\"src/MyProject/FilePath.cs\"");
+        await Assert.That(json).IsEqualTo("\"src/MyProject/File.cs\"");
     }
 
     [Test]
@@ -33,10 +33,10 @@ public class PortablePathConverterTests
             Converters = { new PortableFilePathJsonConverter(gitRoot) },
         };
 
-        var json = "\"src/MyProject/FilePath.cs\"";
+        var json = "\"src/MyProject/File.cs\"";
         var file = JsonSerializer.Deserialize<FilePath>(json, options);
 
-        var expected = Path.GetFullPath(Path.Combine(gitRoot, "src", "MyProject", "FilePath.cs"));
+        var expected = Path.GetFullPath(Path.Combine(gitRoot, "src", "MyProject", "File.cs"));
         await Assert.That(file).IsNotNull();
         await Assert.That(file!.Path).IsEqualTo(expected);
     }

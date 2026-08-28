@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Logging;
 using ModularPipelines.Serialization;
 
-#pragma warning disable RS0026 // V4 type rename preserves existing optional overloads for compatibility.
-
 namespace ModularPipelines.FileSystem;
 
 /// <summary>

@@ -3,7 +3,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
-public class FolderProviderTests
+public class FolderPathProviderTests
 {
     [Test]
     public async Task Create_UsesProvider()

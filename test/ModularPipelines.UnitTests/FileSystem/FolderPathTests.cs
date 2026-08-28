@@ -13,7 +13,7 @@ using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests.FileSystem;
 
-public class FolderTests : TestBase
+public class FolderPathTests : TestBase
 {
     [Test]
     public async Task CleanFiles()

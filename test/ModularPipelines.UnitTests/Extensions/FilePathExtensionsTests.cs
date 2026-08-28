@@ -4,7 +4,7 @@ using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.UnitTests.Extensions;
 
-public class FileExtensionsTests
+public class FilePathExtensionsTests
 {
     [Test]
     public async Task EnumerablePaths()
