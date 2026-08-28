@@ -77,5 +77,4 @@ public class CmdTests : TestBase
 
         await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
-
 }
