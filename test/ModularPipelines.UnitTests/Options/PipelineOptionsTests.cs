@@ -269,21 +269,32 @@ public class PipelineOptionsTests
     public async Task PipelineBuilderExposesLoggingBuilder()
     {
         var builder = Pipeline.CreateBuilder();
+        var loggerProvider = new TestLoggerProvider();
+        var descriptor = ServiceDescriptor.Singleton<ILoggerProvider>(loggerProvider);
 
-        await Assert.That(builder.Logging.Services).IsSameReferenceAs(builder.Services);
+        builder.Logging.Services.Add(descriptor);
+
+        await Assert.That(builder.Services).Contains(descriptor);
     }
 
     [Test]
     public async Task PipelineBuilderServicesAllowTryAddLoggingReplacements()
     {
+        var loggerProvider = new TestLoggerProvider();
         var builder = Pipeline.CreateBuilder()
             .AddModule<OptionsTestModule>();
         builder.Services.TryAddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
+        builder.Services.TryAddSingleton<ILoggerProvider>(loggerProvider);
 
         await using var pipeline = await builder.BuildAsync();
 
-        await Assert.That(pipeline.Services.GetRequiredService<ILoggerFactory>())
-            .IsSameReferenceAs(NullLoggerFactory.Instance);
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipeline.Services.GetRequiredService<ILoggerFactory>())
+                .IsSameReferenceAs(NullLoggerFactory.Instance);
+            await Assert.That(pipeline.Services.GetServices<ILoggerProvider>())
+                .Contains(loggerProvider);
+        }
     }
 
     [Test]

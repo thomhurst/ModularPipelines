@@ -38,12 +38,12 @@ public sealed class PipelineBuilder
 {
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
+    private readonly DefaultLoggingServiceCollection _loggingServices;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
     private readonly PipelineBuilderResources _resources;
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private readonly PipelineBuilderSettings _settings;
-    private readonly HashSet<ServiceDescriptor> _defaultLoggingDescriptors;
     private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
     private readonly HashSet<Type> _defaultLoggingProviderTypes;
     private PipelineOptions _options;
@@ -67,19 +67,14 @@ public sealed class PipelineBuilder
         _defaultLoggingProviderDescriptors = defaultLoggingServices
             .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
             .ToArray();
-        foreach (var descriptor in _defaultLoggingProviderDescriptors)
-        {
-            _services.Add(descriptor);
-        }
-
-        _defaultLoggingDescriptors = new HashSet<ServiceDescriptor>(
+        _loggingServices = new DefaultLoggingServiceCollection(
             _services,
-            ReferenceEqualityComparer.Instance);
+            _defaultLoggingProviderDescriptors);
         _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
             .Select(static descriptor => descriptor.ImplementationType)
             .OfType<Type>()
             .ToHashSet();
-        Logging = new PipelineLoggingBuilder(_services);
+        Logging = new PipelineLoggingBuilder(_loggingServices);
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
         {
@@ -346,7 +341,7 @@ public sealed class PipelineBuilder
                 options.WorkingDirectory = _environment.WorkingDirectory);
 
             var defaultLoggingProvidersRemoved =
-                !_defaultLoggingProviderDescriptors.All(_services.Contains);
+                !_defaultLoggingProviderDescriptors.All(_loggingServices.Contains);
             if (defaultLoggingProvidersRemoved)
             {
                 foreach (var descriptor in services.Where(IsDefaultLoggingProvider).ToArray())
@@ -358,10 +353,7 @@ public sealed class PipelineBuilder
             // Add user-registered services before plugins so plugins can inspect user configuration
             foreach (var descriptor in _services)
             {
-                if (!_defaultLoggingDescriptors.Contains(descriptor))
-                {
-                    services.Add(descriptor);
-                }
+                services.Add(descriptor);
             }
 
             // Apply plugin services after user services
@@ -669,6 +661,96 @@ public sealed class PipelineBuilder
     private sealed class PipelineLoggingBuilder(IServiceCollection services) : ILoggingBuilder
     {
         public IServiceCollection Services { get; } = services;
+    }
+
+    private sealed class DefaultLoggingServiceCollection(
+        ServiceCollection services,
+        IEnumerable<ServiceDescriptor> defaultProviders) : IServiceCollection
+    {
+        private readonly List<ServiceDescriptor> _defaultProviders = defaultProviders.ToList();
+
+        public ServiceDescriptor this[int index]
+        {
+            get => index < services.Count
+                ? services[index]
+                : _defaultProviders[index - services.Count];
+            set
+            {
+                if (index < services.Count)
+                {
+                    services[index] = value;
+                    return;
+                }
+
+                _defaultProviders.RemoveAt(index - services.Count);
+                services.Add(value);
+            }
+        }
+
+        public int Count => services.Count + _defaultProviders.Count;
+
+        public bool IsReadOnly => false;
+
+        public void Add(ServiceDescriptor item) => services.Add(item);
+
+        public void Clear()
+        {
+            services.Clear();
+            _defaultProviders.Clear();
+        }
+
+        public bool Contains(ServiceDescriptor item) =>
+            services.Contains(item) || _defaultProviders.Contains(item);
+
+        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        {
+            foreach (var descriptor in this)
+            {
+                array[arrayIndex++] = descriptor;
+            }
+        }
+
+        public IEnumerator<ServiceDescriptor> GetEnumerator() =>
+            services.Concat(_defaultProviders).GetEnumerator();
+
+        public int IndexOf(ServiceDescriptor item)
+        {
+            var serviceIndex = services.IndexOf(item);
+            if (serviceIndex >= 0)
+            {
+                return serviceIndex;
+            }
+
+            var defaultIndex = _defaultProviders.IndexOf(item);
+            return defaultIndex >= 0 ? services.Count + defaultIndex : -1;
+        }
+
+        public void Insert(int index, ServiceDescriptor item)
+        {
+            if (index < 0 || index > Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            services.Insert(Math.Min(index, services.Count), item);
+        }
+
+        public bool Remove(ServiceDescriptor item) =>
+            services.Remove(item) || _defaultProviders.Remove(item);
+
+        public void RemoveAt(int index)
+        {
+            if (index < services.Count)
+            {
+                services.RemoveAt(index);
+                return;
+            }
+
+            _defaultProviders.RemoveAt(index - services.Count);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 
     private bool HasDefaultLoggingProvider(IServiceCollection services)
