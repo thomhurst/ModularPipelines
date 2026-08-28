@@ -43,8 +43,6 @@
   <!-- CLI regeneration validates generated API compatibility separately before it can update baselines. -->
   <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true'">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
-    <AdditionalFiles Include="$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt" />
-    <AdditionalFiles Include="$(MSBuildProjectDirectory)\PublicAPI.Unshipped.txt" />
   </ItemGroup>
 
   <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt') and '$(SkipPublicApiAnalysis)' != 'true'">

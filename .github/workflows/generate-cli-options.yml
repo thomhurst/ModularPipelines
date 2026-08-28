@@ -661,6 +661,22 @@ jobs:
             -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
             -CurrentDirectory "$RUNNER_TEMP/api-current"
 
+      - name: Record generated public API changes
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $package = "${{ steps.package.outputs.package }}"
+          $project = "src/$package/$package.csproj"
+          dotnet format $project analyzers --no-restore --diagnostics RS0016 RS0017 --severity error
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to update the public API baseline for $package"
+          }
+
+          Add-Content -LiteralPath "$env:RUNNER_TEMP/generated-paths.txt" -Value @(
+            "src/$package/PublicAPI.Shipped.txt"
+            "src/$package/PublicAPI.Unshipped.txt"
+          )
+
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         shell: pwsh
@@ -955,6 +971,22 @@ jobs:
           tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 `
             -BaselineDirectory "$env:RUNNER_TEMP/api-baseline" `
             -CurrentDirectory "$env:RUNNER_TEMP/api-current"
+
+      - name: Record generated public API changes
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $package = "${{ steps.package.outputs.package }}"
+          $project = "src/$package/$package.csproj"
+          dotnet format $project analyzers --no-restore --diagnostics RS0016 RS0017 --severity error
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to update the public API baseline for $package"
+          }
+
+          Add-Content -LiteralPath "$env:RUNNER_TEMP/generated-paths.txt" -Value @(
+            "src/$package/PublicAPI.Shipped.txt"
+            "src/$package/PublicAPI.Unshipped.txt"
+          )
 
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
