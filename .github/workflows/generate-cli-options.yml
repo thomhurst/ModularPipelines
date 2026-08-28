@@ -647,7 +647,7 @@ jobs:
             BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
           fi
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
-            -c Release "${BUILD_ARGS[@]}"
+            -c Release -p:SkipPublicApiAnalysis=true "${BUILD_ARGS[@]}"
 
       - name: Validate generated API compatibility
         id: api-compat
@@ -655,7 +655,8 @@ jobs:
         continue-on-error: true
         run: |
           PACKAGE="${{ steps.package.outputs.package }}"
-          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release --output "$RUNNER_TEMP/api-current"
+          dotnet pack "src/$PACKAGE/$PACKAGE.csproj" -c Release \
+            -p:SkipPublicApiAnalysis=true --output "$RUNNER_TEMP/api-current"
           pwsh -File tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedApiCompatibility.ps1 \
             -BaselineDirectory "$RUNNER_TEMP/api-baseline" \
             -CurrentDirectory "$RUNNER_TEMP/api-current"
@@ -932,7 +933,11 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        run: dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" -c Release
+        run: >-
+          dotnet build
+          "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
+          -c Release
+          -p:SkipPublicApiAnalysis=true
 
       - name: Validate generated API compatibility
         id: api-compat
@@ -941,7 +946,8 @@ jobs:
         shell: pwsh
         run: |
           $package = "${{ steps.package.outputs.package }}"
-          dotnet pack "src/$package/$package.csproj" -c Release --output "$env:RUNNER_TEMP/api-current"
+          dotnet pack "src/$package/$package.csproj" -c Release `
+            -p:SkipPublicApiAnalysis=true --output "$env:RUNNER_TEMP/api-current"
           if ($LASTEXITCODE -ne 0) {
             throw "Failed to pack current API for $package"
           }

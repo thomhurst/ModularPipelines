@@ -7,6 +7,10 @@ $ErrorActionPreference = 'Stop'
 $repositoryRootPath = (Resolve-Path -LiteralPath $RepositoryRoot).Path
 $sourceRoot = Join-Path $repositoryRootPath 'src'
 
+# Cover conventional standalone package solutions plus the release list's non-standard
+# core and OptionsGenerator layouts. SourceGenerator and Analyzers are embedded Roslyn
+# artifacts, not entries in FindProjectsModule's release project list; analyzer diagnostic
+# compatibility is tracked separately by AnalyzerReleases.Shipped.md/Unshipped.md.
 $packageProjects = @(
     Join-Path $sourceRoot 'ModularPipelines/ModularPipelines.csproj'
     Join-Path $sourceRoot 'ModularPipelines.Cmd/ModularPipelines.Cmd.csproj'

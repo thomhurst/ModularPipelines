@@ -1800,3 +1800,23 @@ virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateTestingRollbackOptions
 virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagSqlOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseValidateOptions? other) -> bool
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Liquibase.get -> ModularPipelines.Liquibase.Services.ILiquibase!
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetAuthor.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetPath.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetAuthor.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetId.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetId.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetPath.set -> void
+ModularPipelines.Liquibase.Services.ILiquibase.MarkNextChangesetRanAsync(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Liquibase.Services.ILiquibase.MarkNextChangesetRanSqlAsync(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+static ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.get_Liquibase(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Liquibase.Services.ILiquibase!
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangeSetIdentifiers.set -> void
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangesetIdentifiers.get -> bool?
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.get -> bool?
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.set -> void
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangesetIdsContainsDescription.get -> bool?
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangesetIdsContainsDescription.set -> void
