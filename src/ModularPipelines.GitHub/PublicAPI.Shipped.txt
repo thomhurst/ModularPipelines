@@ -2075,9 +2075,9 @@ ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.ExtraWorkers.
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.ExtraWorkers.init -> void
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.Name.get -> string!
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.Name.init -> void
-ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.OutputPath.get -> ModularPipelines.FileSystem.File!
+ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.OutputPath.get -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.OutputPath.init -> void
-ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.PipelineProjectPath.get -> ModularPipelines.FileSystem.File!
+ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.PipelineProjectPath.get -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.PipelineProjectPath.init -> void
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.RedisSecretName.get -> string!
 ModularPipelines.GitHub.PipelineWriters.DistributedWorkflowOptions.RedisSecretName.init -> void
@@ -2098,9 +2098,9 @@ ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.GitHubPi
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.GitHubPipelineFileWriterOptions(ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions! original) -> void
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Name.get -> string!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Name.init -> void
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.OutputPath.get -> ModularPipelines.FileSystem.File!
+ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.OutputPath.get -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.OutputPath.init -> void
-ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.PipelineProjectPath.get -> ModularPipelines.FileSystem.File!
+ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.PipelineProjectPath.get -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.PipelineProjectPath.init -> void
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Runner.get -> string!
 ModularPipelines.GitHub.PipelineWriters.GitHubPipelineFileWriterOptions.Runner.init -> void
