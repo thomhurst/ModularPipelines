@@ -1,4 +1,4 @@
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Declares a tag on a module. Tags describe characteristics of the module.

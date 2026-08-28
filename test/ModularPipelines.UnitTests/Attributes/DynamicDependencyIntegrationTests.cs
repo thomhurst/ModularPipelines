@@ -70,7 +70,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.ModuleCategory("compile")]
+    [ModularPipelines.ModuleCategory("compile")]
     public class DynamicallySkippedDependency : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -79,7 +79,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             throw new InvalidOperationException("A filtered dependency must not execute");
     }
 
-    [ModularPipelines.Attributes.ModuleCategory("test")]
+    [ModularPipelines.ModuleCategory("test")]
     [AddDependency(typeof(DynamicallySkippedDependency))]
     public class DynamicallySkippedDependent : Module<string>
     {
