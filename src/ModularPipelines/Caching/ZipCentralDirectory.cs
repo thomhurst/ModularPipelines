@@ -71,7 +71,7 @@ internal static class ZipCentralDirectory
         }
 
         var recordOffset = BinaryPrimitives.ReadUInt64LittleEndian(locator[8..]);
-        if (recordOffset > (ulong) (stream.Length - Zip64EndOfCentralDirectorySize))
+        if (recordOffset > (ulong)(stream.Length - Zip64EndOfCentralDirectorySize))
         {
             throw new InvalidDataException("Module cache ZIP64 central directory is invalid.");
         }
