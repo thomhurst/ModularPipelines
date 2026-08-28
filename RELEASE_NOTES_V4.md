@@ -10,15 +10,17 @@ Asynchronous module predicates now consistently use `ValueTask`. The
 `ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous
 `ModuleConfigurationBuilder.WithIgnoreFailuresWhen` overload therefore accept
 `Func<IModuleContext, Exception, ValueTask<bool>>` instead of the previous
-`Task<bool>` delegate. Explicitly typed callers must migrate for v4:
+`Task<bool>` delegate. Explicitly typed callers must migrate inside their module's
+configuration hook for v4:
 
 ```csharp
-Func<IModuleContext, Exception, ValueTask<bool>> ignoreFailure =
-    (context, exception) => ValueTask.FromResult(exception is ApiValidationException);
+protected override void Configure(ModuleConfigurationBuilder module)
+{
+    Func<IModuleContext, Exception, ValueTask<bool>> ignoreFailure =
+        (context, exception) => ValueTask.FromResult(exception is ApiValidationException);
 
-ModuleConfiguration.Create()
-    .WithIgnoreFailuresWhen(ignoreFailure)
-    .Build();
+    module.WithIgnoreFailuresWhen(ignoreFailure);
+}
 ```
 
 ## CLI argument ordering
