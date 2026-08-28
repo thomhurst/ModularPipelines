@@ -993,6 +993,64 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task IncrementalFlush_CancelledRenderGateWait_DoesNotMarkRetryAsContinued()
+    {
+        var writer = new StringWriter();
+        var renderGateWaitStarted = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var loggerControl = new SynchronousLoggerControl(writer)
+        {
+            RenderGateWaitStarted = renderGateWaitStarted,
+        };
+        var buffer = CreateBufferWithStructuredLog();
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        using var cancellationTokenSource = new CancellationTokenSource();
+        try
+        {
+            var flush = buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Incremental,
+                cancellationToken: cancellationTokenSource.Token);
+
+            await renderGateWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await cancellationTokenSource.CancelAsync();
+
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await flush.WaitAsync(TestHostSettings.DefaultTestTimeout));
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests … (");
+        await Assert.That(output).DoesNotContain("(continued)");
+    }
+
+    [Test]
     public async Task Flush_RenderGateTimeout_WritesBufferedOutputDirectly()
     {
         var writer = new StringWriter();

@@ -327,6 +327,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var effectiveFallbackLoggers = fallbackLoggers ?? [];
         var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
+        var renderedConsoleOutput = false;
 
         try
         {
@@ -357,6 +358,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
                     ref renderedCount,
+                    ref renderedConsoleOutput,
                     cancellationToken);
             }
         }
@@ -364,7 +366,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (flushKind is OutputFlushKind.Incremental)
             {
-                RecordRenderedOutput(OutputFlushKind.Incremental, shouldRenderOutputGroup);
+                RecordRenderedOutput(OutputFlushKind.Incremental, renderedConsoleOutput);
             }
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
@@ -375,7 +377,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             RestoreStructuredDeliveryRetries(failedStructuredDeliveries);
         }
 
-        RecordRenderedOutput(flushKind, shouldRenderOutputGroup);
+        RecordRenderedOutput(flushKind, renderedConsoleOutput);
     }
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
@@ -513,10 +515,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
+        ref bool renderedConsoleOutput,
         CancellationToken cancellationToken)
     {
         if (renderGate is null)
         {
+            renderedConsoleOutput = true;
             console.WriteLine(
                 $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
             RenderOutputGroup(
@@ -533,6 +537,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: true,
                 ref renderedCount,
+                ref renderedConsoleOutput,
                 cancellationToken);
             return;
         }
@@ -553,6 +558,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: false,
                 ref renderedCount,
+                ref renderedConsoleOutput,
                 cancellationToken);
         }
     }
@@ -571,6 +577,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
+        ref bool renderedConsoleOutput,
         CancellationToken cancellationToken)
     {
         var header = FormatHeader(exception, flushKind, isContinuation);
@@ -586,6 +593,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
+            renderedConsoleOutput |= shouldRenderOutputGroup;
 
             // Keep the synchronization gate for the complete group. MEL.Spectre uses
             // synchronous rendering, so unrelated logger calls cannot enter this group.
