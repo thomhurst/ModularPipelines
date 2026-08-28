@@ -3,9 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
-
 using ModularPipelines.Generated;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Helpers.Internal;
 

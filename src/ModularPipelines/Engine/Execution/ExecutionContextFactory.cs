@@ -1,10 +1,9 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using ModularPipelines.Generated;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-
-using ModularPipelines.Generated;
 
 namespace ModularPipelines.Engine.Execution;
 

@@ -3,11 +3,10 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Generated;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
-
-using ModularPipelines.Generated;
 
 namespace ModularPipelines.Extensions;
 

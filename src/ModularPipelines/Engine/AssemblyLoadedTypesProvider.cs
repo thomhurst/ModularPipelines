@@ -1,9 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using ModularPipelines.Modules;
-
 using ModularPipelines.Generated;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 

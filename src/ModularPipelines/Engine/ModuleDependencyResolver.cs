@@ -6,10 +6,9 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
+using ModularPipelines.Generated;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-
-using ModularPipelines.Generated;
 
 namespace ModularPipelines.Engine;
 

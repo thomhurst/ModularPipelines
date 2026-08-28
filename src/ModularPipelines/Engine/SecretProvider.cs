@@ -9,10 +9,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Generated;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
-
-using ModularPipelines.Generated;
 
 namespace ModularPipelines.Engine;
 

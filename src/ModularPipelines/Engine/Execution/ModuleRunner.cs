@@ -13,14 +13,13 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Generated;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Tracing;
-
-using ModularPipelines.Generated;
 
 namespace ModularPipelines.Engine.Execution;
 
